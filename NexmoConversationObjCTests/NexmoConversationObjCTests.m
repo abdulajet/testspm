@@ -7,6 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "NexmoConversationObjC.h"
 
 @interface NexmoConversationObjCTests : XCTestCase
 

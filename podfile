@@ -1,0 +1,31 @@
+# Sources
+source 'git@github.com:CocoaPods/Specs.git'
+
+# Configurations
+platform :ios, '9.0'
+use_frameworks!
+
+project 'NexmoConversationObjC.xcodeproj'
+
+
+# Dependencies
+def shared_pods
+    # Database
+    pod 'SocketRocket'
+end
+
+# Targets
+target 'NexmoConversationObjC' do    
+    shared_pods
+end 
+
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == 'HermeticTests' || target.name == 'E2ETests' || target.name == 'Tests'
+            target.build_configurations.each do |config|
+                config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+            end
+        end
+    end
+end

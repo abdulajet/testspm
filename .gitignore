@@ -1,0 +1,16 @@
+#
+
+# CocoaPods
+Pods/*
+
+# App Code
+.idea/*
+
+# Settings
+NexmoConversationObjC.xcworkspace/xcshareddata/*
+NexmoConversationObjC.xcworkspace/xcuserdata/*
+NexmoConversationObjC.xcodeproj/xcuserdata
+xcschememanagement.plist
+
+# Other
+.DS_Store

@@ -58,6 +58,9 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
  *  ---------------------------------------------------------------------------------------
  */
 
+- (void)incomingCallWithConversation:(nonnull NXMConversation *)conversation;
+- (void)joinedToNewConversationEvent:(nonnull NXMConversation *)conversation;
+
 
 
 @end
