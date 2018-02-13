@@ -143,7 +143,7 @@ def create_application(auth, answer_url, event_url,
     if backup_method:
         params['backup_method'] = backup_method
 
-    params['security'] = {"token-expiration-time-millisecs": "300000", "request-signing":
+    params['security'] = {"token-expiration-time-millisecs": "99999999", "request-signing":
         {"secret": '123456', "signature-method": "hmac-md5",
          "mandatory-signature": "true"},
                           "auth": {"public-key": '123456',
@@ -248,7 +248,7 @@ def createAdminToken(application, acl=None):
     payload = {
         "iat": int(time.time()) - 3,
         "iss": "QA",
-        'exp': datetime.utcnow() + timedelta(hours=1),
+        'exp': datetime.utcnow() + timedelta(hours=1000),
         "application_id": application["id"],
         "jti": urlsafe_b64encode(os.urandom(64)).decode('utf-8')
     }
@@ -291,7 +291,7 @@ def create_default_conversation(token):
 
 
 # ===============================================================================================
-def create_user_token(application_id, private_key, user_name, algorithm='RS256', ttl_in_hours=12, acl=None):
+def create_user_token(application_id, private_key, user_name, algorithm='RS256', ttl_in_hours=1000, acl=None):
     """ mints a JWT token
     developer: john.rickwood and nikola.shekerev
     @param application_id: the id of the application the token will be used for
