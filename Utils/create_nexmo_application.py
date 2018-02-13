@@ -1,3 +1,7 @@
+### You might need to install some python packages to make it work
+### pip install python-jose requests
+
+
 import time
 from random import random, randint
 
@@ -5,7 +9,7 @@ import requests
 from datetime import datetime, timedelta
 from base64 import urlsafe_b64encode
 import os
-
+import sys
 from jose import jwt
 import json
 
