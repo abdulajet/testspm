@@ -1,28 +1,36 @@
-# Sources
 source 'git@github.com:CocoaPods/Specs.git'
 
-# Configurations
 platform :ios, '9.0'
 use_frameworks!
 
 project 'NexmoConversationObjC.xcodeproj'
 
+use_frameworks!
 
-# Dependencies
 def shared_pods
-    # Database
-    pod 'SocketRocket'
+    pod 'VPSocketIO'#, :path => "../VPSocketIO"
 end
 
-# Targets
-target 'NexmoConversationObjC' do    
+target 'testApp' do
     shared_pods
-end 
+end
+
+target 'NexmoConversationObjC' do
+    shared_pods
+    
+    target 'NexmoConversationObjCTests' do
+        inherit! :search_paths
+        
+        pod 'OCMock', '3.4'
+
+    end
+end
+
 
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
-        if target.name == 'HermeticTests' || target.name == 'E2ETests' || target.name == 'Tests'
+        if target.name == 'NexmoConversationObjCTests'
             target.build_configurations.each do |config|
                 config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
             end

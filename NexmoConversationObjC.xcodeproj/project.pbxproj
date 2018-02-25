@@ -7,14 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BADF418D86264646ED77FB83 /* Pods_testApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825A47D891581F7AB3B284B9 /* Pods_testApp.framework */; };
+		E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */; };
 		E529B288BC83079E7BE653EB /* Pods_NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */; };
+		F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */; };
 		F9167D8420331A2000F97CED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9167D8220331A2000F97CED /* Info.plist */; };
 		F9167D8520331A2000F97CED /* NexmoConversationObjC.h in Headers */ = {isa = PBXBuildFile; fileRef = F9167D8320331A2000F97CED /* NexmoConversationObjC.h */; };
+		F9167D882033222500F97CED /* NXMSocketClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F9167D862033222500F97CED /* NXMSocketClient.h */; };
+		F9167D892033222500F97CED /* NXMSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F9167D872033222500F97CED /* NXMSocketClient.m */; };
+		F997A0F3203433FD0027AF46 /* NXMSocketClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */; };
+		F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */; };
+		F997A12E2035D1840027AF46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A12D2035D1840027AF46 /* AppDelegate.m */; };
+		F997A1312035D1840027AF46 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A1302035D1840027AF46 /* ViewController.m */; };
+		F997A1342035D1840027AF46 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F997A1322035D1840027AF46 /* Main.storyboard */; };
+		F997A1362035D1840027AF46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F997A1352035D1840027AF46 /* Assets.xcassets */; };
+		F997A1392035D1840027AF46 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F997A1372035D1840027AF46 /* LaunchScreen.storyboard */; };
+		F997A13C2035D1840027AF46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A13B2035D1840027AF46 /* main.m */; };
+		F997A14E2035D68B0027AF46 /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		F9C35DD7203078BD009FAE4F /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		F9C35DDC203078BD009FAE4F /* NexmoConversationObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F997A1422035D1840027AF46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F997A1292035D1840027AF46;
+			remoteInfo = testApp;
+		};
 		F9C35DD8203078BD009FAE4F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
@@ -25,11 +46,33 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		47F20A4F0B9D23F40E2BA94E /* Pods-testApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-testApp/Pods-testApp.debug.xcconfig"; sourceTree = "<group>"; };
+		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		839C3E99EDC223B406A4F95A /* Pods-NexmoConversationObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.release.xcconfig"; sourceTree = "<group>"; };
 		94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.debug.xcconfig"; sourceTree = "<group>"; };
+		B7304B4966663A65AC352308 /* Pods-testApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-testApp/Pods-testApp.release.xcconfig"; sourceTree = "<group>"; };
 		D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.release.xcconfig"; sourceTree = "<group>"; };
+		F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDefine.h; sourceTree = "<group>"; };
 		F9167D8220331A2000F97CED /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9167D8320331A2000F97CED /* NexmoConversationObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NexmoConversationObjC.h; sourceTree = "<group>"; };
+		F9167D862033222500F97CED /* NXMSocketClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClient.h; sourceTree = "<group>"; };
+		F9167D872033222500F97CED /* NXMSocketClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClient.m; sourceTree = "<group>"; };
+		F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
+		F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDelegate.h; sourceTree = "<group>"; };
+		F997A12A2035D1840027AF46 /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F997A12C2035D1840027AF46 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F997A12D2035D1840027AF46 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F997A12F2035D1840027AF46 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		F997A1302035D1840027AF46 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F997A1332035D1840027AF46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F997A1352035D1840027AF46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F997A1382035D1840027AF46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F997A13A2035D1840027AF46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F997A13B2035D1840027AF46 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F997A1412035D1840027AF46 /* testAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DD6203078BD009FAE4F /* NexmoConversationObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoConversationObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NexmoConversationObjCTests.m; sourceTree = "<group>"; };
@@ -37,6 +80,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F997A1272035D1840027AF46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F997A14E2035D68B0027AF46 /* NexmoConversationObjC.framework in Frameworks */,
+				BADF418D86264646ED77FB83 /* Pods_testApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F997A13E2035D1840027AF46 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9C35DC9203078BD009FAE4F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -50,6 +109,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C35DD7203078BD009FAE4F /* NexmoConversationObjC.framework in Frameworks */,
+				E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */,
+				1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */,
+				825A47D891581F7AB3B284B9 /* Pods_testApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -69,8 +131,47 @@
 			children = (
 				94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */,
 				E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */,
+				839C3E99EDC223B406A4F95A /* Pods-NexmoConversationObjCTests.debug.xcconfig */,
+				9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */,
+				47F20A4F0B9D23F40E2BA94E /* Pods-testApp.debug.xcconfig */,
+				B7304B4966663A65AC352308 /* Pods-testApp.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		F98735452042BF0900C90695 /* SocketClient */ = {
+			isa = PBXGroup;
+			children = (
+				F9167D862033222500F97CED /* NXMSocketClient.h */,
+				F9167D872033222500F97CED /* NXMSocketClient.m */,
+				F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */,
+				F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */,
+			);
+			path = SocketClient;
+			sourceTree = "<group>";
+		};
+		F997A12B2035D1840027AF46 /* testApp */ = {
+			isa = PBXGroup;
+			children = (
+				F997A12C2035D1840027AF46 /* AppDelegate.h */,
+				F997A12D2035D1840027AF46 /* AppDelegate.m */,
+				F997A12F2035D1840027AF46 /* ViewController.h */,
+				F997A1302035D1840027AF46 /* ViewController.m */,
+				F997A1322035D1840027AF46 /* Main.storyboard */,
+				F997A1352035D1840027AF46 /* Assets.xcassets */,
+				F997A1372035D1840027AF46 /* LaunchScreen.storyboard */,
+				F997A13A2035D1840027AF46 /* Info.plist */,
+				F997A13B2035D1840027AF46 /* main.m */,
+			);
+			path = testApp;
+			sourceTree = "<group>";
+		};
+		F997A165203EE7340027AF46 /* IntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */,
+			);
+			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
 		F9C35DC3203078BD009FAE4F = {
@@ -78,6 +179,7 @@
 			children = (
 				F9C35DCF203078BD009FAE4F /* NexmoConversationObjC */,
 				F9C35DDA203078BD009FAE4F /* NexmoConversationObjCTests */,
+				F997A12B2035D1840027AF46 /* testApp */,
 				F9C35DCE203078BD009FAE4F /* Products */,
 				E0E7553849ECA3AA08DC7D85 /* Pods */,
 				0C77F825E1C5CD9646B440FA /* Frameworks */,
@@ -89,6 +191,8 @@
 			children = (
 				F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */,
 				F9C35DD6203078BD009FAE4F /* NexmoConversationObjCTests.xctest */,
+				F997A12A2035D1840027AF46 /* testApp.app */,
+				F997A1412035D1840027AF46 /* testAppTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,6 +200,7 @@
 		F9C35DCF203078BD009FAE4F /* NexmoConversationObjC */ = {
 			isa = PBXGroup;
 			children = (
+				F98735452042BF0900C90695 /* SocketClient */,
 				F9167D8220331A2000F97CED /* Info.plist */,
 				F9167D8320331A2000F97CED /* NexmoConversationObjC.h */,
 			);
@@ -105,6 +210,7 @@
 		F9C35DDA203078BD009FAE4F /* NexmoConversationObjCTests */ = {
 			isa = PBXGroup;
 			children = (
+				F997A165203EE7340027AF46 /* IntegrationTests */,
 				F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */,
 				F9C35DDD203078BD009FAE4F /* Info.plist */,
 			);
@@ -118,13 +224,54 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
+				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
 				F9167D8520331A2000F97CED /* NexmoConversationObjC.h in Headers */,
+				F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		F997A1292035D1840027AF46 /* testApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F997A14C2035D1840027AF46 /* Build configuration list for PBXNativeTarget "testApp" */;
+			buildPhases = (
+				6299E1EFF0AC3422D5B70C9F /* [CP] Check Pods Manifest.lock */,
+				F997A1262035D1840027AF46 /* Sources */,
+				F997A1272035D1840027AF46 /* Frameworks */,
+				F997A1282035D1840027AF46 /* Resources */,
+				D72C7A0556E0F840E2F8D562 /* [CP] Embed Pods Frameworks */,
+				A4CA4A307130267839715C65 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = testApp;
+			productName = testApp;
+			productReference = F997A12A2035D1840027AF46 /* testApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F997A1402035D1840027AF46 /* testAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F997A14D2035D1840027AF46 /* Build configuration list for PBXNativeTarget "testAppTests" */;
+			buildPhases = (
+				F997A13D2035D1840027AF46 /* Sources */,
+				F997A13E2035D1840027AF46 /* Frameworks */,
+				F997A13F2035D1840027AF46 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F997A1432035D1840027AF46 /* PBXTargetDependency */,
+			);
+			name = testAppTests;
+			productName = testAppTests;
+			productReference = F997A1412035D1840027AF46 /* testAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F9C35DCC203078BD009FAE4F /* NexmoConversationObjC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9C35DE1203078BD009FAE4F /* Build configuration list for PBXNativeTarget "NexmoConversationObjC" */;
@@ -149,9 +296,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9C35DE4203078BD009FAE4F /* Build configuration list for PBXNativeTarget "NexmoConversationObjCTests" */;
 			buildPhases = (
+				F6F6FD776C3FFB4011F6C3AC /* [CP] Check Pods Manifest.lock */,
 				F9C35DD2203078BD009FAE4F /* Sources */,
 				F9C35DD3203078BD009FAE4F /* Frameworks */,
 				F9C35DD4203078BD009FAE4F /* Resources */,
+				7309E688A559D7C91A26CC05 /* [CP] Embed Pods Frameworks */,
+				D8263BB0CC113522175523E0 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -172,6 +322,15 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Vonage;
 				TargetAttributes = {
+					F997A1292035D1840027AF46 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
+					F997A1402035D1840027AF46 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = F997A1292035D1840027AF46;
+					};
 					F9C35DCC203078BD009FAE4F = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
@@ -188,6 +347,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = F9C35DC3203078BD009FAE4F;
 			productRefGroup = F9C35DCE203078BD009FAE4F /* Products */;
@@ -196,11 +356,30 @@
 			targets = (
 				F9C35DCC203078BD009FAE4F /* NexmoConversationObjC */,
 				F9C35DD5203078BD009FAE4F /* NexmoConversationObjCTests */,
+				F997A1292035D1840027AF46 /* testApp */,
+				F997A1402035D1840027AF46 /* testAppTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F997A1282035D1840027AF46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F997A1392035D1840027AF46 /* LaunchScreen.storyboard in Resources */,
+				F997A1362035D1840027AF46 /* Assets.xcassets in Resources */,
+				F997A1342035D1840027AF46 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F997A13F2035D1840027AF46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9C35DCB203078BD009FAE4F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +413,92 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6299E1EFF0AC3422D5B70C9F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-testApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7309E688A559D7C91A26CC05 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
+				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A4CA4A307130267839715C65 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-testApp/Pods-testApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D72C7A0556E0F840E2F8D562 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-testApp/Pods-testApp-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-testApp/Pods-testApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D8263BB0CC113522175523E0 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F4A1AA0C64D8B5629051A5C4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -252,13 +517,49 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F6F6FD776C3FFB4011F6C3AC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NexmoConversationObjCTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		F997A1262035D1840027AF46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F997A1312035D1840027AF46 /* ViewController.m in Sources */,
+				F997A13C2035D1840027AF46 /* main.m in Sources */,
+				F997A12E2035D1840027AF46 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F997A13D2035D1840027AF46 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9C35DC8203078BD009FAE4F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,12 +568,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C35DDC203078BD009FAE4F /* NexmoConversationObjCTests.m in Sources */,
+				F997A0F3203433FD0027AF46 /* NXMSocketClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F997A1432035D1840027AF46 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F997A1292035D1840027AF46 /* testApp */;
+			targetProxy = F997A1422035D1840027AF46 /* PBXContainerItemProxy */;
+		};
 		F9C35DD9203078BD009FAE4F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F9C35DCC203078BD009FAE4F /* NexmoConversationObjC */;
@@ -280,7 +587,86 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		F997A1322035D1840027AF46 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F997A1332035D1840027AF46 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F997A1372035D1840027AF46 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F997A1382035D1840027AF46 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		F997A1482035D1840027AF46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 47F20A4F0B9D23F40E2BA94E /* Pods-testApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = testApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.testApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F997A1492035D1840027AF46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B7304B4966663A65AC352308 /* Pods-testApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = testApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.testApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F997A14A2035D1840027AF46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = testAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.testAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testApp.app/testApp";
+			};
+			name = Debug;
+		};
+		F997A14B2035D1840027AF46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = testAppTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.testAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/testApp.app/testApp";
+			};
+			name = Release;
+		};
 		F9C35DDF203078BD009FAE4F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -435,6 +821,7 @@
 		};
 		F9C35DE5203078BD009FAE4F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 839C3E99EDC223B406A4F95A /* Pods-NexmoConversationObjCTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -448,6 +835,7 @@
 		};
 		F9C35DE6203078BD009FAE4F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -462,6 +850,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F997A14C2035D1840027AF46 /* Build configuration list for PBXNativeTarget "testApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F997A1482035D1840027AF46 /* Debug */,
+				F997A1492035D1840027AF46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F997A14D2035D1840027AF46 /* Build configuration list for PBXNativeTarget "testAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F997A14A2035D1840027AF46 /* Debug */,
+				F997A14B2035D1840027AF46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F9C35DC7203078BD009FAE4F /* Build configuration list for PBXProject "NexmoConversationObjC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
