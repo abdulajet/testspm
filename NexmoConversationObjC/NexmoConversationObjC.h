@@ -18,27 +18,58 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 
 @protocol NXMResponseDelegate;
 @protocol NXMConversationClientDelegate;
-@class NXMConversationClientConfig;
-@class NXMConversation;
-@class NXMUser;
 @class NXMConnectionStatus;
+@class NXMTextEvent;
 
-@protocol NXMConversationClient
+
+#import "NXMConversation.h"
+#import "NXMUser.h"
+#import "NXMMember.h"
 
 #pragma mark - SDK Integration
+
+#pragma mark - NXMConfig
+/** ---------------------------------------------------------------------------------------
+ * @name NXMConfig SDK Integration
+ *  ---------------------------------------------------------------------------------------
+ */
+
+@interface NXMConversationClientConfig : NSObject
+
+- (nonnull NSString *)getWSHost;
+- (nonnull NSString *)getHttpHost;
+
+@end
+
+#pragma mark - NXMConversationClient
+
 /** ---------------------------------------------------------------------------------------
  * @name NXMConversationClient SDK Integration
  *  ---------------------------------------------------------------------------------------
  */
+@interface NXMConversationClient:NSObject
 
-+ (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
+- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 - (void)enablePushNotifications:(BOOL)enable responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
-- (void)loginWithToken:(nonnull NSString *)token responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
+- (void)loginWithToken:(nonnull NSString *)token;
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
 
-- (void)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))responseBlock;
+- (void)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock;
+- (void)addMemberToConversation:(nonnull NSString *)conversationId
+                         userId:(nonnull NSString *)userId
+                completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
+
+
+- (void)sendText:(nonnull NSString *)text
+    conversationId:(nonnull NSString *)conversationId
+    fromMemberId:(nonnull NSString *)fromMemberId
+    completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
+
 - (nullable NXMConversation *)getConversationWithCID:(nonnull NSString *)cid;
 - (nullable NSArray<NXMConversation *> *)getConversationList; // TODO: async?
+
+- (void)enableAudio:(nonnull NSString *)conversationID;
+- (void)disableAudio:(nonnull NSString *)conversationID;
 
 - (nonnull NXMConnectionStatus *)getConnectionStatus;
 - (nonnull NXMUser *)getUser;
@@ -58,48 +89,20 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
  *  ---------------------------------------------------------------------------------------
  */
 
+- (void)connectedWithUser:(NXMUser *_Nonnull)user;
+- (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status;
+
 - (void)incomingCallWithConversation:(nonnull NXMConversation *)conversation;
 - (void)joinedToNewConversationEvent:(nonnull NXMConversation *)conversation;
 
+- (void)memberJoined:(nonnull NXMMember *)member;
+- (void)memberLeft:(nonnull NXMMember *)member;
+- (void)memberInvited:(nonnull NXMMember *)member byMember:(nonnull NSString *)memberId;
 
-
+- (void)messageReceived:(nonnull NXMTextEvent *)message;
+- (void)messageSent:(nonnull NXMTextEvent *)message;
 @end
 
-
-#pragma mark - SDK Conversation Client Config
-@protocol NXMConversationClientConfig <NSObject>
-/** ---------------------------------------------------------------------------------------
- * @name NXMConversationClientConfig SDK Integration
- *  ---------------------------------------------------------------------------------------
- */
-
-
-@end
-
-
-#pragma mark - NXMConversation
-@protocol NXMConversation <NSObject>
-/** ---------------------------------------------------------------------------------------
- * @name NXMConversation SDK Integration
- *  ---------------------------------------------------------------------------------------
- */
-
-- (void)sync:(void (^_Nullable)(NSError * _Nullable error))responseBlock; // TODO: ?
-
-
-@end
-
-#pragma mark - NXMוUser
-@protocol NXMוUser <NSObject>
-/** ---------------------------------------------------------------------------------------
- * @name NXMConversation SDK Integration
- *  ---------------------------------------------------------------------------------------
- */
-
-- (void)sync:(void (^_Nullable)(NSError * _Nullable error))responseBlock; // TODO: ?
-
-
-@end
 
 
 

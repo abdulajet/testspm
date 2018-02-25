@@ -19,29 +19,31 @@ static NSString *const kNXMSocketEventBadPermission = @"system:error:permission"
 static NSString *const kNXMSocketEventInvalidEvent = @"system:error:invalid-event";
 static NSString *const kNXMSocketEventUserNotFound = @"user:error:not-found";
 
-static NSString *const kNXMSocketEventMemebrMedia = @"member:media";
+static NSString *const kNXMSocketEventMemebrMedia = @"member:media"; //android
 static NSString *const kNXMSocketEventMemberJoined = @"member:joined";
-static NSString *const kNXMSocketEventMemberLeft = @"member:left";
-static NSString *const kNXMSocketEventMemberInvited = @"member:invited";
+static NSString *const kNXMSocketEventMemberLeft = @"member:left"; //android
+static NSString *const kNXMSocketEventMemberInvited = @"member:invited"; //android
 
-static NSString *const kNXMSocketEventRtcAnswer = @"rtc:answer";
+static NSString *const kNXMSocketEventRtcAnswer = @"rtc:answer"; //android
 static NSString *const kNXMSocketEventRtcIce = @"rtc:ice";
 static NSString *const kNXMSocketEventRtcOffer = @"rtc:offer";
 static NSString *const kNXMSocketEventRtcNew = @"rtc:new";
 static NSString *const kNXMSocketEventRtcTerminate = @"rtc:terminate";
 
-static NSString *const kNXMSocketEventTextDelivered = @"text:delivered";
-static NSString *const kNXMSocketEventTextSeen = @"text:seen";
-static NSString *const kNXMSocketEventText = @"text";
-static NSString *const kNXMSocketEventTypingOn = @"text:typing:on";
-static NSString *const kNXMSocketEventTypingOff = @"text:typing:off";
+static NSString *const kNXMSocketEventTextDelivered = @"text:delivered"; //android
+static NSString *const kNXMSocketEventTextSeen = @"text:seen"; //android
+static NSString *const kNXMSocketEventText = @"text"; //android
+static NSString *const kNXMSocketEventTextSuccess = @"text:success";//android
+static NSString *const kNXMSocketEventTypingOn = @"text:typing:on"; //android
+static NSString *const kNXMSocketEventTypingOff = @"text:typing:off"; //android
+static NSString *const kNXMSocketEventTextDelete = @"event:delete"; //android
 
-static NSString *const kNXMSocketEventImage = @"image";
-static NSString *const kNXMSocketEventImageDelivered = @"image:delivered";
-static NSString *const kNXMSocketEventImageSeen = @"image:seen";
+static NSString *const kNXMSocketEventImage = @"image"; //android
+static NSString *const kNXMSocketEventImageDelivered = @"image:delivered"; //android
+static NSString *const kNXMSocketEventImageSeen = @"image:seen"; //android
 
-static NSString *const kNXMSocketEventAudioMuteOn = @"audio:mute:on";
-static NSString *const kNXMSocketEventAudioMuteOff = @"audio:mute:off";
+static NSString *const kNXMSocketEventAudioMuteOn = @"audio:mute:on"; //android
+static NSString *const kNXMSocketEventAudioMuteOff = @"audio:mute:off"; //android
 static NSString *const kNXMSocketEventAudioPlay = @"audio:play";
 static NSString *const kNXMSocketEventAudioPlayDone = @"audio:play:done";
 static NSString *const kNXMSocketEventAudioSay = @"audio:say";
@@ -56,7 +58,11 @@ static NSString *const kNXMSocketEventAudioSpeakingOff = @"audio:speaking:off";
 
 static NSString *const kNXMSocketEventSipHangup = @"sip:hangup";
 
-static NSString *const kNXMSocketEventError = @"event:error";
+static NSString *const kNXMSocketEventError = @"event:error"; //android
 
-static NSString *const kNXMSocketEventDelete = @"event:delete";
+// REST
+static NSString *const kNXMConversationCreate = @"new:conversation";
+static NSString *const kNXMConversationCreateDone = @"new:conversation:success";
+
+
 

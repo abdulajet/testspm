@@ -10,15 +10,23 @@
 
 #import "NXMSocketClientDelegate.h"
 
+@interface NXMSocketResponse : NSObject
+@property NSString *eventId;
+@property NSObject *data;
+@end
+
 @interface NXMSocketClient : NSObject
 
-- (void)setupWitHost:(NSString *)host;
+- (nullable instancetype)initWitHost:(nonnull NSString *)host;
 
 - (void)setDelegate:(id<NXMSocketClientDelegate>)delegate;
 - (BOOL)isSocketOpen;
 
-- (BOOL)loginWithToken:(NSString *)token;
+- (void)loginWithToken:(NSString *)token;
 
-- (BOOL)getConversationWithId:(NSString*)id;
+- (void)sendText:(nonnull NSString *)text
+  conversationId:(nonnull NSString *)conversationId
+    fromMemberId:(nonnull NSString *)fromMemberId
+ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMSocketResponse * _Nullable response))completionBlock;
 
 @end
