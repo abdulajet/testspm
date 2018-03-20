@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "ViewControllerDefine.h"
 
 #import "NexmoConversationObjC.h"
 
