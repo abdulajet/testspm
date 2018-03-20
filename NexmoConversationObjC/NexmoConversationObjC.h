@@ -22,7 +22,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 @class NXMTextEvent;
 
 
-#import "NXMConversation.h"
+#import "NXMConversationDetails.h"
 #import "NXMUser.h"
 #import "NXMMember.h"
 
@@ -77,8 +77,8 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
     fromMemberId:(nonnull NSString *)fromMemberId
     completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
 
-- (nullable NXMConversation *)getConversationWithCID:(nonnull NSString *)cid;
-- (nullable NSArray<NXMConversation *> *)getConversationList; // TODO: async?
+- (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid;
+- (nullable NSArray<NXMConversationDetails *> *)getConversationList; // TODO: async?
 
 - (void)enableAudio:(nonnull NSString *)conversationID;
 - (void)disableAudio:(nonnull NSString *)conversationID;
@@ -104,8 +104,8 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)connectedWithUser:(NXMUser *_Nonnull)user;
 - (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status;
 
-- (void)incomingCallWithConversation:(nonnull NXMConversation *)conversation;
-- (void)joinedToNewConversationEvent:(nonnull NXMConversation *)conversation;
+- (void)incomingCallWithConversation:(nonnull NXMConversationDetails *)conversation;
+- (void)joinedToNewConversationEvent:(nonnull NXMConversationDetails *)conversation;
 
 - (void)memberJoined:(nonnull NXMMember *)member;
 - (void)memberLeft:(nonnull NXMMember *)member;

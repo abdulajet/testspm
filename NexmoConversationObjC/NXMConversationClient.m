@@ -76,11 +76,11 @@
         // TODO:
     }];
 }
-- (nullable NXMConversation *)getConversationWithCID:(nonnull NSString *)cid {
+- (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid {
     return  nil;
 }
 
-- (nullable NSArray<NXMConversation *> *)getConversationList {
+- (nullable NSArray<NXMConversationDetails *> *)getConversationList {
     return  nil;
 }
 

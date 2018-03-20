@@ -6,14 +6,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMConversation.h"
+#import "NXMConversationDetails.h"
 
-@implementation NXMConversation
+@implementation NXMConversationDetails
 
-- (instancetype)initWithId:(NSString *)uuid href:(NSString *)href {
+- (instancetype)initWithId:(NSString *)uuid {
     if (self = [super init]) {
         self.uuid = uuid;
-        self.href = href;
     }
     
     return  self;
