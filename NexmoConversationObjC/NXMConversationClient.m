@@ -55,8 +55,8 @@
     [self.router addMemberToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
-- (void)inviteMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
-    [self.router inviteMemberToConversation:conversationId memberId:memberId completionBlock:completionBlock];
+- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
+    [self.router inviteUserToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
 - (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {

@@ -112,24 +112,16 @@
             completionBlock(error);
             return;
         }
-        
-//        NSString *state = data[@"state"];
-//        NSString *memId = data[@"id"];
-//        NSString *joinDate = data[@"timestamp"][@"joined"]; // TODO: date
-//        NSString *usrId = data[@"user_id"];
-//        // TODO: missing name
-//
-//        NXMMember *member = [[NXMMember alloc] initWithMemberId:memId conversationId:conversationId joinDate:joinDate userId:usrId name:@"temp" state:state];
 
         completionBlock(nil);
     }];
 }
 
-- (void)inviteMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
    
     NSError *jsonErr;
     NSDictionary *dict = @{
-                           @"member_id": memberId,
+                           @"user_id": userId,
                            @"action": @"invite",
                            @"channel": @{
                                    @"type": @"app"
