@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GuE-qS-vEQ" userLabel="tokenText" colorLabel="IBBuiltInLabel-Blue">
-                                <rect key="frame" x="140" y="35" width="219" height="30"/>
+                                <rect key="frame" x="154" y="35" width="208" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -52,14 +52,15 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ilI-AG-q4i" userLabel="memberText">
-                                <rect key="frame" x="140" y="152" width="222" height="30"/>
+                                <rect key="frame" x="154" y="152" width="208" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <accessibility key="accessibilityConfiguration" hint="1-7"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LKm-fC-4Kw" userLabel="removeMemberText">
-                                <rect key="frame" x="140" y="219" width="222" height="30"/>
+                                <rect key="frame" x="154" y="219" width="208" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -77,10 +78,10 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1e2-Kp-Ivn">
-                                <rect key="frame" x="16" y="151" width="89" height="30"/>
+                                <rect key="frame" x="18" y="151" width="129" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.57899028324546209" green="1" blue="0.98445365095574244" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Add Member"/>
+                                <state key="normal" title="Add Member [0..7]"/>
                                 <connections>
                                     <action selector="addMemberPressed" destination="BYZ-38-t0r" eventType="touchUpInside" id="8pK-Yv-let"/>
                                 </connections>
@@ -95,7 +96,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VWF-PQ-ysv" userLabel="msgText">
-                                <rect key="frame" x="140" y="286" width="222" height="30"/>
+                                <rect key="frame" x="154" y="286" width="208" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -109,6 +110,7 @@
                         <outlet property="memberField" destination="ilI-AG-q4i" id="zuw-h8-hxn"/>
                         <outlet property="msgField" destination="VWF-PQ-ysv" id="AyE-U3-UnF"/>
                         <outlet property="outputField" destination="LSD-ei-VrS" id="HnG-41-2k8"/>
+                        <outlet property="removeMemberField" destination="LKm-fC-4Kw" id="qNG-xD-34Z"/>
                         <outlet property="tokenText" destination="GuE-qS-vEQ" id="AvS-WP-hDh"/>
                     </connections>
                 </viewController>

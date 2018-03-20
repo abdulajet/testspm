@@ -133,5 +133,9 @@
     [self.delegate memberJoined:member];
 }
 
+- (void)memberRemoved:(nonnull NXMMember *)member {
+    [self.delegate memberRemoved:member];
+}
+
 @end
 

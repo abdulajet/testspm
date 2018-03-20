@@ -110,6 +110,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)memberJoined:(nonnull NXMMember *)member;
 - (void)memberLeft:(nonnull NXMMember *)member;
 - (void)memberInvited:(nonnull NXMMember *)member byMember:(nonnull NSString *)memberId;
+- (void)memberRemoved:(nonnull NXMMember *)member;
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;

@@ -7,12 +7,12 @@
 //
 
 #import "ViewController.h"
+#import "ViewControllerDefine.h"
 
 #import "NexmoConversationObjC.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
-@property (weak, nonatomic) IBOutlet UITextField *tokenTextPlus;
 @property (weak, nonatomic) IBOutlet UITextField *msgField;
 @property (weak, nonatomic) IBOutlet UITextField *memberField;
 @property (weak, nonatomic) IBOutlet UITextField *removeMemberField;
@@ -51,14 +51,26 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     self.client = [[NXMConversationClient alloc] initWithConfig:[NXMConversationClientConfig new]];
     [self.client registerEventsWithDelegate:self];
     
-    NSString *token = self.tokenText.text; //@"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTEyMjAyNSwibmJmIjoxNTIxMTIyMDI1LCJleHAiOjE1MjExNTIwNTUsImp0aSI6MTUyMTEyMjA1NTA1NywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjUifQ.lAXI2T2obaVWKzEmMbcdehGViiEOePXMjj_m52UBTDolzvy1xCBB-DxGhr3MMTU8Zrf8QS3F50PaK-SP1xwaLeA-6pMx6m752M12AnxgSsKkgqdbywwxQ_zvPrIff1khoWR27OThdiKq_s_DGJjAZBi-hRHQkbOHJjh9d1XFxyNg_j4zL6F4E5Zv6_l_aWiy6kBLGMQTf3G9q2mt8O9lnnwvfzpidDGJhhh6vowfMzQRsfJW5cMtpUJSh9w-0aT6zkg_YFnYAqmmZm_vCuvU3R1dX2-RginOomkQqwnrzctBsatMK9PapRJfi8XxT_6aqxWGZL2PoDO4VNqzaB-afg";
-//
+    NSString *token = self.tokenText.text;
+    if ([token isEqualToString:(@"")]){
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTU1NzAyMCwibmJmIjoxNTIxNTU3MDIwLCJleHAiOjE1MjE1ODcwNTAsImp0aSI6MTUyMTU1NzA1MDEyMywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjMifQ.WgQa-UARbLN8FrdbTug05-ycGzCRHFkKekcEHOvJHQoLTpS3BCrOQIaf8xGYihDTsxWxbegNL0EugK9h1SMwZe6gNrySfI_KPyJvUkatPBpsWtyUL7bcDmG9vEly1pbtje8P6wDkeX1GUxklneKDIRTeagGPxig7nOue2Yvt96pc8KGzxrkbzePtm3tHJ0Z3iXygbkn3vl2Tjy1mCslYhBxFgB6jS8YhhSMPF2sCAp4dXzqOmtnMnRt5TvBncNptTB_H911U0xX6fV8Fz553Zc58XvS4kL3Dph8KXzTu4HQ8wnuCrr9iCNGjbVmnPsWvhnEvXLIJKQN31ux5zO-EEg";
+    }
     [self.client loginWithToken:token];
 }
 
 - (IBAction)addMemberPressed {
     
-    [self.client addUserToConversation:self.conversations[0] userId:self.memberField.text completionBlock:^(NSError * _Nullable error) {
+    static NSString * testUserIDs[9] = {
+    @"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2",
+    @"USR-1628dc75-fa09-4746-9e29-681430cb6419",
+    @"USR-0e364e72-d343-42bd-9a12-024518a88896",
+    @"USR-effc7845-333c-4779-aeaf-fdbb4167f93c",
+    @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205",
+    @"USR-de6954dc-9a54-4a65-8cf4-8628d312a611",
+    @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
+    @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
+    };
+    [self.client addUserToConversation:self.conversations[0] userId:testUserIDs[self.memberField.text.intValue] completionBlock:^(NSError * _Nullable error) {
         if (error) {
             // TODO: retry
         }
@@ -122,9 +134,17 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (void)memberJoined:(nonnull NXMMember *)member {
     [self.members addObject:member];
     
- //   if (member.user)
+    //   if (member.user)
     
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r member added id:%@ name:%@",self.outputField.text, member.memberId, member.name];
+}
+
+- (void)memberRemoved:(nonnull NXMMember *)member {
+    //[self.members addObject:member];
+    
+    //   if (member.user)
+    
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member removed id:%@ name:%@",self.outputField.text, member.memberId, member.name];
 }
 
 
