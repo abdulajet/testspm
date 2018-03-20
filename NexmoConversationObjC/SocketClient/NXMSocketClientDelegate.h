@@ -14,6 +14,8 @@
 - (void)userStatusChanged:(nullable NXMUser *)isLoggedIn;
 
 - (void)memberJoined:(nonnull NXMMember *)member;
+- (void)memberRemoved:(nonnull NXMMember *)member;
+- (void)memberInvited:(nonnull NXMMember *)member;
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;

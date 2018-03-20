@@ -14,6 +14,8 @@
 @property (nonatomic, strong) NSString *conversationId;
 @property (nonatomic, strong) NSString *memberId;
 @property (nonatomic, strong) NSString *joinDate;
+@property (nonatomic, strong) NSString *inviteDate;
+@property (nonatomic, strong) NSString *leftDate;
 @property (nonatomic, strong) NXMUser *user;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *state;

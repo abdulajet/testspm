@@ -125,10 +125,81 @@
     }];
 }
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
+- (void)inviteMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+   
+    NSError *jsonErr;
+    NSDictionary *dict = @{
+                           @"member_id": memberId,
+                           @"action": @"invite",
+                           @"channel": @{
+                                   @"type": @"app"
+                                   }
+                           };
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [self addHeader:request];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:jsonData];
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            completionBlock(error);
+            return;
+        }
+        completionBlock(nil);
+    }];
 }
-
+- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+    
+    NSError *jsonErr;
+    NSDictionary *dict = @{
+                           @"member_id": memberId,
+                           @"action": @"join",
+                           @"channel": @{
+                                   @"type": @"app"
+                                   }
+                           };
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [self addHeader:request];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:jsonData];
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            completionBlock(error);
+            return;
+        }
+        completionBlock(nil);
+    }];
+}
+- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+    
+    NSError *jsonErr;
+    NSDictionary *dict = @{
+//                           @"conv_id":conversationId,
+//                           @"member_id": memberId
+                           };
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, conversationId, memberId]];
+    
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [self addHeader:request];
+    [request setHTTPMethod:@"DELETE"];
+    [request setHTTPBody:jsonData];
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            completionBlock(error);
+            return;
+        }
+        completionBlock(nil);
+    }];
+}
 #pragma mark - private
 
 - (void)addHeader:(NSMutableURLRequest *)request {

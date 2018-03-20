@@ -298,10 +298,31 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)onMemberInvited:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
+    NSDictionary *json = data[0];
+    NXMMember *member = [NXMMember new];
+    member.memberId = json[@"from"];
+    member.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
+    member.inviteDate = json[@"body"][@"timestamp"][@"invited"]; // TODO: NSDate
+    member.eventId = json[@"id"];
+    member.state = @"INVITED";
+    member.conversationId = json[@"cid"];
+    
+    [self.delegate memberJoined:member];
 }
 
 - (void)onMemberLeft:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
+    NSDictionary *json = data[0];
+    NXMMember *member = [NXMMember new];
+    member.memberId = json[@"from"];
+    member.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
+    member.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
+    member.leftDate = json[@"body"][@"timestamp"][@"left"]; // TODO: NSDate
+    member.eventId = json[@"id"];
+    member.state = @"LEFT";
+    member.conversationId = json[@"cid"];
+    
+    [self.delegate memberRemoved:member];
 }
 
 #pragma text event handle

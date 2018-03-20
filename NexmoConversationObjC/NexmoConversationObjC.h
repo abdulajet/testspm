@@ -55,10 +55,22 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
 
 - (void)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock;
-- (void)addMemberToConversation:(nonnull NSString *)conversationId
+
+- (void)addUserToConversation:(nonnull NSString *)conversationId
                          userId:(nonnull NSString *)userId
                 completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
 
+- (void)joinMemberToConverstion:(nonnull NSString *)conversationId
+                         memberId:(nonnull NSString *)memberId
+                completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
+
+- (void)inviteMemberToConverstion:(nonnull NSString *)conversationId
+                         memberId:(nonnull NSString *)memberId
+                  completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
+
+- (void)removeMemberFromConversation:(nonnull NSString *)conversationId
+                           memberId:(nonnull NSString *)memberId
+                    completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
 
 - (void)sendText:(nonnull NSString *)text
     conversationId:(nonnull NSString *)conversationId
