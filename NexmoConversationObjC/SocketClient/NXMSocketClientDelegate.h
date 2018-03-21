@@ -7,15 +7,16 @@
 //
 
 #import "NexmoConversationObjC.h"
+#import "NXMMemberEvent.h"
 
 @protocol NXMSocketClientDelegate
 
 - (void)connectionStatusChanged:(BOOL)isOpen;
 - (void)userStatusChanged:(nullable NXMUser *)isLoggedIn;
 
-- (void)memberJoined:(nonnull NXMMember *)member;
-- (void)memberRemoved:(nonnull NXMMember *)member;
-- (void)memberInvited:(nonnull NXMMember *)member;
+- (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
+- (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
+- (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		BADF418D86264646ED77FB83 /* Pods_testApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825A47D891581F7AB3B284B9 /* Pods_testApp.framework */; };
+		CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */; };
 		E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */; };
 		E529B288BC83079E7BE653EB /* Pods_NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */; };
 		F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */; };
@@ -69,6 +70,8 @@
 		9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.release.xcconfig"; sourceTree = "<group>"; };
 		94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		B7304B4966663A65AC352308 /* Pods-testApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-testApp/Pods-testApp.release.xcconfig"; sourceTree = "<group>"; };
+		CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEvent.h; sourceTree = "<group>"; };
+		CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMemberEvent.m; sourceTree = "<group>"; };
 		D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.release.xcconfig"; sourceTree = "<group>"; };
 		F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDefine.h; sourceTree = "<group>"; };
@@ -277,6 +280,8 @@
 				F9E96F4A20628BDA00A70212 /* NXMEvent.m */,
 				F9EF59232056C5B00055935F /* NXMTextEvent.h */,
 				F9EF59242056C5B00055935F /* NXMTextEvent.m */,
+				CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */,
+				CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -638,6 +643,7 @@
 				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 				F987354E2045C03700C90695 /* NXMConversationClientConfig.m in Sources */,
 				F96F745220552D6D004B3434 /* NXMMember.m in Sources */,
+				CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */,
 				F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */,
 				F9EF59222056C51E0055935F /* NXMMessage.m in Sources */,
 			);

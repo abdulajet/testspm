@@ -11,7 +11,7 @@
 @interface NXMEvent : NSObject
 
 @property (nonatomic, strong, nonnull) NSString *conversationId;
-@property (nonatomic, strong, nonnull) NSString *msgId;
+@property (nonatomic, strong, nonnull) NSString *sequenceId;
 @property (nonatomic, strong, nonnull) NSString *type;
 @property (nonatomic, strong, nonnull) NSString *fromMemberId;
 @property (nonatomic, strong, nonnull) NSDate *creationDate;

@@ -55,6 +55,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
         token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTU1NzAyMCwibmJmIjoxNTIxNTU3MDIwLCJleHAiOjE1MjE1ODcwNTAsImp0aSI6MTUyMTU1NzA1MDEyMywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjMifQ.WgQa-UARbLN8FrdbTug05-ycGzCRHFkKekcEHOvJHQoLTpS3BCrOQIaf8xGYihDTsxWxbegNL0EugK9h1SMwZe6gNrySfI_KPyJvUkatPBpsWtyUL7bcDmG9vEly1pbtje8P6wDkeX1GUxklneKDIRTeagGPxig7nOue2Yvt96pc8KGzxrkbzePtm3tHJ0Z3iXygbkn3vl2Tjy1mCslYhBxFgB6jS8YhhSMPF2sCAp4dXzqOmtnMnRt5TvBncNptTB_H911U0xX6fV8Fz553Zc58XvS4kL3Dph8KXzTu4HQ8wnuCrr9iCNGjbVmnPsWvhnEvXLIJKQN31ux5zO-EEg";
     }
     [self.client loginWithToken:token];
+    if (!self.client.isLoggedIn){
+        self.outputField.text = [NSString stringWithFormat: @"\n\r error login token:%@",token];
+        
+    }
 }
 
 - (IBAction)addMemberPressed {
@@ -69,17 +73,23 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
     @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
     };
+    if ([self.memberField.text isEqualToString:(@"")]){
+        self.outputField.text = @"insert number between 0 - 7";
+    }
+    else{
     [self.client addUserToConversation:self.conversations[0] userId:testUserIDs[self.memberField.text.intValue] completionBlock:^(NSError * _Nullable error) {
         if (error) {
+             self.outputField.text = [NSString stringWithFormat: @"%@\n\r error addUserToConversation member testUserID[%@] , conversion Id:%@",error.debugDescription,self.removeMemberField.text, self.conversations[0]];
             // TODO: retry
         }
     }];
+    }
 }
 - (IBAction)removeMemberPressed {
     
     [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error) {
         if (error) {
-            // TODO: retry
+            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",error.debugDescription,self.removeMemberField.text, self.conversations[0]];
         }
     }];
 }
@@ -89,7 +99,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     [self.client newConversationWithConversationName:@"chenTest12" responseBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
         if (error) {
-            // TODO: retry
+            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error conversation created id:%@",error.debugDescription, conversationId];
         }
         
         if (conversationId) {
@@ -122,7 +132,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (void)addMeToConversation:(NSString *)convId {
     [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error) {
         if (error)   {
-            // TODO: retry
+            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error addUserToConversation userId:%@ , conversion Id:%@",error.debugDescription,[self.client getUser].uuid,convId];
         }
     }];
 }
@@ -130,20 +140,27 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 #pragma mark - NXMConversationClientDelegate
 
 
-- (void)memberJoined:(nonnull NXMMember *)member {
-    [self.members addObject:member];
-    
-    //   if (member.user)
-    
-    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member added id:%@ name:%@",self.outputField.text, member.memberId, member.name];
-}
-
-- (void)memberRemoved:(nonnull NXMMember *)member {
+- (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent {
     //[self.members addObject:member];
     
     //   if (member.user)
     
-    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member removed id:%@ name:%@",self.outputField.text, member.memberId, member.name];
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member added id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
+}
+
+- (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent {
+    //[self.members addObject:member];
+    
+    //   if (member.user)
+    
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member removed id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
+}
+- (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent {
+    //[self.members addObject:member];
+    
+    //   if (member.user)
+    
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r member invited id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
 }
 
 
