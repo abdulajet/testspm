@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "NXMEvent.h"
 
-@interface NXMTextEvent : NSObject
+@interface NXMTextEvent : NXMEvent
 @property (nonatomic, strong) NSString *text;
 @end
