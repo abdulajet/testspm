@@ -52,13 +52,9 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTU1NzAyMCwibmJmIjoxNTIxNTU3MDIwLCJleHAiOjE1MjE1ODcwNTAsImp0aSI6MTUyMTU1NzA1MDEyMywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjMifQ.WgQa-UARbLN8FrdbTug05-ycGzCRHFkKekcEHOvJHQoLTpS3BCrOQIaf8xGYihDTsxWxbegNL0EugK9h1SMwZe6gNrySfI_KPyJvUkatPBpsWtyUL7bcDmG9vEly1pbtje8P6wDkeX1GUxklneKDIRTeagGPxig7nOue2Yvt96pc8KGzxrkbzePtm3tHJ0Z3iXygbkn3vl2Tjy1mCslYhBxFgB6jS8YhhSMPF2sCAp4dXzqOmtnMnRt5TvBncNptTB_H911U0xX6fV8Fz553Zc58XvS4kL3Dph8KXzTu4HQ8wnuCrr9iCNGjbVmnPsWvhnEvXLIJKQN31ux5zO-EEg";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTcwODAwMywibmJmIjoxNTIxNzA4MDAzLCJleHAiOjE1MjE3MzgwMzMsImp0aSI6MTUyMTcwODAzMzY5NCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjQifQ.pBWVgq9zBUvf38JM9IDH_vUxZAo-7veqQ759soaB_8m6AJlFgd7kXaFCsQb19jB7jMsB4qeSWSQN9ze7cT91afPcq-U5x_qTT6WwYl5Di0dX4OdU7pZuuDcj_rmxT02G7xm3RTJYFY3sIWbwZ0uM-n8Krng0_zMu6kfEvyIQS1PqkDvZdbBWw_0H93yEjPCSTMq4-NqJc8Krlz3dUjJODEK2qbBFHapw9DWqAk0ow-eKNTbehu3ivEb4KsYUorKahhloFSIugmuPmjrOcHbtaKjbIDGdYeyUYBUfiA9FT32YjThs79dNI4otyWR3rJgNXQWeAFjun0EqsNi_WYpRrg";
     }
     [self.client loginWithToken:token];
-    if (!self.client.isLoggedIn){
-        self.outputField.text = [NSString stringWithFormat: @"\n\r error login token:%@",token];
-        
-    }
 }
 
 - (IBAction)addMemberPressed {
@@ -75,21 +71,26 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     };
     if ([self.memberField.text isEqualToString:(@"")]){
         self.outputField.text = @"insert number between 0 - 7";
+         self.outputField.text = [NSString stringWithFormat: @"%@\n\r insert number between 0 - 7",self.outputField.text];
     }
     else{
     [self.client addUserToConversation:self.conversations[0] userId:testUserIDs[self.memberField.text.intValue] completionBlock:^(NSError * _Nullable error) {
         if (error) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
              self.outputField.text = [NSString stringWithFormat: @"%@\n\r error addUserToConversation member testUserID[%@] , conversion Id:%@",error.debugDescription,self.removeMemberField.text, self.conversations[0]];
             // TODO: retry
+            });
         }
     }];
     }
 }
 - (IBAction)removeMemberPressed {
-    
+    __weak ViewController *weakSelf = self;
     [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error) {
         if (error) {
-            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",error.debugDescription,self.removeMemberField.text, self.conversations[0]];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+            weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",weakSelf.removeMemberField.text,error.debugDescription, weakSelf.conversations[0]];
+            });
         }
     }];
 }
@@ -99,7 +100,9 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     [self.client newConversationWithConversationName:@"chenTest12" responseBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
         if (error) {
-            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error conversation created id:%@",error.debugDescription, conversationId];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+            weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error conversation created id:%@",weakSelf.outputField.text,error.debugDescription, conversationId];
+            });
         }
         
         if (conversationId) {
@@ -130,9 +133,15 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 
 - (void)addMeToConversation:(NSString *)convId {
+    UITextView* __weak outputFieldW = self.outputField;
+    NXMConversationClient* __weak clientW = self.client;
     [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error) {
         if (error)   {
-            self.outputField.text = [NSString stringWithFormat: @"%@\n\r error addUserToConversation userId:%@ , conversion Id:%@",error.debugDescription,[self.client getUser].uuid,convId];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+               
+            outputFieldW.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation userId:%@ , conversion Id:%@",outputFieldW.text,error.debugDescription,[clientW getUser].uuid,convId];
+                /* Do UI work here */
+            });
         }
     }];
 }
