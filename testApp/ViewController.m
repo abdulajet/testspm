@@ -70,7 +70,6 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
     };
     if ([self.memberField.text isEqualToString:(@"")]){
-        self.outputField.text = @"insert number between 0 - 7";
          self.outputField.text = [NSString stringWithFormat: @"%@\n\r insert number between 0 - 7",self.outputField.text];
     }
     else{
