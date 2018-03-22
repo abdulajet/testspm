@@ -76,7 +76,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     [self.client addUserToConversation:self.conversations[0] userId:testUserIDs[self.memberField.text.intValue] completionBlock:^(NSError * _Nullable error) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
-             self.outputField.text = [NSString stringWithFormat: @"%@\n\r error addUserToConversation member testUserID[%@] , conversion Id:%@",error.debugDescription,self.removeMemberField.text, self.conversations[0]];
+             self.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation member testUserID[%@] , conversion Id:%@ ",self.outputField.text,error.debugDescription,self.removeMemberField.text, self.conversations[0]];
             // TODO: retry
             });
         }
@@ -88,7 +88,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
-            weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",weakSelf.removeMemberField.text,error.debugDescription, weakSelf.conversations[0]];
+            weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",weakSelf.outputField.text,error.debugDescription, weakSelf.conversations[0]];
             });
         }
     }];
