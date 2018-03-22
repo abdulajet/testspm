@@ -13,6 +13,7 @@
 
 #import <VPSocketIO/VPSocketIO.h>
 #import "NXMMemberEvent.h"
+#import "NXMTextEvent.h"
 
 @interface NXMSocketClient()
 
@@ -329,6 +330,18 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 #pragma text event handle
 
 - (void)onTextRecevied:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    
+    NSDictionary *json = data[0];
+    
+    NXMTextEvent *textEvent = [NXMTextEvent new];
+    textEvent.text = json[@"body"][@"text"];
+    textEvent.conversationId = json[@"cid"];
+    textEvent.fromMemberId = json[@"from"];
+    textEvent.type = @"TEXT";
+    textEvent.creationDate = json[@"body"][@"timestamp"];
+    textEvent.sequenceId = json[@"id"];
+    
+    [self.delegate textRecieved:textEvent];
     
 }
 

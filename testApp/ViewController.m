@@ -172,4 +172,8 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 
 
+- (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, textEvent.fromMemberId, textEvent.text];
+}
+
 @end

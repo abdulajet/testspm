@@ -8,6 +8,7 @@
 
 #import "NexmoConversationObjC.h"
 #import "NXMMemberEvent.h"
+#import "NXMTextEvent.h"
 
 @protocol NXMSocketClientDelegate
 
@@ -17,6 +18,8 @@
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
+
+- (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;
