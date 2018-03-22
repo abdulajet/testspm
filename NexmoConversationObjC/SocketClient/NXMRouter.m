@@ -7,6 +7,7 @@
 //
 
 #import "NXMRouter.h"
+#import "NXMErrors.h"
 
 @interface NXMRouter()
 
@@ -29,25 +30,43 @@
     _token = token;
 }
 
-- (BOOL)getConversationWithId:(NSString*)convId {
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversation/%@", self.baseUrl, convId]];
-    [url setValue:[NSString stringWithFormat:@"bearer %@", self.token] forKey:@"Authorization"];
-    [url setValue:@"application/json" forKey:@"Content-Type"];
+- (BOOL)getConversationWithId:(NSString*)convId  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable conversation))completionBlock {
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@", self.baseUrl, convId]];
     
-    [[session dataTaskWithURL:url completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [self addHeader:request];
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
-            // TODO:
-            NSLog(@"Got response %@ with error %@.\n", response, error);
+            completionBlock(error, nil);
             return;
         }
         
-        NSError *jsonError;
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSString *convId = @"uuid";
+        NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:convId];
+        details.name = data[@"name"];
+        details.created = data[@"timestamp"][@"created"];
+        details.sequence_number = [data[@"sequence_number"] intValue];
+        details.properties = data[@"properties"];
         
-    }] resume];
+        NSMutableArray *members = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* memberJson in data[@"members"]) {
+            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:convId user:memberJson[@"user_id"] name:memberJson[@"name"] state:memberJson[@"state"]];
+
+            member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
+            member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
+            member.leftDate = memberJson[@"timestamp"][@"left"]; // TODO: NSDate
+            
+            [members addObject:member];
+        }
+
+        completionBlock(nil, details);
+    }];
     
-    return YES;}
+    return YES;
+}
 
 - (void)createConversationWithName:(NSString *)name
                      responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversationId))responseBlock {
@@ -169,7 +188,9 @@
         
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             NSString *responseErrMsg = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            NSError *resError = [[NSError alloc] initWithDomain:@"" code:1 userInfo:nil];
+            
+            // TODO: map code from error msg
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:1 userInfo:nil];
             responseBlock(resError, nil);
             return;
         }
@@ -178,7 +199,8 @@
         NSError *jsonError;
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if (!jsonDict || jsonError) {
-            NSError *resError = [[NSError alloc] initWithDomain:@"" code:1 userInfo:nil];
+            // TODO: map code from error msg
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:1 userInfo:nil];
             responseBlock(resError, nil);
             return;
         }

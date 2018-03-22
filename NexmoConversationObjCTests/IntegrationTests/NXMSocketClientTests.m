@@ -46,7 +46,7 @@ static NSString *const SOCKET_URL = @"wss://ws.nexmo.com/rtc/?transport=websocke
         [exp fulfill];
     });
 
-    [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
+//    [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
     
     [self waitForExpectationsWithTimeout:500 handler:^(NSError *error) {
         // handle failure
@@ -70,7 +70,7 @@ static NSString *const SOCKET_URL = @"wss://ws.nexmo.com/rtc/?transport=websocke
         [client loginWithToken:@"22"];
     });
     
-    [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
+//    [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
 
     [self waitForExpectationsWithTimeout:15000 handler:^(NSError *error) {
         // handle failure
@@ -92,10 +92,10 @@ static NSString *const SOCKET_URL = @"wss://ws.nexmo.com/rtc/?transport=websocke
     
     OCMExpect([delegateMock connectionStatusChanged:YES])
     .andDo(^(NSInvocation *invocation) {
-        [client getConversationWithId:@"22"];
+ //       [client getConversationWithId:@"22"];
     });
     
-    [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
+ //   [client setupWithURL:[[NSURL alloc] initWithString:SOCKET_URL]];
     
     [self waitForExpectationsWithTimeout:200 handler:^(NSError *error) {
         // handle failure

@@ -16,12 +16,11 @@
 @property (nonatomic, strong) NSString *joinDate;
 @property (nonatomic, strong) NSString *inviteDate;
 @property (nonatomic, strong) NSString *leftDate;
-@property (nonatomic, strong) NXMUser *user;
+@property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *state;
-@property (nonatomic, strong) NSNumber *eventId;
 
-- (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId joinDate:(NSDate *)joinDate
-                          user:(NXMUser *)user name:(NSString *)name state:(NSString *)state;
+- (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId
+                          user:(NSString *)userId name:(NSString *)name state:(NSString *)state;
 
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NXMMember.h"
+#import "NXMConversationDetails.h"
 
 
 @interface NXMRouter : NSObject
@@ -15,7 +16,8 @@
 - (nullable instancetype)initWitHost:(nonnull NSString *)host;
 
 - (void)setToken:(nonnull NSString *)token;
-- (BOOL)getConversationWithId:(nonnull NSString*)id;
+
+- (BOOL)getConversationWithId:(nonnull NSString*)id completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable conversation))completionBlock;
 
 - (void)createConversationWithName:(nonnull NSString *)name
                      responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversationId))responseBlock;

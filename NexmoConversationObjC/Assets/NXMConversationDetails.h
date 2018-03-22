@@ -11,11 +11,12 @@
 @interface NXMConversationDetails : NSObject
 
 @property NSString *uuid;
-@property int *sequence_number;
+@property int sequence_number;
 @property NSString *name;
 @property NSArray<NXMMember *> *members;
 @property NSDate *created;
-@property NSData *metaInfo;
+@property NSData *properties;
 
+- (instancetype)initWithId:(NSString *)uuid;
 
 @end

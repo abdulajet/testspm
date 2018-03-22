@@ -10,13 +10,12 @@
 
 @implementation NXMMember
 
-- (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId joinDate:(NSDate *)joinDate
-                          user:(NXMUser *)user name:(NSString *)name state:(NSString *)state {
+- (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId
+                            user:(NSString *)userId name:(NSString *)name state:(NSString *)state {
     if (self = [super init]) {
         self.memberId = memberId;
         self.conversationId = conversationId;
-        self.joinDate = joinDate;
-        self.user = user;
+        self.userId = userId;
         self.name = name;
         self.state = state;
     }

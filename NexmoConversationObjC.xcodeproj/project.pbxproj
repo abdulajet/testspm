@@ -39,6 +39,8 @@
 		F9C35DDC203078BD009FAE4F /* NexmoConversationObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */; };
 		F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4920628BDA00A70212 /* NXMEvent.h */; };
 		F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
+		F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4E2063EEB200A70212 /* NXMErrors.h */; };
+		F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4F2063EEB200A70212 /* NXMErrors.m */; };
 		F9EF59212056C51E0055935F /* NXMMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = F9EF591F2056C51E0055935F /* NXMMessage.h */; };
 		F9EF59222056C51E0055935F /* NXMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F9EF59202056C51E0055935F /* NXMMessage.m */; };
 		F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9EF59232056C5B00055935F /* NXMTextEvent.h */; };
@@ -108,6 +110,8 @@
 		F9C35DDD203078BD009FAE4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9E96F4920628BDA00A70212 /* NXMEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEvent.h; sourceTree = "<group>"; };
 		F9E96F4A20628BDA00A70212 /* NXMEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEvent.m; sourceTree = "<group>"; };
+		F9E96F4E2063EEB200A70212 /* NXMErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMErrors.h; sourceTree = "<group>"; };
+		F9E96F4F2063EEB200A70212 /* NXMErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMErrors.m; sourceTree = "<group>"; };
 		F9EF591F2056C51E0055935F /* NXMMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMessage.h; sourceTree = "<group>"; };
 		F9EF59202056C51E0055935F /* NXMMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMessage.m; sourceTree = "<group>"; };
 		F9EF59232056C5B00055935F /* NXMTextEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextEvent.h; sourceTree = "<group>"; };
@@ -259,6 +263,8 @@
 				F9167D8220331A2000F97CED /* Info.plist */,
 				F9167D8320331A2000F97CED /* NexmoConversationObjC.h */,
 				F987354B20446AFF00C90695 /* NXMConversationClient.m */,
+				F9E96F4E2063EEB200A70212 /* NXMErrors.h */,
+				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
 			);
 			path = NexmoConversationObjC;
 			sourceTree = "<group>";
@@ -298,6 +304,7 @@
 				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
 				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
 				F9EF59212056C51E0055935F /* NXMMessage.h in Headers */,
+				F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */,
 				F96F745120552D6D004B3434 /* NXMMember.h in Headers */,
 				F9167D8520331A2000F97CED /* NexmoConversationObjC.h in Headers */,
 				F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */,
@@ -637,6 +644,7 @@
 			files = (
 				F9873556204FE1C300C90695 /* NXMRouter.m in Sources */,
 				F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */,
+				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
 				F987354C20446AFF00C90695 /* NXMConversationClient.m in Sources */,
