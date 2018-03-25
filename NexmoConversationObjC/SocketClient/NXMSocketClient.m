@@ -14,6 +14,7 @@
 #import <VPSocketIO/VPSocketIO.h>
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMErrors.h"
 
 @interface NXMSocketClient()
 
@@ -159,14 +160,20 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventSessionInvalid");
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeSessionInvalid userInfo:nil];
         [self onLoginFailed:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventInvalidToken");
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenInvalid userInfo:nil];
         [self onLoginFailed:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventExpiredToken");
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenExpired userInfo:nil];
         [self onLoginFailed:data emitter:emitter];
     }];
     
@@ -175,85 +182,104 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventInvalidEvent");
         [self onLoginFailed:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventUserNotFound callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventUserNotFound");
         [self onLoginFailed:data emitter:emitter];
     }];
 }
 
 - (void)subscribeMemberEvents {
     [self.socket on:kNXMSocketEventMemberJoined callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventMemberJoined");
         [self onMemberJoined:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventMemberInvited callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventMemberInvited");
         [self onMemberInvited:data emitter:emitter];
     }];
     
     
     [self.socket on:kNXMSocketEventMemberLeft callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventMemberLeft");
         [self onMemberLeft:data emitter:emitter];
     }];
 }
 
 - (void)subscribeTextEvents {
     [self.socket on:kNXMSocketEventText callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventText");
         [self onTextRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTextSuccess");
      //   [self onTextRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextDelete callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTextDelete");
         [self onTextDeleted:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTextSeen");
         [self onTextSeen:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTextDelivered");
         [self onTextDelivered:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImage callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventImage");
         [self onTextRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImageSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventImageSeen");
         [self onTextImageSeen:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImageDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventImageDelivered");
         [self onTextImageDelivered:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTypingOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTypingOn");
         [self onTextTypingOn:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTypingOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventTypingOff");
         [self onTextTypingOff:data emitter:emitter];
     }];
 }
 
 - (void)subscribeRTCEvents {
     [self.socket on:kNXMSocketEventRtcAnswer callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventRtcAnswer");
         [self onRTCAnswer:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventMemebrMedia callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventMemebrMedia");
         [self onRTCMemberMedia:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventAudioMuteOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventAudioMuteOn");
         [self onRTCMuteOn:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventAudioMuteOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventAudioMuteOff");
         [self onRTCMuteOff:data emitter:emitter];
     }];
 }

@@ -52,7 +52,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTcwODAwMywibmJmIjoxNTIxNzA4MDAzLCJleHAiOjE1MjE3MzgwMzMsImp0aSI6MTUyMTcwODAzMzY5NCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjQifQ.pBWVgq9zBUvf38JM9IDH_vUxZAo-7veqQ759soaB_8m6AJlFgd7kXaFCsQb19jB7jMsB4qeSWSQN9ze7cT91afPcq-U5x_qTT6WwYl5Di0dX4OdU7pZuuDcj_rmxT02G7xm3RTJYFY3sIWbwZ0uM-n8Krng0_zMu6kfEvyIQS1PqkDvZdbBWw_0H93yEjPCSTMq4-NqJc8Krlz3dUjJODEK2qbBFHapw9DWqAk0ow-eKNTbehu3ivEb4KsYUorKahhloFSIugmuPmjrOcHbtaKjbIDGdYeyUYBUfiA9FT32YjThs79dNI4otyWR3rJgNXQWeAFjun0EqsNi_WYpRrg";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTk2NDUxMSwibmJmIjoxNTIxOTY0NTExLCJleHAiOjE1MjE5OTQ1NDEsImp0aSI6MTUyMTk2NDU0MTgwNCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.nZ6TvqrOXw7CBHDo6GXYfaHG2WH0PIvXvIUqSxezxqo5nQlzVCv9np63OFcx5yZ-T_HT_vtTCvujsT5_OXbMDDfevx8a4KGqSk6JQpO0n0bdc-gksID8-g54m2PzoglhO4PG3Ib4NZyAFkLxM6FA8rJiH2MHkjCNr1jF8mQhAp6rVq71n4dAxWlVLffGVgmHGOZYP2XJnZJwULWaZWUqUFzQTtmTmkTKX8IYGVqd2fMesFrmMl4szt6zOn1qf9F03k5VAoCLURO-JnzwBsWZx7CGjfJcoO8nKgACxgMHK7nb4dVOFfXx--pfk6PWG1BUBWtX08dasQQt40XtFdN0EQ";
     }
     [self.client loginWithToken:token];
 }
@@ -69,11 +69,19 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
     @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
     };
+    
     if ([self.memberField.text isEqualToString:(@"")]){
          self.outputField.text = [NSString stringWithFormat: @"%@\n\r insert number between 0 - 7",self.outputField.text];
     }
     else{
-    [self.client addUserToConversation:self.conversations[0] userId:testUserIDs[self.memberField.text.intValue] completionBlock:^(NSError * _Nullable error) {
+        NSString *userId = @"";
+        if (self.memberField.text.length > 2){
+            userId = self.memberField.text;
+        }
+        else{
+            userId = testUserIDs[self.memberField.text.intValue];
+        }
+    [self.client addUserToConversation:self.conversations[0] userId:userId completionBlock:^(NSError * _Nullable error) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
              self.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation member testUserID[%@] , conversion Id:%@ ",self.outputField.text,error.debugDescription,self.removeMemberField.text, self.conversations[0]];

@@ -8,6 +8,7 @@
 
 #import "NXMRouter.h"
 #import "NXMErrors.h"
+#import "NXMErrorParser.h"
 
 @interface NXMRouter()
 
@@ -82,7 +83,8 @@
     
     [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
-            responseBlock(error, nil);
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
+            responseBlock(resError, nil);
             return;
         }
         
@@ -164,6 +166,7 @@
     
     [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
+            
             completionBlock(error,nil);
             return;
         }
@@ -187,10 +190,8 @@
         }
         
         if (((NSHTTPURLResponse *)response).statusCode != 200){
-            NSString *responseErrMsg = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-            
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:1 userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
             responseBlock(resError, nil);
             return;
         }
@@ -200,7 +201,7 @@
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if (!jsonDict || jsonError) {
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:1 userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
             responseBlock(resError, nil);
             return;
         }
