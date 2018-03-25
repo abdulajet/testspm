@@ -121,7 +121,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 
 - (IBAction)sendMessegePressed:(id)sender {
-    [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error) {
+    [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
        
     }];
 }
@@ -160,7 +160,11 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     //[self.members addObject:member];
     
     //   if (member.user)
-    
+    NXMMember *member = [NXMMember alloc];
+    member.memberId = memberEvent.memberId;
+    member.conversationId = memberEvent.conversationId;
+    member.state = @"JOINED";
+    [self.members addObject:member];
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r member added id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
 }
 
@@ -168,6 +172,11 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     //[self.members addObject:member];
     
     //   if (member.user)
+    NXMMember *member = [NXMMember alloc];
+    member.memberId = memberEvent.memberId;
+    member.conversationId = memberEvent.conversationId;
+    member.state = @"LEFT";
+    [self.members addObject:member];
     
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r member removed id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
 }
@@ -175,13 +184,26 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     //[self.members addObject:member];
     
     //   if (member.user)
+    NXMMember *member = [NXMMember alloc];
+    member.memberId = memberEvent.memberId;
+    member.conversationId = memberEvent.conversationId;
+    member.state = @"INVITED";
+    [self.members addObject:member];
     
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r member invited id:%@ name:%@",self.outputField.text, memberEvent.memberId, memberEvent.name];
 }
 
-
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, textEvent.fromMemberId, textEvent.text];
+
 }
 
+- (void)messageReceived:(nonnull NXMTextEvent *)message{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r message received from id:%@ msg:%@",self.outputField.text, message.fromMemberId, message.text];
+
+}
+- (void)messageSent:(nonnull NXMTextEvent *)message{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, message.fromMemberId, message  .text];
+
+}
 @end

@@ -75,7 +75,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)sendText:(nonnull NSString *)text
     conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
-    completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
+    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
 
 - (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid;
 - (nullable NSArray<NXMConversationDetails *> *)getConversationList; // TODO: async?
@@ -111,7 +111,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)memberLeft:(nonnull NXMMember *)member;
 - (void)memberInvited:(nonnull NXMMember *)member byMember:(nonnull NSString *)memberId;
 - (void)memberRemoved:(nonnull NXMMember *)member;
-
+- (void)textRecieved:(nonnull NXMMember *)textEvent;
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;
 @end

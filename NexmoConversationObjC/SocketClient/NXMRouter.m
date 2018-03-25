@@ -151,6 +151,21 @@
     NSString* requestType = @"DELETE";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
 }
+
+
+- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+    NSDictionary *dict = @{
+                           @"from": memberId,
+                           @"type": @"text",
+                           @"body": @{
+                                   @"text": textTeSend
+                                   }
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
+    
+    NSString* requestType = @"POST";
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+}
 #pragma mark - private
 
 - (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{

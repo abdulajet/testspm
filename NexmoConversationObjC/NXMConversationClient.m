@@ -71,10 +71,11 @@
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
- completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
-    [self.socketClient sendText:text conversationId:conversationId fromMemberId:fromMemberId completionBlock:^(NSError * _Nullable error, NXMSocketResponse * _Nullable response) {
-        // TODO:
-    }];
+ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock {
+    [self.router sendTextToConversation:conversationId memberId:fromMemberId textToSend:text completionBlock:completionBlock];
+//    [self.socketClient sendText:text conversationId:conversationId fromMemberId:fromMemberId completionBlock:^(NSError * _Nullable error, NXMSocketResponse * _Nullable response) {
+//        // TODO:
+//    }];
 }
 - (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid {
     return  nil;
@@ -135,6 +136,18 @@
 
 - (void)memberRemoved:(nonnull NXMMember *)member {
     [self.delegate memberRemoved:member];
+}
+
+- (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
+    [self.delegate textRecieved:textEvent];
+    
+}
+
+- (void)messageReceived:(nonnull NXMTextEvent *)message{
+    [self.delegate messageReceived:message];
+}
+- (void)messageSent:(nonnull NXMTextEvent *)message{
+    [self.delegate messageSent:message];
 }
 
 @end

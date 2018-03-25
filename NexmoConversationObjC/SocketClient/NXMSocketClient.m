@@ -364,7 +364,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.type = @"TEXT";
-    textEvent.creationDate = json[@"body"][@"timestamp"];
+    textEvent.creationDate = json[@"timestamp"];
     textEvent.sequenceId = json[@"id"];
     
     [self.delegate textRecieved:textEvent];

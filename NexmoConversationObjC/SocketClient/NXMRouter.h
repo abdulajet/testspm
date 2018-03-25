@@ -26,6 +26,7 @@
 - (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
 - (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
 - (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
+- (void)sendTextToConversation:(nonnull NSString*)convesationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
 
 - (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
 @end
