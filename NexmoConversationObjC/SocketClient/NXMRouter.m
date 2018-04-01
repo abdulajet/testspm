@@ -102,7 +102,7 @@
     
 }
 
-- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock {
+- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
     NSDictionary *dict = @{
         @"user_id": userId,
         @"action": @"join",
@@ -112,11 +112,12 @@
     };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    NSString* requestType = @"POST";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
+        completionBlock(error);
+    }];
 }
 
-- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
     NSDictionary *dict = @{
                            @"user_id": userId,
                            @"action": @"invite",
@@ -126,10 +127,12 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    NSString* requestType = @"POST";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
+        completionBlock(error);
+    }];
 }
-- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+
+- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
     NSDictionary *dict = @{
                            @"member_id": memberId,
                            @"action": @"join",
@@ -139,21 +142,23 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    NSString* requestType = @"POST";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
+        completionBlock(error);
+    }];
 }
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, conversationId, memberId]];
     
-    NSString* requestType = @"DELETE";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
+        completionBlock(error);
+    }];
 }
 
 
-- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
     NSDictionary *dict = @{
                            @"from": memberId,
                            @"type": @"text",
@@ -163,12 +168,13 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
     
-    NSString* requestType = @"POST";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
+        completionBlock(error);
+    }];
 }
 #pragma mark - private
 
-- (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock{
+- (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSError *jsonErr;
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
@@ -179,14 +185,7 @@
     [request setHTTPMethod:httpMethod];
     [request setHTTPBody:jsonData];
     
-    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        if (error) {
-            
-            completionBlock(error,nil);
-            return;
-        }
-        completionBlock(nil,nil);
-    }];
+    [self executeRequest:request responseBlock:completionBlock];
 }
 
 - (void)addHeader:(NSMutableURLRequest *)request {

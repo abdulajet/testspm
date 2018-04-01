@@ -71,7 +71,7 @@
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
- completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock {
+ completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
     [self.router sendTextToConversation:conversationId memberId:fromMemberId textToSend:text completionBlock:completionBlock];
 //    [self.socketClient sendText:text conversationId:conversationId fromMemberId:fromMemberId completionBlock:^(NSError * _Nullable error, NXMSocketResponse * _Nullable response) {
 //        // TODO:

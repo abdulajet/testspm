@@ -75,7 +75,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)sendText:(nonnull NSString *)text
     conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
-    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable data))completionBlock;
+    completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock;
 
 - (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid;
 - (nullable NSArray<NXMConversationDetails *> *)getConversationList; // TODO: async?
