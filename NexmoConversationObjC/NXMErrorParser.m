@@ -10,7 +10,6 @@
 @interface NXMErrorParser()
 @end
 @implementation NXMErrorParser
-
 + (int) parseError:(nonnull NSData*) data{
     
     id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -33,6 +32,9 @@
     }
     else if ([errorCodeMsg isEqualToString:@"system:error:expired-token"]){
         return NXMStitchErrorCodeTokenExpired;
+    }
+    else if ([errorCodeMsg isEqualToString:@"event:error:not-found"]){
+        return NXMStitchErrorCodeEventNotFound      ;
     }
     return NXMStitchErrorCodeUnknown;
 }

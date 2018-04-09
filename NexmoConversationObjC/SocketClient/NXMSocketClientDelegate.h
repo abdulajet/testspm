@@ -9,6 +9,8 @@
 #import "NexmoConversationObjC.h"
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMTextStatusEvent.h"
+#import "NXMTextTypingEvent.h"
 
 @protocol NXMSocketClientDelegate
 
@@ -20,6 +22,12 @@
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
+- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent;
+- (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent;
+- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent;
+
+- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent;
+- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message;
 - (void)messageSent:(nonnull NXMTextEvent *)message;

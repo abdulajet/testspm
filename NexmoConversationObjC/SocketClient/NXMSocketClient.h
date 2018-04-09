@@ -11,22 +11,37 @@
 #import "NXMSocketClientDelegate.h"
 
 @interface NXMSocketResponse : NSObject
-@property NSString *eventId;
-@property NSObject *data;
+@property NSString * _Nullable eventId;
+@property NSObject * _Nullable data;
 @end
 
 @interface NXMSocketClient : NSObject
 
 - (nullable instancetype)initWitHost:(nonnull NSString *)host;
 
-- (void)setDelegate:(id<NXMSocketClientDelegate>)delegate;
+- (void)setDelegate:(_Nonnull id<NXMSocketClientDelegate>)delegate;
 - (BOOL)isSocketOpen;
 
-- (void)loginWithToken:(NSString *)token;
+- (void)loginWithToken:(NSString * _Nonnull)token;
 
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMSocketResponse * _Nullable response))completionBlock;
+
+- (void)seenTextEvent:(nonnull NSString *)conversationId
+         memberId:(nonnull NSString *)memberId
+          eventId:(nonnull NSString *)eventId;
+
+
+- (void)deliverTextEvent:(nonnull NSString *)conversationId
+        memberId:(nonnull NSString *)memberId
+        eventId:(nonnull NSString *)eventId;
+
+- (void)textTypingOn:(nonnull NSString *)conversationId
+        memberId:(nonnull NSString *)memberId;
+
+- (void)textTypingOff:(nonnull NSString *)conversationId
+        memberId:(nonnull NSString *)memberId;
 
 @end

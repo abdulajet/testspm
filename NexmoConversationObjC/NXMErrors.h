@@ -28,7 +28,8 @@ typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
     NXMStitchErrorCodeEventUserNotFound,        // @"user:error:not-found"
     NXMStitchErrorCodeEventUserAlreadyJoined,   // @"conversation:error:member-already-joined"
     NXMStitchErrorCodeEventInvalid,             // @"conversation:error:invalid-event"
-    NXMStitchErrorCodeEventBadPermission,       
+    NXMStitchErrorCodeEventBadPermission,
+    NXMStitchErrorCodeEventNotFound,      
     
     NXMStitchErrorCodeConversationUnknown,
     NXMStitchErrorCodeConversationNotFound

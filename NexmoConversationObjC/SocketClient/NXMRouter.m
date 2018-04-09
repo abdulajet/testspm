@@ -13,7 +13,7 @@
 @interface NXMRouter()
 
 @property NSString *baseUrl;
-@property NSString *token;
+@property (nonatomic) NSString *token;
 
 
 @end
@@ -102,7 +102,7 @@
     
 }
 
-- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock {
+- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     NSDictionary *dict = @{
         @"user_id": userId,
         @"action": @"join",
@@ -112,12 +112,12 @@
     };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
-        completionBlock(error);
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
     }];
 }
 
-- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"user_id": userId,
                            @"action": @"invite",
@@ -127,12 +127,12 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
-        completionBlock(error);
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
     }];
 }
 
-- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"member_id": memberId,
                            @"action": @"join",
@@ -142,23 +142,23 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
     
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
-        completionBlock(error);
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
     }];
 }
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, conversationId, memberId]];
     
-    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
-        completionBlock(error);
+    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
     }];
 }
 
 
-- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error))completionBlock{
+- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"from": memberId,
                            @"type": @"text",
@@ -168,10 +168,20 @@
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
     
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSString * _Nullable data) {
-        completionBlock(error);
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
     }];
 }
+- (void)deleteTextFromConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId eventId:(nonnull NSString*)eventId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+    NSDictionary *dict = @{
+                           @"from": memberId,
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%@", self.baseUrl, conversationId,eventId]];
+    
+    NSString* requestType = @"DELETE";
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+}
+
 #pragma mark - private
 
 - (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{

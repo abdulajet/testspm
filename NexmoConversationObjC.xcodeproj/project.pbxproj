@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		BADF418D86264646ED77FB83 /* Pods_testApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825A47D891581F7AB3B284B9 /* Pods_testApp.framework */; };
+		CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */; };
+		CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */; };
 		CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */; };
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
 		E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */; };
@@ -73,6 +75,12 @@
 		9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.release.xcconfig"; sourceTree = "<group>"; };
 		94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		B7304B4966663A65AC352308 /* Pods-testApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-testApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-testApp/Pods-testApp.release.xcconfig"; sourceTree = "<group>"; };
+		CE8180DD207A57E70072E44F /* NXMTextTypingEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextTypingEvent.h; sourceTree = "<group>"; };
+		CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextTypingEvent.m; sourceTree = "<group>"; };
+		CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextTypingEventStatus.h; sourceTree = "<group>"; };
+		CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextEventStatus.h; sourceTree = "<group>"; };
+		CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextStatusEvent.h; sourceTree = "<group>"; };
+		CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextStatusEvent.m; sourceTree = "<group>"; };
 		CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEvent.h; sourceTree = "<group>"; };
 		CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMemberEvent.m; sourceTree = "<group>"; };
 		CEF94C5320640A1200BB733E /* NXMErrorParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMErrorParser.h; sourceTree = "<group>"; };
@@ -293,6 +301,12 @@
 				F9EF59242056C5B00055935F /* NXMTextEvent.m */,
 				CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */,
 				CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */,
+				CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */,
+				CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */,
+				CE8180DD207A57E70072E44F /* NXMTextTypingEvent.h */,
+				CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */,
+				CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */,
+				CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -650,10 +664,12 @@
 				F9873556204FE1C300C90695 /* NXMRouter.m in Sources */,
 				CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */,
 				F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */,
+				CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */,
 				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
 				F987354C20446AFF00C90695 /* NXMConversationClient.m in Sources */,
+				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
 				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 				F987354E2045C03700C90695 /* NXMConversationClientConfig.m in Sources */,
 				F96F745220552D6D004B3434 /* NXMMember.m in Sources */,

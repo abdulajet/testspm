@@ -13,6 +13,7 @@
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
 @property (weak, nonatomic) IBOutlet UITextField *msgField;
+@property (weak, nonatomic) IBOutlet UITextField *deleteMsg;
 @property (weak, nonatomic) IBOutlet UITextField *memberField;
 @property (weak, nonatomic) IBOutlet UITextField *removeMemberField;
 @property (weak, nonatomic) IBOutlet UITextView *outputField;
@@ -47,18 +48,20 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)loginPressed {
+    __weak ViewController *weakSelf = self;
     self.client = [[NXMConversationClient alloc] initWithConfig:[NXMConversationClientConfig new]];
-    [self.client registerEventsWithDelegate:self];
+    [self.client registerEventsWithDelegate:weakSelf];
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMTk2NDUxMSwibmJmIjoxNTIxOTY0NTExLCJleHAiOjE1MjE5OTQ1NDEsImp0aSI6MTUyMTk2NDU0MTgwNCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.nZ6TvqrOXw7CBHDo6GXYfaHG2WH0PIvXvIUqSxezxqo5nQlzVCv9np63OFcx5yZ-T_HT_vtTCvujsT5_OXbMDDfevx8a4KGqSk6JQpO0n0bdc-gksID8-g54m2PzoglhO4PG3Ib4NZyAFkLxM6FA8rJiH2MHkjCNr1jF8mQhAp6rVq71n4dAxWlVLffGVgmHGOZYP2XJnZJwULWaZWUqUFzQTtmTmkTKX8IYGVqd2fMesFrmMl4szt6zOn1qf9F03k5VAoCLURO-JnzwBsWZx7CGjfJcoO8nKgACxgMHK7nb4dVOFfXx--pfk6PWG1BUBWtX08dasQQt40XtFdN0EQ";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzI3NDgwMCwibmJmIjoxNTIzMjc0ODAwLCJleHAiOjE1MjMzMDQ4MzAsImp0aSI6MTUyMzI3NDgzMDc2OCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.Ac2yAYq2lBOW3GTvm72AUYk1Dmn4cKrI59DOEksLT2yl6X1lVSYUmYFnvfgFtsmIB26x-6FPZJfWuGXMvXUL_Gu6AcKrkQNTbUFT5k5uYeB8oDKu-WEZsfSOZFIpyQLI4Da1J-jYQEBOIN3o81s9gwyc7udeArCH-B2WdQF86Uhya4JzN5BHVPQfWVyhfCn8jKAeOYsen-rHA7C7lOyS3W8vN4woQTsT3fLMBp3SlBGCJpSeom7oEnbdRb-FGYh1W7nVoSJHOFPTDuhZ_OFPBbKh8YgzKx1p8dPLV3B2d2YOykEDuLAntE5bbWwbiZc_fa5VLhUa9zkLOiB3m4YfVQ";
     }
     [self.client loginWithToken:token];
 }
 
 - (IBAction)addMemberPressed {
     
+    __weak ViewController *weakSelf = self;
     static NSString * testUserIDs[9] = {
     @"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2",
     @"USR-1628dc75-fa09-4746-9e29-681430cb6419",
@@ -81,10 +84,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
         else{
             userId = testUserIDs[self.memberField.text.intValue];
         }
-    [self.client addUserToConversation:self.conversations[0] userId:userId completionBlock:^(NSError * _Nullable error) {
+    [self.client addUserToConversation:self.conversations[0] userId:userId completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
-             self.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation member testUserID[%@] , conversion Id:%@ ",self.outputField.text,error.debugDescription,self.removeMemberField.text, self.conversations[0]];
+             weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation member testUserID[%@] , conversion Id:%@ ",weakSelf.outputField.text,error.debugDescription,weakSelf.removeMemberField.text, weakSelf.conversations[0]];
             // TODO: retry
             });
         }
@@ -93,7 +96,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 - (IBAction)removeMemberPressed {
     __weak ViewController *weakSelf = self;
-    [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error) {
+    [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
             weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",weakSelf.outputField.text,error.debugDescription, weakSelf.conversations[0]];
@@ -121,9 +124,29 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 
 - (IBAction)sendMessegePressed:(id)sender {
-    [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
-       
+    [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        
     }];
+}
+
+- (IBAction)deleteMessegePressed:(id)sender {
+    [self.client deleteText:self.conversations[0] fromMemberId:self.members[0].memberId eventId:self.deleteMsg.text  completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable conversationId) {
+        
+    }];
+}
+
+- (IBAction)typingOnPressed:(id)sender{
+    [self.client textTypingOnEvent:self.conversations[0] memberId:self.members[0].memberId];
+}
+- (IBAction)typingOffPressed:(id)sender{
+    [self.client textTypingOffEvent:self.conversations[0] memberId:self.members[0].memberId];
+    
+}
+- (IBAction)textDeliveredPressed:(id)sender{
+    [self.client deliverTextEvent:self.conversations[0] memberId:self.members[0].memberId eventId:self.deleteMsg.text];
+}
+- (IBAction)textSeenPressed:(id)sender{
+    [self.client seenTextEvent:self.conversations[0] memberId:self.members[0].memberId eventId:self.deleteMsg.text];
 }
 
 - (void)connectedWithUser:(NXMUser *)user {
@@ -142,7 +165,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (void)addMeToConversation:(NSString *)convId {
     UITextView* __weak outputFieldW = self.outputField;
     NXMConversationClient* __weak clientW = self.client;
-    [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error) {
+    [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error)   {
             dispatch_sync(dispatch_get_main_queue(), ^{
                
@@ -194,9 +217,34 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
-    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, textEvent.fromMemberId, textEvent.text];
-
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ ,eventId:%@ ,msg:%@",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId, textEvent.text];
+    
 }
+- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text deleted from id:%@ ,eventId:%@ ,msgDeletedId:%@",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId, textEvent.eventId];
+    
+}
+
+- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text seen from id:%@ ,eventId:%@ ,msgSeenId:%@",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId, textEvent.eventId];
+    
+}
+
+- (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text delivered from id:%@ ,eventId:%@ ,msgDeliveredId:%@",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId, textEvent.eventId];
+    
+}
+
+- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text typing on from id:%@ ,eventId:%@ ",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId];
+    
+}
+
+- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent{
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r text typing off from id:%@ ,eventId:%@ ",self.outputField.text, textEvent.fromMemberId,textEvent.sequenceId];
+    
+}
+
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message{
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r message received from id:%@ msg:%@",self.outputField.text, message.fromMemberId, message.text];
