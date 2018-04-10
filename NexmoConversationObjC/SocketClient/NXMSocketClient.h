@@ -24,11 +24,6 @@
 
 - (void)loginWithToken:(NSString * _Nonnull)token;
 
-- (void)sendText:(nonnull NSString *)text
-  conversationId:(nonnull NSString *)conversationId
-    fromMemberId:(nonnull NSString *)fromMemberId
- completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMSocketResponse * _Nullable response))completionBlock;
-
 - (void)seenTextEvent:(nonnull NSString *)conversationId
          memberId:(nonnull NSString *)memberId
           eventId:(nonnull NSString *)eventId;

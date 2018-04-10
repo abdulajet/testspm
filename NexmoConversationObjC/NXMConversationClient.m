@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <NexmoConversationObjC.h>
+#import "NexmoConversationObjC.h"
 #import "NXMSocketClient.h"
 #import "NXMRouter.h"
 
@@ -52,30 +52,28 @@
 }
 
 - (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
-              completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     [self.router addUserToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
 - (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
-                 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     [self.router inviteUserToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
 - (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
-                 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     [self.router joinMemberToConversation:conversationId memberId:memberId completionBlock:completionBlock];
 }
 
 - (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
-                     completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     [self.router removeMemberFromConversation:conversationId memberId:memberId completionBlock:completionBlock];
 }
 
 
-- (void)sendText:(nonnull NSString *)text
-  conversationId:(nonnull NSString *)conversationId
-    fromMemberId:(nonnull NSString *)fromMemberId
- completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock {
+- (void)sendText:(nonnull NSString *)text conversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock {
     [self.router sendTextToConversation:conversationId memberId:fromMemberId textToSend:text completionBlock:completionBlock];
 //    [self.socketClient sendText:text conversationId:conversationId fromMemberId:fromMemberId completionBlock:^(NSError * _Nullable error, NXMSocketResponse * _Nullable response) {
 //        // TODO:
@@ -120,11 +118,11 @@
     return  nil;
 }
 
-- (void)enableAudio {
+- (void)enableAudio:(nonnull NSString*)conversationId {
     
 }
 
-- (void)disableAudio {
+- (void)disableAudio:(nonnull NSString*)conversationId {
     
 }
 

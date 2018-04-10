@@ -56,33 +56,26 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)loginWithToken:(nonnull NSString *)token;
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
 
-- (void)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock;
+- (void)newConversationWithConversationName:(nonnull NSString *)conversationName
+        responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock;
 
-- (void)addUserToConversation:(nonnull NSString *)conversationId
-                         userId:(nonnull NSString *)userId
-                completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (void)joinMemberToConverstion:(nonnull NSString *)conversationId
-                         memberId:(nonnull NSString *)memberId
-                completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (void)inviteMemberToConverstion:(nonnull NSString *)conversationId
-                         memberId:(nonnull NSString *)memberId
-                  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId
-                           memberId:(nonnull NSString *)memberId
-                    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (void)sendText:(nonnull NSString *)text
-    conversationId:(nonnull NSString *)conversationId
-    fromMemberId:(nonnull NSString *)fromMemberId
-    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)sendText:(nonnull NSString *)text conversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (void)deleteText:(nonnull NSString *)conversationId
-    fromMemberId:(nonnull NSString *)fromMemberId
-    eventId:(nonnull NSString *)eventId
-    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+- (void)deleteText:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId eventId:(nonnull NSString *)eventId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
 - (void)getConversation:(nonnull NSString*)conversationId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock;
@@ -91,14 +84,12 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 
 - (void)getAllConversations:(void (^ _Nullable)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock;
 
-- (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock;
+- (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock;
 
 
 - (void)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;
-
-- (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid;
-- (nullable NSArray<NXMConversationDetails *> *)getConversationList; // TODO: async?
 
 - (void)enableAudio:(nonnull NSString *)conversationID;
 - (void)disableAudio:(nonnull NSString *)conversationID;

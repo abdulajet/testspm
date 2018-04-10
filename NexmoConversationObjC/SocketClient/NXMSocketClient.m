@@ -82,21 +82,6 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self login];
 }
 
-- (void)sendText:(nonnull NSString *)text
-  conversationId:(nonnull NSString *)conversationId
-    fromMemberId:(nonnull NSString *)fromMemberId {
-    
-    NSDictionary * msg = @{ @"tid": [[NSUUID UUID] UUIDString],
-                               @"cid": conversationId,
-                               @"from": fromMemberId,
-                               @"body": @{
-                                       @"text": text
-                            }};
-    
-    
-    [self.socket emit:kNXMSocketEventText items:@[msg]];
-}
-
 #pragma mark - Private
 
 - (void)login {
