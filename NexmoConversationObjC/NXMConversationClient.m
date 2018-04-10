@@ -110,6 +110,12 @@
 - (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
     [self.router getConversationsPaging:name dateStart:dateStart dateEnd:dateEnd pageSize:pageSize recordIndex:recordIndex order:order completionBlock:completionBlock];
 }
+
+
+- (void)getUser:(nonnull NSString*)userId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
+    [self.router getUser:userId completionBlock:completionBlock];
+}
 - (nullable NSArray<NXMConversationDetails *> *)getConversationList {
     return  nil;
 }

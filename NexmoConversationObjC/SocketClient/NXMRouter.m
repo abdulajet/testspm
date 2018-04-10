@@ -315,6 +315,29 @@
         }
     }];
 }
+
+
+- (void)getUser:(nonnull NSString*)userId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
+    NSDictionary *dict = @{
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/users/%@", self.baseUrl, userId]];
+    
+    NSString* requestType = @"GET";
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+        if (data != nil){
+            NSLog(@"getUser result %@",data);
+            NXMUser *user = [NXMUser alloc];
+            user.name = data[@"name"];
+            user.uuid = data[@"id"];
+           
+            completionBlock(nil, user);
+        }
+        else{
+            completionBlock(error,nil);
+        }
+    }];
+}
 #pragma mark - private
 
 - (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{

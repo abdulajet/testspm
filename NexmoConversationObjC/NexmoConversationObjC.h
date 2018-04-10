@@ -93,6 +93,10 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 
 - (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock;
 
+
+- (void)getUser:(nonnull NSString*)userId
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;
+
 - (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid;
 - (nullable NSArray<NXMConversationDetails *> *)getConversationList; // TODO: async?
 
