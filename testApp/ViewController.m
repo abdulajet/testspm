@@ -54,7 +54,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzI3NDgwMCwibmJmIjoxNTIzMjc0ODAwLCJleHAiOjE1MjMzMDQ4MzAsImp0aSI6MTUyMzI3NDgzMDc2OCwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.Ac2yAYq2lBOW3GTvm72AUYk1Dmn4cKrI59DOEksLT2yl6X1lVSYUmYFnvfgFtsmIB26x-6FPZJfWuGXMvXUL_Gu6AcKrkQNTbUFT5k5uYeB8oDKu-WEZsfSOZFIpyQLI4Da1J-jYQEBOIN3o81s9gwyc7udeArCH-B2WdQF86Uhya4JzN5BHVPQfWVyhfCn8jKAeOYsen-rHA7C7lOyS3W8vN4woQTsT3fLMBp3SlBGCJpSeom7oEnbdRb-FGYh1W7nVoSJHOFPTDuhZ_OFPBbKh8YgzKx1p8dPLV3B2d2YOykEDuLAntE5bbWwbiZc_fa5VLhUa9zkLOiB3m4YfVQ";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzM0NjY5MywibmJmIjoxNTIzMzQ2NjkzLCJleHAiOjE1MjMzNzY3MjMsImp0aSI6MTUyMzM0NjcyMzkwNywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.GQ8h2_p66yAO3erF7iFCwzUDMvdlLCVVF8OjCghLfKbx9tGot4kuXS8S8Ak-tEOVTQREPhuFrAKpRRM-JsIzGl99O19Z6wNRXdmP1ZEvm7hKOYhJt2nnXRQDGbUu2vfhiaeENNUKrlgBlycS547BKv9cEfWu1_LZdi39m14z2oIRcdAqmP7YMCEKSjtJLpcbVA7iq7jU7Y-vWQsVRB_L0gt4SSRC-FsORUqUTFyVT_VTJn-VeNpS5l3_47Dvo-QZg6CVt57alSVhHoqZpezvkHOZD4vMDfBnDkWgvU31__PJ6zs7XQlg8Z3TuIhcVaftrzLu2xzogztq6gDCwW9LBg";
     }
     [self.client loginWithToken:token];
 }
@@ -123,6 +123,47 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     }];
 }
 
+- (IBAction)getConversationPressed:(id)sender{
+    __weak ViewController *weakSelf = self;
+    
+    [weakSelf.client getConversation:weakSelf.conversations[0]
+                     completionBlock: ^(NSError * _Nullable error, NXMConversationDetails * _Nullable data){
+                         if (data != nil){
+                             NSLog(@"getConversationPressed result %@",data);
+                             dispatch_sync(dispatch_get_main_queue(), ^{
+                                 weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r getConversationPressed result id:%@ ,name:%@",weakSelf.outputField.text, data.uuid, data.name];
+                             });
+                         }
+                     }];
+}
+
+- (IBAction)getNumOfConversationsPressed:(id)sender{
+    __weak ViewController *weakSelf = self;
+    
+    [weakSelf.client getNumOfConversations:^(NSError * _Nullable error, long * _Nullable data){
+        if (data != nil){
+            NSLog(@"getNumOfConversationsPressed result %ld",*data);
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r getConversationPressed result:%ld ",weakSelf.outputField.text, *data];
+            });
+        }
+    }];
+}
+
+- (IBAction)getAllConversationPressed:(id)sender{
+    __weak ViewController *weakSelf = self;
+    
+    [weakSelf.client getAllConversations:^(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data){
+                         if (data != nil){
+                             NSLog(@"getAllConversationPressed result %@",data);
+                             dispatch_sync(dispatch_get_main_queue(), ^{
+                                 for (NXMConversationDetails * detail in data){
+                                     weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\rgetAllConversationPressed result \nuuid:%@ \nname:%@",weakSelf.outputField.text, detail.uuid, detail.name];
+                                 }
+                             });
+                         }
+                     }];
+}
 - (IBAction)sendMessegePressed:(id)sender {
     [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         
