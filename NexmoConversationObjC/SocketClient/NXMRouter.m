@@ -69,7 +69,7 @@
     return YES;
 }
 
-- (void)createConversationWithName:(NSString *)name
+- (BOOL)createConversationWithName:(NSString *)name
                      responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversationId))responseBlock {
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": name} options:0 error: &jsonErr];
@@ -99,10 +99,10 @@
         responseBlock(nil, convId);
         
     }];
-    
+    return YES;
 }
 
-- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+- (BOOL)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
     NSDictionary *dict = @{
         @"user_id": userId,
         @"action": @"join",
@@ -115,9 +115,10 @@
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
+    return YES;
 }
 
-- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+- (BOOL)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"user_id": userId,
                            @"action": @"invite",
@@ -130,9 +131,10 @@
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
+    return YES;
 }
 
-- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (BOOL)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"member_id": memberId,
                            @"action": @"join",
@@ -145,9 +147,10 @@
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
+    return YES;
 }
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (BOOL)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, conversationId, memberId]];
@@ -155,10 +158,11 @@
     [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
+    return YES;
 }
 
 
-- (void)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (BOOL)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"from": memberId,
                            @"type": @"text",
@@ -171,8 +175,9 @@
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
+    return YES;
 }
-- (void)deleteTextFromConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId eventId:(nonnull NSString*)eventId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+- (BOOL)deleteTextFromConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId eventId:(nonnull NSString*)eventId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            @"from": memberId,
                            };
@@ -180,9 +185,10 @@
     
     NSString* requestType = @"DELETE";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    return YES;
 }
 
--(void)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock{
+-(BOOL)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations", self.baseUrl]];
@@ -199,10 +205,11 @@
             completionBlock(error,nil);
         }
     }];
+    return YES;
 }
 
 
-- (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
+- (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
     //TODO:for now we get the first 100 conversations
@@ -245,9 +252,10 @@
             completionBlock(error,nil);
         }
     }];
+    return YES;
 }
 
-- (void)getAllConversations:(void (^)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock{
+- (BOOL)getAllConversations:(void (^)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock{
     
     [self getNumOfConversations:^(NSError * _Nullable error, long* _Nullable data){
         if (data != nil){
@@ -276,10 +284,11 @@
             }];
         }
     }];
+    return YES;
    
 }
 
-- (void)getConversation:(nonnull NSString*)conversationId
+- (BOOL)getConversation:(nonnull NSString*)conversationId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
@@ -314,10 +323,11 @@
             completionBlock(error,nil);
         }
     }];
+    return YES;
 }
 
 
-- (void)getUser:(nonnull NSString*)userId
+- (BOOL)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
@@ -337,6 +347,7 @@
             completionBlock(error,nil);
         }
     }];
+    return YES;
 }
 #pragma mark - private
 
@@ -371,7 +382,7 @@
         
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
             responseBlock(resError, nil);
             return;
         }
@@ -381,7 +392,7 @@
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if (!jsonDict || jsonError) {
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
             responseBlock(resError, nil);
             return;
         }

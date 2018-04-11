@@ -10,11 +10,14 @@
 @interface NXMErrorParser()
 @end
 @implementation NXMErrorParser
-+ (int) parseError:(nonnull NSData*) data{
++ (int) parseErrorWithData:(nonnull NSData*) data{
+    NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    return [self parseError:dataDict];
+}
+
++ (int) parseError:(nonnull NSDictionary*) data{
     
-    id json = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    
-    NSString* errorCodeMsg = json[@"code"];
+    NSString* errorCodeMsg = data[@"code"];
     if ([errorCodeMsg isEqualToString:@"member:error:not-found"]){
         return NXMStitchErrorCodeMemberNotFound;
     }
@@ -40,8 +43,7 @@
 }
 
 + (NSString*) toString:(int) errorResult{
-    NSString *str = [NSString alloc];
-    str = @"";
+    NSString *str = @"";
     switch (errorResult) {
         case NXMStitchErrorCodeUnknown:
             str = @"Nexmo Stitch error code unknown";

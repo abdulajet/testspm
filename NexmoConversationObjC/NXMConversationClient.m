@@ -46,84 +46,78 @@
     
 }
 
-- (void)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock {
-    [self.router createConversationWithName:conversationName responseBlock:responseBlock];
-    
-}
+- (BOOL)newConversationWithConversationName:(nonnull NSString *)conversationName responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock {
+    return [self.router createConversationWithName:conversationName responseBlock:responseBlock];
+ }
 
-- (void)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+- (BOOL)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router addUserToConversation:conversationId userId:userId completionBlock:completionBlock];
+    return [self.router addUserToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
-- (void)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+- (BOOL)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router inviteUserToConversation:conversationId userId:userId completionBlock:completionBlock];
+    return [self.router inviteUserToConversation:conversationId userId:userId completionBlock:completionBlock];
 }
 
-- (void)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+- (BOOL)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router joinMemberToConversation:conversationId memberId:memberId completionBlock:completionBlock];
+    return [self.router joinMemberToConversation:conversationId memberId:memberId completionBlock:completionBlock];
 }
 
-- (void)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+- (BOOL)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router removeMemberFromConversation:conversationId memberId:memberId completionBlock:completionBlock];
+    return [self.router removeMemberFromConversation:conversationId memberId:memberId completionBlock:completionBlock];
 }
 
 
-- (void)sendText:(nonnull NSString *)text conversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId
+- (BOOL)sendText:(nonnull NSString *)text conversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock {
-    [self.router sendTextToConversation:conversationId memberId:fromMemberId textToSend:text completionBlock:completionBlock];
-//    [self.socketClient sendText:text conversationId:conversationId fromMemberId:fromMemberId completionBlock:^(NSError * _Nullable error, NXMSocketResponse * _Nullable response) {
-//        // TODO:
-//    }];
+    return [self.router sendTextToConversation:conversationId memberId:fromMemberId textToSend:text completionBlock:completionBlock];
 }
 
 
-- (void)deleteText:(nonnull NSString *)conversationId
+- (BOOL)deleteText:(nonnull NSString *)conversationId
       fromMemberId:(nonnull NSString *)fromMemberId
            eventId:(nonnull NSString *)eventId
    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
-    [self.router deleteTextFromConversation:conversationId memberId:fromMemberId eventId:eventId completionBlock:completionBlock];
+    return [self.router deleteTextFromConversation:conversationId memberId:fromMemberId eventId:eventId completionBlock:completionBlock];
 }
-- (nullable NXMConversationDetails *)getConversationWithCID:(nonnull NSString *)cid {
-    return  nil;
-}
-
-- (void)getConversation:(nonnull NSString*)conversationId
+- (BOOL)getConversation:(nonnull NSString*)conversationId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock{
-    [self.router getConversation:conversationId completionBlock:completionBlock];
+    return [self.router getConversation:conversationId completionBlock:completionBlock];
 }
 
 
--(void)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock{
-    [self.router getNumOfConversations:completionBlock];
+-(BOOL)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock{
+    return [self.router getNumOfConversations:completionBlock];
 }
 
-- (void)getAllConversations:(void (^_Nullable)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock{
-    [self.router getAllConversations:completionBlock];
+- (BOOL)getAllConversations:(void (^_Nullable)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock{
+    return [self.router getAllConversations:completionBlock];
 }
 
-- (void)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
-    [self.router getConversationsPaging:name dateStart:dateStart dateEnd:dateEnd pageSize:pageSize recordIndex:recordIndex order:order completionBlock:completionBlock];
+- (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
+    return [self.router getConversationsPaging:name dateStart:dateStart dateEnd:dateEnd pageSize:pageSize recordIndex:recordIndex order:order completionBlock:completionBlock];
 }
 
 
-- (void)getUser:(nonnull NSString*)userId
+- (BOOL)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
-    [self.router getUser:userId completionBlock:completionBlock];
+    return [self.router getUser:userId completionBlock:completionBlock];
 }
 - (nullable NSArray<NXMConversationDetails *> *)getConversationList {
     return  nil;
 }
 
-- (void)enableAudio:(nonnull NSString*)conversationId {
+- (BOOL)enableAudio:(nonnull NSString*)conversationId {
     
+    return YES;
 }
 
-- (void)disableAudio:(nonnull NSString*)conversationId {
+- (BOOL)disableAudio:(nonnull NSString*)conversationId {
     
+    return YES;
 }
 
 - (nonnull NXMConnectionStatus *)getConnectionStatus {

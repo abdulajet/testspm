@@ -12,7 +12,8 @@
 #import "NXMErrors.h"
 
 @interface NXMErrorParser : NSObject
-+ (int) parseError:(nonnull NSData*) data;
++ (int) parseError:(nonnull NSDictionary*) data;
++ (int) parseErrorWithData:(nonnull NSData*) data;
 + (NSString* _Nonnull) toString:(int) errorResult;
 @end
 
