@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NexmoConversationObjC.h"
+#import "StitchConversationClientCore.h"
 
 @implementation NXMUser
 

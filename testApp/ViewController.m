@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 
-#import "NexmoConversationObjC.h"
+#import "StitchConversationClientCore.h"
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
@@ -19,7 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *outputField;
 
 //@property NXMSocketClient *client;
-@property NXMConversationClient *client;
+@property StitchConversationClientCore *client;
 @property NSMutableArray<NXMMember *> *members;
 @property NSMutableArray *conversations;
 @property NXMMember *mymember;
@@ -49,7 +49,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 - (IBAction)loginPressed {
     __weak ViewController *weakSelf = self;
-    self.client = [[NXMConversationClient alloc] initWithConfig:[NXMConversationClientConfig new]];
+    self.client = [[StitchConversationClientCore alloc] initWithConfig:[NXMConversationClientConfig new]];
     [self.client registerEventsWithDelegate:(id<NXMConversationClientDelegate>)weakSelf];
     
     NSString *token = self.tokenText.text;
@@ -205,7 +205,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 
 - (void)addMeToConversation:(NSString *)convId {
     UITextView* __weak outputFieldW = self.outputField;
-    NXMConversationClient* __weak clientW = self.client;
+    StitchConversationClientCore* __weak clientW = self.client;
     [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error)   {
             dispatch_sync(dispatch_get_main_queue(), ^{

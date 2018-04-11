@@ -43,13 +43,13 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 
 @end
 
-#pragma mark - NXMConversationClient
+#pragma mark - StitchConversationClientCore
 
 /** ---------------------------------------------------------------------------------------
- * @name NXMConversationClient SDK Integration
+ * @name StitchConversationClientCore SDK Integration
  *  ---------------------------------------------------------------------------------------
  */
-@interface NXMConversationClient:NSObject
+@interface StitchConversationClientCore:NSObject
 
 - (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 - (void)enablePushNotifications:(BOOL)enable responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock;

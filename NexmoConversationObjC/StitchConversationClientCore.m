@@ -6,11 +6,11 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NexmoConversationObjC.h"
+#import "StitchConversationClientCore.h"
 #import "NXMSocketClient.h"
 #import "NXMRouter.h"
 
-@interface NXMConversationClient()
+@interface StitchConversationClientCore()
 
 @property id<NXMConversationClientDelegate> delegate;
 @property NXMSocketClient *socketClient;
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation NXMConversationClient
+@implementation StitchConversationClientCore
 
 - (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config {
     if (self = [super init]) {
