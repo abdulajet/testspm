@@ -25,7 +25,7 @@
     if (self = [super init]) {
         NSString *host = [config getWSHost];
         self.socketClient = [[NXMSocketClient alloc] initWitHost:host];
-        [self.socketClient setDelegate:self];
+        [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
         
         self.router = [[NXMRouter alloc] initWitHost:[config getHttpHost]];
     }

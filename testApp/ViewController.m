@@ -50,11 +50,11 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (IBAction)loginPressed {
     __weak ViewController *weakSelf = self;
     self.client = [[NXMConversationClient alloc] initWithConfig:[NXMConversationClientConfig new]];
-    [self.client registerEventsWithDelegate:weakSelf];
+    [self.client registerEventsWithDelegate:(id<NXMConversationClientDelegate>)weakSelf];
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzM0NjY5MywibmJmIjoxNTIzMzQ2NjkzLCJleHAiOjE1MjMzNzY3MjMsImp0aSI6MTUyMzM0NjcyMzkwNywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.GQ8h2_p66yAO3erF7iFCwzUDMvdlLCVVF8OjCghLfKbx9tGot4kuXS8S8Ak-tEOVTQREPhuFrAKpRRM-JsIzGl99O19Z6wNRXdmP1ZEvm7hKOYhJt2nnXRQDGbUu2vfhiaeENNUKrlgBlycS547BKv9cEfWu1_LZdi39m14z2oIRcdAqmP7YMCEKSjtJLpcbVA7iq7jU7Y-vWQsVRB_L0gt4SSRC-FsORUqUTFyVT_VTJn-VeNpS5l3_47Dvo-QZg6CVt57alSVhHoqZpezvkHOZD4vMDfBnDkWgvU31__PJ6zs7XQlg8Z3TuIhcVaftrzLu2xzogztq6gDCwW9LBg";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzQzNzY4MSwibmJmIjoxNTIzNDM3NjgxLCJleHAiOjE1MjM0Njc3MTEsImp0aSI6MTUyMzQzNzcxMTg4NSwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.m3b05eVYS9WeRXclQ21cMI10Y-Tzf1QBiMiK7TeJ1pgW2uDp_AcvQl2QFQHnWitucLtSvyb5kqOeQB2hTfhp52xgzXyzCka9LZI9DjNvZOGJue8lfKTH4BVOVF7pCfgeRvp37oAfI8bvryIIKCePipsXDO2XNPfPJQ0vZPbXwjNZbt_Y1UhwzXEH0Y4MyCKG73tHWlkhB-7prGEi-SD-liFPyXllFzupa8j9IzOvdZl6daMKHJKQH8EkrehM52RMPQUe65IgqCQ3jZ1asiYCB2ZNi_zzLgFuUm3XVwZTF_apxS7D4q_arUbgT3hfHhI4squp1fIWeHrrG1MV7dLNmA";
     }
     [self.client loginWithToken:token];
 }
