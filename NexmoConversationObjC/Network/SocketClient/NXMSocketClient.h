@@ -26,6 +26,9 @@
 
 - (void)logout;
 
+
+#pragma conversation actions
+
 - (void)seenTextEvent:(nonnull NSString *)conversationId
          memberId:(nonnull NSString *)memberId
           eventId:(nonnull NSString *)eventId;

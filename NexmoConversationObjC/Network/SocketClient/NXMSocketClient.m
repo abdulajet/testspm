@@ -82,6 +82,63 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     // TODO: socket client logout
 }
 
+
+- (void)seenTextEvent:(nonnull NSString *)conversationId
+             memberId:(nonnull NSString *)memberId
+              eventId:(nonnull NSString *)eventId
+{
+    NSDictionary * msg = @{
+                           @"cid": conversationId,
+                           @"from":memberId,
+                           @"body" : @{
+                                   @"event_id":eventId
+                                   }};
+    
+    [self.socket emit:kNXMSocketEventTextSeen items:@[msg]];
+}
+
+
+- (void)deliverTextEvent:(nonnull NSString *)conversationId
+                memberId:(nonnull NSString *)memberId
+                 eventId:(nonnull NSString *)eventId
+{
+    NSDictionary * msg = @{
+                           @"cid": conversationId,
+                           @"from":memberId,
+                           @"body" : @{
+                                   @"event_id":eventId
+                                   }};
+    
+    [self.socket emit:kNXMSocketEventTextDelivered items:@[msg]];
+    
+}
+
+- (void)textTypingOn:(nonnull NSString *)conversationId
+            memberId:(nonnull NSString *)memberId;
+{
+    
+    NSDictionary * msg = @{
+                           @"cid": conversationId,
+                           @"from":memberId,
+                           @"body" : @{
+                                   }};
+    
+    [self.socket emit:kNXMSocketEventTypingOn items:@[msg]];
+}
+
+- (void)textTypingOff:(nonnull NSString *)conversationId
+             memberId:(nonnull NSString *)memberId
+{
+    NSDictionary * msg = @{
+                           @"cid": conversationId,
+                           @"from":memberId,
+                           @"body" : @{
+                                   }};
+    
+    [self.socket emit:kNXMSocketEventTypingOff items:@[msg]];
+}
+
+
 #pragma mark - Private
 
 - (void)login {
@@ -94,7 +151,6 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                            }};
     
     [self.socket emit:kNXMSocketEventLogin items:@[msg]];
-  //  [self sendRequestWithMSG:kNXMSocketEventLogin msg:msg requestId:[[NSUUID UUID] UUIDString]];
 }
 
 - (void)subscribeSocketEvent {
@@ -428,7 +484,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
 }
 
-#pragma rtc event handle
+#pragma mark - rtc event handle
 
 - (void)onRTCAnswer:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
@@ -445,75 +501,5 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 - (void)onRTCMuteOff:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
 }
-
-#pragma private
-
-- (void)sendRequestWithMSG:(NSString*)event msg:(NSDictionary*)msg requestId:(NSString *)requestId {
-    if (!self.isWSOpen) return;
-
-//    NSDictionary * fullMsg = @{  @"body": msg,
-//                                 @"tid":requestId
-//                                 };
-//
-//    msg[@"tid"] = requestId;
-    
-    [self.socket emit:event items:@[msg]];
-}
-
-- (void)seenTextEvent:(nonnull NSString *)conversationId
-        memberId:(nonnull NSString *)memberId
-        eventId:(nonnull NSString *)eventId
-{
-    NSDictionary * msg = @{
-                           @"cid": conversationId,
-                           @"from":memberId,
-                           @"body" : @{
-                                   @"event_id":eventId
-                                   }};
-    
-    [self.socket emit:kNXMSocketEventTextSeen items:@[msg]];
-}
-
-
-- (void)deliverTextEvent:(nonnull NSString *)conversationId
-        memberId:(nonnull NSString *)memberId
-        eventId:(nonnull NSString *)eventId
-{
-    NSDictionary * msg = @{
-                           @"cid": conversationId,
-                           @"from":memberId,
-                           @"body" : @{
-                                   @"event_id":eventId
-                                   }};
-    
-    [self.socket emit:kNXMSocketEventTextDelivered items:@[msg]];
-    
-}
-
-- (void)textTypingOn:(nonnull NSString *)conversationId
-        memberId:(nonnull NSString *)memberId;
-{
-    
-    NSDictionary * msg = @{
-                           @"cid": conversationId,
-                           @"from":memberId,
-                           @"body" : @{
-                                   }};
-    
-    [self.socket emit:kNXMSocketEventTypingOn items:@[msg]];
-}
-
-- (void)textTypingOff:(nonnull NSString *)conversationId
-        memberId:(nonnull NSString *)memberId
-{
-    NSDictionary * msg = @{
-                           @"cid": conversationId,
-                           @"from":memberId,
-                           @"body" : @{
-                                   }};
-    
-    [self.socket emit:kNXMSocketEventTypingOff items:@[msg]];
-}
-
 
 @end
