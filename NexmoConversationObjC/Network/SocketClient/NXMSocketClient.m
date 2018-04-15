@@ -20,15 +20,12 @@
 
 @interface NXMSocketClient()
 
-typedef void (^ResponseBlock)(NSError*, NSObject*);
-
-
 @property BOOL isWSOpen;
 @property BOOL isLoggedIn;
 @property id<NXMSocketClientDelegate> delegate;
 @property VPSocketIOClient *socket;
 @property NSString *token;
-@property NSMutableDictionary* responseBlockDictionary;
+
 @end
 
 @implementation NXMSocketClient
@@ -43,7 +40,6 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (instancetype)initWitHost:(NSString *)host {
     if (self = [super init]) {
-        self.responseBlockDictionary = [[NSMutableDictionary alloc] init];
         
         VPSocketLogger *logger = [VPSocketLogger new];
         
@@ -82,6 +78,10 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self login];
 }
 
+- (void)logout {
+    // TODO: socket client logout
+}
+
 #pragma mark - Private
 
 - (void)login {
@@ -103,7 +103,6 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self subscribeMemberEvents];
     [self subscribeTextEvents];
     [self subscribeRTCEvents];
-    [self subscribeRequestEvents];
 }
 
 - (void)subscribeSocketGeneralEvents {
@@ -270,22 +269,6 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         [self onRTCMuteOff:data emitter:emitter];
     }];
 }
-
-- (void)subscribeRequestEvents {
-    [self.socket on:kNXMConversationCreateDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        NSString *responseId = data[0][@"rid"];
-        NSString *conversationId = data[0][@"body"][@"id"];
-        if (!responseId || !conversationId) { return; }
-        
-        if (!self.responseBlockDictionary[responseId]) { return; }
-        
-        ResponseBlock block = self.responseBlockDictionary[responseId];
-        if (block) {
-            block(nil, conversationId);
-        }
-    }];
-}
-
 
 #pragma socket event handle
 - (void)onLoginFailed:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {

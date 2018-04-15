@@ -29,7 +29,6 @@
 		F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = F9873550204FDBAB00C90695 /* NXMConversationDetails.m */; };
 		F9873555204FE1C300C90695 /* NXMRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = F9873553204FE1C300C90695 /* NXMRouter.h */; };
 		F9873556204FE1C300C90695 /* NXMRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = F9873554204FE1C300C90695 /* NXMRouter.m */; };
-		F997A0F3203433FD0027AF46 /* NXMSocketClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */; };
 		F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */; };
 		F997A12E2035D1840027AF46 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A12D2035D1840027AF46 /* AppDelegate.m */; };
 		F997A1312035D1840027AF46 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A1302035D1840027AF46 /* ViewController.m */; };
@@ -39,7 +38,6 @@
 		F997A13C2035D1840027AF46 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F997A13B2035D1840027AF46 /* main.m */; };
 		F997A14E2035D68B0027AF46 /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		F9C35DD7203078BD009FAE4F /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
-		F9C35DDC203078BD009FAE4F /* NexmoConversationObjCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */; };
 		F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4920628BDA00A70212 /* NXMEvent.h */; };
 		F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
 		F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4E2063EEB200A70212 /* NXMErrors.h */; };
@@ -102,7 +100,6 @@
 		F9873550204FDBAB00C90695 /* NXMConversationDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationDetails.m; sourceTree = "<group>"; };
 		F9873553204FE1C300C90695 /* NXMRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMRouter.h; sourceTree = "<group>"; };
 		F9873554204FE1C300C90695 /* NXMRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRouter.m; sourceTree = "<group>"; };
-		F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
 		F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDelegate.h; sourceTree = "<group>"; };
 		F997A12A2035D1840027AF46 /* testApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F997A12C2035D1840027AF46 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -117,7 +114,6 @@
 		F997A1412035D1840027AF46 /* testAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DD6203078BD009FAE4F /* NexmoConversationObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoConversationObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NexmoConversationObjCTests.m; sourceTree = "<group>"; };
 		F9C35DDD203078BD009FAE4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9E96F4920628BDA00A70212 /* NXMEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEvent.h; sourceTree = "<group>"; };
 		F9E96F4A20628BDA00A70212 /* NXMEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEvent.m; sourceTree = "<group>"; };
@@ -233,14 +229,6 @@
 			path = testApp;
 			sourceTree = "<group>";
 		};
-		F997A165203EE7340027AF46 /* IntegrationTests */ = {
-			isa = PBXGroup;
-			children = (
-				F997A0F2203433FD0027AF46 /* NXMSocketClientTests.m */,
-			);
-			path = IntegrationTests;
-			sourceTree = "<group>";
-		};
 		F9998AC7208378BE00EAC286 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -301,8 +289,6 @@
 		F9C35DDA203078BD009FAE4F /* NexmoConversationObjCTests */ = {
 			isa = PBXGroup;
 			children = (
-				F997A165203EE7340027AF46 /* IntegrationTests */,
-				F9C35DDB203078BD009FAE4F /* NexmoConversationObjCTests.m */,
 				F9C35DDD203078BD009FAE4F /* Info.plist */,
 			);
 			path = NexmoConversationObjCTests;
@@ -699,8 +685,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9C35DDC203078BD009FAE4F /* NexmoConversationObjCTests.m in Sources */,
-				F997A0F3203433FD0027AF46 /* NXMSocketClientTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,8 @@
 
 - (void)loginWithToken:(NSString * _Nonnull)token;
 
+- (void)logout;
+
 - (void)seenTextEvent:(nonnull NSString *)conversationId
          memberId:(nonnull NSString *)memberId
           eventId:(nonnull NSString *)eventId;
