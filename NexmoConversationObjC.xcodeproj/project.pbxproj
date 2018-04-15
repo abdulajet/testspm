@@ -196,8 +196,6 @@
 				F9167D872033222500F97CED /* NXMSocketClient.m */,
 				F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */,
 				F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */,
-				F9873553204FE1C300C90695 /* NXMRouter.h */,
-				F9873554204FE1C300C90695 /* NXMRouter.m */,
 			);
 			path = SocketClient;
 			sourceTree = "<group>";
@@ -243,6 +241,24 @@
 			path = IntegrationTests;
 			sourceTree = "<group>";
 		};
+		F9998AC7208378BE00EAC286 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F9998AC8208378CA00EAC286 /* Router */,
+				F98735452042BF0900C90695 /* SocketClient */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F9998AC8208378CA00EAC286 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				F9873553204FE1C300C90695 /* NXMRouter.h */,
+				F9873554204FE1C300C90695 /* NXMRouter.m */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		F9C35DC3203078BD009FAE4F = {
 			isa = PBXGroup;
 			children = (
@@ -269,8 +285,8 @@
 		F9C35DCF203078BD009FAE4F /* NexmoConversationObjC */ = {
 			isa = PBXGroup;
 			children = (
+				F9998AC7208378BE00EAC286 /* Network */,
 				F987354620443A3600C90695 /* Assets */,
-				F98735452042BF0900C90695 /* SocketClient */,
 				F9167D8220331A2000F97CED /* Info.plist */,
 				F9167D8320331A2000F97CED /* StitchConversationClientCore.h */,
 				F987354B20446AFF00C90695 /* StitchConversationClientCore.m */,
