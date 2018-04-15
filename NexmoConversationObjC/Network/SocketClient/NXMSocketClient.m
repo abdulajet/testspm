@@ -8,10 +8,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <VPSocketIO/VPSocketIO.h>
+
 #import "NXMSocketClient.h"
 #import "NXMSocketClientDefine.h"
 
-#import <VPSocketIO/VPSocketIO.h>
+#import "NXMLogger.h"
+
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
 #import "NXMTextStatusEvent.h"
@@ -163,8 +166,12 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)subscribeSocketGeneralEvents {
     [self.socket on:kSocketEventConnect callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
-        if (self.isWSOpen) {return;}
+        [NXMLogger debug:@"socket connected when already connceted"];
         
+        if (self.isWSOpen) { return; }
+        
+        [NXMLogger debug:@"socket connected"];
+
         self.isWSOpen = YES;
         
         [self.delegate connectionStatusChanged:YES];
@@ -173,7 +180,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kSocketEventDisconnect callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        NSLog(@"!!!!socket disconnected");
+        [NXMLogger debug:@"socket disconnected"];
         if (!self.isWSOpen) {return;}
 
         self.isWSOpen = NO;
@@ -183,11 +190,11 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        NSLog(@"!!!!socket errorrrr");
+        [NXMLogger debug:@"socket error"];
     }];
     
     [self.socket on:kNXMSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        NSLog(@"!!!!socket errorrrr");
+        [NXMLogger debug:@"socket event error"];
     }];
 }
 
