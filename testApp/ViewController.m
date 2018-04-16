@@ -54,7 +54,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     
     NSString *token = self.tokenText.text;
     if ([token isEqualToString:(@"")]){
-        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzQzNzY4MSwibmJmIjoxNTIzNDM3NjgxLCJleHAiOjE1MjM0Njc3MTEsImp0aSI6MTUyMzQzNzcxMTg4NSwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.m3b05eVYS9WeRXclQ21cMI10Y-Tzf1QBiMiK7TeJ1pgW2uDp_AcvQl2QFQHnWitucLtSvyb5kqOeQB2hTfhp52xgzXyzCka9LZI9DjNvZOGJue8lfKTH4BVOVF7pCfgeRvp37oAfI8bvryIIKCePipsXDO2XNPfPJQ0vZPbXwjNZbt_Y1UhwzXEH0Y4MyCKG73tHWlkhB-7prGEi-SD-liFPyXllFzupa8j9IzOvdZl6daMKHJKQH8EkrehM52RMPQUe65IgqCQ3jZ1asiYCB2ZNi_zzLgFuUm3XVwZTF_apxS7D4q_arUbgT3hfHhI4squp1fIWeHrrG1MV7dLNmA";
+        token = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyMzg5MDUyOSwibmJmIjoxNTIzODkwNTI5LCJleHAiOjE1MjM5MjA1NTksImp0aSI6MTUyMzg5MDU1OTUzMiwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJ0ZXN0dXNlcjEifQ.gRpBN1xS38OlGazO8pIkVk9CKH79yUTAndN74s8H-4-tPiSg5LvNp_1QzYLbzrFhBDG9e91wkZqDGfoGIWASeQBX9udbkXfkVTg1bXQRRePlCdUBX1pB8lm-Vc3PXTX7aBodS4_72mns5wv5ub2Y0MdHNmiPP9tGYCb8559lAI7jOOR3rf0MGCgBsd4In-BvXPqGF6yzdI5_p5VKqy-Dr1pLvaI573qtTLHDAcuH18IM_BLAjKoaXFa8PNJQMi3sFVB1h93CiP4Be6jr86HFpW5Ky-Q0eazdcgT81OpnnwoYbKrAlEXYTorjTeqasAk5onHItm6b4nrIlbiPmjaPww";
     }
     [self.client loginWithToken:token];
 }
@@ -84,7 +84,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
         else{
             userId = testUserIDs[self.memberField.text.intValue];
         }
-    [self.client addUserToConversation:self.conversations[0] userId:userId completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        NXMAddUserRequest *addUserRequest = [NXMAddUserRequest alloc];
+        addUserRequest.userID = userId;
+        addUserRequest.conversationID = self.conversations[0];
+    [self.client addUserToConversation:addUserRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
              weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error addUserToConversation member testUserID[%@] , conversion Id:%@ ",weakSelf.outputField.text,error.debugDescription,weakSelf.removeMemberField.text, weakSelf.conversations[0]];
@@ -96,7 +99,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 - (IBAction)removeMemberPressed {
     __weak ViewController *weakSelf = self;
-    [self.client removeMemberFromConversation:self.conversations[0] memberId:self.removeMemberField.text completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    NXMRemoveMemberRequest* removeMemberRequest = [NXMRemoveMemberRequest alloc];
+    removeMemberRequest.conversationID = self.conversations[0];
+    removeMemberRequest.memberID = self.removeMemberField.text;
+    [self.client removeMemberFromConversation:removeMemberRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
             weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r error remove member id:%@ , conversion Id:%@",weakSelf.outputField.text,error.debugDescription, weakSelf.conversations[0]];
@@ -107,8 +113,9 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 
 - (IBAction)createConversationPressed:(id)sender {
     __weak ViewController *weakSelf = self;
-    
-    [self.client newConversationWithConversationName:@"chenTest12" responseBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
+    NXMCreateConversationRequest *createConversationRequest = [NXMCreateConversationRequest alloc];
+    createConversationRequest.displayName = @"chenTest12";
+    [self.client createConversation:createConversationRequest responseBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
             weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r %@ error conversation created id:%@",weakSelf.outputField.text,error.debugDescription, conversationId];
@@ -126,7 +133,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (IBAction)getConversationPressed:(id)sender{
     __weak ViewController *weakSelf = self;
     
-    [weakSelf.client getConversation:weakSelf.conversations[0]
+    [weakSelf.client getConversationDetails:weakSelf.conversations[0]
                      completionBlock: ^(NSError * _Nullable error, NXMConversationDetails * _Nullable data){
                          if (data != nil){
                              NSLog(@"getConversationPressed result %@",data);
@@ -137,23 +144,12 @@ static NSString *const URL = @"https://ws.nexmo.com/";
                      }];
 }
 
-- (IBAction)getNumOfConversationsPressed:(id)sender{
-    __weak ViewController *weakSelf = self;
-    
-    [weakSelf.client getNumOfConversations:^(NSError * _Nullable error, long * _Nullable data){
-        if (data != nil){
-            NSLog(@"getNumOfConversationsPressed result %ld",*data);
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                weakSelf.outputField.text = [NSString stringWithFormat: @"%@\n\r getConversationPressed result:%ld ",weakSelf.outputField.text, *data];
-            });
-        }
-    }];
-}
 
 - (IBAction)getAllConversationPressed:(id)sender{
     __weak ViewController *weakSelf = self;
-    
-    [weakSelf.client getAllConversations:^(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data){
+    NXMGetConversationsRequest* getConversationsRequest = [NXMGetConversationsRequest alloc];
+    getConversationsRequest.pageSize = 100;
+    [weakSelf.client getConversations:getConversationsRequest completionBlock:^(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data){
                          if (data != nil){
                              NSLog(@"getAllConversationPressed result %@",data);
                              dispatch_sync(dispatch_get_main_queue(), ^{
@@ -165,15 +161,19 @@ static NSString *const URL = @"https://ws.nexmo.com/";
                      }];
 }
 - (IBAction)sendMessegePressed:(id)sender {
-    [self.client sendText:self.msgField.text conversationId:self.conversations[0] fromMemberId:self.members[0].memberId completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        
-    }];
+    NXMSendTextEventRequest* sendTextEventRequest = [NXMSendTextEventRequest alloc];
+    sendTextEventRequest.textToSend = self.msgField.text;
+    sendTextEventRequest.conversationID = self.conversations[0];
+    sendTextEventRequest.memberID = self.members[0].memberId;
+    [self.client sendText:sendTextEventRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {}];
 }
 
 - (IBAction)deleteMessegePressed:(id)sender {
-    [self.client deleteText:self.conversations[0] fromMemberId:self.members[0].memberId eventId:self.deleteMsg.text  completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable conversationId) {
-        
-    }];
+    NXMDeleteEventRequest* deleteEventRequest = [NXMDeleteEventRequest alloc];
+    deleteEventRequest.conversationID = self.conversations[0];
+    deleteEventRequest.memberID = self.members[0].memberId;
+    deleteEventRequest.eventID = self.deleteMsg.text;
+    [self.client deleteText:deleteEventRequest  completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable conversationId) {}];
 }
 
 - (IBAction)typingOnPressed:(id)sender{
@@ -206,7 +206,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (void)addMeToConversation:(NSString *)convId {
     UITextView* __weak outputFieldW = self.outputField;
     StitchConversationClientCore* __weak clientW = self.client;
-    [self.client addUserToConversation:convId userId:[self.client getUser].uuid completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    NXMAddUserRequest* addUserRequest = [NXMAddUserRequest alloc];
+    addUserRequest.conversationID = convId;
+    addUserRequest.userID = [self.client getUser].uuid;
+    [self.client addUserToConversation:addUserRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error)   {
             dispatch_sync(dispatch_get_main_queue(), ^{
                

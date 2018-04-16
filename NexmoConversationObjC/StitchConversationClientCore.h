@@ -27,6 +27,14 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 #import "NXMMember.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
+#import "NXMAddUserRequest.h"
+#import "NXMGetConversationsRequest.h"
+#import "NXMDeleteEventRequest.h"
+#import "NXMSendTextEventRequest.h"
+#import "NXMInviteUserRequest.h"
+#import "NXMJoinMemberRequest.h"
+#import "NXMRemoveMemberRequest.h"
+#import "NXMCreateConversationRequest.h"
 
 #pragma mark - SDK Integration
 
@@ -56,39 +64,35 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)loginWithToken:(nonnull NSString *)token;
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
 
-- (BOOL)newConversationWithConversationName:(nonnull NSString *)conversationName
+- (void)createConversation:(nonnull NXMCreateConversationRequest *)createConversationRequest
         responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversation))responseBlock;
 
-- (BOOL)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
+              completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+
+- (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (BOOL)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId
+- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (BOOL)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+- (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (BOOL)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId
+- (void)sendText:(nonnull NXMSendTextEventRequest *)sendTextEventRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (BOOL)sendText:(nonnull NSString *)text conversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId
+- (void)deleteText:(nonnull NXMDeleteEventRequest *)deleteEventRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
-- (BOOL)deleteText:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId eventId:(nonnull NSString *)eventId
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
-
-- (BOOL)getConversation:(nonnull NSString*)conversationId
+- (void)getConversationDetails:(nonnull NSString*)conversationId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock;
 
-- (BOOL)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock;
-
-- (BOOL)getAllConversations:(void (^ _Nullable)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock;
-
-- (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order
+- (void)getConversations:( NXMGetConversationsRequest* _Nullable )getConversationsRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock;
 
 
-- (BOOL)getUser:(nonnull NSString*)userId
+- (void)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;
 
 - (BOOL)enableAudio:(nonnull NSString *)conversationID;

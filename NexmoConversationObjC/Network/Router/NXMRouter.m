@@ -9,6 +9,9 @@
 #import "NXMRouter.h"
 #import "NXMErrors.h"
 #import "NXMErrorParser.h"
+#import "NXMAddUserRequest.h"
+#import "NXMSendTextEventRequest.h"
+#import "NXMDeleteEventRequest.h"
 
 @interface NXMRouter()
 
@@ -69,10 +72,12 @@
     return YES;
 }
 
-- (BOOL)createConversationWithName:(NSString *)name
-                     responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversationId))responseBlock {
+
+- (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
+             responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable  conversationId))responseBlock
+{
     NSError *jsonErr;
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": name} options:0 error: &jsonErr];
+    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations", self.baseUrl]];
     
@@ -99,115 +104,91 @@
         responseBlock(nil, convId);
         
     }];
-    return YES;
 }
 
-- (BOOL)addUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
+- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary *))compeltionBlock{
     NSDictionary *dict = @{
-        @"user_id": userId,
-        @"action": @"join",
-        @"channel": @{
-                @"type": @"app"
-            }
-    };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
-    
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
-    }];
-    return YES;
-}
-
-- (BOOL)inviteUserToConversation:(nonnull NSString *)conversationId userId:(nonnull NSString *)userId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
-    NSDictionary *dict = @{
-                           @"user_id": userId,
-                           @"action": @"invite",
-                           @"channel": @{
-                                   @"type": @"app"
-                                   }
-                           };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
-    
-    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
-    }];
-    return YES;
-}
-
-- (BOOL)joinMemberToConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
-    NSDictionary *dict = @{
-                           @"member_id": memberId,
+                           @"user_id": addUserRequest.userID,
                            @"action": @"join",
                            @"channel": @{
                                    @"type": @"app"
                                    }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, addUserRequest.conversationID]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        compeltionBlock(error,nil);
+    }];
+}
+
+- (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
+        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+    NSDictionary *dict = @{
+                           @"user_id": inviteUserRequest.userID,
+                           @"action": @"invite",
+                           @"channel": @{
+                                   @"type": @"app"
+                                   }
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, inviteUserRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
-    return YES;
 }
 
-- (BOOL)removeMemberFromConversation:(nonnull NSString *)conversationId memberId:(nonnull NSString *)memberId completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+    NSDictionary *dict = @{
+                           @"member_id": joinMembetRequest.memberID,
+                           @"action": @"join",
+                           @"channel": @{
+                                   @"type": @"app"
+                                   }
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, joinMembetRequest.conversationID]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        completionBlock(error,nil);
+    }];
+}
+
+- (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
+            completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, conversationId, memberId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
     [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
-    return YES;
 }
 
 
-- (BOOL)sendTextToConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId textToSend:(nonnull NSString*)textTeSend completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
+            completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
-                           @"from": memberId,
+                           @"from": sendTextEventRequest.memberID,
                            @"type": @"text",
                            @"body": @{
-                                   @"text": textTeSend
+                                   @"text": sendTextEventRequest.textToSend
                                    }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, sendTextEventRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         completionBlock(error,nil);
     }];
-    return YES;
 }
-- (BOOL)deleteTextFromConversation:(nonnull NSString*)conversationId memberId:(nonnull NSString*)memberId eventId:(nonnull NSString*)eventId completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+- (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
+            completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSDictionary *dict = @{
-                           @"from": memberId,
+                           @"from": deleteEventRequest.memberID,
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%@", self.baseUrl, conversationId,eventId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%@", self.baseUrl, deleteEventRequest.conversationID,deleteEventRequest.eventID]];
     
     NSString* requestType = @"DELETE";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
-    return YES;
 }
-
--(BOOL)getNumOfConversations:(void (^_Nullable)(NSError * _Nullable error, long * _Nullable data)) completionBlock{
-    NSDictionary *dict = @{
-                           };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations", self.baseUrl]];
-    
-    NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-        if (data != nil){
-            NSLog(@"getNumOfConversations result %@",data);
-            long result = -1;
-            result = [data[@"count"] longValue];
-            completionBlock(nil, &result);
-        }
-        else{
-            completionBlock(error,nil);
-        }
-    }];
-    return YES;
-}
-
 
 - (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
     NSDictionary *dict = @{
@@ -255,40 +236,54 @@
     return YES;
 }
 
-- (BOOL)getAllConversations:(void (^)(NSError * _Nullable, NSArray<NXMConversationDetails *> * _Nullable))completionBlock{
+
+- (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
+         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data))completionBlock
+{
+    NSDictionary *dict = @{
+                           };
+    //TODO:for now we get the first 100 conversations
+    //we need to have support in the server to get all the conversations
+    NSString* vars = @"";
+    if (getConvetsationsRequest.pageSize > 0){
+        vars = [NSString stringWithFormat:@"pageSize:%ld",MIN(100,getConvetsationsRequest.pageSize)];
+    }
+    if (getConvetsationsRequest.recordIndex > 0){
+        vars = [NSString stringWithFormat:@"%@&&recordIndex:%ld",vars,getConvetsationsRequest.recordIndex];
+    }
+    if (getConvetsationsRequest.name != nil){
+        vars = [NSString stringWithFormat:@"%@&&name:%@",vars,getConvetsationsRequest.name];
+    }
+    if (getConvetsationsRequest.dateStart != nil){
+        vars = [NSString stringWithFormat:@"%@&&dateStart:%@",vars,getConvetsationsRequest.dateStart];
+    }
+    if (getConvetsationsRequest.dateEnd != nil){
+        vars = [NSString stringWithFormat:@"%@&&dateEnd:%@",vars,getConvetsationsRequest.dateEnd];
+    }
+    if (getConvetsationsRequest.order != nil){
+        vars = [NSString stringWithFormat:@"%@&&order:%@",vars,getConvetsationsRequest.order];
+    }
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations?%@", self.baseUrl, vars]];
     
-    [self getNumOfConversations:^(NSError * _Nullable error, long* _Nullable data){
+    NSString* requestType = @"GET";
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
-            NSDictionary *dict = @{
-                                   };
-            //TODO:for now we get the first 100 conversations
-            //we need to have support in the server to get all the conversations 
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations?page_size=%ld", self.baseUrl, MIN(100,*data)]];
-            
-            NSString* requestType = @"GET";
-            [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-                if (data != nil){
-                    NSLog(@"getAllConversations result %@",data);
-                    NSMutableArray *conversations = [[NSMutableArray alloc] init];
-                    for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
-                        NXMConversationDetails *details = [NXMConversationDetails alloc];
-                        details.name = conversationJson[@"name"];
-                        details.uuid = conversationJson[@"uuid"];
-                        [conversations addObject:details];
-                    }
-                    completionBlock(nil, conversations);
-                }
-                else{
-                    completionBlock(error,nil);
-                }
-            }];
+            NSLog(@"getAllConversations result %@",data);
+            NSMutableArray *conversations = [[NSMutableArray alloc] init];
+            for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
+                NXMConversationDetails *details = [NXMConversationDetails alloc];
+                details.name = conversationJson[@"name"];
+                details.uuid = conversationJson[@"uuid"];
+                [conversations addObject:details];
+            }
+            completionBlock(nil, conversations);
+        }
+        else{
+            completionBlock(error,nil);
         }
     }];
-    return YES;
-   
 }
-
-- (BOOL)getConversation:(nonnull NSString*)conversationId
+- (void)getConversationDetails:(nonnull NSString*)conversationId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
@@ -323,11 +318,10 @@
             completionBlock(error,nil);
         }
     }];
-    return YES;
 }
 
 
-- (BOOL)getUser:(nonnull NSString*)userId
+- (void)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
     NSDictionary *dict = @{
                            };
@@ -347,7 +341,6 @@
             completionBlock(error,nil);
         }
     }];
-    return YES;
 }
 #pragma mark - private
 

@@ -9,6 +9,15 @@
 /* Begin PBXBuildFile section */
 		BADF418D86264646ED77FB83 /* Pods_testApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 825A47D891581F7AB3B284B9 /* Pods_testApp.framework */; };
 		CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */; };
+		CEBCD8982084B62E004451AB /* NXMBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8972084B62E004451AB /* NXMBaseRequest.m */; };
+		CEBCD8A32084EEE1004451AB /* NXMInviteUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8A22084EEE0004451AB /* NXMInviteUserRequest.m */; };
+		CEBCD8A52084EF72004451AB /* NXMJoinMemberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8A42084EF72004451AB /* NXMJoinMemberRequest.m */; };
+		CEBCD8A72084EFB0004451AB /* NXMRemoveMemberRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8A62084EFB0004451AB /* NXMRemoveMemberRequest.m */; };
+		CEBCD8A92084EFE6004451AB /* NXMCreateConversationRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8A82084EFE6004451AB /* NXMCreateConversationRequest.m */; };
+		CEBCD8AB2084F008004451AB /* NXMSendTextEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8AA2084F008004451AB /* NXMSendTextEventRequest.m */; };
+		CEBCD8AD2084F03A004451AB /* NXMDeleteEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */; };
+		CEBCD8AF2084F05A004451AB /* NXMGetConversationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */; };
+		CEBCD8B12084F0D4004451AB /* NXMAddUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8B02084F0D4004451AB /* NXMAddUserRequest.m */; };
 		CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */; };
 		CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */; };
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
@@ -81,6 +90,25 @@
 		CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextTypingEvent.m; sourceTree = "<group>"; };
 		CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextTypingEventStatus.h; sourceTree = "<group>"; };
 		CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextEventStatus.h; sourceTree = "<group>"; };
+		CEBCD8962084B598004451AB /* NXMBaseRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMBaseRequest.h; sourceTree = "<group>"; };
+		CEBCD8972084B62E004451AB /* NXMBaseRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMBaseRequest.m; sourceTree = "<group>"; };
+		CEBCD8992084B797004451AB /* NXMInviteUserRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMInviteUserRequest.h; sourceTree = "<group>"; };
+		CEBCD89A2084B89C004451AB /* NXMAddUserRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMAddUserRequest.h; sourceTree = "<group>"; };
+		CEBCD89B2084B9D1004451AB /* NXMJoinMemberRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMJoinMemberRequest.h; sourceTree = "<group>"; };
+		CEBCD89C2084BA24004451AB /* NXMRemoveMemberRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMRemoveMemberRequest.h; sourceTree = "<group>"; };
+		CEBCD89D2084BA82004451AB /* NXMCreateConversationRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCreateConversationRequest.h; sourceTree = "<group>"; };
+		CEBCD89E2084BCE9004451AB /* NXMSendTextEventRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSendTextEventRequest.h; sourceTree = "<group>"; };
+		CEBCD89F2084BD78004451AB /* NXMDeleteEventRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMDeleteEventRequest.h; sourceTree = "<group>"; };
+		CEBCD8A02084C7FF004451AB /* NXMGetConversationsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMGetConversationsRequest.h; sourceTree = "<group>"; };
+		CEBCD8A12084C9A9004451AB /* NXMBaseResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMBaseResponse.h; sourceTree = "<group>"; };
+		CEBCD8A22084EEE0004451AB /* NXMInviteUserRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMInviteUserRequest.m; sourceTree = "<group>"; };
+		CEBCD8A42084EF72004451AB /* NXMJoinMemberRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMJoinMemberRequest.m; sourceTree = "<group>"; };
+		CEBCD8A62084EFB0004451AB /* NXMRemoveMemberRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRemoveMemberRequest.m; sourceTree = "<group>"; };
+		CEBCD8A82084EFE6004451AB /* NXMCreateConversationRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCreateConversationRequest.m; sourceTree = "<group>"; };
+		CEBCD8AA2084F008004451AB /* NXMSendTextEventRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSendTextEventRequest.m; sourceTree = "<group>"; };
+		CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMDeleteEventRequest.m; sourceTree = "<group>"; };
+		CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMGetConversationsRequest.m; sourceTree = "<group>"; };
+		CEBCD8B02084F0D4004451AB /* NXMAddUserRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMAddUserRequest.m; sourceTree = "<group>"; };
 		CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextStatusEvent.h; sourceTree = "<group>"; };
 		CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextStatusEvent.m; sourceTree = "<group>"; };
 		CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEvent.h; sourceTree = "<group>"; };
@@ -180,6 +208,39 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CEBCD8942084B56C004451AB /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				CEBCD8962084B598004451AB /* NXMBaseRequest.h */,
+				CEBCD8972084B62E004451AB /* NXMBaseRequest.m */,
+				CEBCD8992084B797004451AB /* NXMInviteUserRequest.h */,
+				CEBCD8A22084EEE0004451AB /* NXMInviteUserRequest.m */,
+				CEBCD89A2084B89C004451AB /* NXMAddUserRequest.h */,
+				CEBCD8B02084F0D4004451AB /* NXMAddUserRequest.m */,
+				CEBCD89B2084B9D1004451AB /* NXMJoinMemberRequest.h */,
+				CEBCD8A42084EF72004451AB /* NXMJoinMemberRequest.m */,
+				CEBCD89C2084BA24004451AB /* NXMRemoveMemberRequest.h */,
+				CEBCD8A62084EFB0004451AB /* NXMRemoveMemberRequest.m */,
+				CEBCD89D2084BA82004451AB /* NXMCreateConversationRequest.h */,
+				CEBCD8A82084EFE6004451AB /* NXMCreateConversationRequest.m */,
+				CEBCD89E2084BCE9004451AB /* NXMSendTextEventRequest.h */,
+				CEBCD8AA2084F008004451AB /* NXMSendTextEventRequest.m */,
+				CEBCD89F2084BD78004451AB /* NXMDeleteEventRequest.h */,
+				CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */,
+				CEBCD8A02084C7FF004451AB /* NXMGetConversationsRequest.h */,
+				CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		CEBCD8952084B579004451AB /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				CEBCD8A12084C9A9004451AB /* NXMBaseResponse.h */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
 		E0E7553849ECA3AA08DC7D85 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +301,8 @@
 		F9998AC7208378BE00EAC286 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				CEBCD8952084B579004451AB /* Response */,
+				CEBCD8942084B56C004451AB /* Request */,
 				F9998AC8208378CA00EAC286 /* Router */,
 				F98735452042BF0900C90695 /* SocketClient */,
 			);
@@ -694,7 +757,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9873556204FE1C300C90695 /* NXMRouter.m in Sources */,
+				CEBCD8AF2084F05A004451AB /* NXMGetConversationsRequest.m in Sources */,
 				CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */,
+				CEBCD8A52084EF72004451AB /* NXMJoinMemberRequest.m in Sources */,
 				F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */,
 				CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */,
 				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
@@ -706,7 +771,14 @@
 				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 				F987354E2045C03700C90695 /* NXMConversationClientConfig.m in Sources */,
 				F96F745220552D6D004B3434 /* NXMMember.m in Sources */,
+				CEBCD8AD2084F03A004451AB /* NXMDeleteEventRequest.m in Sources */,
+				CEBCD8A32084EEE1004451AB /* NXMInviteUserRequest.m in Sources */,
+				CEBCD8AB2084F008004451AB /* NXMSendTextEventRequest.m in Sources */,
+				CEBCD8B12084F0D4004451AB /* NXMAddUserRequest.m in Sources */,
+				CEBCD8982084B62E004451AB /* NXMBaseRequest.m in Sources */,
 				CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */,
+				CEBCD8A92084EFE6004451AB /* NXMCreateConversationRequest.m in Sources */,
+				CEBCD8A72084EFB0004451AB /* NXMRemoveMemberRequest.m in Sources */,
 				F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */,
 				F9EF59222056C51E0055935F /* NXMMessage.m in Sources */,
 			);
