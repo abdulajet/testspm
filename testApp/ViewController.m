@@ -31,6 +31,11 @@
 
 static NSString *const URL = @"https://ws.nexmo.com/";
 
+- (NSString*)getRequestUUID{
+    NSString *uuid = [[NSUUID UUID] UUIDString];
+    return uuid;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -87,6 +92,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
         NXMAddUserRequest *addUserRequest = [NXMAddUserRequest alloc];
         addUserRequest.userID = userId;
         addUserRequest.conversationID = self.conversations[0];
+        addUserRequest.requrstUUID = [self getRequestUUID];
     [self.client addUserToConversation:addUserRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -102,6 +108,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     NXMRemoveMemberRequest* removeMemberRequest = [NXMRemoveMemberRequest alloc];
     removeMemberRequest.conversationID = self.conversations[0];
     removeMemberRequest.memberID = self.removeMemberField.text;
+    removeMemberRequest.requrstUUID = [self getRequestUUID];
     [self.client removeMemberFromConversation:removeMemberRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -115,6 +122,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     __weak ViewController *weakSelf = self;
     NXMCreateConversationRequest *createConversationRequest = [NXMCreateConversationRequest alloc];
     createConversationRequest.displayName = @"chenTest12";
+    createConversationRequest.requrstUUID = [self getRequestUUID];
     [self.client createConversation:createConversationRequest responseBlock:^(NSError * _Nullable error, NSString * _Nullable conversationId) {
         if (error) {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -149,6 +157,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     __weak ViewController *weakSelf = self;
     NXMGetConversationsRequest* getConversationsRequest = [NXMGetConversationsRequest alloc];
     getConversationsRequest.pageSize = 100;
+    getConversationsRequest.requrstUUID = [self getRequestUUID];
     [weakSelf.client getConversations:getConversationsRequest completionBlock:^(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data){
                          if (data != nil){
                              NSLog(@"getAllConversationPressed result %@",data);
@@ -165,6 +174,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     sendTextEventRequest.textToSend = self.msgField.text;
     sendTextEventRequest.conversationID = self.conversations[0];
     sendTextEventRequest.memberID = self.members[0].memberId;
+    sendTextEventRequest.requrstUUID = [self getRequestUUID];
     [self.client sendText:sendTextEventRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {}];
 }
 
@@ -173,6 +183,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     deleteEventRequest.conversationID = self.conversations[0];
     deleteEventRequest.memberID = self.members[0].memberId;
     deleteEventRequest.eventID = self.deleteMsg.text;
+    deleteEventRequest.requrstUUID = [self getRequestUUID];
     [self.client deleteText:deleteEventRequest  completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable conversationId) {}];
 }
 
@@ -209,6 +220,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     NXMAddUserRequest* addUserRequest = [NXMAddUserRequest alloc];
     addUserRequest.conversationID = convId;
     addUserRequest.userID = [self.client getUser].uuid;
+    addUserRequest.requrstUUID = [self getRequestUUID];
     [self.client addUserToConversation:addUserRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error)   {
             dispatch_sync(dispatch_get_main_queue(), ^{
@@ -298,4 +310,5 @@ static NSString *const URL = @"https://ws.nexmo.com/";
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, message.fromMemberId, message  .text];
 
 }
+
 @end
