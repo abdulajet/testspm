@@ -80,7 +80,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
 
 - (void)sendText:(nonnull NXMSendTextEventRequest *)sendTextEventRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;
+        completionHandler:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable textId))completionHandler;
 
 - (void)deleteText:(nonnull NXMDeleteEventRequest *)deleteEventRequest
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock;

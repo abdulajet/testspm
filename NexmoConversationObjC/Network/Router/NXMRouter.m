@@ -165,7 +165,7 @@
 
 
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
-            completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+            completionHandler:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable textId))completionHandler {
     NSDictionary *dict = @{
                            @"from": sendTextEventRequest.memberID,
                            @"type": @"text",
@@ -176,7 +176,8 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, sendTextEventRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
+        NSString *textId = data[@"id"];
+        completionHandler(error, textId);
     }];
 }
 - (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest

@@ -72,8 +72,8 @@
 
 
 - (void)sendText:(nonnull NXMSendTextEventRequest *)sendTextEventRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock {
-    return [self.router sendTextToConversation:sendTextEventRequest completionBlock:completionBlock];
+        completionHandler:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable textId))completionHandler {
+    return [self.router sendTextToConversation:sendTextEventRequest completionHandler:completionHandler];
 }
 
 
