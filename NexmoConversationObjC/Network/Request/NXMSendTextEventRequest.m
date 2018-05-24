@@ -12,4 +12,13 @@
 
 @implementation NXMSendTextEventRequest
 
+- (instancetype)initWithText:(NSString *)text conversationId:(NSString*)conversationId memberId:(NSString *)memberId {
+    if (self = [super init]) {
+        self.textToSend = text;
+        self.conversationID = conversationId;
+        self.memberID = memberId;
+    }
+    
+    return self;
+}
 @end

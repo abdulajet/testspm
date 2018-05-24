@@ -14,11 +14,10 @@
 @interface NXMNetworkManager()
 @property NXMSocketClient *socketClient;
 @property NXMRouter *router;
-@property id<NXMNetworkDelegate> delegate;
+@property (nonatomic) id<NXMNetworkDelegate> delegate;
 @end
 
 @implementation NXMNetworkManager
-
 
 - (nullable instancetype)initWitHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost {
     if (self = [super init]) {
@@ -94,7 +93,6 @@
     [self.socketClient seenTextEvent:conversationId memberId:memberId eventId:eventId];
 }
 
-
 - (void)deliverTextEvent:(nonnull NSString *)conversationId
                 memberId:(nonnull NSString *)memberId
                  eventId:(nonnull NSString *)eventId {
@@ -112,15 +110,15 @@
 }
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError {
-   // self.router getConversations:getConvetsationsRequest completionBlock:]
+    [self.router getConversations:getConvetsationsRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError {
-    
+    [self.router getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
 - (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
@@ -135,12 +133,14 @@
     [self.router disableMedia:conversationId rtcId:rtcId onSuccess:onSuccess onError:onError];
 }
 
-- (void)memberJoined:(nonnull NXMMember *)member {
-    [self.delegate memberJoined:member];
+# pragma mark - NXMSocketClientDelegate
+
+- (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent {
+    [self.delegate memberJoined:memberEvent];
 }
 
-- (void)memberRemoved:(nonnull NXMMember *)member {
-    [self.delegate memberRemoved:member];
+- (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent {
+    [self.delegate memberRemoved:memberEvent];
 }
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
@@ -154,6 +154,7 @@
 - (void)messageReceived:(nonnull NXMTextEvent *)message{
     [self.delegate messageReceived:message];
 }
+
 - (void)messageSent:(nonnull NXMTextEvent *)message{
     [self.delegate messageSent:message];
 }
@@ -161,23 +162,26 @@
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent{
     [self.delegate textTypingOn:textEvent];
 }
+
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent{
     [self.delegate textTypingOff:textEvent];
 }
 
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent{
     [self.delegate textDelivered:textEvent];
-    
 }
+
 - (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent{
     [self.delegate textSeen:textEvent];
-    
 }
 
 - (void)connectionStatusChanged:(BOOL)isOpen {
     [self.delegate connectionStatusChanged:isOpen];
 }
+
 - (void)userStatusChanged:(nullable NXMUser *)user sessionId:(nullable NSString*)sessionId {
+    [self.router setSessionId:sessionId];
+    
     [self.delegate userStatusChanged:user sessionId:sessionId];
 }
 

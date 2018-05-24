@@ -87,15 +87,15 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
            onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
 
-- (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                       onError:(ErrorCallback _Nullable)onError;
-
-- (void)getConversations:( NXMGetConversationsRequest* _Nullable )getConversationsRequest
-               onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+- (void)getConversations:(nonnull NXMGetConversationsRequest *)getConvetsationsRequest
+               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError;
 
-- (void)getConversationEvents:(nonnull NSString*)conversationId
+- (void)getConversationDetails:(nonnull NSString *)conversationId
+                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(ErrorCallback _Nullable)onError;
+
+- (void)getConversationEvents:(nonnull NSString *)conversationId
                   startOffset:(NSUInteger)startOffset
                     endOffset:(NSUInteger)endOffset
                onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess

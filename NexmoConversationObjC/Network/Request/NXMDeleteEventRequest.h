@@ -17,6 +17,8 @@
 @property (nonatomic, strong, nonnull) NSString *memberID;
 @property (nonatomic, strong, nonnull) NSString *eventID;
 
+- (nullable instancetype)initWithEventId:(nonnull NSString *)eventId conversationId:(nonnull NSString*)conversationId memberId:(nonnull NSString *)memberId;
+
 @end
 
 

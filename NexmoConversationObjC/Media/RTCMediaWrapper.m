@@ -12,7 +12,7 @@
 
 @interface RTCMediaWrapper()
 @property MRTCMediaManager *mrtcMedia;
-@property id<RTCMediaWrapperDelegate> delegate;
+@property (nonatomic) id<RTCMediaWrapperDelegate> delegate;
 //@property id<MRTCMediaNetwork> network;
 
 @end

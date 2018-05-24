@@ -11,8 +11,6 @@
 #import "NXMNetworkCallbacks.h"
 #import "NXMNetworkDelegate.h"
 
-#import "NXMMember.h"
-#import "NXMConversationDetails.h"
 #import "NXMAddUserRequest.h"
 #import "NXMInviteUserRequest.h"
 #import "NXMJoinMemberRequest.h"
@@ -26,9 +24,7 @@
 
 - (nullable instancetype)initWitHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost;
 
-
-- (void)setDelegate:(id<NXMNetworkDelegate>)delegate;
-//- (void)updateToken:(nonnull NSString *)token;
+- (void)setDelegate:(nonnull id<NXMNetworkDelegate>)delegate;
 
 - (void)loginWithToken:(NSString * _Nonnull)token;
 
@@ -78,21 +74,23 @@
              memberId:(nonnull NSString *)memberId;
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError;
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;
 
-- (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
+- (void)enableMedia:(nonnull NSString *)conversationId
+           memberId:(nonnull NSString *)memberId
+                sdp:(nonnull NSString *)sdp
+          mediaType:(nonnull NSString *)mediaType // TODO: enum
           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
             onError:(ErrorCallback _Nullable)onError;
 
-- (void)disableMedia:(NSString *)conversationId rtcId:(NSString *)rtcId
+- (void)disableMedia:(nonnull NSString *)conversationId
+               rtcId:(nonnull NSString *)rtcId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
-//- (void)getUser:(nonnull NSString*)userId
-//    completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;
 
 @end

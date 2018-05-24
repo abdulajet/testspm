@@ -27,14 +27,9 @@
 
 - (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config {
     if (self = [super init]) {
-        NSString *host = [config getWSHost];
-//        self.socketClient = [[NXMSocketClient alloc] initWitHost:host];
-//        [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
-//
-//        self.router = [[NXMRouter alloc] initWitHost:[config getHttpHost]];
-
-        self.network = [[NXMNetworkManager alloc] initWitHost:[config getHttpHost] andWsHost:host];
+        self.network = [[NXMNetworkManager alloc] initWitHost:[config getHttpHost] andWsHost:[config getWSHost]];
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
+       
         // TODO: rtcMedia
     }
     
@@ -126,15 +121,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError {
     [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
-- (void)getConversations:(NXMGetConversationsRequest* _Nullable )getConversationsRequest
-               onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+- (void)getConversations:(nonnull NXMGetConversationsRequest *)getConversationsRequest
+               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError {
-    
+    [self.network getConversations:getConversationsRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)getConversationEvents:(nonnull NSString*)conversationId
@@ -143,6 +138,67 @@ fromConversationWithId:(nonnull NSString *)conversationId
                     onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
                       onError:(ErrorCallback _Nullable)onError {
     
+}
+
+
+#pragma mark - Messages Methods
+
+- (void)sendText:(nonnull NSString *)text
+  conversationId:(nonnull NSString *)conversationId
+    fromMemberId:(nonnull NSString *)fromMemberId
+       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+         onError:(ErrorCallback _Nullable)onError {
+    NXMSendTextEventRequest *request = [[NXMSendTextEventRequest alloc] initWithText:text conversationId:conversationId memberId:fromMemberId];
+    
+    [self.network sendTextToConversation:request onSuccess:onSuccess onError:onError];
+}
+
+- (void)sendImage:(nonnull NSData *)image
+   conversationId:(nonnull NSString *)conversationId
+     fromMemberId:(nonnull NSString *)fromMemberId
+        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError {
+    
+    
+}
+
+- (void)deleteText:(nonnull NSString *)eventId
+    conversationId:(nonnull NSString *)conversationId
+      fromMemberId:(nonnull NSString *)memberId
+         onSuccess:(SuccessCallback _Nullable)onSuccess
+           onError:(ErrorCallback _Nullable)onError {
+    NXMDeleteEventRequest *request = [[NXMDeleteEventRequest alloc] initWithEventId:eventId conversationId:conversationId memberId:memberId];
+    [self.network deleteTextFromConversation:request onSuccess:onSuccess onError:onError];
+}
+
+- (void)markAsSeen:(nonnull NSString *)messageId
+    conversationId:(nonnull NSString *)conversationId
+  fromMemberWithId:(nonnull NSString *)memberId
+         onSuccess:(SuccessCallback _Nullable)onSuccess
+           onError:(ErrorCallback _Nullable)onError {
+    [self.network seenTextEvent:conversationId memberId:memberId eventId:messageId];
+}
+
+- (void)markAsDelivered:(nonnull NSString *)messageId
+         conversationId:(nonnull NSString *)conversationId
+       fromMemberWithId:(nonnull NSString *)memberId
+              onSuccess:(SuccessCallback _Nullable)onSuccess
+                onError:(ErrorCallback _Nullable)onError {
+    [self.network deliverTextEvent:conversationId memberId:memberId eventId:messageId];
+}
+
+- (void)startTyping:(nonnull NSString *)conversationId
+           memberId:(nonnull NSString *)memberId
+          onSuccess:(SuccessCallback _Nullable)onSuccess
+            onError:(ErrorCallback _Nullable)onError {
+    [self.network textTypingOn:conversationId memberId:memberId];
+}
+
+- (void)stopTyping:(nonnull NSString *)conversationId
+          memberId:(nonnull NSString *)memberId
+         onSuccess:(SuccessCallback _Nullable)onSuccess
+           onError:(ErrorCallback _Nullable)onError {
+    [self.network textTypingOff:conversationId memberId:memberId];
 }
 
 #pragma mark - Media Methods
@@ -166,8 +222,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)userStatusChanged:(NXMUser *)user sessionId:(NSString*)sessionId {
     self.user = user;
     
-  //  [self.router setSessionId:sessionId];
-    
     [self.delegate connectedWithUser:user];
 }
 
@@ -179,25 +233,25 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate memberRemoved:member];
 }
 
-- (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
+- (void)textRecieved:(nonnull NXMTextEvent *)textEvent {
     [self.delegate textRecieved:textEvent];
 }
 
-- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent{
+- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent {
     [self.delegate textDeleted:textEvent];
 }
 
-- (void)messageReceived:(nonnull NXMTextEvent *)message{
+- (void)messageReceived:(nonnull NXMTextEvent *)message {
     [self.delegate textRecieved:message];
 }
-- (void)messageSent:(nonnull NXMTextEvent *)message{
+- (void)messageSent:(nonnull NXMTextStatusEvent *)message {
     [self.delegate textSent:message];
 }
 
-- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent{
+- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent {
     [self.delegate textTypingOn:textEvent];
 }
-- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent{
+- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent {
     [self.delegate textTypingOff:textEvent];
 }
 
@@ -213,6 +267,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent {
     
 }
+
 - (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
     [self.rtcMedia answerWithMediaId:mediaEvent.rtcId andSDP:mediaEvent.sdp];
 }
@@ -230,10 +285,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
         completionHandler(error);
     }];
 }
-
-//- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
-//   // [self.rtcMedia answerWithMediaId:mediaEvent.rtcId andSDP:mediaEvent.sdp];
-//}
 
 @end
 

@@ -17,6 +17,7 @@
 @property (nonatomic, strong, nonnull) NSString *memberID;
 @property (nonatomic, strong, nonnull) NSString *textToSend;
 
+- (nullable instancetype)initWithText:(nonnull NSString *)text conversationId:(nonnull NSString*)conversationId memberId:(nonnull NSString *)memberId;
 @end
 
 #endif /* NXMSendTextRequest_h */

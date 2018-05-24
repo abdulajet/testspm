@@ -324,7 +324,6 @@
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
-            NSLog(@"getAllConversations result %@",data);
             NSMutableArray *conversations = [[NSMutableArray alloc] init];
             for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
                 NXMConversationDetails *details = [NXMConversationDetails alloc];
@@ -343,84 +342,101 @@
 
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails *> * _Nullable data))completionBlock
-{
-    NSDictionary *dict = @{
-                           };
+               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                 onError:(ErrorCallback _Nullable)onError {
+    NSDictionary *dict = @{ };
     //TODO:for now we get the first 100 conversations
     //we need to have support in the server to get all the conversations
     NSString* vars = @"";
     if (getConvetsationsRequest.pageSize > 0){
         vars = [NSString stringWithFormat:@"pageSize:%ld",MIN(100,getConvetsationsRequest.pageSize)];
     }
+    
     if (getConvetsationsRequest.recordIndex > 0){
         vars = [NSString stringWithFormat:@"%@&&recordIndex:%ld",vars,getConvetsationsRequest.recordIndex];
     }
-    if (getConvetsationsRequest.name != nil){
+    
+    if ([getConvetsationsRequest.name length] > 0){
         vars = [NSString stringWithFormat:@"%@&&name:%@",vars,getConvetsationsRequest.name];
     }
-    if (getConvetsationsRequest.dateStart != nil){
+    
+    if ([getConvetsationsRequest.dateStart  length] > 0){
         vars = [NSString stringWithFormat:@"%@&&dateStart:%@",vars,getConvetsationsRequest.dateStart];
     }
-    if (getConvetsationsRequest.dateEnd != nil){
+    
+    if ([getConvetsationsRequest.dateEnd  length] > 0){
         vars = [NSString stringWithFormat:@"%@&&dateEnd:%@",vars,getConvetsationsRequest.dateEnd];
     }
-    if (getConvetsationsRequest.order != nil){
+    
+    if ([getConvetsationsRequest.order  length] > 0){
         vars = [NSString stringWithFormat:@"%@&&order:%@",vars,getConvetsationsRequest.order];
     }
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-        if (data != nil){
-            NSLog(@"getAllConversations result %@",data);
-            NSMutableArray *conversations = [[NSMutableArray alloc] init];
-            for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
-                NXMConversationDetails *details = [NXMConversationDetails alloc];
-                details.name = conversationJson[@"name"];
-                details.uuid = conversationJson[@"uuid"];
-                [conversations addObject:details];
-            }
-            completionBlock(nil, conversations);
+        if (error) {
+            onError(error);
+            return;
         }
-        else{
-            completionBlock(error,nil);
+        
+        if (!data){
+            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            return;
         }
+        
+        NSMutableArray *conversations = [[NSMutableArray alloc] init];
+        for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
+            NXMConversationDetails *details = [NXMConversationDetails alloc];
+            details.name = conversationJson[@"name"];
+            details.uuid = conversationJson[@"uuid"];
+            [conversations addObject:details];
+        }
+    
+        onSuccess(conversations);
     }];
 }
+
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock{
+                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@", self.baseUrl, conversationId]];
     
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-        if (data != nil){
-            NSLog(@"getConversationPressed result %@",data);
-            NSString *convId = @"uuid";
-            NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:convId];
-            details.name = data[@"name"];
-            details.created = data[@"timestamp"][@"created"];
-            details.sequence_number = [data[@"sequence_number"] intValue];
-            details.properties = data[@"properties"];
-            details.uuid = data[@"uuid"];
-            
-            NSMutableArray *members = [[NSMutableArray alloc] init];
-            
-            for (NSDictionary* memberJson in data[@"members"]) {
-                NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:convId user:memberJson[@"user_id"] name:memberJson[@"name"] state:memberJson[@"state"]];
-                
-                member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
-                member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
-                member.leftDate = memberJson[@"timestamp"][@"left"]; // TODO: NSDate
-                
-                [members addObject:member];
-            }
-            completionBlock(nil, details);
+        
+        if (error) {
+            onError(error);
+            return;
         }
-        else{
-            completionBlock(error,nil);
+        
+        if (!data){
+            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            return;
+        }
+        
+        NSLog(@"getConversationPressed result %@",data);
+        NSString *convId = @"uuid";
+        NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:convId];
+        details.name = data[@"name"];
+        details.created = data[@"timestamp"][@"created"];
+        details.sequence_number = [data[@"sequence_number"] intValue];
+        details.properties = data[@"properties"];
+        details.uuid = data[@"uuid"];
+        
+        NSMutableArray *members = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary* memberJson in data[@"members"]) {
+            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:convId user:memberJson[@"user_id"] name:memberJson[@"name"] state:memberJson[@"state"]];
+            
+            member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
+            member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
+            member.leftDate = memberJson[@"timestamp"][@"left"]; // TODO: NSDate
+            
+            [members addObject:member];
         }
     }];
 }
