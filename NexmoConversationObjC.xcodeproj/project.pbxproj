@@ -23,6 +23,10 @@
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
 		E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */; };
 		E529B288BC83079E7BE653EB /* Pods_NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */; };
+		F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF772097732A008A161A /* NXMMediaEvent.h */; };
+		F903DF7A2097732A008A161A /* NXMMediaEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF782097732A008A161A /* NXMMediaEvent.m */; };
+		F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */; };
+		F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */; };
 		F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */; };
 		F9167D8420331A2000F97CED /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F9167D8220331A2000F97CED /* Info.plist */; };
 		F9167D8520331A2000F97CED /* StitchConversationClientCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F9167D8320331A2000F97CED /* StitchConversationClientCore.h */; };
@@ -50,6 +54,14 @@
 		F9998ACD20837EF100EAC286 /* NXMLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998ACB20837EF100EAC286 /* NXMLogger.h */; };
 		F9998ACE20837EF100EAC286 /* NXMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998ACC20837EF100EAC286 /* NXMLogger.m */; };
 		F9998AD22083A04400EAC286 /* NXMSocketClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */; };
+		F9998AD62084F4B600EAC286 /* MRTCMedia.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998AD42084F4B600EAC286 /* MRTCMedia.h */; };
+		F9998AD72084F4B600EAC286 /* MRTCMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998AD52084F4B600EAC286 /* MRTCMedia.m */; };
+		F99D8599208DDE55003B004B /* RTCMediaWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D8597208DDE55003B004B /* RTCMediaWrapper.h */; };
+		F99D859A208DDE55003B004B /* RTCMediaWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D8598208DDE55003B004B /* RTCMediaWrapper.m */; };
+		F99D859D208F6202003B004B /* NXMNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D859B208F6202003B004B /* NXMNetworkManager.h */; };
+		F99D859E208F6202003B004B /* NXMNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D859C208F6202003B004B /* NXMNetworkManager.m */; };
+		F99D85A22090C4D1003B004B /* MediaInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D85A02090C4D1003B004B /* MediaInfo.h */; };
+		F99D85A32090C4D1003B004B /* MediaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D85A12090C4D1003B004B /* MediaInfo.m */; };
 		F9C35DD7203078BD009FAE4F /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4920628BDA00A70212 /* NXMEvent.h */; };
 		F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
@@ -59,6 +71,8 @@
 		F9EF59222056C51E0055935F /* NXMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F9EF59202056C51E0055935F /* NXMMessage.m */; };
 		F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9EF59232056C5B00055935F /* NXMTextEvent.h */; };
 		F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9EF59242056C5B00055935F /* NXMTextEvent.m */; };
+		F9F576FA20AC205200F0F5F3 /* NXMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576F920AC205200F0F5F3 /* NXMEnums.h */; };
+		F9F576FD20B584C800F0F5F3 /* NXMNetworkDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576FC20B584C800F0F5F3 /* NXMNetworkDelegate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +131,10 @@
 		CEF94C5420640A6600BB733E /* NXMErrorParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMErrorParser.m; sourceTree = "<group>"; };
 		D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.release.xcconfig"; sourceTree = "<group>"; };
+		F903DF772097732A008A161A /* NXMMediaEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaEvent.h; sourceTree = "<group>"; };
+		F903DF782097732A008A161A /* NXMMediaEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaEvent.m; sourceTree = "<group>"; };
+		F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaAnswerEvent.h; sourceTree = "<group>"; };
+		F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaAnswerEvent.m; sourceTree = "<group>"; };
 		F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDefine.h; sourceTree = "<group>"; };
 		F9167D8220331A2000F97CED /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F9167D8320331A2000F97CED /* StitchConversationClientCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StitchConversationClientCore.h; sourceTree = "<group>"; };
@@ -148,6 +166,14 @@
 		F9998ACB20837EF100EAC286 /* NXMLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLogger.h; sourceTree = "<group>"; };
 		F9998ACC20837EF100EAC286 /* NXMLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLogger.m; sourceTree = "<group>"; };
 		F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
+		F9998AD42084F4B600EAC286 /* MRTCMedia.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRTCMedia.h; sourceTree = "<group>"; };
+		F9998AD52084F4B600EAC286 /* MRTCMedia.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MRTCMedia.m; sourceTree = "<group>"; };
+		F99D8597208DDE55003B004B /* RTCMediaWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTCMediaWrapper.h; sourceTree = "<group>"; };
+		F99D8598208DDE55003B004B /* RTCMediaWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTCMediaWrapper.m; sourceTree = "<group>"; };
+		F99D859B208F6202003B004B /* NXMNetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNetworkManager.h; sourceTree = "<group>"; };
+		F99D859C208F6202003B004B /* NXMNetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMNetworkManager.m; sourceTree = "<group>"; };
+		F99D85A02090C4D1003B004B /* MediaInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaInfo.h; sourceTree = "<group>"; };
+		F99D85A12090C4D1003B004B /* MediaInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaInfo.m; sourceTree = "<group>"; };
 		F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DD6203078BD009FAE4F /* NexmoConversationObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoConversationObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DDD203078BD009FAE4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -159,6 +185,9 @@
 		F9EF59202056C51E0055935F /* NXMMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMessage.m; sourceTree = "<group>"; };
 		F9EF59232056C5B00055935F /* NXMTextEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextEvent.h; sourceTree = "<group>"; };
 		F9EF59242056C5B00055935F /* NXMTextEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextEvent.m; sourceTree = "<group>"; };
+		F9F576F920AC205200F0F5F3 /* NXMEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEnums.h; sourceTree = "<group>"; };
+		F9F576FB20ADA30100F0F5F3 /* NXMNetworkCallbacks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNetworkCallbacks.h; sourceTree = "<group>"; };
+		F9F576FC20B584C800F0F5F3 /* NXMNetworkDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNetworkDelegate.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -305,6 +334,10 @@
 				CEBCD8942084B56C004451AB /* Request */,
 				F9998AC8208378CA00EAC286 /* Router */,
 				F98735452042BF0900C90695 /* SocketClient */,
+				F99D859B208F6202003B004B /* NXMNetworkManager.h */,
+				F99D859C208F6202003B004B /* NXMNetworkManager.m */,
+				F9F576FB20ADA30100F0F5F3 /* NXMNetworkCallbacks.h */,
+				F9F576FC20B584C800F0F5F3 /* NXMNetworkDelegate.h */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -334,6 +367,26 @@
 			path = SocketClient;
 			sourceTree = "<group>";
 		};
+		F9998AD32084F48A00EAC286 /* mockMiniRTC */ = {
+			isa = PBXGroup;
+			children = (
+				F9998AD42084F4B600EAC286 /* MRTCMedia.h */,
+				F9998AD52084F4B600EAC286 /* MRTCMedia.m */,
+			);
+			path = mockMiniRTC;
+			sourceTree = "<group>";
+		};
+		F99D8596208DDE34003B004B /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				F99D8597208DDE55003B004B /* RTCMediaWrapper.h */,
+				F99D8598208DDE55003B004B /* RTCMediaWrapper.m */,
+				F99D85A02090C4D1003B004B /* MediaInfo.h */,
+				F99D85A12090C4D1003B004B /* MediaInfo.m */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
 		F9C35DC3203078BD009FAE4F = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +413,8 @@
 		F9C35DCF203078BD009FAE4F /* NexmoConversationObjC */ = {
 			isa = PBXGroup;
 			children = (
+				F99D8596208DDE34003B004B /* Media */,
+				F9998AD32084F48A00EAC286 /* mockMiniRTC */,
 				F9998AC7208378BE00EAC286 /* Network */,
 				F987354620443A3600C90695 /* Assets */,
 				F9167D8220331A2000F97CED /* Info.plist */,
@@ -372,6 +427,7 @@
 				F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */,
 				F9998ACB20837EF100EAC286 /* NXMLogger.h */,
 				F9998ACC20837EF100EAC286 /* NXMLogger.m */,
+				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
 			);
 			path = NexmoConversationObjC;
 			sourceTree = "<group>";
@@ -400,6 +456,10 @@
 				CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */,
 				CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */,
 				CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */,
+				F903DF772097732A008A161A /* NXMMediaEvent.h */,
+				F903DF782097732A008A161A /* NXMMediaEvent.m */,
+				F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */,
+				F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -411,20 +471,28 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */,
 				F987354920443A6900C90695 /* NXMUser.h in Headers */,
+				F99D859D208F6202003B004B /* NXMNetworkManager.h in Headers */,
+				F99D8599208DDE55003B004B /* RTCMediaWrapper.h in Headers */,
 				F9873555204FE1C300C90695 /* NXMRouter.h in Headers */,
 				F9998ACD20837EF100EAC286 /* NXMLogger.h in Headers */,
+				F9F576FD20B584C800F0F5F3 /* NXMNetworkDelegate.h in Headers */,
 				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
 				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
 				F9EF59212056C51E0055935F /* NXMMessage.h in Headers */,
+				F9F576FA20AC205200F0F5F3 /* NXMEnums.h in Headers */,
 				F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */,
 				F96F745120552D6D004B3434 /* NXMMember.h in Headers */,
+				F9998AD62084F4B600EAC286 /* MRTCMedia.h in Headers */,
 				F9167D8520331A2000F97CED /* StitchConversationClientCore.h in Headers */,
 				F9998ACA20837D2D00EAC286 /* NXMLoggerDelegate.h in Headers */,
 				F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */,
 				F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */,
 				F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */,
+				F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */,
 				F9873551204FDBAB00C90695 /* NXMConversationDetails.h in Headers */,
+				F99D85A22090C4D1003B004B /* MediaInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,18 +826,23 @@
 			files = (
 				F9873556204FE1C300C90695 /* NXMRouter.m in Sources */,
 				CEBCD8AF2084F05A004451AB /* NXMGetConversationsRequest.m in Sources */,
+				F99D859A208DDE55003B004B /* RTCMediaWrapper.m in Sources */,
 				CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */,
 				CEBCD8A52084EF72004451AB /* NXMJoinMemberRequest.m in Sources */,
 				F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */,
+				F99D859E208F6202003B004B /* NXMNetworkManager.m in Sources */,
 				CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */,
 				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
 				F987354C20446AFF00C90695 /* StitchConversationClientCore.m in Sources */,
+				F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */,
 				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
+				F99D85A32090C4D1003B004B /* MediaInfo.m in Sources */,
 				F9998ACE20837EF100EAC286 /* NXMLogger.m in Sources */,
 				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 				F987354E2045C03700C90695 /* NXMConversationClientConfig.m in Sources */,
+				F903DF7A2097732A008A161A /* NXMMediaEvent.m in Sources */,
 				F96F745220552D6D004B3434 /* NXMMember.m in Sources */,
 				CEBCD8AD2084F03A004451AB /* NXMDeleteEventRequest.m in Sources */,
 				CEBCD8A32084EEE1004451AB /* NXMInviteUserRequest.m in Sources */,
@@ -780,6 +853,7 @@
 				CEBCD8A92084EFE6004451AB /* NXMCreateConversationRequest.m in Sources */,
 				CEBCD8A72084EFB0004451AB /* NXMRemoveMemberRequest.m in Sources */,
 				F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */,
+				F9998AD72084F4B600EAC286 /* MRTCMedia.m in Sources */,
 				F9EF59222056C51E0055935F /* NXMMessage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

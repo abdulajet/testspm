@@ -19,6 +19,8 @@
 #import "NXMTextEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
+#import "NXMMediaEvent.h"
+#import "NXMMediaAnswerEvent.h"
 #import "NXMErrors.h"
 
 @interface NXMSocketClient()
@@ -205,7 +207,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         self.isLoggedIn = YES;
         NSDictionary *response = ((NSDictionary *)data[0])[@"body"];
         NXMUser *user = [[NXMUser alloc] initWithId:response[@"user_id"] name:response[@"name"]];
-        [self.delegate userStatusChanged:user];
+        
+        [self.delegate userStatusChanged:user sessionId:response[@"id"]];
     }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
@@ -339,7 +342,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     self.isLoggedIn = NO;
     
-    [self.delegate userStatusChanged:nil];
+    [self.delegate userStatusChanged:nil sessionId:nil];
 }
 
 // member events handle
@@ -494,11 +497,48 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 #pragma mark - rtc event handle
 
 - (void)onRTCAnswer:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+
+    NSDictionary *json = data[0];
     
+    NXMMediaAnswerEvent *mediaEvent = [NXMMediaAnswerEvent new];
+    mediaEvent.conversationId = json[@"cid"];
+    mediaEvent.sessionId = json[@"session_destination"];
+    mediaEvent.timestamp = json[@"timestamp"];
+    mediaEvent.sdp = json[@"body"][@"answer"];
+    mediaEvent.rtcId = json[@"body"][@"rtcId"];
+    
+    [self.delegate mediaAnswerEvent:mediaEvent];
+}
+
+
+- (void)onRTCTerminate:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    
+    // TODO:
+    // should we use it? should we use member media?
+//    {
+//        "timestamp": 1525248500583,
+//        "type": "rtc:terminate",
+//        "payload": {
+//            "cid": "CON-b2b067e6-ef07-45e5-a9f3-138e66373359",
+//            "from": "MEM-164379b3-a819-4964-99a0-bfaed993d739",
+//            "rtc_id": "70bbf7bc-c2fc-4f51-9946-d974b2fc521a"
+//        },
+//        "direction": "emitted"
+//    }
 }
 
 - (void)onRTCMemberMedia:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+
+    NSDictionary *json = data[0];
     
+    NXMMediaEvent *mediaEvent = [NXMMediaEvent new];
+    mediaEvent.conversationId = json[@"cid"];
+    mediaEvent.fromMemberId = json[@"from"];
+    mediaEvent.creationDate = json[@"timestamp"];
+    mediaEvent.sequenceId = json[@"id"];
+    mediaEvent.isMediaEnabled = [json[@"body"][@"audio"] isEqualToString:@"true"];
+    
+    [self.delegate mediaEvent:mediaEvent];
 }
 
 - (void)onRTCMuteOn:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {

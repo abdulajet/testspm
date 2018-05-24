@@ -12,4 +12,13 @@
 
 @implementation NXMRemoveMemberRequest
 
+- (instancetype)initWithConversationId:(NSString *)conversationID andMemberId:(NSString *)memberID {
+    if (self = [super init]) {
+        self.conversationID = conversationID;
+        self.memberID = memberID;
+    }
+    
+    return self;
+}
+
 @end

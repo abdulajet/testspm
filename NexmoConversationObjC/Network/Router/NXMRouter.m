@@ -13,10 +13,13 @@
 #import "NXMSendTextEventRequest.h"
 #import "NXMDeleteEventRequest.h"
 
+#import "NXMNetworkCallbacks.h"
+
 @interface NXMRouter()
 
 @property NSString *baseUrl;
 @property (nonatomic) NSString *token;
+@property (nonatomic) NSString *sessionId;
 
 
 @end
@@ -32,6 +35,10 @@
 
 - (void)setToken:(NSString *)token {
     _token = token;
+}
+
+- (void)setSessionId:(nonnull NSString *)sessionId {
+    _sessionId = sessionId;
 }
 
 - (BOOL)getConversationWithId:(NSString*)convId  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable conversation))completionBlock {
@@ -74,12 +81,12 @@
 
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
-             responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable  conversationId))responseBlock
-{
+                 onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                   onError:(ErrorCallback _Nullable)onError {
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations", self.baseUrl]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [self addHeader:request];
@@ -89,24 +96,83 @@
     [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
-            responseBlock(resError, nil);
+            onError(resError);
             return;
         }
         
-        //NXMConversation *conversation
-        NSString *convId = data[@"id"];
+        NSString *convId = (NSString *)data[@"id"];
         if (!convId) {
             // TODO: error conv failed
-            responseBlock([[NSError alloc] initWithDomain:@"f" code:0 userInfo:nil], nil);
+            onError([[NSError alloc] initWithDomain:@"f" code:0 userInfo:nil]);
             return;
         }
         
-        responseBlock(nil, convId);
+      //  NSString *conv = convId;
+        onSuccess(convId);
         
     }];
 }
 
-- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary *))compeltionBlock{
+- (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
+          onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+            onError:(ErrorCallback _Nullable)onError {
+    NSDictionary *dict = @{ @"from": memberId,
+                            @"body": @{
+                                @"offer": @{
+                                    @"sdp": sdp,
+                                    @"label": @""
+                                }
+                            },
+                            @"originating_session": self.sessionId };
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/rtc", self.baseUrl, conversationId]];
+
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        onSuccess(@"11");
+    }];
+}
+
+- (void)disableMedia:(NSString *)conversationId rtcId:(NSString *)rtcId
+           onSuccess:(SuccessCallback _Nullable)onSuccess
+             onError:(ErrorCallback _Nullable)onError {
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/rtc/%@", self.baseUrl, conversationId, rtcId]];
+
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
+    [self addHeader:request];
+    [request setHTTPMethod:@"DELETE"];
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        // TODO: check repsonse
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess();
+    }];
+}
+
+- (void)pauseMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
+      completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler {
+    
+}
+
+- (void)resumeMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
+       completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler {
+    
+}
+
+
+- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
+                    onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                      onError:(ErrorCallback _Nullable)onError {
+
     NSDictionary *dict = @{
                            @"user_id": addUserRequest.userID,
                            @"action": @"join",
@@ -117,12 +183,18 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, addUserRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        compeltionBlock(error,nil);
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(nil); // TODO: eventId;
     }];
 }
 
 - (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                         onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"user_id": inviteUserRequest.userID,
                            @"action": @"invite",
@@ -133,11 +205,18 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, inviteUserRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(nil); // TODO: eventId;
     }];
 }
 
-- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
+                       onSuccess:(SuccessCallbackWithId)onSuccess
+                         onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"member_id": joinMembetRequest.memberID,
                            @"action": @"join",
@@ -148,24 +227,35 @@
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, joinMembetRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(nil); // TODO: eventId;
     }];
 }
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
-            completionBlock:(void (^_Nullable)(NSError * _Nullable error,NSDictionary * _Nullable data))completionBlock{
+                           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                             onError:(ErrorCallback _Nullable)onError{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
     [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        completionBlock(error,nil);
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(nil); // TODO: eventId;
     }];
 }
 
-
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
-            completionHandler:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable textId))completionHandler {
+                     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                       onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"from": sendTextEventRequest.memberID,
                            @"type": @"text",
@@ -177,18 +267,32 @@
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         NSString *textId = data[@"id"];
-        completionHandler(error, textId);
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(textId); // TODO: eventId;
     }];
 }
+
 - (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
-            completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+                         onSuccess:(SuccessCallback _Nullable)onSuccess
+                           onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"from": deleteEventRequest.memberID,
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%@", self.baseUrl, deleteEventRequest.conversationID,deleteEventRequest.eventID]];
     
     NSString* requestType = @"DELETE";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:completionBlock];
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(); // TODO: eventId;
+    }];
 }
 
 - (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{

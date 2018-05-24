@@ -12,4 +12,11 @@
 
 @implementation NXMCreateConversationRequest
 
+- (nullable instancetype)initWithDisplayName:(nonnull NSString *)displayName {
+    if (self = [super init]) {
+        self.displayName = displayName;
+    }
+    
+    return self;
+}
 @end

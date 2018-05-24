@@ -1,8 +1,8 @@
 //
-//  NXMSocketClientDelegate.h
+//  NXMNetworkDelegate.h
 //  NexmoConversationObjC
 //
-//  Created by Chen Lev on 2/15/18.
+//  Created by Chen Lev on 5/23/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
@@ -14,7 +14,7 @@
 #import "NXMMediaEvent.h"
 #import "NXMMediaAnswerEvent.h"
 
-@protocol NXMSocketClientDelegate
+@protocol NXMNetworkDelegate
 
 - (void)connectionStatusChanged:(BOOL)isOpen;
 - (void)userStatusChanged:(nullable NXMUser *)user sessionId:(nullable NSString*)sessionId;

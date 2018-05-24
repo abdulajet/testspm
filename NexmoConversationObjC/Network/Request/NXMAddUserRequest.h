@@ -6,9 +6,6 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#ifndef NXMAddUserRequest_h
-#define NXMAddUserRequest_h
-
 #import "NXMBaseRequest.h"
 
 @interface NXMAddUserRequest : NXMBaseRequest
@@ -16,6 +13,8 @@
 @property (nonatomic, strong, nonnull) NSString *conversationID;
 @property (nonatomic, strong, nonnull) NSString *userID;
 
+- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationID andUserID:(nonnull NSString *)userID;
+
 @end
 
-#endif /* NXMAddUserRequest_h */
+

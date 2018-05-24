@@ -11,6 +11,8 @@
 FOUNDATION_EXPORT NSString *const NXMStitchErrorDomain;
 
 typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
+    NXMStitchErrorCodeNone,
+
     NXMStitchErrorCodeUnknown,
     
     NXMStitchErrorCodeSessionUnknown,

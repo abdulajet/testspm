@@ -11,4 +11,12 @@
 
 @implementation NXMAddUserRequest
 
+- (instancetype)initWithConversationId:(NSString *)conversationID andUserID:(NSString *)userID {
+    if (self = [super init]) {
+        self.conversationID = conversationID;
+        self.userID = userID;
+    }
+    
+    return self;
+}
 @end

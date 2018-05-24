@@ -7,15 +7,19 @@
 //
 
 #import "StitchConversationClientCore.h"
-#import "NXMSocketClient.h"
-#import "NXMRouter.h"
+#import "NXMNetworkManager.h"
+
+#import "RTCMediaWrapper.h"
+
 
 @interface StitchConversationClientCore()
 
 @property id<NXMConversationClientDelegate> delegate;
-@property NXMSocketClient *socketClient;
-@property NXMRouter *router;
+//@property NXMSocketClient *socketClient;
+//@property NXMRouter *router;
+@property NXMNetworkManager *network;
 @property NXMUser *user;
+@property RTCMediaWrapper *rtcMedia;
 
 @end
 
@@ -24,10 +28,14 @@
 - (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config {
     if (self = [super init]) {
         NSString *host = [config getWSHost];
-        self.socketClient = [[NXMSocketClient alloc] initWitHost:host];
-        [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
-        
-        self.router = [[NXMRouter alloc] initWitHost:[config getHttpHost]];
+//        self.socketClient = [[NXMSocketClient alloc] initWitHost:host];
+//        [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
+//
+//        self.router = [[NXMRouter alloc] initWitHost:[config getHttpHost]];
+
+        self.network = [[NXMNetworkManager alloc] initWitHost:[config getHttpHost] andWsHost:host];
+        [self.network setDelegate:(id<NXMNetworkDelegate>)self];
+        // TODO: rtcMedia
     }
     
     return self;
@@ -37,79 +45,14 @@
     
 }
 
-- (void)loginWithToken:(nonnull NSString *)token {
-    [self.socketClient loginWithToken:token];
-    [self.router setToken:token];
+- (void)loginWithAuthToken:(nonnull NSString *)authToken {
+    [self.network loginWithToken:authToken];
 }
 
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
-    
+    [self.network logout];
 }
 
-- (void)createConversation:(nonnull NXMCreateConversationRequest *)createConversationRequest
-        responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable conversationID))responseBlock {
-    [self.router createConversation:createConversationRequest responseBlock:responseBlock];
- }
-- (void)addUserToConversation:(NXMAddUserRequest *)addUserRequest completionBlock:(void (^)(NSError * _Nullable, NSDictionary * _Nullable))completionBlock
-{
-    [self.router addUserToConversation:addUserRequest completionBlock:completionBlock];
-}
-
-- (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router inviteUserToConversation:inviteUserRequest completionBlock:completionBlock];
-}
-
-- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router joinMemberToConversation:joinMemberRequest completionBlock:completionBlock];
-}
-
-- (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock {
-    [self.router removeMemberFromConversation:removeMemberRequest completionBlock:completionBlock];
-}
-
-
-- (void)sendText:(nonnull NXMSendTextEventRequest *)sendTextEventRequest
-        completionHandler:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable textId))completionHandler {
-    return [self.router sendTextToConversation:sendTextEventRequest completionHandler:completionHandler];
-}
-
-
-- (void)deleteText:(nonnull NXMDeleteEventRequest *)deleteEventRequest
-   completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
-    [self.router deleteTextFromConversation:deleteEventRequest completionBlock:completionBlock];
-}
-- (void)getConversationDetails:(nonnull NSString*)conversationId
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable data))completionBlock{
-    [self.router getConversationDetails:conversationId completionBlock:completionBlock];
-}
-
-
-- (void)getConversations:( NXMGetConversationsRequest* _Nullable )getConversationsRequest
-         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
-    [self.router getConversations:getConversationsRequest completionBlock:completionBlock];
-}
-
-
-- (void)getUser:(nonnull NSString*)userId
-        completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
-    [self.router getUser:userId completionBlock:completionBlock];
-}
-- (nullable NSArray<NXMConversationDetails *> *)getConversationList {
-    return  nil;
-}
-
-- (BOOL)enableAudio:(nonnull NSString*)conversationId {
-    
-    return YES;
-}
-
-- (BOOL)disableAudio:(nonnull NSString*)conversationId {
-    
-    return YES;
-}
 
 - (nonnull NXMConnectionStatus *)getConnectionStatus {
     return  nil;
@@ -141,39 +84,89 @@
     
 }
 
+#pragma mark - Conversation Methods
 
-- (void)seenTextEvent:(nonnull NSString *)conversationId
-             memberId:(nonnull NSString *)memberId
-              eventId:(nonnull NSString *)eventId
-{
-    [self.socketClient seenTextEvent:conversationId memberId:memberId eventId:eventId];
+- (void)createWithName:(nonnull NSString *)name
+             onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+               onError:(ErrorCallback _Nullable)onError {
+    NXMCreateConversationRequest *request = [[NXMCreateConversationRequest alloc] initWithDisplayName:name];
+    [self.network createConversation:request onSuccess:onSuccess onError:onError];
 }
 
-
-- (void)deliverTextEvent:(nonnull NSString *)conversationId
-                memberId:(nonnull NSString *)memberId
-                 eventId:(nonnull NSString *)eventId
-{
-    [self.socketClient deliverTextEvent:conversationId memberId:memberId eventId:eventId];
+- (void)join:(nonnull NSString *)conversationId
+  withUserId:(nonnull NSString *)userId
+   onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+     onError:(ErrorCallback _Nullable)onError {
+    NXMAddUserRequest *request = [[NXMAddUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
+    [self.network addUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)textTypingOnEvent:(nonnull NSString *)conversationId
-            memberId:(nonnull NSString *)memberId
-{
-    [self.socketClient textTypingOn:conversationId memberId:memberId];
+- (void)join:(nonnull NSString *)conversationId
+withMemberId:(nonnull NSString *)memberId
+   onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+     onError:(ErrorCallback _Nullable)onError {
+    NXMJoinMemberRequest *request = [[NXMJoinMemberRequest alloc] initWithConversationId:conversationId andMemberId:memberId];
+    [self.network joinMemberToConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)textTypingOffEvent:(nonnull NSString *)conversationId
-             memberId:(nonnull NSString *)memberId
-{
-    [self.socketClient textTypingOff:conversationId memberId:memberId];
+- (void)invite:(nonnull NSString *)conversationId
+    withUserId:(nonnull NSString *)userId
+     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+       onError:(ErrorCallback _Nullable)onError {
+    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
+    [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
+}
+
+- (void)deleteMember:(nonnull NSString *)memberId
+fromConversationWithId:(nonnull NSString *)conversationId
+           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+             onError:(ErrorCallback _Nullable)onError {
+    NXMRemoveMemberRequest *request = [[NXMRemoveMemberRequest alloc] initWithConversationId:conversationId andMemberId:memberId];
+    [self.network removeMemberFromConversation:request onSuccess:onSuccess onError:onError];
+}
+
+- (void)getConversationDetails:(nonnull NSString*)conversationId
+                     onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                       onError:(ErrorCallback _Nullable)onError {
+    [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
+}
+
+- (void)getConversations:(NXMGetConversationsRequest* _Nullable )getConversationsRequest
+               onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+                 onError:(ErrorCallback _Nullable)onError {
+    
+}
+
+- (void)getConversationEvents:(nonnull NSString*)conversationId
+                  startOffset:(NSUInteger)startOffset
+                    endOffset:(NSUInteger)endOffset
+                    onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
+                      onError:(ErrorCallback _Nullable)onError {
+    
+}
+
+#pragma mark - Media Methods
+
+- (NXMStitchErrorCode)enableMedia:(nonnull NSString *)conversationId
+                         memberId:(nonnull NSString *)memberId {
+    [self.rtcMedia enableMediaWithMediaID:conversationId memberId:memberId andWithAudio:NXMMediaStreamTypeSendReceive andWithVideo:NXMMediaStreamTypeNone];
+    
+    return NXMStitchErrorCodeNone;
+}
+
+- (NXMStitchErrorCode)disableMedia:(nonnull NSString *)conversationId {
+    [self.rtcMedia disableMedia:conversationId];
+    
+    return NXMStitchErrorCodeNone;
 }
 
 
 #pragma mark - NXMSocketCllientDelegate
 
-- (void)userStatusChanged:(NXMUser *)user {
+- (void)userStatusChanged:(NXMUser *)user sessionId:(NSString*)sessionId {
     self.user = user;
+    
+  //  [self.router setSessionId:sessionId];
     
     [self.delegate connectedWithUser:user];
 }
@@ -195,10 +188,10 @@
 }
 
 - (void)messageReceived:(nonnull NXMTextEvent *)message{
-    [self.delegate messageReceived:message];
+    [self.delegate textRecieved:message];
 }
 - (void)messageSent:(nonnull NXMTextEvent *)message{
-    [self.delegate messageSent:message];
+    [self.delegate textSent:message];
 }
 
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent{
@@ -216,5 +209,32 @@
     [self.delegate textSeen:textEvent];
     
 }
+
+- (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent {
+    
+}
+- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
+    [self.rtcMedia answerWithMediaId:mediaEvent.rtcId andSDP:mediaEvent.sdp];
+}
+
+#pragma mark -
+
+- (void)onMediaStatusChangedWithConversationId:(NSString *)conversationId andStatus:(NSString *)status {
+    // TODO:
+}
+
+- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andCompletionHandler:(void (^)(NSError *))completionHandler {
+    [self.network enableMedia:mediaInfo._conversationId memberId:mediaInfo._memberId sdp:sdp mediaType:@"" onSuccess:^(NSString *value) {
+        completionHandler(nil);
+    } onError:^(NSError *error) {
+        completionHandler(error);
+    }];
+}
+
+//- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
+//   // [self.rtcMedia answerWithMediaId:mediaEvent.rtcId andSDP:mediaEvent.sdp];
+//}
+
 @end
+
 
