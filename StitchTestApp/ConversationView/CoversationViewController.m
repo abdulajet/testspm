@@ -175,14 +175,14 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NXMEvent *event = self.events[indexPath.row];
     
-    if ([event.type isEqualToString:@"member"]) {
+    if (event.type == NXMEventTypeMember) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
         [cell updateWithEvent:event];
         
         return cell;
     }
     
-    if ([event.type isEqualToString:@"media"]) {
+    if (event.type == NXMEventTypeMedia) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
         [cell updateWithEvent:event];
         

@@ -18,3 +18,12 @@ typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
     NXMMediaStreamTypeReceive,
     NXMMediaStreamTypeSendReceive
 };
+
+typedef NS_ENUM(NSInteger, NXMEventType){
+    NXMEventGeneral,
+    NXMEventTypeText,
+    NXMEventTypeTextStatus,
+    NXMEventTypeTextTyping,
+    NXMEventTypeMedia,
+    NXMEventTypeMember
+};

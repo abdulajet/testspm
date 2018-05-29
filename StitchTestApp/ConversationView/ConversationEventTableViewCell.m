@@ -30,13 +30,13 @@
 - (void)updateWithEvent:(NXMEvent *)event {
     self.event = event;
     
-    if ([event.type isEqual: @"member"]) {
+    if (event.type == NXMEventTypeMember) {
         NSString *text = [NSString stringWithFormat:@"%@ %@",
         ((NXMMemberEvent *)event).state, ((NXMMemberEvent *)event).user.name];
         self.eventText.text = text;
     }
     
-    if ([event.type isEqual: @"media"]) {
+    if (event.type == NXMEventTypeMedia) {
         NSString *text = [NSString stringWithFormat:@"audio changed to %@ by %@",
                           ((NXMMediaEvent *)event).isMediaEnabled ? @"enabled" : @"disabled",((NXMMediaEvent *)event).fromMemberId];
         self.eventText.text = text;
