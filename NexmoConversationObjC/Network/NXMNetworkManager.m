@@ -124,6 +124,12 @@
     [self.router getConversations:getConvetsationsRequest onSuccess:onSuccess onError:onError];
 }
 
+
+- (void)getEvents:(nonnull NXMGetEventsRequest*)getEventsRequest
+        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError{
+    [self.router getEvents:getEventsRequest onSuccess:onSuccess onError:onError];
+}
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError {

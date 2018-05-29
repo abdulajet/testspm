@@ -19,6 +19,7 @@
 #import "NXMDeleteEventRequest.h"
 #import "NXMGetConversationsRequest.h"
 #import "NXMCreateConversationRequest.h"
+#import "NXMGetEventsRequest.h"
 
 @interface NXMNetworkManager : NSObject
 
@@ -79,6 +80,10 @@
                onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError;
 
+- (void)getEvents:(nonnull NXMGetEventsRequest*)getEventsRequest
+        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
+        onError:(ErrorCallback _Nullable)onError;
+        
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;

@@ -22,6 +22,7 @@
 		CEBCD8AD2084F03A004451AB /* NXMDeleteEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */; };
 		CEBCD8AF2084F05A004451AB /* NXMGetConversationsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */; };
 		CEBCD8B12084F0D4004451AB /* NXMAddUserRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8B02084F0D4004451AB /* NXMAddUserRequest.m */; };
+		CECA008420BD8C8900FB4E6C /* NXMGetEventsRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CECA008320BD8C8900FB4E6C /* NXMGetEventsRequest.m */; };
 		CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */; };
 		CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */; };
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
@@ -150,6 +151,8 @@
 		CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMDeleteEventRequest.m; sourceTree = "<group>"; };
 		CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMGetConversationsRequest.m; sourceTree = "<group>"; };
 		CEBCD8B02084F0D4004451AB /* NXMAddUserRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMAddUserRequest.m; sourceTree = "<group>"; };
+		CECA008220BD8C7100FB4E6C /* NXMGetEventsRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMGetEventsRequest.h; sourceTree = "<group>"; };
+		CECA008320BD8C8900FB4E6C /* NXMGetEventsRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMGetEventsRequest.m; sourceTree = "<group>"; };
 		CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextStatusEvent.h; sourceTree = "<group>"; };
 		CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextStatusEvent.m; sourceTree = "<group>"; };
 		CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEvent.h; sourceTree = "<group>"; };
@@ -300,6 +303,8 @@
 				CEBCD8AC2084F03A004451AB /* NXMDeleteEventRequest.m */,
 				CEBCD8A02084C7FF004451AB /* NXMGetConversationsRequest.h */,
 				CEBCD8AE2084F05A004451AB /* NXMGetConversationsRequest.m */,
+				CECA008220BD8C7100FB4E6C /* NXMGetEventsRequest.h */,
+				CECA008320BD8C8900FB4E6C /* NXMGetEventsRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -871,6 +876,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9873556204FE1C300C90695 /* NXMRouter.m in Sources */,
+				CECA008420BD8C8900FB4E6C /* NXMGetEventsRequest.m in Sources */,
 				CEBCD8AF2084F05A004451AB /* NXMGetConversationsRequest.m in Sources */,
 				F99D859A208DDE55003B004B /* RTCMediaWrapper.m in Sources */,
 				CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */,

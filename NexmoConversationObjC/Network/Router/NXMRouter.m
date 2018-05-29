@@ -402,6 +402,33 @@
     }];
 }
 
+- (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(SuccessCallbackWithEvents)onSuccess onError:(ErrorCallback)onError{
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, getEventsRequest.conversationId]];
+    NSString* requestType = @"GET";
+    [self requestToServer:@{} url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        if (!data){
+            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            return;
+        }
+        
+        NSMutableArray *events = [[NSMutableArray alloc] init];
+        for (NSDictionary* eventJson in data){
+            NXMEvent *event = [NXMEvent alloc];
+            event.sequenceId = eventJson[@"id"];
+            event.conversationId = getEventsRequest.conversationId;
+            [events addObject:event];
+        }
+        
+        onSuccess(events);
+    }];
+}
+
 - (void)getConversationEvents:(NSString *)conversationId
                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                       onError:(ErrorCallback _Nullable)onError { // TODO: add start and end index
