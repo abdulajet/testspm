@@ -47,14 +47,13 @@
     
     self.lastMemberId = memberId;
 
-    MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithConversation:conversationId andWithMember:memberId];
+    MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithMediaId:conversationId conversationId:conversationId member:memberId];
     [self.mrtcMedia enableMediaWithMediaInfo:mediaInfo andWithAudio:MRTCMediaRTPStreamTypeSendReceive andWithVideo:MRTCMediaRTPStreamTypeNone];
 }
 
 - (void)answerWithMediaId:(NSString *)mediaId convId:(NSString *)convId andSDP:(NSString *)sdp {
-    MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithConversation:convId andWithMember:self.lastMemberId];
 
-    [self.mrtcMedia answerWithMediaInfo:mediaInfo andSDP:sdp andRtcId:@"22"]; // TODO: check mediaId
+    [self.mrtcMedia answerWithMediaId:convId andSDP:sdp andRtcId:mediaId];
 }
 
 
@@ -101,19 +100,18 @@
 
 #pragma mark: - MRTCMediaManagerDelegate
 
-- (void)onMediaStatusChange:(NSString *)status andMediaInfo:(MRTCMediaInfo *)mediaInfo {
+- (void)onMediaStatusChange:(NSString *)status andMediaInfo:(MRTCMediaInfo*)mediaInfo {
     
 }
 
-- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andType:(MRTCMediaNetworkSdpType)type completionHandler:(void (^)(NSString *, NSError *))completionHandler {
-        
+- (void)sendSDP:(NSString*)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andType:(MRTCMediaNetworkSdpType)type completionHandler:(void (^)(NSString *, NSError *))completionHandler {
         [self.delegate sendSDP:sdp andMediaInfo:mediaInfo andCompletionHandler:^(NSError * error) {
             completionHandler(@"22", error); // TODO: add mediaId
         }];
 }
 
-- (void)terminateRtcIdWithMediaInfo:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId completionHandler:(void (^)(NSError *))completionHandler {
-    
+- (void)terminateRtcIdWithMediaInfo:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId  completionHandler:(void (^)(NSError *))completionHandler {
+
 }
 
 @end

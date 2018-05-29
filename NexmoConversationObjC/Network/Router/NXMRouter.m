@@ -5,6 +5,7 @@
 //  Created by Chen Lev on 3/7/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
+#import <Foundation/Foundation.h>
 
 #import "NXMRouter.h"
 #import "NXMErrors.h"
@@ -276,6 +277,60 @@
     }];
 }
 
+- (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
+        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError {
+    
+    // set your URL Where to Upload Image
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/image/", @"https://api.nexmo.com/v1/v1"]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"POST"];
+    
+    [request setValue:[NSString stringWithFormat:@"bearer %@", self.token] forHTTPHeaderField:@"Authorization"];
+    
+    NSMutableData *body = [NSMutableData data];
+    
+    NSString *bodyDict = [NSString stringWithFormat:@"{\"from\":%@, \"type\":\"image\"}", sendImageRequest.memberId];
+    
+    NSString *boundary = @"10xKhTmLbOuNdArY";
+    //Start of First Part
+    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Disposition: form-data; name=\"message\"\r\n"
+                      dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Type: application/json; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Transfer: base64\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[bodyDict dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    //Second Part Attachment
+    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"attachment\"; filename=\"%@\"\r\n", @"optionalFileName"]
+                      dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n",@"image/jpeg" ]dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:[@"Content-Transfer: base64\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    [body appendData:sendImageRequest.image];
+    
+    //End
+    
+    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+
+    [request setHTTPBody:body];
+
+    
+    // Get Response of Your Request
+    
+    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        NSString *a = @"11";
+        a = data[@"aa"];
+        onSuccess(@"1");
+    }];
+
+}
+
 - (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
                            onError:(ErrorCallback _Nullable)onError {
@@ -515,6 +570,7 @@
             return;
         }
         
+        // TODO: 413 Payload too lage
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
             NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
