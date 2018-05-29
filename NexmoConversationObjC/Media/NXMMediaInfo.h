@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MediaInfo : NSObject
+@interface NXMMediaInfo : NSObject
 
 @property NSString *mediaId;
 @property NSString *conversationId;

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <iOSFramework/iOSFramework.h>
-//#import "MRTCMedia.h"
+
 #import "NXMEnums.h"
 
 @protocol RTCMediaWrapperDelegate
@@ -19,7 +19,7 @@
 
 @end
 
-@interface RTCMediaWrapper : NSObject<MRTCMediaManagerDelegate>
+@interface RTCMediaWrapper : NSObject<MRTCMediaDelegate>
 
 // TODO: network
 //- (void)setNetworkDelegate:(id<MRTCMediaNetwork>)networkDelegate;

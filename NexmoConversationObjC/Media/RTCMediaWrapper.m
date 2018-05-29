@@ -8,12 +8,10 @@
 
 #import "RTCMediaWrapper.h"
 
-//#import "MRTCMedia.h"
 
 @interface RTCMediaWrapper()
-@property MRTCMediaManager *mrtcMedia;
+@property MRTCMedia *mrtcMedia;
 @property (nonatomic) id<RTCMediaWrapperDelegate> delegate;
-//@property id<MRTCMediaNetwork> network;
 @property NSString* lastMemberId; // TODO: remove temporary for test
 @end
 
@@ -26,7 +24,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.mrtcMedia = [[MRTCMediaManager alloc] initWith:self];
+        self.mrtcMedia = [MRTCMedia new];
         [self.mrtcMedia setDelegate:self];
     }
     
@@ -50,7 +48,7 @@
     self.lastMemberId = memberId;
 
     MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithConversation:conversationId andWithMember:memberId];
-    [self.mrtcMedia enableMediaWithMediaInfo:mediaInfo andWithAudio:MRTCMediaManagerRTPStramType_SendReceive andWithVideo:MRTCMediaManagerRTPStramType_None];
+    [self.mrtcMedia enableMediaWithMediaInfo:mediaInfo andWithAudio:MRTCMediaRTPStreamTypeSendReceive andWithVideo:MRTCMediaRTPStreamTypeNone];
 }
 
 - (void)answerWithMediaId:(NSString *)mediaId convId:(NSString *)convId andSDP:(NSString *)sdp {
@@ -63,18 +61,18 @@
 
 #pragma mark: - private
 
-- (MRTCMediaManagerRTPStramType)nxmStreamTypeToMRTCStreamType:(NXMMediaStreamType)streamType {
+- (MRTCMediaRTPStreamType)nxmStreamTypeToMRTCStreamType:(NXMMediaStreamType)streamType {
     switch (streamType) {
         case NXMMediaStreamTypeNone:
-            return MRTCMediaManagerRTPStramType_None;
+            return MRTCMediaRTPStreamTypeNone;
         case NXMMediaStreamTypeSend:
-            return MRTCMediaManagerRTPStramType_Send;
+            return MRTCMediaRTPStreamTypeSend;
         case NXMMediaStreamTypeReceive:
-            return MRTCMediaManagerRTPStramType_Receive;
+            return MRTCMediaRTPStreamTypeReceive;
         case NXMMediaStreamTypeSendReceive:
-            return MRTCMediaManagerRTPStramType_SendReceive;
+            return MRTCMediaRTPStreamTypeSendReceive;
         default:
-            return MRTCMediaManagerRTPStramType_None;
+            return MRTCMediaRTPStreamTypeNone;
             break;
     }
 }
@@ -100,21 +98,21 @@
 //
 //}
 
-#pragma mark: - MRTCMediaNetwork
-
-- (void)sendSDP:(NSString*)sdp andMediaInfo:(MRTCMediaInfo*)mediaInfo andType:(MRTCMediaNetworkSdpType)type andComplitionHandler:(void (^)(NSString *, NSError *))completionHandler {
-    
-    [self.delegate sendSDP:sdp andMediaInfo:mediaInfo andCompletionHandler:^(NSError * error) {
-        completionHandler(@"22", error); // TODO: add mediaId
-    }];
-}
-
-- (void)terminateRtcId:(NSString*)rtcId andMediaInfo:(MRTCMediaInfo*)mediaInfo andComplitionHandler:(void (^)(NSError *))completionHandler {
-    
-}
 
 #pragma mark: - MRTCMediaManagerDelegate
-- (void)onMediaStatusChange:(NSString *)status {
+
+- (void)onMediaStatusChange:(NSString *)status andMediaInfo:(MRTCMediaInfo *)mediaInfo {
+    
+}
+
+- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andType:(MRTCMediaNetworkSdpType)type completionHandler:(void (^)(NSString *, NSError *))completionHandler {
+        
+        [self.delegate sendSDP:sdp andMediaInfo:mediaInfo andCompletionHandler:^(NSError * error) {
+            completionHandler(@"22", error); // TODO: add mediaId
+        }];
+}
+
+- (void)terminateRtcIdWithMediaInfo:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId completionHandler:(void (^)(NSError *))completionHandler {
     
 }
 
