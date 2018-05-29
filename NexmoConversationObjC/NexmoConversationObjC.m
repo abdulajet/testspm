@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "StitchConversationClientCore.h"
+#import "NexmoConversationObjC.h"
 #import "NXMNetworkManager.h"
 
 #import "RTCMediaWrapper.h"
@@ -25,23 +25,37 @@
 
 @implementation StitchConversationClientCore
 
-- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config {
+- (instancetype _Nullable)init {
     if (self = [super init]) {
-        self.network = [[NXMNetworkManager alloc] initWitHost:[config getHttpHost] andWsHost:[config getWSHost]];
+   //     NXMConversationClientConfig *config = [NXMConversationClientConfig new];
+        self.network = [[NXMNetworkManager alloc] initWitHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
-       
-        // TODO: rtcMedia
+        
+        self.rtcMedia = [[RTCMediaWrapper alloc] init];
+        [self.rtcMedia setDelegate:self];
     }
     
     return self;
 }
+//- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config {
+//    if (self = [super init]) {
+//        self.network = [[NXMNetworkManager alloc] initWitHost:[config getHttpHost] andWsHost:[config getWSHost]];
+//        [self.network setDelegate:(id<NXMNetworkDelegate>)self];
+//
+//        // TODO: rtcMedia
+//    }
+//
+//    return self;
+//}
 
 - (void)enablePushNotifications:(BOOL)enable responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
     
 }
 
-- (void)loginWithAuthToken:(nonnull NSString *)authToken {
-    [self.network loginWithToken:authToken];
+- (void)loginWithAuthToken:(nonnull NSString *)authToken
+                 onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                   onError:(ErrorCallback _Nullable)onError {
+    [self.network loginWithToken:authToken onSuccess:onSuccess onError:onError];
 }
 
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
@@ -66,7 +80,7 @@
     return NO;
 } // TODO: the use already login but the network is down?
 
-- (void)registerEventsWithDelegate:(nonnull id<NXMConversationClientDelegate>)delegate {
+- (void)setDelgate:(nonnull id<NXMConversationClientDelegate>)delegate {
     self.delegate = delegate;
 }
 
@@ -225,12 +239,16 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate connectedWithUser:user];
 }
 
-- (void)memberJoined:(nonnull NXMMember *)member {
+- (void)memberJoined:(nonnull NXMMemberEvent *)member {
     [self.delegate memberJoined:member];
 }
 
-- (void)memberRemoved:(nonnull NXMMember *)member {
+- (void)memberRemoved:(nonnull NXMMemberEvent *)member {
     [self.delegate memberRemoved:member];
+}
+
+- (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent {
+    [self.delegate memberInvited:memberEvent];
 }
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent {
@@ -265,11 +283,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent {
-    
+    [self.delegate mediaChanged:mediaEvent];
 }
 
 - (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
-    [self.rtcMedia answerWithMediaId:mediaEvent.rtcId andSDP:mediaEvent.sdp];
+    [self.rtcMedia answerWithMediaId:mediaEvent.rtcId convId:mediaEvent.conversationId andSDP:mediaEvent.sdp];
 }
 
 #pragma mark -

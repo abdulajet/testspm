@@ -11,7 +11,7 @@ def shared_pods
     pod 'VPSocketIO'#, :path => "../VPSocketIO"
 end
 
-target 'testApp' do
+target 'StitchTestApp' do
     shared_pods
 end
 

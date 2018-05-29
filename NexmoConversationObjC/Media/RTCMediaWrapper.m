@@ -8,13 +8,13 @@
 
 #import "RTCMediaWrapper.h"
 
-#import "MRTCMedia.h"
+//#import "MRTCMedia.h"
 
 @interface RTCMediaWrapper()
 @property MRTCMediaManager *mrtcMedia;
 @property (nonatomic) id<RTCMediaWrapperDelegate> delegate;
 //@property id<MRTCMediaNetwork> network;
-
+@property NSString* lastMemberId; // TODO: remove temporary for test
 @end
 
 
@@ -26,14 +26,15 @@
 
 - (instancetype)init {
     if (self = [super init]) {
-       // self.mrtcMedia = [[MRTCMedia alloc] init];
+        self.mrtcMedia = [[MRTCMediaManager alloc] initWith:self];
+        [self.mrtcMedia setDelegate:self];
     }
     
     return self;
 }
 
 - (void)setDelegate:(id<RTCMediaWrapperDelegate>)delegate {
-    self.delegate = delegate;
+    _delegate = delegate;
 }
 
 
@@ -46,18 +47,16 @@
                   andWithAudio:(NXMMediaStreamType)audiostream
                   andWithVideo:(NXMMediaStreamType)videoStream {
     
-    MRTCMediaInfo *info = [MRTCMediaInfo new];
-    info._conversationId = conversationId;
-    info._mediaId = conversationId;
-    info._memberId = memberId;
-    
-    [self.mrtcMedia enableMediaWithMediaID:info
-                              andWithAudio:[self nxmStreamTypeToMRTCStreamType:audiostream]
-                              andWithVideo:[self nxmStreamTypeToMRTCStreamType:videoStream]];
+    self.lastMemberId = memberId;
+
+    MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithConversation:conversationId andWithMember:memberId];
+    [self.mrtcMedia enableMediaWithMediaInfo:mediaInfo andWithAudio:MRTCMediaManagerRTPStramType_SendReceive andWithVideo:MRTCMediaManagerRTPStramType_None];
 }
 
-- (void)answerWithMediaId:(NSString *)mediaId andSDP:(NSString *)sdp {
-    [self.mrtcMedia answerWithMediaId:mediaId andSDP:sdp];
+- (void)answerWithMediaId:(NSString *)mediaId convId:(NSString *)convId andSDP:(NSString *)sdp {
+    MRTCMediaInfo *mediaInfo = [[MRTCMediaInfo alloc]initWithConversation:convId andWithMember:self.lastMemberId];
+
+    [self.mrtcMedia answerWithMediaInfo:mediaInfo andSDP:sdp andRtcId:@"22"]; // TODO: check mediaId
 }
 
 
@@ -101,13 +100,21 @@
 //
 //}
 
-#pragma mark: - MRTCMediaDelegate
+#pragma mark: - MRTCMediaNetwork
 
-- (void)onMediaStatusChange:(NSString *)status mediaId:(NSString *)mediaId {
-    [self.delegate onMediaStatusChangedWithConversationId:mediaId andStatus:status];
+- (void)sendSDP:(NSString*)sdp andMediaInfo:(MRTCMediaInfo*)mediaInfo andType:(MRTCMediaNetworkSdpType)type andComplitionHandler:(void (^)(NSString *, NSError *))completionHandler {
+    
+    [self.delegate sendSDP:sdp andMediaInfo:mediaInfo andCompletionHandler:^(NSError * error) {
+        completionHandler(@"22", error); // TODO: add mediaId
+    }];
 }
 
-- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andCompletionHandler:(void (^)(NSError *))completionHandler {
+- (void)terminateRtcId:(NSString*)rtcId andMediaInfo:(MRTCMediaInfo*)mediaInfo andComplitionHandler:(void (^)(NSError *))completionHandler {
+    
+}
+
+#pragma mark: - MRTCMediaManagerDelegate
+- (void)onMediaStatusChange:(NSString *)status {
     
 }
 

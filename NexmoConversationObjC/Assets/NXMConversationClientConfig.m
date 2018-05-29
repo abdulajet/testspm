@@ -1,22 +1,22 @@
+////
+////  NXMConversationClientConfig.m
+////  NexmoConversationObjC
+////
+////  Created by Chen Lev on 2/27/18.
+////  Copyright © 2018 Vonage. All rights reserved.
+////
 //
-//  NXMConversationClientConfig.m
-//  NexmoConversationObjC
+//#import "StitchConversationClientCore.h"
 //
-//  Created by Chen Lev on 2/27/18.
-//  Copyright © 2018 Vonage. All rights reserved.
+//@implementation NXMConversationClientConfig
 //
-
-#import "StitchConversationClientCore.h"
-
-@implementation NXMConversationClientConfig
-
-- (nonnull NSString *)getWSHost {
-    return @"https://ws.nexmo.com/";
-}
-
-- (nonnull NSString *)getHttpHost {
-    return @"https://api.nexmo.com/beta/";
-}
-
-@end
-
+//- (nonnull NSString *)getWSHost {
+//    return @"https://ws.nexmo.com/";
+//}
+//
+//- (nonnull NSString *)getHttpHost {
+//    return @"https://api.nexmo.com/beta/";
+//}
+//
+//@end
+//

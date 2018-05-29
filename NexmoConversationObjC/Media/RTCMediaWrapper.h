@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-#import "MRTCMedia.h"
+#import <iOSFramework/iOSFramework.h>
+//#import "MRTCMedia.h"
 #import "NXMEnums.h"
 
 @protocol RTCMediaWrapperDelegate
@@ -29,7 +29,7 @@
 - (void)disableMedia:(NSString *)mediaId;
 
 - (void)enableMediaWithMediaID:(NSString *)conversationId memberId:(NSString *)memberId andWithAudio:(NXMMediaStreamType)audiostream andWithVideo:(NXMMediaStreamType)videoStream;
-- (void)answerWithMediaId:(NSString *)mediaId andSDP:(NSString *)sdp;
+- (void)answerWithMediaId:(NSString *)mediaId convId:(NSString *)convId andSDP:(NSString *)sdp;
 
 //- (void)addMemberWithMediaId:(NSString *)mediaId andSdp:(NSString *)sdp;
 //- (void)updateMediaMediaId:(NSString *)mediaId andWithAudio:(MRTCMediaManagerMediaType)audioStream andWithVideo:(MRTCMediaManagerRTPStramType)videoStream;

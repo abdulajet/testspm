@@ -26,7 +26,9 @@
 
 - (void)setDelegate:(nonnull id<NXMNetworkDelegate>)delegate;
 
-- (void)loginWithToken:(NSString * _Nonnull)token;
+- (void)loginWithToken:(NSString * _Nonnull)token
+             onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+               onError:(ErrorCallback _Nullable)onError;
 
 - (void)logout;
 

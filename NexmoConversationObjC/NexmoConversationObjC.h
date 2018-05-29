@@ -30,6 +30,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
+#import "NXMMemberEvent.h"
 
 #import "NXMGetConversationsRequest.h"
 
@@ -40,13 +41,13 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
  * @name NXMConfig SDK Integration
  *  ---------------------------------------------------------------------------------------
  */
-
-@interface NXMConversationClientConfig : NSObject
-
-- (nonnull NSString *)getWSHost;
-- (nonnull NSString *)getHttpHost;
-
-@end
+//
+//@interface NXMConversationClientConfig : NSObject
+//
+//- (nonnull NSString *)getWSHost;
+//- (nonnull NSString *)getHttpHost;
+//
+//@end
 
 #pragma mark - StitchConversationClientCore
 
@@ -56,9 +57,12 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
  */
 @interface StitchConversationClientCore:NSObject
 
-- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
+- (instancetype _Nullable)init;
+//- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 - (void)enablePushNotifications:(BOOL)enable responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
-- (void)loginWithAuthToken:(nonnull NSString *)authToken;
+- (void)loginWithAuthToken:(nonnull NSString *)authToken
+                 onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+                   onError:(ErrorCallback _Nullable)onError;
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
 
 #pragma mark - Conversation Methods
@@ -158,7 +162,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (nonnull NSString *)getToken;
 - (BOOL)isLoggedIn; // TODO: the use already login but the network is down?
 
-- (void)registerEventsWithDelegate:(nonnull id<NXMConversationClientDelegate>)delegate;
+- (void)setDelgate:(nonnull id<NXMConversationClientDelegate>)delegate;
 - (void)unregisterEvents;
 
 
@@ -175,10 +179,9 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)connectedWithUser:(NXMUser *_Nonnull)user;
 - (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status;
 
-- (void)memberJoined:(nonnull NXMMember *)member;
-- (void)memberLeft:(nonnull NXMMember *)member;
-- (void)memberInvited:(nonnull NXMMember *)member byMember:(nonnull NSString *)memberId;
-- (void)memberRemoved:(nonnull NXMMember *)member;
+- (void)memberJoined:(nonnull NXMMemberEvent *)member;
+- (void)memberInvited:(nonnull NXMMemberEvent *)member;
+- (void)memberRemoved:(nonnull NXMMemberEvent *)member;
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
 - (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent;

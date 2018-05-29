@@ -14,3 +14,6 @@ xcschememanagement.plist
 
 # Other
 .DS_Store
+#temporary
+iOSFramework.framework/* 
+

@@ -6,7 +6,6 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "StitchConversationClientCore.h"
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
 #import "NXMTextStatusEvent.h"

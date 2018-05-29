@@ -15,6 +15,10 @@
 @property NXMSocketClient *socketClient;
 @property NXMRouter *router;
 @property (nonatomic) id<NXMNetworkDelegate> delegate;
+
+@property SuccessCallbackWithObject loginSuccessCallback;
+@property ErrorCallback loginErrorCallback;
+
 @end
 
 @implementation NXMNetworkManager
@@ -36,7 +40,12 @@
     _delegate = delegate;
 }
 
-- (void)loginWithToken:(NSString * _Nonnull)token {
+- (void)loginWithToken:(NSString * _Nonnull)token
+             onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
+               onError:(ErrorCallback _Nullable)onError {
+    self.loginSuccessCallback = onSuccess;
+    self.loginErrorCallback = onError;
+    
     [self.socketClient loginWithToken:token];
     [self.router setToken:token];
 }
@@ -143,6 +152,12 @@
     [self.delegate memberRemoved:memberEvent];
 }
 
+- (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent {
+    [self.delegate memberInvited:memberEvent];
+}
+
+
+
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
     [self.delegate textRecieved:textEvent];
 }
@@ -183,6 +198,15 @@
     [self.router setSessionId:sessionId];
     
     [self.delegate userStatusChanged:user sessionId:sessionId];
+    
+    self.loginSuccessCallback(user);
+}
+
+- (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
+    [self.delegate mediaEvent:mediaEvent];
+}
+- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
+    [self.delegate mediaAnswerEvent:mediaEvent];
 }
 
 @end

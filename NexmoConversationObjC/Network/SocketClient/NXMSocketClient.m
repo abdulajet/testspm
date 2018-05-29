@@ -357,6 +357,9 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.state = @"JOINED";
     memberEvent.conversationId = json[@"cid"];
     
+    memberEvent.type = @"member";
+
+    
     [self.delegate memberJoined:memberEvent];
 }
 
@@ -370,6 +373,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.sequenceId = json[@"id"];
     memberEvent.state = @"INVITED";
     memberEvent.conversationId = json[@"cid"];
+    
+    memberEvent.type = @"member";
     
     [self.delegate memberInvited:memberEvent];
 }
@@ -385,6 +390,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.sequenceId = json[@"id"];
     memberEvent.state = @"LEFT";
     memberEvent.conversationId = json[@"cid"];
+    
+    memberEvent.type = @"member";
     
     [self.delegate memberRemoved:memberEvent];
 }
@@ -536,7 +543,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = json[@"timestamp"];
     mediaEvent.sequenceId = json[@"id"];
-    mediaEvent.isMediaEnabled = [json[@"body"][@"audio"] isEqualToString:@"true"];
+    mediaEvent.isMediaEnabled = json[@"body"][@"audio"];
+    mediaEvent.type = @"media";
     
     [self.delegate mediaEvent:mediaEvent];
 }

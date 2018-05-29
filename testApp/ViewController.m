@@ -9,6 +9,7 @@
 #import "ViewController.h"
 
 #import "StitchConversationClientCore.h"
+#import <AVFoundation/AVAudioSession.h>
 
 @interface ViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *tokenText;
@@ -41,6 +42,13 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 
     self.conversations = [NSMutableArray new];
     self.members = [NSMutableArray new];
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)])
+    {
+        [[AVAudioSession sharedInstance] requestRecordPermission: ^ (BOOL response)
+         {
+             NSLog(@"iOS 7+: Allow microphone use response: %d", response);
+         }];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -222,6 +230,7 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 }
 - (IBAction)enableAudioPressed:(id)sender {
    // [self.client enableMedia:self.conversations[0]];
+    [self.client enableMedia:self.conversations[0] memberId:self.members[0].memberId];
 }
 
 - (IBAction)disableAudioPressed:(id)sender {
@@ -305,6 +314,10 @@ static NSString *const URL = @"https://ws.nexmo.com/";
 - (void)messageSent:(nonnull NXMTextEvent *)message{
     self.outputField.text = [NSString stringWithFormat: @"%@\n\r text received from id:%@ msg:%@",self.outputField.text, message.fromMemberId, message  .text];
 
+}
+
+- (void)localMediaChanged:(nonnull NXMMediaEvent *)mediaEvent {
+    self.outputField.text = [NSString stringWithFormat: @"%@\n\r media event:%@ msg:%@",self.outputField.text, mediaEvent.isMediaEnabled];
 }
 
 @end

@@ -129,7 +129,6 @@
                                     <color key="titleColor" red="0.96221924380000001" green="1" blue="0.98878509960000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="deleteMessegePressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SQ7-kg-HiW"/>
                                     <action selector="enableAudioPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dSf-UB-fQJ"/>
                                 </connections>
                             </button>

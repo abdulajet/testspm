@@ -393,10 +393,31 @@
             details.uuid = conversationJson[@"uuid"];
             [conversations addObject:details];
         }
+        
+        NXMPageInfo *pageInfo = [[NXMPageInfo alloc] initWithCount:data[@"count"]
+                                                          pageSize:data[@"page_size"]
+                                                       recordIndex:data[@"record_index"]];
     
-        onSuccess(conversations);
+        onSuccess(conversations, pageInfo);
     }];
 }
+
+- (void)getConversationEvents:(NSString *)conversationId
+                    onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
+                      onError:(ErrorCallback _Nullable)onError { // TODO: add start and end index
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
+    NSString* requestType = @"GET";
+    
+    [self requestToServer:@{} url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        
+    }];
+}
+
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
