@@ -6,8 +6,8 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "MediaInfo.h"
+#import "NXMMediaInfo.h"
 
-@implementation MediaInfo
+@implementation NXMMediaInfo
 
 @end

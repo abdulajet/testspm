@@ -26,7 +26,7 @@
 }
 
 - (void)updateWithEvent:(NXMEvent *)event {
-    if ([event.type isEqualToString:@"text"]) {
+    if (event.type == NXMEventTypeText) {
         self.toText.text = ((NXMTextEvent *)event).text;
     }
 }

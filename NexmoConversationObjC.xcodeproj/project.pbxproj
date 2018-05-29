@@ -73,8 +73,8 @@
 		F99D859A208DDE55003B004B /* RTCMediaWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D8598208DDE55003B004B /* RTCMediaWrapper.m */; };
 		F99D859D208F6202003B004B /* NXMNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D859B208F6202003B004B /* NXMNetworkManager.h */; };
 		F99D859E208F6202003B004B /* NXMNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D859C208F6202003B004B /* NXMNetworkManager.m */; };
-		F99D85A22090C4D1003B004B /* MediaInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D85A02090C4D1003B004B /* MediaInfo.h */; };
-		F99D85A32090C4D1003B004B /* MediaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D85A12090C4D1003B004B /* MediaInfo.m */; };
+		F99D85A22090C4D1003B004B /* NXMMediaInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D85A02090C4D1003B004B /* NXMMediaInfo.h */; };
+		F99D85A32090C4D1003B004B /* NXMMediaInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D85A12090C4D1003B004B /* NXMMediaInfo.m */; };
 		F9C35DD7203078BD009FAE4F /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4920628BDA00A70212 /* NXMEvent.h */; };
 		F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
@@ -220,8 +220,8 @@
 		F99D8598208DDE55003B004B /* RTCMediaWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RTCMediaWrapper.m; sourceTree = "<group>"; };
 		F99D859B208F6202003B004B /* NXMNetworkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNetworkManager.h; sourceTree = "<group>"; };
 		F99D859C208F6202003B004B /* NXMNetworkManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMNetworkManager.m; sourceTree = "<group>"; };
-		F99D85A02090C4D1003B004B /* MediaInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaInfo.h; sourceTree = "<group>"; };
-		F99D85A12090C4D1003B004B /* MediaInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MediaInfo.m; sourceTree = "<group>"; };
+		F99D85A02090C4D1003B004B /* NXMMediaInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaInfo.h; sourceTree = "<group>"; };
+		F99D85A12090C4D1003B004B /* NXMMediaInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaInfo.m; sourceTree = "<group>"; };
 		F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DD6203078BD009FAE4F /* NexmoConversationObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoConversationObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DDD203078BD009FAE4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -461,8 +461,8 @@
 			children = (
 				F99D8597208DDE55003B004B /* RTCMediaWrapper.h */,
 				F99D8598208DDE55003B004B /* RTCMediaWrapper.m */,
-				F99D85A02090C4D1003B004B /* MediaInfo.h */,
-				F99D85A12090C4D1003B004B /* MediaInfo.m */,
+				F99D85A02090C4D1003B004B /* NXMMediaInfo.h */,
+				F99D85A12090C4D1003B004B /* NXMMediaInfo.m */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -571,7 +571,7 @@
 				F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */,
 				F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */,
 				F9873551204FDBAB00C90695 /* NXMConversationDetails.h in Headers */,
-				F99D85A22090C4D1003B004B /* MediaInfo.h in Headers */,
+				F99D85A22090C4D1003B004B /* NXMMediaInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -891,7 +891,7 @@
 				F987354C20446AFF00C90695 /* NexmoConversationObjC.m in Sources */,
 				F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */,
 				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
-				F99D85A32090C4D1003B004B /* MediaInfo.m in Sources */,
+				F99D85A32090C4D1003B004B /* NXMMediaInfo.m in Sources */,
 				F9998ACE20837EF100EAC286 /* NXMLogger.m in Sources */,
 				F9167D892033222500F97CED /* NXMSocketClient.m in Sources */,
 				F987354E2045C03700C90695 /* NXMConversationClientConfig.m in Sources */,
