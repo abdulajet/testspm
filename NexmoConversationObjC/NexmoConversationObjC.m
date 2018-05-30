@@ -296,16 +296,23 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.rtcMedia answerWithMediaId:mediaEvent.rtcId convId:mediaEvent.conversationId andSDP:mediaEvent.sdp];
 }
 
-#pragma mark -
+#pragma mark - RTCMediaWrapper
 
 - (void)onMediaStatusChangedWithConversationId:(NSString *)conversationId andStatus:(NSString *)status {
     // TODO:
 }
+    
+- (void)sendSDP:(NSString *)sdp
+    andMediaInfo:(MRTCMediaInfo *)mediaInfo
+    onSuccess:(SuccessCallbackWithId)onSuccess
+    onError:(ErrorCallback)onError {
+    [self.network enableMedia:mediaInfo._conversationId memberId:mediaInfo._memberId sdp:sdp mediaType:@"" onSuccess:onSuccess onError:onError];
+}
 
-- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andCompletionHandler:(void (^)(NSError *))completionHandler {
-    [self.network enableMedia:mediaInfo._conversationId memberId:mediaInfo._memberId sdp:sdp mediaType:@"" onSuccess:^(NSString *value) {
+- (void)terminateRtc:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId  completionHandler:(void (^)(NSError *))completionHandler {
+    [self.network disableMedia:mediaInfo._conversationId rtcId:rtcId memberId:mediaInfo._memberId onSuccess:^{
         completionHandler(nil);
-    } onError:^(NSError *error) {
+    } onError:^(NSError * _Nullable error) {
         completionHandler(error);
     }];
 }

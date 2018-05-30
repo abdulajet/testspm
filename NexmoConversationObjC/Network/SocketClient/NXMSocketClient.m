@@ -512,7 +512,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.sessionId = json[@"session_destination"];
     mediaEvent.timestamp = json[@"timestamp"];
     mediaEvent.sdp = json[@"body"][@"answer"];
-    mediaEvent.rtcId = json[@"body"][@"rtcId"];
+    mediaEvent.rtcId = json[@"body"][@"rtc_id"];
     
     [self.delegate mediaAnswerEvent:mediaEvent];
 }

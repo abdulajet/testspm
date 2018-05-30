@@ -88,6 +88,7 @@
 
 - (void)disableMedia:(nonnull NSString *)conversationId
                rtcId:(nonnull NSString *)rtcId
+            memberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
 @end

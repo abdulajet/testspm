@@ -37,7 +37,7 @@
 
 
 - (void)disableMedia:(NSString *)mediaId {
-    
+    [self.mrtcMedia disableMediaWithMediaId:mediaId];
 }
 
 - (void)enableMediaWithMediaID:(NSString *)conversationId
@@ -105,13 +105,17 @@
 }
 
 - (void)sendSDP:(NSString*)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andType:(MRTCMediaNetworkSdpType)type completionHandler:(void (^)(NSString *, NSError *))completionHandler {
-        [self.delegate sendSDP:sdp andMediaInfo:mediaInfo andCompletionHandler:^(NSError * error) {
-            completionHandler(@"22", error); // TODO: add mediaId
-        }];
+    [self.delegate sendSDP:sdp andMediaInfo:mediaInfo onSuccess:^(NSString * _Nullable value) {
+        completionHandler(value, nil);
+    } onError:^(NSError * _Nullable error) {
+        completionHandler(nil, error);
+    }];
 }
 
 - (void)terminateRtcIdWithMediaInfo:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId  completionHandler:(void (^)(NSError *))completionHandler {
-
+    [self.delegate terminateRtc:mediaInfo rtcId:rtcId completionHandler:^(NSError * error) {
+        completionHandler(error);
+    }];
 }
 
 @end

@@ -148,10 +148,12 @@
     [self.router enableMedia:conversationId memberId:memberId sdp:sdp mediaType:mediaType onSuccess:onSuccess onError:onError];
 }
 
-- (void)disableMedia:(NSString *)conversationId rtcId:(NSString *)rtcId // TODO: memberId
+- (void)disableMedia:(NSString *)conversationId
+               rtcId:(NSString *)rtcId
+            memberId:(NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError {
-    [self.router disableMedia:conversationId rtcId:rtcId onSuccess:onSuccess onError:onError];
+    [self.router disableMedia:conversationId rtcId:rtcId memberId:memberId onSuccess:onSuccess onError:onError];
 }
 
 # pragma mark - NXMSocketClientDelegate

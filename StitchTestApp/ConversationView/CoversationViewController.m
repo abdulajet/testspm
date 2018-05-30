@@ -29,6 +29,8 @@
 @property NSString *memberId;
 @property NSString *userId;
 
+@property BOOL isMediaEnabled;
+
 @end
 
 @implementation CoversationViewController
@@ -136,16 +138,23 @@
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
-    //[self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    if (self.isMediaEnabled) {
+        self.isMediaEnabled = NO;
+        [self.stitch disableMedia:self.conversation.uuid];
+        return;
+    }
     
-    UIImage *image = [UIImage imageNamed:@"addMember"];
-    NSData *imageData = UIImagePNGRepresentation(image);
-
-    [self.stitch sendImage:imageData conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
-        NSLog(@"s");
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"error");
-    }];
+    self.isMediaEnabled = YES;
+    [self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    
+//    UIImage *image = [UIImage imageNamed:@"addMember"];
+//    NSData *imageData = UIImagePNGRepresentation(image);
+//
+//    [self.stitch sendImage:imageData conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+//        NSLog(@"s");
+//    } onError:^(NSError * _Nullable error) {
+//        NSLog(@"error");
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {

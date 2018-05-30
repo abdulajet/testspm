@@ -10,13 +10,18 @@
 #import <iOSFramework/iOSFramework.h>
 
 #import "NXMEnums.h"
+#import "NXMNetworkCallbacks.h"
 
 @protocol RTCMediaWrapperDelegate
 
 - (void)onMediaStatusChangedWithConversationId:(NSString *)conversationId andStatus:(NSString *)status;
 
-- (void)sendSDP:(NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andCompletionHandler:(void (^)(NSError *))completionHandler;
+- (void)sendSDP:(NSString *)sdp
+   andMediaInfo:(MRTCMediaInfo *)mediaInfo
+      onSuccess:(SuccessCallbackWithId)onSuccess
+        onError:(ErrorCallback)onError;
 
+- (void)terminateRtc:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId  completionHandler:(void (^)(NSError *))completionHandler;
 @end
 
 @interface RTCMediaWrapper : NSObject<MRTCMediaDelegate>

@@ -140,23 +140,26 @@
             return;
         }
         
-        onSuccess(@"11");
+        onSuccess(data[@"rtc_id"]);
     }];
 }
 
-- (void)disableMedia:(NSString *)conversationId rtcId:(NSString *)rtcId
+// TODO: member id not found error
+- (void)disableMedia:(NSString *)conversationId
+               rtcId:(NSString *)rtcId
+            memberId:(NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError {
+    
+    NSDictionary *dict = @{ @"body": @{ @"from": memberId } };
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/rtc/%@", self.baseUrl, conversationId, rtcId]];
 
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
     [self addHeader:request];
-    [request setHTTPMethod:@"DELETE"];
     
-    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        // TODO: check repsonse
-        if (error) {
+    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
             onError(error);
             return;
         }

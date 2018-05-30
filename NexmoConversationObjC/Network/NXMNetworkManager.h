@@ -100,8 +100,9 @@
           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
             onError:(ErrorCallback _Nullable)onError;
 
-- (void)disableMedia:(nonnull NSString *)conversationId
-               rtcId:(nonnull NSString *)rtcId
+- (void)disableMedia:(NSString *)conversationId
+               rtcId:(NSString *)rtcId
+            memberId:(NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
 
