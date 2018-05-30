@@ -140,6 +140,12 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
+- (void)getEvents:(nonnull NXMGetEventsRequest *)getEventsRequest
+        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError{
+    [self.network getEvents:getEventsRequest onSuccess:onSuccess onError:onError];
+}
+
 - (void)getConversations:(nonnull NXMGetConversationsRequest *)getConversationsRequest
                onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError {

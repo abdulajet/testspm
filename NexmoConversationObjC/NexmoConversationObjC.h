@@ -33,6 +33,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 #import "NXMMemberEvent.h"
 
 #import "NXMGetConversationsRequest.h"
+#import "NXMGetEventsRequest.h"
 
 #pragma mark - SDK Integration
 
@@ -90,6 +91,10 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
     fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
+
+- (void)getEvents:(nonnull NXMGetEventsRequest *)getEventsRequest
+        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError;
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest *)getConvetsationsRequest
                onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess

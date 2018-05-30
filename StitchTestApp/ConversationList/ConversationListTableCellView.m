@@ -21,6 +21,8 @@
     return self.conversation;
 }
 -(void)updateWithConversation:(NXMConversationDetails*)conversation {
+    self.conversation = conversation;
+    
     if ([self.conversation.name length] > 0) {
         self.conversationName.text = self.conversation.name;
         return;

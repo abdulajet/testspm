@@ -15,6 +15,12 @@
 #import "NXMDeleteEventRequest.h"
 
 #import "NXMNetworkCallbacks.h"
+#import "NXMMemberEvent.h"
+#import "NXMMediaEvent.h"
+#import "NXMTextEvent.h"
+#import "NXMTextStatusEvent.h"
+#import "NXMTextTypingEvent.h"
+#import "NXMTextEventStatus.h"
 
 @interface NXMRouter()
 
@@ -456,7 +462,6 @@
         onSuccess(conversations, pageInfo);
     }];
 }
-
 - (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(SuccessCallbackWithEvents)onSuccess onError:(ErrorCallback)onError{
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, getEventsRequest.conversationId]];
@@ -474,10 +479,30 @@
         
         NSMutableArray *events = [[NSMutableArray alloc] init];
         for (NSDictionary* eventJson in data){
-            NXMEvent *event = [NXMEvent alloc];
-            event.sequenceId = eventJson[@"id"];
-            event.conversationId = getEventsRequest.conversationId;
-            [events addObject:event];
+            NSString* type = eventJson[@"type"];
+            if ([type isEqual:@"member:joined"]){
+                [events addObject:[self parseMemberEvent:@"joined" dict:eventJson conversationId:getEventsRequest.conversationId]];
+            }else if ([type isEqual:@"member:invited"]){
+                [events addObject:[self parseMemberEvent:@"invited" dict:eventJson conversationId:getEventsRequest.conversationId]];
+            }else if ([type isEqual:@"member:left"]){
+                [events addObject:[self parseMemberEvent:@"left" dict:eventJson conversationId:getEventsRequest.conversationId]];
+            }else if ([type isEqual:@"member:media"]){
+                [events addObject:[self parseMediaEvent:eventJson conversationId:getEventsRequest.conversationId]];
+            }else if ([type isEqual:@"text:seen"]){
+                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusESeen]];
+            }else if ([type isEqual:@"text:delivered"]){
+                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDelivered]];
+            }else if ([type isEqual:@"text"]){
+                [events addObject:[self parseTextEvent:eventJson conversationId:getEventsRequest.conversationId]];
+            }else if ([type isEqual:@"image"]){
+                //[events addObject:event];
+            }else if ([type isEqual:@"image:seen"]){
+                //[events addObject:event];
+            }else if ([type isEqual:@"image:delivered"]){
+                //[events addObject:event];
+            }else if ([type isEqual:@"event:deleted"]){
+                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
+            }
         }
         
         onSuccess(events);
@@ -620,5 +645,71 @@
     }] resume];
 }
 
+- (NSString*)getType:(nonnull NSDictionary*)dict{
+    return dict[@"type"];
+}
+- (NSString*)getSequenceId:(nonnull NSDictionary*)dict{
+    return dict[@"id"];
+}
+- (NSString*)getFromMemberId:(nonnull NSDictionary*)dict{
+    return dict[@"from"];
+}
+- (NSDate*)getCreationDate:(nonnull NSDictionary*)dict{
+    return dict[@"timestamp"];
+}
+
+- (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
+    NXMMemberEvent* event = [NXMMemberEvent alloc];
+    event.sequenceId = [self getSequenceId:dict];
+    event.conversationId = conversationId;
+    event.fromMemberId = [self getFromMemberId:dict];
+    event.creationDate = [self getCreationDate:dict];
+    event.type = NXMEventTypeMember;
+    event.state = state;
+    event.memberId = dict[@"body"][@"user"][@"member_id"];
+    event.name = dict[@"body"][@"user"][@"name"];
+    event.user = [NXMUser alloc];
+    event.user.name = dict[@"body"][@"user"][@"name"];
+    event.user.uuid = dict[@"body"][@"user"][@"user_id"];
+    return event;
+}
+
+- (NXMMediaEvent* )parseMediaEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
+    NXMMediaEvent* event = [NXMMediaEvent alloc];
+    event.sequenceId = [self getSequenceId:dict];
+    event.conversationId = conversationId;
+    event.fromMemberId = [self getFromMemberId:dict];
+    event.creationDate = [self getCreationDate:dict];
+    event.type = NXMEventTypeMedia;
+    if (dict[@"body"][@"audio"]){
+        event.isMediaEnabled = [dict[@"body"][@"audio"] boolValue];
+    }
+    else if (dict[@"body"][@"video"]){
+        event.isMediaEnabled = [dict[@"body"][@"audio"] boolValue];
+    }
+    return event;
+}
+
+- (NXMTextStatusEvent* )parseTextStatusEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMTextEventStatusE )state{
+    NXMTextStatusEvent * event = [NXMTextStatusEvent alloc];
+    event.sequenceId = [self getSequenceId:dict];
+    event.conversationId = conversationId;
+    event.fromMemberId = [self getFromMemberId:dict];
+    event.creationDate = [self getCreationDate:dict];
+    event.type = NXMEventTypeTextStatus;
+    event.status = state;
+    event.eventId = eventJson[@"body"][@"event_id"];
+}
+
+- (NXMTextEvent *)parseTextEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId {
+    NXMTextEvent* event = [NXMTextEvent alloc];
+    event.sequenceId = [self getSequenceId:dict];
+    event.conversationId = conversationId;
+    event.fromMemberId = [self getFromMemberId:dict];
+    event.creationDate = [self getCreationDate:dict];
+    event.type = NXMEventTypeText;
+    event.text = eventJson[@"body"][@"text"];
+    return event
+}
 
 @end

@@ -26,9 +26,11 @@
 }
 
 - (void)updateWithEvent:(NXMEvent *)event {
-    if (event.type == NXMEventTypeText) {
-        self.toText.text = ((NXMTextEvent *)event).text;
-    }
+    NSString* str = [[NSString alloc] initWithFormat:@"conversationId:%@ type:%ld id:%@",event.conversationId,(long)event.type,event.sequenceId];
+    self.toText.text = str;
+//    if (event.type == NXMEventTypeText) {
+//        self.toText.text = ((NXMTextEvent *)event).text;
+//    }
 }
 
 @end

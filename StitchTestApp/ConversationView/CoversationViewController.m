@@ -159,19 +159,15 @@
     
     self.conversation = conversation;
     self.navigationItem.title = self.conversation.name;
+    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
+    getEventRequest.conversationId = conversation.uuid;
     
- //   [self.stitch join:conversation.uuid withUserId:[self.stitch getUser].uuid onSuccess:^(NSString * _Nullable value) {
-//        [self.stitch getConversationEvents:conversation.uuid startOffset:0 endOffset:100 onSuccess:^(NSArray * _Nullable objects) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self.events addObjectsFromArray:objects];
-//                [self.tableView reloadData];
-//            });
-//        } onError:^(NSError * _Nullable error) {
-//            NSLog(@"error get events");
-//        }];
-//    } onError:^(NSError * _Nullable error) {
-//        NSLog(@"error add me");
-//    }];
+    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        self.events = events;
+        [self.tableView reloadData];
+    } onError:^(NSError * _Nullable error) {
+        
+    }];
 
 }
 
