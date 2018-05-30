@@ -701,7 +701,9 @@
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeTextStatus;
     event.status = state;
-    event.eventId = eventJson[@"body"][@"event_id"];
+    event.eventId = dict[@"body"][@"event_id"];
+    
+    return event;
 }
 
 - (NXMTextEvent *)parseTextEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId {
@@ -711,8 +713,8 @@
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeText;
-    event.text = eventJson[@"body"][@"text"];
-    return event
+    event.text = dict[@"body"][@"text"];
+    return event;
 }
 
 @end
