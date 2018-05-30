@@ -90,6 +90,12 @@
     [self.router sendTextToConversation:sendTextEventRequest onSuccess:onSuccess onError:onError];
 }
 
+- (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
+        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError {
+    [self.router sendImage:sendImageRequest onSuccess:onSuccess onError:onError];
+}
+
 - (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
                            onError:(ErrorCallback _Nullable)onError {

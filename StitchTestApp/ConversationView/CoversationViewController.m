@@ -136,7 +136,16 @@
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
-    [self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    //[self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    
+    UIImage *image = [UIImage imageNamed:@"addMember"];
+    NSData *imageData = UIImagePNGRepresentation(image);
+
+    [self.stitch sendImage:imageData conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+        NSLog(@"s");
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error");
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

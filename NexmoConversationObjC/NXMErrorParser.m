@@ -39,6 +39,9 @@
     else if ([errorCodeMsg isEqualToString:@"event:error:not-found"]){
         return NXMStitchErrorCodeEventNotFound      ;
     }
+    else if ([errorCodeMsg isEqualToString:@"conversation:error:not-found"]){
+        return NXMStitchErrorCodeEventNotFound      ;
+    }
     return NXMStitchErrorCodeUnknown;
 }
 

@@ -172,8 +172,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
      fromMemberId:(nonnull NSString *)fromMemberId
         onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError {
-    
-    
+    NXMSendImageRequest *request = [[NXMSendImageRequest alloc] initWithImage:image conversationId:conversationId memberId:fromMemberId];
+    [self.network sendImage:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)deleteText:(nonnull NSString *)eventId

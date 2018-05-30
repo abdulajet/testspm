@@ -19,6 +19,7 @@
 #import "NXMDeleteEventRequest.h"
 #import "NXMGetConversationsRequest.h"
 #import "NXMCreateConversationRequest.h"
+#import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
 
 
@@ -53,6 +54,10 @@
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;
+
+- (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
+        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError;
 
 - (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
