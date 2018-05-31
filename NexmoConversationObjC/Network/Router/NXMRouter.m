@@ -151,13 +151,13 @@
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError {
     
-    NSDictionary *dict = @{ @"body": @{ @"from": memberId } };
+    NSDictionary *dict = @{ @"from": memberId, @"originating_session": self.sessionId};
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/rtc/%@", self.baseUrl, conversationId, rtcId]];
 
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
     [self addHeader:request];
-    
+
     [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
@@ -604,6 +604,7 @@
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     
     [self addHeader:request];
+    
     [request setHTTPMethod:httpMethod];
     [request setHTTPBody:jsonData];
     
