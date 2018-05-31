@@ -469,7 +469,15 @@
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, getEventsRequest.conversationId]];
     NSString* requestType = @"GET";
-    [self requestToServer:@{} url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    
+    NSDictionary *body = @{};
+    if (getEventsRequest.startId && getEventsRequest.endId) {
+        body = @{ @"start_id": getEventsRequest.startId,
+                 @"end_id": getEventsRequest.endId
+                  };
+    };
+    
+    [self requestToServer:body url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
             return;
@@ -498,11 +506,11 @@
             }else if ([type isEqual:@"text"]){
                 [events addObject:[self parseTextEvent:eventJson conversationId:getEventsRequest.conversationId]];
             }else if ([type isEqual:@"image"]){
-                //[events addObject:event];
+                // TODO: [events addObject:event];
             }else if ([type isEqual:@"image:seen"]){
-                //[events addObject:event];
+                // TODO: [events addObject:event];
             }else if ([type isEqual:@"image:delivered"]){
-                //[events addObject:event];
+                // TODO: [events addObject:event];
             }else if ([type isEqual:@"event:deleted"]){
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
             }

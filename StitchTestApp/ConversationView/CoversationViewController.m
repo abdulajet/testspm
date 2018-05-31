@@ -50,6 +50,7 @@
                      @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
                      };
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                     selector:@selector(receivedMemberEvent:)
                                                 name:@"memberEvent"
@@ -66,6 +67,22 @@
                                                object:nil];
     
     self.events = [NSMutableArray new];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
+    getEventRequest.conversationId = self.conversation.uuid;
+    
+    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.events addObject:events];
+            [self.tableView reloadData];
+        });
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error get events");
+    }];
 }
 
 - (void)receivedMemberEvent:(NSNotification *) notification {
@@ -168,16 +185,6 @@
     
     self.conversation = conversation;
     self.navigationItem.title = self.conversation.name;
-    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
-    getEventRequest.conversationId = conversation.uuid;
-    
-    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-        self.events = events;
-        [self.tableView reloadData];
-    } onError:^(NSError * _Nullable error) {
-        
-    }];
-
 }
 
 #pragma mark - tableView delegate

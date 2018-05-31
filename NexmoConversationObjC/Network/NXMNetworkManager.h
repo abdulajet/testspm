@@ -85,9 +85,9 @@
                onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError;
 
-- (void)getEvents:(nonnull NXMGetEventsRequest*)getEventsRequest
+- (void)getEvents:(nonnull NXMGetEventsRequest *)getEventsRequest
         onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
-        onError:(ErrorCallback _Nullable)onError;
+          onError:(ErrorCallback _Nullable)onError;
         
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
@@ -100,9 +100,9 @@
           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
             onError:(ErrorCallback _Nullable)onError;
 
-- (void)disableMedia:(NSString *)conversationId
-               rtcId:(NSString *)rtcId
-            memberId:(NSString *)memberId
+- (void)disableMedia:(nonnull NSString *)conversationId
+               rtcId:(nonnull NSString *)rtcId
+            memberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
 

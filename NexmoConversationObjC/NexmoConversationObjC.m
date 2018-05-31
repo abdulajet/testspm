@@ -140,11 +140,27 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
-- (void)getEvents:(nonnull NXMGetEventsRequest *)getEventsRequest
+- (void)getEvents:(nonnull NSString *)conversationId
         onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError{
-    [self.network getEvents:getEventsRequest onSuccess:onSuccess onError:onError];
+    NXMGetEventsRequest *request = [NXMGetEventsRequest new];
+    request.conversationId = conversationId;
+    [self.network getEvents:request onSuccess:onSuccess onError:onError];
 }
+
+- (void)getEvents:(nonnull NSString *)conversationId
+          startId:(nullable NSNumber *)startId
+          endId:(nullable NSNumber *)endId
+        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(ErrorCallback _Nullable)onError{
+    NXMGetEventsRequest *request = [NXMGetEventsRequest new];
+    request.conversationId = conversationId;
+    request.startId = startId;
+    request.endId = endId;
+    [self.network getEvents:request onSuccess:onSuccess onError:onError];
+}
+
+
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest *)getConversationsRequest
                onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
