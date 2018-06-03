@@ -67,6 +67,21 @@
                                                  name:@"textEvent"
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedTextStatusEvent:)
+                                                 name:@"textStatusEvent"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedImageEvent:)
+                                                 name:@"imageEvent"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedTypingEvent:)
+                                                 name:@"typingEvent"
+                                               object:nil];
+    
     self.events = [NSMutableArray new];
 }
 
@@ -84,6 +99,17 @@
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error get events");
     }];
+}
+
+#pragma mark - events
+
+- (void)receivedTypingEvent:(NSNotification *) notification {
+}
+
+- (void)receivedImageEvent:(NSNotification *) notification {
+}
+
+- (void)receivedTextStatusEvent:(NSNotification *) notification {
 }
 
 - (void)receivedMemberEvent:(NSNotification *) notification {

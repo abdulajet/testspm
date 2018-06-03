@@ -52,6 +52,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
 - (void)connectedWithUser:(NXMUser *_Nonnull)user {
     
 }
@@ -67,21 +68,22 @@
 }
 
 - (void)memberLeft:(nonnull NXMMemberEvent *)member {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"memberEvent"
+     object:nil userInfo:@{@"member":member}];
 }
 
-- (void)memberInvited:(nonnull NXMMemberEvent *)member byMember:(nonnull NSString *)memberId {
-    
+- (void)memberInvited:(nonnull NXMMemberEvent *)member {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"memberEvent"
+     object:nil userInfo:@{@"member":member}];
 }
 
 - (void)memberRemoved:(nonnull NXMMemberEvent *)member {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"memberEvent"
+     object:nil userInfo:@{@"member":member}];
 }
-
-- (void)imageRecieved:(nonnull NXMTextEvent *)textEvent {
-    
-}
-
 
 - (void)localMediaChanged:(nonnull NXMMediaEvent *)mediaEvent {
     
@@ -96,12 +98,16 @@
 
 
 - (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"textStatusEvent"
+     object:nil userInfo:@{@"textEvent":textEvent}];
 }
 
 
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"textStatusEvent"
+     object:nil userInfo:@{@"textEvent":textEvent}];
 }
 
 
@@ -111,38 +117,34 @@
      object:nil userInfo:@{@"text":textEvent}];
 }
 
-
-- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent {
-    
+- (void)imageRecieved:(nonnull NXMImageEvent *)textEvent {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"imageEvent"
+     object:nil userInfo:@{@"image":textEvent}];
 }
 
 
-- (void)textSent:(nonnull NXMTextStatusEvent *)textEvent {
-    
+
+- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"textStatusEvent"
+     object:nil userInfo:@{@"textEvent":textEvent}];
 }
 
 
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"typingEvent"
+     object:nil userInfo:@{@"typingEvent":textEvent}];
 }
 
 
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent {
-    
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"typingEvent"
+     object:nil userInfo:@{@"typingEvent":textEvent}];
 }
 
 
-//- (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
-//- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent;
-//- (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent;
-//- (void)textSent:(nonnull NXMTextStatusEvent *)textEvent;
-//- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent;
-//- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent;
-//- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
-//
-//- (void)imageRecieved:(nonnull NXMTextEvent *)textEvent;
-//- (void)mediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
-//
-//- (void)localMediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
 
 @end

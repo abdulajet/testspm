@@ -193,7 +193,6 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 
 - (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent;
-- (void)textSent:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent;
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
