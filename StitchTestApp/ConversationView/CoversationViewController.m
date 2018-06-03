@@ -50,6 +50,8 @@
                      @"testuser7":@"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
                      @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
                      };
+
+    self.memberId = @"MEM-87bb1335-ac71-4060-92f7-987b28ee0ea4";
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -119,9 +121,9 @@
         return;
     }
     
-    if ([member.user.name isEqualToString:@"testuser5"]) {
-        self.memberId = member.memberId;
-    }
+//    if ([member.user.name isEqualToString:@"testuser5"]) {
+//        self.memberId = member.memberId;
+//    }
     
     [self.events addObject:member];
 //    self.filteredEvents = [self fiteredEventsForEvents:self.events];
@@ -275,25 +277,29 @@
     if (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia) {
         return 50.0f;
     }
-    if (event.type == NXMEventTypeTextStatus) {
-        return 0.1f;
+    
+    if (event.type == NXMEventTypeText) {
+        NXMTextEvent *textEvent = (NXMTextEvent *)event;
+        CGSize textSize = [textEvent.text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+                                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                                    attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
+                                                       context:nil].size;
+        CGSize nameSize = CGSizeZero;
+        if (!([self.memberId isEqualToString:event.fromMemberId])) {
+            nameSize = [event.fromMemberId boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+                                                        options:NSStringDrawingUsesLineFragmentOrigin
+                                                     attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.0f]}
+                                                        context:nil].size;
+        }
+        
+        //    return size.height + 15.0f;
+        return textSize.height + nameSize.height + 30.0f;
     }
     
-    NXMTextEvent *textEvent = (NXMTextEvent *)event;
-    CGSize textSize = [textEvent.text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
-                                                   options:NSStringDrawingUsesLineFragmentOrigin
-                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
-                                                   context:nil].size;
-    CGSize nameSize = CGSizeZero;
-    if (!([self.memberId isEqualToString:event.fromMemberId])) {
-        nameSize = [event.fromMemberId boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
-                                                    options:NSStringDrawingUsesLineFragmentOrigin
-                                                 attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.0f]}
-                                                    context:nil].size;
-    }
-    
-//    return size.height + 15.0f;
-    return textSize.height + nameSize.height + 30.0f;
+//    if (event.type == NXMEventTypeTextStatus) {
+//        return 0.1f;
+//    }
+    return 0.1f;
 }
 
 //- (NSArray<NXMEvent *> *)fiteredEventsForEvents:(NSMutableArray<NXMEvent *> *)events {

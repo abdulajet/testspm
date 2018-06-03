@@ -21,6 +21,5 @@ typedef NS_ENUM(NSUInteger, SenderType) {
 @interface ConversationTextTableViewCell : UITableViewCell
 
 - (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType;
-- (CGFloat)height;
 
 @end
