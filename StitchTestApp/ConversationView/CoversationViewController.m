@@ -93,6 +93,7 @@
     [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.events addObject:events];
+            [self.events addObjectsFromArray:events];
             [self.tableView reloadData];
         });
     } onError:^(NSError * _Nullable error) {
