@@ -265,23 +265,36 @@
                                 <rect key="frame" x="0.0" y="607" width="375" height="60"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="A25-5b-TMT">
-                                        <rect key="frame" x="5" y="5" width="303" height="50"/>
+                                        <rect key="frame" x="5" y="5" width="270" height="50"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Uv-Om-mKh" userLabel="audioBtn">
-                                        <rect key="frame" x="318" y="5" width="22" height="50"/>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6f-gg-k6R">
+                                        <rect key="frame" x="285" y="5" width="50" height="50"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="enableAudio" translatesAutoresizingMaskIntoConstraints="NO" id="qVx-uI-qUg">
+                                                <rect key="frame" x="14" y="14" width="22" height="22"/>
+                                            </imageView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Uv-Om-mKh" userLabel="audioBtn">
+                                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                <connections>
+                                                    <action selector="enableAudioPressed:" destination="Kho-H5-xjy" eventType="touchUpInside" id="4Sf-u1-Q6T"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="22" id="pr5-XN-6tS"/>
+                                            <constraint firstAttribute="bottom" secondItem="4Uv-Om-mKh" secondAttribute="bottom" id="1fb-qp-p7F"/>
+                                            <constraint firstItem="qVx-uI-qUg" firstAttribute="centerY" secondItem="w6f-gg-k6R" secondAttribute="centerY" id="B9V-qf-6zm"/>
+                                            <constraint firstAttribute="width" constant="50" id="bix-SD-pnY"/>
+                                            <constraint firstItem="4Uv-Om-mKh" firstAttribute="leading" secondItem="w6f-gg-k6R" secondAttribute="leading" id="chX-hs-vvf"/>
+                                            <constraint firstItem="4Uv-Om-mKh" firstAttribute="top" secondItem="w6f-gg-k6R" secondAttribute="top" id="dmE-pj-dgq"/>
+                                            <constraint firstItem="qVx-uI-qUg" firstAttribute="centerX" secondItem="w6f-gg-k6R" secondAttribute="centerX" id="ePd-G6-6bS"/>
+                                            <constraint firstAttribute="trailing" secondItem="4Uv-Om-mKh" secondAttribute="trailing" id="uwx-6g-T5Y"/>
                                         </constraints>
-                                        <state key="normal" image="enableAudio"/>
-                                        <connections>
-                                            <action selector="enableAudioPressed:" destination="Kho-H5-xjy" eventType="touchUpInside" id="4Sf-u1-Q6T"/>
-                                        </connections>
-                                    </button>
+                                    </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yko-TZ-CpX" userLabel="sendBtn">
-                                        <rect key="frame" x="350" y="0.0" width="25" height="60"/>
+                                        <rect key="frame" x="345" y="0.0" width="25" height="60"/>
                                         <state key="normal" image="sendMessege"/>
                                         <connections>
                                             <action selector="sendMsgPressed:" destination="Kho-H5-xjy" eventType="touchUpInside" id="0dw-MA-Pah"/>
@@ -292,16 +305,16 @@
                                 <constraints>
                                     <constraint firstItem="A25-5b-TMT" firstAttribute="leading" secondItem="GyI-5X-tV4" secondAttribute="leading" constant="5" id="1nk-fG-oeC"/>
                                     <constraint firstItem="yko-TZ-CpX" firstAttribute="top" secondItem="GyI-5X-tV4" secondAttribute="top" id="8nX-OX-cxB"/>
+                                    <constraint firstItem="w6f-gg-k6R" firstAttribute="height" secondItem="A25-5b-TMT" secondAttribute="height" id="HeB-y1-ctV"/>
+                                    <constraint firstItem="yko-TZ-CpX" firstAttribute="leading" secondItem="w6f-gg-k6R" secondAttribute="trailing" constant="10" id="Nme-00-UPW"/>
                                     <constraint firstItem="A25-5b-TMT" firstAttribute="top" secondItem="GyI-5X-tV4" secondAttribute="top" constant="5" id="OqG-EZ-hxZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="yko-TZ-CpX" secondAttribute="trailing" id="SIT-7e-ggQ"/>
-                                    <constraint firstItem="4Uv-Om-mKh" firstAttribute="height" secondItem="A25-5b-TMT" secondAttribute="height" id="Udl-IY-TFr"/>
+                                    <constraint firstItem="w6f-gg-k6R" firstAttribute="leading" secondItem="A25-5b-TMT" secondAttribute="trailing" constant="10" id="Rz5-cy-HB2"/>
+                                    <constraint firstAttribute="trailing" secondItem="yko-TZ-CpX" secondAttribute="trailing" constant="5" id="SIT-7e-ggQ"/>
                                     <constraint firstAttribute="height" constant="60" id="VHh-a1-Lex"/>
                                     <constraint firstItem="yko-TZ-CpX" firstAttribute="centerY" secondItem="GyI-5X-tV4" secondAttribute="centerY" id="jQf-FZ-ClK"/>
-                                    <constraint firstItem="yko-TZ-CpX" firstAttribute="leading" secondItem="4Uv-Om-mKh" secondAttribute="trailing" constant="10" id="kF4-hA-D7r"/>
                                     <constraint firstAttribute="bottom" secondItem="yko-TZ-CpX" secondAttribute="bottom" id="lmy-sR-7ci"/>
-                                    <constraint firstItem="4Uv-Om-mKh" firstAttribute="bottom" secondItem="A25-5b-TMT" secondAttribute="bottom" id="o6y-Ne-I3b"/>
                                     <constraint firstAttribute="bottom" secondItem="A25-5b-TMT" secondAttribute="bottom" constant="5" id="odu-mz-vMA"/>
-                                    <constraint firstItem="4Uv-Om-mKh" firstAttribute="leading" secondItem="A25-5b-TMT" secondAttribute="trailing" constant="10" id="uB9-H2-z0R"/>
+                                    <constraint firstItem="w6f-gg-k6R" firstAttribute="top" secondItem="A25-5b-TMT" secondAttribute="top" id="sds-2A-2xc"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -326,6 +339,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="enableAudioImage" destination="qVx-uI-qUg" id="wVc-HI-fpw"/>
                         <outlet property="sendButton" destination="yko-TZ-CpX" id="577-9W-ba5"/>
                         <outlet property="tableView" destination="NNq-YK-QIv" id="v6g-wA-hdX"/>
                         <outlet property="textinput" destination="A25-5b-TMT" id="UaQ-HT-3Bj"/>

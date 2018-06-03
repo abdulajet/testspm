@@ -21,6 +21,7 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextView *textinput;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet UIImageView *enableAudioImage;
 
 @property NXMConversationDetails *conversation;
 @property NSMutableArray<NXMEvent *>* events;
@@ -203,6 +204,19 @@
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
+    [UIView animateWithDuration:1.0f
+                     animations:^{
+                         self.enableAudioImage.transform = CGAffineTransformScale(self.enableAudioImage.transform, 2.0f, 2.0f);
+                     }
+                     completion:^(BOOL finished) {
+                         [UIView animateWithDuration:1.0f
+                                          animations:^{
+                                              self.enableAudioImage.transform = CGAffineTransformIdentity;
+                                          }
+                                          completion:nil
+                          ];
+                         
+                     }];
     if (self.isMediaEnabled) {
         self.isMediaEnabled = NO;
         [self.stitch disableMedia:self.conversation.uuid];
