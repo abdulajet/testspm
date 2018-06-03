@@ -290,7 +290,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
     
 }
 
-- (void)imageRecieved:(nonnull NXMEventType *)imageEvent {
+- (void)imageRecieved:(nonnull NXMImageEvent *)imageEvent {
     [self.delegate imageRecieved:imageEvent];
 }
 

@@ -31,6 +31,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
 #import "NXMMemberEvent.h"
+#import "NXMImageEvent.h"
 
 #import "NXMGetConversationsRequest.h"
 #import "NXMGetEventsRequest.h"
@@ -197,7 +198,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent;
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
 
-- (void)imageRecieved:(nonnull NXMTextEvent *)textEvent;
+- (void)imageRecieved:(nonnull NXMImageEvent *)textEvent;
 - (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)imageDelivered:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)imageSeen:(nonnull NXMTextStatusEvent *)textEvent;
