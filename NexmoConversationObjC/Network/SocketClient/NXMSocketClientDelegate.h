@@ -8,6 +8,7 @@
 
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMImageEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
@@ -27,11 +28,10 @@
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent;
 
+- (void)imageRecieved:(nonnull NXMImageEvent *)textEvent;
+
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent;
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
-
-- (void)messageReceived:(nonnull NXMTextEvent *)message;
-- (void)messageSent:(nonnull NXMTextEvent *)message;
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent;

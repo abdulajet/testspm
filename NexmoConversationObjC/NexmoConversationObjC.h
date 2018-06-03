@@ -189,6 +189,7 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)memberRemoved:(nonnull NXMMemberEvent *)member;
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
+
 - (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)textSent:(nonnull NXMTextStatusEvent *)textEvent;
@@ -197,6 +198,10 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
 
 - (void)imageRecieved:(nonnull NXMTextEvent *)textEvent;
+- (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent;
+- (void)imageDelivered:(nonnull NXMTextStatusEvent *)textEvent;
+- (void)imageSeen:(nonnull NXMTextStatusEvent *)textEvent;
+
 - (void)mediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
 
 - (void)localMediaChanged:(nonnull NXMMediaEvent *)mediaEvent;

@@ -171,21 +171,12 @@
 }
 
 
-
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
     [self.delegate textRecieved:textEvent];
 }
 
 - (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent{
     [self.delegate textDeleted:textEvent];
-}
-
-- (void)messageReceived:(nonnull NXMTextEvent *)message{
-    [self.delegate messageReceived:message];
-}
-
-- (void)messageSent:(nonnull NXMTextEvent *)message{
-    [self.delegate messageSent:message];
 }
 
 - (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent{
@@ -202,6 +193,10 @@
 
 - (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent{
     [self.delegate textSeen:textEvent];
+}
+
+- (void)imageRecieved:(nonnull NXMImageEvent *)textEvent {
+    [self.delegate imageRecieved:textEvent];
 }
 
 - (void)connectionStatusChanged:(BOOL)isOpen {

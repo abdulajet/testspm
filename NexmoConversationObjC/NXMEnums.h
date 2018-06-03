@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
 typedef NS_ENUM(NSInteger, NXMEventType){
     NXMEventGeneral,
     NXMEventTypeText,
+    NXMEventTypeImage,
     NXMEventTypeTextStatus,
     NXMEventTypeTextTyping,
     NXMEventTypeMedia,

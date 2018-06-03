@@ -281,20 +281,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate textDeleted:textEvent];
 }
 
-- (void)messageReceived:(nonnull NXMTextEvent *)message {
-    [self.delegate textRecieved:message];
-}
-- (void)messageSent:(nonnull NXMTextStatusEvent *)message {
-    [self.delegate textSent:message];
-}
-
-- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent {
-    [self.delegate textTypingOn:textEvent];
-}
-- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent {
-    [self.delegate textTypingOff:textEvent];
-}
-
 - (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent{
     [self.delegate textDelivered:textEvent];
     
@@ -303,6 +289,19 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate textSeen:textEvent];
     
 }
+
+- (void)imageRecieved:(nonnull NXMEventType *)imageEvent {
+    [self.delegate imageRecieved:imageEvent];
+}
+
+- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent {
+    [self.delegate textTypingOn:textEvent];
+}
+
+- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent {
+    [self.delegate textTypingOff:textEvent];
+}
+
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent {
     [self.delegate mediaChanged:mediaEvent];

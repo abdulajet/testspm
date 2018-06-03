@@ -290,7 +290,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     [self.socket on:kNXMSocketEventImage callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         NSLog(@"!!!!socket kNXMSocketEventImage");
-        [self onTextRecevied:data emitter:emitter];
+        [self onImageRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImageSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
@@ -353,7 +353,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.memberId = json[@"from"];
     memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
 //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
-    memberEvent.sequenceId = json[@"id"];
+    memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"JOINED";
     memberEvent.conversationId = json[@"cid"];
     
@@ -370,7 +370,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.memberId = json[@"from"];
     memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
     //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
-    memberEvent.sequenceId = json[@"id"];
+    memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"INVITED";
     memberEvent.conversationId = json[@"cid"];
     
@@ -387,7 +387,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"id"] name:json[@"body"][@"user"][@"name"]];
 //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
 //    memberEvent.leftDate = json[@"body"][@"timestamp"][@"left"]; // TODO: NSDate
-    memberEvent.sequenceId = json[@"id"];
+    memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"LEFT";
     memberEvent.conversationId = json[@"cid"];
     
@@ -407,10 +407,45 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.type = NXMEventTypeText;
     
     [self.delegate textRecieved:textEvent];
+    
+}
+
+- (void)onImageRecevied:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    
+    NSDictionary *json = data[0];
+    
+    NXMImageEvent *imageEvent = [[NXMImageEvent alloc] initWithConversationId:json[@"cid"]
+                                                                  sequenceId:[json[@"id"] integerValue]
+                                                                fromMemberId:json[@"from"]
+                                                                creationDate:json[@"timestamp"]
+                                                                        type:NXMEventTypeImage];
+    NSDictionary *body = json[@"body"][@"representations"];
+    imageEvent.imageId = body[@"id"];
+    NSDictionary *originalJSON = body[@"original"];
+    imageEvent.originalImage = [[NXMImageInfo alloc] initWithUuid:originalJSON[@"id"]
+                                                             size:[originalJSON[@"size"] integerValue]
+                                                              url:originalJSON[@"url"]
+                                                             type:NXMImageTypeOriginal];
+     
+    NSDictionary *mediumJSON = body[@"medium"];
+    imageEvent.mediumImage = [[NXMImageInfo alloc] initWithUuid:mediumJSON[@"id"]
+                                                             size:[mediumJSON[@"size"] integerValue]
+                                                              url:mediumJSON[@"url"]
+                                                             type:NXMImageTypeMedium];
+    
+    
+    NSDictionary *thumbnailJSON = body[@"thumbnail"];
+    imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithUuid:thumbnailJSON[@"id"]
+                                                             size:[thumbnailJSON[@"size"] integerValue]
+                                                              url:thumbnailJSON[@"url"]
+                                                             type:NXMImageTypeThumbnail];
+    
+    
+    [self.delegate imageRecieved:imageEvent];
     
 }
 
@@ -423,7 +458,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.status = NXMTextEventStatusEDeleted;
     textEvent.type = NXMEventTypeTextStatus;
     
@@ -439,7 +474,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.status = NXMTextEventStatusESeen;
     textEvent.type = NXMEventTypeTextStatus;
     
@@ -455,7 +490,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.status = NXMTextEventStatusEDelivered;
     textEvent.type = NXMEventTypeTextStatus;
     
@@ -479,7 +514,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.status = NXMTextTypingEventStatusOn;
     textEvent.type = NXMEventTypeTextTyping;
     
@@ -494,7 +529,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
-    textEvent.sequenceId = json[@"id"];
+    textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.status = NXMTextTypingEventStatusOff;
     textEvent.type = NXMEventTypeTextTyping;
     
@@ -542,7 +577,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = json[@"timestamp"];
-    mediaEvent.sequenceId = json[@"id"];
+    mediaEvent.sequenceId = [json[@"id"] integerValue];
     mediaEvent.isMediaEnabled = json[@"body"][@"audio"];
     mediaEvent.type = NXMEventTypeMedia;
     

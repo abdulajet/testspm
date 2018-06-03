@@ -12,10 +12,16 @@
 @interface NXMEvent : NSObject
 
 @property (nonatomic, strong, nonnull) NSString *conversationId;
-@property (nonatomic, strong, nonnull) NSString *sequenceId;
 @property (nonatomic, strong, nonnull) NSString *fromMemberId;
 @property (nonatomic, strong, nonnull) NSDate *creationDate;
 @property (nonatomic, strong, nullable) NSDate *deletionDate;
 @property NXMEventType type;
+@property NSInteger sequenceId;
+
+- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId
+                            sequenceId:(NSInteger)sequenceId
+                          fromMemberId:(nullable NSString *)fromMemberId
+                          creationDate:(nonnull NSString *)creationDate
+                                  type:(NXMEventType)type;
 
 @end
