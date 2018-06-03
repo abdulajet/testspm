@@ -90,10 +90,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
-    getEventRequest.conversationId = self.conversation.uuid;
-    
-    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.events addObject:events];
             [self.tableView reloadData];
@@ -218,15 +215,15 @@
     self.conversation = conversation;
     self.navigationItem.title = self.conversation.name;
 
-    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
-    getEventRequest.conversationId = conversation.uuid;
-    
-    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-        self.events = events;
-        [self.tableView reloadData];
-    } onError:^(NSError * _Nullable error) {
-        
-    }];
+//    self.events = [NSMutableArray new];
+//    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.events addObject:events];
+//            [self.tableView reloadData];
+//        });
+//    } onError:^(NSError * _Nullable error) {
+//
+//    }];
 }
 
 #pragma mark - tableView delegate

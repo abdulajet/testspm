@@ -53,7 +53,7 @@
                 
                 NXMConversationDetails *conversation =  [NXMConversationDetails new];
                 conversation.name = displayName;
-                conversation.uuid = value;
+                conversation.uuid = @"CON-432d5780-6181-4bb6-87d5-2e16c2b41df0"; //value;
                 
                 [self.conversations addObject:conversation];
                 
