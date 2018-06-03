@@ -14,12 +14,13 @@
 #import "ConversationEventTableViewCell.h"
 #import "NXMMemberEvent.h"
 
-@interface CoversationViewController ()
+@interface CoversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate>
 @property StitchConversationClientCore *stitch;
 
 @property (weak, nonatomic) IBOutlet UINavigationItem *title;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextView *textinput;
+@property (weak, nonatomic) IBOutlet UIButton *sendButton;
 
 @property NXMConversationDetails *conversation;
 @property NSMutableArray<NXMEvent *>* events;
@@ -85,6 +86,14 @@
                                                object:nil];
     
     self.events = [NSMutableArray new];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
+    tapGesture.numberOfTapsRequired = 1;
+    tapGesture.delegate = self;
+    [self.tableView addGestureRecognizer:tapGesture];
+    
+    self.textinput.delegate = self;
+    self.sendButton.enabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -92,7 +101,6 @@
     
     [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.events addObject:events];
             [self.events addObjectsFromArray:events];
             [self.tableView reloadData];
         });
@@ -177,10 +185,20 @@
 }
 
 - (IBAction)sendMsgPressed:(id)sender {
+    self.sendButton.enabled = NO;
+    self.textinput.editable = NO;
     [self.stitch sendText:self.textinput.text conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"msg sent");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.textinput.editable = YES;
+            self.textinput.text = @"";
+            [self.textinput endEditing:YES];
+        });
     } onError:^(NSError * _Nullable error) {
         NSLog(@"msg failed");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.textinput.editable = YES;
+        });
     }];
 }
 
@@ -214,6 +232,7 @@
     self.stitch = appDelegate.stitchConversation;
     
     self.conversation = conversation;
+    self.conversation.uuid = @"CON-432d5780-6181-4bb6-87d5-2e16c2b41df0";
     self.navigationItem.title = self.conversation.name;
 
 //    self.events = [NSMutableArray new];
@@ -300,14 +319,19 @@
     return 0.1f;
 }
 
-//- (NSArray<NXMEvent *> *)fiteredEventsForEvents:(NSMutableArray<NXMEvent *> *)events {
-//    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
-//        NXMEvent *event = (NXMEvent *)object;
-////        return (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia || event.type == NXMEventTypeText);
-//        return event.type == NXMEventTypeText;
-//    }];
-//    return [events filteredArrayUsingPredicate:predicate];
-//}
+#pragma mark - Gestures
+
+- (void)handleTap:(UIGestureRecognizer *)recognizer {
+    [self.textinput endEditing:YES];
+}
+
+#pragma mark - UITextViewDelegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    BOOL enabled = self.textinput.text.length > 0;
+    self.sendButton.enabled = enabled;
+}
+
 /*
 #pragma mark - Navigation
 
