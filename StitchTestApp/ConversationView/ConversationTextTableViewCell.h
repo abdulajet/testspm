@@ -9,8 +9,18 @@
 #import <UIKit/UIKit.h>
 #import "NXMEvent.h"
 
+static CGFloat const kBubbleWidthOffset = 30.0f;
+static CGFloat const kBubbleImageSize = 50.0f;
+
+typedef NS_ENUM(NSUInteger, SenderType) {
+    SenderTypeSelf,
+    SenderTypeOther
+};
+
 @class NXMEvent;
 @interface ConversationTextTableViewCell : UITableViewCell
 
-- (void)updateWithEvent:(NXMEvent *)event;
+- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType;
+- (CGFloat)height;
+
 @end

@@ -23,6 +23,7 @@
 
 @property NXMConversationDetails *conversation;
 @property NSMutableArray<NXMEvent *>* events;
+//@property NSArray<NXMEvent *>* filteredEvents;
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
 
@@ -97,6 +98,7 @@
     }
     
     [self.events addObject:member];
+//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
     [self.tableView reloadData];
 }
 
@@ -108,6 +110,7 @@
     }
     
     [self.events addObject:media];
+//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
     [self.tableView reloadData];
 }
 
@@ -119,6 +122,7 @@
     }
     
     [self.events addObject:text];
+//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
     [self.tableView reloadData];
 }
 
@@ -185,12 +189,27 @@
     
     self.conversation = conversation;
     self.navigationItem.title = self.conversation.name;
+
+    NXMGetEventsRequest* getEventRequest = [NXMGetEventsRequest alloc];
+    getEventRequest.conversationId = conversation.uuid;
+    
+    [self.stitch getEvents:getEventRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        self.events = events;
+        [self.tableView reloadData];
+    } onError:^(NSError * _Nullable error) {
+        
+    }];
 }
 
 #pragma mark - tableView delegate
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.events.count;
+//    return self.filteredEvents.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -209,12 +228,56 @@
         
         return cell;
     }
+    if (event.type == NXMEventTypeText) {
+        ConversationTextTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationTextCell"];
+        if (cell == nil) {
+            cell = [[ConversationTextTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationTextCell"];
+            cell.backgroundColor = self.tableView.backgroundColor;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        SenderType senderType = ([self.memberId isEqualToString:event.fromMemberId]) ? SenderTypeSelf : SenderTypeOther;
+        [cell updateWithEvent:event senderType:senderType];
+        return cell;
+    }
     
-    ConversationTextTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationTextCell"];
-    [cell updateWithEvent:event];
-    
-    return cell;
+    return [[UITableViewCell alloc] init];
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NXMEvent *event = self.events[indexPath.row];
+    if (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia) {
+        return 50.0f;
+    }
+    if (event.type == NXMEventTypeTextStatus) {
+        return 0.1f;
+    }
+    
+    NXMTextEvent *textEvent = (NXMTextEvent *)event;
+    CGSize textSize = [textEvent.text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+                                                   options:NSStringDrawingUsesLineFragmentOrigin
+                                                attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
+                                                   context:nil].size;
+    CGSize nameSize = CGSizeZero;
+    if (!([self.memberId isEqualToString:event.fromMemberId])) {
+        nameSize = [event.fromMemberId boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+                                                    options:NSStringDrawingUsesLineFragmentOrigin
+                                                 attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.0f]}
+                                                    context:nil].size;
+    }
+    
+//    return size.height + 15.0f;
+    return textSize.height + nameSize.height + 30.0f;
+}
+
+//- (NSArray<NXMEvent *> *)fiteredEventsForEvents:(NSMutableArray<NXMEvent *> *)events {
+//    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id object, NSDictionary *bindings) {
+//        NXMEvent *event = (NXMEvent *)object;
+////        return (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia || event.type == NXMEventTypeText);
+//        return event.type == NXMEventTypeText;
+//    }];
+//    return [events filteredArrayUsingPredicate:predicate];
+//}
 /*
 #pragma mark - Navigation
 

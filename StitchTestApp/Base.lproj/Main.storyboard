@@ -194,7 +194,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-YK-QIv">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-YK-QIv">
                                 <rect key="frame" x="0.0" y="64" width="375" height="543"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -202,54 +202,54 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="xVa-qd-u7a" id="PMe-fk-gsH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bubbleBlue" translatesAutoresizingMaskIntoConstraints="NO" id="BZx-tx-VRw">
-                                                    <rect key="frame" x="-0.5" y="-1" width="375" height="44"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZx-tx-VRw">
+                                                    <rect key="frame" x="-0.5" y="0.0" width="375" height="44"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cO8-9t-0kC" userLabel="textLabel">
-                                                    <rect key="frame" x="41" y="-1" width="42" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cO8-9t-0kC" userLabel="fromLabel">
+                                                    <rect key="frame" x="20" y="-1" width="335" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2L-Jx-ZMt" userLabel="fromLabel">
-                                                    <rect key="frame" x="41" y="22" width="235" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2L-Jx-ZMt" userLabel="messageText">
+                                                    <rect key="frame" x="20" y="22" width="335" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="bubbleImage" destination="BZx-tx-VRw" id="jL8-4Y-zGa"/>
+                                            <outlet property="fromLabel" destination="cO8-9t-0kC" id="jko-BK-952"/>
+                                            <outlet property="messageText" destination="e2L-Jx-ZMt" id="WLX-QJ-n2I"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationEventCell" rowHeight="50" id="AH3-Va-Toh" customClass="ConversationEventTableViewCell">
+                                        <rect key="frame" x="0.0" y="72" width="375" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AH3-Va-Toh" id="m8N-yP-8CH">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cg-Lb-15b" userLabel="eventText">
+                                                    <rect key="frame" x="20" y="15" width="335" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="BZx-tx-VRw" firstAttribute="width" secondItem="PMe-fk-gsH" secondAttribute="width" id="B3G-Vf-nJS"/>
-                                                <constraint firstItem="BZx-tx-VRw" firstAttribute="centerX" secondItem="PMe-fk-gsH" secondAttribute="centerX" id="a01-8Z-pNd"/>
-                                                <constraint firstItem="BZx-tx-VRw" firstAttribute="height" secondItem="PMe-fk-gsH" secondAttribute="height" id="aTb-oz-lyC"/>
-                                                <constraint firstItem="BZx-tx-VRw" firstAttribute="centerY" secondItem="PMe-fk-gsH" secondAttribute="centerY" id="pcM-pi-UTG"/>
+                                                <constraint firstAttribute="trailing" secondItem="4cg-Lb-15b" secondAttribute="trailing" constant="20" id="IG3-Md-SVD"/>
+                                                <constraint firstItem="4cg-Lb-15b" firstAttribute="leading" secondItem="m8N-yP-8CH" secondAttribute="leading" constant="20" id="ovR-0Q-VXH"/>
+                                                <constraint firstItem="4cg-Lb-15b" firstAttribute="centerY" secondItem="m8N-yP-8CH" secondAttribute="centerY" id="tRh-xR-iVN"/>
                                             </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="fromText" destination="cO8-9t-0kC" id="k6Q-hX-xyM"/>
-                                            <outlet property="toText" destination="e2L-Jx-ZMt" id="uLA-Lr-Bjh"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationEventCell" id="AH3-Va-Toh" customClass="ConversationEventTableViewCell">
-                                        <rect key="frame" x="0.0" y="72" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AH3-Va-Toh" id="m8N-yP-8CH">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cg-Lb-15b" userLabel="eventText">
-                                                    <rect key="frame" x="15" y="11" width="345" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="eventText" destination="4cg-Lb-15b" id="lQz-DK-rHY"/>
@@ -337,7 +337,6 @@
     </scenes>
     <resources>
         <image name="addMember" width="24" height="24"/>
-        <image name="bubbleBlue" width="29" height="32"/>
         <image name="enableAudio" width="22" height="22"/>
         <image name="loginButtonBG" width="325" height="44"/>
         <image name="newConversation" width="25" height="25"/>
