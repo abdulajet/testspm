@@ -357,6 +357,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.state = @"JOINED";
     memberEvent.conversationId = json[@"cid"];
     
+    
     memberEvent.type = NXMEventTypeMember;
 
     

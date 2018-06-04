@@ -93,6 +93,10 @@
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;
 
+- (void)getUserConversations:(nonnull NSString *)userId
+                   onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(ErrorCallback _Nullable)onError;
+
 - (void)enableMedia:(nonnull NSString *)conversationId
            memberId:(nonnull NSString *)memberId
                 sdp:(nonnull NSString *)sdp

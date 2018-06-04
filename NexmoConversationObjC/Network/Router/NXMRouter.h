@@ -75,6 +75,9 @@
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;
 
+- (void)getUserConversations:(nonnull NSString *)userId
+                   onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(ErrorCallback _Nullable)onError;
 
 - (void)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;

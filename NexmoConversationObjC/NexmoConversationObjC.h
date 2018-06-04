@@ -117,6 +117,9 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
                onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
                  onError:(ErrorCallback _Nullable)onError;
 
+- (void)getUserConversations:(nonnull NSString *)userId
+                   onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(ErrorCallback _Nullable)onError;
 
 #pragma mark - Messages Methods
 

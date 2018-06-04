@@ -537,6 +537,42 @@
     }];
 }
 
+- (void)getUserConversations:(NSString *)userId
+                     onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                       onError:(ErrorCallback _Nullable)onError {
+    NSDictionary *dict = @{
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
+    
+    NSString* requestType = @"GET";
+    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+        
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        if (!data){
+            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            return;
+        }
+        NSMutableArray *items = [NSMutableArray new];
+
+        for (NSDictionary* detailsJson in data) {
+            NXMConversationDetails *detail = [[NXMConversationDetails alloc] init];
+            detail.displayName = detailsJson[@"display_name"];
+            detail.members = @[];
+            detail.name = detailsJson[@"name"];
+            detail.sequence_number = [detailsJson[@"sequence_number"] integerValue];
+            detail.uuid = detailsJson[@"id"];
+            
+            [items addObject:detail];
+        }
+
+        onSuccess(items, nil);
+    }];
+}
+
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess

@@ -140,6 +140,12 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
+- (void)getUserConversations:(nonnull NSString *)userId
+                   onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(ErrorCallback _Nullable)onError {
+    [self.network getUserConversations:userId onSuccess:onSuccess onError:onError];
+}
+
 - (void)getEvents:(nonnull NSString *)conversationId
         onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError{
