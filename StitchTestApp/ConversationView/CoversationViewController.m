@@ -103,7 +103,8 @@
     [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.events addObjectsFromArray:events];
-            [self.tableView reloadData];
+            [self reloadDataSource];
+//            [self.tableView reloadData];
         });
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error get events");
@@ -132,9 +133,9 @@
 //        self.memberId = member.memberId;
 //    }
     
-    [self.events addObject:member];
-//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
-    [self.tableView reloadData];
+    [self insertEvent:member];
+//    [self reloadDataSource];
+//    [self.tableView reloadData];
 }
 
 - (void)receivedMediaEvent:(NSNotification *) notification {
@@ -144,9 +145,10 @@
         return;
     }
     
-    [self.events addObject:media];
-//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
-    [self.tableView reloadData];
+//    [self.events addObject:media];
+    [self insertEvent:media];
+//    [self reloadDataSource];
+//    [self.tableView reloadData];
 }
 
 - (void)receivedTextEvent:(NSNotification *) notification {
@@ -156,9 +158,10 @@
         return;
     }
     
-    [self.events addObject:text];
-//    self.filteredEvents = [self fiteredEventsForEvents:self.events];
-    [self.tableView reloadData];
+//    [self.events addObject:text];
+    [self insertEvent:text];
+//    [self reloadDataSource];
+//    [self.tableView reloadData];
 }
 
 - (IBAction)addMemberPressed:(id)sender {
@@ -253,7 +256,7 @@
 //    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
 //        dispatch_async(dispatch_get_main_queue(), ^{
 //            [self.events addObject:events];
-//            [self.tableView reloadData];
+//            [self reloadDataSource];
 //        });
 //    } onError:^(NSError * _Nullable error) {
 //
@@ -344,6 +347,24 @@
 - (void)textViewDidChange:(UITextView *)textView {
     BOOL enabled = self.textinput.text.length > 0;
     self.sendButton.enabled = enabled;
+}
+
+#pragma mark - Helper Methods
+
+- (void)insertEvent:(NXMEvent *)event {
+    [self.events addObject:event];
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
+    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self scrollToBottom];
+}
+- (void)reloadDataSource {
+    [self.tableView reloadData];
+    [self scrollToBottom];
+}
+
+- (void)scrollToBottom {
+    NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 /*
