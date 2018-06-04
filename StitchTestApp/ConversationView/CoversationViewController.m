@@ -303,13 +303,14 @@
     
     if (event.type == NXMEventTypeText) {
         NXMTextEvent *textEvent = (NXMTextEvent *)event;
-        CGSize textSize = [textEvent.text boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+        CGSize boundSize = CGSizeMake(self.tableView.frame.size.width / 2.0f, CGFLOAT_MAX);
+        CGSize textSize = [textEvent.text boundingRectWithSize:boundSize
                                                        options:NSStringDrawingUsesLineFragmentOrigin
                                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
                                                        context:nil].size;
         CGSize nameSize = CGSizeZero;
         if (!([self.memberId isEqualToString:event.fromMemberId])) {
-            nameSize = [event.fromMemberId boundingRectWithSize:CGSizeMake(self.tableView.frame.size.width, CGFLOAT_MAX)
+            nameSize = [event.fromMemberId boundingRectWithSize:boundSize
                                                         options:NSStringDrawingUsesLineFragmentOrigin
                                                      attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:14.0f]}
                                                         context:nil].size;
