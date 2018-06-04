@@ -134,6 +134,8 @@
         self.memberId = member.memberId;
     }
     
+    [self.memberIdToName setObject:member.name forKey:member.memberId];
+    
     [self insertEvent:member];
 //    [self reloadDataSource];
 //    [self.tableView reloadData];
