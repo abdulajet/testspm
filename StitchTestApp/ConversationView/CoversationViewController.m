@@ -24,7 +24,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *enableAudioImage;
 
 @property NXMConversationDetails *conversation;
-@property NSMutableArray<NXMEvent *>* events;
+@property NSMutableArray<NXMEvent *> *events;
+@property NSMutableDictionary *messageStatuses;
 //@property NSArray<NXMEvent *>* filteredEvents;
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
@@ -53,9 +54,6 @@
                      @"testuser7":@"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
                      @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
                      };
-
-    self.memberId;
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                     selector:@selector(receivedMemberEvent:)
@@ -121,6 +119,13 @@
 }
 
 - (void)receivedTextStatusEvent:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMTextStatusEvent *textStatus = userInfo[@"textEvent"];
+    if (![textStatus.conversationId isEqualToString:self.conversation.uuid]) {
+        return;
+    }
+    
+    [self insertTextStatusEvent:textStatus];
 }
 
 - (void)receivedMemberEvent:(NSNotification *) notification {
@@ -303,7 +308,15 @@
         }
     
         SenderType senderType = ([self.memberId isEqualToString:event.fromMemberId]) ? SenderTypeSelf : SenderTypeOther;
-        [cell updateWithEvent:event senderType:senderType memberName:self.memberIdToName[event.fromMemberId]];
+        MessageStatus messageStatus = MessageStatusNone;
+        NSNumber *status = [self.messageStatuses objectForKey:@(event.sequenceId)];
+        if (status) {
+            messageStatus = [status integerValue];
+        }
+        [cell updateWithEvent:event
+                   senderType:senderType
+                   memberName:self.memberIdToName[event.fromMemberId]
+                messageStatus:messageStatus];
         return cell;
     }
     
@@ -332,7 +345,7 @@
         }
         
         //    return size.height + 15.0f;
-        return textSize.height + nameSize.height + 30.0f;
+        return textSize.height + nameSize.height + 40.0f;
     }
     
 //    if (event.type == NXMEventTypeTextStatus) {
@@ -355,6 +368,26 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)insertTextStatusEvent:(NXMTextStatusEvent *)event {
+    [self.events addObject:event];
+    NSInteger sequenceId = [event.eventId integerValue];
+    [self.messageStatuses setObject:@(event.status) forKey:@(sequenceId)];
+    NSIndexPath *indexPath = [self indexPathForSequenceId:sequenceId];
+    if (indexPath) {
+        [self.tableView cellForRowAtIndexPath:indexPath];
+    }
+}
+
+- (NSIndexPath *)indexPathForSequenceId:(NSInteger)sequenceId {
+    for (unsigned int index = 0; index < self.events.count; ++index) {
+        NXMEvent *event = self.events[index];
+        if (event.type == NXMEventTypeText && event.sequenceId == sequenceId) {
+            return [NSIndexPath indexPathForRow:index inSection:0];
+        }
+    }
+    return nil;
+}
 
 - (void)insertEvent:(NXMEvent *)event {
     [self.events addObject:event];

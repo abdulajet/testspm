@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "icRead.png",
+      "filename" : "messageStatusDelivered.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icRead@2x.png",
+      "filename" : "messageStatusDelivered@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "icRead@3x.png",
+      "filename" : "messageStatusDelivered@3x.png",
       "scale" : "3x"
     }
   ],

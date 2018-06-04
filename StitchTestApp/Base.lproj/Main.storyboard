@@ -223,11 +223,33 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wvY-sa-Mjr">
+                                                    <rect key="frame" x="350" y="19" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="hTf-0y-LTG"/>
+                                                        <constraint firstAttribute="width" constant="20" id="p7W-Qz-STI"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="03i-04-oVZ">
+                                                    <rect key="frame" x="294" y="21.5" width="53" height="14.5"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                                                    <color key="textColor" red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="wvY-sa-Mjr" secondAttribute="trailing" constant="5" id="0XX-gT-P3e"/>
+                                                <constraint firstItem="wvY-sa-Mjr" firstAttribute="leading" secondItem="03i-04-oVZ" secondAttribute="trailing" constant="3" id="6E2-73-5R9"/>
+                                                <constraint firstItem="03i-04-oVZ" firstAttribute="centerY" secondItem="wvY-sa-Mjr" secondAttribute="centerY" id="IBh-gX-cjp"/>
+                                                <constraint firstItem="03i-04-oVZ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PMe-fk-gsH" secondAttribute="leading" constant="20" symbolic="YES" id="P7c-73-VnI"/>
+                                                <constraint firstAttribute="bottom" secondItem="wvY-sa-Mjr" secondAttribute="bottom" constant="5" id="ojt-6f-P2D"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="bubbleImage" destination="BZx-tx-VRw" id="jL8-4Y-zGa"/>
                                             <outlet property="fromLabel" destination="cO8-9t-0kC" id="jko-BK-952"/>
+                                            <outlet property="messageStatusImage" destination="wvY-sa-Mjr" id="wcL-fB-sHC"/>
+                                            <outlet property="messageStatusLabel" destination="03i-04-oVZ" id="nqL-Lc-IWs"/>
                                             <outlet property="messageText" destination="e2L-Jx-ZMt" id="WLX-QJ-n2I"/>
                                         </connections>
                                     </tableViewCell>

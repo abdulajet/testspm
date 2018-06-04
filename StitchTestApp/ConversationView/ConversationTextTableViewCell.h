@@ -17,9 +17,18 @@ typedef NS_ENUM(NSUInteger, SenderType) {
     SenderTypeOther
 };
 
+typedef NS_ENUM(NSUInteger, MessageStatus) {
+    MessageStatusSeen,
+    MessageStatusDelivered,
+    MessageStatusDeleted,
+    MessageStatusNone
+};
+
 @class NXMEvent;
 @interface ConversationTextTableViewCell : UITableViewCell
 
-- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType memberName:(NSString *)memberName;
-
+- (void)updateWithEvent:(NXMEvent *)event
+             senderType:(SenderType)senderType
+             memberName:(NSString *)memberName
+          messageStatus:(MessageStatus)status;
 @end

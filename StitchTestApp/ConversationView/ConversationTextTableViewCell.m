@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
 @property (strong, nonatomic) IBOutlet UILabel *fromLabel;
 @property (strong, nonatomic) IBOutlet UILabel *messageText;
 @property (strong, nonatomic) IBOutlet UIImageView *bubbleImage;
+@property (weak, nonatomic) IBOutlet UIImageView *messageStatusImage;
+@property (weak, nonatomic) IBOutlet UILabel *messageStatusLabel;
 
 //@property (nonatomic, assign) BubbleColor bubbleColor;
 @property (nonatomic, assign) SenderType senderType;
@@ -109,7 +111,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
     CGFloat labelsWidth = nameSize.width > textSize.width ? nameSize.width : textSize.width;
     CGSize totalSize = CGSizeMake(labelsWidth, nameSize.height + textSize.height);
     if (self.senderType == SenderTypeOther) {
-        self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 30.0f);
+        self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 40.0f);
         //    self.textLabel.frame = CGRectMake(self.frame.size.width - (size.width + STBubbleWidthOffset - 10.0f), 6.0f, size.width + STBubbleWidthOffset - 23.0f, size.height);
         self.fromLabel.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 6.0f, totalSize.width, nameSize.height);
         self.messageText.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), self.fromLabel.frame.size.height + 5.0f, totalSize.width, textSize.height);
@@ -122,7 +124,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
     } else {
 //        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, size.width + kBubbleWidthOffset, size.height + 15.0f);
 //        self.messageText.frame = CGRectMake(16.0f, 6.0f, size.width + kBubbleWidthOffset - 23.0f, size.height);
-        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 30.0f);
+        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 40.0f);
         self.fromLabel.frame = CGRectZero; // CGRectMake(20.0f, 6.0f, totalSize.width, totalSize.height);
 //        self.messageText.frame = CGRectMake(20.0f, 26.0f, totalSize.width, totalSize.height);
         self.messageText.frame = CGRectMake(10.0f, 6.0f, totalSize.width, totalSize.height + 5.0f);
@@ -141,19 +143,28 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
 //    // Configure the view for the selected state
 //}
 
-- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType memberName:(NSString *)memberName {
-//    NSString* str = [[NSString alloc] initWithFormat:@"conversationId:%@ type:%ld id:%@",event.conversationId,(long)event.type,event.sequenceId];
-//    self.messageText.text = str;
-//    if (event.type == NXMEventTypeText) {
-//        self.toText.text = ((NXMTextEvent *)event).text;
-//    }
-    
+
+- (void)updateWithEvent:(NXMEvent *)event
+             senderType:(SenderType)senderType
+             memberName:(NSString *)memberName
+          messageStatus:(MessageStatus)status {
     if (event.type == NXMEventTypeText) {
         NXMTextEvent *eventText = ((NXMTextEvent *)event);
         self.messageText.text = eventText.text;
         self.senderType = senderType;
         self.fromLabel.text = (senderType == SenderTypeSelf) ? @"" : ([memberName length] == 0 ? eventText.fromMemberId : memberName);
-        //[self userNameForMemberId:event.fromMemberId];
+        
+        self.messageStatusImage.image = [[UIImage alloc] init];
+        self.messageStatusLabel.text = @"";
+        if (status == MessageStatusSeen) {
+            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
+            self.messageStatusLabel.text = @"Seen";
+        } else if (status == MessageStatusDelivered) {
+            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
+            self.messageStatusLabel.text = @"Delivered";
+        } else if (status == MessageStatusDeleted) {
+            self.messageText.text = @"Deleted";
+        }
     }
 }
 
