@@ -37,7 +37,7 @@
     }
     
     if (event.type == NXMEventTypeMedia) {
-        NSString *text = [NSString stringWithFormat:@"audio changed to %@ by %@",
+        NSString *text = [NSString stringWithFormat:@"audio %@ by %@",
                           ((NXMMediaEvent *)event).isMediaEnabled ? @"enabled" : @"disabled",((NXMMediaEvent *)event).fromMemberId];
         self.eventText.text = text;
     }

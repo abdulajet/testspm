@@ -207,27 +207,16 @@
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
-    [UIView animateWithDuration:1.0f
-                     animations:^{
-                         self.enableAudioImage.transform = CGAffineTransformScale(self.enableAudioImage.transform, 2.0f, 2.0f);
-                     }
-                     completion:^(BOOL finished) {
-                         [UIView animateWithDuration:1.0f
-                                          animations:^{
-                                              self.enableAudioImage.transform = CGAffineTransformIdentity;
-                                          }
-                                          completion:nil
-                          ];
-                         
-                     }];
     if (self.isMediaEnabled) {
         self.isMediaEnabled = NO;
         [self.stitch disableMedia:self.conversation.uuid];
         return;
     }
-    
+
     self.isMediaEnabled = YES;
     [self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    [self startAudioAnimation];
+     
     
 //    UIImage *image = [UIImage imageNamed:@"addMember"];
 //    NSData *imageData = UIImagePNGRepresentation(image);
@@ -365,6 +354,28 @@
 - (void)scrollToBottom {
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+}
+
+- (void)startAudioAnimation {
+    [UIView animateWithDuration:1.0f
+                     animations:^{
+                         self.enableAudioImage.transform = CGAffineTransformScale(self.enableAudioImage.transform, 2.0f, 2.0f);
+                     }
+                     completion:^(BOOL finished) {
+                         [self endAudioAnimation];
+                     }];
+}
+
+- (void)endAudioAnimation {
+    [UIView animateWithDuration:1.0f
+                     animations:^{
+                         self.enableAudioImage.transform = CGAffineTransformIdentity;
+                     }
+                     completion:^(BOOL finished) {
+                         if (self.isMediaEnabled) {
+                             [self startAudioAnimation];
+                         }
+                     }];
 }
 
 /*
