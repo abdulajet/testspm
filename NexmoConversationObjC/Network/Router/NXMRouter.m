@@ -614,6 +614,9 @@
             
             [members addObject:member];
         }
+        
+        details.members = members;
+        onSuccess(details);
     }];
 }
 
