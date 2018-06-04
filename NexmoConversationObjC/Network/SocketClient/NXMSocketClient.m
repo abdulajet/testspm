@@ -579,7 +579,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = json[@"timestamp"];
     mediaEvent.sequenceId = [json[@"id"] integerValue];
-    mediaEvent.isMediaEnabled = json[@"body"][@"audio"];
+    mediaEvent.isMediaEnabled = [json[@"body"][@"audio"] boolValue];
     mediaEvent.type = NXMEventTypeMedia;
     
     [self.delegate mediaEvent:mediaEvent];
