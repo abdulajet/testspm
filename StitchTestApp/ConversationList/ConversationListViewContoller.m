@@ -72,6 +72,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    self.navigationItem.title = self.stitch.getUser.name;
 
 }
 
@@ -89,7 +90,7 @@
                 
                 NXMConversationDetails *conversation =  [NXMConversationDetails new];
                 conversation.displayName = displayName;
-                conversation.uuid = @"CON-432d5780-6181-4bb6-87d5-2e16c2b41df0"; //value;
+                conversation.uuid = value;
                 
                 [self.conversations insertObject:conversation atIndex:0];
                 
@@ -139,7 +140,7 @@
     request.pageSize = 1;
     request.recordIndex = 0;
     
-    [self.stitch getUserConversations:@"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205"
+    [self.stitch getUserConversations:self.stitch.getUser.uuid
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.conversations addObjectsFromArray:conversationDetails];

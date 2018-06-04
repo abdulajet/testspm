@@ -103,16 +103,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-//    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.events addObjectsFromArray:events];
-//            [self reloadDataSource];
-////            [self.tableView reloadData];
-//        });
-//    } onError:^(NSError * _Nullable error) {
-//        NSLog(@"error get events");
-//    }];
 }
 
 #pragma mark - events
@@ -144,7 +134,7 @@
         self.memberId = member.memberId;
     }
     
-    [self.memberIdToName setObject:member.name forKey:member.memberId];
+    [self.memberIdToName setObject:member.user.name forKey:member.memberId];
     
     [self insertEvent:member];
 //    [self reloadDataSource];
@@ -393,18 +383,25 @@
                 [self.messageStatuses setObject:@(textStatusEvent.status) forKey:@(sequenceId)];
             }
         }
-        [self.events addObject:event];
     }
+    
+    [self.events addObjectsFromArray:events];
 }
 
 - (void)insertTextStatusEvent:(NXMTextStatusEvent *)event {
-    [self.events addObject:event];
-    NSInteger sequenceId = [event.eventId integerValue];
-    [self.messageStatuses setObject:@(event.status) forKey:@(sequenceId)];
-    NSIndexPath *indexPath = [self indexPathForSequenceId:sequenceId];
-    if (indexPath) {
-        [self.tableView cellForRowAtIndexPath:indexPath];
+    if ([self isEventExists:event]) {
+        return;
     }
+    
+    [self.events addObject:event];
+//    NSInteger sequenceId = [event.eventId integerValue];
+//    [self.messageStatuses setObject:@(event.status) forKey:@(sequenceId)];
+//    NSIndexPath *indexPath = [self indexPathForSequenceId:sequenceId];
+//    if (indexPath) {
+//        [self.tableView cellForRowAtIndexPath:indexPath];
+//    }
+    
+    [self reloadDataSource];
 }
 
 - (NSIndexPath *)indexPathForSequenceId:(NSInteger)sequenceId {
@@ -423,9 +420,11 @@
     }
 
     [self.events addObject:event];
-    NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
-    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    [self scrollToBottom];
+//    NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
+//    [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//    [self scrollToBottom];
+    
+    [self reloadDataSource];
 }
 - (void)reloadDataSource {
     [self.tableView reloadData];
@@ -433,6 +432,10 @@
 }
 
 - (void)scrollToBottom {
+    if (self.events.count == 0) {
+        return;
+    }
+    
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
