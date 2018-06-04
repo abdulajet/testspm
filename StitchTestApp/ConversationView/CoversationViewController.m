@@ -28,6 +28,7 @@
 //@property NSArray<NXMEvent *>* filteredEvents;
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
+@property NSMutableDictionary<NSString *,NSString *> * memberIdToName;
 
 @property NSString *memberId;
 @property NSString *userId;
@@ -53,7 +54,7 @@
                      @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
                      };
 
-    self.memberId = @"MEM-87bb1335-ac71-4060-92f7-987b28ee0ea4";
+    self.memberId;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -100,15 +101,15 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.events addObjectsFromArray:events];
-            [self reloadDataSource];
-//            [self.tableView reloadData];
-        });
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"error get events");
-    }];
+//    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [self.events addObjectsFromArray:events];
+//            [self reloadDataSource];
+////            [self.tableView reloadData];
+//        });
+//    } onError:^(NSError * _Nullable error) {
+//        NSLog(@"error get events");
+//    }];
 }
 
 #pragma mark - events
@@ -129,9 +130,9 @@
         return;
     }
     
-//    if ([member.user.name isEqualToString:@"testuser5"]) {
-//        self.memberId = member.memberId;
-//    }
+    if ([member.user.name isEqualToString:self.stitch.getUser.name]) {
+        self.memberId = member.memberId;
+    }
     
     [self insertEvent:member];
 //    [self reloadDataSource];
@@ -238,18 +239,31 @@
     self.stitch = appDelegate.stitchConversation;
     
     self.conversation = conversation;
-    self.conversation.uuid = @"CON-432d5780-6181-4bb6-87d5-2e16c2b41df0";
-    self.navigationItem.title = self.conversation.name;
-
-//    self.events = [NSMutableArray new];
-//    [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [self.events addObject:events];
-//            [self reloadDataSource];
-//        });
-//    } onError:^(NSError * _Nullable error) {
-//
-//    }];
+    self.navigationItem.title = self.conversation.displayName;
+    self.memberIdToName = [NSMutableDictionary new];
+    
+    [self.stitch getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+        self.conversation = conversationDetails;
+        
+        for (NXMMember *member in self.conversation.members) {
+            if ([member.name isEqualToString:self.stitch.getUser.name]) {
+                self.memberId = member.memberId;
+            }
+            
+            [self.memberIdToName setObject:member.name forKey:member.memberId];
+        }
+        
+        [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.events addObjectsFromArray:events];
+                [self.tableView reloadData];
+            });
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error get events");
+        }];
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error get details");
+    }];
 }
 
 #pragma mark - tableView delegate
@@ -265,7 +279,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NXMEvent *event = self.events[indexPath.row];
-    
     if (event.type == NXMEventTypeMember) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
         [cell updateWithEvent:event];
@@ -286,9 +299,9 @@
             cell.backgroundColor = self.tableView.backgroundColor;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        
+    
         SenderType senderType = ([self.memberId isEqualToString:event.fromMemberId]) ? SenderTypeSelf : SenderTypeOther;
-        [cell updateWithEvent:event senderType:senderType];
+        [cell updateWithEvent:event senderType:senderType memberName:self.memberIdToName[event.fromMemberId]];
         return cell;
     }
     

@@ -141,7 +141,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
 //    // Configure the view for the selected state
 //}
 
-- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType {
+- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType memberName:(NSString *)memberName {
 //    NSString* str = [[NSString alloc] initWithFormat:@"conversationId:%@ type:%ld id:%@",event.conversationId,(long)event.type,event.sequenceId];
 //    self.messageText.text = str;
 //    if (event.type == NXMEventTypeText) {
@@ -149,9 +149,10 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
 //    }
     
     if (event.type == NXMEventTypeText) {
-        self.messageText.text = ((NXMTextEvent *)event).text;
+        NXMTextEvent *eventText = ((NXMTextEvent *)event);
+        self.messageText.text = eventText.text;
         self.senderType = senderType;
-        self.fromLabel.text = (senderType == SenderTypeSelf) ? @"" : event.fromMemberId;
+        self.fromLabel.text = (senderType == SenderTypeSelf) ? @"" : ([memberName length] == 0 ? eventText.fromMemberId : memberName);
         //[self userNameForMemberId:event.fromMemberId];
     }
 }

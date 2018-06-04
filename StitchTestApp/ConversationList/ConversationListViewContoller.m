@@ -27,7 +27,43 @@
     self.stitch = appDelegate.stitchConversation;
     self.conversations =  [NSMutableArray new];
     [self getNewestConversations];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedMemberEvent:)
+                                                 name:@"memberEvent"
+                                               object:nil];
 }
+
+- (void)receivedMemberEvent:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMMemberEvent *member = userInfo[@"member"];
+    if (!([member.state isEqualToString:@"INVITED"] &&
+        [member.user.name isEqualToString:self.stitch.getUser.name])) {
+        return;
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"conversation" message:@"added to conversation" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.stitch getConversationDetails:member.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.conversations insertObject:conversationDetails atIndex:0];
+                
+                [self.tableView reloadData];
+                
+                [self showConversation:conversationDetails];
+            });
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error");
+        }];
+    }];
+    [alertController addAction:confirmAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Canelled");
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -52,10 +88,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 NXMConversationDetails *conversation =  [NXMConversationDetails new];
-                conversation.name = displayName;
+                conversation.displayName = displayName;
                 conversation.uuid = @"CON-432d5780-6181-4bb6-87d5-2e16c2b41df0"; //value;
                 
-                [self.conversations addObject:conversation];
+                [self.conversations insertObject:conversation atIndex:0];
                 
                 [self.tableView reloadData];
                 
@@ -102,18 +138,10 @@
     NXMGetConversationsRequest *request = [NXMGetConversationsRequest new];
     request.pageSize = 1;
     request.recordIndex = 0;
-    [self.stitch getConversations:request onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
-        
-//        NXMGetConversationsRequest *newestRequest = [NXMGetConversationsRequest new];
-//        request.pageSize = 1;
-//        request.recordIndex = 0;
-//        [self.stitch getConversations:request onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
-//
-//        } onError:^(NSError * _Nullable error) {
-//
-//        }];
+    
+    [self.stitch getUserConversations:@"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205"
+                            onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
-
             [self.conversations addObjectsFromArray:conversationDetails];
 
             [self.tableView reloadData];

@@ -23,8 +23,8 @@
 -(void)updateWithConversation:(NXMConversationDetails*)conversation {
     self.conversation = conversation;
 
-    if ([self.conversation.name length] > 0) {
-        self.conversationName.text = self.conversation.name;
+    if ([self.conversation.displayName length] > 0) {
+        self.conversationName.text = self.conversation.displayName;
         return;
     }
     

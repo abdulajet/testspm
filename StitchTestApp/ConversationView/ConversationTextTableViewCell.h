@@ -20,6 +20,6 @@ typedef NS_ENUM(NSUInteger, SenderType) {
 @class NXMEvent;
 @interface ConversationTextTableViewCell : UITableViewCell
 
-- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType;
+- (void)updateWithEvent:(NXMEvent *)event senderType:(SenderType)senderType memberName:(NSString *)memberName;
 
 @end
