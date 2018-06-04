@@ -8,6 +8,7 @@
 
 #import "ConversationTextTableViewCell.h"
 #import "NXMTextEvent.h"
+#import "NXMImageEvent.h"
 #import <QuartzCore/QuartzCore.h>
 
 typedef NS_ENUM(NSUInteger, BubbleColor) {
@@ -166,6 +167,26 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
             self.messageText.text = @"Deleted";
         }
     }
+    
+    if (event.type == NXMEventTypeImage) {
+        NXMImageEvent *eventText = ((NXMImageEvent *)event);
+        self.messageText.text = @"image: ";
+        self.senderType = senderType;
+        self.fromLabel.text = (senderType == SenderTypeSelf) ? @"" : ([memberName length] == 0 ? eventText.fromMemberId : memberName);
+        
+        self.messageStatusImage.image = [[UIImage alloc] init];
+        self.messageStatusLabel.text = @"";
+        if (status == MessageStatusSeen) {
+            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
+            self.messageStatusLabel.text = @"Seen";
+        } else if (status == MessageStatusDelivered) {
+            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
+            self.messageStatusLabel.text = @"Delivered";
+        } else if (status == MessageStatusDeleted) {
+            self.messageText.text = @"Deleted";
+        }
+    }
+
 }
 
 #pragma mark - Setters

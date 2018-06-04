@@ -103,6 +103,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
 }
 
 #pragma mark - events
@@ -111,7 +112,15 @@
 }
 
 - (void)receivedImageEvent:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMImageEvent *imageEvent = userInfo[@"image"];
+    if (![imageEvent.conversationId isEqualToString:self.conversation.uuid]) {
+        return;
+    }
+    
+    [self insertEvent:imageEvent];
 }
+
 
 - (void)receivedTextStatusEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
@@ -247,6 +256,10 @@
     [self.stitch getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
         self.conversation = conversationDetails;
         
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.navigationItem.title = self.conversation.displayName;
+        });
+
         for (NXMMember *member in self.conversation.members) {
             if ([member.name isEqualToString:self.stitch.getUser.name]) {
                 self.memberId = member.memberId;
@@ -296,7 +309,7 @@
         
         return cell;
     }
-    if (event.type == NXMEventTypeText) {
+    if (event.type == NXMEventTypeText || event.type == NXMEventTypeImage) {
         ConversationTextTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationTextCell"];
         if (cell == nil) {
             cell = [[ConversationTextTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"conversationTextCell"];
