@@ -10,6 +10,7 @@
 #define NXMTextEventStatus_h
 
 typedef NS_ENUM(NSInteger, NXMTextEventStatusE) {
+    NXMTextEventStatusENone,
     NXMTextEventStatusESeen,
     NXMTextEventStatusEDelivered,
     NXMTextEventStatusEDeleted

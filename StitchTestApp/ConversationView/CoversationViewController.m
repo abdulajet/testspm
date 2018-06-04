@@ -375,14 +375,34 @@
 #pragma mark - Gestures
 
 - (void)handleTap:(UIGestureRecognizer *)recognizer {
-    [self.textinput endEditing:YES];
+   // [self.textinput endEditing:YES];
 }
 
 - (void)handleLongPress:(UIGestureRecognizer *)recognizer {
     CGPoint locationInView = [recognizer locationInView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:locationInView];
     NXMEvent *event = self.events[indexPath.row];
-//    [self.stitch deleteText:@"" conversationId:@"" fromMemberId:@"" onSuccess:nil onError:nil];
+    
+    if (![event.fromMemberId isEqualToString:self.memberId]) {
+        return;
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"conversation" message:@"do you want to delete this msg?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.stitch deleteText:event.sequenceId conversationId:event.conversationId fromMemberId:event.fromMemberId onSuccess:^{
+            
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error deleteText");
+        }];
+    }];
+    [alertController addAction:confirmAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Canelled");
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    
+
 }
 
 #pragma mark - UITextViewDelegate
@@ -414,14 +434,19 @@
         return;
     }
     
-    [self.events addObject:event];
-//    NSInteger sequenceId = [event.eventId integerValue];
-//    [self.messageStatuses setObject:@(event.status) forKey:@(sequenceId)];
+    NSInteger sequenceId = event.eventId;
+    [self.messageStatuses setObject:@(event.status) forKey:@(sequenceId)];
 //    NSIndexPath *indexPath = [self indexPathForSequenceId:sequenceId];
 //    if (indexPath) {
-//        [self.tableView cellForRowAtIndexPath:indexPath];
+//        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+//        if ([cell isKindOfClass:[ConversationEventTableViewCell class]]) {
+//            if (event.status == NXMTextEventStatusEDeleted) {
+//
+//            }
+//        }
 //    }
     
+    [self.events addObject:event];
     [self reloadDataSource];
 }
 

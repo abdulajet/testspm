@@ -140,6 +140,8 @@
     request.pageSize = 1;
     request.recordIndex = 0;
     
+    NSLog(@"get conversation %@", self.stitch.getUser.uuid);
+
     [self.stitch getUserConversations:self.stitch.getUser.uuid
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -149,7 +151,18 @@
         });
     } onError:^(NSError * _Nullable error) {
         NSLog(@"%@", [NSString stringWithFormat:@"error get conversations %@", error]);
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"server error" message:@"failed please retry" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            }];
+            [alertController addAction:confirmAction];
+            [self presentViewController:alertController animated:YES completion:nil];
+        });
+
     }];
+    
+
 }
 
 - (void)getConversationsDetails:(NSArray*)conversations {
