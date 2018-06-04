@@ -21,7 +21,7 @@
                                 <rect key="frame" x="80" y="142" width="215" height="79"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGW-Y1-6uY" userLabel="loginButton">
-                                <rect key="frame" x="25" y="312" width="325" height="44"/>
+                                <rect key="frame" x="25" y="359" width="325" height="44"/>
                                 <state key="normal" backgroundImage="loginButtonBG">
                                     <attributedString key="attributedTitle">
                                         <fragment content="Log In">
@@ -48,7 +48,7 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="auto token" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1uo-ka-pPL" userLabel="autoTokenField">
-                                <rect key="frame" x="25" y="274" width="325" height="30"/>
+                                <rect key="frame" x="25" y="321" width="325" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
@@ -56,7 +56,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="1uo-ka-pPL" firstAttribute="top" secondItem="Ml9-Ai-59c" secondAttribute="bottom" constant="53" id="1Dk-OI-Y4b"/>
+                            <constraint firstItem="1uo-ka-pPL" firstAttribute="top" secondItem="Ml9-Ai-59c" secondAttribute="bottom" constant="100" id="1Dk-OI-Y4b"/>
                             <constraint firstItem="MGW-Y1-6uY" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="9ER-Yp-Cdc"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="122" id="DhR-gl-F1N"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="LF8-0s-K72"/>
