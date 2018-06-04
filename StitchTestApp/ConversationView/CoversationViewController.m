@@ -92,6 +92,11 @@
     tapGesture.delegate = self;
     [self.tableView addGestureRecognizer:tapGesture];
     
+    UILongPressGestureRecognizer *longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
+    longPressGesture.minimumPressDuration = 1.0f;
+    longPressGesture.delegate = self;
+    [self.tableView addGestureRecognizer:longPressGesture];
+    
     self.textinput.delegate = self;
     self.sendButton.enabled = NO;
 }
@@ -262,8 +267,10 @@
         
         [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.events addObjectsFromArray:events];
+//                [self.events addObjectsFromArray:events];
+                [self addNewEvents:events];
                 [self.tableView reloadData];
+                [self reloadDataSource];
             });
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error get events");
@@ -360,6 +367,13 @@
     [self.textinput endEditing:YES];
 }
 
+- (void)handleLongPress:(UIGestureRecognizer *)recognizer {
+    CGPoint locationInView = [recognizer locationInView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:locationInView];
+    NXMEvent *event = self.events[indexPath.row];
+//    [self.stitch deleteText:@"" conversationId:@"" fromMemberId:@"" onSuccess:nil onError:nil];
+}
+
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -368,6 +382,20 @@
 }
 
 #pragma mark - Helper Methods
+
+- (void)addNewEvents:(NSMutableArray<NXMEvent *> *)events {
+    for (NXMEvent *event in events) {
+        if (event.type == NXMEventTypeTextStatus) {
+            NXMTextStatusEvent *textStatusEvent = (NXMTextStatusEvent *)event;
+            NSInteger sequenceId = [textStatusEvent.eventId integerValue];
+            NSNumber *currentStatus = [self.messageStatuses objectForKey:@(sequenceId)];
+            if (!currentStatus || [currentStatus integerValue] < textStatusEvent.status) {
+                [self.messageStatuses setObject:@(textStatusEvent.status) forKey:@(sequenceId)];
+            }
+        }
+        [self.events addObject:event];
+    }
+}
 
 - (void)insertTextStatusEvent:(NXMTextStatusEvent *)event {
     [self.events addObject:event];

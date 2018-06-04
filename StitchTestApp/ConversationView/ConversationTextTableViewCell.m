@@ -109,7 +109,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
                                                           context:nil].size;
     
     CGFloat labelsWidth = nameSize.width > textSize.width ? nameSize.width : textSize.width;
-    CGSize totalSize = CGSizeMake(labelsWidth, nameSize.height + textSize.height);
+    CGSize totalSize = CGSizeMake(labelsWidth + 10.0f, nameSize.height + textSize.height);
     if (self.senderType == SenderTypeOther) {
         self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 40.0f);
         //    self.textLabel.frame = CGRectMake(self.frame.size.width - (size.width + STBubbleWidthOffset - 10.0f), 6.0f, size.width + STBubbleWidthOffset - 23.0f, size.height);
