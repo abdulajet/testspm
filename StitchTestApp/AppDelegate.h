@@ -15,6 +15,7 @@
 @property (nonatomic, readonly, strong) StitchConversationClientCore *stitchConversation;
 
 - (void)setStitch:(StitchConversationClientCore *)stitch;
+- (void)addConversationMember:(NSString *)conv  memberId:(NSString *)memberId;
 
 @end
 

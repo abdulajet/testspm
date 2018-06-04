@@ -11,7 +11,7 @@
 
 @implementation NXMDeleteEventRequest
 
-- (instancetype)initWithEventId:(nonnull NSString *)eventId conversationId:(nonnull NSString*)conversationId memberId:(nonnull NSString *)memberId {
+- (instancetype)initWithEventId:(NSInteger)eventId conversationId:(nonnull NSString*)conversationId memberId:(nonnull NSString *)memberId {
     if (self = [super init]){
         self.eventID = eventId;
         self.conversationID = conversationId;

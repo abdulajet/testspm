@@ -204,7 +204,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network sendImage:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)deleteText:(nonnull NSString *)eventId
+- (void)deleteText:(NSInteger)eventId
     conversationId:(nonnull NSString *)conversationId
       fromMemberId:(nonnull NSString *)memberId
          onSuccess:(SuccessCallback _Nullable)onSuccess
@@ -213,7 +213,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network deleteTextFromConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)markAsSeen:(nonnull NSString *)messageId
+- (void)markAsSeen:(NSInteger)messageId
     conversationId:(nonnull NSString *)conversationId
   fromMemberWithId:(nonnull NSString *)memberId
          onSuccess:(SuccessCallback _Nullable)onSuccess
@@ -221,7 +221,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network seenTextEvent:conversationId memberId:memberId eventId:messageId];
 }
 
-- (void)markAsDelivered:(nonnull NSString *)messageId
+- (void)markAsDelivered:(NSInteger)messageId
          conversationId:(nonnull NSString *)conversationId
        fromMemberWithId:(nonnull NSString *)memberId
               onSuccess:(SuccessCallback _Nullable)onSuccess

@@ -10,6 +10,7 @@
 
 @interface AppDelegate ()
 @property (nonatomic, readwrite, strong) StitchConversationClientCore *stitchConversation;
+@property (nonatomic, readwrite, strong) NSMutableDictionary *conversationIdToMemberId;
 
 @end
 
@@ -20,8 +21,13 @@
     [self.stitchConversation setDelgate:self];
 }
 
+- (void)addConversationMember:(NSString *)conv  memberId:(NSString *)memberId {
+    [self.conversationIdToMemberId setObject:memberId forKey:conv];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    self.conversationIdToMemberId = [NSMutableDictionary new];
     return YES;
 }
 
@@ -112,6 +118,35 @@
 
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent {
+    NSString *memberId = self.conversationIdToMemberId[textEvent.conversationId];
+    if (memberId) {
+        [self.stitchConversation markAsDelivered:textEvent.sequenceId conversationId:textEvent.conversationId fromMemberWithId:memberId onSuccess:^{
+            
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error markAsDelivered");
+        }];
+    } else {
+        [self.stitchConversation getConversationDetails:textEvent.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+            NSString *currMember;
+            for (NXMMember *member in conversationDetails.members) {
+                if ([member.userId isEqualToString:self.stitchConversation.getUser.uuid]){
+                    currMember = member.memberId;
+                    [self.conversationIdToMemberId setObject:member.memberId forKey:member.conversationId];
+                    break;
+                }
+            }
+            
+            [self.stitchConversation markAsDelivered:textEvent.sequenceId conversationId:textEvent.conversationId fromMemberWithId:currMember onSuccess:^{
+                
+            } onError:^(NSError * _Nullable error) {
+                NSLog(@"error markAsDelivered");
+            }];
+        } onError:^(NSError * _Nullable error) {
+            
+        }];
+    }
+    
+
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"textEvent"
      object:nil userInfo:@{@"text":textEvent}];

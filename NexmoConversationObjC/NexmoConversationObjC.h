@@ -135,19 +135,19 @@ FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
          onError:(ErrorCallback _Nullable)onError;
 
-- (void)deleteText:(nonnull NSString *)eventId
+- (void)deleteText:(NSInteger)eventId
       conversationId:(nonnull NSString *)conversationId
         fromMemberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
 
-- (void)markAsSeen:(nonnull NSString *)messageId
+- (void)markAsSeen:(NSInteger)messageId
     conversationId:(nonnull NSString *)conversationId
   fromMemberWithId:(nonnull NSString *)memberId
          onSuccess:(SuccessCallback _Nullable)onSuccess
            onError:(ErrorCallback _Nullable)onError;
 
-- (void)markAsDelivered:(nonnull NSString *)messageId
+- (void)markAsDelivered:(NSInteger)messageId
     conversationId:(nonnull NSString *)conversationId
   fromMemberWithId:(nonnull NSString *)memberId
          onSuccess:(SuccessCallback _Nullable)onSuccess

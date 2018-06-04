@@ -14,7 +14,7 @@
 #import "NXMTextEventStatus.h"
 
 @interface NXMTextStatusEvent : NXMEvent
-@property (nonatomic, strong) NSString *eventId;
+@property NSInteger eventId;
 @property (nonatomic) NXMTextEventStatusE status;
 @end
 #endif /* NXMDeleteEvent_h */

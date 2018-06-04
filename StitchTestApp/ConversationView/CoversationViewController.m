@@ -170,10 +170,13 @@
         return;
     }
     
-//    [self.events addObject:text];
     [self insertEvent:text];
-//    [self reloadDataSource];
-//    [self.tableView reloadData];
+    
+    [self.stitch markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.memberId onSuccess:^{
+        
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error markAsSeen");
+    }];
 }
 
 - (IBAction)addMemberPressed:(id)sender {
@@ -263,6 +266,11 @@
         for (NXMMember *member in self.conversation.members) {
             if ([member.name isEqualToString:self.stitch.getUser.name]) {
                 self.memberId = member.memberId;
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
+                    [appDelegate addConversationMember:member.conversationId memberId:member.memberId];
+                });
             }
             
             [self.memberIdToName setObject:member.name forKey:member.memberId];
@@ -390,7 +398,7 @@
     for (NXMEvent *event in events) {
         if (event.type == NXMEventTypeTextStatus) {
             NXMTextStatusEvent *textStatusEvent = (NXMTextStatusEvent *)event;
-            NSInteger sequenceId = [textStatusEvent.eventId integerValue];
+            NSInteger sequenceId = textStatusEvent.eventId;
             NSNumber *currentStatus = [self.messageStatuses objectForKey:@(sequenceId)];
             if (!currentStatus || [currentStatus integerValue] < textStatusEvent.status) {
                 [self.messageStatuses setObject:@(textStatusEvent.status) forKey:@(sequenceId)];

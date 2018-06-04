@@ -104,13 +104,13 @@
 
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
-              eventId:(nonnull NSString *)eventId {
+              eventId:(NSInteger)eventId {
     [self.socketClient seenTextEvent:conversationId memberId:memberId eventId:eventId];
 }
 
 - (void)deliverTextEvent:(nonnull NSString *)conversationId
                 memberId:(nonnull NSString *)memberId
-                 eventId:(nonnull NSString *)eventId {
+                 eventId:(NSInteger)eventId {
     [self.socketClient deliverTextEvent:conversationId memberId:memberId eventId:eventId];
 }
 

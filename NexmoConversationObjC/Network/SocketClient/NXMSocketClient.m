@@ -90,13 +90,13 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
-              eventId:(nonnull NSString *)eventId
+              eventId:(NSInteger)eventId
 {
     NSDictionary * msg = @{
                            @"cid": conversationId,
                            @"from":memberId,
                            @"body" : @{
-                                   @"event_id":eventId
+                                   @"event_id":[NSNumber numberWithInteger:eventId]
                                    }};
     
     [self.socket emit:kNXMSocketEventTextSeen items:@[msg]];
@@ -105,13 +105,13 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)deliverTextEvent:(nonnull NSString *)conversationId
                 memberId:(nonnull NSString *)memberId
-                 eventId:(nonnull NSString *)eventId
+                 eventId:(NSInteger)eventId
 {
     NSDictionary * msg = @{
                            @"cid": conversationId,
                            @"from":memberId,
                            @"body" : @{
-                                   @"event_id":eventId
+                                   @"event_id":[NSNumber numberWithInteger:eventId]
                                    }};
     
     [self.socket emit:kNXMSocketEventTextDelivered items:@[msg]];
@@ -455,7 +455,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NSDictionary *json = data[0];
     
     NXMTextStatusEvent *textEvent = [NXMTextStatusEvent new];
-    textEvent.eventId = json[@"body"][@"event_id"];
+    textEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
@@ -471,7 +471,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     NSDictionary *json = data[0];
     NXMTextStatusEvent *textEvent = [NXMTextStatusEvent new];
-    textEvent.eventId = json[@"body"][@"event_id"];
+    textEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];
@@ -487,7 +487,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     NSDictionary *json = data[0];
     NXMTextStatusEvent *textEvent = [NXMTextStatusEvent new];
-    textEvent.eventId = json[@"body"][@"event_id"];
+    textEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = json[@"timestamp"];

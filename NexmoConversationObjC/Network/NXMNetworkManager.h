@@ -68,12 +68,12 @@
 
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
-              eventId:(nonnull NSString *)eventId;
+              eventId:(NSInteger)eventId;
 
 
 - (void)deliverTextEvent:(nonnull NSString *)conversationId
                 memberId:(nonnull NSString *)memberId
-                 eventId:(nonnull NSString *)eventId;
+                 eventId:(NSInteger)eventId;
 
 - (void)textTypingOn:(nonnull NSString *)conversationId
             memberId:(nonnull NSString *)memberId;

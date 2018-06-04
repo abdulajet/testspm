@@ -62,7 +62,6 @@
             return;
         }
         
-        NSString *convId = @"uuid";
         NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:convId];
         details.name = data[@"name"];
         details.created = data[@"timestamp"][@"created"];
@@ -595,8 +594,7 @@
         }
         
         NSLog(@"getConversationPressed result %@",data);
-        NSString *convId = @"uuid";
-        NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:convId];
+        NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:conversationId];
         details.name = data[@"name"];
         details.created = data[@"timestamp"][@"created"];
         details.sequence_number = [data[@"sequence_number"] intValue];
@@ -606,7 +604,7 @@
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
         for (NSDictionary* memberJson in data[@"members"]) {
-            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:convId user:memberJson[@"user_id"] name:memberJson[@"name"] state:memberJson[@"state"]];
+            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:conversationId user:memberJson[@"user_id"] name:memberJson[@"name"] state:memberJson[@"state"]];
             
             member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
             member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
