@@ -346,7 +346,7 @@
     NSDictionary *dict = @{
                            @"from": deleteEventRequest.memberID,
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%@", self.baseUrl, deleteEventRequest.conversationID,deleteEventRequest.eventID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events/%ld", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID]];
     
     NSString* requestType = @"DELETE";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
@@ -506,6 +506,8 @@
             }else if ([type isEqual:@"text"]){
                 [events addObject:[self parseTextEvent:eventJson conversationId:getEventsRequest.conversationId]];
             }else if ([type isEqual:@"image"]){
+                [events addObject:[self parseImageEvent:eventJson conversationId:getEventsRequest.conversationId]];
+
                 // TODO: [events addObject:event];
             }else if ([type isEqual:@"image:seen"]){
                 // TODO: [events addObject:event];
@@ -542,6 +544,7 @@
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
+    NSLog(@"%@", url);
     
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -600,6 +603,7 @@
         details.sequence_number = [data[@"sequence_number"] intValue];
         details.properties = data[@"properties"];
         details.uuid = data[@"uuid"];
+        details.displayName = data[@"display_name"];
         
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
@@ -647,7 +651,7 @@
     
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
     
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     
     [self addHeader:request];
     
@@ -792,6 +796,7 @@
                                                               size:[thumbnailJSON[@"size"] integerValue]
                                                                url:thumbnailJSON[@"url"]
                                                               type:NXMImageTypeThumbnail];
+    imageEvent.type = NXMEventTypeImage;
     
     
     return imageEvent;
