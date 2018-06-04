@@ -357,6 +357,10 @@
 #pragma mark - Helper Methods
 
 - (void)insertEvent:(NXMEvent *)event {
+    if ([self isEventExists:event]) {
+        return;
+    }
+
     [self.events addObject:event];
     NSIndexPath* indexPath = [NSIndexPath indexPathForRow: self.events.count - 1 inSection: 0];
     [self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -392,6 +396,16 @@
                              [self startAudioAnimation];
                          }
                      }];
+}
+
+- (BOOL)isEventExists:(NXMEvent *)event {
+    for (NXMEvent *curr in self.events) {
+        if (curr.sequenceId == event.sequenceId) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 /*
