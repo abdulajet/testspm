@@ -212,14 +212,14 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cO8-9t-0kC" userLabel="fromLabel">
                                                     <rect key="frame" x="20" y="-1" width="335" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2L-Jx-ZMt" userLabel="messageText">
                                                     <rect key="frame" x="20" y="22" width="335" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -238,20 +238,30 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ZzM-yk-bEf">
+                                                    <rect key="frame" x="10" y="15" width="20" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="20" id="feU-IR-Bdp"/>
+                                                        <constraint firstAttribute="height" constant="20" id="muL-bv-HTk"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4cg-Lb-15b" userLabel="eventText">
-                                                    <rect key="frame" x="20" y="15" width="335" height="20.5"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <rect key="frame" x="40" y="15" width="295" height="20"/>
+                                                    <fontDescription key="fontDescription" type="system" weight="light" pointSize="17"/>
                                                     <color key="textColor" red="0.31372549019607843" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="4cg-Lb-15b" secondAttribute="trailing" constant="20" id="IG3-Md-SVD"/>
-                                                <constraint firstItem="4cg-Lb-15b" firstAttribute="leading" secondItem="m8N-yP-8CH" secondAttribute="leading" constant="20" id="ovR-0Q-VXH"/>
+                                                <constraint firstItem="ZzM-yk-bEf" firstAttribute="centerY" secondItem="m8N-yP-8CH" secondAttribute="centerY" id="33P-hE-6h9"/>
+                                                <constraint firstAttribute="trailing" secondItem="4cg-Lb-15b" secondAttribute="trailing" constant="40" id="IG3-Md-SVD"/>
+                                                <constraint firstItem="4cg-Lb-15b" firstAttribute="leading" secondItem="ZzM-yk-bEf" secondAttribute="trailing" constant="10" id="ovR-0Q-VXH"/>
+                                                <constraint firstItem="ZzM-yk-bEf" firstAttribute="leading" secondItem="m8N-yP-8CH" secondAttribute="leading" constant="10" id="pnM-8M-AuE"/>
                                                 <constraint firstItem="4cg-Lb-15b" firstAttribute="centerY" secondItem="m8N-yP-8CH" secondAttribute="centerY" id="tRh-xR-iVN"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="audioImage" destination="ZzM-yk-bEf" id="31x-aA-pDj"/>
                                             <outlet property="eventText" destination="4cg-Lb-15b" id="lQz-DK-rHY"/>
                                         </connections>
                                     </tableViewCell>

@@ -110,8 +110,8 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
     if (self.senderType == SenderTypeOther) {
         self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 30.0f);
         //    self.textLabel.frame = CGRectMake(self.frame.size.width - (size.width + STBubbleWidthOffset - 10.0f), 6.0f, size.width + STBubbleWidthOffset - 23.0f, size.height);
-        self.fromLabel.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 6.0f, totalSize.width, totalSize.height);
-        self.messageText.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 26.0f, totalSize.width, totalSize.height);
+        self.fromLabel.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 6.0f, totalSize.width, nameSize.height);
+        self.messageText.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 26.0f, totalSize.width, textSize.height);
 //        self.messageText.frame = CGRectMake(20.0f, 26.0f, totalSize.width, totalSize.height);
         
         self.fromLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
         self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 30.0f);
         self.fromLabel.frame = CGRectZero; // CGRectMake(20.0f, 6.0f, totalSize.width, totalSize.height);
 //        self.messageText.frame = CGRectMake(20.0f, 26.0f, totalSize.width, totalSize.height);
-        self.messageText.frame = CGRectMake(20.0f, 6.0f, totalSize.width, totalSize.height);
+        self.messageText.frame = CGRectMake(20.0f, 6.0f, totalSize.width, totalSize.height + 5.0f);
         
         self.fromLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         self.messageText.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
