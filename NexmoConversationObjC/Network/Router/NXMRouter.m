@@ -677,7 +677,7 @@
         // TODO: 413 Payload too lage
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
             responseBlock(resError, nil);
             return;
         }
