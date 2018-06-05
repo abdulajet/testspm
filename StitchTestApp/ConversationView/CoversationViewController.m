@@ -16,11 +16,13 @@
 
 @interface CoversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate>
 @property StitchConversationClientCore *stitch;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewContraint;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextView *textinput;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (weak, nonatomic) IBOutlet UIImageView *enableAudioImage;
+@property (weak, nonatomic) IBOutlet UILabel *typingLabel;
 
 @property NXMConversationDetails *conversation;
 @property NSMutableArray<NXMEvent *> *events;
@@ -84,6 +86,14 @@
                                                  name:@"typingEvent"
                                                object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification object:nil];
+    
     self.events = [NSMutableArray new];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -103,11 +113,55 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.typingLabel.hidden = YES;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - keyboard
+
+- (void)keyboardWillShow:(NSNotification*)notification {
+    NSDictionary* info = [notification userInfo];
+    CGSize keyboardSize = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
+    
+    self.textViewContraint.constant = keyboardSize.height - 40;
+    [self.view layoutIfNeeded];
+    
+}
+
+- (void)keyboardWillHide:(NSNotification*)notification {
+    self.textViewContraint.constant = 0;
+    [self.view layoutIfNeeded];
 }
 
 #pragma mark - events
 
 - (void)receivedTypingEvent:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMTextTypingEvent *typing = userInfo[@"typingEvent"];
+    
+    if (![typing.conversationId isEqualToString:self.conversation.uuid]) {
+        return;
+    }
+    
+    if ([typing.fromMemberId isEqualToString:self.memberId]) {
+        return;
+    }
+    
+    if (typing.status == NXMTextTypingEventStatusOff) {
+        self.typingLabel.hidden = YES;
+        return;
+    }
+    
+    NSString* memberName = self.memberIdToName[typing.fromMemberId];
+    if (!memberName) {
+        return;
+    }
+    
+    self.typingLabel.text = [NSString stringWithFormat:@"%@ is typing...", memberName];
+    self.typingLabel.hidden = NO;
 }
 
 - (void)receivedImageEvent:(NSNotification *) notification {
@@ -318,14 +372,14 @@
     if (event.type == NXMEventTypeMember) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
         [cell updateWithEvent:event];
-        
+
         return cell;
     }
     
     if (event.type == NXMEventTypeMedia) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
-        [cell updateWithEvent:event];
-        
+        [cell updateWithEvent:event memberName:self.memberIdToName[event.fromMemberId]];
+
         return cell;
     }
     if (event.type == NXMEventTypeText || event.type == NXMEventTypeImage) {

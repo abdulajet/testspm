@@ -189,8 +189,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-YK-QIv">
-                                <rect key="frame" x="0.0" y="64" width="375" height="543"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" keyboardDismissMode="onDrag" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" springLoaded="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NNq-YK-QIv">
+                                <rect key="frame" x="0.0" y="64" width="375" height="526"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationTextCell" id="xVa-qd-u7a" customClass="ConversationTextTableViewCell">
@@ -288,7 +288,27 @@
                                     <outlet property="delegate" destination="Kho-H5-xjy" id="Zb8-6J-WBC"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GyI-5X-tV4">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OSn-nV-y8g" userLabel="typing view">
+                                <rect key="frame" x="-0.5" y="590" width="375" height="17"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="typing..." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnU-fX-ZKP">
+                                        <rect key="frame" x="170" y="2" width="200" height="14.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="200" id="mYt-DC-5lo"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <color key="textColor" red="0.72646519781928931" green="0.32415937306781417" blue="0.3680909648691888" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="fBX-yt-qwU"/>
+                                    <constraint firstAttribute="trailing" secondItem="UnU-fX-ZKP" secondAttribute="trailing" constant="5" id="hZP-5U-e49"/>
+                                    <constraint firstItem="UnU-fX-ZKP" firstAttribute="centerY" secondItem="OSn-nV-y8g" secondAttribute="centerY" id="rP1-6F-Ta7"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GyI-5X-tV4" userLabel="textView">
                                 <rect key="frame" x="0.0" y="607" width="375" height="60"/>
                                 <subviews>
                                     <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="A25-5b-TMT">
@@ -348,11 +368,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="GyI-5X-tV4" firstAttribute="width" secondItem="C6F-dg-5F5" secondAttribute="width" id="2eC-Xx-Hhk"/>
+                            <constraint firstItem="OSn-nV-y8g" firstAttribute="width" secondItem="NNq-YK-QIv" secondAttribute="width" id="3TA-a2-oZB"/>
                             <constraint firstItem="GyI-5X-tV4" firstAttribute="centerX" secondItem="7kb-xY-Nu6" secondAttribute="centerX" id="74P-IO-ecd"/>
-                            <constraint firstItem="GyI-5X-tV4" firstAttribute="top" secondItem="NNq-YK-QIv" secondAttribute="bottom" id="775-Xw-AtT"/>
+                            <constraint firstItem="OSn-nV-y8g" firstAttribute="top" secondItem="NNq-YK-QIv" secondAttribute="bottom" id="74T-vt-dfl"/>
                             <constraint firstItem="7kb-xY-Nu6" firstAttribute="bottom" secondItem="GyI-5X-tV4" secondAttribute="bottom" id="9bu-0e-Gdq"/>
                             <constraint firstItem="NNq-YK-QIv" firstAttribute="top" secondItem="7kb-xY-Nu6" secondAttribute="top" id="Bcw-gd-2aT"/>
+                            <constraint firstItem="OSn-nV-y8g" firstAttribute="bottom" secondItem="GyI-5X-tV4" secondAttribute="top" id="GXr-80-bTN"/>
                             <constraint firstItem="NNq-YK-QIv" firstAttribute="centerX" secondItem="7kb-xY-Nu6" secondAttribute="centerX" id="I1l-zh-hVw"/>
+                            <constraint firstItem="OSn-nV-y8g" firstAttribute="centerX" secondItem="NNq-YK-QIv" secondAttribute="centerX" id="YC6-WO-Gcl"/>
                             <constraint firstItem="NNq-YK-QIv" firstAttribute="width" secondItem="C6F-dg-5F5" secondAttribute="width" id="bIn-Zv-uve"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7kb-xY-Nu6"/>
@@ -369,7 +392,9 @@
                         <outlet property="enableAudioImage" destination="qVx-uI-qUg" id="wVc-HI-fpw"/>
                         <outlet property="sendButton" destination="yko-TZ-CpX" id="577-9W-ba5"/>
                         <outlet property="tableView" destination="NNq-YK-QIv" id="v6g-wA-hdX"/>
+                        <outlet property="textViewContraint" destination="9bu-0e-Gdq" id="hKz-Tg-ruI"/>
                         <outlet property="textinput" destination="A25-5b-TMT" id="UaQ-HT-3Bj"/>
+                        <outlet property="typingLabel" destination="UnU-fX-ZKP" id="Dn8-uj-F5O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="emq-8Y-24h" userLabel="First Responder" sceneMemberID="firstResponder"/>

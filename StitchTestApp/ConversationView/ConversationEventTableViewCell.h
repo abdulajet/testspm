@@ -13,5 +13,6 @@
 @interface ConversationEventTableViewCell : UITableViewCell
 
 - (void)updateWithEvent:(NXMEvent *)event;
+- (void)updateWithEvent:(NXMEvent *)event memberName:(NSString *)memberName;
 
 @end
