@@ -171,12 +171,14 @@
     }
     
     [self insertEvent:text];
-    
-    [self.stitch markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.memberId onSuccess:^{
+
+    if (self.memberId) {
+        [self.stitch markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.memberId onSuccess:^{
         
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"error markAsSeen");
-    }];
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error markAsSeen");
+        }];
+    }
 }
 
 - (IBAction)addMemberPressed:(id)sender {
@@ -285,6 +287,15 @@
             });
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error get events");
+            dispatch_async(dispatch_get_main_queue(), ^{
+
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"server error" message:@"failed please retry" preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                }];
+                [alertController addAction:confirmAction];
+                [self presentViewController:alertController animated:YES completion:nil];
+            });
+
         }];
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error get details");
