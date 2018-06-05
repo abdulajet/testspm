@@ -176,13 +176,14 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
         
         self.messageStatusImage.image = [[UIImage alloc] init];
         self.messageStatusLabel.text = @"";
-        if (status == MessageStatusSeen) {
-            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
-            self.messageStatusLabel.text = @"Seen";
-        } else if (status == MessageStatusDelivered) {
-            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
-            self.messageStatusLabel.text = @"Delivered";
-        } else if (status == MessageStatusDeleted) {
+//        if (status == MessageStatusSeen) {
+//            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
+//            self.messageStatusLabel.text = @"Seen";
+//        } else if (status == MessageStatusDelivered) {
+//            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
+//            self.messageStatusLabel.text = @"Delivered";
+//        } else
+        if (status == MessageStatusDeleted) {
             self.messageText.text = @"Deleted";
         }
     }

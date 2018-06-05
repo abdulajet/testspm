@@ -18,10 +18,10 @@ typedef NS_ENUM(NSUInteger, SenderType) {
 };
 
 typedef NS_ENUM(NSUInteger, MessageStatus) {
+    MessageStatusNone,
     MessageStatusSeen,
     MessageStatusDelivered,
-    MessageStatusDeleted,
-    MessageStatusNone
+    MessageStatusDeleted
 };
 
 @class NXMEvent;

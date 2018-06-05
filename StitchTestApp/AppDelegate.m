@@ -180,6 +180,21 @@
      object:nil userInfo:@{@"typingEvent":textEvent}];
 }
 
+- (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent {
+    
+}
+
+
+- (void)imageDelivered:(nonnull NXMTextStatusEvent *)textEvent {
+    
+}
+
+
+- (void)imageSeen:(nonnull NXMTextStatusEvent *)textEvent {
+    
+}
+
+
 
 
 @end

@@ -752,7 +752,7 @@
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeTextStatus;
     event.status = state;
-    event.eventId = dict[@"body"][@"event_id"];
+    event.eventId = [dict[@"body"][@"event_id"] integerValue];
     
     return event;
 }

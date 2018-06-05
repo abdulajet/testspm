@@ -17,7 +17,6 @@
 @interface CoversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate>
 @property StitchConversationClientCore *stitch;
 
-@property (weak, nonatomic) IBOutlet UINavigationItem *title;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextView *textinput;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
@@ -257,6 +256,7 @@
     self.conversation = conversation;
     self.navigationItem.title = self.conversation.displayName;
     self.memberIdToName = [NSMutableDictionary new];
+    self.messageStatuses = [NSMutableDictionary new];
     
     [self.stitch getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
         self.conversation = conversationDetails;
