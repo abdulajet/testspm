@@ -53,7 +53,10 @@
                      @"testuser5":@"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205",
                      @"testuser6":@"USR-de6954dc-9a54-4a65-8cf4-8628d312a611",
                      @"testuser7":@"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
-                     @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0"
+                     @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0",
+                         @"TheCustomer":@"USR-f791c83e-0b9e-4671-88dd-9a64344ff2b3",
+                         @"TheTech":@"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e",
+                         @"TheManager":@"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb"
                      };
     
     [[NSNotificationCenter defaultCenter] addObserver:self

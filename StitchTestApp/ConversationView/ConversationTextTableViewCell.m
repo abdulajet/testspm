@@ -112,22 +112,19 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
     CGFloat labelsWidth = nameSize.width > textSize.width ? nameSize.width : textSize.width;
     CGSize totalSize = CGSizeMake(labelsWidth + 10.0f, nameSize.height + textSize.height);
     if (self.senderType == SenderTypeOther) {
-        self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 40.0f);
-        //    self.textLabel.frame = CGRectMake(self.frame.size.width - (size.width + STBubbleWidthOffset - 10.0f), 6.0f, size.width + STBubbleWidthOffset - 23.0f, size.height);
+        self.bubbleImage.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset), 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 20.0f);
+
         self.fromLabel.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), 6.0f, totalSize.width, nameSize.height);
         self.messageText.frame = CGRectMake(self.frame.size.width - (totalSize.width + kBubbleWidthOffset - 10.0f), self.fromLabel.frame.size.height + 5.0f, totalSize.width, textSize.height);
-//        self.messageText.frame = CGRectMake(20.0f, 26.0f, totalSize.width, totalSize.height);
         
         self.fromLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         self.messageText.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         self.bubbleImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         self.bubbleImage.transform = CGAffineTransformIdentity;
     } else {
-//        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, size.width + kBubbleWidthOffset, size.height + 15.0f);
-//        self.messageText.frame = CGRectMake(16.0f, 6.0f, size.width + kBubbleWidthOffset - 23.0f, size.height);
-        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 40.0f);
+
+        self.bubbleImage.frame = CGRectMake(0.0f, 0.0f, totalSize.width + kBubbleWidthOffset, totalSize.height + 20.0f);
         self.fromLabel.frame = CGRectZero; // CGRectMake(20.0f, 6.0f, totalSize.width, totalSize.height);
-//        self.messageText.frame = CGRectMake(20.0f, 26.0f, totalSize.width, totalSize.height);
         self.messageText.frame = CGRectMake(10.0f, 6.0f, totalSize.width, totalSize.height + 5.0f);
         
         self.fromLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -157,13 +154,14 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
         
         self.messageStatusImage.image = [[UIImage alloc] init];
         self.messageStatusLabel.text = @"";
-        if (status == MessageStatusSeen) {
-            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
-            self.messageStatusLabel.text = @"Seen";
-        } else if (status == MessageStatusDelivered) {
-            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
-            self.messageStatusLabel.text = @"Delivered";
-        } else if (status == MessageStatusDeleted) {
+//        if (status == MessageStatusSeen) {
+//            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusSeen"];
+//            self.messageStatusLabel.text = @"Seen";
+//        } else if (status == MessageStatusDelivered) {
+//            self.messageStatusImage.image = [UIImage imageNamed:@"messageStatusDelivered"];
+//            self.messageStatusLabel.text = @"Delivered";
+//        } else
+        if (status == MessageStatusDeleted) {
             self.messageText.text = @"Deleted";
         }
     }
@@ -185,6 +183,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
 //        } else
         if (status == MessageStatusDeleted) {
             self.messageText.text = @"Deleted";
+            [self.messageText setTextColor:UIColor.grayColor];
         }
     }
 
