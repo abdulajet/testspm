@@ -290,52 +290,64 @@
         onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError {
     
-    // set your URL Where to Upload Image
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/image/", @"https://api.nexmo.com/v1/v1"]];
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    NSDictionary *headers = @{ @"content-type": @"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
+                               @"authorization": [NSString stringWithFormat:@"bearer %@", self.token]
+                               };
+
+    NSString *boundary = @"----WebKitFormBoundary7MA4YWxkTrZu0gW";
+    
+    NSDictionary *params = @{@"quality_ratio"     : @"100",
+                            @"thumbnail_size_ratio"    : @"30",
+                            @"medium_size_ratio" : @"50"};
+    
+    NSMutableData *httpBody = [NSMutableData data];
+    
+    
+    [params enumerateKeysAndObjectsUsingBlock:^(NSString *parameterKey, NSString *parameterValue, BOOL *stop) {
+        [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", parameterKey] dataUsingEncoding:NSUTF8StringEncoding]];
+        [httpBody appendData:[[NSString stringWithFormat:@"%@\r\n", parameterValue] dataUsingEncoding:NSUTF8StringEncoding]];
+    }];
+    
+    [httpBody appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [httpBody appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"%@\"\r\n", sendImageRequest.imageName] dataUsingEncoding:NSUTF8StringEncoding]];
+    [httpBody appendData:[[NSString stringWithFormat:@"Content-Type: image/png\r\n\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
+    [httpBody appendData:sendImageRequest.image];
+    [httpBody appendData:[@"\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api.nexmo.com/v1/image/"]
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:10.0];
     [request setHTTPMethod:@"POST"];
-    
-    [request setValue:[NSString stringWithFormat:@"bearer %@", self.token] forHTTPHeaderField:@"Authorization"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    NSString *bodyDict = [NSString stringWithFormat:@"{\"from\":%@, \"type\":\"image\"}", sendImageRequest.memberId];
-    
-    NSString *boundary = @"10xKhTmLbOuNdArY";
-    //Start of First Part
-    [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Disposition: form-data; name=\"message\"\r\n"
-                      dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Type: application/json; charset=UTF-8\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Transfer: base64\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[bodyDict dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@\r\n",boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //Second Part Attachment
-    [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"attachment\"; filename=\"%@\"\r\n", @"optionalFileName"]
-                      dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[[NSString stringWithFormat:@"Content-Type: %@\r\n",@"image/jpeg" ]dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:[@"Content-Transfer: base64\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-    [body appendData:sendImageRequest.image];
-    
-    //End
-    
-    [body appendData:[[NSString stringWithFormat:@"\r\n--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
+    [request setAllHTTPHeaderFields:headers];
+    [request setHTTPBody:httpBody];
 
-    [request setHTTPBody:body];
-
-    
-    // Get Response of Your Request
-    
     [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
             return;
         }
         
-        NSString *a = @"11";
-        a = data[@"aa"];
-        onSuccess(@"1");
+        
+        NSDictionary *dict = @{
+                               @"from": sendImageRequest.memberId,
+                               @"type": @"image",
+                               @"body": data
+                               };
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, sendImageRequest.conversationId]];
+        
+        [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+            NSString *textId = data[@"id"];
+            if (error) {
+                onError(error);
+                return;
+            }
+            
+            onSuccess(textId); // TODO: eventId;
+        }];
     }];
 
 }
@@ -679,6 +691,7 @@
         // TODO: 413 Payload too lage
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
+            NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
             responseBlock(resError, nil);
             return;

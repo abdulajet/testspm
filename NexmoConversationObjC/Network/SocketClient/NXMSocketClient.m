@@ -424,7 +424,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                                                 fromMemberId:json[@"from"]
                                                                 creationDate:json[@"timestamp"]
                                                                         type:NXMEventTypeImage];
-    NSDictionary *body = json[@"body"][@"representations"];
+    NSDictionary *body = json[@"body"];
     imageEvent.imageId = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithUuid:originalJSON[@"id"]

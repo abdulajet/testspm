@@ -6,6 +6,9 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
+
 #import "CoversationViewController.h"
 
 #import "AppDelegate.h"
@@ -264,6 +267,12 @@
 - (IBAction)sendMsgPressed:(id)sender {
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
+    
+    [self.stitch stopTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error typing");
+    }];
+    
     [self.stitch sendText:self.textinput.text conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"msg sent");
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -277,6 +286,32 @@
             self.textinput.editable = YES;
         });
     }];
+}
+- (IBAction)attachmentPressed:(id)sender {
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    imagePickerController.delegate = self;
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+// This method is called when an image has been chosen from the library or taken from the camera.
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    //You can retrieve the actual UIImage
+    UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+    NSData* data = UIImagePNGRepresentation(image);
+    
+    NSString *filename = @"filename.png";
+
+    [self.stitch sendImage:filename image:data conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+        NSLog(@"success");
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"error");
+    }];
+    
+    //Or you can get the image url from AssetsLibrary
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
@@ -477,6 +512,18 @@
 
 - (void)textViewDidChange:(UITextView *)textView {
     BOOL enabled = self.textinput.text.length > 0;
+    
+    if (!self.sendButton.enabled) {
+        [self.stitch startTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error typing");
+        }];
+    }
+    
+//    if (self.sendButton.enabled && !enabled) {
+//
+//    }
+    
     self.sendButton.enabled = enabled;
 }
 

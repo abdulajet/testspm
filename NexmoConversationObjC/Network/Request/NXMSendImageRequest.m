@@ -10,8 +10,9 @@
 
 @implementation NXMSendImageRequest
 
-- (instancetype)initWithImage:(NSData *)image conversationId:(NSString *)conversationId memberId:(NSString *)memberId {
+- (instancetype)initWithImage:(NSString *)imageName image:(NSData *)image conversationId:(NSString *)conversationId memberId:(NSString *)memberId {
     if (self = [super init]){
+        self.imageName = imageName;
         self.image = image;
         self.conversationId = conversationId;
         self.memberId = memberId;

@@ -195,12 +195,13 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network sendTextToConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)sendImage:(nonnull NSData *)image
+- (void)sendImage:(NSString *)imageName
+            image:(nonnull NSData *)image
    conversationId:(nonnull NSString *)conversationId
      fromMemberId:(nonnull NSString *)fromMemberId
         onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError {
-    NXMSendImageRequest *request = [[NXMSendImageRequest alloc] initWithImage:image conversationId:conversationId memberId:fromMemberId];
+    NXMSendImageRequest *request = [[NXMSendImageRequest alloc] initWithImage:imageName image:image conversationId:conversationId memberId:fromMemberId];
     [self.network sendImage:request onSuccess:onSuccess onError:onError];
 }
 

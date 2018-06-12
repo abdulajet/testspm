@@ -10,9 +10,10 @@
 
 @interface NXMSendImageRequest : NXMBaseRequest
 
+@property NSString *imageName;
 @property NSData *image;
 @property NSString *conversationId;
 @property NSString *memberId;
 
-- (instancetype)initWithImage:(NSData *)image conversationId:(NSString *)conversationId memberId:(NSString *)memberId;
+- (instancetype)initWithImage:(NSString *)imageName image:(NSData *)image conversationId:(NSString *)conversationId memberId:(NSString *)memberId;
 @end
