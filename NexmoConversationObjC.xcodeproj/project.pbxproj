@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		0A8BE05320BC538100F97902 /* NexmoConversationObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; };
 		0A8BE05420BC538100F97902 /* NexmoConversationObjC.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F9C35DCD203078BD009FAE4F /* NexmoConversationObjC.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0A8BE05720BC538100F97902 /* iOSFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F910532120BC083D006318F9 /* iOSFramework.framework */; };
-		0A8BE05820BC538100F97902 /* iOSFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F910532120BC083D006318F9 /* iOSFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3AD87FB69619D24D5169CC9C /* Pods_StitchTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */; };
 		CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */; };
 		CEBCD8982084B62E004451AB /* NXMBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = CEBCD8972084B62E004451AB /* NXMBaseRequest.m */; };
@@ -55,7 +53,6 @@
 		F9167D892033222500F97CED /* NXMSocketClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F9167D872033222500F97CED /* NXMSocketClient.m */; };
 		F96F745120552D6D004B3434 /* NXMMember.h in Headers */ = {isa = PBXBuildFile; fileRef = F96F744F20552D6D004B3434 /* NXMMember.h */; };
 		F96F745220552D6D004B3434 /* NXMMember.m in Sources */ = {isa = PBXBuildFile; fileRef = F96F745020552D6D004B3434 /* NXMMember.m */; };
-		F984C93320BC4C77006DBBEA /* iOSFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F910532120BC083D006318F9 /* iOSFramework.framework */; };
 		F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93920BC67BA006DBBEA /* ConversationTextTableViewCell.m */; };
 		F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93C20BC74A9006DBBEA /* ConversationEventTableViewCell.m */; };
 		F987354920443A6900C90695 /* NXMUser.h in Headers */ = {isa = PBXBuildFile; fileRef = F987354720443A6900C90695 /* NXMUser.h */; };
@@ -119,7 +116,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0A8BE05420BC538100F97902 /* NexmoConversationObjC.framework in Embed Frameworks */,
-				0A8BE05820BC538100F97902 /* iOSFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -187,7 +183,6 @@
 		F910530720B6F5E1006318F9 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		F910530920B6FC0F006318F9 /* ConversationListViewContoller.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationListViewContoller.h; sourceTree = "<group>"; };
 		F910530A20B6FC0F006318F9 /* ConversationListViewContoller.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationListViewContoller.m; sourceTree = "<group>"; };
-		F910530C20B70159006318F9 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F910530F20B707DE006318F9 /* ConversationListTableCellView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationListTableCellView.h; sourceTree = "<group>"; };
 		F910531020B707DE006318F9 /* ConversationListTableCellView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationListTableCellView.m; sourceTree = "<group>"; };
 		F910531220BAE498006318F9 /* UIViewWithGradientBackground.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIViewWithGradientBackground.h; sourceTree = "<group>"; };
@@ -257,7 +252,6 @@
 			files = (
 				0A8BE05320BC538100F97902 /* NexmoConversationObjC.framework in Frameworks */,
 				3AD87FB69619D24D5169CC9C /* Pods_StitchTestApp.framework in Frameworks */,
-				0A8BE05720BC538100F97902 /* iOSFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +259,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F984C93320BC4C77006DBBEA /* iOSFramework.framework in Frameworks */,
 				E529B288BC83079E7BE653EB /* Pods_NexmoConversationObjC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -486,7 +479,6 @@
 		F9C35DC3203078BD009FAE4F = {
 			isa = PBXGroup;
 			children = (
-				F910530C20B70159006318F9 /* Default-568h@2x.png */,
 				F9C35DCF203078BD009FAE4F /* NexmoConversationObjC */,
 				F9C35DDA203078BD009FAE4F /* NexmoConversationObjCTests */,
 				F91052F120B6EBAE006318F9 /* StitchTestApp */,
@@ -756,10 +748,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp-frameworks.sh",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -790,11 +784,13 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;

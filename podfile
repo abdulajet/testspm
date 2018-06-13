@@ -1,4 +1,5 @@
 source 'git@github.com:CocoaPods/Specs.git'
+source 'git@github.com:Vonage/NexmoCocoaPodSpecs.git'
 
 platform :ios, '9.0'
 use_frameworks!
@@ -9,9 +10,11 @@ use_frameworks!
 
 def shared_pods
     pod 'VPSocketIO'#, :path => "../VPSocketIO"
+    pod 'MiniRTC_Release', '0.01.15'
 end
 
 target 'StitchTestApp' do
+    # pod 'NexmoStitchObjC', :path => "."
     shared_pods
 end
 

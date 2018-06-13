@@ -1,15 +1,18 @@
 PODS:
+  - MiniRTC_Release (0.01.15)
   - OCMock (3.4)
   - VPSocketIO (1.0.5)
 
 DEPENDENCIES:
+  - MiniRTC_Release (= 0.01.15)
   - OCMock (= 3.4)
   - VPSocketIO
 
 SPEC CHECKSUMS:
+  MiniRTC_Release: 3fb2df2089e12fdb1eba904b666540ebe3abc661
   OCMock: 35ae71d6a8fcc1b59434d561d1520b9dd4f15765
   VPSocketIO: 28b685efb13ad866c0d27077a57d335bae5649ce
 
-PODFILE CHECKSUM: 8d0f7033f47f57082eb7d9e22fae3b3f46fda2c3
+PODFILE CHECKSUM: ff40efe22832ef81fb56e4df80afc19ae349ef4b
 
 COCOAPODS: 1.4.0

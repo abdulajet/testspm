@@ -18,9 +18,10 @@ Pod::Spec.new do |s|
   s.source_files  = "NexmoConversationObjC/*.{h,m,mm}", "NexmoConversationObjC/**/*.{h,m,mm}"
 
 # TODO:
-  s.frameworks = "Foundation", "AudioToolbox", "AVFoundation", "CFNetwork", "CoreAudio", "CoreFoundation", "CoreTelephony"
+  s.frameworks = "CoreData", "Foundation", "UIKit", "MediaPlayer", "AudioToolbox", "AVFoundation", "CFNetwork", "CoreAudio", "CoreFoundation", "CoreTelephony", "SystemConfiguration", "CoreGraphics", "OpenGLES", "CoreVideo", "CoreMedia", "QuartzCore", "CallKit"
 
 # TODO:
   s.dependency 'VPSocketIO'
+  s.dependency 'MiniRTC_Release', '0.01.15'
 
 end
