@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NexmoConversationObjC.h"
-#import "NXMNetworkManager.h"
+#import "StitchObjC.h"
 
+#import "NXMNetworkManager.h"
 #import "RTCMediaWrapper.h"
 
 

@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 //! Project version number for NexmoConversationObjC.
-FOUNDATION_EXPORT double NexmoConversationObjCVersionNumber;
+FOUNDATION_EXPORT double StitchObjCVersionNumber;
 
 //! Project version string for NexmoConversationObjC.
-FOUNDATION_EXPORT const unsigned char NexmoConversationObjCVersionString[];
+FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <NexmoConversationObjC/PublicHeader.h>
 

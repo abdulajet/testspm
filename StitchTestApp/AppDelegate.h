@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NexmoConversationObjC.h"
+#import "StitchObjC.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate, NXMConversationClientDelegate>
 

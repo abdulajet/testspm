@@ -4,7 +4,7 @@ source 'git@github.com:Vonage/NexmoCocoaPodSpecs.git'
 platform :ios, '9.0'
 use_frameworks!
 
-project 'NexmoConversationObjC.xcodeproj'
+project 'Stitch_iOS.xcodeproj'
 
 use_frameworks!
 
@@ -18,10 +18,10 @@ target 'StitchTestApp' do
     shared_pods
 end
 
-target 'NexmoConversationObjC' do
+target 'StitchObjC' do
     shared_pods
     
-    target 'NexmoConversationObjCTests' do
+    target 'StitchObjCTests' do
         inherit! :search_paths
         
         pod 'OCMock', '3.4'
