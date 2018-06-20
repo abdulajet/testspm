@@ -8,6 +8,7 @@
 
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMSipEvent.h"
 #import "NXMImageEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
@@ -36,5 +37,9 @@
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent;
 
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent;
 
 @end

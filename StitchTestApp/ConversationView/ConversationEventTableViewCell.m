@@ -9,6 +9,7 @@
 #import "ConversationEventTableViewCell.h"
 #import "NXMMemberEvent.h"
 #import "NXMMediaEvent.h"
+#import "NXMSipEvent.h"
 
 @interface ConversationEventTableViewCell()
 @property (weak, nonatomic) IBOutlet UILabel *eventText;
@@ -47,6 +48,12 @@
         self.eventText.textAlignment = NSTextAlignmentLeft;
         NSString *imageName = ((NXMMediaEvent *)event).isMediaEnabled ? @"eventAudioEnabled" : @"eventAudioDisabled";
         self.audioImage.image = [UIImage imageNamed:imageName];
+    }
+    if (event.type == NXMEventTypeSip) {
+        NSString *text = [NSString stringWithFormat:@"Call %@ by %@ [%ld]",
+                          ((NXMSipEvent *)event).phoneNumber , memberName, (long)((NXMSipEvent*) event).sipType];
+        self.eventText.text = text;
+        self.eventText.textAlignment = NSTextAlignmentCenter;
     }
 }
 

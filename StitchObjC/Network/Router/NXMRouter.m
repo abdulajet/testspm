@@ -18,6 +18,7 @@
 #import "NXMMemberEvent.h"
 #import "NXMMediaEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMSipEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMTextEventStatus.h"
@@ -213,6 +214,32 @@
                                    }
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, inviteUserRequest.conversationID]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(nil); // TODO: eventId;
+    }];
+}
+
+- (void)invitePstnToConversation:(nonnull NXMInvitePstnRequest *)invitePstnRequest
+                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                         onError:(ErrorCallback _Nullable)onError{
+    NSDictionary *dict = @{
+                           @"user_id": invitePstnRequest.userID,
+                           @"action": @"invite",
+                           @"channel": @{
+                                   @"type": @"phone",
+                                   @"to":@{
+                                       @"type": @"phone",
+                                       @"number": invitePstnRequest.phoneNumber
+                                   }
+                                }
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, invitePstnRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -527,6 +554,18 @@
                 //// TODO: [events addObject:event];
             }else if ([type isEqual:@"event:deleted"]){
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
+            }else if ([type isEqual:@"sip:ringing"]){
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventRinging]];
+                
+            }else if ([type isEqual:@"sip:answered"]){
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventAnswered]];
+                
+            }else if ([type isEqual:@"sip:hangup"]){
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventHangup]];
+                
+            }else if ([type isEqual:@"sip:status"]){
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventStatus]];
+                
             }
         }
         
@@ -757,6 +796,19 @@
     return event;
 }
 
+- (NXMSipEvent* )parseSipEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMSipEventType )state{
+    NXMSipEvent * event = [NXMSipEvent alloc];
+    event.sequenceId = [[self getSequenceId:dict] integerValue];
+    event.conversationId = conversationId;
+    event.fromMemberId = [self getFromMemberId:dict];
+    event.creationDate = [self getCreationDate:dict];
+    event.type = NXMEventTypeSip;
+    event.sipType = state;
+    event.phoneNumber = dict[@"body"][@"channel"][@"to"][@"number"];
+    event.applicationId = dict[@"application_id"];
+    
+    return event;
+}
 - (NXMTextStatusEvent* )parseTextStatusEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMTextEventStatusE )state{
     NXMTextStatusEvent * event = [NXMTextStatusEvent alloc];
     event.sequenceId = [[self getSequenceId:dict] integerValue];

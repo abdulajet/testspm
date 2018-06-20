@@ -126,6 +126,15 @@ withMemberId:(nonnull NSString *)memberId
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
+- (void)invite:(nonnull NSString *)conversationId
+    withUserId:(nonnull NSString *)userId
+    withPhoneNumber:(nonnull NSString *)phoneNumber
+     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+       onError:(ErrorCallback _Nullable)onError {
+    NXMInvitePstnRequest *request = [[NXMInvitePstnRequest alloc] initWithConversationId:conversationId andUserID:userId andPhoneNumber:phoneNumber];
+    [self.network invitePstnToConversation:request onSuccess:onSuccess onError:onError];
+}
+
 - (void)deleteMember:(nonnull NSString *)memberId
 fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
@@ -316,6 +325,20 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 - (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
     [self.rtcMedia answerWithMediaId:mediaEvent.rtcId convId:mediaEvent.conversationId andSDP:mediaEvent.sdp];
+}
+
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent{
+    [self.delegate sipRinging:sipEvent];
+}
+
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent{
+    [self.delegate sipAnswered:sipEvent];
+}
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent{
+    [self.delegate sipHangup:sipEvent];
+}
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent{
+    [self.delegate sipStatus:sipEvent];
 }
 
 #pragma mark - RTCMediaWrapper

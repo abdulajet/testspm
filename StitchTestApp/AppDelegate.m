@@ -116,6 +116,30 @@
      object:nil userInfo:@{@"textEvent":textEvent}];
 }
 
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"sipEvent"
+     object:nil userInfo:@{@"sipEvent":sipEvent}];
+    
+}
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"sipEvent"
+     object:nil userInfo:@{@"sipEvent":sipEvent}];
+    
+}
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"sipEvent"
+     object:nil userInfo:@{@"sipEvent":sipEvent}];
+    
+}
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"sipEvent"
+     object:nil userInfo:@{@"sipEvent":sipEvent}];
+    
+}
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent {
     NSString *memberId = self.conversationIdToMemberId[textEvent.conversationId];

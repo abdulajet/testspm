@@ -16,6 +16,7 @@
 #import "NXMLogger.h"
 
 #import "NXMMemberEvent.h"
+#import "NXMSipEvent.h"
 #import "NXMTextEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
@@ -164,6 +165,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self subscribeMemberEvents];
     [self subscribeTextEvents];
     [self subscribeRTCEvents];
+    [self subscribeSipEvents];
 }
 
 - (void)subscribeSocketGeneralEvents {
@@ -335,6 +337,27 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         [self onRTCMuteOff:data emitter:emitter];
     }];
 }
+- (void)subscribeSipEvents{
+    [self.socket on:kNXMSocketEventSipRinging callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventSipRinging");
+        [self onSipRinging:data emitter:emitter];
+    }];
+    
+    [self.socket on:kNXMSocketEventSipAnswered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventSipAnswered");
+        [self onSipAnswered:data emitter:emitter];
+    }];
+    
+    [self.socket on:kNXMSocketEventSipHangup callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventSipHangup");
+        [self onSipHangup:data emitter:emitter];
+    }];
+    
+    [self.socket on:kNXMSocketEventSipStatus callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSLog(@"!!!!socket kNXMSocketEventSipStatus");
+        [self onSipStatus:data emitter:emitter];
+    }];
+}
 
 #pragma socket event handle
 - (void)onLoginFailed:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
@@ -345,8 +368,45 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.delegate userStatusChanged:nil sessionId:nil];
 }
 
+- (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
+    NXMSipEvent * sipEvent= [NXMSipEvent new];
+    sipEvent.fromMemberId = json[@"from"];
+    sipEvent.sequenceId = [json[@"id"] integerValue];
+    sipEvent.conversationId = json[@"cid"];
+    sipEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
+    sipEvent.applicationId = json[@"application_id"];
+    sipEvent.type = NXMEventTypeSip;
+    return sipEvent;
+}
 // member events handle
-
+- (void)onSipRinging:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventRinging;
+    
+    [self.delegate sipRinging:sipEvent];
+}
+- (void)onSipAnswered:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventAnswered;
+    
+    [self.delegate sipAnswered:sipEvent];
+}
+- (void)onSipHangup:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventHangup;
+    
+    [self.delegate sipHangup:sipEvent];
+}
+ - (void)onSipStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+     NSDictionary *json = data[0];
+     NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+     sipEvent.sipType = NXMSipEventStatus;
+     
+     [self.delegate sipStatus:sipEvent];
+}
 - (void)onMemberJoined:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     NSDictionary *json = data[0];
     NXMMemberEvent *memberEvent = [NXMMemberEvent new];

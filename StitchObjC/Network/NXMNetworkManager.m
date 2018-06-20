@@ -72,6 +72,11 @@
     [self.router inviteUserToConversation:inviteUserRequest onSuccess:onSuccess onError:onError];
 }
 
+- (void)invitePstnToConversation:(nonnull NXMInvitePstnRequest *)invitePstnRequest
+                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                         onError:(ErrorCallback _Nullable)onError{
+    [self.router invitePstnToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
+}
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
                        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                          onError:(ErrorCallback _Nullable)onError {
@@ -162,6 +167,21 @@
 }
 
 # pragma mark - NXMSocketClientDelegate
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent {
+    [self.delegate sipRinging:sipEvent];
+}
+
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent {
+    [self.delegate sipAnswered:sipEvent];
+}
+
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent {
+    [self.delegate sipHangup:sipEvent];
+}
+
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent {
+    [self.delegate sipStatus:sipEvent];
+}
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent {
     [self.delegate memberJoined:memberEvent];

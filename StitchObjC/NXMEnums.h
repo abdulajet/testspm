@@ -26,5 +26,14 @@ typedef NS_ENUM(NSInteger, NXMEventType){
     NXMEventTypeTextStatus,
     NXMEventTypeTextTyping,
     NXMEventTypeMedia,
-    NXMEventTypeMember
+    NXMEventTypeMember,
+    NXMEventTypeSip
 };
+
+typedef NS_ENUM(NSInteger, NXMSipEventType){
+    NXMSipEventRinging,
+    NXMSipEventAnswered,
+    NXMSipEventStatus,
+    NXMSipEventHangup
+};
+

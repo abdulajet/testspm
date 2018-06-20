@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -393,12 +394,20 @@
                         <viewLayoutGuide key="safeArea" id="7kb-xY-Nu6"/>
                     </view>
                     <navigationItem key="navigationItem" id="OT1-B9-NaG">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="addMember" id="xVk-El-6TT" userLabel="addMember">
-                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <connections>
-                                <action selector="addMemberPressed:" destination="Kho-H5-xjy" id="CSk-O6-dTr"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Item" image="addMember" id="MIT-EZ-Qig" userLabel="addMember">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="addMemberPressed:" destination="Kho-H5-xjy" id="66P-bO-30x"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Item" image="bubbleBlue" id="xVk-El-6TT" userLabel="addMember">
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="invitePstn:" destination="Kho-H5-xjy" id="Xnm-zJ-xpF"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="enableAudioImage" destination="qVx-uI-qUg" id="wVc-HI-fpw"/>
@@ -417,6 +426,7 @@
     <resources>
         <image name="addMember" width="24" height="24"/>
         <image name="btnAttachment" width="41" height="45"/>
+        <image name="bubbleBlue" width="43" height="32"/>
         <image name="enableAudio" width="22" height="22"/>
         <image name="loginButtonBG" width="325" height="44"/>
         <image name="newConversation" width="25" height="25"/>

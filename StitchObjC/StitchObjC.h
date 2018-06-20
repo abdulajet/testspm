@@ -32,6 +32,7 @@ FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 #import "NXMMediaEvent.h"
 #import "NXMMemberEvent.h"
 #import "NXMImageEvent.h"
+#import "NXMSipEvent.h"
 
 #import "NXMGetConversationsRequest.h"
 #import "NXMGetEventsRequest.h"
@@ -85,6 +86,12 @@ FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 
 - (void)invite:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
+     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+       onError:(ErrorCallback _Nullable)onError;
+
+- (void)invite:(nonnull NSString *)conversationId
+    withUserId:(nonnull NSString *)userId
+withPhoneNumber:(nonnull NSString *)phoneNumber
      onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
        onError:(ErrorCallback _Nullable)onError;
 
@@ -211,6 +218,11 @@ FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 - (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)imageDelivered:(nonnull NXMTextStatusEvent *)textEvent;
 - (void)imageSeen:(nonnull NXMTextStatusEvent *)textEvent;
+
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent;
 
 - (void)mediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
 

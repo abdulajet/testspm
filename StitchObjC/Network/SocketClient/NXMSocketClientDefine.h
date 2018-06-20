@@ -56,7 +56,11 @@ static NSString *const kNXMSocketEventAudioEarmuffOff = @"audio:earmuff:off";
 static NSString *const kNXMSocketEventAudioSpeakingOn = @"audio:speaking:on";
 static NSString *const kNXMSocketEventAudioSpeakingOff = @"audio:speaking:off";
 
+
+static NSString *const kNXMSocketEventSipRinging = @"sip:ringing"; //android
+static NSString *const kNXMSocketEventSipAnswered = @"sip:answered";
 static NSString *const kNXMSocketEventSipHangup = @"sip:hangup";
+static NSString *const kNXMSocketEventSipStatus = @"sip:status";
 
 static NSString *const kNXMSocketEventError = @"event:error"; //android
 

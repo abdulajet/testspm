@@ -8,6 +8,7 @@
 
 #import "NXMMemberEvent.h"
 #import "NXMTextEvent.h"
+#import "NXMSipEvent.h"
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
@@ -18,6 +19,11 @@
 
 - (void)connectionStatusChanged:(BOOL)isOpen;
 - (void)userStatusChanged:(nullable NXMUser *)user sessionId:(nullable NSString*)sessionId;
+
+- (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipHangup:(nonnull NXMSipEvent *)sipEvent;
+- (void)sipStatus:(nonnull NXMSipEvent *)sipEvent;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;

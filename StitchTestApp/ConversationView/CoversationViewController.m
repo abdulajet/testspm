@@ -78,6 +78,11 @@
                                                object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(receivedSipEvent:)
+                                                 name:@"sipEvent"
+                                               object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receivedTextStatusEvent:)
                                                  name:@"textStatusEvent"
                                                object:nil];
@@ -202,7 +207,9 @@
         self.memberId = member.memberId;
     }
     
-    [self.memberIdToName setObject:member.user.name forKey:member.memberId];
+    if (member.user.name){
+        [self.memberIdToName setObject:member.user.name forKey:member.memberId];
+    }
     
     [self insertEvent:member];
 //    [self reloadDataSource];
@@ -221,7 +228,16 @@
 //    [self reloadDataSource];
 //    [self.tableView reloadData];
 }
+- (void)receivedSipEvent:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMSipEvent *sipEvent = userInfo[@"sipEvent"];
+    if (![sipEvent.conversationId isEqualToString:self.conversation.uuid]) {
+        return;
+    }
+    
+    [self insertEvent:sipEvent];
 
+}
 - (void)receivedTextEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMTextEvent *text = userInfo[@"text"];
@@ -238,6 +254,35 @@
             NSLog(@"error markAsSeen");
         }];
     }
+}
+
+- (IBAction)invitePstn:(id)sender{
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Invite Pstn"
+                                                                              message: @"Input phone number"
+                                                                       preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"phoneNumber";
+        textField.textColor = [UIColor blueColor];
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.borderStyle = UITextBorderStyleRoundedRect;
+    }];
+    
+    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        NSArray * textfields = alertController.textFields;
+        UITextField * namefield = textfields[0];
+        [self.stitch invite:self.conversation.uuid withUserId:_userId withPhoneNumber:[namefield text] onSuccess:^(NSString * _Nullable value) {
+            NSLog(@"success");
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"error ");
+        }];
+        NSLog(@"%@",namefield.text);
+        
+    }]];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Canelled");
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (IBAction)addMemberPressed:(id)sender {
@@ -440,13 +485,19 @@
                 messageStatus:messageStatus];
         return cell;
     }
+    if (event.type == NXMEventTypeSip){
+        ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
+        [cell updateWithEvent:event memberName:self.memberIdToName[event.fromMemberId]];
+        
+        return cell;
+    }
     
     return [[UITableViewCell alloc] init];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NXMEvent *event = self.events[indexPath.row];
-    if (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia) {
+    if (event.type == NXMEventTypeMember || event.type == NXMEventTypeMedia || event.type == NXMEventTypeSip) {
         return 50.0f;
     }
     
