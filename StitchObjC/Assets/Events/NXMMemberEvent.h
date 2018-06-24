@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *state;
 @property (nonatomic, strong) NXMUser *user;
+@property (nonatomic, strong) NSString* phoneNumber;
 @end
 
 #endif /* NXMMemberEvent_h */

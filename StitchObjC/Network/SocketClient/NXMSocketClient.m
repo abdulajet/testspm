@@ -416,11 +416,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"JOINED";
     memberEvent.conversationId = json[@"cid"];
-    
-    
+    memberEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
     memberEvent.type = NXMEventTypeMember;
-
-    
     [self.delegate memberJoined:memberEvent];
 }
 
@@ -434,9 +431,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"INVITED";
     memberEvent.conversationId = json[@"cid"];
-    
+    memberEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
     memberEvent.type = NXMEventTypeMember;
-    
     [self.delegate memberInvited:memberEvent];
 }
 
@@ -451,9 +447,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"LEFT";
     memberEvent.conversationId = json[@"cid"];
-    
+    memberEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
     memberEvent.type = NXMEventTypeMember;
-    
     [self.delegate memberRemoved:memberEvent];
 }
 
