@@ -27,7 +27,6 @@
 		CEF223C220D935800074A094 /* NXMSipEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF223C120D935800074A094 /* NXMSipEvent.m */; };
 		CEF94C502062AB0000BB733E /* NXMMemberEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */; };
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
-		E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */; };
 		F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF772097732A008A161A /* NXMMediaEvent.h */; };
 		F903DF7A2097732A008A161A /* NXMMediaEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF782097732A008A161A /* NXMMediaEvent.m */; };
 		F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */; };
@@ -107,7 +106,7 @@
 			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = F9C35DCC203078BD009FAE4F;
-			remoteInfo = NexmoConversationObjC;
+			remoteInfo = StitchObjC;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -126,13 +125,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EF23FEBC912D2A3E561FAB6 /* Pods-StitchObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
 		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		839C3E99EDC223B406A4F95A /* Pods-NexmoConversationObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjCTests/Pods-NexmoConversationObjCTests.release.xcconfig"; sourceTree = "<group>"; };
-		94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		9F5621286E2C1A97699E97D1 /* Pods-StitchTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A284924ADF6B66B0124B8FDF /* Pods-StitchObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjC/Pods-StitchObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		B048D7DA6ED98A484126D43D /* Pods-StitchTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -173,9 +168,7 @@
 		CEF94C5320640A1200BB733E /* NXMErrorParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMErrorParser.h; sourceTree = "<group>"; };
 		CEF94C5420640A6600BB733E /* NXMErrorParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMErrorParser.m; sourceTree = "<group>"; };
 		CFC86773C3091FB7DD2E9A7D /* Pods-StitchObjCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjCTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests.release.xcconfig"; sourceTree = "<group>"; };
-		D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoConversationObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98E7642AA0D7EC719B988AA /* Pods-StitchObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjC/Pods-StitchObjC.release.xcconfig"; sourceTree = "<group>"; };
-		E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoConversationObjC.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoConversationObjC/Pods-NexmoConversationObjC.release.xcconfig"; sourceTree = "<group>"; };
 		EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F903DF772097732A008A161A /* NXMMediaEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaEvent.h; sourceTree = "<group>"; };
 		F903DF782097732A008A161A /* NXMMediaEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaEvent.m; sourceTree = "<group>"; };
@@ -281,7 +274,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F9C35DD7203078BD009FAE4F /* StitchObjC.framework in Frameworks */,
-				E08F50D02390F37416EF59DE /* Pods_NexmoConversationObjCTests.framework in Frameworks */,
 				A2C2C9095B61F05FCFBA32E2 /* Pods_StitchObjCTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,8 +285,6 @@
 			isa = PBXGroup;
 			children = (
 				F910532120BC083D006318F9 /* iOSFramework.framework */,
-				D361F7A958DA9FE61041CD4C /* Pods_NexmoConversationObjC.framework */,
-				1060C7AF73CFDF2518B4F620 /* Pods_NexmoConversationObjCTests.framework */,
 				825A47D891581F7AB3B284B9 /* Pods_testApp.framework */,
 				EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */,
 				CB43C9E5A3A7849FF695A5C9 /* Pods_StitchObjC.framework */,
@@ -345,10 +335,6 @@
 		E0E7553849ECA3AA08DC7D85 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				94E40B94F3622BCB20AF016C /* Pods-NexmoConversationObjC.debug.xcconfig */,
-				E38591E98C18D86C7854E056 /* Pods-NexmoConversationObjC.release.xcconfig */,
-				839C3E99EDC223B406A4F95A /* Pods-NexmoConversationObjCTests.debug.xcconfig */,
-				9386C03EC9B1A3FA6BCC46C1 /* Pods-NexmoConversationObjCTests.release.xcconfig */,
 				B048D7DA6ED98A484126D43D /* Pods-StitchTestApp.debug.xcconfig */,
 				9F5621286E2C1A97699E97D1 /* Pods-StitchTestApp.release.xcconfig */,
 				A284924ADF6B66B0124B8FDF /* Pods-StitchObjC.debug.xcconfig */,
@@ -654,7 +640,7 @@
 			dependencies = (
 			);
 			name = StitchObjC;
-			productName = NexmoConversationObjC;
+			productName = StitchObjC;
 			productReference = F9C35DCD203078BD009FAE4F /* StitchObjC.framework */;
 			productType = "com.apple.product-type.framework";
 		};
@@ -675,7 +661,7 @@
 				F9C35DD9203078BD009FAE4F /* PBXTargetDependency */,
 			);
 			name = StitchObjCTests;
-			productName = NexmoConversationObjCTests;
+			productName = StitchObjCTests;
 			productReference = F9C35DD6203078BD009FAE4F /* StitchObjCTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -1211,9 +1197,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
-				INFOPLIST_FILE = NexmoConversationObjCTests/Info.plist;
+				INFOPLIST_FILE = StitchObjCTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.NexmoConversationObjCTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.StitchObjCTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1225,9 +1211,9 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
-				INFOPLIST_FILE = NexmoConversationObjCTests/Info.plist;
+				INFOPLIST_FILE = StitchObjCTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.NexmoConversationObjCTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.StitchObjCTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
