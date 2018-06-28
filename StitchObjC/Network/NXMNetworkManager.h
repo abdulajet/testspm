@@ -67,7 +67,7 @@
         onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError;
 
-- (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
+- (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
                            onError:(ErrorCallback _Nullable)onError;
 

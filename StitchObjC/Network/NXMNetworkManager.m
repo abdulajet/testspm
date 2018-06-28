@@ -101,10 +101,10 @@
     [self.router sendImage:sendImageRequest onSuccess:onSuccess onError:onError];
 }
 
-- (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
+- (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
                            onError:(ErrorCallback _Nullable)onError {
-    [self.router deleteTextFromConversation:deleteEventRequest onSuccess:onSuccess onError:onError];
+    [self.router deleteEventFromConversation:deleteEventRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)seenTextEvent:(nonnull NSString *)conversationId

@@ -543,7 +543,7 @@
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"conversation" message:@"do you want to delete this msg?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.stitch deleteText:event.sequenceId conversationId:event.conversationId fromMemberId:event.fromMemberId onSuccess:^{
+        [self.stitch deleteEvent:event.sequenceId conversationId:event.conversationId fromMemberId:event.fromMemberId onSuccess:^{
             
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error deleteText");

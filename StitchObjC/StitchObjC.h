@@ -143,7 +143,7 @@ withPhoneNumber:(nonnull NSString *)phoneNumber
        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
          onError:(ErrorCallback _Nullable)onError;
 
-- (void)deleteText:(NSInteger)eventId
+- (void)deleteEvent:(NSInteger)eventId
       conversationId:(nonnull NSString *)conversationId
         fromMemberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess

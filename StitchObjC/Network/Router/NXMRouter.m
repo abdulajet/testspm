@@ -379,7 +379,7 @@
 
 }
 
-- (void)deleteTextFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
+- (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(SuccessCallback _Nullable)onSuccess
                            onError:(ErrorCallback _Nullable)onError {
     NSDictionary *dict = @{

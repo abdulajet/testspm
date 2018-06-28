@@ -214,13 +214,13 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network sendImage:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)deleteText:(NSInteger)eventId
+- (void)deleteEvent:(NSInteger)eventId
     conversationId:(nonnull NSString *)conversationId
       fromMemberId:(nonnull NSString *)memberId
          onSuccess:(SuccessCallback _Nullable)onSuccess
            onError:(ErrorCallback _Nullable)onError {
     NXMDeleteEventRequest *request = [[NXMDeleteEventRequest alloc] initWithEventId:eventId conversationId:conversationId memberId:memberId];
-    [self.network deleteTextFromConversation:request onSuccess:onSuccess onError:onError];
+    [self.network deleteEventFromConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)markAsSeen:(NSInteger)messageId
