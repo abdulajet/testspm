@@ -528,45 +528,86 @@
         }
         
         NSMutableArray *events = [[NSMutableArray alloc] init];
-        for (NSDictionary* eventJson in data){
+        for (NSDictionary* eventJson in data) {
             NSString* type = eventJson[@"type"];
-            if ([type isEqual:@"member:joined"]){
+            if ([type isEqual:@"member:joined"]) {
                 [events addObject:[self parseMemberEvent:@"joined" dict:eventJson conversationId:getEventsRequest.conversationId]];
-            }else if ([type isEqual:@"member:invited"]){
+                break;
+            }
+            
+            if ([type isEqual:@"member:invited"]){
                 [events addObject:[self parseMemberEvent:@"invited" dict:eventJson conversationId:getEventsRequest.conversationId]];
-            }else if ([type isEqual:@"member:left"]){
+                break;
+            }
+            
+            if ([type isEqual:@"member:left"]){
                 [events addObject:[self parseMemberEvent:@"left" dict:eventJson conversationId:getEventsRequest.conversationId]];
-            }else if ([type isEqual:@"member:media"]){
+                break;
+            }
+            
+            if ([type isEqual:@"member:media"]){
                 [events addObject:[self parseMediaEvent:eventJson conversationId:getEventsRequest.conversationId]];
-            }else if ([type isEqual:@"text:seen"]){
+                break;
+            }
+            
+            if ([type isEqual:@"text:seen"]){
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusESeen]];
-            }else if ([type isEqual:@"text:delivered"]){
-                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDelivered]];
-            }else if ([type isEqual:@"text"]){
+                break;
+            }
+            
+            if ([type isEqual:@"text:delivered"]){
+                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId
+                                                       state:NXMTextEventStatusEDelivered]];
+                break;
+            }
+            
+            if ([type isEqual:@"text"]){
                 [events addObject:[self parseTextEvent:eventJson conversationId:getEventsRequest.conversationId]];
-            }else if ([type isEqual:@"image"]){
+                break;
+            }
+            
+            if ([type isEqual:@"image"]){
                 [events addObject:[self parseImageEvent:eventJson conversationId:getEventsRequest.conversationId]];
 
                 // TODO: [events addObject:event];
-            }else if ([type isEqual:@"image:seen"]){
-                // TODO: [events addObject:event];
-            }else if ([type isEqual:@"image:delivered"]){
-                //// TODO: [events addObject:event];
-            }else if ([type isEqual:@"event:deleted"]){
-                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
-            }else if ([type isEqual:@"sip:ringing"]){
-                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventRinging]];
-                
-            }else if ([type isEqual:@"sip:answered"]){
-                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventAnswered]];
-                
-            }else if ([type isEqual:@"sip:hangup"]){
-                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventHangup]];
-                
-            }else if ([type isEqual:@"sip:status"]){
-                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventStatus]];
-                
+                break;
             }
+            
+            if ([type isEqual:@"image:seen"]){
+                // TODO: [events addObject:event];
+                break;
+            }
+            
+            if ([type isEqual:@"image:delivered"]) {
+                //// TODO: [events addObject:event];
+                break;
+            }
+            
+            if ([type isEqual:@"event:deleted"]) {
+                [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
+                break;
+            }
+            
+            if ([type isEqual:@"sip:ringing"]) {
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventRinging]];
+                break;
+            }
+            
+            if ([type isEqual:@"sip:answered"]){
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventAnswered]];
+                break;
+            }
+            
+            if ([type isEqual:@"sip:hangup"]) {
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventHangup]];
+                break;
+            }
+            
+            if ([type isEqual:@"sip:status"]) {
+                [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventStatus]];
+                break;
+            }
+
         }
         
         onSuccess(events);
