@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE=../stitchObjc.podspec
+FILE=./stitchObjc.podspec
 VERSION=`cat $FILE  | ggrep  s.version| ggrep -oP '(?<=").*?(?=")'`
 NUM_OF_DOTS=`cat $FILE | ggrep  s.version| ggrep -oP '(?<=").*?(?=")' | ggrep -o "\."| wc -l`
 

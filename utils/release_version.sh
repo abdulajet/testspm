@@ -1,4 +1,3 @@
-cd ../
 FILE=./stitchObjc.podspec
 
 #create a new git tag for this version
