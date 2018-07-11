@@ -1,4 +1,4 @@
-FILE=./stitchObjc.podspec
+FILE=./StitchObjC.podspec
 
 #create a new git tag for this version
 echo "Creating a git tag"
