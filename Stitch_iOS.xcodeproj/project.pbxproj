@@ -437,7 +437,6 @@
 			children = (
 				F988BE9D20F653E4007D4276 /* Logger */,
 				F988BE9C20F6500B007D4276 /* ConversationCore */,
-				F9167D8320331A2000F97CED /* StitchObjC.h */,
 			);
 			path = Public;
 			sourceTree = "<group>";
@@ -639,6 +638,7 @@
 			isa = PBXGroup;
 			children = (
 				F9167D8220331A2000F97CED /* Info.plist */,
+				F9167D8320331A2000F97CED /* StitchObjC.h */,
 				F988BE9120F6375C007D4276 /* Private */,
 				F988BE9020F63752007D4276 /* Public */,
 			);
