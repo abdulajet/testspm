@@ -5,6 +5,8 @@ echo "Creating a git tag"
 VERSION=`cat $FILE  | ggrep  s.version| ggrep -oP '(?<=").*?(?=")'`
 IFS='. ' read -a array <<< "$VERSION"
 TAG_NAME="${array[0]}.${array[1]}/v$VERSION"
+
+echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME
 git push origin $TAG_NAME
 
