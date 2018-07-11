@@ -20,6 +20,12 @@ if [ "$REPO_NAME" != "$QUERY_RES" ]; then
     pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
 fi
 
+REPO_NAME=VonageNexmo
+QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
+if [ "$REPO_NAME" != "$QUERY_RES" ]; then
+    pod repo add VonageNexmo git@github.com:Vonage/NexmoCocoaPodSpecs.git
+fi
+
 #upload the new spec
 echo "Uploading the version"
 pod repo push PrivatePods $FILE --allow-warnings --verbose --use-libraries
