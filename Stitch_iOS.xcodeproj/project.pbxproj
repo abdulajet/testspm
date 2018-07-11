@@ -87,8 +87,6 @@
 		F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
 		F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4E2063EEB200A70212 /* NXMErrors.h */; };
 		F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4F2063EEB200A70212 /* NXMErrors.m */; };
-		F9EF59212056C51E0055935F /* NXMMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = F9EF591F2056C51E0055935F /* NXMMessage.h */; };
-		F9EF59222056C51E0055935F /* NXMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F9EF59202056C51E0055935F /* NXMMessage.m */; };
 		F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9EF59232056C5B00055935F /* NXMTextEvent.h */; };
 		F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9EF59242056C5B00055935F /* NXMTextEvent.m */; };
 		F9F576FA20AC205200F0F5F3 /* NXMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576F920AC205200F0F5F3 /* NXMEnums.h */; };
@@ -246,8 +244,6 @@
 		F9E96F4A20628BDA00A70212 /* NXMEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEvent.m; sourceTree = "<group>"; };
 		F9E96F4E2063EEB200A70212 /* NXMErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMErrors.h; sourceTree = "<group>"; };
 		F9E96F4F2063EEB200A70212 /* NXMErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMErrors.m; sourceTree = "<group>"; };
-		F9EF591F2056C51E0055935F /* NXMMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMessage.h; sourceTree = "<group>"; };
-		F9EF59202056C51E0055935F /* NXMMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMessage.m; sourceTree = "<group>"; };
 		F9EF59232056C5B00055935F /* NXMTextEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTextEvent.h; sourceTree = "<group>"; };
 		F9EF59242056C5B00055935F /* NXMTextEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTextEvent.m; sourceTree = "<group>"; };
 		F9F576F920AC205200F0F5F3 /* NXMEnums.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEnums.h; sourceTree = "<group>"; };
@@ -416,25 +412,122 @@
 			path = SocketClient;
 			sourceTree = "<group>";
 		};
-		F987354620443A3600C90695 /* Assets */ = {
+		F987354620443A3600C90695 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F9E96F4E2063EEB200A70212 /* NXMErrors.h */,
+				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
+				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
+				F988BE9820F647F6007D4276 /* User */,
+				F988BE9320F64755007D4276 /* ConversationDetails */,
 				F9E96F4D20628EA400A70212 /* Events */,
-				F987354720443A6900C90695 /* NXMUser.h */,
-				F987354820443A6900C90695 /* NXMUser.m */,
 				F987354D2045C03700C90695 /* NXMConversationClientConfig.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F988BE9020F63752007D4276 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */,
+				F9167D8320331A2000F97CED /* StitchObjC.h */,
+				F987354B20446AFF00C90695 /* StitchObjC.m */,
+				F987354620443A3600C90695 /* Models */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		F988BE9120F6375C007D4276 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				F988BE9220F646BB007D4276 /* Utility */,
+				F9998AC7208378BE00EAC286 /* Network */,
+				F99D8596208DDE34003B004B /* Media */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+		F988BE9220F646BB007D4276 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				CEF94C5320640A1200BB733E /* NXMErrorParser.h */,
+				CEF94C5420640A6600BB733E /* NXMErrorParser.m */,
+				92A1DE2520F50A960099D601 /* NXMUtils.h */,
+				92A1DE2620F50A960099D601 /* NXMUtils.m */,
+				F9998ACB20837EF100EAC286 /* NXMLogger.h */,
+				F9998ACC20837EF100EAC286 /* NXMLogger.m */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		F988BE9320F64755007D4276 /* ConversationDetails */ = {
+			isa = PBXGroup;
+			children = (
 				F987354F204FDBAB00C90695 /* NXMConversationDetails.h */,
 				F9873550204FDBAB00C90695 /* NXMConversationDetails.m */,
 				F96F744F20552D6D004B3434 /* NXMMember.h */,
 				F96F745020552D6D004B3434 /* NXMMember.m */,
-				F9EF591F2056C51E0055935F /* NXMMessage.h */,
-				F9EF59202056C51E0055935F /* NXMMessage.m */,
 				F910531D20BC0248006318F9 /* NXMPageInfo.h */,
 				F910531E20BC0248006318F9 /* NXMPageInfo.m */,
+			);
+			path = ConversationDetails;
+			sourceTree = "<group>";
+		};
+		F988BE9420F647A3007D4276 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				F98EF68420C3EF23009094FD /* NXMImageEvent.h */,
+				F98EF68520C3EF23009094FD /* NXMImageEvent.m */,
 				F98EF68820C3F0F1009094FD /* NXMImageInfo.h */,
 				F98EF68920C3F0F1009094FD /* NXMImageInfo.m */,
 			);
-			path = Assets;
+			path = Image;
+			sourceTree = "<group>";
+		};
+		F988BE9520F647BA007D4276 /* Media */ = {
+			isa = PBXGroup;
+			children = (
+				CEF223C020D9356A0074A094 /* NXMSipEvent.h */,
+				CEF223C120D935800074A094 /* NXMSipEvent.m */,
+				F903DF772097732A008A161A /* NXMMediaEvent.h */,
+				F903DF782097732A008A161A /* NXMMediaEvent.m */,
+				F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */,
+				F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */,
+			);
+			path = Media;
+			sourceTree = "<group>";
+		};
+		F988BE9620F647CE007D4276 /* Text */ = {
+			isa = PBXGroup;
+			children = (
+				F9EF59232056C5B00055935F /* NXMTextEvent.h */,
+				F9EF59242056C5B00055935F /* NXMTextEvent.m */,
+				CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */,
+				CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */,
+				CE8180DD207A57E70072E44F /* NXMTextTypingEvent.h */,
+				CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */,
+				CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */,
+				CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */,
+			);
+			path = Text;
+			sourceTree = "<group>";
+		};
+		F988BE9720F647EA007D4276 /* Member */ = {
+			isa = PBXGroup;
+			children = (
+				CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */,
+				CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */,
+			);
+			path = Member;
+			sourceTree = "<group>";
+		};
+		F988BE9820F647F6007D4276 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				F987354720443A6900C90695 /* NXMUser.h */,
+				F987354820443A6900C90695 /* NXMUser.m */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		F9998AC7208378BE00EAC286 /* Network */ = {
@@ -513,22 +606,9 @@
 		F9C35DCF203078BD009FAE4F /* StitchObjC */ = {
 			isa = PBXGroup;
 			children = (
-				F99D8596208DDE34003B004B /* Media */,
-				F9998AC7208378BE00EAC286 /* Network */,
-				F987354620443A3600C90695 /* Assets */,
 				F9167D8220331A2000F97CED /* Info.plist */,
-				F9167D8320331A2000F97CED /* StitchObjC.h */,
-				F987354B20446AFF00C90695 /* StitchObjC.m */,
-				F9E96F4E2063EEB200A70212 /* NXMErrors.h */,
-				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
-				CEF94C5320640A1200BB733E /* NXMErrorParser.h */,
-				CEF94C5420640A6600BB733E /* NXMErrorParser.m */,
-				F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */,
-				F9998ACB20837EF100EAC286 /* NXMLogger.h */,
-				F9998ACC20837EF100EAC286 /* NXMLogger.m */,
-				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
-				92A1DE2520F50A960099D601 /* NXMUtils.h */,
-				92A1DE2620F50A960099D601 /* NXMUtils.m */,
+				F988BE9120F6375C007D4276 /* Private */,
+				F988BE9020F63752007D4276 /* Public */,
 			);
 			path = StitchObjC;
 			sourceTree = "<group>";
@@ -545,26 +625,12 @@
 		F9E96F4D20628EA400A70212 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				F988BE9720F647EA007D4276 /* Member */,
+				F988BE9620F647CE007D4276 /* Text */,
+				F988BE9520F647BA007D4276 /* Media */,
+				F988BE9420F647A3007D4276 /* Image */,
 				F9E96F4920628BDA00A70212 /* NXMEvent.h */,
 				F9E96F4A20628BDA00A70212 /* NXMEvent.m */,
-				F9EF59232056C5B00055935F /* NXMTextEvent.h */,
-				F9EF59242056C5B00055935F /* NXMTextEvent.m */,
-				CEF94C4C2062A54B00BB733E /* NXMMemberEvent.h */,
-				CEF94C4F2062AB0000BB733E /* NXMMemberEvent.m */,
-				CED91D96207A292C00B7B057 /* NXMTextStatusEvent.h */,
-				CED91D97207A297E00B7B057 /* NXMTextStatusEvent.m */,
-				CE8180DD207A57E70072E44F /* NXMTextTypingEvent.h */,
-				CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */,
-				CE8180E0207A59DB0072E44F /* NXMTextTypingEventStatus.h */,
-				CE8180E1207A5CD20072E44F /* NXMTextEventStatus.h */,
-				F903DF772097732A008A161A /* NXMMediaEvent.h */,
-				F903DF782097732A008A161A /* NXMMediaEvent.m */,
-				F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */,
-				F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */,
-				F98EF68420C3EF23009094FD /* NXMImageEvent.h */,
-				F98EF68520C3EF23009094FD /* NXMImageEvent.m */,
-				CEF223C020D9356A0074A094 /* NXMSipEvent.h */,
-				CEF223C120D935800074A094 /* NXMSipEvent.m */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -587,7 +653,6 @@
 				92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */,
 				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
 				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
-				F9EF59212056C51E0055935F /* NXMMessage.h in Headers */,
 				F9F576FA20AC205200F0F5F3 /* NXMEnums.h in Headers */,
 				F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */,
 				F96F745120552D6D004B3434 /* NXMMember.h in Headers */,
@@ -945,7 +1010,6 @@
 				F98EF68B20C3F0F1009094FD /* NXMImageInfo.m in Sources */,
 				CEBCD8A72084EFB0004451AB /* NXMRemoveMemberRequest.m in Sources */,
 				F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */,
-				F9EF59222056C51E0055935F /* NXMMessage.m in Sources */,
 				92A1DE2820F50A960099D601 /* NXMUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

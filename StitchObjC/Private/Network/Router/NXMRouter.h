@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "NXMNetworkCallbacks.h"
 
-#import "NXMMember.h"
 #import "NXMConversationDetails.h"
 #import "NXMAddUserRequest.h"
 #import "NXMInviteUserRequest.h"
