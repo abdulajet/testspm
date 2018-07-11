@@ -9,14 +9,14 @@
 #import "AppDelegate.h"
 
 @interface AppDelegate ()
-@property (nonatomic, readwrite, strong) StitchConversationClientCore *stitchConversation;
+@property (nonatomic, readwrite, strong) NXMConversationCore *stitchConversation;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *conversationIdToMemberId;
 
 @end
 
 @implementation AppDelegate
 
-- (void)setStitch:(StitchConversationClientCore *)stitch {
+- (void)setStitch:(NXMConversationCore *)stitch {
     self.stitchConversation = stitch;
     [self.stitchConversation setDelgate:self];
 }
@@ -63,9 +63,9 @@
     
 }
 
-- (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status {
-    
-}
+//- (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status {
+//    
+//}
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member {
     [[NSNotificationCenter defaultCenter]

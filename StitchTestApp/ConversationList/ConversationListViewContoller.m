@@ -13,7 +13,7 @@
 
 @interface ConversationListViewContoller ()
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property StitchConversationClientCore *stitch;
+@property NXMConversationCore *stitch;
 @property NSMutableArray<NXMConversationDetails *> *conversations;
 //@property lastestId
 @end

@@ -18,7 +18,7 @@
 #import "NXMMemberEvent.h"
 
 @interface CoversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate>
-@property StitchConversationClientCore *stitch;
+@property NXMConversationCore *stitch;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewContraint;
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

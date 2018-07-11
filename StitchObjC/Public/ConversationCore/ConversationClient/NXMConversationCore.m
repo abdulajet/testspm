@@ -1,20 +1,20 @@
 //
-//  NXMConversationClient.m
-//  NexmoConversationObjC
+//  NXMConversationCore.m
+//  StitchObjC
 //
-//  Created by Chen Lev on 2/26/18.
+//  Created by Chen Lev on 7/11/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "StitchObjC.h"
+#import "NXMConversationCore.h"
 
 #import "NXMNetworkManager.h"
 #import "RTCMediaWrapper.h"
 
 
-@interface StitchConversationClientCore()
+@interface NXMConversationCore()
 
-@property id<NXMConversationClientDelegate> delegate;
+@property id<NXMConversationCoreDelegate> delegate;
 //@property NXMSocketClient *socketClient;
 //@property NXMRouter *router;
 @property NXMNetworkManager *network;
@@ -23,11 +23,11 @@
 
 @end
 
-@implementation StitchConversationClientCore
+@implementation NXMConversationCore
 
 - (instancetype _Nullable)init {
     if (self = [super init]) {
-   //     NXMConversationClientConfig *config = [NXMConversationClientConfig new];
+        //     NXMConversationClientConfig *config = [NXMConversationClientConfig new];
         self.network = [[NXMNetworkManager alloc] initWitHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
@@ -62,10 +62,10 @@
     [self.network logout];
 }
 
-
-- (nonnull NXMConnectionStatus *)getConnectionStatus {
-    return  nil;
-}
+// TODO:
+//- (nonnull NXMConnectionStatus *)getConnectionStatus {
+//    return  nil;
+//}
 
 - (nonnull NXMUser *)getUser {
     return  self.user;
@@ -80,7 +80,7 @@
     return NO;
 } // TODO: the use already login but the network is down?
 
-- (void)setDelgate:(nonnull id<NXMConversationClientDelegate>)delegate {
+- (void)setDelgate:(nonnull id<NXMConversationCoreDelegate>)delegate {
     self.delegate = delegate;
 }
 
@@ -128,7 +128,7 @@ withMemberId:(nonnull NSString *)memberId
 
 - (void)invite:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
-    withPhoneNumber:(nonnull NSString *)phoneNumber
+withPhoneNumber:(nonnull NSString *)phoneNumber
      onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
        onError:(ErrorCallback _Nullable)onError {
     NXMInvitePstnRequest *request = [[NXMInvitePstnRequest alloc] initWithConversationId:conversationId andUserID:userId andPhoneNumber:phoneNumber];
@@ -165,7 +165,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 - (void)getEvents:(nonnull NSString *)conversationId
           startId:(nullable NSNumber *)startId
-          endId:(nullable NSNumber *)endId
+            endId:(nullable NSNumber *)endId
         onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
           onError:(ErrorCallback _Nullable)onError{
     NXMGetEventsRequest *request = [NXMGetEventsRequest new];
@@ -215,10 +215,10 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 - (void)deleteEvent:(NSInteger)eventId
-    conversationId:(nonnull NSString *)conversationId
-      fromMemberId:(nonnull NSString *)memberId
-         onSuccess:(SuccessCallback _Nullable)onSuccess
-           onError:(ErrorCallback _Nullable)onError {
+     conversationId:(nonnull NSString *)conversationId
+       fromMemberId:(nonnull NSString *)memberId
+          onSuccess:(SuccessCallback _Nullable)onSuccess
+            onError:(ErrorCallback _Nullable)onError {
     NXMDeleteEventRequest *request = [[NXMDeleteEventRequest alloc] initWithEventId:eventId conversationId:conversationId memberId:memberId];
     [self.network deleteEventFromConversation:request onSuccess:onSuccess onError:onError];
 }
@@ -346,11 +346,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)onMediaStatusChangedWithConversationId:(NSString *)conversationId andStatus:(NSString *)status {
     // TODO:
 }
-    
+
 - (void)sendSDP:(NSString *)sdp
-    andMediaInfo:(MRTCMediaInfo *)mediaInfo
-    onSuccess:(SuccessCallbackWithId)onSuccess
-    onError:(ErrorCallback)onError {
+   andMediaInfo:(MRTCMediaInfo *)mediaInfo
+      onSuccess:(SuccessCallbackWithId)onSuccess
+        onError:(ErrorCallback)onError {
     [self.network enableMedia:mediaInfo._conversationId memberId:mediaInfo._memberId sdp:sdp mediaType:@"" onSuccess:onSuccess onError:onError];
 }
 
@@ -363,5 +363,3 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 @end
-
-

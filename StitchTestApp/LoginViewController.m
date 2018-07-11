@@ -53,7 +53,7 @@
 - (IBAction)onLoginPressed:(UIButton *)sender {
     AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
 
-    StitchConversationClientCore *stitch = [StitchConversationClientCore new];
+    NXMConversationCore *stitch = [NXMConversationCore new];
     [appDelegate setStitch:stitch];
 
     NSString *username = self.autoTokenField.text;

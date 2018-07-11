@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "StitchObjC.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, NXMConversationClientDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, NXMConversationCoreDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (nonatomic, readonly, strong) StitchConversationClientCore *stitchConversation;
+@property (nonatomic, readonly, strong) NXMConversationCore *stitchConversation;
 
-- (void)setStitch:(StitchConversationClientCore *)stitch;
+- (void)setStitch:(NXMConversationCore *)stitch;
 - (void)addConversationMember:(NSString *)conv  memberId:(NSString *)memberId;
 
 @end
