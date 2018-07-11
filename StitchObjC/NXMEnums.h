@@ -37,3 +37,8 @@ typedef NS_ENUM(NSInteger, NXMSipEventType){
     NXMSipEventHangup
 };
 
+typedef NS_ENUM(NSInteger, NXMEventState){
+    NXMEventStateSeenBy,
+    NXMEventStateDelievredTo
+};
+

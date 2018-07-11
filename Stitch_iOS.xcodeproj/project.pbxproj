@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1269E0BCD4477471D4A03573 /* Pods_StitchObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB43C9E5A3A7849FF695A5C9 /* Pods_StitchObjC.framework */; };
+		92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1DE2520F50A960099D601 /* NXMUtils.h */; };
+		92A1DE2820F50A960099D601 /* NXMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DE2620F50A960099D601 /* NXMUtils.m */; };
 		A2C2C9095B61F05FCFBA32E2 /* Pods_StitchObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */; };
 		B9EFB5898F17308E7031C59E /* Pods_StitchTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */; };
 		CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */; };
@@ -128,6 +130,8 @@
 		4EF23FEBC912D2A3E561FAB6 /* Pods-StitchObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
 		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92A1DE2520F50A960099D601 /* NXMUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMUtils.h; sourceTree = "<group>"; };
+		92A1DE2620F50A960099D601 /* NXMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMUtils.m; sourceTree = "<group>"; };
 		9F5621286E2C1A97699E97D1 /* Pods-StitchTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A284924ADF6B66B0124B8FDF /* Pods-StitchObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjC/Pods-StitchObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		B048D7DA6ED98A484126D43D /* Pods-StitchTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -523,6 +527,8 @@
 				F9998ACB20837EF100EAC286 /* NXMLogger.h */,
 				F9998ACC20837EF100EAC286 /* NXMLogger.m */,
 				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
+				92A1DE2520F50A960099D601 /* NXMUtils.h */,
+				92A1DE2620F50A960099D601 /* NXMUtils.m */,
 			);
 			path = StitchObjC;
 			sourceTree = "<group>";
@@ -578,6 +584,7 @@
 				F9873555204FE1C300C90695 /* NXMRouter.h in Headers */,
 				F9998ACD20837EF100EAC286 /* NXMLogger.h in Headers */,
 				F9F576FD20B584C800F0F5F3 /* NXMNetworkDelegate.h in Headers */,
+				92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */,
 				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
 				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
 				F9EF59212056C51E0055935F /* NXMMessage.h in Headers */,
@@ -939,6 +946,7 @@
 				CEBCD8A72084EFB0004451AB /* NXMRemoveMemberRequest.m in Sources */,
 				F9E96F4C20628BDA00A70212 /* NXMEvent.m in Sources */,
 				F9EF59222056C51E0055935F /* NXMMessage.m in Sources */,
+				92A1DE2820F50A960099D601 /* NXMUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

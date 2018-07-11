@@ -23,6 +23,7 @@
 #import "NXMTextTypingEvent.h"
 #import "NXMTextEventStatus.h"
 #import "NXMImageEvent.h"
+#import "NXMUtils.h"
 
 @interface NXMRouter()
 
@@ -532,80 +533,80 @@
             NSString* type = eventJson[@"type"];
             if ([type isEqual:@"member:joined"]) {
                 [events addObject:[self parseMemberEvent:@"joined" dict:eventJson conversationId:getEventsRequest.conversationId]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"member:invited"]){
                 [events addObject:[self parseMemberEvent:@"invited" dict:eventJson conversationId:getEventsRequest.conversationId]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"member:left"]){
                 [events addObject:[self parseMemberEvent:@"left" dict:eventJson conversationId:getEventsRequest.conversationId]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"member:media"]){
                 [events addObject:[self parseMediaEvent:eventJson conversationId:getEventsRequest.conversationId]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"text:seen"]){
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusESeen]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"text:delivered"]){
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId
                                                        state:NXMTextEventStatusEDelivered]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"text"]){
                 [events addObject:[self parseTextEvent:eventJson conversationId:getEventsRequest.conversationId]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"image"]){
                 [events addObject:[self parseImageEvent:eventJson conversationId:getEventsRequest.conversationId]];
 
                 // TODO: [events addObject:event];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"image:seen"]){
                 // TODO: [events addObject:event];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"image:delivered"]) {
                 //// TODO: [events addObject:event];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"event:deleted"]) {
                 [events addObject:[self parseTextStatusEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMTextEventStatusEDeleted]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"sip:ringing"]) {
                 [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventRinging]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"sip:answered"]){
                 [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventAnswered]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"sip:hangup"]) {
                 [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventHangup]];
-                break;
+                continue;
             }
             
             if ([type isEqual:@"sip:status"]) {
                 [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventStatus]];
-                break;
+                continue;
             }
 
         }
@@ -871,10 +872,11 @@
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeText;
     event.text = dict[@"body"][@"text"];
+    event.state = [self parseStateFromDictionary:dict[@"state"]];
+    
     return event;
 }
 
-// TODO: state
 - (NXMImageEvent *)parseImageEvent:(nonnull NSDictionary*)json conversationId:(nonnull NSString*)conversationId {
     
     NXMImageEvent *imageEvent = [[NXMImageEvent alloc] initWithConversationId:conversationId
@@ -904,8 +906,23 @@
                                                               type:NXMImageTypeThumbnail];
     imageEvent.type = NXMEventTypeImage;
     
-    
+    imageEvent.state = [self parseStateFromDictionary:json[@"state"]];
     return imageEvent;
+}
+
+- (NSDictionary<NSNumber *,NSDictionary<NSString *, NSDate *> *> *)parseStateFromDictionary:(NSDictionary *)dictionary {
+    return  @{ @(NXMEventStateSeenBy):[self parseFromSpecificStateDictionary:dictionary[@"seen_by"]],
+               @(NXMEventStateDelievredTo):[self parseFromSpecificStateDictionary:dictionary[@"delivered_to"]]
+             };
+
+}
+
+- (NSDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {
+    NSMutableDictionary<NSString *, NSDate *> *outputDictionary = [[NSMutableDictionary alloc] init];
+    for (NSString *key in specificStateDictionary) {
+        outputDictionary[key] = [NXMUtils dateFromISOString:specificStateDictionary[key]];
+    }
+    return outputDictionary;
 }
 
 @end

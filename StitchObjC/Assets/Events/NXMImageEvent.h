@@ -14,4 +14,5 @@
 @property (nonatomic, strong, nonnull) NXMImageInfo *mediumImage;
 @property (nonatomic, strong, nonnull) NXMImageInfo *originalImage;
 @property (nonatomic, strong, nonnull) NXMImageInfo *thumbnailImage;
+@property (nonatomic, strong, nonnull) NSDictionary<NSNumber *,NSDictionary<NSString *, NSDate *> *> *state;
 @end
