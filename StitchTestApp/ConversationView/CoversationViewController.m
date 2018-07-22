@@ -33,6 +33,7 @@
 //@property NSArray<NXMEvent *>* filteredEvents;
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
+@property NSDictionary<NSString *,NSString *> * testUserNames;
 @property NSMutableDictionary<NSString *,NSString *> * memberIdToName;
 
 @property NSString *memberId;
@@ -61,6 +62,19 @@
                          @"TheTech":@"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e",
                          @"TheManager":@"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb"
                      };
+    
+    self.testUserNames = @{@"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2":@"testuser1",
+                         @"USR-1628dc75-fa09-4746-9e29-681430cb6419":@"testuser2",
+                         @"USR-0e364e72-d343-42bd-9a12-024518a88896":@"testuser3",
+                         @"USR-effc7845-333c-4779-aeaf-fdbb4167f93c":@"testuser4",
+                         @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205":@"testuser5",
+                         @"USR-de6954dc-9a54-4a65-8cf4-8628d312a611":@"testuser6",
+                         @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b":@"testuser7",
+                         @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0":@"testuser8",
+                         @"USR-f791c83e-0b9e-4671-88dd-9a64344ff2b3":@"TheCustomer",
+                         @"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e":@"TheTech",
+                         @"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb":@"TheManager"
+                         };
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                     selector:@selector(receivedMemberEvent:)
@@ -256,6 +270,36 @@
     }
 }
 
+- (void)updatePhoneNumber2ConverationWebHook:(NSString* )phoneNumber conversationName:(NSString* )conversationName handler:(void (^)(void))handler{
+    NSString *post = [NSString stringWithFormat:@"phoneNumber=%@&conversation_name=%@",phoneNumber,conversationName];
+    NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    NSString *postLength = [NSString stringWithFormat:@"%lu",(unsigned long)[postData length]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://nexmo.vonage.il.wh.eu.ngrok.io.ngrok.io/phone2conversation?phoneNumber=%@&conversation_name=%@", phoneNumber, conversationName]];
+    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setHTTPBody:postData];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (error) {
+            NSLog(@"Got response %@ with error %@.\n", response, error);
+            return;
+        }
+        
+        // TODO: 413 Payload too lage
+        if (((NSHTTPURLResponse *)response).statusCode != 200){
+            NSLog(@"Got response %@ with error %@.\n", response, error);
+            return;
+        }
+        
+        
+        NSError *jsonError;
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        handler();
+        
+    }] resume];
+    
+    
+}
 - (IBAction)invitePstn:(id)sender{
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle: @"Invite Pstn"
                                                                               message: @"Input phone number"
@@ -270,11 +314,14 @@
     [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         NSArray * textfields = alertController.textFields;
         UITextField * namefield = textfields[0];
-        [self.stitch invite:self.conversation.uuid withUserId:_userId withPhoneNumber:[namefield text] onSuccess:^(NSString * _Nullable value) {
-            NSLog(@"success");
-        } onError:^(NSError * _Nullable error) {
-            NSLog(@"error ");
+        [self updatePhoneNumber2ConverationWebHook:[namefield text] conversationName:[self.conversation name] handler:^{
+            [self.stitch invite:self.testUserNames[_userId] withPhoneNumber:[namefield text] onSuccess:^(NSString * _Nullable value) {
+                                NSLog(@"success");
+                            } onError:^(NSError * _Nullable error) {
+                                NSLog(@"error ");
+                            }];
         }];
+        
         NSLog(@"%@",namefield.text);
         
     }]];

@@ -77,6 +77,14 @@
                          onError:(ErrorCallback _Nullable)onError{
     [self.router invitePstnToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
 }
+
+
+- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
+                               onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(ErrorCallback _Nullable)onError{
+    [self.router invitePstnKnockingToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
+}
+
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
                        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                          onError:(ErrorCallback _Nullable)onError {

@@ -51,6 +51,11 @@ withPhoneNumber:(nonnull NSString *)phoneNumber
      onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
        onError:(ErrorCallback _Nullable)onError;
 
+- (void)invite:(nonnull NSString *)userName
+withPhoneNumber:(nonnull NSString *)phoneNumber
+     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+       onError:(ErrorCallback _Nullable)onError;
+
 - (void)deleteMember:(nonnull NSString *)memberId
 fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(SuccessCallbackWithId _Nullable)onSuccess

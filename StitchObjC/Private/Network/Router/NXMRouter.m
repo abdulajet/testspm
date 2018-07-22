@@ -252,6 +252,35 @@
     }];
 }
 
+
+- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
+                               onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(ErrorCallback _Nullable)onError{
+    NSDictionary *dict = @{
+                      @"channel": @{
+                              @"type": @"app",
+                              @"from":@{
+                                      @"type":@"app",
+                                      @"user":invitePstnRequest.userName
+                                      },
+                              @"to":@{
+                                      @"type": @"phone",
+                                      @"number": invitePstnRequest.phoneNumber
+                                      }
+                              }
+                      };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/knocking", self.baseUrl]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(data[@"id"]); // TODO: eventId;
+    }];
+}
+
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
                        onSuccess:(SuccessCallbackWithId)onSuccess
                          onError:(ErrorCallback _Nullable)onError {

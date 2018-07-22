@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BDDE77020FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */; };
 		1269E0BCD4477471D4A03573 /* Pods_StitchObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB43C9E5A3A7849FF695A5C9 /* Pods_StitchObjC.framework */; };
 		92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1DE2520F50A960099D601 /* NXMUtils.h */; };
 		92A1DE2820F50A960099D601 /* NXMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DE2620F50A960099D601 /* NXMUtils.m */; };
@@ -131,6 +132,8 @@
 		0B392FFB20F23253000BCB3D /* iOSFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iOSFramework.framework; sourceTree = "<group>"; };
 		0B39300220F250D2000BCB3D /* iOSFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iOSFramework.framework; path = "../../../../Library/Developer/Xcode/DerivedData/iOSFramework-dwlobeknijgtzycozzspuvsuvpau/Build/Products/Debug-iphoneos/iOSFramework.framework"; sourceTree = "<group>"; };
 		0B39300520F25434000BCB3D /* Tokens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokens.h; sourceTree = "<group>"; };
+		0BDDE76E20FF7A5F00C2F320 /* NXMInvitePstnKnockingRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMInvitePstnKnockingRequest.h; sourceTree = "<group>"; };
+		0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMInvitePstnKnockingRequest.m; sourceTree = "<group>"; };
 		4EF23FEBC912D2A3E561FAB6 /* Pods-StitchObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
 		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -329,6 +332,8 @@
 				F915CCA320BD8E4600771D8E /* NXMSendImageRequest.m */,
 				CECA008220BD8C7100FB4E6C /* NXMGetEventsRequest.h */,
 				CECA008320BD8C8900FB4E6C /* NXMGetEventsRequest.m */,
+				0BDDE76E20FF7A5F00C2F320 /* NXMInvitePstnKnockingRequest.h */,
+				0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -884,7 +889,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp-frameworks.sh",
-				"${PODS_ROOT}/../../../../../.m2/repository/ios/debug/iOSFramework.framework",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -920,7 +925,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
-				"${PODS_ROOT}/../../../../../.m2/repository/ios/debug/iOSFramework.framework",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1045,6 +1050,7 @@
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
 				F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */,
+				0BDDE77020FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m in Sources */,
 				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
 				F99D85A32090C4D1003B004B /* NXMMediaInfo.m in Sources */,
 				F9998ACE20837EF100EAC286 /* NXMLogger.m in Sources */,

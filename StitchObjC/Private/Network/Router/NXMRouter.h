@@ -13,6 +13,7 @@
 #import "NXMAddUserRequest.h"
 #import "NXMInviteUserRequest.h"
 #import "NXMInvitePstnRequest.h"
+#import "NXMInvitePstnKnockingRequest.h"
 #import "NXMJoinMemberRequest.h"
 #import "NXMRemoveMemberRequest.h"
 #import "NXMSendTextEventRequest.h"
@@ -44,6 +45,10 @@
                          onError:(ErrorCallback _Nullable)onError;
 
 - (void)invitePstnToConversation:(nonnull NXMInvitePstnRequest *)invitePstnRequest
+                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+                         onError:(ErrorCallback _Nullable)onError;
+
+- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
                        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                          onError:(ErrorCallback _Nullable)onError;
 

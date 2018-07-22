@@ -125,6 +125,13 @@ withMemberId:(nonnull NSString *)memberId
     NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
+- (void)invite:(nonnull NSString*)userName
+    withPhoneNumber:(nonnull NSString*)phoneNumber
+     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
+       onError:(ErrorCallback _Nullable)onError {
+    NXMInvitePstnKnockingRequest *request = [[NXMInvitePstnKnockingRequest alloc] initWithUserName:userName andPhoneNumber:phoneNumber];
+    [self.network invitePstnKnockingToConversation:request onSuccess:onSuccess onError:onError];
+}
 
 - (void)invite:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
