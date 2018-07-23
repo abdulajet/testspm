@@ -62,15 +62,11 @@
     [self.network logout];
 }
 
-// TODO:
-//- (nonnull NXMConnectionStatus *)getConnectionStatus {
-//    return  nil;
-//}
-
 - (nonnull NXMUser *)getUser {
     return  self.user;
 }
 
+// TODO:
 - (nonnull NSString *)getToken {
     //return  self.;
     return nil;

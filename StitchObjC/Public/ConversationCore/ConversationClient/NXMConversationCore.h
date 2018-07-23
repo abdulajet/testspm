@@ -141,10 +141,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 #pragma mark - other Methods
 
-//- (nonnull NXMConnectionStatus *)getConnectionStatus;
 - (nonnull NXMUser *)getUser;
 - (nonnull NSString *)getToken;
-- (BOOL)isLoggedIn; // TODO: the use already login but the network is down?
 
 - (void)setDelgate:(nonnull id<NXMConversationCoreDelegate>)delegate;
 - (void)unregisterEvents;

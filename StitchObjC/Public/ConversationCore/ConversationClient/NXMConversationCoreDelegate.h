@@ -7,11 +7,14 @@
 //
 
 #import "NXMConversationEvents.h"
+#import "NXMErrors.h"
 
 @protocol NXMConversationCoreDelegate <NSObject>
 
 - (void)connectedWithUser:(NXMUser *_Nonnull)user;
-//- (void)connectionStatusChange:(NXMConnectionStatus *_Nonnull)status;
+// TODO: not called
+- (void)tokenExpired:(nullable NSString *)token withReason:(NXMStitchErrorCode)reason;
+- (void)networkStatusChanged:(BOOL)isOnline;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member;
 - (void)memberInvited:(nonnull NXMMemberEvent *)member;
