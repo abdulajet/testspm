@@ -22,6 +22,7 @@
 #import "NXMCreateConversationRequest.h"
 #import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
+#import "NXMEnablePushRequest.h"
 
 
 @interface NXMRouter : NSObject
@@ -31,6 +32,10 @@
 - (void)setToken:(nonnull NSString *)token;
 
 - (void)setSessionId:(nonnull NSString *)sessionId;
+
+- (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError;
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
                  onSuccess:(SuccessCallbackWithId _Nullable)onSuccess

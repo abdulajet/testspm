@@ -76,6 +76,8 @@
 		F98EF68A20C3F0F1009094FD /* NXMImageInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F98EF68820C3F0F1009094FD /* NXMImageInfo.h */; };
 		F98EF68B20C3F0F1009094FD /* NXMImageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F98EF68920C3F0F1009094FD /* NXMImageInfo.m */; };
 		F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */; };
+		F998E52B20FF9CEA005733B2 /* NXMEnablePushRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F998E52920FF9CEA005733B2 /* NXMEnablePushRequest.h */; };
+		F998E52C20FF9CEA005733B2 /* NXMEnablePushRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F998E52A20FF9CEA005733B2 /* NXMEnablePushRequest.m */; };
 		F9998ACA20837D2D00EAC286 /* NXMLoggerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */; };
 		F9998ACD20837EF100EAC286 /* NXMLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998ACB20837EF100EAC286 /* NXMLogger.h */; };
 		F9998ACE20837EF100EAC286 /* NXMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998ACC20837EF100EAC286 /* NXMLogger.m */; };
@@ -238,6 +240,9 @@
 		F98EF68820C3F0F1009094FD /* NXMImageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMImageInfo.h; sourceTree = "<group>"; };
 		F98EF68920C3F0F1009094FD /* NXMImageInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMImageInfo.m; sourceTree = "<group>"; };
 		F997A0F42035B4FA0027AF46 /* NXMSocketClientDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDelegate.h; sourceTree = "<group>"; };
+		F998E52820FF7BE4005733B2 /* StitchTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchTestApp.entitlements; sourceTree = "<group>"; };
+		F998E52920FF9CEA005733B2 /* NXMEnablePushRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEnablePushRequest.h; sourceTree = "<group>"; };
+		F998E52A20FF9CEA005733B2 /* NXMEnablePushRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEnablePushRequest.m; sourceTree = "<group>"; };
 		F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLoggerDelegate.h; sourceTree = "<group>"; };
 		F9998ACB20837EF100EAC286 /* NXMLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLogger.h; sourceTree = "<group>"; };
 		F9998ACC20837EF100EAC286 /* NXMLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLogger.m; sourceTree = "<group>"; };
@@ -332,6 +337,8 @@
 				F915CCA320BD8E4600771D8E /* NXMSendImageRequest.m */,
 				CECA008220BD8C7100FB4E6C /* NXMGetEventsRequest.h */,
 				CECA008320BD8C8900FB4E6C /* NXMGetEventsRequest.m */,
+				F998E52920FF9CEA005733B2 /* NXMEnablePushRequest.h */,
+				F998E52A20FF9CEA005733B2 /* NXMEnablePushRequest.m */,
 				0BDDE76E20FF7A5F00C2F320 /* NXMInvitePstnKnockingRequest.h */,
 				0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */,
 			);
@@ -363,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				0B39300520F25434000BCB3D /* Tokens.h */,
+				F998E52820FF7BE4005733B2 /* StitchTestApp.entitlements */,
 				F984C93720BC6778006DBBEA /* ConversationView */,
 				F910531C20BBF980006318F9 /* ConversationList */,
 				F910531B20BBF86C006318F9 /* StitchWrapper */,
@@ -685,6 +693,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F988BEA120F65413007D4276 /* NXMConversationCore.h in Headers */,
+				F998E52B20FF9CEA005733B2 /* NXMEnablePushRequest.h in Headers */,
 				F988BEA420F6556A007D4276 /* NXMConversationCoreDelegate.h in Headers */,
 				F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */,
 				F987354920443A6900C90695 /* NXMUser.h in Headers */,
@@ -794,7 +803,12 @@
 				TargetAttributes = {
 					F91052EF20B6EBAE006318F9 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					F9C35DCC203078BD009FAE4F = {
 						CreatedOnToolsVersion = 9.2;
@@ -1049,6 +1063,7 @@
 				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
+				F998E52C20FF9CEA005733B2 /* NXMEnablePushRequest.m in Sources */,
 				F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */,
 				0BDDE77020FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m in Sources */,
 				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
@@ -1122,7 +1137,8 @@
 			baseConfigurationReference = B048D7DA6ED98A484126D43D /* Pods-StitchTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = StitchTestApp/StitchTestApp.entitlements;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1132,8 +1148,10 @@
 				INFOPLIST_FILE = StitchTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.StitchApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3f3c18f6-4eab-4c8a-93b5-0fd09845676b";
+				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1143,7 +1161,9 @@
 			baseConfigurationReference = 9F5621286E2C1A97699E97D1 /* Pods-StitchTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_ENTITLEMENTS = StitchTestApp/StitchTestApp.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1153,8 +1173,10 @@
 				INFOPLIST_FILE = StitchTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vocalocity.viphone.StitchApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "25698051-180d-4a88-9313-54dd29aeb400";
+				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk adhoc";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

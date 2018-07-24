@@ -11,6 +11,7 @@
 @interface AppDelegate ()
 @property (nonatomic, readwrite, strong) NXMConversationCore *stitchConversation;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *conversationIdToMemberId;
+@property (nonatomic, readwrite, strong) NSData *deviceToken;
 
 @end
 
@@ -28,6 +29,21 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.conversationIdToMemberId = [NSMutableDictionary new];
+    
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    center.delegate = self;
+    [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                NSLog( @"Push registration success." );
+            } else {
+                NSLog( @"Push registration FAILED" );
+                NSLog( @"ERROR: %@ - %@", error.localizedFailureReason, error.localizedDescription );
+                NSLog( @"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion );
+            }});
+    }];
+
     return YES;
 }
 
@@ -58,6 +74,33 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    self.deviceToken = deviceToken;
+    NSLog( @"Push registration didRegisterForRemoteNotificationsWithDeviceToken" );
+}
+
+#pragma mark - UNUserNotificationCenterDelegate
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    NSLog( @"Handle push from foreground" );
+    // custom code to handle push while app is in the foreground
+    NSLog(@"%@", notification.request.content.userInfo);
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler
+{
+    NSLog( @"Handle push from background or closed" );
+    // if you set a member variable in didReceiveRemoteNotification, you  will know if this is from closed or background
+    NSLog(@"%@", response.notification.request.content.userInfo);
+}
+
+#pragma mark - StitchDelegate
 
 - (void)connectedWithUser:(NXMUser *_Nonnull)user {
     

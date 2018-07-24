@@ -22,7 +22,7 @@
 - (void)setDelegate:(_Nonnull id<NXMSocketClientDelegate>)delegate;
 - (BOOL)isSocketOpen;
 
-- (void)loginWithToken:(NSString * _Nonnull)token;
+- (void)loginWithToken:(nonnull NSString *)token;
 
 - (void)logout;
 

@@ -152,7 +152,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString],
                            @"body" : @{
                            @"token": self.token,
-                           @"device_id": @"453534fdggh45y",
+                           @"device_id": [[[UIDevice currentDevice] identifierForVendor] UUIDString],
                            @"device_type": @"iphone",
                            }};
     

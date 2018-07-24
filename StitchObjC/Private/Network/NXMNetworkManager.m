@@ -54,6 +54,12 @@
     [self.socketClient logout];
 }
 
+- (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError {
+    [self.router enablePushNotifications:request onSuccess:onSuccess onError:onError];
+}
+
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
                  onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                    onError:(ErrorCallback _Nullable)onError {

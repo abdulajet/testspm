@@ -59,6 +59,13 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showConvertionListVC];
         });
+        
+//        [stitch enablePushNotifications:appDelegate.deviceToken onSuccess:^{
+//            
+//        } onError:^(NSError * _Nullable error) {
+//
+//        }];
+
     } onError:^(NSError * _Nullable error) {
         // TODO:
     }];

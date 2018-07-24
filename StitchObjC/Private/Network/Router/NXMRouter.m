@@ -6,6 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #import "NXMRouter.h"
 #import "NXMErrors.h"
@@ -50,6 +51,34 @@
 - (void)setSessionId:(nonnull NSString *)sessionId {
     _sessionId = sessionId;
 }
+
+
+- (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary new];
+    dict[@"device_token"] = [self hexadecimalString:request.deviceToken];
+    dict[@"device_type"] = @"ios";
+    
+    #ifdef DEBUG
+        dict[@"device_push_environment"] = @"sandbox";
+    #endif
+
+    
+    NSString *deviceId = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/devices/%@", self.baseUrl, deviceId]];
+    
+    [self requestToServer:dict url:url httpMethod:@"PUT" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        onSuccess();
+    }];
+}
+
 
 - (BOOL)getConversationWithId:(NSString*)convId  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable conversation))completionBlock {
 
@@ -953,5 +982,23 @@
     }
     return outputDictionary;
 }
+
+- (NSString *)hexadecimalString:(NSData *)data {
+    /* Returns hexadecimal string of NSData. Empty string if data is empty.   */
+    
+    const unsigned char *dataBuffer = (const unsigned char *)[data bytes];
+    
+    if (!dataBuffer)
+        return [NSString string];
+    
+    NSUInteger          dataLength  = [data length];
+    NSMutableString     *hexString  = [NSMutableString stringWithCapacity:(dataLength * 2)];
+    
+    for (int i = 0; i < dataLength; ++i)
+        [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)dataBuffer[i]]];
+    
+    return [NSString stringWithString:hexString];
+}
+
 
 @end

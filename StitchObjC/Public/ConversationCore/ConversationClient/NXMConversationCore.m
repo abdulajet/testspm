@@ -48,9 +48,7 @@
 //    return self;
 //}
 
-- (void)enablePushNotifications:(BOOL)enable responseBlock:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
-    
-}
+
 
 - (void)loginWithAuthToken:(nonnull NSString *)authToken
                  onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
@@ -61,6 +59,14 @@
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
     [self.network logout];
 }
+
+- (void)enablePushNotifications:(nonnull NSData *)deviceToken
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError {
+    NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithDeviceToken:deviceToken];
+    [self.network enablePushNotifications:request onSuccess:onSuccess onError:onError];
+}
+
 
 - (nonnull NXMUser *)getUser {
     return  self.user;

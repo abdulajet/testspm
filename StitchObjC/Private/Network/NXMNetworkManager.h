@@ -23,6 +23,7 @@
 #import "NXMCreateConversationRequest.h"
 #import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
+#import "NXMEnablePushRequest.h"
 
 @interface NXMNetworkManager : NSObject
 
@@ -35,6 +36,10 @@
                onError:(ErrorCallback _Nullable)onError;
 
 - (void)logout;
+
+- (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError;
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
                  onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
