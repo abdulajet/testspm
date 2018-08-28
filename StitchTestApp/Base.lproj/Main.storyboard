@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -202,7 +203,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BZx-tx-VRw">
-                                                    <rect key="frame" x="-0.5" y="0.0" width="375" height="44"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cO8-9t-0kC" userLabel="fromLabel">
@@ -301,6 +302,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="UnU-fX-ZKP" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="OSn-nV-y8g" secondAttribute="leading" constant="20" symbolic="YES" id="6hh-dg-hRI"/>
                                     <constraint firstAttribute="height" constant="17" id="fBX-yt-qwU"/>
                                     <constraint firstAttribute="trailing" secondItem="UnU-fX-ZKP" secondAttribute="trailing" constant="5" id="hZP-5U-e49"/>
                                     <constraint firstItem="UnU-fX-ZKP" firstAttribute="centerY" secondItem="OSn-nV-y8g" secondAttribute="centerY" id="rP1-6F-Ta7"/>
@@ -378,9 +380,50 @@
                                     <constraint firstItem="rYK-7r-bJS" firstAttribute="leading" secondItem="A25-5b-TMT" secondAttribute="trailing" constant="10" id="sjz-HM-Lno"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RZf-Ul-4YI" userLabel="ongoingCallsView">
+                                <rect key="frame" x="12" y="64" width="351" height="346"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5q-e8-4OZ">
+                                        <rect key="frame" x="0.0" y="2" width="351" height="300"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="300" id="rji-gi-dgg" userLabel="onGoingCallsContainerViewHeightConstraint"/>
+                                        </constraints>
+                                        <connections>
+                                            <segue destination="NEZ-6m-qkK" kind="embed" id="S7K-9c-ysS"/>
+                                        </connections>
+                                    </containerView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ceT-WK-1HF" userLabel="onGoingCallsTrayButton">
+                                        <rect key="frame" x="134" y="302" width="84" height="44"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="44" id="6tS-wp-ddq"/>
+                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="hx8-lk-1Tp"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="openOngoingCallsTrayIcon"/>
+                                        <connections>
+                                            <action selector="ongoingCallsTrayVisibilityPressed:" destination="Kho-H5-xjy" eventType="touchUpInside" id="ZQ3-nv-mOf"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.95415468815887994" green="1" blue="0.94584469786255909" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="k5q-e8-4OZ" secondAttribute="trailing" id="1rh-F1-DIT"/>
+                                    <constraint firstItem="k5q-e8-4OZ" firstAttribute="leading" secondItem="RZf-Ul-4YI" secondAttribute="leading" id="9sy-Ov-hb8"/>
+                                    <constraint firstItem="ceT-WK-1HF" firstAttribute="centerX" secondItem="RZf-Ul-4YI" secondAttribute="centerX" id="AJj-NS-JVC"/>
+                                    <constraint firstItem="k5q-e8-4OZ" firstAttribute="top" secondItem="RZf-Ul-4YI" secondAttribute="top" constant="2" id="EzY-Wj-wu0"/>
+                                    <constraint firstItem="ceT-WK-1HF" firstAttribute="top" secondItem="k5q-e8-4OZ" secondAttribute="bottom" id="WO8-8M-zmg"/>
+                                    <constraint firstAttribute="bottom" secondItem="ceT-WK-1HF" secondAttribute="bottom" id="uDn-Tr-tmr"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="7kb-xY-Nu6" firstAttribute="top" secondItem="RZf-Ul-4YI" secondAttribute="top" id="0Ox-fI-KVr"/>
                             <constraint firstItem="OSn-nV-y8g" firstAttribute="width" secondItem="NNq-YK-QIv" secondAttribute="width" id="3TA-a2-oZB"/>
                             <constraint firstItem="GyI-5X-tV4" firstAttribute="centerX" secondItem="7kb-xY-Nu6" secondAttribute="centerX" id="74P-IO-ecd"/>
                             <constraint firstItem="OSn-nV-y8g" firstAttribute="top" secondItem="NNq-YK-QIv" secondAttribute="bottom" id="74T-vt-dfl"/>
@@ -389,7 +432,9 @@
                             <constraint firstItem="OSn-nV-y8g" firstAttribute="bottom" secondItem="GyI-5X-tV4" secondAttribute="top" id="GXr-80-bTN"/>
                             <constraint firstItem="NNq-YK-QIv" firstAttribute="centerX" secondItem="7kb-xY-Nu6" secondAttribute="centerX" id="I1l-zh-hVw"/>
                             <constraint firstItem="OSn-nV-y8g" firstAttribute="centerX" secondItem="NNq-YK-QIv" secondAttribute="centerX" id="YC6-WO-Gcl"/>
+                            <constraint firstItem="RZf-Ul-4YI" firstAttribute="leading" secondItem="7kb-xY-Nu6" secondAttribute="leading" constant="12" id="aqY-7D-t2Y"/>
                             <constraint firstItem="NNq-YK-QIv" firstAttribute="width" secondItem="C6F-dg-5F5" secondAttribute="width" id="bIn-Zv-uve"/>
+                            <constraint firstItem="RZf-Ul-4YI" firstAttribute="trailing" secondItem="7kb-xY-Nu6" secondAttribute="trailing" constant="-12" id="ykV-MP-I0Z"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="7kb-xY-Nu6"/>
                     </view>
@@ -411,6 +456,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="enableAudioImage" destination="qVx-uI-qUg" id="wVc-HI-fpw"/>
+                        <outlet property="onGoingCallsContainerView" destination="k5q-e8-4OZ" id="RSK-Cy-0bv"/>
+                        <outlet property="onGoingCallsContainerViewHeightConstraint" destination="rji-gi-dgg" id="cMO-Ya-0XG"/>
+                        <outlet property="onGoingCallsTrayButton" destination="ceT-WK-1HF" id="RBD-1E-rIh"/>
+                        <outlet property="onGoingCallsTrayButtonHeightConstraint" destination="6tS-wp-ddq" id="Kkd-4y-IU5"/>
+                        <outlet property="onGoingCallsView" destination="RZf-Ul-4YI" id="OKH-yc-P9r"/>
                         <outlet property="sendButton" destination="yko-TZ-CpX" id="577-9W-ba5"/>
                         <outlet property="tableView" destination="NNq-YK-QIv" id="v6g-wA-hdX"/>
                         <outlet property="textViewContraint" destination="9bu-0e-Gdq" id="hKz-Tg-ruI"/>
@@ -422,6 +472,86 @@
             </objects>
             <point key="canvasLocation" x="2861.5999999999999" y="136.28185907046478"/>
         </scene>
+        <!--Ongoing Calls View Controller-->
+        <scene sceneID="Uq4-7O-my2">
+            <objects>
+                <viewController id="NEZ-6m-qkK" customClass="OngoingCallsViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5GX-tI-EuU">
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="zbV-az-1Dy">
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="xCX-bq-4dj">
+                                    <size key="itemSize" width="100" height="100"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="onGoingCallsCell" id="Dlb-JV-SQ3" customClass="OnGoingCallsCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="userName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gJH-I7-mz5" userLabel="nameLbl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="21"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wn7-uK-WZ7" userLabel="backgroundImg">
+                                                    <rect key="frame" x="39" y="16" width="22" height="22"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </imageView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="14E-lm-yuS" userLabel="audioBtn">
+                                                    <rect key="frame" x="25" y="50" width="50" height="50"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <state key="normal" image="ongoingCallsMemberAudioMuteOff"/>
+                                                    <connections>
+                                                        <action selector="didAudioButtonPressed:" destination="Dlb-JV-SQ3" eventType="touchUpInside" id="C2h-TB-KRB"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                        </view>
+                                        <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="7"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <outlet property="audioButton" destination="14E-lm-yuS" id="zTf-zq-FTl"/>
+                                            <outlet property="backgroundImageView" destination="wn7-uK-WZ7" id="h9k-e9-04J"/>
+                                            <outlet property="nameLabel" destination="gJH-I7-mz5" id="NQr-gj-zqS"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="zbV-az-1Dy" firstAttribute="top" secondItem="5GX-tI-EuU" secondAttribute="top" id="MnV-eF-ess"/>
+                            <constraint firstAttribute="trailing" secondItem="zbV-az-1Dy" secondAttribute="trailing" id="SQ7-pp-MOu"/>
+                            <constraint firstAttribute="bottom" secondItem="zbV-az-1Dy" secondAttribute="bottom" id="Ukg-mK-AoA"/>
+                            <constraint firstItem="zbV-az-1Dy" firstAttribute="leading" secondItem="5GX-tI-EuU" secondAttribute="leading" id="zwA-Om-p0s"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Ytm-3W-LJs"/>
+                    </view>
+                    <size key="freeformSize" width="300" height="300"/>
+                    <connections>
+                        <outlet property="onGoinCallsCollectionView" destination="zbV-az-1Dy" id="dXS-IR-lav"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6sS-PG-7xB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3699.1999999999998" y="-43.178410794602705"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addMember" width="24" height="24"/>
@@ -430,6 +560,8 @@
         <image name="enableAudio" width="22" height="22"/>
         <image name="loginButtonBG" width="325" height="44"/>
         <image name="newConversation" width="25" height="25"/>
+        <image name="ongoingCallsMemberAudioMuteOff" width="22" height="22"/>
+        <image name="openOngoingCallsTrayIcon" width="30" height="22"/>
         <image name="sendMessege" width="25" height="24"/>
         <image name="vonage_logo" width="215" height="79"/>
     </resources>

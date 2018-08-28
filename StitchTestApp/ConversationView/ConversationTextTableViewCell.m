@@ -165,7 +165,7 @@ typedef NS_ENUM(NSUInteger, BubbleColor) {
             self.messageText.text = @"Deleted";
         }
     }
-    
+    //TODO:make this present images
     if (event.type == NXMEventTypeImage) {
         NXMImageEvent *eventText = ((NXMImageEvent *)event);
         self.messageText.text = @"image: ";

@@ -12,3 +12,7 @@
 #import "NXMMemberEvent.h"
 #import "NXMImageEvent.h"
 #import "NXMSipEvent.h"
+#import "NXMTextEvent.h"
+#import "NXMMediaActionEvent.h"
+#import "NXMMediaSuspendEvent.h"
+#import "NXMRtcAnswerEvent.h"

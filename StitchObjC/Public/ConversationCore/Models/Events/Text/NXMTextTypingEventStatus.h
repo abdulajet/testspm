@@ -9,6 +9,8 @@
 #ifndef NXMTextTypingEventStatus_h
 #define NXMTextTypingEventStatus_h
 
+#import <Foundation/Foundation.h>
+
 typedef NS_ENUM(NSInteger, NXMTextTypingEventStatus) {
     NXMTextTypingEventStatusOn,
     NXMTextTypingEventStatusOff

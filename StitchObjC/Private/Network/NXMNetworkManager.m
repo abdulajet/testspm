@@ -10,6 +10,8 @@
 #import "NXMNetworkDelegate.h"
 #import "NXMRouter.h"
 #import "NXMSocketClient.h"
+#import "NXMErrors.h"
+#import "NXMLogger.h"
 
 @interface NXMNetworkManager()
 @property NXMSocketClient *socketClient;
@@ -180,6 +182,37 @@
     [self.router disableMedia:conversationId rtcId:rtcId memberId:memberId onSuccess:onSuccess onError:onError];
 }
 
+- (void)suspendMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
+                 onSuccess:(SuccessCallback _Nullable)onSuccess
+                   onError:(ErrorCallback _Nullable)onError {
+    
+    switch (mediaRequest.mediaType) {
+        case NXMMediaTypeAudio:
+            [self.router muteAudioInConversation:mediaRequest.conversationId fromMember:mediaRequest.fromMemberId toMember:mediaRequest.toMemberId withRtcId:mediaRequest.rtcId onSuccess:onSuccess onError:onError];
+            break;
+        case NXMMediaTypeVideo:
+        default:{
+            [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
+            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+        }
+    }
+}
+
+- (void)resumeMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
+                onSuccess:(SuccessCallback _Nullable)onSuccess
+                  onError:(ErrorCallback _Nullable)onError {
+    switch (mediaRequest.mediaType) {
+        case NXMMediaTypeAudio:
+            [self.router unmuteAudioInConversation:mediaRequest.conversationId fromMember:mediaRequest.fromMemberId toMember:mediaRequest.toMemberId withRtcId:mediaRequest.rtcId onSuccess:onSuccess onError:onError];
+            break;
+        case NXMMediaTypeVideo:
+        default:{
+            [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
+            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+        }
+    }
+}
+
 # pragma mark - NXMSocketClientDelegate
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent {
     [self.delegate sipRinging:sipEvent];
@@ -253,8 +286,13 @@
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
     [self.delegate mediaEvent:mediaEvent];
 }
-- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
-    [self.delegate mediaAnswerEvent:mediaEvent];
+
+- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaEvent{
+    [self.delegate mediaActionEvent:mediaEvent];
+}
+
+- (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent {
+    [self.delegate rtcAnswerEvent:rtcEvent];
 }
 
 @end

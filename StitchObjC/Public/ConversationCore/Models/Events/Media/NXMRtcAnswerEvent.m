@@ -1,13 +1,13 @@
 //
-//  NXMMediaAnswerEvent.m
+//  NXMRtcAnswerEvent.m
 //  NexmoConversationObjC
 //
 //  Created by Chen Lev on 5/2/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMMediaAnswerEvent.h"
+#import "NXMRtcAnswerEvent.h"
 
-@implementation NXMMediaAnswerEvent
+@implementation NXMRtcAnswerEvent
 
 @end

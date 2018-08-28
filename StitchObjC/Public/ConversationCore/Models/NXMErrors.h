@@ -34,5 +34,22 @@ typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
     NXMStitchErrorCodeEventNotFound,      
     
     NXMStitchErrorCodeConversationUnknown,
-    NXMStitchErrorCodeConversationNotFound
+    NXMStitchErrorCodeConversationNotFound,
+    NXMStitchErrorCodeConversationInvalidMember,
+    
+    NXMStitchErrorCodeMediaNotSupported,
+    NXMStitchErrorCodeMediaNotFound,
+    NXMStitchErrorCodeInvalidMediaRequest,
+    NXMStitchErrorCodeMediaTooManyRequests,
+    NXMStitchErrorCodeMediaBadRequest,
+    NXMStitchErrorCodeMediaInternalError,
+    
+    NXMStitchErrorCodeNotImplemented
+
+    
 };
+
+
+@interface NXMErrors : NSObject
++(NSError *)nxmStitchErrorWithErrorCode:(NXMStitchErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo;
+@end

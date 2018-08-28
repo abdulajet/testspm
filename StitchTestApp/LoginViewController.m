@@ -9,7 +9,7 @@
 #import "LoginViewController.h"
 #import "ConversationListViewContoller.h"
 
-#import "AppDelegate.h"
+#import "ConversationManager.h"
 #import "Tokens.h"
 
 @interface LoginViewController()
@@ -27,7 +27,7 @@
              NSLog(@"iOS 7+: Allow microphone use response: %d", response);
          }];
     }
-    
+    //TODO: fix token issues and make sure to make it from a choice and not textbox
     self.userLogin = @{@"testuser1":testUser1Token,
     @"testuser2":testUser2Token,
     @"testuser3":testUser3Token,
@@ -44,18 +44,15 @@
 
 }
 - (IBAction)onLoginPressed:(UIButton *)sender {
-    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
-
-    NXMConversationCore *stitch = [NXMConversationCore new];
-    [appDelegate setStitch:stitch];
-
+    ConversationManager *conversationManager = ConversationManager.sharedInstance;
+    
     NSString *username = self.autoTokenField.text;
     NSString *token = self.userLogin[username];
     if (!token) {
         return;
     }
 
-    [stitch loginWithAuthToken:token onSuccess:^(NSObject * _Nullable object) {
+    [conversationManager.stitchConversationClient loginWithAuthToken:token onSuccess:^(NSObject * _Nullable object) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showConvertionListVC];
         });

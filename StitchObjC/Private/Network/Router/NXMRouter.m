@@ -14,6 +14,7 @@
 #import "NXMAddUserRequest.h"
 #import "NXMSendTextEventRequest.h"
 #import "NXMDeleteEventRequest.h"
+#import "NXMLogger.h"
 
 #import "NXMNetworkCallbacks.h"
 #import "NXMMemberEvent.h"
@@ -25,6 +26,8 @@
 #import "NXMTextEventStatus.h"
 #import "NXMImageEvent.h"
 #import "NXMUtils.h"
+
+static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 
 @interface NXMRouter()
 
@@ -199,7 +202,61 @@
     }];
 }
 
-- (void)pauseMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
+- (void)muteAudioInConversation:(nonnull NSString *) conversationId
+                     fromMember:(nonnull NSString *)fromMemberId
+                       toMember:(nonnull NSString *)toMemberId
+                      withRtcId:(nullable NSString *)rtcId
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError {
+    
+    NSDictionary *dict = @{ @"type": @"audio:mute:on",
+                            @"from": fromMemberId,
+                            @"to": toMemberId,
+                            @"body": @{
+                                    @"rtc_id": rtcId ? rtcId : [NSNull null]
+                                    }
+                            };
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, conversationId]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        onSuccess();
+    }];
+}
+
+- (void)unmuteAudioInConversation:(nonnull NSString *) conversationId
+                       fromMember:(nonnull NSString *)fromMemberId
+                         toMember:(nonnull NSString *)toMemberId
+                        withRtcId:(nullable NSString *)rtcId
+                        onSuccess:(SuccessCallback _Nullable)onSuccess
+                          onError:(ErrorCallback _Nullable)onError {
+    
+    NSDictionary *dict = @{ @"type": @"audio:mute:off",
+                            @"from": fromMemberId,
+                            @"to": toMemberId,
+                            @"body": @{
+                                    @"rtc_id": rtcId ? rtcId : [NSNull null]
+                                    }
+                            };
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, conversationId]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error){
+            onError(error);
+            return;
+        }
+        
+        onSuccess();
+    }];    
+}
+
+- (void)suspendMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
       completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler {
     
 }
@@ -359,7 +416,7 @@
                                    @"text": sendTextEventRequest.textToSend
                                    }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, sendTextEventRequest.conversationID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, sendTextEventRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         NSString *textId = data[@"id"];
@@ -423,7 +480,7 @@
                                @"type": @"image",
                                @"body": data
                                };
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, sendImageRequest.conversationId]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, sendImageRequest.conversationId]];
         
         [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
             NSString *textId = data[@"id"];
@@ -565,7 +622,7 @@
 }
 - (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(SuccessCallbackWithEvents)onSuccess onError:(ErrorCallback)onError{
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, getEventsRequest.conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, getEventsRequest.conversationId]];
     NSString* requestType = @"GET";
     
     NSDictionary *body = @{};
@@ -676,7 +733,7 @@
 - (void)getConversationEvents:(NSString *)conversationId
                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                       onError:(ErrorCallback _Nullable)onError { // TODO: add start and end index
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/events", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, conversationId]];
     NSString* requestType = @"GET";
     
     [self requestToServer:@{} url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -695,7 +752,7 @@
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
-    NSLog(@"%@", url);
+    [NXMLogger infoWithFormat:@"%@",url];
     
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -747,7 +804,8 @@
             return;
         }
         
-        NSLog(@"getConversationPressed result %@",data);
+        [NXMLogger infoWithFormat:@"getConversationPressed result %@",data];
+
         NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithId:conversationId];
         details.name = data[@"name"];
         details.created = data[@"timestamp"][@"created"];
@@ -783,7 +841,8 @@
     NSString* requestType = @"GET";
     [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
-            NSLog(@"getUser result %@",data);
+            [NXMLogger infoWithFormat:@"getUser result %@",data];
+
             NXMUser *user = [NXMUser alloc];
             user.name = data[@"name"];
             user.uuid = data[@"id"];
@@ -823,7 +882,8 @@
         if (error) {
             // TODO: network error
             responseBlock(error, nil);
-            NSLog(@"Got response %@ with error %@.\n", response, error);
+            [NXMLogger infoWithFormat:@"Got response %@ with error %@.\n", response, error];
+
             return;
         }
         
@@ -887,11 +947,14 @@
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeMedia;
+    event.mediaSettings = [NXMMediaSettings new];
     if (dict[@"body"][@"audio"]){
-        event.isMediaEnabled = [dict[@"body"][@"audio"] boolValue];
+        event.mediaSettings.isEnabled = [dict[@"body"][@"audio_settings"][@"enabled"] boolValue];
+        event.mediaSettings.isSuspended = [dict[@"body"][@"audio_settings"][@"muted"] boolValue];
     }
     else if (dict[@"body"][@"video"]){
-        event.isMediaEnabled = [dict[@"body"][@"audio"] boolValue];
+        event.mediaSettings.isEnabled = [dict[@"body"][@"video_settings"][@"enabled"] boolValue];
+        event.mediaSettings.isSuspended = [dict[@"body"][@"video_settings"][@"muted"] boolValue];
     }
     return event;
 }
@@ -931,7 +994,6 @@
     event.type = NXMEventTypeText;
     event.text = dict[@"body"][@"text"];
     event.state = [self parseStateFromDictionary:dict[@"state"]];
-    
     return event;
 }
 
@@ -968,14 +1030,19 @@
     return imageEvent;
 }
 
-- (NSDictionary<NSNumber *,NSDictionary<NSString *, NSDate *> *> *)parseStateFromDictionary:(NSDictionary *)dictionary {
+-(NSDictionary<NSNumber *,NSDictionary<NSString *, NSDate *> *> *)parseStateFromDictionary:(NSDictionary *)dictionary {
+    if(![dictionary isKindOfClass:[NSDictionary class]]) {
+        return @{@(NXMEventStateSeenBy):@{},
+                 @(NXMEventStateDelievredTo):@{}
+                 };
+    }
     return  @{ @(NXMEventStateSeenBy):[self parseFromSpecificStateDictionary:dictionary[@"seen_by"]],
                @(NXMEventStateDelievredTo):[self parseFromSpecificStateDictionary:dictionary[@"delivered_to"]]
              };
 
 }
 
-- (NSDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {
+-(NSDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {
     NSMutableDictionary<NSString *, NSDate *> *outputDictionary = [[NSMutableDictionary alloc] init];
     for (NSString *key in specificStateDictionary) {
         outputDictionary[key] = [NXMUtils dateFromISOString:specificStateDictionary[key]];

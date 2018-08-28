@@ -9,8 +9,22 @@
 /* Begin PBXBuildFile section */
 		0BDDE77020FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */; };
 		1269E0BCD4477471D4A03573 /* Pods_StitchObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB43C9E5A3A7849FF695A5C9 /* Pods_StitchObjC.framework */; };
+		92020BA22119EFE60021C5A1 /* NXMMediaActionEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 92020BA02119EFE60021C5A1 /* NXMMediaActionEvent.h */; };
+		92020BA32119EFE60021C5A1 /* NXMMediaActionEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 92020BA12119EFE60021C5A1 /* NXMMediaActionEvent.m */; };
+		92020BA6211B0CB10021C5A1 /* NXMMediaSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 92020BA4211B0CB10021C5A1 /* NXMMediaSettings.h */; };
+		92020BA7211B0CB10021C5A1 /* NXMMediaSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 92020BA5211B0CB10021C5A1 /* NXMMediaSettings.m */; };
+		92020BAB211B3DED0021C5A1 /* NXMMediaSuspendEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */; };
+		92020BAC211B3DED0021C5A1 /* NXMMediaSuspendEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 92020BAA211B3DED0021C5A1 /* NXMMediaSuspendEvent.m */; };
+		9221981A21135FA500C90B89 /* RTCMediaWrapperDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9221981821135FA500C90B89 /* RTCMediaWrapperDelegate.h */; };
+		923A85A22121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 923A85A02121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m */; };
+		923A85A92123020300C81F6E /* OngoingCallsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923A85A82123020300C81F6E /* OngoingCallsViewController.m */; };
+		92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBC2125B7D400FCEA19 /* OngoingMedia.m */; };
+		92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */; };
 		92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1DE2520F50A960099D601 /* NXMUtils.h */; };
 		92A1DE2820F50A960099D601 /* NXMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DE2620F50A960099D601 /* NXMUtils.m */; };
+		92D983D52135325A006EF3F4 /* NXMNSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 92D983D42135325A006EF3F4 /* NXMNSLogger.m */; };
+		92ECB57A21342861004760CB /* NXMSuspendResumeMediaRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 92ECB57821342861004760CB /* NXMSuspendResumeMediaRequest.h */; };
+		92ECB57B21342861004760CB /* NXMSuspendResumeMediaRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 92ECB57921342861004760CB /* NXMSuspendResumeMediaRequest.m */; };
 		A2C2C9095B61F05FCFBA32E2 /* Pods_StitchObjCTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */; };
 		B9EFB5898F17308E7031C59E /* Pods_StitchTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */; };
 		CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8180DE207A59110072E44F /* NXMTextTypingEvent.m */; };
@@ -32,8 +46,8 @@
 		CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
 		F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF772097732A008A161A /* NXMMediaEvent.h */; };
 		F903DF7A2097732A008A161A /* NXMMediaEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF782097732A008A161A /* NXMMediaEvent.m */; };
-		F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */; };
-		F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */; };
+		F903DF7D2099AB16008A161A /* NXMRtcAnswerEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F903DF7B2099AB16008A161A /* NXMRtcAnswerEvent.h */; };
+		F903DF7E2099AB16008A161A /* NXMRtcAnswerEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F903DF7C2099AB16008A161A /* NXMRtcAnswerEvent.m */; };
 		F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */; };
 		F91052F420B6EBAE006318F9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F91052F320B6EBAE006318F9 /* AppDelegate.m */; };
 		F91052F720B6EBAE006318F9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F91052F620B6EBAE006318F9 /* ViewController.m */; };
@@ -46,7 +60,7 @@
 		F910531120B707DE006318F9 /* ConversationListTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531020B707DE006318F9 /* ConversationListTableCellView.m */; };
 		F910531420BAE498006318F9 /* UIViewWithGradientBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531320BAE498006318F9 /* UIViewWithGradientBackground.m */; };
 		F910531720BB09DD006318F9 /* CoversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531620BB09DD006318F9 /* CoversationViewController.m */; };
-		F910531A20BBF862006318F9 /* StitchWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531920BBF862006318F9 /* StitchWrapper.m */; };
+		F910531A20BBF862006318F9 /* ConversationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531920BBF862006318F9 /* ConversationManager.m */; };
 		F910531F20BC0248006318F9 /* NXMPageInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F910531D20BC0248006318F9 /* NXMPageInfo.h */; };
 		F910532020BC0248006318F9 /* NXMPageInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F910531E20BC0248006318F9 /* NXMPageInfo.m */; };
 		F915CCA420BD8E4600771D8E /* NXMSendImageRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F915CCA220BD8E4600771D8E /* NXMSendImageRequest.h */; };
@@ -139,8 +153,27 @@
 		4EF23FEBC912D2A3E561FAB6 /* Pods-StitchObjCTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjCTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjCTests/Pods-StitchObjCTests.debug.xcconfig"; sourceTree = "<group>"; };
 		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		92020BA02119EFE60021C5A1 /* NXMMediaActionEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaActionEvent.h; sourceTree = "<group>"; };
+		92020BA12119EFE60021C5A1 /* NXMMediaActionEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaActionEvent.m; sourceTree = "<group>"; };
+		92020BA4211B0CB10021C5A1 /* NXMMediaSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSettings.h; sourceTree = "<group>"; };
+		92020BA5211B0CB10021C5A1 /* NXMMediaSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSettings.m; sourceTree = "<group>"; };
+		92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSuspendEvent.h; sourceTree = "<group>"; };
+		92020BAA211B3DED0021C5A1 /* NXMMediaSuspendEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSuspendEvent.m; sourceTree = "<group>"; };
+		9221981821135FA500C90B89 /* RTCMediaWrapperDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTCMediaWrapperDelegate.h; sourceTree = "<group>"; };
+		923A859F2121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnGoingCallsCollectionViewCell.h; sourceTree = "<group>"; };
+		923A85A02121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnGoingCallsCollectionViewCell.m; sourceTree = "<group>"; };
+		923A85A72123020300C81F6E /* OngoingCallsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingCallsViewController.h; sourceTree = "<group>"; };
+		923A85A82123020300C81F6E /* OngoingCallsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingCallsViewController.m; sourceTree = "<group>"; };
+		92556CBB2125B7D400FCEA19 /* OngoingMedia.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMedia.h; sourceTree = "<group>"; };
+		92556CBC2125B7D400FCEA19 /* OngoingMedia.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMedia.m; sourceTree = "<group>"; };
+		92556CBE2125C0BA00FCEA19 /* OngoingMediaCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMediaCollection.h; sourceTree = "<group>"; };
+		92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMediaCollection.m; sourceTree = "<group>"; };
 		92A1DE2520F50A960099D601 /* NXMUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMUtils.h; sourceTree = "<group>"; };
 		92A1DE2620F50A960099D601 /* NXMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMUtils.m; sourceTree = "<group>"; };
+		92D983D32135325A006EF3F4 /* NXMNSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNSLogger.h; sourceTree = "<group>"; };
+		92D983D42135325A006EF3F4 /* NXMNSLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMNSLogger.m; sourceTree = "<group>"; };
+		92ECB57821342861004760CB /* NXMSuspendResumeMediaRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSuspendResumeMediaRequest.h; sourceTree = "<group>"; };
+		92ECB57921342861004760CB /* NXMSuspendResumeMediaRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSuspendResumeMediaRequest.m; sourceTree = "<group>"; };
 		9F5621286E2C1A97699E97D1 /* Pods-StitchTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		A284924ADF6B66B0124B8FDF /* Pods-StitchObjC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchObjC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchObjC/Pods-StitchObjC.debug.xcconfig"; sourceTree = "<group>"; };
 		B048D7DA6ED98A484126D43D /* Pods-StitchTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -185,8 +218,8 @@
 		EA48B33B9FC8DB78FFEC9442 /* Pods_StitchTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F903DF772097732A008A161A /* NXMMediaEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaEvent.h; sourceTree = "<group>"; };
 		F903DF782097732A008A161A /* NXMMediaEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaEvent.m; sourceTree = "<group>"; };
-		F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaAnswerEvent.h; sourceTree = "<group>"; };
-		F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaAnswerEvent.m; sourceTree = "<group>"; };
+		F903DF7B2099AB16008A161A /* NXMRtcAnswerEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMRtcAnswerEvent.h; sourceTree = "<group>"; };
+		F903DF7C2099AB16008A161A /* NXMRtcAnswerEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRtcAnswerEvent.m; sourceTree = "<group>"; };
 		F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSocketClientDefine.h; sourceTree = "<group>"; };
 		F91052F020B6EBAE006318F9 /* StitchTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F91052F220B6EBAE006318F9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -208,8 +241,8 @@
 		F910531320BAE498006318F9 /* UIViewWithGradientBackground.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIViewWithGradientBackground.m; sourceTree = "<group>"; };
 		F910531520BB09DD006318F9 /* CoversationViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoversationViewController.h; sourceTree = "<group>"; };
 		F910531620BB09DD006318F9 /* CoversationViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CoversationViewController.m; sourceTree = "<group>"; };
-		F910531820BBF862006318F9 /* StitchWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StitchWrapper.h; sourceTree = "<group>"; };
-		F910531920BBF862006318F9 /* StitchWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchWrapper.m; sourceTree = "<group>"; };
+		F910531820BBF862006318F9 /* ConversationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationManager.h; sourceTree = "<group>"; };
+		F910531920BBF862006318F9 /* ConversationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationManager.m; sourceTree = "<group>"; };
 		F910531D20BC0248006318F9 /* NXMPageInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPageInfo.h; sourceTree = "<group>"; };
 		F910531E20BC0248006318F9 /* NXMPageInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPageInfo.m; sourceTree = "<group>"; };
 		F915CCA220BD8E4600771D8E /* NXMSendImageRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSendImageRequest.h; sourceTree = "<group>"; };
@@ -310,6 +343,28 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		92020BA8211B35DD0021C5A1 /* MediaAction */ = {
+			isa = PBXGroup;
+			children = (
+				92020BA02119EFE60021C5A1 /* NXMMediaActionEvent.h */,
+				92020BA12119EFE60021C5A1 /* NXMMediaActionEvent.m */,
+				92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */,
+				92020BAA211B3DED0021C5A1 /* NXMMediaSuspendEvent.m */,
+			);
+			path = MediaAction;
+			sourceTree = "<group>";
+		};
+		923A85A4212300D600C81F6E /* OngoingCallsView */ = {
+			isa = PBXGroup;
+			children = (
+				923A859F2121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.h */,
+				923A85A02121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m */,
+				923A85A72123020300C81F6E /* OngoingCallsViewController.h */,
+				923A85A82123020300C81F6E /* OngoingCallsViewController.m */,
+			);
+			path = OngoingCallsView;
+			sourceTree = "<group>";
+		};
 		CEBCD8942084B56C004451AB /* Request */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +396,8 @@
 				F998E52A20FF9CEA005733B2 /* NXMEnablePushRequest.m */,
 				0BDDE76E20FF7A5F00C2F320 /* NXMInvitePstnKnockingRequest.h */,
 				0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */,
+				92ECB57821342861004760CB /* NXMSuspendResumeMediaRequest.h */,
+				92ECB57921342861004760CB /* NXMSuspendResumeMediaRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -373,7 +430,7 @@
 				F998E52820FF7BE4005733B2 /* StitchTestApp.entitlements */,
 				F984C93720BC6778006DBBEA /* ConversationView */,
 				F910531C20BBF980006318F9 /* ConversationList */,
-				F910531B20BBF86C006318F9 /* StitchWrapper */,
+				F910531B20BBF86C006318F9 /* ConversationManager */,
 				F91052F220B6EBAE006318F9 /* AppDelegate.h */,
 				F91052F320B6EBAE006318F9 /* AppDelegate.m */,
 				F91052F520B6EBAE006318F9 /* ViewController.h */,
@@ -387,17 +444,23 @@
 				F910530720B6F5E1006318F9 /* LoginViewController.m */,
 				F910531220BAE498006318F9 /* UIViewWithGradientBackground.h */,
 				F910531320BAE498006318F9 /* UIViewWithGradientBackground.m */,
+				92D983D32135325A006EF3F4 /* NXMNSLogger.h */,
+				92D983D42135325A006EF3F4 /* NXMNSLogger.m */,
 			);
 			path = StitchTestApp;
 			sourceTree = "<group>";
 		};
-		F910531B20BBF86C006318F9 /* StitchWrapper */ = {
+		F910531B20BBF86C006318F9 /* ConversationManager */ = {
 			isa = PBXGroup;
 			children = (
-				F910531820BBF862006318F9 /* StitchWrapper.h */,
-				F910531920BBF862006318F9 /* StitchWrapper.m */,
+				F910531820BBF862006318F9 /* ConversationManager.h */,
+				F910531920BBF862006318F9 /* ConversationManager.m */,
+				92556CBB2125B7D400FCEA19 /* OngoingMedia.h */,
+				92556CBC2125B7D400FCEA19 /* OngoingMedia.m */,
+				92556CBE2125C0BA00FCEA19 /* OngoingMediaCollection.h */,
+				92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */,
 			);
-			path = StitchWrapper;
+			path = ConversationManager;
 			sourceTree = "<group>";
 		};
 		F910531C20BBF980006318F9 /* ConversationList */ = {
@@ -414,6 +477,7 @@
 		F984C93720BC6778006DBBEA /* ConversationView */ = {
 			isa = PBXGroup;
 			children = (
+				923A85A4212300D600C81F6E /* OngoingCallsView */,
 				F910531520BB09DD006318F9 /* CoversationViewController.h */,
 				F910531620BB09DD006318F9 /* CoversationViewController.m */,
 				F984C93820BC67BA006DBBEA /* ConversationTextTableViewCell.h */,
@@ -508,12 +572,15 @@
 		F988BE9520F647BA007D4276 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				92020BA8211B35DD0021C5A1 /* MediaAction */,
 				CEF223C020D9356A0074A094 /* NXMSipEvent.h */,
 				CEF223C120D935800074A094 /* NXMSipEvent.m */,
 				F903DF772097732A008A161A /* NXMMediaEvent.h */,
 				F903DF782097732A008A161A /* NXMMediaEvent.m */,
-				F903DF7B2099AB16008A161A /* NXMMediaAnswerEvent.h */,
-				F903DF7C2099AB16008A161A /* NXMMediaAnswerEvent.m */,
+				F903DF7B2099AB16008A161A /* NXMRtcAnswerEvent.h */,
+				F903DF7C2099AB16008A161A /* NXMRtcAnswerEvent.m */,
+				92020BA4211B0CB10021C5A1 /* NXMMediaSettings.h */,
+				92020BA5211B0CB10021C5A1 /* NXMMediaSettings.m */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -625,6 +692,7 @@
 				F99D8598208DDE55003B004B /* RTCMediaWrapper.m */,
 				F99D85A02090C4D1003B004B /* NXMMediaInfo.h */,
 				F99D85A12090C4D1003B004B /* NXMMediaInfo.m */,
+				9221981821135FA500C90B89 /* RTCMediaWrapperDelegate.h */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -695,7 +763,7 @@
 				F988BEA120F65413007D4276 /* NXMConversationCore.h in Headers */,
 				F998E52B20FF9CEA005733B2 /* NXMEnablePushRequest.h in Headers */,
 				F988BEA420F6556A007D4276 /* NXMConversationCoreDelegate.h in Headers */,
-				F903DF7D2099AB16008A161A /* NXMMediaAnswerEvent.h in Headers */,
+				F903DF7D2099AB16008A161A /* NXMRtcAnswerEvent.h in Headers */,
 				F987354920443A6900C90695 /* NXMUser.h in Headers */,
 				CEF223BE20D930370074A094 /* NXMInvitePstnRequest.h in Headers */,
 				F99D859D208F6202003B004B /* NXMNetworkManager.h in Headers */,
@@ -705,8 +773,10 @@
 				F9F576FD20B584C800F0F5F3 /* NXMNetworkDelegate.h in Headers */,
 				92A1DE2720F50A960099D601 /* NXMUtils.h in Headers */,
 				F997A0F52035B4FA0027AF46 /* NXMSocketClientDelegate.h in Headers */,
+				92020BAB211B3DED0021C5A1 /* NXMMediaSuspendEvent.h in Headers */,
 				F988BE9B20F64D0A007D4276 /* NXMConversationEvents.h in Headers */,
 				F9167D882033222500F97CED /* NXMSocketClient.h in Headers */,
+				9221981A21135FA500C90B89 /* RTCMediaWrapperDelegate.h in Headers */,
 				F9F576FA20AC205200F0F5F3 /* NXMEnums.h in Headers */,
 				F9E96F502063EEB200A70212 /* NXMErrors.h in Headers */,
 				F96F745120552D6D004B3434 /* NXMMember.h in Headers */,
@@ -717,10 +787,13 @@
 				F906E4F2203EFFA600CACE79 /* NXMSocketClientDefine.h in Headers */,
 				F915CCA420BD8E4600771D8E /* NXMSendImageRequest.h in Headers */,
 				F9E96F4B20628BDA00A70212 /* NXMEvent.h in Headers */,
+				92020BA6211B0CB10021C5A1 /* NXMMediaSettings.h in Headers */,
 				F9EF59252056C5B00055935F /* NXMTextEvent.h in Headers */,
 				F903DF792097732A008A161A /* NXMMediaEvent.h in Headers */,
 				F98EF68620C3EF23009094FD /* NXMImageEvent.h in Headers */,
 				F9873551204FDBAB00C90695 /* NXMConversationDetails.h in Headers */,
+				92ECB57A21342861004760CB /* NXMSuspendResumeMediaRequest.h in Headers */,
+				92020BA22119EFE60021C5A1 /* NXMMediaActionEvent.h in Headers */,
 				F99D85A22090C4D1003B004B /* NXMMediaInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1030,15 +1103,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				F910530820B6F5E1006318F9 /* LoginViewController.m in Sources */,
-				F910531A20BBF862006318F9 /* StitchWrapper.m in Sources */,
+				92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */,
+				F910531A20BBF862006318F9 /* ConversationManager.m in Sources */,
 				F91052F720B6EBAE006318F9 /* ViewController.m in Sources */,
 				F910531720BB09DD006318F9 /* CoversationViewController.m in Sources */,
+				923A85A22121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m in Sources */,
 				F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */,
 				F910530B20B6FC0F006318F9 /* ConversationListViewContoller.m in Sources */,
 				F910531120B707DE006318F9 /* ConversationListTableCellView.m in Sources */,
 				F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */,
 				F910530220B6EBAE006318F9 /* main.m in Sources */,
+				92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */,
+				92D983D52135325A006EF3F4 /* NXMNSLogger.m in Sources */,
 				F91052F420B6EBAE006318F9 /* AppDelegate.m in Sources */,
+				923A85A92123020300C81F6E /* OngoingCallsViewController.m in Sources */,
 				F910531420BAE498006318F9 /* UIViewWithGradientBackground.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1054,6 +1132,7 @@
 				F99D859A208DDE55003B004B /* RTCMediaWrapper.m in Sources */,
 				F988BEA220F65413007D4276 /* NXMConversationCore.m in Sources */,
 				CEF94C5520640A6600BB733E /* NXMErrorParser.m in Sources */,
+				92ECB57B21342861004760CB /* NXMSuspendResumeMediaRequest.m in Sources */,
 				F910532020BC0248006318F9 /* NXMPageInfo.m in Sources */,
 				CEBCD8A52084EF72004451AB /* NXMJoinMemberRequest.m in Sources */,
 				F9EF59262056C5B00055935F /* NXMTextEvent.m in Sources */,
@@ -1061,10 +1140,12 @@
 				F99D859E208F6202003B004B /* NXMNetworkManager.m in Sources */,
 				CE8180DF207A59110072E44F /* NXMTextTypingEvent.m in Sources */,
 				F9E96F512063EEB200A70212 /* NXMErrors.m in Sources */,
+				92020BAC211B3DED0021C5A1 /* NXMMediaSuspendEvent.m in Sources */,
 				F987354A20443A6900C90695 /* NXMUser.m in Sources */,
 				F9873552204FDBAB00C90695 /* NXMConversationDetails.m in Sources */,
 				F998E52C20FF9CEA005733B2 /* NXMEnablePushRequest.m in Sources */,
-				F903DF7E2099AB16008A161A /* NXMMediaAnswerEvent.m in Sources */,
+				92020BA7211B0CB10021C5A1 /* NXMMediaSettings.m in Sources */,
+				F903DF7E2099AB16008A161A /* NXMRtcAnswerEvent.m in Sources */,
 				0BDDE77020FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m in Sources */,
 				CED91D98207A297E00B7B057 /* NXMTextStatusEvent.m in Sources */,
 				F99D85A32090C4D1003B004B /* NXMMediaInfo.m in Sources */,
@@ -1074,6 +1155,7 @@
 				F903DF7A2097732A008A161A /* NXMMediaEvent.m in Sources */,
 				F96F745220552D6D004B3434 /* NXMMember.m in Sources */,
 				CEBCD8AD2084F03A004451AB /* NXMDeleteEventRequest.m in Sources */,
+				92020BA32119EFE60021C5A1 /* NXMMediaActionEvent.m in Sources */,
 				CEBCD8A32084EEE1004451AB /* NXMInviteUserRequest.m in Sources */,
 				CEF223BF20D930370074A094 /* NXMInvitePstnRequest.m in Sources */,
 				CEBCD8AB2084F008004451AB /* NXMSendTextEventRequest.m in Sources */,

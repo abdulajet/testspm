@@ -13,8 +13,9 @@
 #import "NXMUser.h"
 #import "NXMGetConversationsRequest.h"
 #import "NXMErrors.h"
+#import "RTCMediaWrapperDelegate.h"
 
-@interface NXMConversationCore : NSObject
+@interface NXMConversationCore : NSObject <RTCMediaWrapperDelegate>
 
 - (instancetype _Nullable)init;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
@@ -30,7 +31,7 @@
 
 #pragma mark - Conversation Methods
 
-- (void)createWithName:(nonnull NSString *)name
+- (void)createConversationWithName:(nonnull NSString *)name
              onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                onError:(ErrorCallback _Nullable)onError;
 
@@ -82,12 +83,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)getConversationDetails:(nonnull NSString *)conversationId
                      onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(ErrorCallback _Nullable)onError;
-
-- (void)getConversationEvents:(nonnull NSString *)conversationId
-                  startOffset:(NSUInteger)startOffset
-                    endOffset:(NSUInteger)endOffset
-                    onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
-                      onError:(ErrorCallback _Nullable)onError;
 
 - (void)getUserConversations:(nonnull NSString *)userId
                    onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
@@ -142,6 +137,36 @@ fromConversationWithId:(nonnull NSString *)conversationId
                          memberId:(nonnull NSString *)memberId;
 
 - (NXMStitchErrorCode)disableMedia:(nonnull NSString *)conversationId;
+
+- (NXMStitchErrorCode)suspendMyMedia:(NXMMediaType)mediaType
+                    inConversation:(nonnull NSString *)conversationId;
+
+//TODO: add callback functionality?
+//                         onSuccess:(SuccessCallback _Nullable)onSuccess
+//                           onError:(ErrorCallback _Nullable)onError;
+//TODO: not have a return error and a callback.
+- (NXMStitchErrorCode)resumeMyMedia:(NXMMediaType)mediaType
+                   inConversation:(nonnull NSString *)conversationId;
+//TODO: add callback functionality?
+//                         onSuccess:(SuccessCallback _Nullable)onSuccess
+//                           onError:(ErrorCallback _Nullable)onError;
+
+
+
+- (void)suspendMedia:(NXMMediaType)mediaType
+            ofMember:(nonnull NSString *)memberId
+      inConversation:(nonnull NSString *)conversationId
+          fromMember:(nonnull NSString *)fromMemberId
+           onSuccess:(SuccessCallback _Nullable)onSuccess
+             onError:(ErrorCallback _Nullable)onError;
+
+- (void)resumeMedia:(NXMMediaType)mediaType
+           ofMember:(nonnull NSString *)memberId
+     inConversation:(nonnull NSString *)conversationId
+         fromMember:(nonnull NSString *)fromMemberId
+          onSuccess:(SuccessCallback _Nullable)onSuccess
+            onError:(ErrorCallback _Nullable)onError;
+
 
 #pragma mark - other Methods
 

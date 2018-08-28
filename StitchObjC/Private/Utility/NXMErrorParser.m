@@ -7,9 +7,32 @@
 //
 
 #import "NXMErrorParser.h"
+
+static NSDictionary<NSString *,NSNumber *> *csErrorToNXMCode;
+
 @interface NXMErrorParser()
 @end
 @implementation NXMErrorParser
+
++(void)initialize {
+    csErrorToNXMCode = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMemberNotFound],@"member:error:not-found",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMemberAlreadyRemoved],@"conversation:error:invalid-member-state",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventUserNotFound],@"user:error:not-found",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventUserAlreadyJoined],@"conversation:error:member-already-joined",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeTokenInvalid],@"system:error:invalid-token",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeTokenExpired],@"system:error:expired-token",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventNotFound],@"event:error:not-found",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeConversationNotFound],@"conversation:error:not-found",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeInvalidMediaRequest],@"audio:error:invalid-event",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaNotFound],@"media:error:not-found",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaTooManyRequests],@"media:error:too-many-request",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaBadRequest],@"media:error:bad-request",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaInternalError],@"media:error:internal",
+                        [NSNumber numberWithInteger:NXMStitchErrorCodeConversationInvalidMember],@"conversation:error:invalid-member",
+                        nil];
+}
+
 + (int) parseErrorWithData:(nonnull NSData*) data{
     NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
     return [self parseError:dataDict];
@@ -18,89 +41,7 @@
 + (int) parseError:(nonnull NSDictionary*) data{
     
     NSString* errorCodeMsg = data[@"code"];
-    if ([errorCodeMsg isEqualToString:@"member:error:not-found"]){
-        return NXMStitchErrorCodeMemberNotFound;
-    }
-    else if ([errorCodeMsg isEqualToString:@"conversation:error:invalid-member-state"]){
-        return NXMStitchErrorCodeMemberAlreadyRemoved;
-    }
-    else if ([errorCodeMsg isEqualToString:@"user:error:not-found"]){
-        return NXMStitchErrorCodeEventUserNotFound;
-    }
-    else if ([errorCodeMsg isEqualToString:@"conversation:error:member-already-joined"]){
-        return NXMStitchErrorCodeEventUserAlreadyJoined;
-    }
-    else if ([errorCodeMsg isEqualToString:@"system:error:invalid-token"]){
-        return NXMStitchErrorCodeTokenInvalid;
-    }
-    else if ([errorCodeMsg isEqualToString:@"system:error:expired-token"]){
-        return NXMStitchErrorCodeTokenExpired;
-    }
-    else if ([errorCodeMsg isEqualToString:@"event:error:not-found"]){
-        return NXMStitchErrorCodeEventNotFound      ;
-    }
-    else if ([errorCodeMsg isEqualToString:@"conversation:error:not-found"]){
-        return NXMStitchErrorCodeEventNotFound      ;
-    }
-    return NXMStitchErrorCodeUnknown;
-}
-
-+ (NSString*) toString:(int) errorResult{
-    NSString *str = @"";
-    switch (errorResult) {
-        case NXMStitchErrorCodeUnknown:
-            str = @"Nexmo Stitch error code unknown";
-            break;
-        case NXMStitchErrorCodeSessionUnknown:
-            str = @"Nexmo Stitch error code session unknown";
-            break;
-        case NXMStitchErrorCodeSessionInvalid:
-            str = @"Nexmo Stitch error code session invalid";
-            break;
-        case NXMStitchErrorCodeTokenUnknown:
-            str = @"Nexmo Stitch error code Token unknown";
-            break;
-        case NXMStitchErrorCodeTokenInvalid:
-            str = @"Nexmo Stitch error code tokne invalid";
-            break;
-        case NXMStitchErrorCodeTokenExpired:
-            str = @"Nexmo Stitch error code token expired";
-            break;
-        case NXMStitchErrorCodeMemberUnknown:
-            str = @"Nexmo Stitch error code member unknown";
-            break;
-        case NXMStitchErrorCodeMemberNotFound:
-            str = @"Nexmo Stitch error code member not found";
-            break;
-        case NXMStitchErrorCodeMemberAlreadyRemoved:
-            str = @"Nexmo Stitch error code member already removed";
-            break;
-        case NXMStitchErrorCodeEventUnknown:
-            str = @"Nexmo Stitch error code event unknown";
-            break;
-        case NXMStitchErrorCodeEventUserNotFound:
-            str = @"Nexmo Stitch error code event user not found";
-            break;
-        case NXMStitchErrorCodeEventUserAlreadyJoined:
-            str = @"Nexmo Stitch error code event user already joined";
-            break;
-        case NXMStitchErrorCodeEventInvalid:
-            str = @"Nexmo Stitch error code event invalid";
-            break;
-        case NXMStitchErrorCodeEventBadPermission:
-            str = @"Nexmo Stitch error code event bad permission";
-            break;
-        case NXMStitchErrorCodeConversationUnknown:
-            str = @"Nexmo Stitch error code conversation unknown";
-            break;
-        case NXMStitchErrorCodeConversationNotFound:
-            str = @"Nexmo Stitch error code conversation not found";
-            break;
-            
-        default:
-            break;
-    }
-    return str;
+    return csErrorToNXMCode[errorCodeMsg] ? csErrorToNXMCode[errorCodeMsg].integerValue : NXMStitchErrorCodeUnknown;
 }
 
 @end

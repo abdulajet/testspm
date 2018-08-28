@@ -10,4 +10,9 @@
 
 NSString *const NXMStitchErrorDomain = @"com.nexmo.StitchErrorDomain";
 
+@implementation NXMErrors
++(NSError *)nxmStitchErrorWithErrorCode:(NXMStitchErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo {
+    return [NSError errorWithDomain:NXMStitchErrorDomain code:errorCode userInfo:userInfo];
+}
+@end
 

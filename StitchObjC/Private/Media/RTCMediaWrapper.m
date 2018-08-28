@@ -7,7 +7,7 @@
 //
 
 #import "RTCMediaWrapper.h"
-
+#import "NXMLogger.h"
 
 @interface RTCMediaWrapper()
 @property MRTCMedia *mrtcMedia;
@@ -56,6 +56,25 @@
     [self.mrtcMedia answerWithMediaId:convId andSDP:sdp andRtcId:mediaId];
 }
 
+- (NXMStitchErrorCode)suspendMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
+    MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
+    if(mrtcMediaType == MRTCMediaTypeNone) {
+        [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        return NXMStitchErrorCodeMediaNotSupported;
+    }
+    [self.mrtcMedia suspendMediaWithMediaId:conversationId andMediaType:mrtcMediaType];
+    return NXMStitchErrorCodeNone;
+}
+
+- (NXMStitchErrorCode)resumeMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
+    MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
+    if(mrtcMediaType == MRTCMediaTypeNone) {
+        [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        return NXMStitchErrorCodeMediaNotSupported;
+    }
+    [self.mrtcMedia resumeMediaWithMediaId:conversationId andMediaType:mrtcMediaType];
+    return NXMStitchErrorCodeNone;
+}
 
 
 #pragma mark: - private
@@ -76,6 +95,38 @@
     }
 }
 
+-(NXMMediaType)nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType {
+    switch (mediaType) {
+        case MRTCMediaTypeAudio:
+            return NXMMediaTypeAudio;
+            break;
+        case MRTCMediaTypeVideo:
+            return NXMMediaTypeVideo;
+            break;
+        default:
+            return NXMMediaTypeNone;
+            break;
+    }
+}
+
+-(MRTCMediaType)mrtcMediaTypeWithNXMMediaType:(NXMMediaType)mediaType {
+    switch (mediaType) {
+        case NXMMediaTypeAudio:
+            return MRTCMediaTypeAudio;
+            break;
+        case NXMMediaTypeVideo:
+            return MRTCMediaTypeVideo;
+            break;
+        default:
+            return MRTCMediaTypeNone;
+            break;
+    }
+}
+
+-(NXMMediaInfo *)nxmMediaInfoWithMRTCMediaInfo:(MRTCMediaInfo *)mrtcMediaInfo andRtcId:(NSString *)rtcId {
+    return [[NXMMediaInfo alloc] initWithMediaId:mrtcMediaInfo._mediaId conversationId:mrtcMediaInfo._conversationId rtcId:rtcId memberId:mrtcMediaInfo._memberId];
+}
+
 
 //- (void)addMemberWithMediaId:(NSString *)mediaId andSdp:(NSString *)sdp {
 //
@@ -86,14 +137,6 @@
 //}
 //
 //- (void)holdWithMediaId:(NSString *)mediaId {
-//
-//}
-//
-//- (void)suspendMediaId:(NSString *)mediaId andNedia:(MediaType)type{
-//
-//}
-//
-//- (void)resumeMediaId:(NSString *)mediaId andNedia:(MediaType)type {
 //
 //}
 
@@ -116,6 +159,32 @@
     [self.delegate terminateRtc:mediaInfo rtcId:rtcId completionHandler:^(NSError * error) {
         completionHandler(error);
     }];
+}
+
+- (void)onMuteStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType {
+    
+    [self.delegate didMuteStateChangeWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
+                                         andIsMute:isMute
+                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:*mediaType]];
+}
+
+- (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType completionHandler:(void (^)(bool))completionHandler {
+    NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:*mediaType];
+    if(nxmMediaType == NXMMediaTypeNone) {
+        [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)mediaType];
+        completionHandler(false);
+        return;
+    }
+    
+    [self.delegate sendMuteStateWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
+                                    andIsMute:isMute
+                                 andMediaType:nxmMediaType
+                                    onSuccess:^(void) {
+                                        completionHandler(true);
+                                    } onError:^(NSError * _Nullable error) {
+                                        [NXMLogger errorWithFormat:@"Error sending mute with error:  %@",error];
+                                        completionHandler(false);
+                                    }];
 }
 
 @end

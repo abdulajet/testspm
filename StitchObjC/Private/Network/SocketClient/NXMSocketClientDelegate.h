@@ -13,7 +13,8 @@
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
-#import "NXMMediaAnswerEvent.h"
+#import "NXMMediaActionEvent.h"
+#import "NXMRtcAnswerEvent.h"
 
 @protocol NXMSocketClientDelegate
 
@@ -35,7 +36,8 @@
 - (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent;
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent;
-- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent;
+- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaEvent;
+- (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

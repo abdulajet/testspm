@@ -7,13 +7,12 @@
 //
 
 #import "ConversationListViewContoller.h"
-#import "AppDelegate.h"
 #import "ConversationListTableCellView.h"
 #import "CoversationViewController.h"
-
+#import "ConversationManager.h"
 @interface ConversationListViewContoller ()
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
-@property NXMConversationCore *stitch;
+@property ConversationManager *conversationManager;
 @property NSMutableArray<NXMConversationDetails *> *conversations;
 //@property lastestId
 @end
@@ -22,9 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
-    self.stitch = appDelegate.stitchConversation;
+    self.conversationManager = ConversationManager.sharedInstance;
     self.conversations =  [NSMutableArray new];
     [self getNewestConversations];
     
@@ -38,13 +35,13 @@
     NSDictionary *userInfo = notification.userInfo;
     NXMMemberEvent *member = userInfo[@"member"];
     if (!([member.state isEqualToString:@"INVITED"] &&
-        [member.user.name isEqualToString:self.stitch.getUser.name])) {
+        [member.user.name isEqualToString:self.conversationManager.connectedUser.name])) {
         return;
     }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"conversation" message:@"added to conversation" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.stitch getConversationDetails:member.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+        [self.conversationManager.stitchConversationClient getConversationDetails:member.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.conversations insertObject:conversationDetails atIndex:0];
                 
@@ -72,7 +69,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    self.navigationItem.title = self.stitch.getUser.name;
+    self.navigationItem.title = self.conversationManager.connectedUser.name;
 
 }
 
@@ -85,7 +82,7 @@
         NSString *displayName =[[alertController textFields][0] text];
         NSLog(@"conversation name %@", displayName);
         
-        [self.stitch createWithName:displayName onSuccess:^(NSString * _Nullable value) {
+        [self.conversationManager.stitchConversationClient createConversationWithName:displayName onSuccess:^(NSString * _Nullable value) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 NXMConversationDetails *conversation =  [NXMConversationDetails new];
@@ -140,9 +137,9 @@
     request.pageSize = 1;
     request.recordIndex = 0;
     
-    NSLog(@"get conversation %@", self.stitch.getUser.uuid);
+    NSLog(@"get conversation %@", self.conversationManager.connectedUser.uuid);
 
-    [self.stitch getUserConversations:self.stitch.getUser.uuid
+    [self.conversationManager.stitchConversationClient getUserConversations:self.conversationManager.connectedUser.uuid
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.conversations addObjectsFromArray:conversationDetails];
@@ -169,7 +166,7 @@
 - (void)getConversationsDetails:(NSArray*)conversations {
 
     for (NXMConversationDetails *conv in conversations) {
-        [self.stitch getConversationDetails:conv.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+        [self.conversationManager.stitchConversationClient getConversationDetails:conv.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             
         } onError:^(NSError * _Nullable error) {
             NSLog(@"get conversation error %@", error);

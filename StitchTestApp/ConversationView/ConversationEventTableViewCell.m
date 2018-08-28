@@ -42,12 +42,16 @@
     }
     
     if (event.type == NXMEventTypeMedia) {
+        //TODO: right media refers only to audio enable
+        bool isAudioEnabled = ((NXMMediaEvent *)event).mediaSettings.isEnabled;
+        
         NSString *text = [NSString stringWithFormat:@"Audio %@ by %@",
-                          ((NXMMediaEvent *)event).isMediaEnabled ? @"Enabled" : @"Disabled", memberName];
+                          isAudioEnabled ? @"Enabled" : @"Disabled", memberName];
         self.eventText.text = text;
         self.eventText.textAlignment = NSTextAlignmentLeft;
-        NSString *imageName = ((NXMMediaEvent *)event).isMediaEnabled ? @"eventAudioEnabled" : @"eventAudioDisabled";
+        NSString *imageName = isAudioEnabled ? @"eventAudioEnabled" : @"eventAudioDisabled";
         self.audioImage.image = [UIImage imageNamed:imageName];
+        
     }
     if (event.type == NXMEventTypeSip) {
         NSString *text = [NSString stringWithFormat:@"Call %@ by %@ [%ld]",

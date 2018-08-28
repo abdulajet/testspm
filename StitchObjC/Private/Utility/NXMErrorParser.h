@@ -14,7 +14,6 @@
 @interface NXMErrorParser : NSObject
 + (int) parseError:(nonnull NSDictionary*) data;
 + (int) parseErrorWithData:(nonnull NSData*) data;
-+ (NSString* _Nonnull) toString:(int) errorResult;
 @end
 
 #endif /* NXMErrorParser_h */

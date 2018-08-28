@@ -8,7 +8,7 @@
 
 #ifndef NXMTextTypingEvent_h
 #define NXMTextTypingEvent_h
-#include "NXMTextEvent.h"
+#import "NXMEvent.h"
 #include "NXMTextTypingEventStatus.h"
 
 @interface NXMTextTypingEvent : NXMEvent

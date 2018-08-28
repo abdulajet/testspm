@@ -1,5 +1,5 @@
 //
-//  NXMMediaAnswerEvent.h
+//  NXMRtcAnswerEvent.h
 //  NexmoConversationObjC
 //
 //  Created by Chen Lev on 5/2/18.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NXMMediaAnswerEvent : NSObject
+@interface NXMRtcAnswerEvent : NSObject
 
 
 @property (nonatomic, strong, nonnull) NSString *conversationId;

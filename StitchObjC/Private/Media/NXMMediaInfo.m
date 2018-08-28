@@ -9,5 +9,13 @@
 #import "NXMMediaInfo.h"
 
 @implementation NXMMediaInfo
-
+-(instancetype)initWithMediaId:(NSString *)mediaId conversationId:(NSString *)conversationId rtcId:(NSString *)rtcId memberId:(NSString *)memberid {
+    if(self = [super init]) {
+        self.mediaId = mediaId;
+        self.conversationId = conversationId;
+        self.rtcId = rtcId;
+        self.memberId = memberid;
+    }
+    return self;
+}
 @end

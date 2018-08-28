@@ -108,4 +108,19 @@
             memberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
+
+- (void)muteAudioInConversation:(nonnull NSString *) conversationId
+                     fromMember:(nonnull NSString *)fromMemberId
+                       toMember:(nonnull NSString *)toMemberId
+                      withRtcId:(nullable NSString *)rtcId
+                      onSuccess:(SuccessCallback _Nullable)onSuccess
+                        onError:(ErrorCallback _Nullable)onError;
+
+- (void)unmuteAudioInConversation:(nonnull NSString *) conversationId
+                     fromMember:(nonnull NSString *)fromMemberId
+                       toMember:(nonnull NSString *)toMemberId
+                        withRtcId:(nullable NSString *)rtcId
+                        onSuccess:(SuccessCallback _Nullable)onSuccess
+                          onError:(ErrorCallback _Nullable)onError;
+
 @end

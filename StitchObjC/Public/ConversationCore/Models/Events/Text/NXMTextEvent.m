@@ -8,7 +8,6 @@
 
 
 #import "NXMTextEvent.h"
-#import "NXMUtils.h"
 
 @implementation NXMTextEvent
 

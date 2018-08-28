@@ -15,4 +15,6 @@
 @property NSString *rtcId;
 @property NSString *memberId;
 
+-(instancetype)initWithMediaId:(NSString *)mediaId conversationId:(NSString *)conversationId rtcId:(NSString *)rtcId memberId:(NSString *)memberid;
+
 @end

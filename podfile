@@ -10,7 +10,8 @@ use_frameworks!
 
 def shared_pods
     pod 'VPSocketIO'#, :path => "../VPSocketIO"
-    pod 'MiniRTC_Release', '0.01.15'
+    pod 'MiniRTC_Release', '0.01.19'
+    #pod 'MiniRTC_Debug', '0.01.19'
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 

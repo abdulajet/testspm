@@ -38,7 +38,10 @@
 - (void)sipHangup:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipStatus:(nonnull NXMSipEvent *)sipEvent;
 
-- (void)mediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
+- (void)informOnMedia:(nonnull NXMMediaEvent *)mediaEvent;
+- (void)actionOnMedia:(nonnull NXMMediaActionEvent *)mediaActionEvent;
 
-- (void)localMediaChanged:(nonnull NXMMediaEvent *)mediaEvent;
+- (void)localInformOnMedia:(nonnull NXMMediaEvent *)mediaEvent;
+- (void)localActionOnMedia:(nonnull NXMMediaActionEvent *)mediaEvent;
+
 @end

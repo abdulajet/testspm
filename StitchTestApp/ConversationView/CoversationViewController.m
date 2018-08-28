@@ -11,15 +11,19 @@
 
 #import "CoversationViewController.h"
 
-#import "AppDelegate.h"
-
 #import "ConversationTextTableViewCell.h"
 #import "ConversationEventTableViewCell.h"
 #import "NXMMemberEvent.h"
+#import "ConversationManager.h"
+#import "OngoingCallsViewController.h"
+
+const CGFloat ONGOING_CALLS_OPEN_HEIGHT = 300;
+const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 
 @interface CoversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate>
-@property NXMConversationCore *stitch;
+@property ConversationManager *conversationManager;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *textViewContraint;
+
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextView *textinput;
@@ -34,12 +38,20 @@
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
 @property NSDictionary<NSString *,NSString *> * testUserNames;
-@property NSMutableDictionary<NSString *,NSString *> * memberIdToName;
 
 @property NSString *memberId;
 @property NSString *userId;
 
-@property BOOL isMediaEnabled;
+@property BOOL isAudioEnabled;
+
+//ongoign calls
+@property (weak, nonatomic) IBOutlet UIView *onGoingCallsView;
+@property (weak, nonatomic) IBOutlet UIButton *onGoingCallsTrayButton;
+@property (weak, nonatomic) IBOutlet UIView *onGoingCallsContainerView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *onGoingCallsContainerViewHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *onGoingCallsTrayButtonHeightConstraint;
+@property BOOL isOnGoingCallsViewTrayOpen;
+
 
 @end
 
@@ -75,6 +87,8 @@
                          @"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e":@"TheTech",
                          @"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb":@"TheManager"
                          };
+    
+    self.conversationManager = ConversationManager.sharedInstance;
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                     selector:@selector(receivedMemberEvent:)
@@ -133,6 +147,8 @@
     
     self.textinput.delegate = self;
     self.sendButton.enabled = NO;
+    
+    [self disableOngoingCallsTray];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -180,7 +196,7 @@
         return;
     }
     
-    NSString* memberName = self.memberIdToName[typing.fromMemberId];
+    NSString* memberName = self.conversationManager.memberIdToName[typing.fromMemberId];
     if (!memberName) {
         return;
     }
@@ -217,12 +233,8 @@
         return;
     }
     
-    if ([member.user.name isEqualToString:self.stitch.getUser.name]) {
+    if ([member.user.name isEqualToString:self.conversationManager.connectedUser.name]) {
         self.memberId = member.memberId;
-    }
-    
-    if (member.user.name){
-        [self.memberIdToName setObject:member.user.name forKey:member.memberId];
     }
     
     [self insertEvent:member];
@@ -241,6 +253,11 @@
     [self insertEvent:media];
 //    [self reloadDataSource];
 //    [self.tableView reloadData];
+    if([self.conversationManager.ongoingCalls countForConversation:media.conversationId] > 0) {
+        [self enableOngoingCallsTray];
+    } else {
+        [self disableOngoingCallsTray];
+    }
 }
 - (void)receivedSipEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
@@ -262,7 +279,7 @@
     [self insertEvent:text];
 
     if (self.memberId) {
-        [self.stitch markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.memberId onSuccess:^{
+        [self.conversationManager.stitchConversationClient markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.memberId onSuccess:^{
         
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error markAsSeen");
@@ -315,7 +332,7 @@
         NSArray * textfields = alertController.textFields;
         UITextField * namefield = textfields[0];
         [self updatePhoneNumber2ConverationWebHook:[namefield text] conversationName:[self.conversation name] handler:^{
-            [self.stitch invite:self.testUserNames[_userId] withPhoneNumber:[namefield text] onSuccess:^(NSString * _Nullable value) {
+            [self.conversationManager.stitchConversationClient invite:self.testUserNames[_userId] withPhoneNumber:[namefield text] onSuccess:^(NSString * _Nullable value) {
                                 NSLog(@"success");
                             } onError:^(NSError * _Nullable error) {
                                 NSLog(@"error ");
@@ -342,7 +359,7 @@
         NSLog(@"username %@", username);
         
         NSString * userId = self.testUserIDs[username];
-        [self.stitch join:self.conversation.uuid withUserId:userId onSuccess:^(NSString * _Nullable value) {
+        [self.conversationManager.stitchConversationClient join:self.conversation.uuid withUserId:userId onSuccess:^(NSString * _Nullable value) {
             NSLog(@"success add username %@", username);
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error add username %@", username);
@@ -360,12 +377,12 @@
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
     
-    [self.stitch stopTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error typing");
     }];
     
-    [self.stitch sendText:self.textinput.text conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.conversationManager.stitchConversationClient sendText:self.textinput.text conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"msg sent");
         dispatch_async(dispatch_get_main_queue(), ^{
             self.textinput.editable = YES;
@@ -395,7 +412,7 @@
     
     NSString *filename = @"filename.png";
 
-    [self.stitch sendImage:filename image:data conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.conversationManager.stitchConversationClient sendImage:filename image:data conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"success");
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error");
@@ -407,14 +424,14 @@
 }
 
 - (IBAction)enableAudioPressed:(id)sender {
-    if (self.isMediaEnabled) {
-        self.isMediaEnabled = NO;
-        [self.stitch disableMedia:self.conversation.uuid];
+    if (self.isAudioEnabled) {
+        self.isAudioEnabled = NO;
+        [self.conversationManager.stitchConversationClient disableMedia:self.conversation.uuid];
         return;
     }
 
-    self.isMediaEnabled = YES;
-    [self.stitch enableMedia:self.conversation.uuid memberId:self.memberId];
+    self.isAudioEnabled = YES;
+    [self.conversationManager.stitchConversationClient enableMedia:self.conversation.uuid memberId:self.memberId];
     [self startAudioAnimation];
      
     
@@ -434,15 +451,15 @@
 }
 
 -(void)updateWithConversation:(NXMConversationDetails*)conversation {
-    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
-    self.stitch = appDelegate.stitchConversation;
+    
+    self.conversationManager = ConversationManager.sharedInstance; //happens before viewDidLoad
     
     self.conversation = conversation;
+
     self.navigationItem.title = self.conversation.displayName;
-    self.memberIdToName = [NSMutableDictionary new];
     self.messageStatuses = [NSMutableDictionary new];
     
-    [self.stitch getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+    [self.conversationManager.stitchConversationClient getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
         self.conversation = conversationDetails;
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -450,19 +467,21 @@
         });
 
         for (NXMMember *member in self.conversation.members) {
-            if ([member.name isEqualToString:self.stitch.getUser.name]) {
+            if ([member.name isEqualToString:self.conversationManager.connectedUser.name]) {
                 self.memberId = member.memberId;
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
-                    [appDelegate addConversationMember:member.conversationId memberId:member.memberId];
-                });
+                [self.conversationManager addLookupMemberId:member.memberId forUser:self.conversationManager.connectedUser.name inConversation:member.conversationId];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    AppDelegate *appDelegate = ((AppDelegate *)[UIApplication sharedApplication].delegate);
+//                    [appDelegate addConversationMember:member.conversationId memberId:member.memberId];
+//                });
             }
             
-            [self.memberIdToName setObject:member.name forKey:member.memberId];
+            [self.conversationManager.memberIdToName setObject:member.name forKey:member.memberId];
+//            if(member)
+//            [self.conversationManager]
         }
         
-        [self.stitch getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        [self.conversationManager.stitchConversationClient getEvents:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
             dispatch_async(dispatch_get_main_queue(), ^{
 //                [self.events addObjectsFromArray:events];
                 [self addNewEvents:events];
@@ -508,7 +527,7 @@
     
     if (event.type == NXMEventTypeMedia) {
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
-        [cell updateWithEvent:event memberName:self.memberIdToName[event.fromMemberId]];
+        [cell updateWithEvent:event memberName:self.conversationManager.memberIdToName[event.fromMemberId]];
 
         return cell;
     }
@@ -528,13 +547,13 @@
         }
         [cell updateWithEvent:event
                    senderType:senderType
-                   memberName:self.memberIdToName[event.fromMemberId]
+                   memberName:self.conversationManager.memberIdToName[event.fromMemberId]
                 messageStatus:messageStatus];
         return cell;
     }
     if (event.type == NXMEventTypeSip){
         ConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"conversationEventCell"];
-        [cell updateWithEvent:event memberName:self.memberIdToName[event.fromMemberId]];
+        [cell updateWithEvent:event memberName:self.conversationManager.memberIdToName[event.fromMemberId]];
         
         return cell;
     }
@@ -590,7 +609,7 @@
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"conversation" message:@"do you want to delete this msg?" preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.stitch deleteEvent:event.sequenceId conversationId:event.conversationId fromMemberId:event.fromMemberId onSuccess:^{
+        [self.conversationManager.stitchConversationClient deleteEvent:event.sequenceId conversationId:event.conversationId fromMemberId:event.fromMemberId onSuccess:^{
             
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error deleteText");
@@ -612,7 +631,7 @@
     BOOL enabled = self.textinput.text.length > 0;
     
     if (!self.sendButton.enabled) {
-        [self.stitch startTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+        [self.conversationManager.stitchConversationClient startTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error typing");
         }];
@@ -715,7 +734,7 @@
                          self.enableAudioImage.transform = CGAffineTransformIdentity;
                      }
                      completion:^(BOOL finished) {
-                         if (self.isMediaEnabled) {
+                         if (self.isAudioEnabled) {
                              [self startAudioAnimation];
                          }
                      }];
@@ -731,14 +750,52 @@
     return NO;
 }
 
-/*
+
+//ongoing calls
+- (IBAction)ongoingCallsTrayVisibilityPressed:(id)sender {
+    if(self.isOnGoingCallsViewTrayOpen) {
+        [self closeOngoingCallsTray];
+        
+    } else {
+        [self openOngoingCallsTray];
+    }
+}
+
+- (void)enableOngoingCallsTray {
+    [self  closeOngoingCallsTray];
+    self.onGoingCallsTrayButtonHeightConstraint.constant = ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT;
+}
+
+- (void)disableOngoingCallsTray {
+    [self  closeOngoingCallsTray];
+    self.onGoingCallsTrayButtonHeightConstraint.constant = 0;
+}
+
+- (void)closeOngoingCallsTray {
+    self.isOnGoingCallsViewTrayOpen = NO;
+    self.onGoingCallsContainerViewHeightConstraint.constant = 0;
+    self.onGoingCallsView.alpha = 0.85;
+    [self.onGoingCallsTrayButton setImage:[UIImage imageNamed:@"openOngoingCallsTrayIcon"] forState:UIControlStateNormal];
+    [self.onGoingCallsView layoutIfNeeded];
+}
+
+- (void)openOngoingCallsTray {
+    self.isOnGoingCallsViewTrayOpen = YES;
+    self.onGoingCallsContainerViewHeightConstraint.constant = ONGOING_CALLS_OPEN_HEIGHT;
+    self.onGoingCallsView.alpha = 1;
+    [self.onGoingCallsTrayButton setImage:[UIImage imageNamed:@"closeOngoingCallsTrayIcon"] forState:UIControlStateNormal];
+    [self.onGoingCallsView layoutIfNeeded];
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
+    OngoingCallsViewController *vc = [segue destinationViewController];
+    [vc updateWithConversation:self.conversation];
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

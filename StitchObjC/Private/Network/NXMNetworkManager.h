@@ -24,6 +24,7 @@
 #import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
 #import "NXMEnablePushRequest.h"
+#import "NXMSuspendResumeMediaRequest.h"
 
 @interface NXMNetworkManager : NSObject
 
@@ -124,5 +125,13 @@
             memberId:(nonnull NSString *)memberId
            onSuccess:(SuccessCallback _Nullable)onSuccess
              onError:(ErrorCallback _Nullable)onError;
+
+- (void)suspendMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
+                 onSuccess:(SuccessCallback _Nullable)onSuccess
+                   onError:(ErrorCallback _Nullable)onError;
+
+- (void)resumeMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
+                onSuccess:(SuccessCallback _Nullable)onSuccess
+                  onError:(ErrorCallback _Nullable)onError;
 
 @end

@@ -9,9 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #import "NXMEvent.h"
+#import "NXMMediaSettings.h"
 
 @interface NXMMediaEvent : NXMEvent
-
-@property (nonatomic) BOOL isMediaEnabled;
-
+@property (nonatomic) NXMMediaSettings *mediaSettings; //TODO: add support to multiple media types
 @end

@@ -12,8 +12,9 @@
 #import "NXMTextStatusEvent.h"
 #import "NXMTextTypingEvent.h"
 #import "NXMMediaEvent.h"
-#import "NXMMediaAnswerEvent.h"
+#import "NXMRtcAnswerEvent.h"
 #import "NXMImageEvent.h"
+#import "NXMMediaActionEvent.h"
 
 @protocol NXMNetworkDelegate
 
@@ -40,7 +41,9 @@
 - (void)imageRecieved:(nonnull NXMImageEvent *)textEvent;
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent;
-- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent;
+- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaEvent;
+
+- (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent;
 
 
 @end

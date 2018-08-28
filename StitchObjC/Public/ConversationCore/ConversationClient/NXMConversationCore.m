@@ -58,6 +58,7 @@
 
 - (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
     [self.network logout];
+    
 }
 
 - (void)enablePushNotifications:(nonnull NSData *)deviceToken
@@ -97,7 +98,7 @@
 
 #pragma mark - Conversation Methods
 
-- (void)createWithName:(nonnull NSString *)name
+- (void)createConversationWithName:(nonnull NSString *)name
              onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
                onError:(ErrorCallback _Nullable)onError {
     NXMCreateConversationRequest *request = [[NXMCreateConversationRequest alloc] initWithDisplayName:name];
@@ -192,14 +193,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversations:getConversationsRequest onSuccess:onSuccess onError:onError];
 }
 
-- (void)getConversationEvents:(nonnull NSString*)conversationId
-                  startOffset:(NSUInteger)startOffset
-                    endOffset:(NSUInteger)endOffset
-                    onSuccess:(SuccessCallbackWithObjects _Nullable)onSuccess
-                      onError:(ErrorCallback _Nullable)onError {
-    
-}
-
 
 #pragma mark - Messages Methods
 
@@ -277,8 +270,50 @@ fromConversationWithId:(nonnull NSString *)conversationId
     return NXMStitchErrorCodeNone;
 }
 
+- (NXMStitchErrorCode)suspendMyMedia:(NXMMediaType)mediaType
+                    inConversation:(nonnull NSString *)conversationId{
+    if(![self isSupportedMediaType:mediaType]) {
+        return NXMStitchErrorCodeMediaNotSupported;
+    }
+    return [self.rtcMedia suspendMediaWithMediaId:conversationId andMediaType:mediaType];
+}
 
-#pragma mark - NXMSocketCllientDelegate
+- (NXMStitchErrorCode)resumeMyMedia:(NXMMediaType)mediaType
+                    inConversation:(nonnull NSString *)conversationId{
+    if(![self isSupportedMediaType:mediaType]) {
+        return NXMStitchErrorCodeMediaNotSupported;
+    }
+    return [self.rtcMedia resumeMediaWithMediaId:conversationId andMediaType:mediaType];
+}
+
+- (void)suspendMedia:(NXMMediaType)mediaType
+            ofMember:(NSString *)memberId
+      inConversation:(nonnull NSString *)conversationId
+          fromMember:(NSString *)fromMemberId
+           onSuccess:(SuccessCallback _Nullable)onSuccess
+             onError:(ErrorCallback _Nullable)onError {
+    if(![self isSupportedMediaType:mediaType]) {
+        onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+    }
+    NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
+    [self.network suspendMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
+}
+
+- (void)resumeMedia:(NXMMediaType)mediaType
+           ofMember:(NSString *)memberId
+     inConversation:(nonnull NSString *)conversationId
+         fromMember:(NSString *)fromMemberId
+          onSuccess:(SuccessCallback _Nullable)onSuccess
+            onError:(ErrorCallback _Nullable)onError {
+    if(![self isSupportedMediaType:mediaType]) {
+        onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+    }
+    NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
+    [self.network resumeMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
+}
+
+
+#pragma mark - NXMNetworkDelegate
 
 - (void)userStatusChanged:(NXMUser *)user sessionId:(NSString*)sessionId {
     self.user = user;
@@ -329,11 +364,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent {
-    [self.delegate mediaChanged:mediaEvent];
+    [self.delegate informOnMedia:mediaEvent];
 }
 
-- (void)mediaAnswerEvent:(nonnull NXMMediaAnswerEvent *)mediaEvent {
-    [self.rtcMedia answerWithMediaId:mediaEvent.rtcId convId:mediaEvent.conversationId andSDP:mediaEvent.sdp];
+- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaEvent {
+    [self.delegate actionOnMedia:mediaEvent];
+}
+
+- (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent {
+    [self.rtcMedia answerWithMediaId:rtcEvent.rtcId convId:rtcEvent.conversationId andSDP:rtcEvent.sdp];
 }
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent{
@@ -350,7 +389,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate sipStatus:sipEvent];
 }
 
-#pragma mark - RTCMediaWrapper
+#pragma mark - RTCMediaWrapperDelegate
 
 - (void)onMediaStatusChangedWithConversationId:(NSString *)conversationId andStatus:(NSString *)status {
     // TODO:
@@ -370,5 +409,45 @@ fromConversationWithId:(nonnull NSString *)conversationId
         completionHandler(error);
     }];
 }
+
+- (void)didMuteStateChangeWithMediaInfo:(NXMMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(NXMMediaType)mediaType {
+    NXMMediaSuspendEvent *mediaEvent = [NXMMediaSuspendEvent new];
+    mediaEvent.fromMemberId = mediaInfo.memberId;
+    mediaEvent.toMemberId = mediaInfo.memberId;
+    mediaEvent.conversationId = mediaInfo.conversationId;
+    mediaEvent.type = NXMEventTypeMediaAction;
+    mediaEvent.creationDate = [NSDate date];
+    mediaEvent.actionType = NXMMediaActionTypeSuspend;
+    mediaEvent.mediaType = mediaType;
+    mediaEvent.isSuspended = isMute;
+
+    [self.delegate localActionOnMedia:mediaEvent];
+}
+
+
+- (void)sendMuteStateWithMediaInfo:(NXMMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(NXMMediaType)mediaType onSuccess:(void (^) (void))onSuccess onError:(void (^) (NSError * _Nullable error))onError {
+    
+    NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:mediaInfo.conversationId fromMemberId:mediaInfo.memberId toMemberId:mediaInfo.memberId rtcId:mediaInfo.rtcId mediaType:mediaType];
+    
+    if(isMute) {
+        [self.network suspendMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
+    }
+    else {
+        [self.network resumeMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
+    }
+}
+
+#pragma mark - private
+-(bool)isSupportedMediaType:(NXMMediaType)mediaType {
+    switch (mediaType) {
+        case NXMMediaTypeAudio:
+            return true;
+        case NXMMediaTypeVideo:
+        case NXMMediaTypeNone:
+        default:
+            return false;
+    }
+}
+
 
 @end
