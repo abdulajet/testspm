@@ -22,6 +22,6 @@ Pod::Spec.new do |s|
 
 # TODO:
   s.dependency 'VPSocketIO'
-  s.dependency 'MiniRTC_Release', '0.01.15'
+  s.dependency 'MiniRTC_Release', '0.01.45'
 
 end
