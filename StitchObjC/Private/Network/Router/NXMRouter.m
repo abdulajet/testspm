@@ -419,7 +419,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, sendTextEventRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        NSString *textId = data[@"id"];
+        NSString *textId = [data[@"id"]stringValue];
         if (error) {
             onError(error);
             return;
@@ -483,7 +483,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, sendImageRequest.conversationId]];
         
         [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-            NSString *textId = data[@"id"];
+            NSString *textId = [data[@"id"]stringValue];
             if (error) {
                 onError(error);
                 return;
