@@ -25,15 +25,14 @@
 
 @implementation NXMNetworkManager
 
-- (nullable instancetype)initWitHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost {
+- (nullable instancetype)initWithHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost {
     if (self = [super init]) {
         
     }
     
-    self.socketClient = [[NXMSocketClient alloc] initWitHost:wsHost];
+    self.socketClient = [[NXMSocketClient alloc] initWithHost:wsHost];
     [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
-    
-    self.router = [[NXMRouter alloc] initWitHost:httpHost];
+    self.router = [[NXMRouter alloc] initWithHost:httpHost];
     
     return self;
 }
@@ -42,11 +41,7 @@
     _delegate = delegate;
 }
 
-- (void)loginWithToken:(NSString * _Nonnull)token
-             onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-               onError:(ErrorCallback _Nullable)onError {
-    self.loginSuccessCallback = onSuccess;
-    self.loginErrorCallback = onError;
+- (void)loginWithToken:(NSString * _Nonnull)token{
     
     [self.socketClient loginWithToken:token];
     [self.router setToken:token];
@@ -214,6 +209,7 @@
 }
 
 # pragma mark - NXMSocketClientDelegate
+
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent {
     [self.delegate sipRinging:sipEvent];
 }
@@ -241,7 +237,6 @@
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent {
     [self.delegate memberInvited:memberEvent];
 }
-
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent{
     [self.delegate textRecieved:textEvent];
@@ -271,17 +266,23 @@
     [self.delegate imageRecieved:textEvent];
 }
 
-- (void)connectionStatusChanged:(BOOL)isOpen {
-    [self.delegate connectionStatusChanged:isOpen];
+- (void)connectionStatusChanged:(BOOL)isConnected {
+    [self.delegate connectionStatusChanged:isConnected];
 }
 
-- (void)userStatusChanged:(nullable NXMUser *)user sessionId:(nullable NSString*)sessionId {
-    [self.router setSessionId:sessionId];
-    
-    [self.delegate userStatusChanged:user sessionId:sessionId];
-    
-    self.loginSuccessCallback(user);
+- (void)didLogout:(nonnull NXMUser*)user {
+    [self.delegate loginStatusChanged:user loginStatus:NO withError:nil];
 }
+
+- (void)didSuccessfulAuthorization:(nonnull NXMUser*)user  sessionId:(nonnull NSString*)sessionId {
+    [self.router setSessionId:sessionId];
+    [self.delegate loginStatusChanged:user loginStatus:YES withError:nil];
+}
+
+- (void)didFailedAuthorization: (nonnull NSError*) error {
+    [self.delegate loginStatusChanged:nil loginStatus:NO withError:error];
+}
+
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
     [self.delegate mediaEvent:mediaEvent];

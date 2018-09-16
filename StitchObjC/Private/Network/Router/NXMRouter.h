@@ -27,7 +27,7 @@
 
 @interface NXMRouter : NSObject
 
-- (nullable instancetype)initWitHost:(nonnull NSString *)host;
+- (nullable instancetype)initWithHost:(nonnull NSString *)host;
 
 - (void)setToken:(nonnull NSString *)token;
 

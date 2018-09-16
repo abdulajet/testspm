@@ -8,7 +8,6 @@
 #import <AVFoundation/AVAudioSession.h>
 #import "LoginViewController.h"
 #import "ConversationListViewContoller.h"
-
 #import "ConversationManager.h"
 #import "Tokens.h"
 
@@ -45,27 +44,33 @@
 }
 - (IBAction)onLoginPressed:(UIButton *)sender {
     ConversationManager *conversationManager = ConversationManager.sharedInstance;
-    
+    [self subscribeLoginEvents];
     NSString *username = self.autoTokenField.text;
     NSString *token = self.userLogin[username];
     if (!token) {
         return;
     }
+    [conversationManager.stitchConversationClient loginWithAuthToken:token];
+}
 
-    [conversationManager.stitchConversationClient loginWithAuthToken:token onSuccess:^(NSObject * _Nullable object) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self showConvertionListVC];
-        });
-        
-//        [stitch enablePushNotifications:appDelegate.deviceToken onSuccess:^{
-//            
-//        } onError:^(NSError * _Nullable error) {
-//
-//        }];
+- (void)didSuccessfulLogin:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMUser *user = userInfo[@"user"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self showConvertionListVC];
+    });
+}
 
-    } onError:^(NSError * _Nullable error) {
-        // TODO:
-    }];
+- (void)didFailedLogin:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSError *error = userInfo[@"error"];
+    // TODO:
+}
+
+- (void)subscribeLoginEvents {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:@"loginSuccess" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailedLogin:) name:@"loginFailure" object:nil];
 }
 
 - (void)showConvertionListVC {
@@ -73,6 +78,4 @@
     
     [self presentViewController:conversationVC animated:YES completion:nil];
 }
-
-
 @end

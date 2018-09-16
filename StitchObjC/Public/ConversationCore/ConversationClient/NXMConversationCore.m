@@ -7,7 +7,7 @@
 //
 
 #import "NXMConversationCore.h"
-
+#import "NXMLogger.h"
 #import "NXMNetworkManager.h"
 #import "RTCMediaWrapper.h"
 
@@ -15,11 +15,12 @@
 @interface NXMConversationCore()
 
 @property id<NXMConversationCoreDelegate> delegate;
-//@property NXMSocketClient *socketClient;
-//@property NXMRouter *router;
 @property NXMNetworkManager *network;
-@property NXMUser *user;
 @property RTCMediaWrapper *rtcMedia;
+@property NXMUser* user;
+// TODO: the use when network is down but still logged in
+@property (readwrite) BOOL isLoggedIn;
+@property (readwrite) BOOL isConnected;
 
 @end
 
@@ -28,7 +29,7 @@
 - (instancetype _Nullable)init {
     if (self = [super init]) {
         //     NXMConversationClientConfig *config = [NXMConversationClientConfig new];
-        self.network = [[NXMNetworkManager alloc] initWitHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
+        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
         self.rtcMedia = [[RTCMediaWrapper alloc] init];
@@ -50,15 +51,19 @@
 
 
 
-- (void)loginWithAuthToken:(nonnull NSString *)authToken
-                 onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                   onError:(ErrorCallback _Nullable)onError {
-    [self.network loginWithToken:authToken onSuccess:onSuccess onError:onError];
+- (void)loginWithAuthToken:(nonnull NSString *)authToken {
+    [self.network loginWithToken:authToken];
 }
 
-- (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock {
-    [self.network logout];
-    
+- (void)logout {
+    if (!self.isConnected) {
+       [NXMLogger error:@"Tried to logout when not connected to CS"];
+    } else if (self.isLoggedIn) {
+        // TODO: error handling of logout
+        [self.network logout];
+    } else {
+       [NXMLogger error:@"Tried to logout when not logged in"];
+    }
 }
 
 - (void)enablePushNotifications:(nonnull NSData *)deviceToken
@@ -79,10 +84,6 @@
     return nil;
 }
 
-- (BOOL)isLoggedIn {
-    return NO;
-} // TODO: the use already login but the network is down?
-
 - (void)setDelgate:(nonnull id<NXMConversationCoreDelegate>)delegate {
     self.delegate = delegate;
 }
@@ -92,8 +93,9 @@
 }
 
 
-- (void)connectionStatusChanged:(BOOL)isOpen {
-    
+- (void)connectionStatusChanged:(BOOL)isConnected {
+    self.isConnected = isConnected;
+    [self.delegate connectionStatusChanged:isConnected];
 }
 
 #pragma mark - Conversation Methods
@@ -312,13 +314,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network resumeMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
 }
 
-
 #pragma mark - NXMNetworkDelegate
-
-- (void)userStatusChanged:(NXMUser *)user sessionId:(NSString*)sessionId {
+- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
     self.user = user;
-    
-    [self.delegate connectedWithUser:user];
+    self.isLoggedIn = isLoggedIn;
+    [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
 }
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member {

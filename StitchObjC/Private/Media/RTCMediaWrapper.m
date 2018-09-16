@@ -161,15 +161,15 @@
     }];
 }
 
-- (void)onMuteStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType {
+- (void)onMuteStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType {
     
     [self.delegate didMuteStateChangeWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
                                          andIsMute:isMute
-                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:*mediaType]];
+                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:mediaType]];
 }
 
-- (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType completionHandler:(void (^)(bool))completionHandler {
-    NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:*mediaType];
+- (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType completionHandler:(void (^)(bool))completionHandler {
+    NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:mediaType];
     if(nxmMediaType == NXMMediaTypeNone) {
         [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)mediaType];
         completionHandler(false);

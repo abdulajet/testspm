@@ -39,7 +39,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 @end
 @implementation NXMRouter
 
-- (nullable instancetype)initWitHost:(nonnull NSString *)host {
+- (nullable instancetype)initWithHost:(nonnull NSString *)host {
     if (self = [super init]) {
         self.baseUrl = host;
     }
@@ -887,11 +887,11 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
             return;
         }
         
-        // TODO: 413 Payload too lage
+        // TODO: 413 Payload too large
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
             NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:dataDict];
             responseBlock(resError, nil);
             return;
         }
@@ -1039,7 +1039,6 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
     return  @{ @(NXMEventStateSeenBy):[self parseFromSpecificStateDictionary:dictionary[@"seen_by"]],
                @(NXMEventStateDelievredTo):[self parseFromSpecificStateDictionary:dictionary[@"delivered_to"]]
              };
-
 }
 
 -(NSDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {

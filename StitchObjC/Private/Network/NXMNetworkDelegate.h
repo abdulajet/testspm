@@ -19,7 +19,7 @@
 @protocol NXMNetworkDelegate
 
 - (void)connectionStatusChanged:(BOOL)isOpen;
-- (void)userStatusChanged:(nullable NXMUser *)user sessionId:(nullable NSString*)sessionId;
+- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

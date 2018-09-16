@@ -1,4 +1,3 @@
-
 //
 //  SocketClient.m
 //  NexmoConversationObjC
@@ -26,6 +25,7 @@
 @property id<NXMSocketClientDelegate> delegate;
 @property VPSocketIOClient *socket;
 @property NSString *token;
+@property NXMUser *user;
 
 @end
 
@@ -36,10 +36,10 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 #pragma Public
 
 - (void)close {
-
+    
 }
 
-- (instancetype)initWitHost:(NSString *)host {
+- (instancetype)initWithHost:(NSString *)host {
     if (self = [super init]) {
         
         VPSocketLogger *logger = [VPSocketLogger new];
@@ -47,17 +47,17 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         NSString *urlString = host;
         NSDictionary *connectParams = @{@"EIO":@"3"};
         self.socket = [[VPSocketIOClient alloc] init:[NSURL URLWithString:urlString]
-                                           withConfig:@{@"log": @YES,
-                                                        @"secure": @YES,
-                                                        @"forceNew":@YES,
-                                                        @"path":@"/rtc/",
-                                                        @"forceWebsockets":@YES,
-                                                        @"selfSigned":@YES,
-                                                        @"reconnectWait":@1000,
-                                                        @"nsp":@"/",
-                                                        @"connectParams":connectParams,
-                                                        @"logger":logger
-                                                        }];
+                                          withConfig:@{@"log": @YES,
+                                                       @"secure": @YES,
+                                                       @"forceNew":@YES,
+                                                       @"path":@"/rtc/",
+                                                       @"forceWebsockets":@YES,
+                                                       @"selfSigned":@YES,
+                                                       @"reconnectWait":@1000,
+                                                       @"nsp":@"/",
+                                                       @"connectParams":connectParams,
+                                                       @"logger":logger
+                                                       }];
         
         [self subscribeSocketEvent];
     }
@@ -72,17 +72,12 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)loginWithToken:(NSString *)token {
     self.token = token;
+    self.socket.reconnects = YES;
     if (!self.isWSOpen) {
         [self.socket connect];
     }
-    
-    [self login];
+    // [self login] would be called on successful connection callback (onWSConnect).
 }
-
-- (void)logout {
-    // TODO: socket client logout
-}
-
 
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
@@ -142,17 +137,32 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 #pragma mark - Private
 
+
+
 - (void)login {
     // TODO: device id
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString],
                            @"body" : @{
-                           @"token": self.token,
-                           @"device_id": [[[UIDevice currentDevice] identifierForVendor] UUIDString],
-                           @"device_type": @"iphone",
-                           }};
+                                   @"token": self.token,
+                                   @"device_id": [[[UIDevice currentDevice] identifierForVendor] UUIDString],
+                                   @"device_type": @"iphone",
+                                   }};
     
     [self.socket emit:kNXMSocketEventLogin items:@[msg]];
 }
+
+- (void)logout {
+    NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString]};
+    [self.socket emit:kNXMSocketEventLogout items:@[msg]];
+    [self.socket disconnect];
+    [self onWSDisconnect];
+    NXMUser * user = self.user;
+    self.token = nil;
+    self.user = nil;
+    [self.delegate didLogout:user];
+   
+}
+
 
 - (void)subscribeSocketEvent {
     [self subscribeSocketGeneralEvents];
@@ -164,30 +174,31 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (void)subscribeSocketGeneralEvents {
-    [self.socket on:kSocketEventConnect callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"socket connected event when already connceted"];
-        
-        if (self.isWSOpen) { return; }
-        
-        [NXMLogger debug:@"socket connected"];
 
-        self.isWSOpen = YES;
-        
-        [self.delegate connectionStatusChanged:YES];
-        
-        [self login];
+    [self.socket on:kSocketEventStatusChange callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        switch (self.socket.status) {
+            //TODO: when no internet connection is available after some time ping timeout would occur and the
+            // socket would disconnect, hence not trying to reconnect.
+            case VPSocketIOClientStatusDisconnected:
+            case VPSocketIOClientStatusNotConnected:
+                [self onWSDisconnect];
+                [NXMLogger debug:@"socket disconnected"];
+                break;
+                
+            case VPSocketIOClientStatusConnected:
+                [self onWSConnect];
+                [NXMLogger debug:@"socket connected"];
+                break;
+                
+            case VPSocketIOClientStatusConnecting:
+                // TODO: not sure if needed (to remove?)
+                break;
+            case VPSocketIOClientStatusOpened:
+                // TODO: not sure if needed (to remove?)
+                break;
+        }
     }];
-    
-    [self.socket on:kSocketEventDisconnect callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger debug:@"socket disconnected"];
-        if (!self.isWSOpen) {return;}
 
-        self.isWSOpen = NO;
-        self.isLoggedIn = NO;
-        
-        [self.delegate connectionStatusChanged:NO];
-    }];
-    
     [self.socket on:kSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"socket error"];
     }];
@@ -204,23 +215,27 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         self.isLoggedIn = YES;
         NSDictionary *response = ((NSDictionary *)data[0])[@"body"];
         NXMUser *user = [[NXMUser alloc] initWithId:response[@"user_id"] name:response[@"name"]];
-        
-        [self.delegate userStatusChanged:user sessionId:response[@"id"]];
+        self.user = user;
+        [self.delegate didSuccessfulAuthorization:user sessionId:response[@"id"]];
     }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        [self onLoginFailed:data emitter:emitter];
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeSessionInvalid userInfo:nil];
+        [self onFailedAuthentication:err];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        [self onLoginFailed:data emitter:emitter];
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenInvalid userInfo:nil];
+        [self onFailedAuthentication:err];
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
-        [self onLoginFailed:data emitter:emitter];
+        NSDictionary * userInfo = @{@"token" : self.token};
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenExpired userInfo:userInfo];
+        [self onFailedAuthentication:err];
     }];
     
     [self.socket on:kNXMSocketEventBadPermission callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
@@ -229,12 +244,14 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidEvent"];
-        [self onLoginFailed:data emitter:emitter];
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeEventInvalid userInfo:nil];
+        [self onFailedAuthentication:err];
     }];
     
     [self.socket on:kNXMSocketEventUserNotFound callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventUserNotFound"];
-        [self onLoginFailed:data emitter:emitter];
+        NSError *err = [[NSError alloc] initWithDomain: NXMStitchErrorDomain code:NXMStitchErrorCodeEventUserNotFound userInfo:nil];
+        [self onFailedAuthentication:err];
     }];
 }
 
@@ -352,12 +369,32 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 #pragma socket event handle
-- (void)onLoginFailed:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    if (!self.isLoggedIn) { return; }
+- (void)onWSConnect{
+    if (self.isWSOpen) { return; }
     
+    [NXMLogger debug:@"socket connected"];
+    self.isWSOpen = YES;
+    [self.delegate connectionStatusChanged:YES];
+    
+    [self login];
+}
+
+- (void)onWSDisconnect{
+    self.isLoggedIn = NO;
+    if (!self.isWSOpen) {return;}
+    
+    self.isWSOpen = NO;
+    [self.delegate connectionStatusChanged:NO];
+}
+
+
+
+- (void)onFailedAuthentication:(NSError *)err{
+    [self.socket disconnect];
     self.isLoggedIn = NO;
     
-    [self.delegate userStatusChanged:nil sessionId:nil];
+    [self.delegate connectionStatusChanged:NO];
+    [self.delegate didFailedAuthorization:err];
 }
 
 - (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
@@ -392,19 +429,19 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     [self.delegate sipHangup:sipEvent];
 }
- - (void)onSipStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-     NSDictionary *json = data[0];
-     NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
-     sipEvent.sipType = NXMSipEventStatus;
-     
-     [self.delegate sipStatus:sipEvent];
+- (void)onSipStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventStatus;
+    
+    [self.delegate sipStatus:sipEvent];
 }
 - (void)onMemberJoined:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     NSDictionary *json = data[0];
     NXMMemberEvent *memberEvent = [NXMMemberEvent new];
     memberEvent.memberId = json[@"from"];
     memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
-//    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
+    //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
     memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"JOINED";
     memberEvent.conversationId = json[@"cid"];
@@ -434,8 +471,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NXMMemberEvent *memberEvent = [NXMMemberEvent new];
     memberEvent.memberId = json[@"from"];
     memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"id"] name:json[@"body"][@"user"][@"name"]];
-//    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
-//    memberEvent.leftDate = json[@"body"][@"timestamp"][@"left"]; // TODO: NSDate
+    //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
+    //    memberEvent.leftDate = json[@"body"][@"timestamp"][@"left"]; // TODO: NSDate
     memberEvent.sequenceId = [json[@"id"] integerValue];
     memberEvent.state = @"LEFT";
     memberEvent.conversationId = json[@"cid"];
@@ -467,10 +504,10 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NSDictionary *json = data[0];
     
     NXMImageEvent *imageEvent = [[NXMImageEvent alloc] initWithConversationId:json[@"cid"]
-                                                                  sequenceId:[json[@"id"] integerValue]
-                                                                fromMemberId:json[@"from"]
-                                                                creationDate:json[@"timestamp"]
-                                                                        type:NXMEventTypeImage];
+                                                                   sequenceId:[json[@"id"] integerValue]
+                                                                 fromMemberId:json[@"from"]
+                                                                 creationDate:json[@"timestamp"]
+                                                                         type:NXMEventTypeImage];
     NSDictionary *body = json[@"body"];
     imageEvent.imageId = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
@@ -478,19 +515,19 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                                              size:[originalJSON[@"size"] integerValue]
                                                               url:originalJSON[@"url"]
                                                              type:NXMImageTypeOriginal];
-     
+    
     NSDictionary *mediumJSON = body[@"medium"];
     imageEvent.mediumImage = [[NXMImageInfo alloc] initWithUuid:mediumJSON[@"id"]
-                                                             size:[mediumJSON[@"size"] integerValue]
-                                                              url:mediumJSON[@"url"]
-                                                             type:NXMImageTypeMedium];
+                                                           size:[mediumJSON[@"size"] integerValue]
+                                                            url:mediumJSON[@"url"]
+                                                           type:NXMImageTypeMedium];
     
     
     NSDictionary *thumbnailJSON = body[@"thumbnail"];
     imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithUuid:thumbnailJSON[@"id"]
-                                                             size:[thumbnailJSON[@"size"] integerValue]
-                                                              url:thumbnailJSON[@"url"]
-                                                             type:NXMImageTypeThumbnail];
+                                                              size:[thumbnailJSON[@"size"] integerValue]
+                                                               url:thumbnailJSON[@"url"]
+                                                              type:NXMImageTypeThumbnail];
     
     
     [self.delegate imageRecieved:imageEvent];
@@ -587,7 +624,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 #pragma mark - rtc event handle
 
 - (void)onRTCAnswer:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-
+    
     NSDictionary *json = data[0];
     
     NXMRtcAnswerEvent *mediaEvent = [NXMRtcAnswerEvent new];
@@ -605,20 +642,20 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     // TODO:
     // should we use it? should we use member media?
-//    {
-//        "timestamp": 1525248500583,
-//        "type": "rtc:terminate",
-//        "payload": {
-//            "cid": "CON-b2b067e6-ef07-45e5-a9f3-138e66373359",
-//            "from": "MEM-164379b3-a819-4964-99a0-bfaed993d739",
-//            "rtc_id": "70bbf7bc-c2fc-4f51-9946-d974b2fc521a"
-//        },
-//        "direction": "emitted"
-//    }
+    //    {
+    //        "timestamp": 1525248500583,
+    //        "type": "rtc:terminate",
+    //        "payload": {
+    //            "cid": "CON-b2b067e6-ef07-45e5-a9f3-138e66373359",
+    //            "from": "MEM-164379b3-a819-4964-99a0-bfaed993d739",
+    //            "rtc_id": "70bbf7bc-c2fc-4f51-9946-d974b2fc521a"
+    //        },
+    //        "direction": "emitted"
+    //    }
 }
 
 - (void)onRTCMemberMedia:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-
+    
     NSDictionary *json = data[0];
     
     NXMMediaEvent *mediaEvent = [NXMMediaEvent new];
@@ -627,8 +664,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.creationDate = json[@"timestamp"];
     mediaEvent.sequenceId = [json[@"id"] integerValue];
     mediaEvent.mediaSettings = [NXMMediaSettings new];
-    mediaEvent.mediaSettings.isEnabled = [json[@"body"][@"audio_settings"][@"enabled"] boolValue];
-    mediaEvent.mediaSettings.isSuspended = [json[@"body"][@"audio_settings"][@"muted"] boolValue];
+    mediaEvent.mediaSettings.isEnabled = [json[@"body"][@"media"][@"audio_settings"][@"enabled"] boolValue];
+    mediaEvent.mediaSettings.isSuspended = [json[@"body"][@"media"][@"audio_settings"][@"muted"] boolValue];
     mediaEvent.type = NXMEventTypeMedia;
     
     [self.delegate mediaEvent:mediaEvent];

@@ -60,7 +60,6 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.userId = @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205"; // testuser5;
     self.testUserIDs = @{@"testuser1":@"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2",
                      @"testuser2":@"USR-1628dc75-fa09-4746-9e29-681430cb6419",
@@ -133,6 +132,11 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(connectionStatusChanged:)
+                                                 name:@"connectionStatusChanged" object:nil];
+
+    
     self.events = [NSMutableArray new];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
@@ -150,11 +154,12 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     
     [self disableOngoingCallsTray];
 }
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self subscribeLoginEvents];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
     self.typingLabel.hidden = YES;
+    
 }
 
 - (void)dealloc {
@@ -177,7 +182,24 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     [self.view layoutIfNeeded];
 }
 
+- (void)updateSendButtonIfNeeded {
+    self.sendButton.enabled = (self.conversationManager.stitchConversationClient.isConnected && self.textinput.text.length > 0) ? YES : NO;
+}
+#pragma mark - login (reconnect)
+- (void)subscribeLoginEvents {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:@"loginSuccess" object:nil];
+}
+
+- (void)didSuccessfulLogin:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMUser *user = userInfo[@"user"];
+    [self updateWithConversation:self.conversation];
+}
+
 #pragma mark - events
+- (void)connectionStatusChanged:(NSNotification *)notification {
+    [self updateSendButtonIfNeeded];
+}
 
 - (void)receivedTypingEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
@@ -628,20 +650,13 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 #pragma mark - UITextViewDelegate
 
 - (void)textViewDidChange:(UITextView *)textView {
-    BOOL enabled = self.textinput.text.length > 0;
-    
-    if (!self.sendButton.enabled) {
+    if (!self.sendButton.enabled && self.conversationManager.stitchConversationClient.isConnected) {
         [self.conversationManager.stitchConversationClient startTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error typing");
         }];
     }
-    
-//    if (self.sendButton.enabled && !enabled) {
-//
-//    }
-    
-    self.sendButton.enabled = enabled;
+    [self updateSendButtonIfNeeded];
 }
 
 #pragma mark - Helper Methods

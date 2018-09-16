@@ -17,13 +17,14 @@
 
 @interface NXMConversationCore : NSObject <RTCMediaWrapperDelegate>
 
+@property (readonly) BOOL isLoggedIn;
+@property (readonly) BOOL isConnected;
+
 - (instancetype _Nullable)init;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 
-- (void)loginWithAuthToken:(nonnull NSString *)authToken
-                 onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                   onError:(ErrorCallback _Nullable)onError;
-- (void)logout:(void (^_Nullable)(NSError * _Nullable error))responseBlock;
+- (void)loginWithAuthToken:(nonnull NSString *)authToken;
+- (void)logout;
 
 - (void)enablePushNotifications:(nonnull NSData *)deviceToken
                       onSuccess:(SuccessCallback _Nullable)onSuccess

@@ -11,10 +11,8 @@
 
 @protocol NXMConversationCoreDelegate <NSObject>
 
-- (void)connectedWithUser:(NXMUser *_Nonnull)user;
-// TODO: not called
-- (void)tokenExpired:(nullable NSString *)token withReason:(NXMStitchErrorCode)reason;
-- (void)networkStatusChanged:(BOOL)isOnline;
+- (void)connectionStatusChanged:(BOOL)isOnline;
+- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member;
 - (void)memberInvited:(nonnull NXMMemberEvent *)member;

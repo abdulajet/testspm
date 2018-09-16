@@ -10,6 +10,7 @@
 #import "ConversationListTableCellView.h"
 #import "CoversationViewController.h"
 #import "ConversationManager.h"
+
 @interface ConversationListViewContoller ()
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property ConversationManager *conversationManager;
@@ -55,7 +56,7 @@
     }];
     [alertController addAction:confirmAction];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"Canelled");
+        NSLog(@"Cancelled");
     }];
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
@@ -68,9 +69,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
     self.navigationItem.title = self.conversationManager.connectedUser.name;
-
+    [self subscribeLoginEvents];
 }
 
 - (IBAction)createConversationPressed:(UIBarButtonItem *)sender {
@@ -101,7 +101,7 @@
     }];
     [alertController addAction:confirmAction];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        NSLog(@"Canelled");
+        NSLog(@"Cancelled");
     }];
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];;
@@ -128,8 +128,28 @@
     CoversationViewController *vc = [segue destinationViewController];
     [vc updateWithConversation:[cell getConversation]];
 }
+#pragma mark - Authentication events
+- (void)subscribeLoginEvents {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:@"loginSuccess" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLogout:) name:@"logout" object:nil];
+}
 
+- (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
+    [self.conversationManager.stitchConversationClient logout];
+}
 
+- (void)didLogout:(NSNotification *) notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NXMUser *user = userInfo[@"user"];
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)didSuccessfulLogin:(NSNotification  *) notification{
+    NSDictionary *userInfo = notification.userInfo;
+    NXMUser *user = userInfo[@"user"];
+    [self getNewestConversations];
+}
 #pragma mark - Private
 
 - (void)getNewestConversations {

@@ -17,7 +17,7 @@
 
 @interface NXMSocketClient : NSObject
 
-- (nullable instancetype)initWitHost:(nonnull NSString *)host;
+- (nullable instancetype)initWithHost:(nonnull NSString *)host;
 
 - (void)setDelegate:(_Nonnull id<NXMSocketClientDelegate>)delegate;
 - (BOOL)isSocketOpen;

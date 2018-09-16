@@ -28,13 +28,11 @@
 
 @interface NXMNetworkManager : NSObject
 
-- (nullable instancetype)initWitHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost;
+- (nullable instancetype)initWithHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost;
 
 - (void)setDelegate:(nonnull id<NXMNetworkDelegate>)delegate;
 
-- (void)loginWithToken:(NSString * _Nonnull)token
-             onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-               onError:(ErrorCallback _Nullable)onError;
+- (void)loginWithToken:(NSString * _Nonnull)token;
 
 - (void)logout;
 

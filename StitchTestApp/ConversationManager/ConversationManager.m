@@ -71,8 +71,19 @@
      object:nil userInfo:@{@"media":mediaActionEvent}];
 }
 
-- (void)connectedWithUser:(NXMUser * _Nonnull)user {
-    _connectedUser = user;
+- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error; {
+    if (user && isLoggedIn) {
+        _connectedUser = user;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil userInfo:@{@"user":user}];
+    } else if (!isLoggedIn && user) {
+        NSLog(@"User logged out: %@", [user description]) ;
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:nil userInfo:@{@"user":user}];
+        _connectedUser = nil;
+    } else if (error){
+        _connectedUser = nil;
+        NSLog(@"Authentication Error Occured: %@", [error description]);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailure" object:nil userInfo:@{@"error":error}];
+    }
 }
 
 - (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent {
@@ -132,8 +143,8 @@
      object:nil userInfo:@{@"member":member}];
 }
 
-- (void)networkStatusChanged:(BOOL)isOnline {
-    
+- (void)connectionStatusChanged:(BOOL)isConnected {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"connectionStatusChanged" object:nil];
 }
 
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent {
