@@ -170,6 +170,7 @@
 		92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMediaCollection.m; sourceTree = "<group>"; };
 		92A1DE2520F50A960099D601 /* NXMUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMUtils.h; sourceTree = "<group>"; };
 		92A1DE2620F50A960099D601 /* NXMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMUtils.m; sourceTree = "<group>"; };
+		92B7A3AD214E8CF700390258 /* Tokens.h.template */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tokens.h.template; sourceTree = "<group>"; };
 		92D983D32135325A006EF3F4 /* NXMNSLogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMNSLogger.h; sourceTree = "<group>"; };
 		92D983D42135325A006EF3F4 /* NXMNSLogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMNSLogger.m; sourceTree = "<group>"; };
 		92ECB57821342861004760CB /* NXMSuspendResumeMediaRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSuspendResumeMediaRequest.h; sourceTree = "<group>"; };
@@ -446,6 +447,7 @@
 				F910531320BAE498006318F9 /* UIViewWithGradientBackground.m */,
 				92D983D32135325A006EF3F4 /* NXMNSLogger.h */,
 				92D983D42135325A006EF3F4 /* NXMNSLogger.m */,
+				92B7A3AD214E8CF700390258 /* Tokens.h.template */,
 			);
 			path = StitchTestApp;
 			sourceTree = "<group>";

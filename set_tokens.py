@@ -6,8 +6,8 @@ base_request = "http://capi-token.dev.il.vocal-dev.com:8889/token/f1a5f6fa-7d74-
 base_line = "static const NSString* testUser%dToken = @\"%s\";"
 def main():
 	new_lines = []
-	input_file = open("StitchTestApp/Tokens.h",'r')
-	output_file = open("StitchTestApp/Tokens.h.new","w")
+	input_file = open("StitchTestApp/Tokens.h.template",'r')
+	output_file = open("StitchTestApp/Tokens.h","w")
 
 	for i in range(1,9):
 		content = urllib2.urlopen(base_request % i).read()
@@ -25,9 +25,6 @@ def main():
 
 	output_file.close()
 	input_file.close()
-
-	os.rename("StitchTestApp/Tokens.h.new","StitchTestApp/Tokens.h")
-
 
 if __name__ == '__main__':
 	main()
