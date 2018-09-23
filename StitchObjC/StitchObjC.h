@@ -17,12 +17,3 @@ FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 
 #import <StitchObjC/NXMConversationCore.h>
 #import <StitchObjC/NXMConversationCoreDelegate.h>
-
-
-
-
-
-
-
-
-
