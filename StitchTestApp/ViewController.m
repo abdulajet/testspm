@@ -18,7 +18,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     int jenkinsPipelineTest = 0;
-    jenkinsPipelineTest = 3;
+    jenkinsPipelineTest = 4;
 
 }
 
