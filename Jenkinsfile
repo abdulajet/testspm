@@ -19,6 +19,16 @@ pipeline {
         }
         stage('Build') {
              steps {
+                sh 'git clean -xdf'
+                sh 'rm -f env.properties'
+                sh 'rm -f Podfile.lock'
+                sh 'echo AUTHOR=`git --no-pager show -s --format="%an" $GIT_COMMIT` >> env.properties'
+                sh 'echo COMPILED_BRANCH="${GIT_BRANCH##origin/}" >> env.properties'
+                
+                sh 'mkdir -p ${WORKSPACE}/DerivedData/${BUILD_NUMBER}'
+
+                sh 'pod update'
+                sh 'pod install'
                 sh 'xcodebuild clean test -workspace Stitch_iOS.xcworkspace -scheme "StitchObjCTests" -enableCodeCoverage YES -derivedDataPath ${WORKSPACE}/DerivedData/${BUILD_NUMBER} -destination "OS=11.0,name=iPhone 8" 2>&1 | tee xcodebuild.log | ocunit2junit'
             }  
         }
