@@ -25,7 +25,7 @@
     OCMStub([socketIOClientMock alloc]).andReturn(socketIOClientMock);
     OCMStub([socketIOClientMock init:OCMOCK_ANY withConfig:OCMOCK_ANY]).andReturn(socketIOClientMock);
 
-    NXMSocketClient *socketClient = [[NXMSocketClient alloc] initWitHost:@"host"];
+    NXMSocketClient *socketClient = [[NXMSocketClient alloc] initWithHost:@"host"];
     
     NSString *conversationId = @"1234";
     NSString *memberId = @"mem-1234";
