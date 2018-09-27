@@ -19,6 +19,15 @@ pipeline {
         }
         stage('Build') {
              steps {
+                 //increase the version number
+                sh 'cd ${WORKSPACE}/utils'
+                sh 'LIB_VERSION=$(./increase_build_number.sh ${BUILD_NUMBER} | grep -v "ERROR")'
+                sh 'echo LIB_VERSION="${LIB_VERSION}" >> ${WORKSPACE}/env.properties'
+
+                //release a new version of the library
+                sh 'cd ${WORKSPACE}/utils'
+                sh './increase_build_number.sh ${BUILD_NUMBER}'
+                sh './release_version.sh'
                 sh 'git clean -xdf'
                 sh 'rm -f env.properties'
                 sh 'rm -f Podfile.lock'
