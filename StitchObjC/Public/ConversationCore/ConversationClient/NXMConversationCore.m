@@ -288,6 +288,14 @@ fromConversationWithId:(nonnull NSString *)conversationId
     return [self.rtcMedia resumeMediaWithMediaId:conversationId andMediaType:mediaType];
 }
 
+- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+                      andConversationId:(nonnull NSString*)conversationId
+                            andMemberId:(nonnull NSString*)memberId
+                            andDuration:(int) duration
+                                 andGap:(int) gap{
+    return [self.rtcMedia sendDTMFWithDigits:digits andConversationId:conversationId andMemberId:memberId andDuration:duration andGap:gap];
+}
+
 - (void)suspendMedia:(NXMMediaType)mediaType
             ofMember:(NSString *)memberId
       inConversation:(nonnull NSString *)conversationId

@@ -77,6 +77,15 @@
 }
 
 
+- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+                      andConversationId:(nonnull NSString*)conversationId
+                            andMemberId:(nonnull NSString*)memberId
+                            andDuration:(int) duration
+                                 andGap:(int) gap{
+    [self.mrtcMedia sendDTMFDigitsWithMediaId:conversationId andDigits:digits andDuration:duration andGap:gap];
+    return NXMStitchErrorCodeNone;
+}
+
 #pragma mark: - private
 
 - (MRTCMediaRTPStreamType)nxmStreamTypeToMRTCStreamType:(NXMMediaStreamType)streamType {

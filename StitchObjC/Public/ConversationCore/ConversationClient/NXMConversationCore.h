@@ -152,7 +152,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
 //                         onSuccess:(SuccessCallback _Nullable)onSuccess
 //                           onError:(ErrorCallback _Nullable)onError;
 
-
+- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+                      andConversationId:(nonnull NSString*)conversationId
+                            andMemberId:(nonnull NSString*)memnerId
+                            andDuration:(int) duration
+                                 andGap:(int) gap;
 
 - (void)suspendMedia:(NXMMediaType)mediaType
             ofMember:(nonnull NSString *)memberId
