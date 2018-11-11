@@ -1057,18 +1057,23 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return imageEvent;
 }
 
--(NSDictionary<NSNumber *,NSDictionary<NSString *, NSDate *> *> *)parseStateFromDictionary:(NSDictionary *)dictionary {
+- (NSMutableDictionary<NSNumber *, NSMutableDictionary<NSString *, NSDate *> *> *)parseStateFromDictionary:(NSDictionary *)dictionary {
     if(![dictionary isKindOfClass:[NSDictionary class]]) {
-        return @{@(NXMMessageStatusTypeSeen):@{},
-                 @(NXMMessageStatusTypeDelivered):@{}
-                 };
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        dict[@(NXMMessageStatusTypeSeen)] = @{};
+        dict[@(NXMMessageStatusTypeDelivered)] = @{};
+        
+        return dict;
     }
-    return  @{ @(NXMMessageStatusTypeSeen):[self parseFromSpecificStateDictionary:dictionary[@"seen_by"]],
-               @(NXMMessageStatusTypeDelivered):[self parseFromSpecificStateDictionary:dictionary[@"delivered_to"]]
-             };
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    dict[@(NXMMessageStatusTypeSeen)] = [self parseFromSpecificStateDictionary:dictionary[@"seen_by"]];
+    dict[@(NXMMessageStatusTypeDelivered)] = [self parseFromSpecificStateDictionary:dictionary[@"delivered_to"]];
+    
+    return dict;
 }
 
--(NSDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {
+- (NSMutableDictionary<NSString *, NSDate *> *)parseFromSpecificStateDictionary:(NSDictionary *)specificStateDictionary {
     NSMutableDictionary<NSString *, NSDate *> *outputDictionary = [[NSMutableDictionary alloc] init];
     for (NSString *key in specificStateDictionary) {
         outputDictionary[key] = [NXMUtils dateFromISOString:specificStateDictionary[key]];
@@ -1094,7 +1099,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 //TODO: this weird method is what we add because CS don't have this field in the payload
--(nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data andConversationId:(NSString *)conv_id {
+- (nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data andConversationId:(NSString *)conv_id {
     NXMMember *member = nil;
     if((member = [self parseMemberWithHttpResponseData:data])) {
         member.conversationId = conv_id;
@@ -1103,7 +1108,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 //TODO: this should be incoroporated somehow in NSSecureCoding
--(nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data {
+- (nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data {
     NXMMember *member = nil;
     if((member = [[NXMMember alloc] initWithMemberId:data[@"id"] conversationId:data[@"conv_id"] user:data[@"user_id"] name:data[@"name"] state:[self parseMemberState:data[@"state"]]])) {
         member.inviteDate = data[@"timestamp"][@"invited"]; // TODO: NSDate
@@ -1114,7 +1119,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return member;
 }
 
--(NXMMemberState)parseMemberState:(NSString *)state {
+- (NXMMemberState)parseMemberState:(NSString *)state {
     static NSDictionary *memberStateValues = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

@@ -11,7 +11,7 @@
 #import "NXMErrors.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
-#import "NXMCallParticipantSubclass.h"
+#import "NXMCallParticipantPrivate.h"
 
 
 @interface NXMCall() <NXMCallProxy,NXMConversationEventsQueueDelegate>
@@ -149,7 +149,7 @@
 
 - (void)handleMemberEvent:(NXMMemberEvent *)member {
     NXMCallParticipant *participant = [self findParticipant:member];
-    [participant updateWithMember:member];
+    [participant updateWithMemberEvent:member];
 }
 
 - (void)handleMediaEvent:(NXMMediaEvent *)media {

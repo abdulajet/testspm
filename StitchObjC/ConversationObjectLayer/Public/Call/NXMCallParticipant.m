@@ -62,7 +62,25 @@
 }
 
 
-- (void)updateWithMember:(NXMMemberEvent *)member {
+- (void)updateWithMember:(NXMMember *)member {
+    switch (member.state) {
+        case NXMMemberStateInvited:
+            self.status = NXMParticipantStatusCalling;
+            break;
+        case NXMMemberStateLeft:
+            self.status = self.status == NXMParticipantStatusStarted ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
+            break;
+        case NXMMemberStateJoined:
+            //  self.status = member.media.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusStarted;  TODO: add memer event media
+            break;
+        default:
+            break;
+    }
+    
+    [self.callProxy onChange];
+}
+
+- (void)updateWithMemberEvent:(NXMMemberEvent *)member {
     switch (member.state) {
         case NXMMemberStateInvited:
             self.status = NXMParticipantStatusCalling;

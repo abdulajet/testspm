@@ -34,6 +34,7 @@
                             andMemberId:(nonnull NSString*)memberId
                             andDuration:(int) duration
                                  andGap:(int) gap;
+
 //- (void)addMemberWithMediaId:(NSString *)mediaId andSdp:(NSString *)sdp;
 //- (void)updateMediaMediaId:(NSString *)mediaId andWithAudio:(MRTCMediaManagerMediaType)audioStream andWithVideo:(MRTCMediaManagerRTPStramType)videoStream;
 

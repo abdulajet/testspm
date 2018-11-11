@@ -10,7 +10,7 @@
 #import "NXMStitchContext.h"
 #import "NXMLogger.h"
 #import "NXMConversationPrivate.h"
-#import "NXMCallSubclass.h"
+#import "NXMCallPrivate.h"
 
 @interface NXMStitchClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;

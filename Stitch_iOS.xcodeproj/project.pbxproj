@@ -471,8 +471,8 @@
 		F99D85A02090C4D1003B004B /* NXMMediaInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaInfo.h; sourceTree = "<group>"; };
 		F99D85A12090C4D1003B004B /* NXMMediaInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaInfo.m; sourceTree = "<group>"; };
 		F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallProxy.h; sourceTree = "<group>"; };
-		F9B9CB8A219342F500C6C36D /* NXMCallParticipantSubclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipantSubclass.h; sourceTree = "<group>"; };
-		F9B9CB8C2193451E00C6C36D /* NXMCallSubclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallSubclass.h; sourceTree = "<group>"; };
+		F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipantPrivate.h; sourceTree = "<group>"; };
+		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
 		F9C35DCD203078BD009FAE4F /* StitchObjC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StitchObjC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DD6203078BD009FAE4F /* StitchObjCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchObjCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9C35DDD203078BD009FAE4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1189,8 +1189,8 @@
 		F9B9CB8B2193443300C6C36D /* Call */ = {
 			isa = PBXGroup;
 			children = (
-				F9B9CB8A219342F500C6C36D /* NXMCallParticipantSubclass.h */,
-				F9B9CB8C2193451E00C6C36D /* NXMCallSubclass.h */,
+				F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */,
+				F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */,
 			);
 			path = Call;
 			sourceTree = "<group>";

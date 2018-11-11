@@ -15,7 +15,8 @@
 - (nullable instancetype)initWithMemberId:(NSString *)memberId andCallProxy:(id<NXMCallProxy>)callProxy;
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy;
 
-- (void)updateWithMember:(NXMMemberEvent *)member;
+- (void)updateWithMember:(NXMMember *)member;
 - (void)updateWithMedia:(NXMMediaEvent *)media;
+- (void)updateWithMemberEvent:(NXMMemberEvent *)member;
 
 @end

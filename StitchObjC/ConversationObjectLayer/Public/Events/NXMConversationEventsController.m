@@ -220,9 +220,11 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
     if(!updatedEvent || ![updatedEvent isKindOfClass:NXMMessageEvent.class]){
         return;
     }
+    
     if(!updatedEvent.state[@(statusEvent.status)]){
         updatedEvent.state[@(statusEvent.status)] = [[NSMutableDictionary alloc] init];
     }
+    
     NSMutableDictionary *membersDict = updatedEvent.state[@(statusEvent.status)];
     if(membersDict[statusEvent.fromMemberId]){
         return;

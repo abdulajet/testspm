@@ -170,35 +170,50 @@
     }];
 }
 
-- (void)onMuteStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType {
-    
+- (void)onMuteStateChanged: (NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType {
     [self.delegate didMuteStateChangeWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
                                          andIsMute:isMute
-                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:mediaType]];
+                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType]];
 }
 
-- (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType completionHandler:(void (^)(bool))completionHandler {
-    NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:mediaType];
+- (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType *)mediaType completionHandler:(void (^)(bool))completionHandler {
+    NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType];
     if(nxmMediaType == NXMMediaTypeNone) {
-        [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)mediaType];
+        [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType];
         completionHandler(false);
         return;
     }
     
-    [self.delegate sendMuteStateWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
-                                    andIsMute:isMute
-                                 andMediaType:nxmMediaType
-                                    onSuccess:^(void) {
-                                        completionHandler(true);
-                                    } onError:^(NSError * _Nullable error) {
-                                        [NXMLogger errorWithFormat:@"Error sending mute with error:  %@",error];
-                                        completionHandler(false);
-                                    }];
+    [self.delegate sendMuteStateWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo
+                                                                         andRtcId:(NSString *)rtcId]
+                                                                        andIsMute:isMute
+                                                                     andMediaType:nxmMediaType
+                                                                        onSuccess:^(void) {
+                                                                            completionHandler(true);
+                                                                        } onError:^(NSError * _Nullable error) {
+                                                                            [NXMLogger errorWithFormat:@"Error sending mute with error:  %@",error];
+                                                                            completionHandler(false);
+                                                                        }];
 }
 
 - (void)sendDTMFCallback:(NSString *)streamId andDigit:(NSString *)digit {
     //TODOs 
 }
+
+- (void)onEarmuffStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsEarmuff:(bool)isEarmuff andCallMediaType:(MRTCMediaType *)callMediaType {
+    
+}
+
+
+- (void)onHoldStateChanged:(NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsHold:(bool)isHold andCallMediaType:(MRTCMediaType *)callMediaType {
+    
+}
+
+
+- (void)sendHoldState:(const NSString *)rtcId andSdp:(const NSString *)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsHold:(bool)isHold andCallMediaType:(MRTCMediaType *)callMediaType andCompletionHandler:(void (^)(bool))completionHandler {
+    
+}
+
 
 
 @end
