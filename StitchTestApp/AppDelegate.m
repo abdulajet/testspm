@@ -104,4 +104,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     NSLog(@"%@", response.notification.request.content.userInfo);
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+    NSLog( @"Handle silent push" );
+}
+
 @end

@@ -1,13 +1,16 @@
 import urllib2
 import json
 import os
+import sys
 
+targetDir = sys.argv[1]
+print "TARGET_DIR: " + targetDir
 base_request = "http://capi-token.dev.il.vocal-dev.com:8889/token/f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e/testuser%d"
 base_line = "static const NSString* testUser%dToken = @\"%s\";"
 def main():
 	new_lines = []
-	input_file = open("StitchTestApp/Tokens.h.template",'r')
-	output_file = open("StitchTestApp/Tokens.h","w")
+	input_file = open("Tokens.h.template",'r')
+	output_file = open(targetDir+"/Tokens.h","w")
 
 	for i in range(1,9):
 		content = urllib2.urlopen(base_request % i).read()

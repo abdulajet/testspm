@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMConversationCore.h"
 #import <UserNotifications/UserNotifications.h>
 #import "OngoingMediaCollection.h"
 #import "OngoingMedia.h"
+
+#import "StitchCore.h"
+
 @interface ConversationManager : NSObject <NXMConversationCoreDelegate, UNUserNotificationCenterDelegate>
 
 @property (nonatomic, readonly, strong) NXMConversationCore *stitchConversationClient;

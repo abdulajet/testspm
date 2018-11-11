@@ -86,12 +86,10 @@
     }
 }
 
-- (void)imageDeleted:(nonnull NXMTextStatusEvent *)textEvent {
-    
-}
-
-- (void)imageDelivered:(nonnull NXMTextStatusEvent *)textEvent {
-    
+- (void)imageDelivered:(nonnull NXMMessageStatusEvent *)statusEvent {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"statusEvent"
+     object:nil userInfo:@{@"statusEvent":statusEvent}];
 }
 
 - (void)imageRecieved:(nonnull NXMImageEvent *)textEvent {
@@ -100,8 +98,10 @@
      object:nil userInfo:@{@"image":textEvent}];
 }
 
-- (void)imageSeen:(nonnull NXMTextStatusEvent *)textEvent {
-    
+- (void)imageSeen:(nonnull NXMMessageStatusEvent *)statusEvent {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"statusEvent"
+     object:nil userInfo:@{@"statusEvent":statusEvent}];
 }
 
 - (void)informOnMedia:(nonnull NXMMediaEvent *)mediaEvent { //assuming disabled does not come before enabled - not always true
@@ -119,28 +119,28 @@
      object:nil userInfo:@{@"media":mediaEvent}];
 }
 
-- (void)memberInvited:(nonnull NXMMemberEvent *)member {
+- (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"memberEvent"
-     object:nil userInfo:@{@"member":member}];
-    if (member.user.name){
-        [self.memberIdToName setObject:member.user.name forKey:member.memberId];
+     object:nil userInfo:@{@"member":memberEvent}];
+    if (memberEvent.user.name){
+        [self.memberIdToName setObject:memberEvent.user.name forKey:memberEvent.memberId];
     }
 }
 
-- (void)memberJoined:(nonnull NXMMemberEvent *)member {
+- (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"memberEvent"
-     object:nil userInfo:@{@"member":member}];
-    if (member.user.name){
-        [self.memberIdToName setObject:member.user.name forKey:member.memberId];
+     object:nil userInfo:@{@"member":memberEvent}];
+    if (memberEvent.user.name){
+        [self.memberIdToName setObject:memberEvent.user.name forKey:memberEvent.memberId];
     }
 }
 
-- (void)memberRemoved:(nonnull NXMMemberEvent *)member {
+- (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"memberEvent"
-     object:nil userInfo:@{@"member":member}];
+     object:nil userInfo:@{@"member":memberEvent}];
 }
 
 - (void)connectionStatusChanged:(BOOL)isConnected {
@@ -171,16 +171,16 @@
      object:nil userInfo:@{@"sipEvent":sipEvent}];
 }
 
-- (void)textDeleted:(nonnull NXMTextStatusEvent *)textEvent {
+- (void)messageDeleted:(nonnull NXMMessageStatusEvent *)statusEvent {
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"textStatusEvent"
-     object:nil userInfo:@{@"textEvent":textEvent}];
+     postNotificationName:@"statusEvent"
+     object:nil userInfo:@{@"statusEvent":statusEvent}];
 }
 
-- (void)textDelivered:(nonnull NXMTextStatusEvent *)textEvent {
+- (void)textDelivered:(nonnull NXMMessageStatusEvent *)statusEvent {
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"textStatusEvent"
-     object:nil userInfo:@{@"textEvent":textEvent}];
+     postNotificationName:@"statusEvent"
+     object:nil userInfo:@{@"statusEvent":statusEvent}];
 }
 
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent {
@@ -218,29 +218,29 @@
      object:nil userInfo:@{@"text":textEvent}];
 }
 
-- (void)textSeen:(nonnull NXMTextStatusEvent *)textEvent {
+- (void)textSeen:(nonnull NXMMessageStatusEvent *)statusEvent {
     [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"textStatusEvent"
-     object:nil userInfo:@{@"textEvent":textEvent}];
+     postNotificationName:@"statusEvent"
+     object:nil userInfo:@{@"statusEvent":statusEvent}];
 }
 
-- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textEvent {
+- (void)textTypingOff:(nonnull NXMTextTypingEvent *)textTypingEvent {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"typingEvent"
-     object:nil userInfo:@{@"typingEvent":textEvent}];
+     object:nil userInfo:@{@"typingEvent":textTypingEvent}];
 }
 
-- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textEvent {
+- (void)textTypingOn:(nonnull NXMTextTypingEvent *)textTypingEvent {
     [[NSNotificationCenter defaultCenter]
      postNotificationName:@"typingEvent"
-     object:nil userInfo:@{@"typingEvent":textEvent}];
+     object:nil userInfo:@{@"typingEvent":textTypingEvent}];
 }
 
 - (void)tokenExpired:(nullable NSString *)token withReason:(NXMStitchErrorCode)reason {
     
 }
 
-- (void)localActionOnMedia:(nonnull NXMMediaActionEvent *)mediaEvent {
+- (void)localActionOnMedia:(nonnull NXMMediaActionEvent *)mediaActionEvent {
     
 }
 

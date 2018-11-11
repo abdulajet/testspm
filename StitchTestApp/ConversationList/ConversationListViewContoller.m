@@ -8,7 +8,7 @@
 
 #import "ConversationListViewContoller.h"
 #import "ConversationListTableCellView.h"
-#import "CoversationViewController.h"
+#import "ConversationViewController.h"
 #import "ConversationManager.h"
 
 @interface ConversationListViewContoller ()
@@ -35,7 +35,7 @@
 - (void)receivedMemberEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMemberEvent *member = userInfo[@"member"];
-    if (!([member.state isEqualToString:@"INVITED"] &&
+    if (!(member.state==NXMMemberStateInvited &&
         [member.user.name isEqualToString:self.conversationManager.connectedUser.name])) {
         return;
     }
@@ -125,7 +125,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     ConversationListTableCellView *cell = sender;
     
-    CoversationViewController *vc = [segue destinationViewController];
+    ConversationViewController *vc = [segue destinationViewController];
     [vc updateWithConversation:[cell getConversation]];
 }
 #pragma mark - Authentication events
@@ -136,7 +136,11 @@
 }
 
 - (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
-    [self.conversationManager.stitchConversationClient logout];
+    [self.conversationManager.stitchConversationClient disablePushNotificationsWithOnSuccess:^{
+        [self.conversationManager.stitchConversationClient logout];
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"failed deisabling push with error: %@", error);
+    }];
 }
 
 - (void)didLogout:(NSNotification *) notification {
@@ -159,10 +163,10 @@
     
     NSLog(@"get conversation %@", self.conversationManager.connectedUser.uuid);
 
-    [self.conversationManager.stitchConversationClient getUserConversations:self.conversationManager.connectedUser.uuid
-                            onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationDetails, NXMPageInfo * _Nullable pageInfo) {
+    [self.conversationManager.stitchConversationClient getConversationsForUser:self.conversationManager.connectedUser.uuid
+                            onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.conversations addObjectsFromArray:conversationDetails];
+            [self.conversations addObjectsFromArray:conversationsDetails];
 
             [self.tableView reloadData];
         });
@@ -195,7 +199,7 @@
 }
 
 - (void)showConversation:(NXMConversationDetails *)conversation {
-    CoversationViewController *conversationVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"conversationView"];
+    ConversationViewController *conversationVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"conversationView"];
     [conversationVC updateWithConversation:conversation];
     
     [self.navigationController pushViewController:conversationVC animated:YES];

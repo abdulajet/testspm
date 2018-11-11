@@ -14,6 +14,17 @@ FOUNDATION_EXPORT double StitchObjCVersionNumber;
 //! Project version string for NexmoConversationObjC.
 FOUNDATION_EXPORT const unsigned char StitchObjCVersionString[];
 
+#import <StitchObjC/NXMStitchClient.h>
+#import <StitchObjC/NXMStitchClientDelegate.h>
+#import <StitchObjC/NXMBlocks.h>
 
-#import <StitchObjC/NXMConversationCore.h>
-#import <StitchObjC/NXMConversationCoreDelegate.h>
+
+
+
+
+
+
+
+
+
+

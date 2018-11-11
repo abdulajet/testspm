@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.frameworks = "CoreData", "Foundation", "UIKit", "MediaPlayer", "AudioToolbox", "AVFoundation", "CFNetwork", "CoreAudio", "CoreFoundation", "CoreTelephony", "SystemConfiguration", "CoreGraphics", "OpenGLES", "CoreVideo", "CoreMedia", "QuartzCore", "CallKit"
 
 # TODO:
-  s.dependency 'VPSocketIO'
-  s.dependency 'MiniRTC_Release', '0.01.45'
+  s.dependency 'VPSocketIO', '1.0.5'
+  s.dependency 'MiniRTC_Release', '0.01.78'
 
 end

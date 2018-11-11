@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -95,7 +95,7 @@
                         </userDefinedRuntimeAttributes>
                     </view>
                     <connections>
-                        <outlet property="autoTokenField" destination="1uo-ka-pPL" id="AFm-fg-GgZ"/>
+                        <outlet property="autoTokenField" destination="1uo-ka-pPL" id="XPu-QO-RmV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -186,10 +186,10 @@
             </objects>
             <point key="canvasLocation" x="1752.8" y="115.59220389805098"/>
         </scene>
-        <!--Coversation View Controller-->
+        <!--Conversation View Controller-->
         <scene sceneID="VwP-Ak-1nX">
             <objects>
-                <viewController storyboardIdentifier="conversationView" id="Kho-H5-xjy" customClass="CoversationViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="conversationView" id="Kho-H5-xjy" customClass="ConversationViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="C6F-dg-5F5">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -449,7 +449,7 @@
                                     <action selector="addMemberPressed:" destination="Kho-H5-xjy" id="66P-bO-30x"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="Item" image="bubbleBlue" id="xVk-El-6TT" userLabel="addMember">
+                            <barButtonItem title="Item" image="callPhone" id="xVk-El-6TT" userLabel="invitePstn">
                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="invitePstn:" destination="Kho-H5-xjy" id="Xnm-zJ-xpF"/>
@@ -559,7 +559,7 @@
     <resources>
         <image name="addMember" width="24" height="24"/>
         <image name="btnAttachment" width="41" height="45"/>
-        <image name="bubbleBlue" width="43" height="32"/>
+        <image name="callPhone" width="43" height="36"/>
         <image name="enableAudio" width="22" height="22"/>
         <image name="loginButtonBG" width="325" height="44"/>
         <image name="newConversation" width="25" height="25"/>
