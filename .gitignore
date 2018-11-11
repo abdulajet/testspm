@@ -16,5 +16,6 @@ xcschememanagement.plist
 ## Other
 .DS_Store
 
-###Stitch
+## Stitch
 StitchTestApp/Tokens.h
+KommsTestApp/Tokens.h
