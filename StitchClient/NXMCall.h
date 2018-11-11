@@ -6,9 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StitchCore/StitchCore.h>
 
 #import "NXMCallParticipant.h"
-#import "NXMBlocks.h"
 
 @protocol NXMCallDelegate
 
@@ -33,8 +33,8 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 
 - (void)setDelegate:(id<NXMCallDelegate>)delegate;
 
-- (void)addParticipantWithUserId:(NSString *)userId completionHandler:(ErrorCallback _Nullable)completionHandler;
-- (void)addParticipantWithNumber:(NSString *)number completionHandler:(ErrorCallback _Nullable)completionHandler;
+- (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)addParticipantWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 
 - (void)turnOff;
 

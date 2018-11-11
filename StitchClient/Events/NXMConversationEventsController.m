@@ -1,16 +1,13 @@
 //
 //  NXMConversationEventsController.m
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Iliya Barenboim on 28/08/2018.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import "NXMConversationEventsController.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMStitchContext.h"
-#import "NXMConversationDetails.h"
-#import "NXMEvent.h"
 #import "NXMMessageEvent.h"
 #import "NXMMessageStatusEvent.h"
 

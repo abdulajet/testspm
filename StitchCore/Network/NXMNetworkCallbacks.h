@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMBlocks.h"
 
+#import "NXMBlocks.h"
 #import "NXMConversationDetails.h"
 #import "NXMPageInfo.h"
 #import "NXMEvent.h"
 
-typedef void(^SuccessCallbackWithConversationDetails)(NXMConversationDetails * _Nullable conversationDetails);
-typedef void(^SuccessCallbackWithConversations)(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo);
-typedef void(^SuccessCallbackWithEvents)(NSMutableArray<NXMEvent *> * _Nullable events);
+typedef void(^NXMSuccessCallbackWithConversationDetails)(NXMConversationDetails * _Nullable conversationDetails);
+typedef void(^NXMSuccessCallbackWithConversations)(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo);
+typedef void(^NXMSuccessCallbackWithEvents)(NSMutableArray<NXMEvent *> * _Nullable events);
+typedef void(^NXMSuccessCallbackWithEvent)(NXMEvent * _Nullable events);
+
 
 

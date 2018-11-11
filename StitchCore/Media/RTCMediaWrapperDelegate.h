@@ -7,7 +7,7 @@
 
 #import <iOSFramework/iOSFramework.h>
 #import "NXMMediaInfo.h"
-#import "NXMConversationCoreCallbacks.h"
+#import "NXMBlocks.h"
 
 @protocol RTCMediaWrapperDelegate
 
@@ -15,8 +15,8 @@
 
 - (void)sendSDP:(NSString *)sdp
    andMediaInfo:(MRTCMediaInfo *)mediaInfo
-      onSuccess:(NXMCoreSuccessCallbackWithId)onSuccess
-        onError:(NXMCoreErrorCallback)onError;
+      onSuccess:(NXMSuccessCallbackWithId)onSuccess
+        onError:(NXMErrorCallback)onError;
 
 - (void)terminateRtc:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId  completionHandler:(void (^)(NSError *))completionHandler;
 

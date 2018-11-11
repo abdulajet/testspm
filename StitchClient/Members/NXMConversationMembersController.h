@@ -6,9 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StitchCore/StitchCore.h>
 
-@class NXMUser;
-@class NXMMember;
 @class NXMConversation;
 @class NXMConversationMembersController;
 

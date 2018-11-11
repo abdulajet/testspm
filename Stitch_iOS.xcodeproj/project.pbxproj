@@ -56,13 +56,12 @@
 		F923DCFC2198555700D29065 /* NXMConversationCoreConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B2214FAD5F00390258 /* NXMConversationCoreConnectionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DCFD2198555700D29065 /* NXMConversationCoreDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BEA320F6556A007D4276 /* NXMConversationCoreDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DCFE2198555700D29065 /* NXMConversationCoreEventsDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B0214FAC1C00390258 /* NXMConversationCoreEventsDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DCFF2198555700D29065 /* NXMLoggerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */; };
+		F923DCFF2198555700D29065 /* NXMLoggerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD002198555700D29065 /* StitchCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DCDF2198528900D29065 /* StitchCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD012198555700D29065 /* NXMConversationCore.m in Sources */ = {isa = PBXBuildFile; fileRef = F988BEA020F65413007D4276 /* NXMConversationCore.m */; };
 		F923DD02219859AA00D29065 /* NXMErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4F2063EEB200A70212 /* NXMErrors.m */; };
 		F923DD03219859CC00D29065 /* NXMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576F920AC205200F0F5F3 /* NXMEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD04219859D100D29065 /* NXMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4E2063EEB200A70212 /* NXMErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DD05219859E000D29065 /* NXMConversationCoreCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = 9216302C2190599C008D9550 /* NXMConversationCoreCallbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD06219859E500D29065 /* RTCMediaWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D8597208DDE55003B004B /* RTCMediaWrapper.h */; };
 		F923DD07219859E500D29065 /* RTCMediaWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D8598208DDE55003B004B /* RTCMediaWrapper.m */; };
 		F923DD08219859E500D29065 /* NXMMediaInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D85A02090C4D1003B004B /* NXMMediaInfo.h */; };
@@ -136,7 +135,7 @@
 		F923DD5D21985A3800D29065 /* NXMSocketClientDefine.h in Headers */ = {isa = PBXBuildFile; fileRef = F906E4F1203EFFA100CACE79 /* NXMSocketClientDefine.h */; };
 		F923DD5F21985A3D00D29065 /* NXMNetworkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F99D859B208F6202003B004B /* NXMNetworkManager.h */; };
 		F923DD6021985A3D00D29065 /* NXMNetworkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F99D859C208F6202003B004B /* NXMNetworkManager.m */; };
-		F923DD6121985A3D00D29065 /* NXMNetworkCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576FB20ADA30100F0F5F3 /* NXMNetworkCallbacks.h */; };
+		F923DD6121985A3D00D29065 /* NXMNetworkCallbacks.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576FB20ADA30100F0F5F3 /* NXMNetworkCallbacks.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD6221985A3D00D29065 /* NXMNetworkDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576FC20B584C800F0F5F3 /* NXMNetworkDelegate.h */; };
 		F923DD6421985A4700D29065 /* NXMPushParserTextEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 92C55864218B7078006D4063 /* NXMPushParserTextEvent.h */; };
 		F923DD6521985A4700D29065 /* NXMPushParserTextEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C55865218B7078006D4063 /* NXMPushParserTextEvent.m */; };
@@ -152,7 +151,7 @@
 		F923DD7021985A4F00D29065 /* NXMErrorParser.m in Sources */ = {isa = PBXBuildFile; fileRef = CEF94C5420640A6600BB733E /* NXMErrorParser.m */; };
 		F923DD7121985A4F00D29065 /* NXMUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A1DE2520F50A960099D601 /* NXMUtils.h */; };
 		F923DD7221985A4F00D29065 /* NXMUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A1DE2620F50A960099D601 /* NXMUtils.m */; };
-		F923DD7321985A4F00D29065 /* NXMLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998ACB20837EF100EAC286 /* NXMLogger.h */; };
+		F923DD7321985A4F00D29065 /* NXMLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998ACB20837EF100EAC286 /* NXMLogger.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD7421985A4F00D29065 /* NXMLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998ACC20837EF100EAC286 /* NXMLogger.m */; };
 		F923DD7C21985A6900D29065 /* NXMConversationDetails.h in Headers */ = {isa = PBXBuildFile; fileRef = F987354F204FDBAB00C90695 /* NXMConversationDetails.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD7D21985A6900D29065 /* NXMConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = F9873550204FDBAB00C90695 /* NXMConversationDetails.m */; };
@@ -288,7 +287,6 @@
 		92020BA5211B0CB10021C5A1 /* NXMMediaSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSettings.m; sourceTree = "<group>"; };
 		92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSuspendEvent.h; sourceTree = "<group>"; };
 		92020BAA211B3DED0021C5A1 /* NXMMediaSuspendEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSuspendEvent.m; sourceTree = "<group>"; };
-		9216302C2190599C008D9550 /* NXMConversationCoreCallbacks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationCoreCallbacks.h; sourceTree = "<group>"; };
 		921630312191ABCD008D9550 /* NXMPushParserInviteEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPushParserInviteEvent.h; sourceTree = "<group>"; };
 		921630322191ABCD008D9550 /* NXMPushParserInviteEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPushParserInviteEvent.m; sourceTree = "<group>"; };
 		9221981821135FA500C90B89 /* RTCMediaWrapperDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RTCMediaWrapperDelegate.h; sourceTree = "<group>"; };
@@ -943,7 +941,6 @@
 				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
 				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
 				F923DCE02198528900D29065 /* Info.plist */,
-				F988BE9D20F653E4007D4276 /* Logger */,
 				F99D8596208DDE34003B004B /* Media */,
 				F987354620443A3600C90695 /* Models */,
 				F9998AC7208378BE00EAC286 /* Network */,
@@ -1112,14 +1109,6 @@
 			path = User;
 			sourceTree = "<group>";
 		};
-		F988BE9D20F653E4007D4276 /* Logger */ = {
-			isa = PBXGroup;
-			children = (
-				9216302C2190599C008D9550 /* NXMConversationCoreCallbacks.h */,
-			);
-			path = Logger;
-			sourceTree = "<group>";
-		};
 		F9998AC7208378BE00EAC286 /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -1233,7 +1222,6 @@
 				F923DD002198555700D29065 /* StitchCore.h in Headers */,
 				F923DCFE2198555700D29065 /* NXMConversationCoreEventsDelegate.h in Headers */,
 				F923DD04219859D100D29065 /* NXMErrors.h in Headers */,
-				F923DD05219859E000D29065 /* NXMConversationCoreCallbacks.h in Headers */,
 				F923DD0C219859F800D29065 /* NXMEvent.h in Headers */,
 				F923DD03219859CC00D29065 /* NXMEnums.h in Headers */,
 				F923DCFB2198555700D29065 /* NXMConversationCore.h in Headers */,

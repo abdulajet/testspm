@@ -19,4 +19,5 @@ FOUNDATION_EXPORT const unsigned char StitchCoreVersionString[];
 #import <StitchCore/NXMConversationCore.h>
 #import <StitchCore/NXMConversationCoreDelegate.h>
 #import <StitchCore/NXMConversationEvents.h>
+#import <StitchCore/NXMLogger.h>
 

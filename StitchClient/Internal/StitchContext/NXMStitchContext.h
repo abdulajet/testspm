@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMConversationCore.h"
+#import <StitchCore/StitchCore.h>
+
 #import "NXMEventsDispatcher.h"
 #import "NXMStitchContextDelegate.h"
 

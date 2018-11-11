@@ -6,12 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class NXMMessageEvent;
-@class NXMEvent;
-@class NXMMediaEvent;
-@class NXMTextTypingEvent;
-@class NXMMemberEvent;
+#import <StitchCore/StitchCore.h>
 
 @protocol NXMConversationDelegate <NSObject> //TODO: devrel this delegate
 @optional

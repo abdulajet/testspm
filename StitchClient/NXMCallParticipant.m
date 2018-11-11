@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "StitchCore.h"
+#import <StitchCore/StitchCore.h>
 
 #import "NXMCallParticipant.h"
 #import "NXMCallProxy.h"

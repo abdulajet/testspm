@@ -87,14 +87,14 @@
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isSandbox:(BOOL)isSandbox
-                                     onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                                       onError:(NXMCoreErrorCallback _Nullable)onError {
+                                     onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                                       onError:(NXMErrorCallback _Nullable)onError {
     NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithDeviceToken:deviceToken isSandbox:isSandbox];
     [self.network enablePushNotifications:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)disablePushNotificationsWithOnSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                                      onError:(NXMCoreErrorCallback _Nullable)onError {
+- (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                                      onError:(NXMErrorCallback _Nullable)onError {
     [self.network disablePushNotificationsWithOnSuccess:onSuccess onError:onError];
 }
 
@@ -102,7 +102,7 @@
     return [self.pushParser isStitchPushWithUserInfo:userInfo];
 }
 
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMCoreSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMCoreErrorCallback _Nullable)onError {
+- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError {
     if(![self isStitchPushWithUserInfo:userInfo]) {
         if(onError) {
             onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodePushNotAStitchPush andUserInfo:nil]);
@@ -140,32 +140,32 @@
 #pragma mark - Conversation Methods
 
 - (void)createConversationWithName:(nonnull NSString *)name
-             onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-               onError:(NXMCoreErrorCallback _Nullable)onError {
+             onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+               onError:(NXMErrorCallback _Nullable)onError {
     NXMCreateConversationRequest *request = [[NXMCreateConversationRequest alloc] initWithDisplayName:name];
     [self.network createConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
   withUserId:(nonnull NSString *)userId
-   onSuccess:(NXMCoreSuccessCallbackWithObject _Nullable)onSuccess
-     onError:(NXMCoreErrorCallback _Nullable)onError {
+   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+     onError:(NXMErrorCallback _Nullable)onError {
     NXMAddUserRequest *request = [[NXMAddUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
     [self.network addUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
 withMemberId:(nonnull NSString *)memberId
-   onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-     onError:(NXMCoreErrorCallback _Nullable)onError {
+   onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+     onError:(NXMErrorCallback _Nullable)onError {
     NXMJoinMemberRequest *request = [[NXMJoinMemberRequest alloc] initWithConversationId:conversationId andMemberId:memberId];
     [self.network joinMemberToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
-     onSuccess:(NXMCoreSuccessCallbackWithObject _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError {
+     onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError {
     NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
@@ -173,16 +173,16 @@ withMemberId:(nonnull NSString *)memberId
 - (void)inviteToConversation:(nonnull NSString *)conversationId
                   withUserId:(nonnull NSString *)userId
                    withMedia:(nonnull NSString *)mediaEnabled
-                   onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                     onError:(ErrorCallback _Nullable)onError {
+                   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                     onError:(NXMErrorCallback _Nullable)onError {
     NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteToConversation:(nonnull NSString*)userName
     withPhoneNumber:(nonnull NSString*)phoneNumber
-     onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError {
+     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError {
     NXMInvitePstnKnockingRequest *request = [[NXMInvitePstnKnockingRequest alloc] initWithUserName:userName andPhoneNumber:phoneNumber];
     [self.network invitePstnKnockingToConversation:request onSuccess:onSuccess onError:onError];
 }
@@ -190,35 +190,35 @@ withMemberId:(nonnull NSString *)memberId
 - (void)inviteToConversation:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
 withPhoneNumber:(nonnull NSString *)phoneNumber
-     onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError {
+     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError {
     NXMInvitePstnRequest *request = [[NXMInvitePstnRequest alloc] initWithConversationId:conversationId andUserID:userId andPhoneNumber:phoneNumber];
     [self.network invitePstnToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)deleteMember:(nonnull NSString *)memberId
 fromConversationWithId:(nonnull NSString *)conversationId
-           onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-             onError:(NXMCoreErrorCallback _Nullable)onError {
+           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError {
     NXMRemoveMemberRequest *request = [[NXMRemoveMemberRequest alloc] initWithConversationId:conversationId andMemberId:memberId];
     [self.network removeMemberFromConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(NXMCoreSuccessCallbackWithConversationDetails _Nullable)onSuccess
-                       onError:(NXMCoreErrorCallback _Nullable)onError {
+                     onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
     [self.network getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
 - (void)getConversationsForUser:(nonnull NSString *)userId
-                   onSuccess:(NXMCoreSuccessCallbackWithConversations _Nullable)onSuccess
-                     onError:(NXMCoreErrorCallback _Nullable)onError {
+                   onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(NXMErrorCallback _Nullable)onError {
     [self.network getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
 
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
-        onSuccess:(NXMCoreSuccessCallbackWithEvents _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError{
+        onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError{
     NXMGetEventsRequest *request = [NXMGetEventsRequest new];
     request.conversationId = conversationId;
     [self.network getEvents:request onSuccess:onSuccess onError:onError];
@@ -227,8 +227,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
           startId:(nullable NSNumber *)startId
             endId:(nullable NSNumber *)endId
-        onSuccess:(NXMCoreSuccessCallbackWithEvents _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError{
+        onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError{
     NXMGetEventsRequest *request = [NXMGetEventsRequest new];
     request.conversationId = conversationId;
     request.startId = startId;
@@ -239,8 +239,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest *)getConversationsRequest
-               onSuccess:(NXMCoreSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMCoreErrorCallback _Nullable)onError {
+               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                 onError:(NXMErrorCallback _Nullable)onError {
     [self.network getConversations:getConversationsRequest onSuccess:onSuccess onError:onError];
 }
 
@@ -250,8 +250,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
-       onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-         onError:(NXMCoreErrorCallback _Nullable)onError {
+       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+         onError:(NXMErrorCallback _Nullable)onError {
     NXMSendTextEventRequest *request = [[NXMSendTextEventRequest alloc] initWithText:text conversationId:conversationId memberId:fromMemberId];
     
     [self.network sendTextToConversation:request onSuccess:onSuccess onError:onError];
@@ -261,8 +261,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
             image:(nonnull NSData *)image
    conversationId:(nonnull NSString *)conversationId
      fromMemberId:(nonnull NSString *)fromMemberId
-        onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError {
+        onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError {
     NXMSendImageRequest *request = [[NXMSendImageRequest alloc] initWithImage:imageName image:image conversationId:conversationId memberId:fromMemberId];
     [self.network sendImage:request onSuccess:onSuccess onError:onError];
 }
@@ -270,8 +270,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)deleteEvent:(NSInteger)eventId
      conversationId:(nonnull NSString *)conversationId
        fromMemberId:(nonnull NSString *)memberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError {
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError {
     NXMDeleteEventRequest *request = [[NXMDeleteEventRequest alloc] initWithEventId:eventId conversationId:conversationId memberId:memberId];
     [self.network deleteEventFromConversation:request onSuccess:onSuccess onError:onError];
 }
@@ -279,30 +279,30 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)markAsSeen:(NSInteger)messageId
     conversationId:(nonnull NSString *)conversationId
   fromMemberWithId:(nonnull NSString *)memberId
-         onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-           onError:(NXMCoreErrorCallback _Nullable)onError {
+         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+           onError:(NXMErrorCallback _Nullable)onError {
     [self.network seenTextEvent:conversationId memberId:memberId eventId:messageId];
 }
 
 - (void)markAsDelivered:(NSInteger)messageId
          conversationId:(nonnull NSString *)conversationId
        fromMemberWithId:(nonnull NSString *)memberId
-              onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                onError:(NXMCoreErrorCallback _Nullable)onError {
+              onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError {
     [self.network deliverTextEvent:conversationId memberId:memberId eventId:messageId];
 }
 
 - (void)startTyping:(nonnull NSString *)conversationId
            memberId:(nonnull NSString *)memberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError {
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError {
     [self.network textTypingOn:conversationId memberId:memberId];
 }
 
 - (void)stopTyping:(nonnull NSString *)conversationId
           memberId:(nonnull NSString *)memberId
-         onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-           onError:(NXMCoreErrorCallback _Nullable)onError {
+         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+           onError:(NXMErrorCallback _Nullable)onError {
     [self.network textTypingOff:conversationId memberId:memberId];
 }
 
@@ -349,8 +349,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
             ofMember:(NSString *)memberId
       inConversation:(nonnull NSString *)conversationId
           fromMember:(NSString *)fromMemberId
-           onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-             onError:(NXMCoreErrorCallback _Nullable)onError {
+           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
         onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
     }
@@ -362,8 +362,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
            ofMember:(NSString *)memberId
      inConversation:(nonnull NSString *)conversationId
          fromMember:(NSString *)fromMemberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError {
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
         onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
     }
@@ -462,8 +462,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 - (void)sendSDP:(NSString *)sdp
    andMediaInfo:(MRTCMediaInfo *)mediaInfo
-      onSuccess:(NXMCoreSuccessCallbackWithId)onSuccess
-        onError:(NXMCoreErrorCallback)onError {
+      onSuccess:(NXMSuccessCallbackWithId)onSuccess
+        onError:(NXMErrorCallback)onError {
     [self.network enableMedia:mediaInfo._conversationId memberId:mediaInfo._memberId sdp:sdp mediaType:@"" onSuccess:onSuccess onError:onError];
 }
 

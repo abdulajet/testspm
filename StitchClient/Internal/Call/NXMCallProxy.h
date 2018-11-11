@@ -1,6 +1,6 @@
 //
 //  CallProxy.h
-//  Stitch_iOS
+//  StitchClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //

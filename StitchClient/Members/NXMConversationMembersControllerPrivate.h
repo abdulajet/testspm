@@ -1,8 +1,7 @@
 //
 //  NXMConversationMembersControllerPrivate.h
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Doron Biaz on 10/15/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 

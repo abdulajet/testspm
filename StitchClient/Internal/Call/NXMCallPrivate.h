@@ -1,8 +1,7 @@
 //
-//  NXMCallSubclass.h
-//  Stitch_iOS
+//  NXMCallPrivate.h
+//  StitchClient
 //
-//  Created by Chen Lev on 11/7/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 

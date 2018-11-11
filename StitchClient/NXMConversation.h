@@ -6,12 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StitchCore/StitchCore.h>
 
 #import "NXMConversationEvents.h"
 #import "NXMConversationDelegate.h"
 #import "NXMConversationEventsController.h"
 #import "NXMConversationMembersController.h"
-#import "NXMConversationDetails.h"
 
 typedef NS_ENUM(NSInteger, NXMAttachmentType) {
     NXMAttachmentTypeImage

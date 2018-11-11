@@ -1,12 +1,12 @@
 //
 //  NXMEventsDispatcherConstants.m
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Doron Biaz on 9/18/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import "NXMEventsDispatcherConstants.h"
+
 NSString *const kNXMEventsDispatcherNotificationMedia = @"mediaNotification";
 NSString *const kNXMEventsDispatcherNotificationMember = @"memberNotification";
 NSString *const kNXMEventsDispatcherNotificationMessage = @"messageNotification";

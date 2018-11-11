@@ -7,7 +7,6 @@
 
 #import "NXMStitchClient.h"
 #import "NXMStitchContext.h"
-#import "NXMLogger.h"
 #import "NXMConversationPrivate.h"
 #import "NXMCallPrivate.h"
 

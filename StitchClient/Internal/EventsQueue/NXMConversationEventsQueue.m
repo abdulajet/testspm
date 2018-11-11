@@ -1,15 +1,12 @@
 //
 //  ConversationEventsQueue.m
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Iliya Barenboim on 26/08/2018.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import "NXMConversationEventsQueue.h"
-#import "NXMEvent.h"
 #import "NXMStitchContext.h"
-#import "NXMConversationDetails.h"
 #import "NXMEventsDispatcherNotificationHelper.h"
 
 static NSInteger const sequenceIdNotDefine = -1;

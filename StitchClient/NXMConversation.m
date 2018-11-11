@@ -8,8 +8,8 @@
 #import "NXMConversation.h"
 #import "NXMConversationEventsControllerPrivate.h"
 #import "NXMConversationMembersControllerPrivate.h"
-#import "NXMErrors.h"
 #import "NXMStitchContext.h"
+
 
 @interface NXMConversation ()
 @property (readwrite, nonatomic) NSObject<NXMConversationDelegate> *delegate;

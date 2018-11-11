@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 #import "NXMConversationCoreDelegate.h"
-#import "NXMConversationCoreCallbacks.h"
 #import "NXMUser.h"
+#import "NXMNetworkCallbacks.h"
 #import "NXMBlocks.h"
 #import "NXMErrors.h"
 
@@ -29,123 +29,123 @@
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isSandbox:(BOOL)isSandbox
-                      onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                        onError:(NXMCoreErrorCallback _Nullable)onError;
+                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)disablePushNotificationsWithOnSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                        onError:(NXMCoreErrorCallback _Nullable)onError;
+- (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError;
 
 - (BOOL)isStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo;
 
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMCoreSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMCoreErrorCallback _Nullable)onError;
+- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError;
 
 #pragma mark - Conversation Methods
 
 - (void)createConversationWithName:(nonnull NSString *)name
-             onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-               onError:(NXMCoreErrorCallback _Nullable)onError;
+             onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+               onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
   withUserId:(nonnull NSString *)userId
-   onSuccess:(NXMCoreSuccessCallbackWithObject _Nullable)onSuccess
-     onError:(NXMCoreErrorCallback _Nullable)onError;
+   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+     onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
 withMemberId:(nonnull NSString *)memberId
-   onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-     onError:(NXMCoreErrorCallback _Nullable)onError;
+   onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+     onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
-     onSuccess:(NXMCoreSuccessCallbackWithObject _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError;
+     onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
                   withUserId:(nonnull NSString *)userId
                   withMedia:(nonnull NSString *)mediaEnabled
-                   onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                     onError:(ErrorCallback _Nullable)onError;
+                   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                     onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
     withUserId:(nonnull NSString *)userId
 withPhoneNumber:(nonnull NSString *)phoneNumber
-     onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError;
+     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)userName
 withPhoneNumber:(nonnull NSString *)phoneNumber
-     onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-       onError:(NXMCoreErrorCallback _Nullable)onError;
+     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)deleteMember:(nonnull NSString *)memberId
 fromConversationWithId:(nonnull NSString *)conversationId
-           onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-             onError:(NXMCoreErrorCallback _Nullable)onError;
+           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
-        onSuccess:(NXMCoreSuccessCallbackWithEvents _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError;
+        onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
           startId:(nullable NSNumber *)startId
             endId:(nullable NSNumber *)endId
-        onSuccess:(NXMCoreSuccessCallbackWithEvents _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError;
+        onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest *)getConvetsationsRequest
-               onSuccess:(NXMCoreSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMCoreErrorCallback _Nullable)onError;
+               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                 onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getConversationDetails:(nonnull NSString *)conversationId
-                     onSuccess:(NXMCoreSuccessCallbackWithConversationDetails _Nullable)onSuccess
-                       onError:(NXMCoreErrorCallback _Nullable)onError;
+                     onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getConversationsForUser:(nonnull NSString *)userId
-                   onSuccess:(NXMCoreSuccessCallbackWithConversations _Nullable)onSuccess
-                     onError:(NXMCoreErrorCallback _Nullable)onError;
+                   onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(NXMErrorCallback _Nullable)onError;
 
 #pragma mark - Messages Methods
 
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
-       onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-         onError:(NXMCoreErrorCallback _Nullable)onError;
+       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+         onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)sendImageWithName:(nonnull NSString *)imageName
             image:(nonnull NSData *)image
    conversationId:(nonnull NSString *)conversationId
      fromMemberId:(nonnull NSString *)fromMemberId
-        onSuccess:(NXMCoreSuccessCallbackWithId _Nullable)onSuccess
-          onError:(NXMCoreErrorCallback _Nullable)onError;
+        onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)deleteEvent:(NSInteger)eventId
      conversationId:(nonnull NSString *)conversationId
        fromMemberId:(nonnull NSString *)memberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError;
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)markAsSeen:(NSInteger)messageId
     conversationId:(nonnull NSString *)conversationId
   fromMemberWithId:(nonnull NSString *)memberId
-         onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-           onError:(NXMCoreErrorCallback _Nullable)onError;
+         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+           onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)markAsDelivered:(NSInteger)messageId
          conversationId:(nonnull NSString *)conversationId
        fromMemberWithId:(nonnull NSString *)memberId
-              onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-                onError:(NXMCoreErrorCallback _Nullable)onError;
+              onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)startTyping:(nonnull NSString *)conversationId
            memberId:(nonnull NSString *)memberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError;
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)stopTyping:(nonnull NSString *)conversationId
           memberId:(nonnull NSString *)memberId
-         onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-           onError:(NXMCoreErrorCallback _Nullable)onError;
+         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+           onError:(NXMErrorCallback _Nullable)onError;
 
 #pragma mark - Media Methods
 
@@ -179,15 +179,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
             ofMember:(nonnull NSString *)memberId
       inConversation:(nonnull NSString *)conversationId
           fromMember:(nonnull NSString *)fromMemberId
-           onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-             onError:(NXMCoreErrorCallback _Nullable)onError;
+           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)resumeMedia:(NXMMediaType)mediaType
            ofMember:(nonnull NSString *)memberId
      inConversation:(nonnull NSString *)conversationId
          fromMember:(nonnull NSString *)fromMemberId
-          onSuccess:(NXMCoreSuccessCallback _Nullable)onSuccess
-            onError:(NXMCoreErrorCallback _Nullable)onError;
+          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError;
 
 
 #pragma mark - other Methods

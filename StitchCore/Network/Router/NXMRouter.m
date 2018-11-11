@@ -57,8 +57,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 #pragma mark - push
 
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
-                      onSuccess:(SuccessCallback _Nullable)onSuccess
-                        onError:(ErrorCallback _Nullable)onError {
+                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError {
     
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[@"device_token"] = [self hexadecimalString:request.deviceToken];
@@ -79,8 +79,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
     }];
 }
 
-- (void)disablePushNotificationsWithOnSuccess:(SuccessCallback _Nullable)onSuccess
-                        onError:(ErrorCallback _Nullable)onError {
+- (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError {
     NSString *deviceId = [self getDeviceId];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/devices/%@", self.baseUrl, deviceId]];
     
@@ -140,8 +140,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
-                 onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                   onError:(ErrorCallback _Nullable)onError {
+                 onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                   onError:(NXMErrorCallback _Nullable)onError {
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
@@ -218,8 +218,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 }
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(ErrorCallback _Nullable)onError {
+               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                 onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{ };
     //TODO:for now we get the first 100 conversations
     //we need to have support in the server to get all the conversations
@@ -279,8 +279,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 }
 
 - (void)getConversationsForUser:(NSString *)userId
-                      onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
-                        onError:(ErrorCallback _Nullable)onError {
+                      onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
@@ -317,8 +317,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
 
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
-                       onError:(ErrorCallback _Nullable)onError {
+                     onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@", self.baseUrl, conversationId]];
@@ -387,8 +387,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
-                       onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                         onError:(ErrorCallback _Nullable)onError {
+                       onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError {
     NSMutableDictionary *dict = [@{
                            @"user_id": inviteUserRequest.userID,
                            @"action": @"invite",
@@ -418,8 +418,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
-                    onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                      onError:(ErrorCallback _Nullable)onError {
+                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                      onError:(NXMErrorCallback _Nullable)onError {
 
     NSDictionary *dict = @{
                            @"user_id": addUserRequest.userID,
@@ -441,8 +441,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
-                       onSuccess:(SuccessCallbackWithId)onSuccess
-                         onError:(ErrorCallback _Nullable)onError {
+                       onSuccess:(NXMSuccessCallbackWithId)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"member_id": joinMembetRequest.memberID,
                            @"action": @"join",
@@ -463,8 +463,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
-                           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                             onError:(ErrorCallback _Nullable)onError{
+                           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                             onError:(NXMErrorCallback _Nullable)onError{
     NSDictionary *dict = @{
                            };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
@@ -482,8 +482,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 #pragma mark - call
 
 - (void)invitePstnToConversation:(nonnull NXMInvitePstnRequest *)invitePstnRequest
-                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                         onError:(ErrorCallback _Nullable)onError{
+                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError{
     NSDictionary *dict = @{
                            @"user_id": invitePstnRequest.userID,
                            @"action": @"invite",
@@ -509,8 +509,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 
 - (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
-                               onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                                 onError:(ErrorCallback _Nullable)onError{
+                               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError{
     NSDictionary *dict = @{
                       @"channel": @{
                               @"type": @"app",
@@ -540,8 +540,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 #pragma mark - media
 
 - (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
-          onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-            onError:(ErrorCallback _Nullable)onError {
+          onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{ @"from": memberId,
                             @"body": @{
                                     @"offer": @{
@@ -567,8 +567,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)disableMedia:(NSString *)conversationId
                rtcId:(NSString *)rtcId
             memberId:(NSString *)memberId
-           onSuccess:(SuccessCallback _Nullable)onSuccess
-             onError:(ErrorCallback _Nullable)onError {
+           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError {
     
     NSDictionary *dict = @{ @"from": memberId, @"originating_session": self.sessionId};
     
@@ -591,8 +591,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                      fromMember:(nonnull NSString *)fromMemberId
                        toMember:(nonnull NSString *)toMemberId
                       withRtcId:(nullable NSString *)rtcId
-                      onSuccess:(SuccessCallback _Nullable)onSuccess
-                        onError:(ErrorCallback _Nullable)onError {
+                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError {
     
     NSDictionary *dict = @{ @"type": @"audio:mute:on",
                             @"from": fromMemberId,
@@ -618,8 +618,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                        fromMember:(nonnull NSString *)fromMemberId
                          toMember:(nonnull NSString *)toMemberId
                         withRtcId:(nullable NSString *)rtcId
-                        onSuccess:(SuccessCallback _Nullable)onSuccess
-                          onError:(ErrorCallback _Nullable)onError {
+                        onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                          onError:(NXMErrorCallback _Nullable)onError {
     
     NSDictionary *dict = @{ @"type": @"audio:mute:off",
                             @"from": fromMemberId,
@@ -654,8 +654,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 #pragma mark - message
 
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
-                     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                       onError:(ErrorCallback _Nullable)onError {
+                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"from": sendTextEventRequest.memberID,
                            @"type": @"text",
@@ -677,8 +677,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
-        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-          onError:(ErrorCallback _Nullable)onError {
+        onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError {
     
     NSDictionary *headers = @{ @"content-type": @"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
                                @"authorization": [NSString stringWithFormat:@"bearer %@", self.token]
@@ -745,8 +745,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 #pragma mark - events
 
 - (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
-                         onSuccess:(SuccessCallback _Nullable)onSuccess
-                           onError:(ErrorCallback _Nullable)onError {
+                         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                           onError:(NXMErrorCallback _Nullable)onError {
     NSDictionary *dict = @{
                            @"from": deleteEventRequest.memberID,
                            };
@@ -764,7 +764,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 
-- (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(SuccessCallbackWithEvents)onSuccess onError:(ErrorCallback)onError{
+- (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(NXMSuccessCallbackWithEvents)onSuccess onError:(NXMErrorCallback)onError{
     
     NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, getEventsRequest.conversationId]];
     NSMutableArray<NSURLQueryItem *> *queryParams = [NSMutableArray new];

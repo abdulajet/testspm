@@ -46,7 +46,7 @@
     self.delegate = delegate;
 }
 
-- (void)addParticipantWithUserId:(NSString *)userId completionHandler:(ErrorCallback _Nullable)completionHandler {
+- (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (self.status == NXMCallStatusDisconnected) {
         completionHandler(nil); // TODO: error;
         return;
@@ -67,7 +67,7 @@
     }];
 }
 
-- (void)addParticipantWithNumber:(NSString *)number completionHandler:(ErrorCallback _Nullable)completionHandler {
+- (void)addParticipantWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (self.status == NXMCallStatusDisconnected) {
         completionHandler(nil); // TODO: error;
         return;

@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMUser.h"
+#import <StitchCore/StitchCore.h>
 
 @class NXMCall;
 @class NXMConversation;

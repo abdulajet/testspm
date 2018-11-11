@@ -18,8 +18,8 @@
 @property NXMRouter *router;
 @property (nonatomic) id<NXMNetworkDelegate> delegate;
 
-@property SuccessCallbackWithObject loginSuccessCallback;
-@property ErrorCallback loginErrorCallback;
+@property NXMSuccessCallbackWithObject loginSuccessCallback;
+@property NXMErrorCallback loginErrorCallback;
 
 @end
 
@@ -52,74 +52,74 @@
 }
 
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
-                      onSuccess:(SuccessCallback _Nullable)onSuccess
-                        onError:(ErrorCallback _Nullable)onError {
+                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError {
     [self.router enablePushNotifications:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)disablePushNotificationsWithOnSuccess:(SuccessCallback _Nullable)onSuccess
-                                      onError:(ErrorCallback _Nullable)onError {
+- (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                                      onError:(NXMErrorCallback _Nullable)onError {
     [self.router disablePushNotificationsWithOnSuccess:onSuccess onError:onError];
 }
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
-                 onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                   onError:(ErrorCallback _Nullable)onError {
+                 onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                   onError:(NXMErrorCallback _Nullable)onError {
     [self.router createConversation:createConversationRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
-                    onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                      onError:(ErrorCallback _Nullable)onError {
+                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                      onError:(NXMErrorCallback _Nullable)onError {
     [self.router addUserToConversation:addUserRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
-                       onSuccess:(SuccessCallbackWithObject _Nullable)onSuccess
-                         onError:(ErrorCallback _Nullable)onError {
+                       onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError {
     [self.router inviteUserToConversation:inviteUserRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)invitePstnToConversation:(nonnull NXMInvitePstnRequest *)invitePstnRequest
-                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                         onError:(ErrorCallback _Nullable)onError{
+                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError{
     [self.router invitePstnToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
 }
 
 
 - (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
-                               onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                                 onError:(ErrorCallback _Nullable)onError{
+                               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError{
     [self.router invitePstnKnockingToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
-                       onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                         onError:(ErrorCallback _Nullable)onError {
+                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                         onError:(NXMErrorCallback _Nullable)onError {
    [self.router joinMemberToConversation:joinMemberRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
-                           onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                             onError:(ErrorCallback _Nullable)onError {
+                           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                             onError:(NXMErrorCallback _Nullable)onError {
     [self.router removeMemberFromConversation:removeMemberRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
-                     onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-                       onError:(ErrorCallback _Nullable)onError {
+                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
     [self.router sendTextToConversation:sendTextEventRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
-        onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-          onError:(ErrorCallback _Nullable)onError {
+        onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError {
     [self.router sendImage:sendImageRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
-                         onSuccess:(SuccessCallback _Nullable)onSuccess
-                           onError:(ErrorCallback _Nullable)onError {
+                         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                           onError:(NXMErrorCallback _Nullable)onError {
     [self.router deleteEventFromConversation:deleteEventRequest onSuccess:onSuccess onError:onError];
 }
 
@@ -146,45 +146,45 @@
 }
 
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(ErrorCallback _Nullable)onError {
+               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                 onError:(NXMErrorCallback _Nullable)onError {
     [self.router getConversations:getConvetsationsRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)getConversationsForUser:(nonnull NSString *)userId
-                   onSuccess:(SuccessCallbackWithConversations _Nullable)onSuccess
-                     onError:(ErrorCallback _Nullable)onError {
+                   onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
+                     onError:(NXMErrorCallback _Nullable)onError {
     [self.router getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
 
 - (void)getEvents:(nonnull NXMGetEventsRequest*)getEventsRequest
-        onSuccess:(SuccessCallbackWithEvents _Nullable)onSuccess
-          onError:(ErrorCallback _Nullable)onError{
+        onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError{
     [self.router getEvents:getEventsRequest onSuccess:onSuccess onError:onError];
 }
 - (void)getConversationDetails:(nonnull NSString*)conversationId
-                     onSuccess:(SuccessCallbackWithConversationDetails _Nullable)onSuccess
-                       onError:(ErrorCallback _Nullable)onError {
+                     onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
     [self.router getConversationDetails:conversationId onSuccess:onSuccess onError:onError];
 }
 
 - (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
-          onSuccess:(SuccessCallbackWithId _Nullable)onSuccess
-            onError:(ErrorCallback _Nullable)onError {
+          onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+            onError:(NXMErrorCallback _Nullable)onError {
     [self.router enableMedia:conversationId memberId:memberId sdp:sdp mediaType:mediaType onSuccess:onSuccess onError:onError];
 }
 
 - (void)disableMedia:(NSString *)conversationId
                rtcId:(NSString *)rtcId
             memberId:(NSString *)memberId
-           onSuccess:(SuccessCallback _Nullable)onSuccess
-             onError:(ErrorCallback _Nullable)onError {
+           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+             onError:(NXMErrorCallback _Nullable)onError {
     [self.router disableMedia:conversationId rtcId:rtcId memberId:memberId onSuccess:onSuccess onError:onError];
 }
 
 - (void)suspendMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
-                 onSuccess:(SuccessCallback _Nullable)onSuccess
-                   onError:(ErrorCallback _Nullable)onError {
+                 onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                   onError:(NXMErrorCallback _Nullable)onError {
     
     switch (mediaRequest.mediaType) {
         case NXMMediaTypeAudio:
@@ -199,8 +199,8 @@
 }
 
 - (void)resumeMediaWithMediaRequest:(nonnull NXMSuspendResumeMediaRequest *)mediaRequest
-                onSuccess:(SuccessCallback _Nullable)onSuccess
-                  onError:(ErrorCallback _Nullable)onError {
+                onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                  onError:(NXMErrorCallback _Nullable)onError {
     switch (mediaRequest.mediaType) {
         case NXMMediaTypeAudio:
             [self.router unmuteAudioInConversation:mediaRequest.conversationId fromMember:mediaRequest.fromMemberId toMember:mediaRequest.toMemberId withRtcId:mediaRequest.rtcId onSuccess:onSuccess onError:onError];

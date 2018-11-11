@@ -1,14 +1,14 @@
 //
 //  NXMLogger.h
-//  NexmoConversationObjC
+//  StitchCore
 //
-//  Created by Chen Lev on 4/15/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
 #import "NXMLoggerDelegate.h"
+
 @interface NXMLogger : NSObject
 
 + (void)setDelegate:(nonnull id<NXMLoggerDelegate>)delegate;

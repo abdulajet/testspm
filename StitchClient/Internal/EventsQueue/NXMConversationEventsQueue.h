@@ -1,13 +1,12 @@
 //
 //  ConversationEventsQueue.h
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Iliya Barenboim on 26/08/2018.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-@class NXMEvent;
+#import <StitchCore/StitchCore.h>
 
 @protocol NXMConversationEventsQueueDelegate <NSObject>
 

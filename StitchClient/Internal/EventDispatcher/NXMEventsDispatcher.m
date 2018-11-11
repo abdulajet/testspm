@@ -1,8 +1,7 @@
 //
 //  NXMEventsDispatcher.m
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Doron Biaz on 9/5/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 

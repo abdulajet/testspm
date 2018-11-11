@@ -1,16 +1,14 @@
 //
 //  NXMMembersController.m
-//  StitchObjC
+//  StitchClient
 //
-//  Created by Doron Biaz on 10/7/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
+#import <StitchCore/StitchCore.h>
 
 #import "NXMConversationMembersController.h"
 #import "NXMConversationEventsQueue.h"
 
-#import "NXMUser.h"
-#import "NXMMember.h"
 #import "NXMConversation.h"
 #import "NXMStitchContext.h"
 
