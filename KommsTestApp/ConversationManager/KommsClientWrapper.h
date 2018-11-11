@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMStitchClientDelegate.h"
+#import <StitchClient/StitchClient.h>
+
 
 @class NXMStitchClient;
 

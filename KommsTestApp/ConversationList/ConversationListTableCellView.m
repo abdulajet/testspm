@@ -7,7 +7,7 @@
 //
 
 #import "ConversationListTableCellView.h"
-#import "NXMConversationDetails.h"
+#import <StitchClient/StitchClient.h>
 
 @interface ConversationListTableCellView()
 

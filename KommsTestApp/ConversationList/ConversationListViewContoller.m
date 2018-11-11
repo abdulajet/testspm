@@ -10,10 +10,8 @@
 #import "ConversationListTableCellView.h"
 #import "ConversationViewController.h"
 #import "ConversationManager.h"
-#import "NXMConversation.h"
 #import "KommsClientWrapper.h"
 #import "KommsClients.h"
-#import "NXMStitchClient.h"
 #import "AppDelegate.h"
 
 @interface ConversationListViewContoller ()

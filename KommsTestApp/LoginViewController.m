@@ -6,13 +6,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 #import <AVFoundation/AVAudioSession.h>
+
 #import "LoginViewController.h"
 #import "ConversationListViewContoller.h"
 #import "ConversationManager.h"
 #import "Tokens.h"
 #import "KommsClients.h"
 #import "KommsClientWrapper.h"
-#import "StitchObjC.h"
 #import "AppDelegate.h"
 
 @interface LoginViewController() <UIPickerViewDelegate, UIPickerViewDataSource>

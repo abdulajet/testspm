@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UserNotifications/UserNotifications.h>
+#import <StitchCore/StitchCore.h>
+
 #import "OngoingMediaCollection.h"
 #import "OngoingMedia.h"
 
-#import "StitchCore.h"
 
 @interface ConversationManager : NSObject <NXMConversationCoreDelegate, UNUserNotificationCenterDelegate>
 

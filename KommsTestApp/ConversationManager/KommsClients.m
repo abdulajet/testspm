@@ -7,7 +7,6 @@
 //
 
 #import "KommsClients.h"
-#import "NXMStitchClient.h"
 #import "KommsClientWrapper.h"
 
 @interface KommsClients ()

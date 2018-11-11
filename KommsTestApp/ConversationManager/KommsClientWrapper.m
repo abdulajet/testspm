@@ -7,7 +7,6 @@
 //
 
 #import "KommsClientWrapper.h"
-#import "NXMStitchClient.h"
 
 @interface KommsClientWrapper ()
 @property (nonatomic, nonnull, readwrite) NXMStitchClient *kommsClient;

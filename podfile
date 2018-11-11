@@ -1,7 +1,7 @@
 source 'git@github.com:CocoaPods/Specs.git'
 source 'git@github.com:Vonage/NexmoCocoaPodSpecs.git'
 
-platform :ios, '9.0'
+platform :ios, '10.0'
 use_frameworks!
 
 project 'Stitch_iOS.xcodeproj'
@@ -9,34 +9,40 @@ project 'Stitch_iOS.xcodeproj'
 use_frameworks!
 
 def shared_pods
-    pod 'VPSocketIO'#, :path => "../VPSocketIO"
+    pod 'VPSocketIO', '1.0.5'
     pod 'MiniRTC_Release', '0.01.78'
-    #pod 'MiniRTC_Debug', '0.01.19'
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 
 target 'StitchTestApp' do
-    # pod 'NexmoStitchObjC', :path => "."
     shared_pods
 end
 
 target 'KommsTestApp' do
-    # pod 'NexmoStitchObjC', :path => "."
     shared_pods
 end
 
-target 'StitchObjC' do
+target 'StitchCore' do
     shared_pods
     
-    target 'StitchObjCTests' do
-        inherit! :search_paths
-        
-        pod 'OCMock', '3.4'
-
-    end
+#    target 'StitchCoreTests' do
+#        inherit! :search_paths
+#
+#        pod 'OCMock', '3.4'
+#
+#    end
 end
 
-
+target 'StitchClient' do
+    shared_pods
+    
+#    target 'StitchClientTests' do
+#        inherit! :search_paths
+#
+#        pod 'OCMock', '3.4'
+#
+#    end
+end
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|
