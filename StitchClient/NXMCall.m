@@ -2,7 +2,6 @@
 //  NXMCall.m
 //  StitcClient
 //
-//  Created by Chen Lev on 8/27/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
