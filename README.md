@@ -1,6 +1,6 @@
 # Stitch Mobile Nexmo SDK for iOS
-[![Release](https://img.shields.io/github/release/aws/aws-sdk-ios.svg)]()
-[![CocoaPods](https://img.shields.io/cocoapods/v/AWSiOSSDKv2.svg)]()
+[![Platforms](https://img.shields.io/badge/platform-ios%7Cosx-lightgrey.svg)]()
+[![CocoaPods](https://img.shields.io/badge/podspec-v0.1-blue.svg)]()
 
 ## Setting Up
 
@@ -64,7 +64,7 @@ When this delegate method called with isLoggedIn = true the login done, now you 
 ### create call
 
 To create ip-ip call:
-Your object should implemnt NXMCallDelegate
+Your object should implement NXMCallDelegate
 ```ruby
     [stitchClient callToUsers:@[@"userId"] delegate:NXMCallDelegateImp completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
         if (error) {
