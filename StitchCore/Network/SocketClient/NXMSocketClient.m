@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <VPSocketIO/VPSocketIO.h>
+#import "VPSocketIO.h"
 
 #import "NXMSocketClient.h"
 #import "NXMSocketClientDefine.h"

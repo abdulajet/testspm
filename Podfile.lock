@@ -1,21 +1,16 @@
 PODS:
   - MiniRTC_Release (0.01.78)
-  - VPSocketIO (1.0.5)
 
 DEPENDENCIES:
   - MiniRTC_Release (= 0.01.78)
-  - VPSocketIO (= 1.0.5)
 
 SPEC REPOS:
   "git@github.com:Vonage/NexmoCocoaPodSpecs.git":
     - MiniRTC_Release
-  https://github.com/cocoapods/specs.git:
-    - VPSocketIO
 
 SPEC CHECKSUMS:
   MiniRTC_Release: 41867563e6f7daf32081ac194637aa2a70e86ac0
-  VPSocketIO: 28b685efb13ad866c0d27077a57d335bae5649ce
 
-PODFILE CHECKSUM: b2ec844c3a294d323a2d8f1f2b31d2d63772fad3
+PODFILE CHECKSUM: fb21fb80631ef467a836c3b20f9312686df8b548
 
 COCOAPODS: 1.5.3

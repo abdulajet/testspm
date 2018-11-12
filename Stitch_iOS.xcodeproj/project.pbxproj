@@ -204,6 +204,44 @@
 		F923DDC72198664500D29065 /* StitchCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F923DDCA2198664B00D29065 /* StitchClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; };
 		F923DDCB2198664B00D29065 /* StitchClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F923DE2421998F4C00D29065 /* JFRWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2021998F4C00D29065 /* JFRWebSocket.h */; };
+		F923DE2521998F4C00D29065 /* JFRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE2121998F4C00D29065 /* JFRWebSocket.m */; };
+		F923DE2621998F4C00D29065 /* JFRSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE2221998F4C00D29065 /* JFRSecurity.m */; };
+		F923DE2721998F4C00D29065 /* JFRSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2321998F4C00D29065 /* JFRSecurity.h */; };
+		F923DE4821998F6900D29065 /* VPSocketLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2821998F6700D29065 /* VPSocketLogger.h */; };
+		F923DE4921998F6900D29065 /* VPSocketAnyEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE2921998F6700D29065 /* VPSocketAnyEvent.m */; };
+		F923DE4A21998F6900D29065 /* VPSocketOnAckCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2A21998F6700D29065 /* VPSocketOnAckCallback.h */; };
+		F923DE4B21998F6900D29065 /* VPSocketAck.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2B21998F6700D29065 /* VPSocketAck.h */; };
+		F923DE4C21998F6900D29065 /* VPSocketEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2C21998F6700D29065 /* VPSocketEngine.h */; };
+		F923DE4D21998F6900D29065 /* VPSocketPacket.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2D21998F6700D29065 /* VPSocketPacket.h */; };
+		F923DE4E21998F6900D29065 /* DefaultSocketLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE2E21998F6700D29065 /* DefaultSocketLogger.h */; };
+		F923DE4F21998F6900D29065 /* VPSocketLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE2F21998F6700D29065 /* VPSocketLogger.m */; };
+		F923DE5021998F6900D29065 /* VPSocketAnyEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3021998F6700D29065 /* VPSocketAnyEvent.h */; };
+		F923DE5121998F6900D29065 /* VPSocketIOClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3121998F6700D29065 /* VPSocketIOClient.m */; };
+		F923DE5221998F6900D29065 /* NSString+VPSocketIO.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3221998F6700D29065 /* NSString+VPSocketIO.h */; };
+		F923DE5321998F6900D29065 /* VPSocketAck.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3321998F6700D29065 /* VPSocketAck.m */; };
+		F923DE5421998F6900D29065 /* VPSocketEngine+EnginePollable.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3421998F6700D29065 /* VPSocketEngine+EnginePollable.h */; };
+		F923DE5521998F6900D29065 /* VPSocketAckManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3521998F6700D29065 /* VPSocketAckManager.h */; };
+		F923DE5621998F6900D29065 /* VPSocketAckManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3621998F6800D29065 /* VPSocketAckManager.m */; };
+		F923DE5721998F6900D29065 /* VPSocketAckEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3721998F6800D29065 /* VPSocketAckEmitter.h */; };
+		F923DE5821998F6900D29065 /* VPSocketEngine+EnginePollable.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3821998F6800D29065 /* VPSocketEngine+EnginePollable.m */; };
+		F923DE5921998F6900D29065 /* VPSocketIO.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3921998F6800D29065 /* VPSocketIO.h */; };
+		F923DE5A21998F6900D29065 /* VPSocketOnAckCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3A21998F6800D29065 /* VPSocketOnAckCallback.m */; };
+		F923DE5B21998F6900D29065 /* VPSocketIOClientProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3B21998F6800D29065 /* VPSocketIOClientProtocol.h */; };
+		F923DE5C21998F6900D29065 /* VPSocketPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3C21998F6800D29065 /* VPSocketPacket.m */; };
+		F923DE5D21998F6900D29065 /* VPSocketEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE3D21998F6800D29065 /* VPSocketEngine.m */; };
+		F923DE5E21998F6900D29065 /* VPSocketEngine+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3E21998F6800D29065 /* VPSocketEngine+Private.h */; };
+		F923DE5F21998F6900D29065 /* VPStringReader.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE3F21998F6800D29065 /* VPStringReader.h */; };
+		F923DE6021998F6900D29065 /* VPSocketEngine+EngineWebsocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE4021998F6800D29065 /* VPSocketEngine+EngineWebsocket.m */; };
+		F923DE6121998F6900D29065 /* DefaultSocketLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE4121998F6800D29065 /* DefaultSocketLogger.m */; };
+		F923DE6221998F6900D29065 /* VPSocketEngineProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE4221998F6800D29065 /* VPSocketEngineProtocol.h */; };
+		F923DE6321998F6900D29065 /* VPStringReader.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE4321998F6800D29065 /* VPStringReader.m */; };
+		F923DE6421998F6900D29065 /* VPSocketAckEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE4421998F6800D29065 /* VPSocketAckEmitter.m */; };
+		F923DE6521998F6900D29065 /* NSString+VPSocketIO.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DE4521998F6900D29065 /* NSString+VPSocketIO.m */; };
+		F923DE6621998F6900D29065 /* VPSocketEngine+EngineWebsocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE4621998F6900D29065 /* VPSocketEngine+EngineWebsocket.h */; };
+		F923DE6721998F6900D29065 /* VPSocketIOClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE4721998F6900D29065 /* VPSocketIOClient.h */; };
+		F923DE6A21998F9400D29065 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F923DE6821998F9400D29065 /* README.md */; };
+		F923DE6B21998F9400D29065 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F923DE6921998F9400D29065 /* LICENSE */; };
 		F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93920BC67BA006DBBEA /* ConversationTextTableViewCell.m */; };
 		F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93C20BC74A9006DBBEA /* ConversationEventTableViewCell.m */; };
 /* End PBXBuildFile section */
@@ -467,6 +505,44 @@
 		F923DD9121985BF600D29065 /* StitchClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StitchClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DD9621985BF600D29065 /* StitchClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchClientTests.m; sourceTree = "<group>"; };
 		F923DD9821985BF600D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F923DE2021998F4C00D29065 /* JFRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFRWebSocket.h; sourceTree = "<group>"; };
+		F923DE2121998F4C00D29065 /* JFRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFRWebSocket.m; sourceTree = "<group>"; };
+		F923DE2221998F4C00D29065 /* JFRSecurity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JFRSecurity.m; sourceTree = "<group>"; };
+		F923DE2321998F4C00D29065 /* JFRSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JFRSecurity.h; sourceTree = "<group>"; };
+		F923DE2821998F6700D29065 /* VPSocketLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketLogger.h; sourceTree = "<group>"; };
+		F923DE2921998F6700D29065 /* VPSocketAnyEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketAnyEvent.m; sourceTree = "<group>"; };
+		F923DE2A21998F6700D29065 /* VPSocketOnAckCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketOnAckCallback.h; sourceTree = "<group>"; };
+		F923DE2B21998F6700D29065 /* VPSocketAck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketAck.h; sourceTree = "<group>"; };
+		F923DE2C21998F6700D29065 /* VPSocketEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketEngine.h; sourceTree = "<group>"; };
+		F923DE2D21998F6700D29065 /* VPSocketPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketPacket.h; sourceTree = "<group>"; };
+		F923DE2E21998F6700D29065 /* DefaultSocketLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultSocketLogger.h; sourceTree = "<group>"; };
+		F923DE2F21998F6700D29065 /* VPSocketLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketLogger.m; sourceTree = "<group>"; };
+		F923DE3021998F6700D29065 /* VPSocketAnyEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketAnyEvent.h; sourceTree = "<group>"; };
+		F923DE3121998F6700D29065 /* VPSocketIOClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketIOClient.m; sourceTree = "<group>"; };
+		F923DE3221998F6700D29065 /* NSString+VPSocketIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+VPSocketIO.h"; sourceTree = "<group>"; };
+		F923DE3321998F6700D29065 /* VPSocketAck.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketAck.m; sourceTree = "<group>"; };
+		F923DE3421998F6700D29065 /* VPSocketEngine+EnginePollable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VPSocketEngine+EnginePollable.h"; sourceTree = "<group>"; };
+		F923DE3521998F6700D29065 /* VPSocketAckManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketAckManager.h; sourceTree = "<group>"; };
+		F923DE3621998F6800D29065 /* VPSocketAckManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketAckManager.m; sourceTree = "<group>"; };
+		F923DE3721998F6800D29065 /* VPSocketAckEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketAckEmitter.h; sourceTree = "<group>"; };
+		F923DE3821998F6800D29065 /* VPSocketEngine+EnginePollable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VPSocketEngine+EnginePollable.m"; sourceTree = "<group>"; };
+		F923DE3921998F6800D29065 /* VPSocketIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIO.h; sourceTree = "<group>"; };
+		F923DE3A21998F6800D29065 /* VPSocketOnAckCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketOnAckCallback.m; sourceTree = "<group>"; };
+		F923DE3B21998F6800D29065 /* VPSocketIOClientProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientProtocol.h; sourceTree = "<group>"; };
+		F923DE3C21998F6800D29065 /* VPSocketPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketPacket.m; sourceTree = "<group>"; };
+		F923DE3D21998F6800D29065 /* VPSocketEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketEngine.m; sourceTree = "<group>"; };
+		F923DE3E21998F6800D29065 /* VPSocketEngine+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VPSocketEngine+Private.h"; sourceTree = "<group>"; };
+		F923DE3F21998F6800D29065 /* VPStringReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPStringReader.h; sourceTree = "<group>"; };
+		F923DE4021998F6800D29065 /* VPSocketEngine+EngineWebsocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VPSocketEngine+EngineWebsocket.m"; sourceTree = "<group>"; };
+		F923DE4121998F6800D29065 /* DefaultSocketLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultSocketLogger.m; sourceTree = "<group>"; };
+		F923DE4221998F6800D29065 /* VPSocketEngineProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketEngineProtocol.h; sourceTree = "<group>"; };
+		F923DE4321998F6800D29065 /* VPStringReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPStringReader.m; sourceTree = "<group>"; };
+		F923DE4421998F6800D29065 /* VPSocketAckEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketAckEmitter.m; sourceTree = "<group>"; };
+		F923DE4521998F6900D29065 /* NSString+VPSocketIO.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+VPSocketIO.m"; sourceTree = "<group>"; };
+		F923DE4621998F6900D29065 /* VPSocketEngine+EngineWebsocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VPSocketEngine+EngineWebsocket.h"; sourceTree = "<group>"; };
+		F923DE4721998F6900D29065 /* VPSocketIOClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClient.h; sourceTree = "<group>"; };
+		F923DE6821998F9400D29065 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "StitchCore/External Libraries/VPSocketIO/README.md"; sourceTree = SOURCE_ROOT; };
+		F923DE6921998F9400D29065 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "StitchCore/External Libraries/VPSocketIO/LICENSE"; sourceTree = SOURCE_ROOT; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96F744F20552D6D004B3434 /* NXMMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMember.h; sourceTree = "<group>"; };
@@ -946,6 +1022,7 @@
 				F9998AC7208378BE00EAC286 /* Network */,
 				92C5585C218B66D0006D4063 /* Push */,
 				F988BE9220F646BB007D4276 /* Utility */,
+				F923DDCE21998DF400D29065 /* External Libraries */,
 			);
 			path = StitchCore;
 			sourceTree = "<group>";
@@ -989,6 +1066,75 @@
 				F923DD9821985BF600D29065 /* Info.plist */,
 			);
 			path = StitchClientTests;
+			sourceTree = "<group>";
+		};
+		F923DDCE21998DF400D29065 /* External Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				F923DDD121998EC100D29065 /* VPSocketIO */,
+			);
+			path = "External Libraries";
+			sourceTree = "<group>";
+		};
+		F923DDD121998EC100D29065 /* VPSocketIO */ = {
+			isa = PBXGroup;
+			children = (
+				F923DE6921998F9400D29065 /* LICENSE */,
+				F923DE6821998F9400D29065 /* README.md */,
+				F923DE1721998EED00D29065 /* jetfire */,
+				F923DDD621998ED500D29065 /* Source */,
+			);
+			path = VPSocketIO;
+			sourceTree = "<group>";
+		};
+		F923DDD621998ED500D29065 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				F923DE2E21998F6700D29065 /* DefaultSocketLogger.h */,
+				F923DE4121998F6800D29065 /* DefaultSocketLogger.m */,
+				F923DE3221998F6700D29065 /* NSString+VPSocketIO.h */,
+				F923DE4521998F6900D29065 /* NSString+VPSocketIO.m */,
+				F923DE2B21998F6700D29065 /* VPSocketAck.h */,
+				F923DE3321998F6700D29065 /* VPSocketAck.m */,
+				F923DE3721998F6800D29065 /* VPSocketAckEmitter.h */,
+				F923DE4421998F6800D29065 /* VPSocketAckEmitter.m */,
+				F923DE3521998F6700D29065 /* VPSocketAckManager.h */,
+				F923DE3621998F6800D29065 /* VPSocketAckManager.m */,
+				F923DE3021998F6700D29065 /* VPSocketAnyEvent.h */,
+				F923DE2921998F6700D29065 /* VPSocketAnyEvent.m */,
+				F923DE2C21998F6700D29065 /* VPSocketEngine.h */,
+				F923DE3D21998F6800D29065 /* VPSocketEngine.m */,
+				F923DE3421998F6700D29065 /* VPSocketEngine+EnginePollable.h */,
+				F923DE3821998F6800D29065 /* VPSocketEngine+EnginePollable.m */,
+				F923DE4621998F6900D29065 /* VPSocketEngine+EngineWebsocket.h */,
+				F923DE4021998F6800D29065 /* VPSocketEngine+EngineWebsocket.m */,
+				F923DE3E21998F6800D29065 /* VPSocketEngine+Private.h */,
+				F923DE4221998F6800D29065 /* VPSocketEngineProtocol.h */,
+				F923DE3921998F6800D29065 /* VPSocketIO.h */,
+				F923DE4721998F6900D29065 /* VPSocketIOClient.h */,
+				F923DE3121998F6700D29065 /* VPSocketIOClient.m */,
+				F923DE3B21998F6800D29065 /* VPSocketIOClientProtocol.h */,
+				F923DE2821998F6700D29065 /* VPSocketLogger.h */,
+				F923DE2F21998F6700D29065 /* VPSocketLogger.m */,
+				F923DE2A21998F6700D29065 /* VPSocketOnAckCallback.h */,
+				F923DE3A21998F6800D29065 /* VPSocketOnAckCallback.m */,
+				F923DE2D21998F6700D29065 /* VPSocketPacket.h */,
+				F923DE3C21998F6800D29065 /* VPSocketPacket.m */,
+				F923DE3F21998F6800D29065 /* VPStringReader.h */,
+				F923DE4321998F6800D29065 /* VPStringReader.m */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		F923DE1721998EED00D29065 /* jetfire */ = {
+			isa = PBXGroup;
+			children = (
+				F923DE2321998F4C00D29065 /* JFRSecurity.h */,
+				F923DE2221998F4C00D29065 /* JFRSecurity.m */,
+				F923DE2021998F4C00D29065 /* JFRWebSocket.h */,
+				F923DE2121998F4C00D29065 /* JFRWebSocket.m */,
+			);
+			path = jetfire;
 			sourceTree = "<group>";
 		};
 		F984C93720BC6778006DBBEA /* ConversationView */ = {
@@ -1219,11 +1365,14 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F923DE5F21998F6900D29065 /* VPStringReader.h in Headers */,
 				F923DD002198555700D29065 /* StitchCore.h in Headers */,
 				F923DCFE2198555700D29065 /* NXMConversationCoreEventsDelegate.h in Headers */,
 				F923DD04219859D100D29065 /* NXMErrors.h in Headers */,
 				F923DD0C219859F800D29065 /* NXMEvent.h in Headers */,
 				F923DD03219859CC00D29065 /* NXMEnums.h in Headers */,
+				F923DE5921998F6900D29065 /* VPSocketIO.h in Headers */,
+				F923DE5221998F6900D29065 /* NSString+VPSocketIO.h in Headers */,
 				F923DCFB2198555700D29065 /* NXMConversationCore.h in Headers */,
 				F923DD4421985A2C00D29065 /* NXMCreateConversationRequest.h in Headers */,
 				F923DD5821985A3300D29065 /* NXMRouter.h in Headers */,
@@ -1232,8 +1381,10 @@
 				F923DD2921985A1E00D29065 /* NXMMessageEvent.h in Headers */,
 				F923DD1A21985A0100D29065 /* NXMMediaSettings.h in Headers */,
 				F923DD4021985A2C00D29065 /* NXMJoinMemberRequest.h in Headers */,
+				F923DE5E21998F6900D29065 /* VPSocketEngine+Private.h in Headers */,
 				F923DD6121985A3D00D29065 /* NXMNetworkCallbacks.h in Headers */,
 				F923DD8021985A6900D29065 /* NXMPageInfo.h in Headers */,
+				F923DE4E21998F6900D29065 /* DefaultSocketLogger.h in Headers */,
 				F923DD4C21985A2C00D29065 /* NXMSendImageRequest.h in Headers */,
 				F923DD0E219859F800D29065 /* NXMConversationEvents.h in Headers */,
 				F923DD0A219859E500D29065 /* RTCMediaWrapperDelegate.h in Headers */,
@@ -1241,26 +1392,37 @@
 				F923DD08219859E500D29065 /* NXMMediaInfo.h in Headers */,
 				F923DD6221985A3D00D29065 /* NXMNetworkDelegate.h in Headers */,
 				F923DD5C21985A3800D29065 /* NXMSocketClientDelegate.h in Headers */,
+				F923DE4821998F6900D29065 /* VPSocketLogger.h in Headers */,
+				F923DE5421998F6900D29065 /* VPSocketEngine+EnginePollable.h in Headers */,
 				F923DD4821985A2C00D29065 /* NXMDeleteEventRequest.h in Headers */,
 				F923DD5F21985A3D00D29065 /* NXMNetworkManager.h in Headers */,
+				F923DE2421998F4C00D29065 /* JFRWebSocket.h in Headers */,
 				F923DD6621985A4700D29065 /* NXMPushParserImageEvent.h in Headers */,
 				F923DCFD2198555700D29065 /* NXMConversationCoreDelegate.h in Headers */,
+				F923DE5521998F6900D29065 /* VPSocketAckManager.h in Headers */,
 				F923DD4221985A2C00D29065 /* NXMRemoveMemberRequest.h in Headers */,
 				F923DD3C21985A2C00D29065 /* NXMInviteUserRequest.h in Headers */,
 				F923DD5421985A2C00D29065 /* NXMSuspendResumeMediaRequest.h in Headers */,
+				F923DE6721998F6900D29065 /* VPSocketIOClient.h in Headers */,
 				F923DD3E21985A2C00D29065 /* NXMAddUserRequest.h in Headers */,
 				F923DCF52198554F00D29065 /* NXMBlocks.h in Headers */,
 				F923DD5A21985A3800D29065 /* NXMSocketClient.h in Headers */,
 				F923DD7121985A4F00D29065 /* NXMUtils.h in Headers */,
+				F923DE4C21998F6900D29065 /* VPSocketEngine.h in Headers */,
 				F923DD1821985A0100D29065 /* NXMRtcAnswerEvent.h in Headers */,
+				F923DE6621998F6900D29065 /* VPSocketEngine+EngineWebsocket.h in Headers */,
 				F923DD6C21985A4700D29065 /* NXMPushParserManager.h in Headers */,
 				F923DD6821985A4700D29065 /* NXMPushParserInviteEvent.h in Headers */,
+				F923DE5B21998F6900D29065 /* VPSocketIOClientProtocol.h in Headers */,
 				F923DD7E21985A6900D29065 /* NXMMember.h in Headers */,
 				F923DD6421985A4700D29065 /* NXMPushParserTextEvent.h in Headers */,
 				F923DCFC2198555700D29065 /* NXMConversationCoreConnectionDelegate.h in Headers */,
+				F923DE4A21998F6900D29065 /* VPSocketOnAckCallback.h in Headers */,
 				F923DD6A21985A4700D29065 /* NXMPushParsers.h in Headers */,
 				F923DD6F21985A4F00D29065 /* NXMErrorParser.h in Headers */,
+				F923DE5721998F6900D29065 /* VPSocketAckEmitter.h in Headers */,
 				F923DD7C21985A6900D29065 /* NXMConversationDetails.h in Headers */,
+				F923DE2721998F4C00D29065 /* JFRSecurity.h in Headers */,
 				F923DD4621985A2C00D29065 /* NXMSendTextEventRequest.h in Headers */,
 				F923DD2C21985A1E00D29065 /* NXMMessageStatusEvent.h in Headers */,
 				F923DD2421985A1800D29065 /* NXMImageEvent.h in Headers */,
@@ -1269,16 +1431,20 @@
 				F923DD1221985A0100D29065 /* NXMMediaSuspendEvent.h in Headers */,
 				F923DD1421985A0100D29065 /* NXMSipEvent.h in Headers */,
 				F923DCFF2198555700D29065 /* NXMLoggerDelegate.h in Headers */,
+				F923DE4B21998F6900D29065 /* VPSocketAck.h in Headers */,
 				F923DD1621985A0100D29065 /* NXMMediaEvent.h in Headers */,
 				F923DD1021985A0100D29065 /* NXMMediaActionEvent.h in Headers */,
 				F923DD1F21985A1200D29065 /* NXMTextEvent.h in Headers */,
 				F923DD5D21985A3800D29065 /* NXMSocketClientDefine.h in Headers */,
+				F923DE6221998F6900D29065 /* VPSocketEngineProtocol.h in Headers */,
 				F923DD6B21985A4700D29065 /* NXMPushParsing.h in Headers */,
 				F923DD4A21985A2C00D29065 /* NXMGetConversationsRequest.h in Headers */,
+				F923DE4D21998F6900D29065 /* VPSocketPacket.h in Headers */,
 				F923DD06219859E500D29065 /* RTCMediaWrapper.h in Headers */,
 				F923DD5221985A2C00D29065 /* NXMInvitePstnKnockingRequest.h in Headers */,
 				F923DD8221985A7500D29065 /* NXMUser.h in Headers */,
 				F923DD5021985A2C00D29065 /* NXMEnablePushRequest.h in Headers */,
+				F923DE5021998F6900D29065 /* VPSocketAnyEvent.h in Headers */,
 				F923DD3821985A2C00D29065 /* NXMInvitePstnRequest.h in Headers */,
 				F923DD2121985A1200D29065 /* NXMTextTypingEvent.h in Headers */,
 			);
@@ -1529,6 +1695,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F923DE6A21998F9400D29065 /* README.md in Resources */,
+				F923DE6B21998F9400D29065 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1564,12 +1732,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-KommsTestApp/Pods-KommsTestApp-frameworks.sh",
 				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
-				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1651,12 +1817,10 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchTestApp/Pods-StitchTestApp-frameworks.sh",
 				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
-				"${BUILT_PRODUCTS_DIR}/VPSocketIO/VPSocketIO.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/VPSocketIO.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1759,23 +1923,37 @@
 				F923DD1921985A0100D29065 /* NXMRtcAnswerEvent.m in Sources */,
 				F923DD2221985A1200D29065 /* NXMTextTypingEvent.m in Sources */,
 				F923DD1521985A0100D29065 /* NXMSipEvent.m in Sources */,
+				F923DE5D21998F6900D29065 /* VPSocketEngine.m in Sources */,
 				F923DD2A21985A1E00D29065 /* NXMMessageEvent.m in Sources */,
+				F923DE6021998F6900D29065 /* VPSocketEngine+EngineWebsocket.m in Sources */,
 				F923DD09219859E500D29065 /* NXMMediaInfo.m in Sources */,
 				F923DD2021985A1200D29065 /* NXMTextEvent.m in Sources */,
 				F923DD7421985A4F00D29065 /* NXMLogger.m in Sources */,
+				F923DE5A21998F6900D29065 /* VPSocketOnAckCallback.m in Sources */,
 				F923DD5921985A3300D29065 /* NXMRouter.m in Sources */,
 				F923DD02219859AA00D29065 /* NXMErrors.m in Sources */,
 				F923DD6521985A4700D29065 /* NXMPushParserTextEvent.m in Sources */,
 				F923DD012198555700D29065 /* NXMConversationCore.m in Sources */,
+				F923DE5121998F6900D29065 /* VPSocketIOClient.m in Sources */,
+				F923DE5821998F6900D29065 /* VPSocketEngine+EnginePollable.m in Sources */,
 				F923DD3B21985A2C00D29065 /* NXMBaseRequest.m in Sources */,
 				F923DD4321985A2C00D29065 /* NXMRemoveMemberRequest.m in Sources */,
+				F923DE4921998F6900D29065 /* VPSocketAnyEvent.m in Sources */,
+				F923DE6521998F6900D29065 /* NSString+VPSocketIO.m in Sources */,
+				F923DE5321998F6900D29065 /* VPSocketAck.m in Sources */,
+				F923DE2621998F4C00D29065 /* JFRSecurity.m in Sources */,
+				F923DE5C21998F6900D29065 /* VPSocketPacket.m in Sources */,
 				F923DD0D219859F800D29065 /* NXMEvent.m in Sources */,
 				F923DD3F21985A2C00D29065 /* NXMAddUserRequest.m in Sources */,
 				F923DD7021985A4F00D29065 /* NXMErrorParser.m in Sources */,
 				F923DD1721985A0100D29065 /* NXMMediaEvent.m in Sources */,
 				F923DD2B21985A1E00D29065 /* NXMMessageStatusEvent.m in Sources */,
 				F923DD6D21985A4700D29065 /* NXMPushParserManager.m in Sources */,
+				F923DE6321998F6900D29065 /* VPStringReader.m in Sources */,
+				F923DE2521998F4C00D29065 /* JFRWebSocket.m in Sources */,
 				F923DD6721985A4700D29065 /* NXMPushParserImageEvent.m in Sources */,
+				F923DE6421998F6900D29065 /* VPSocketAckEmitter.m in Sources */,
+				F923DE6121998F6900D29065 /* DefaultSocketLogger.m in Sources */,
 				F923DD4721985A2C00D29065 /* NXMSendTextEventRequest.m in Sources */,
 				F923DD5121985A2C00D29065 /* NXMEnablePushRequest.m in Sources */,
 				F923DD8121985A6900D29065 /* NXMPageInfo.m in Sources */,
@@ -1788,8 +1966,10 @@
 				F923DD3921985A2C00D29065 /* NXMInvitePstnRequest.m in Sources */,
 				F923DD7221985A4F00D29065 /* NXMUtils.m in Sources */,
 				F923DD8321985A7900D29065 /* NXMUser.m in Sources */,
+				F923DE4F21998F6900D29065 /* VPSocketLogger.m in Sources */,
 				F923DD1121985A0100D29065 /* NXMMediaActionEvent.m in Sources */,
 				F923DD4521985A2C00D29065 /* NXMCreateConversationRequest.m in Sources */,
+				F923DE5621998F6900D29065 /* VPSocketAckManager.m in Sources */,
 				F923DD4121985A2C00D29065 /* NXMJoinMemberRequest.m in Sources */,
 				F923DD6021985A3D00D29065 /* NXMNetworkManager.m in Sources */,
 				F923DD1D21985A0700D29065 /* NXMMemberEvent.m in Sources */,

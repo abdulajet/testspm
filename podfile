@@ -9,7 +9,6 @@ project 'Stitch_iOS.xcodeproj'
 use_frameworks!
 
 def shared_pods
-    pod 'VPSocketIO', '1.0.5'
     pod 'MiniRTC_Release', '0.01.78'
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
