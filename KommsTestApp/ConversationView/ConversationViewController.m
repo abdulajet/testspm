@@ -25,7 +25,7 @@ const CGFloat ONGOING_CALLS_OPEN_HEIGHT = 300;
 const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
-@interface ConversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate, NXMConversationEventsControllerDelegate>
+@interface ConversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate, NXMConversationEventsControllerDelegate, NXMCallDelegate>
 @property ConversationManager *conversationManager;
 @property KommsClientWrapper *kommsWrapper;
 
@@ -38,6 +38,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 @property (weak, nonatomic) IBOutlet UILabel *typingLabel;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadMoreActivityIndicator;
 
+@property NXMCall *call;
 @property NXMConversation *conversation;
 @property NXMConversationDetails *conversationDetails;
 @property NXMConversationEventsController *eventsController;
@@ -64,6 +65,8 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 @end
 
 @implementation ConversationViewController
+
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -660,13 +663,16 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 - (IBAction)enableAudioPressed:(id)sender {
     if (self.isAudioEnabled) {
         self.isAudioEnabled = NO;
-        [self.conversationManager.stitchConversationClient disableMedia:self.conversation.conversationId];
+        [self.call turnOff];
         return;
     }
     
     self.isAudioEnabled = YES;
-    [self.conversationManager.stitchConversationClient enableMedia:self.conversation.conversationId memberId:self.membersController.myMember.memberId];
     [self startAudioAnimation];
+    
+    [self.kommsWrapper.kommsClient callToUsers:@[@"USR-effc7845-333c-4779-aeaf-fdbb4167f93c"] delegate:self completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+        self.call = call;
+    }];
 }
 
 - (IBAction)ongoingCallsTrayVisibilityPressed:(id)sender {
@@ -724,6 +730,19 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
                              [self startAudioAnimation];
                          }
                      }];
+}
+
+#pragma mark - NXMCallDelegate
+
+- (void)statusChanged {
+    
+}
+- (void)holdChanged:(NXMCallParticipant *)participant isHold:(BOOL)isHold member:(NSString *)member {
+    
+}
+
+- (void)muteChanged:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted member:(NSString *)member {
+    
 }
 
 #pragma mark - Navigation
