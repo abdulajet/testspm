@@ -13,7 +13,7 @@
 @interface NXMCallParticipant()
 
 @property (nonatomic, readwrite) NSString *callId;
-@property (nonatomic, readwrite) NSString *memberId;
+@property (nonatomic, readwrite) NSString *participantId;
 @property (nonatomic, readwrite) NXMParticipantStatus status;
 @property (nonatomic, readwrite) BOOL isMuted;
 
@@ -26,7 +26,7 @@
 - (nullable instancetype)initWithMemberId:(NSString *)memberId andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [super init]) {
         self.callProxy = callProxy;
-        self.memberId = memberId;
+        self.participantId = memberId;
         self.status = NXMParticipantStatusDailing;
     }
     
