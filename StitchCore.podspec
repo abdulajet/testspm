@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
   s.platform     =  :ios, "10.0"
 
-  s.source       = { :git => "git@github.com:Vonage/stitch_iOS.git", :tag => "develop" } #{}"s.version" }
+  s.source       = { :git => "git@github.com:Vonage/stitch_iOS.git", :tag => "develop" }
 
   s.requires_arc = true
   s.source_files = "StitchCore/*.{h,m,mm}", "StitchCore/**/*.{h,m,mm}"
