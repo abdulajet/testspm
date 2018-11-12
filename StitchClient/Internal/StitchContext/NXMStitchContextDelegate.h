@@ -6,8 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMConversationCoreConnectionDelegate.h"
+#import "NXMStitchCoreDelegate.h"
 
-@protocol NXMStitchContextDelegate <NSObject, NXMConversationCoreConnectionDelegate>
+@protocol NXMStitchContextDelegate <NSObject, NXMStitchCoreDelegate>
 
 @end

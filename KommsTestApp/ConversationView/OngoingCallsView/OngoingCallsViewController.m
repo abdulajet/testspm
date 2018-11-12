@@ -8,7 +8,6 @@
 
 #import "OngoingCallsViewController.h"
 #import "OnGoingCallsCollectionViewCell.h"
-#import "NXMConversationCore.h"
 #import "ConversationManager.h"
 
 

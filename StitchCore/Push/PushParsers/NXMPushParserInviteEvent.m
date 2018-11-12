@@ -7,7 +7,7 @@
 //
 
 #import "NXMPushParserInviteEvent.h"
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 #import "NXMUtils.h"
 #import "NXMUser.h"
 

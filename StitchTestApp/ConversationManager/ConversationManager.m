@@ -12,12 +12,12 @@
 @synthesize stitchConversationClient = _stitchConversationClient;
 @synthesize connectedUser = _connectedUser;
 
--(void)setStitchCoreClient:(NXMConversationCore *)stitchCoreClient {
+-(void)setStitchCoreClient:(NXMStitchCore *)stitchCoreClient {
     _stitchConversationClient = stitchCoreClient;
     [_stitchConversationClient setDelgate:self];
 }
 
--(instancetype)initWithStitchCoreClient:(NXMConversationCore *)stitchCoreClient {
+-(instancetype)initWithStitchCoreClient:(NXMStitchCore *)stitchCoreClient {
     if(self = [super init])
     {
         [self setStitchCoreClient:stitchCoreClient];
@@ -32,7 +32,7 @@
     static ConversationManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NXMConversationCore *stitchCoreClient = [NXMConversationCore new];
+        NXMStitchCore *stitchCoreClient = [NXMStitchCore new];
         sharedInstance = [[ConversationManager alloc] initWithStitchCoreClient:stitchCoreClient];
     });
     return sharedInstance;

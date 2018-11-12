@@ -14,9 +14,9 @@
 #import "OngoingMedia.h"
 
 
-@interface ConversationManager : NSObject <NXMConversationCoreDelegate, UNUserNotificationCenterDelegate>
+@interface ConversationManager : NSObject <NXMStitchCoreDelegate, UNUserNotificationCenterDelegate>
 
-@property (nonatomic, readonly, strong) NXMConversationCore *stitchConversationClient;
+@property (nonatomic, readonly, strong) NXMStitchCore *stitchConversationClient;
 @property (nonatomic, readwrite, strong) NSMutableDictionary *conversationIdToMemberId;
 @property (nonatomic, readonly, strong, nullable) NXMUser *connectedUser;
 @property (nonatomic, strong) OngoingMediaCollection *ongoingCalls;
@@ -24,10 +24,10 @@
 
 
 
--(instancetype)initWithStitchCoreClient:(NXMConversationCore *)stitchCoreClient;
+-(instancetype)initWithStitchCoreClient:(NXMStitchCore *)stitchCoreClient;
 +(instancetype)sharedInstance;
 
--(void)setStitchCoreClient:(NXMConversationCore *)stitchCoreClient;
+-(void)setStitchCoreClient:(NXMStitchCore *)stitchCoreClient;
 -(void)addLookupMemberId:(NSString *)memberId forUser:(NSString *)userId inConversation:(NSString *)conversationId;
 -(bool)isCurrentUserThisMember:(NSString *)memberId;
 @end

@@ -14,7 +14,7 @@
 #import "NXMLogger.h"
 #import "NXMErrors.h"
 
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 #import "NXMRtcAnswerEvent.h"
 
 #import "NXMUtils.h"

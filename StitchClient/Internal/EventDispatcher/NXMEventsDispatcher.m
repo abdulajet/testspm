@@ -26,7 +26,7 @@
 }
 
 
-#pragma mark - NXMConversationCoreDelegate
+#pragma mark - NXMStitchCoreDelegate
 - (void)imageDelivered:(nonnull NXMMessageStatusEvent *)statusEvent {
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMessageStatus andEvent:statusEvent];
 }

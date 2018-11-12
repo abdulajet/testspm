@@ -16,8 +16,8 @@ FOUNDATION_EXPORT const unsigned char StitchCoreVersionString[];
 
 // to use this framework: #import <StitchCore/StitchCore.h>
 
-#import <StitchCore/NXMConversationCore.h>
-#import <StitchCore/NXMConversationCoreDelegate.h>
-#import <StitchCore/NXMConversationEvents.h>
+#import <StitchCore/NXMStitchCore.h>
+#import <StitchCore/NXMStitchCoreDelegate.h>
+#import <StitchCore/NXMCoreEvents.h>
 #import <StitchCore/NXMLogger.h>
 

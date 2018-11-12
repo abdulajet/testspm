@@ -1,21 +1,28 @@
 //
-//  NXMConversationCoreEventsDelegate.h
+//  NXMStitchCoreDelegate.h
 //  StitchCore
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 
-@protocol NXMConversationCoreEventsDelegate <NSObject>
+@protocol NXMStitchCoreDelegate
+
+#pragma mark - user status
+
+- (void)connectionStatusChanged:(BOOL)isOnline;
+- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
+
+@optional
+#pragma mark - member events
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
 
+#pragma mark - messages events
 
 - (void)messageDeleted:(nonnull NXMMessageStatusEvent *)statusEvent;
-
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
 - (void)textDelivered:(nonnull NXMMessageStatusEvent *)statusEvent;
 - (void)textSeen:(nonnull NXMMessageStatusEvent *)statusEvent;
@@ -25,6 +32,8 @@
 - (void)imageRecieved:(nonnull NXMImageEvent *)imageEvent;
 - (void)imageDelivered:(nonnull NXMMessageStatusEvent *)statusEvent;
 - (void)imageSeen:(nonnull NXMMessageStatusEvent *)statusEvent;
+
+#pragma mark - media events
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;
@@ -37,3 +46,4 @@
 - (void)localInformOnMedia:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)localActionOnMedia:(nonnull NXMMediaActionEvent *)mediaActionEvent;
 @end
+

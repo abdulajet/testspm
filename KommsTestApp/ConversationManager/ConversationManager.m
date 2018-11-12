@@ -12,7 +12,7 @@
 #import "NXMStitchClient.h"
 
 @interface ConversationManager ()
-@property id<NXMConversationCoreDelegate> hackOriginalDelegate;
+@property id<NXMStitchCoreDelegate> hackOriginalDelegate;
 @end
 
 
@@ -20,7 +20,7 @@
 @synthesize stitchConversationClient = _stitchConversationClient;
 @synthesize connectedUser = _connectedUser;
 
--(instancetype)initWithStitchCoreClient:(NXMConversationCore *)stitchCoreClient {
+-(instancetype)initWithStitchCoreClient:(NXMStitchCore *)stitchCoreClient {
     if(self = [super init])
     {
         _stitchConversationClient = stitchCoreClient;
@@ -35,8 +35,6 @@
     static ConversationManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        //NXMConversationCore *stitchCoreClient = [NXMConversationCore new];
-        
         
         //hack to get core conversation from the client while transfering the app to work with the object model
         
@@ -46,7 +44,7 @@
         sharedInstance = [[ConversationManager alloc] initWithStitchCoreClient:coreClient];
         
         sharedInstance.hackOriginalDelegate = [coreClient performSelector:NSSelectorFromString(@"delegate")];
-        [(NXMConversationCore *)coreClient setDelgate:sharedInstance];
+        [(NXMStitchCore *)coreClient setDelgate:sharedInstance];
         
     });
     return sharedInstance;

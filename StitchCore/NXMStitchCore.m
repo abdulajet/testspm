@@ -1,11 +1,11 @@
 //
-//  NXMConversationCore.m
+//  NXMStitchCore.m
 //  StitchCore
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMConversationCore.h"
+#import "NXMStitchCore.h"
 #import "NXMLogger.h"
 #import "NXMNetworkManager.h"
 #import "RTCMediaWrapper.h"
@@ -15,9 +15,9 @@
 #import "NXMNetworkDelegate.h"
 #import "NXMNetworkCallbacks.h"
 
-@interface NXMConversationCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
+@interface NXMStitchCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
 
-@property id<NXMConversationCoreDelegate> delegate;
+@property id<NXMStitchCoreDelegate> delegate;
 @property NXMNetworkManager *network;
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation NXMConversationCore
+@implementation NXMStitchCore
 
 - (instancetype _Nullable)init {
     if (self = [super init]) {
@@ -70,7 +70,7 @@
     return nil;
 }
 
-- (void)setDelgate:(nonnull id<NXMConversationCoreDelegate>)delegate {
+- (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate {
     self.delegate = delegate;
 }
 

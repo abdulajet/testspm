@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 
 @protocol NXMNetworkDelegate
 

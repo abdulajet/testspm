@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import <StitchCore/StitchCore.h>
 
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 #import "NXMConversationDelegate.h"
 #import "NXMConversationEventsController.h"
 #import "NXMConversationMembersController.h"

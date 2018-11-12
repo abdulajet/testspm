@@ -8,7 +8,7 @@
 #import "NXMStitchContext.h"
 
 @interface NXMStitchContext()
-@property (readwrite, nonnull, nonatomic) NXMConversationCore *coreClient;
+@property (readwrite, nonnull, nonatomic) NXMStitchCore *coreClient;
 @property (readwrite, nonnull, nonatomic) NXMEventsDispatcher *eventsDispatcher;
 @property (readwrite, weak, nonatomic) NSObject<NXMStitchContextDelegate> *stitchContextDelegate;
 
@@ -16,7 +16,7 @@
 
 @implementation NXMStitchContext
 
--(instancetype)initWithCoreClient:(NXMConversationCore *)coreClient{
+-(instancetype)initWithCoreClient:(NXMStitchCore *)coreClient{
     if(self = [super init]) {
         self.coreClient = coreClient;
         [self.coreClient setDelgate:self];

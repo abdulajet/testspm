@@ -7,7 +7,7 @@
 //
 
 #import "NXMPushParserTextEvent.h"
-#import "NXMConversationEvents.h"
+#import "NXMCoreEvents.h"
 #import "NXMUtils.h"
 //{
 //    aps =     {

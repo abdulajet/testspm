@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NXMConversationDetails.h"
+
+@class NXMConversationDetails;
 @interface OngoingCallsViewController : UIViewController <UICollectionViewDataSource>
 -(void)updateWithConversation:(NXMConversationDetails *)conversation;
 @end

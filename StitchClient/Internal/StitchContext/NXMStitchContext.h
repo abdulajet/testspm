@@ -11,11 +11,11 @@
 #import "NXMEventsDispatcher.h"
 #import "NXMStitchContextDelegate.h"
 
-@interface NXMStitchContext : NSObject<NXMConversationCoreDelegate>
-@property (readonly, nonatomic, nonnull) NXMConversationCore *coreClient;
+@interface NXMStitchContext : NSObject<NXMStitchCoreDelegate>
+@property (readonly, nonatomic, nonnull) NXMStitchCore *coreClient;
 @property (readonly, nonatomic, nonnull) NXMEventsDispatcher *eventsDispatcher;
 @property (readonly, nonatomic, nullable) NXMUser *currentUser;
 
 -(void)setDelegate:(NSObject<NXMStitchContextDelegate> * _Nonnull)stitchContextDelegate;
--(instancetype)initWithCoreClient:(nonnull NXMConversationCore *)coreClient;
+-(instancetype)initWithCoreClient:(nonnull NXMStitchCore *)coreClient;
 @end

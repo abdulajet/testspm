@@ -6,10 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NXMConversationCoreDelegate.h"
+#import "NXMStitchCoreDelegate.h"
 #import "NXMEventsDispatcherConstants.h"
 #import "NXMEventsDispatcherNotificationHelper.h"
 
-@interface NXMEventsDispatcher : NSObject  <NXMConversationCoreDelegate>
+@interface NXMEventsDispatcher : NSObject  <NXMStitchCoreDelegate>
 @property (readonly, nonatomic) NSNotificationCenter *notificationCenter;
 @end

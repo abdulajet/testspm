@@ -1,5 +1,5 @@
 //
-//  NXMConversationEvents.h
+//  NXMCoreEvents.h
 //  StitchCore
 //
 //  Copyright © 2018 Vonage. All rights reserved.

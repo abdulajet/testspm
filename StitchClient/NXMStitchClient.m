@@ -29,7 +29,7 @@
 
 - (instancetype)init {
     if(self = [super init]) {
-        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[NXMConversationCore new]];
+        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[NXMStitchCore new]];
         [self.stitchContext setDelegate:self];
     }
     return self;

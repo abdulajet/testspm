@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NXMEvent.h"
 
 @class NXMEvent;
 @interface ConversationEventTableViewCell : UITableViewCell

@@ -1,5 +1,5 @@
 //
-//  NXMConversationCore.h
+//  NXMStitchCore.h
 //  StitchCore
 //
 //  Copyright © 2018 Vonage. All rights reserved.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#import "NXMConversationCoreDelegate.h"
+#import "NXMStitchCoreDelegate.h"
 #import "NXMUser.h"
 #import "NXMNetworkCallbacks.h"
 #import "NXMBlocks.h"
@@ -16,7 +16,7 @@
 
 #import "NXMGetConversationsRequest.h" // remove
 
-@interface NXMConversationCore : NSObject
+@interface NXMStitchCore : NSObject
 
 @property (readonly) BOOL isLoggedIn;
 @property (readonly) BOOL isConnected;
@@ -195,7 +195,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (nullable NXMUser *)getUser;
 - (nullable NSString *)getToken;
 
-- (void)setDelgate:(nonnull id<NXMConversationCoreDelegate>)delegate;
+- (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate;
 - (void)unregisterEvents;
 
 @end

@@ -52,13 +52,11 @@
 		F923DCE62198528A00D29065 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; };
 		F923DCEB2198528A00D29065 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
 		F923DCF52198554F00D29065 /* NXMBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DCD521943F7100D29065 /* NXMBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DCFB2198555700D29065 /* NXMConversationCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BE9F20F65413007D4276 /* NXMConversationCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DCFC2198555700D29065 /* NXMConversationCoreConnectionDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B2214FAD5F00390258 /* NXMConversationCoreConnectionDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DCFD2198555700D29065 /* NXMConversationCoreDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BEA320F6556A007D4276 /* NXMConversationCoreDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DCFE2198555700D29065 /* NXMConversationCoreEventsDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B0214FAC1C00390258 /* NXMConversationCoreEventsDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F923DCFB2198555700D29065 /* NXMStitchCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BE9F20F65413007D4276 /* NXMStitchCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F923DCFE2198555700D29065 /* NXMStitchCoreDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B0214FAC1C00390258 /* NXMStitchCoreDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DCFF2198555700D29065 /* NXMLoggerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD002198555700D29065 /* StitchCore.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DCDF2198528900D29065 /* StitchCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DD012198555700D29065 /* NXMConversationCore.m in Sources */ = {isa = PBXBuildFile; fileRef = F988BEA020F65413007D4276 /* NXMConversationCore.m */; };
+		F923DD012198555700D29065 /* NXMStitchCore.m in Sources */ = {isa = PBXBuildFile; fileRef = F988BEA020F65413007D4276 /* NXMStitchCore.m */; };
 		F923DD02219859AA00D29065 /* NXMErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4F2063EEB200A70212 /* NXMErrors.m */; };
 		F923DD03219859CC00D29065 /* NXMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = F9F576F920AC205200F0F5F3 /* NXMEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD04219859D100D29065 /* NXMErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4E2063EEB200A70212 /* NXMErrors.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -70,7 +68,7 @@
 		F923DD0B219859F100D29065 /* NXMConversationClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = F987354D2045C03700C90695 /* NXMConversationClientConfig.m */; };
 		F923DD0C219859F800D29065 /* NXMEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9E96F4920628BDA00A70212 /* NXMEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD0D219859F800D29065 /* NXMEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E96F4A20628BDA00A70212 /* NXMEvent.m */; };
-		F923DD0E219859F800D29065 /* NXMConversationEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BE9A20F64D0A007D4276 /* NXMConversationEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F923DD0E219859F800D29065 /* NXMCoreEvents.h in Headers */ = {isa = PBXBuildFile; fileRef = F988BE9A20F64D0A007D4276 /* NXMCoreEvents.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD1021985A0100D29065 /* NXMMediaActionEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 92020BA02119EFE60021C5A1 /* NXMMediaActionEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DD1121985A0100D29065 /* NXMMediaActionEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 92020BA12119EFE60021C5A1 /* NXMMediaActionEvent.m */; };
 		F923DD1221985A0100D29065 /* NXMMediaSuspendEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -340,8 +338,7 @@
 		92A1DE2620F50A960099D601 /* NXMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMUtils.m; sourceTree = "<group>"; };
 		92B7A394213FCD2A00390258 /* NXMEventsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcher.h; sourceTree = "<group>"; };
 		92B7A395213FCD2A00390258 /* NXMEventsDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsDispatcher.m; sourceTree = "<group>"; };
-		92B7A3B0214FAC1C00390258 /* NXMConversationCoreEventsDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationCoreEventsDelegate.h; sourceTree = "<group>"; };
-		92B7A3B2214FAD5F00390258 /* NXMConversationCoreConnectionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationCoreConnectionDelegate.h; sourceTree = "<group>"; };
+		92B7A3B0214FAC1C00390258 /* NXMStitchCoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMStitchCoreDelegate.h; sourceTree = "<group>"; };
 		92B7A3B5214FF81400390258 /* NXMStitchContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMStitchContext.h; sourceTree = "<group>"; };
 		92B7A3B6214FF81400390258 /* NXMStitchContext.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMStitchContext.m; sourceTree = "<group>"; };
 		92B7A3C92150FB5000390258 /* NXMEventsDispatcherConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcherConstants.h; sourceTree = "<group>"; };
@@ -558,10 +555,9 @@
 		F9873550204FDBAB00C90695 /* NXMConversationDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationDetails.m; sourceTree = "<group>"; };
 		F9873553204FE1C300C90695 /* NXMRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMRouter.h; sourceTree = "<group>"; };
 		F9873554204FE1C300C90695 /* NXMRouter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRouter.m; sourceTree = "<group>"; };
-		F988BE9A20F64D0A007D4276 /* NXMConversationEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEvents.h; sourceTree = "<group>"; };
-		F988BE9F20F65413007D4276 /* NXMConversationCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationCore.h; sourceTree = "<group>"; };
-		F988BEA020F65413007D4276 /* NXMConversationCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationCore.m; sourceTree = "<group>"; };
-		F988BEA320F6556A007D4276 /* NXMConversationCoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationCoreDelegate.h; sourceTree = "<group>"; };
+		F988BE9A20F64D0A007D4276 /* NXMCoreEvents.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCoreEvents.h; sourceTree = "<group>"; };
+		F988BE9F20F65413007D4276 /* NXMStitchCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMStitchCore.h; sourceTree = "<group>"; };
+		F988BEA020F65413007D4276 /* NXMStitchCore.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMStitchCore.m; sourceTree = "<group>"; };
 		F988E49F214AB22B0083D9A7 /* NXMCallParticipant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipant.h; sourceTree = "<group>"; };
 		F988E4A0214AB22B0083D9A7 /* NXMCallParticipant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallParticipant.m; sourceTree = "<group>"; };
 		F98EF68420C3EF23009094FD /* NXMImageEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMImageEvent.h; sourceTree = "<group>"; };
@@ -1005,24 +1001,23 @@
 		F923DCDE2198528900D29065 /* StitchCore */ = {
 			isa = PBXGroup;
 			children = (
-				F923DCD521943F7100D29065 /* NXMBlocks.h */,
-				F988BE9F20F65413007D4276 /* NXMConversationCore.h */,
-				F988BEA020F65413007D4276 /* NXMConversationCore.m */,
-				92B7A3B2214FAD5F00390258 /* NXMConversationCoreConnectionDelegate.h */,
-				F988BEA320F6556A007D4276 /* NXMConversationCoreDelegate.h */,
-				92B7A3B0214FAC1C00390258 /* NXMConversationCoreEventsDelegate.h */,
-				F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */,
 				F923DCDF2198528900D29065 /* StitchCore.h */,
-				F9E96F4E2063EEB200A70212 /* NXMErrors.h */,
-				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
+				F923DCD521943F7100D29065 /* NXMBlocks.h */,
+				F988BE9A20F64D0A007D4276 /* NXMCoreEvents.h */,
 				F9F576F920AC205200F0F5F3 /* NXMEnums.h */,
+				F9E96F4E2063EEB200A70212 /* NXMErrors.h */,
+				F9998AC920837D2D00EAC286 /* NXMLoggerDelegate.h */,
+				F988BE9F20F65413007D4276 /* NXMStitchCore.h */,
+				92B7A3B0214FAC1C00390258 /* NXMStitchCoreDelegate.h */,
+				F9E96F4F2063EEB200A70212 /* NXMErrors.m */,
+				F988BEA020F65413007D4276 /* NXMStitchCore.m */,
 				F923DCE02198528900D29065 /* Info.plist */,
+				F923DDCE21998DF400D29065 /* External Libraries */,
 				F99D8596208DDE34003B004B /* Media */,
 				F987354620443A3600C90695 /* Models */,
 				F9998AC7208378BE00EAC286 /* Network */,
 				92C5585C218B66D0006D4063 /* Push */,
 				F988BE9220F646BB007D4276 /* Utility */,
-				F923DDCE21998DF400D29065 /* External Libraries */,
 			);
 			path = StitchCore;
 			sourceTree = "<group>";
@@ -1353,7 +1348,6 @@
 				F988BE9520F647BA007D4276 /* Media */,
 				F9E96F4920628BDA00A70212 /* NXMEvent.h */,
 				F9E96F4A20628BDA00A70212 /* NXMEvent.m */,
-				F988BE9A20F64D0A007D4276 /* NXMConversationEvents.h */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -1367,13 +1361,13 @@
 			files = (
 				F923DE5F21998F6900D29065 /* VPStringReader.h in Headers */,
 				F923DD002198555700D29065 /* StitchCore.h in Headers */,
-				F923DCFE2198555700D29065 /* NXMConversationCoreEventsDelegate.h in Headers */,
+				F923DCFE2198555700D29065 /* NXMStitchCoreDelegate.h in Headers */,
 				F923DD04219859D100D29065 /* NXMErrors.h in Headers */,
 				F923DD0C219859F800D29065 /* NXMEvent.h in Headers */,
 				F923DD03219859CC00D29065 /* NXMEnums.h in Headers */,
 				F923DE5921998F6900D29065 /* VPSocketIO.h in Headers */,
 				F923DE5221998F6900D29065 /* NSString+VPSocketIO.h in Headers */,
-				F923DCFB2198555700D29065 /* NXMConversationCore.h in Headers */,
+				F923DCFB2198555700D29065 /* NXMStitchCore.h in Headers */,
 				F923DD4421985A2C00D29065 /* NXMCreateConversationRequest.h in Headers */,
 				F923DD5821985A3300D29065 /* NXMRouter.h in Headers */,
 				F923DD2621985A1800D29065 /* NXMImageInfo.h in Headers */,
@@ -1386,7 +1380,7 @@
 				F923DD8021985A6900D29065 /* NXMPageInfo.h in Headers */,
 				F923DE4E21998F6900D29065 /* DefaultSocketLogger.h in Headers */,
 				F923DD4C21985A2C00D29065 /* NXMSendImageRequest.h in Headers */,
-				F923DD0E219859F800D29065 /* NXMConversationEvents.h in Headers */,
+				F923DD0E219859F800D29065 /* NXMCoreEvents.h in Headers */,
 				F923DD0A219859E500D29065 /* RTCMediaWrapperDelegate.h in Headers */,
 				F923DD7321985A4F00D29065 /* NXMLogger.h in Headers */,
 				F923DD08219859E500D29065 /* NXMMediaInfo.h in Headers */,
@@ -1398,7 +1392,6 @@
 				F923DD5F21985A3D00D29065 /* NXMNetworkManager.h in Headers */,
 				F923DE2421998F4C00D29065 /* JFRWebSocket.h in Headers */,
 				F923DD6621985A4700D29065 /* NXMPushParserImageEvent.h in Headers */,
-				F923DCFD2198555700D29065 /* NXMConversationCoreDelegate.h in Headers */,
 				F923DE5521998F6900D29065 /* VPSocketAckManager.h in Headers */,
 				F923DD4221985A2C00D29065 /* NXMRemoveMemberRequest.h in Headers */,
 				F923DD3C21985A2C00D29065 /* NXMInviteUserRequest.h in Headers */,
@@ -1416,7 +1409,6 @@
 				F923DE5B21998F6900D29065 /* VPSocketIOClientProtocol.h in Headers */,
 				F923DD7E21985A6900D29065 /* NXMMember.h in Headers */,
 				F923DD6421985A4700D29065 /* NXMPushParserTextEvent.h in Headers */,
-				F923DCFC2198555700D29065 /* NXMConversationCoreConnectionDelegate.h in Headers */,
 				F923DE4A21998F6900D29065 /* VPSocketOnAckCallback.h in Headers */,
 				F923DD6A21985A4700D29065 /* NXMPushParsers.h in Headers */,
 				F923DD6F21985A4F00D29065 /* NXMErrorParser.h in Headers */,
@@ -1933,7 +1925,7 @@
 				F923DD5921985A3300D29065 /* NXMRouter.m in Sources */,
 				F923DD02219859AA00D29065 /* NXMErrors.m in Sources */,
 				F923DD6521985A4700D29065 /* NXMPushParserTextEvent.m in Sources */,
-				F923DD012198555700D29065 /* NXMConversationCore.m in Sources */,
+				F923DD012198555700D29065 /* NXMStitchCore.m in Sources */,
 				F923DE5121998F6900D29065 /* VPSocketIOClient.m in Sources */,
 				F923DE5821998F6900D29065 /* VPSocketEngine+EnginePollable.m in Sources */,
 				F923DD3B21985A2C00D29065 /* NXMBaseRequest.m in Sources */,
