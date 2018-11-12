@@ -172,10 +172,10 @@ withMemberId:(nonnull NSString *)memberId
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
                   withUserId:(nonnull NSString *)userId
-                   withMedia:(nonnull NSString *)mediaEnabled
+                   withMedia:(BOOL)mediaEnabled
                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError {
-    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
+    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId mediaEnabled:mediaEnabled];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 

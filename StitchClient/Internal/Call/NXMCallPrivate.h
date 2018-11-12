@@ -11,4 +11,7 @@
 
 - (nullable instancetype)initWithStitchContext:(nonnull NXMStitchContext *)stitchContext
                            conversationDetails:(nonnull NXMConversationDetails *)conversationDetails;
+
+- (void)setMyParticipant:(NXMCallParticipant *)participant;
+
 @end

@@ -86,7 +86,6 @@ Logout
 // @param delegate        call delegate
 // @param completion      completion block
 // */
-
 - (void)callToUsers:(nonnull NSArray<NSString *>*)users
            delegate:(nullable id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;

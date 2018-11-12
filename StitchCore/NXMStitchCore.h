@@ -62,7 +62,7 @@ withMemberId:(nonnull NSString *)memberId
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
                   withUserId:(nonnull NSString *)userId
-                  withMedia:(nonnull NSString *)mediaEnabled
+                  withMedia:(BOOL)mediaEnabled
                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError;
 

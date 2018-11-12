@@ -9,6 +9,7 @@
 #import "NXMStitchContext.h"
 #import "NXMConversationPrivate.h"
 #import "NXMCallPrivate.h"
+#import "NXMCallParticipantPrivate.h"
 
 @interface NXMStitchClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
@@ -119,25 +120,31 @@
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     __weak NXMStitchClient *weakSelf = self;
+    __weak NXMStitchCore *weakCore = self.stitchContext.coreClient;
     
-    [self.stitchContext.coreClient createConversationWithName:[[NSUUID UUID] UUIDString] onSuccess:^(NSString * _Nullable convId) {
-        [weakSelf.stitchContext.coreClient getConversationDetails:convId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
-            NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext conversationDetails:conversationDetails];
+    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString] onSuccess:^(NSString * _Nullable convId) {
+        [weakCore getConversationDetails:convId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             
-            __weak NXMCall *weakCall = call;
-            [call addParticipantWithUserId:weakSelf.getUser.uuid completionHandler:^(NSError * _Nullable error) {
-                if (error) {
-                    completion(error, nil); // TODO: error
-                }
+            [weakCore joinToConversation:convId withUserId:weakSelf.getUser.uuid onSuccess:^(NSObject * _Nullable object) {
+
+                NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext
+                                                   conversationDetails:conversationDetails];
                 
-                [weakSelf.stitchContext.coreClient enableMedia:convId memberId:weakCall.myParticipant.participantId];
+                NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:((NXMMember *)object).memberId
+                                                                                  andCallProxy:(id<NXMCallProxy>)call];
+                [call setMyParticipant:participant];
+            
+                [weakCore enableMedia:convId memberId:call.myParticipant.participantId];
                 
                 for (NSString *userId in users) {
-                    [weakCall addParticipantWithUserId:userId completionHandler:nil];
+                    [call addParticipantWithUserId:userId completionHandler:nil];
                 }
                 
-                [weakCall setDelegate:delegate];
-                completion(nil, weakCall);
+                [call setDelegate:delegate];
+                
+                completion(nil, call);
+            } onError:^(NSError * _Nullable error) {
+                completion(error, nil); // TODO: Error handling
             }];
         } onError:^(NSError * _Nullable error) {
             completion(error, nil); // TODO: Error handling

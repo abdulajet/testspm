@@ -43,27 +43,35 @@
 #pragma mark - public
 
 - (void)setDelegate:(id<NXMCallDelegate>)delegate {
-    self.delegate = delegate;
+    _delegate = delegate;
 }
 
 - (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+    if (userId == self.stitchContext.currentUser.uuid) {
+        completionHandler(nil); // TODO: error;
+        return;
+    }
+    
     if (self.status == NXMCallStatusDisconnected) {
         completionHandler(nil); // TODO: error;
         return;
     }
     
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUserId:userId onSuccess:^(NSObject * _Nullable object) {
+    [self.stitchContext.coreClient inviteToConversation:self.conversationId
+                                             withUserId:userId
+                                              withMedia:YES
+                                              onSuccess:^(NSObject * _Nullable object) {
         NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:((NXMMember *)object).memberId
-                                                                    andCallProxy:self];
-        if (userId == self.stitchContext.currentUser.uuid) {
-            self.myParticipant = participant;
-        } else {
-            [self.otherParticipants addObject:participant];
-        }
+                                                                          andCallProxy:self];
+        [self.otherParticipants addObject:participant];
         
-        completionHandler(nil);
+        if (completionHandler) {
+            completionHandler(nil);
+        }
     } onError:^(NSError * _Nullable error) {
-        completionHandler(error);
+        if (completionHandler) {
+            completionHandler(error);
+        }
     }];
 }
 
@@ -146,23 +154,27 @@
 
 #pragma mark - private
 
+- (void)setMyParticipant:(NXMCallParticipant *)participant {
+    _myParticipant = participant;
+}
+
 - (void)handleMemberEvent:(NXMMemberEvent *)member {
-    NXMCallParticipant *participant = [self findParticipant:member];
+    NXMCallParticipant *participant = [self findParticipant:member.memberId];
     [participant updateWithMemberEvent:member];
 }
 
 - (void)handleMediaEvent:(NXMMediaEvent *)media {
-    NXMCallParticipant *participant = [self findParticipant:media];
+    NXMCallParticipant *participant = [self findParticipant:media.fromMemberId];
     [participant updateWithMedia:media];
 }
 
-- (NXMCallParticipant *)findParticipant:(NXMEvent *)event {
-    if (event.fromMemberId == self.myParticipant.participantId) {
+- (NXMCallParticipant *)findParticipant:(NSString *)memberId {
+    if ([memberId isEqual:self.myParticipant.participantId]) {
         return self.myParticipant;
     }
     
     for (NXMCallParticipant *participant in self.otherParticipants) {
-        if (participant.participantId != event.fromMemberId) {
+        if (![participant.participantId isEqual:memberId]) {
             continue;
         }
         
