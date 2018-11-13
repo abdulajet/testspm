@@ -1,0 +1,21 @@
+#
+
+## CocoaPods
+Pods/*
+
+## App Code
+.idea/*
+
+## Settings
+*.xcuserdata
+Stitch_iOS.xcworkspace/xcshareddata/*
+Stitch_iOS.xcworkspace/xcuserdata/*
+Stitch_iOS.xcodeproj/xcuserdata
+xcschememanagement.plist
+
+## Other
+.DS_Store
+
+## Stitch
+StitchTestApp/Tokens.h
+KommsTestApp/Tokens.h

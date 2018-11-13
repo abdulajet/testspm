@@ -1,0 +1,16 @@
+PODS:
+  - MiniRTC_Release (0.01.78)
+
+DEPENDENCIES:
+  - MiniRTC_Release (= 0.01.78)
+
+SPEC REPOS:
+  "git@github.com:Vonage/NexmoCocoaPodSpecs.git":
+    - MiniRTC_Release
+
+SPEC CHECKSUMS:
+  MiniRTC_Release: 41867563e6f7daf32081ac194637aa2a70e86ac0
+
+PODFILE CHECKSUM: fb21fb80631ef467a836c3b20f9312686df8b548
+
+COCOAPODS: 1.5.3

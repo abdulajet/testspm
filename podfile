@@ -1,0 +1,54 @@
+source 'git@github.com:CocoaPods/Specs.git'
+source 'git@github.com:Vonage/NexmoCocoaPodSpecs.git'
+
+platform :ios, '10.0'
+use_frameworks!
+
+project 'Stitch_iOS.xcodeproj'
+
+use_frameworks!
+
+def shared_pods
+    pod 'MiniRTC_Release', '0.01.78'
+    #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
+end
+
+target 'StitchTestApp' do
+    shared_pods
+end
+
+target 'KommsTestApp' do
+    shared_pods
+end
+
+target 'StitchCore' do
+    shared_pods
+    
+#    target 'StitchCoreTests' do
+#        inherit! :search_paths
+#
+#        pod 'OCMock', '3.4'
+#
+#    end
+end
+
+target 'StitchClient' do
+    shared_pods
+    
+#    target 'StitchClientTests' do
+#        inherit! :search_paths
+#
+#        pod 'OCMock', '3.4'
+#
+#    end
+end
+
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+        if target.name == 'NexmoConversationObjCTests'
+            target.build_configurations.each do |config|
+                config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
+            end
+        end
+    end
+end
