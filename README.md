@@ -47,8 +47,11 @@ Download the stitch SDK and add it to your project
 
 
 ## Getting Started with Objective-C
+As part of the Authentication process, you will need to set up a Web Service which generates a unique Identity Token for each user on request.
 
-Create NXMStitchClient object and login
+### Login
+Create NXMStitchClient object and login.
+
 ```ruby
     NXMStitchClient *stitchClient = [NXMStitchClient new];
     [stitchClient setDelegate:self];
@@ -61,7 +64,21 @@ When this delegate method called with isLoggedIn = true the login done, now you 
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
 ```
 
-### create call
+### Logout
+
+```ruby
+    [stitchClient logout];
+```
+
+### Get user info
+
+```ruby
+    NXMUser *user = stitchClient.user;
+```
+
+## Media
+
+### Create ip-ip call
 
 To create ip-ip call:
 Your object should implement NXMCallDelegate
@@ -84,11 +101,45 @@ When this delegate method called you can check the call status
 - (void)statusChanged;
 ```
 
-To hangup
+### Hangup
+
 ```ruby
 [call turnOff];
 ```
-### create conversation
 
+### Create ip-PSTN call
+TBA
+
+### Incoming call
+
+## Conversation
+TBA
+
+### Get existing conversation
+TBA
+
+### Create new conversation
+TBA
+
+### Send message
+TBA
+
+### Send attachment
+TBA
+
+### Typing indicator
+TBA
+
+## Events Controller
+TBA
+
+## Member Controller
+TBA
+
+### Sending startTyping/stopTyping for current member:
+TBA
+
+## Push notifications
+TBA
 
 
