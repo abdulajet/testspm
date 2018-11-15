@@ -30,7 +30,7 @@
         return;
     }
     
-    self.conversationName.text = conversation.uuid;
+    self.conversationName.text = conversation.conversationId;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

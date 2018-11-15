@@ -33,7 +33,7 @@
     if (self = [super init]) {
         self.lastEventId = 0;
         self.stitchContext = stitchContext;
-        self.conversationId = conversationDetails.uuid;
+        self.conversationId = conversationDetails.conversationId;
         self.eventsQueue = [[NXMConversationEventsQueue alloc] initWithConversationDetails:conversationDetails stitchContext:stitchContext delegate:self];
     }
     
@@ -47,7 +47,7 @@
 }
 
 - (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (userId == self.stitchContext.currentUser.uuid) {
+    if (userId == self.stitchContext.currentUser.userId) {
         completionHandler(nil); // TODO: error;
         return;
     }

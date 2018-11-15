@@ -15,7 +15,7 @@
 
 - (instancetype)initWithId:(NSString *)uuid name:(NSString *)name displayName:(NSString * _Nullable)displayName{
     if(self = [super init]) {
-        self.uuid = uuid;
+        self.userId = uuid;
         self.name = name;
         self.displayName = displayName;
     }

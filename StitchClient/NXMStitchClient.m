@@ -125,7 +125,7 @@
     [weakCore createConversationWithName:[[NSUUID UUID] UUIDString] onSuccess:^(NSString * _Nullable convId) {
         [weakCore getConversationDetails:convId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             
-            [weakCore joinToConversation:convId withUserId:weakSelf.getUser.uuid onSuccess:^(NSObject * _Nullable object) {
+            [weakCore joinToConversation:convId withUserId:weakSelf.getUser.userId onSuccess:^(NSObject * _Nullable object) {
 
                 NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext
                                                    conversationDetails:conversationDetails];
@@ -164,7 +164,7 @@
             NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext conversationDetails:conversationDetails];
             
             __weak NXMCall *weakCall = call;
-            [call addParticipantWithUserId:weakSelf.getUser.uuid completionHandler:^(NSError * _Nullable error) {
+            [call addParticipantWithUserId:weakSelf.getUser.userId completionHandler:^(NSError * _Nullable error) {
                 if (error) {
                     completion(error, nil); // TODO: error
                 }

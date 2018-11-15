@@ -10,7 +10,7 @@
 
 @interface NXMConversationDetails : NSObject
 
-@property NSString *uuid;
+@property NSString *conversationId;
 @property NSInteger sequence_number;
 @property NSString *name;
 @property NSString *displayName;

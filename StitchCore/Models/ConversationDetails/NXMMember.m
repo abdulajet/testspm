@@ -31,7 +31,7 @@
         self.name = memberEvent.name;
         self.conversationId = memberEvent.conversationId;
         self.state = memberEvent.state;
-        self.userId = memberEvent.user.uuid;
+        self.userId = memberEvent.user.userId;
     }
     return self;
 }

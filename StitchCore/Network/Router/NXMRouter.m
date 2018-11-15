@@ -205,7 +205,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
             for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
                 NXMConversationDetails *details = [NXMConversationDetails alloc];
                 details.name = conversationJson[@"name"];
-                details.uuid = conversationJson[@"uuid"];
+                details.conversationId = conversationJson[@"uuid"];
                 [conversations addObject:details];
             }
             completionBlock(nil, conversations);
@@ -266,7 +266,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
         for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
             NXMConversationDetails *details = [NXMConversationDetails alloc];
             details.name = conversationJson[@"name"];
-            details.uuid = conversationJson[@"uuid"];
+            details.conversationId = conversationJson[@"uuid"];
             [conversations addObject:details];
         }
         
@@ -306,7 +306,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
             detail.members = @[];
             detail.name = detailsJson[@"name"];
             detail.sequence_number = [detailsJson[@"sequence_number"] integerValue];
-            detail.uuid = detailsJson[@"id"];
+            detail.conversationId = detailsJson[@"id"];
             
             [items addObject:detail];
         }
@@ -343,7 +343,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@/conversations/%@/events";
         details.created = data[@"timestamp"][@"created"];
         details.sequence_number = [data[@"sequence_number"] intValue];
         details.properties = data[@"properties"];
-        details.uuid = data[@"uuid"];
+        details.conversationId = data[@"uuid"];
         details.displayName = data[@"display_name"];
         
         NSMutableArray *members = [[NSMutableArray alloc] init];
@@ -963,7 +963,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     event.name = dict[@"body"][@"user"][@"name"];
     event.user = [NXMUser alloc];
     event.user.name = dict[@"body"][@"user"][@"name"];
-    event.user.uuid = dict[@"body"][@"user"][@"user_id"];
+    event.user.userId = dict[@"body"][@"user"][@"user_id"];
     return event;
 }
 
@@ -1034,20 +1034,20 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     NSDictionary *body = json[@"body"][@"representations"];
     imageEvent.imageId = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
-    imageEvent.originalImage = [[NXMImageInfo alloc] initWithUuid:originalJSON[@"id"]
+    imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]
                                                               url:originalJSON[@"url"]
                                                              type:NXMImageTypeOriginal];
     
     NSDictionary *mediumJSON = body[@"medium"];
-    imageEvent.mediumImage = [[NXMImageInfo alloc] initWithUuid:mediumJSON[@"id"]
+    imageEvent.mediumImage = [[NXMImageInfo alloc] initWithId:mediumJSON[@"id"]
                                                            size:[mediumJSON[@"size"] integerValue]
                                                             url:mediumJSON[@"url"]
                                                            type:NXMImageTypeMedium];
     
     
     NSDictionary *thumbnailJSON = body[@"thumbnail"];
-    imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithUuid:thumbnailJSON[@"id"]
+    imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithId:thumbnailJSON[@"id"]
                                                               size:[thumbnailJSON[@"size"] integerValue]
                                                                url:thumbnailJSON[@"url"]
                                                               type:NXMImageTypeThumbnail];

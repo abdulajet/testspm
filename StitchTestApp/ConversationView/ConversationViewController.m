@@ -215,7 +215,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     NSDictionary *userInfo = notification.userInfo;
     NXMTextTypingEvent *typing = userInfo[@"typingEvent"];
     
-    if (![typing.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![typing.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -240,7 +240,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedImageEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMImageEvent *imageEvent = userInfo[@"image"];
-    if (![imageEvent.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![imageEvent.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -251,7 +251,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedTextStatusEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMessageStatusEvent *statusEvent = userInfo[@"statusEvent"];
-    if (![statusEvent.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![statusEvent.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -261,7 +261,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedImageStatusEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMessageStatusEvent *statusEvent = userInfo[@"statusEvent"];
-    if (![statusEvent.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![statusEvent.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -271,7 +271,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedMemberEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMemberEvent *member = userInfo[@"member"];
-    if (![member.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![member.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -287,7 +287,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedMediaEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMediaEvent *media = userInfo[@"media"];
-    if (![media.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![media.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -304,7 +304,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedSipEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMSipEvent *sipEvent = userInfo[@"sipEvent"];
-    if (![sipEvent.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![sipEvent.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -314,7 +314,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (void)receivedTextEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMTextEvent *text = userInfo[@"text"];
-    if (![text.conversationId isEqualToString:self.conversation.uuid]) {
+    if (![text.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
@@ -401,7 +401,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
         NSLog(@"username %@", username);
         
         NSString * userId = self.testUserIDs[username];
-        [self.conversationManager.stitchConversationClient joinToConversation:self.conversation.uuid withUserId:userId onSuccess:^(NSObject * _Nullable object) {
+        [self.conversationManager.stitchConversationClient joinToConversation:self.conversation.conversationId withUserId:userId onSuccess:^(NSObject * _Nullable object) {
             NSLog(@"success add username %@", username);
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error add username %@", username);
@@ -419,12 +419,12 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
     
-    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.conversationId memberId:self.memberId onSuccess:^{
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error typing");
     }];
     
-    [self.conversationManager.stitchConversationClient sendText:self.textinput.text conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.conversationManager.stitchConversationClient sendText:self.textinput.text conversationId:self.conversation.conversationId fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"msg sent");
         dispatch_async(dispatch_get_main_queue(), ^{
             self.textinput.editable = YES;
@@ -454,7 +454,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     
     NSString *filename = @"filename.png";
 
-    [self.conversationManager.stitchConversationClient sendImageWithName:filename image:data conversationId:self.conversation.uuid fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.conversationManager.stitchConversationClient sendImageWithName:filename image:data conversationId:self.conversation.conversationId fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"success");
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error");
@@ -468,12 +468,12 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 - (IBAction)enableAudioPressed:(id)sender {
     if (self.isAudioEnabled) {
         self.isAudioEnabled = NO;
-        [self.conversationManager.stitchConversationClient disableMedia:self.conversation.uuid];
+        [self.conversationManager.stitchConversationClient disableMedia:self.conversation.conversationId];
         return;
     }
 
     self.isAudioEnabled = YES;
-    [self.conversationManager.stitchConversationClient enableMedia:self.conversation.uuid memberId:self.memberId];
+    [self.conversationManager.stitchConversationClient enableMedia:self.conversation.conversationId memberId:self.memberId];
     [self startAudioAnimation];
      
     
@@ -501,7 +501,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     self.navigationItem.title = self.conversation.displayName;
     self.messageStatuses = [NSMutableDictionary new];
     
-    [self.conversationManager.stitchConversationClient getConversationDetails:self.conversation.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+    [self.conversationManager.stitchConversationClient getConversationDetails:self.conversation.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
         self.conversation = conversationDetails;
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -523,7 +523,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 //            [self.conversationManager]
         }
         
-        [self.conversationManager.stitchConversationClient getEventsInConversation:self.conversation.uuid onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        [self.conversationManager.stitchConversationClient getEventsInConversation:self.conversation.conversationId onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
             dispatch_async(dispatch_get_main_queue(), ^{
 //                [self.events addObjectsFromArray:events];
                 [self addNewEvents:events];
@@ -671,7 +671,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 
 - (void)textViewDidChange:(UITextView *)textView {
     if (!self.sendButton.enabled && self.conversationManager.stitchConversationClient.isConnected) {
-        [self.conversationManager.stitchConversationClient startTyping:self.conversation.uuid memberId:self.memberId onSuccess:^{
+        [self.conversationManager.stitchConversationClient startTyping:self.conversation.conversationId memberId:self.memberId onSuccess:^{
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error typing");
         }];

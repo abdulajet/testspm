@@ -87,7 +87,7 @@
                 
                 NXMConversationDetails *conversation =  [NXMConversationDetails new];
                 conversation.displayName = displayName;
-                conversation.uuid = value;
+                conversation.conversationId = value;
                 
                 [self.conversations insertObject:conversation atIndex:0];
                 
@@ -161,9 +161,9 @@
     request.pageSize = 1;
     request.recordIndex = 0;
     
-    NSLog(@"get conversation %@", self.conversationManager.connectedUser.uuid);
+    NSLog(@"get conversation %@", self.conversationManager.connectedUser.userId);
 
-    [self.conversationManager.stitchConversationClient getConversationsForUser:self.conversationManager.connectedUser.uuid
+    [self.conversationManager.stitchConversationClient getConversationsForUser:self.conversationManager.connectedUser.userId
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.conversations addObjectsFromArray:conversationsDetails];
@@ -190,7 +190,7 @@
 - (void)getConversationsDetails:(NSArray*)conversations {
 
     for (NXMConversationDetails *conv in conversations) {
-        [self.conversationManager.stitchConversationClient getConversationDetails:conv.uuid onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
+        [self.conversationManager.stitchConversationClient getConversationDetails:conv.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             
         } onError:^(NSError * _Nullable error) {
             NSLog(@"get conversation error %@", error);

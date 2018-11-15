@@ -59,7 +59,7 @@
 - (void)receivedMediaEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMediaEvent *media = userInfo[@"media"];
-    if (![media.conversationId isEqualToString:self.conversationContext.uuid]) {
+    if (![media.conversationId isEqualToString:self.conversationContext.conversationId]) {
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,7 +70,7 @@
 - (void)receivedMediaActionEvent:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NXMMediaActionEvent *media = userInfo[@"media"];
-    if (![media.conversationId isEqualToString:self.conversationContext.uuid]) {
+    if (![media.conversationId isEqualToString:self.conversationContext.conversationId]) {
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{

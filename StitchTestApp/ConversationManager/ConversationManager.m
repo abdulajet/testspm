@@ -195,7 +195,7 @@
         [self.stitchConversationClient getConversationDetails:textEvent.conversationId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
             NSString *currMember;
             for (NXMMember *member in conversationDetails.members) {
-                if ([member.userId isEqualToString:self.stitchConversationClient.getUser.uuid]){
+                if ([member.userId isEqualToString:self.stitchConversationClient.getUser.userId]){
                     currMember = member.memberId;
                     [self.conversationIdToMemberId setObject:member.memberId forKey:member.conversationId];
                     break;

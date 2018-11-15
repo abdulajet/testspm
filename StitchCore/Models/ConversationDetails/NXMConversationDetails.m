@@ -12,7 +12,7 @@
 
 - (instancetype)initWithId:(NSString *)uuid {
     if (self = [super init]) {
-        self.uuid = uuid;
+        self.conversationId = uuid;
     }
     
     return  self;

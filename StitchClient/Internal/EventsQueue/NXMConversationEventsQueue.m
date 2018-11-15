@@ -38,7 +38,7 @@ static NSInteger const sequenceIdNotDefine = -1;
                                             delegate:(_Nullable id <NXMConversationEventsQueueDelegate>)delegate{
     self = [super init];
     if(self){
-        self.conversationId = ConversationDetails.uuid;
+        self.conversationId = ConversationDetails.conversationId;
         self.eventsQueue = [[NSMutableArray alloc] init];
         self.operationQueue = [[NSOperationQueue alloc] init];
         self.operationQueue.maxConcurrentOperationCount = 1;

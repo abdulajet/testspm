@@ -10,7 +10,7 @@
 
 @interface NXMUser : NSObject
 
-@property NSString * _Nonnull uuid;
+@property NSString * _Nonnull userId;
 @property NSString * _Nonnull name;
 @property NSString * _Nullable displayName;
 

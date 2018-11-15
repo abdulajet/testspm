@@ -30,7 +30,7 @@
         self.conversationDetails = conversationDetails;        
         [self signToEventDispatcherEvents];
         for (NXMMember *member in self.conversationDetails.members) {
-            if(member.state == NXMMemberStateJoined && [member.userId isEqualToString:self.stitchContext.currentUser.uuid]) {
+            if(member.state == NXMMemberStateJoined && [member.userId isEqualToString:self.stitchContext.currentUser.userId]) {
                 self.myMember = member;
             }
         }
@@ -46,7 +46,7 @@
     return self.conversationDetails.displayName;
 }
 -(NSString *)conversationId {
-    return self.conversationDetails.uuid;
+    return self.conversationDetails.conversationId;
 }
 -(NSInteger)lastEventId {
     return self.conversationDetails.sequence_number;
@@ -102,7 +102,7 @@
 
 #pragma mark - public methods
 -(void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self addMemberWithUserId:self.stitchContext.currentUser.uuid completion:completion];
+    [self addMemberWithUserId:self.stitchContext.currentUser.userId completion:completion];
 }
 
 -(void)addMemberWithUserId:(nonnull NSString *)userId completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
@@ -111,7 +111,7 @@
                                            withUserId:userId
                                             onSuccess:^(NSObject * _Nullable object) {
                                                 NXMMember *newMember = (NXMMember *)object;
-                                                if([weakSelf.stitchContext.currentUser.uuid isEqualToString:newMember.userId]) {
+                                                if([weakSelf.stitchContext.currentUser.userId isEqualToString:newMember.userId]) {
                                                     weakSelf.myMember = newMember;
                                                 }
                                                 

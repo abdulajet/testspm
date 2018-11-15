@@ -67,20 +67,20 @@
     NSDictionary *body = stitchPushInfo[@"body"];
     imageEvent.imageId = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
-    imageEvent.originalImage = [[NXMImageInfo alloc] initWithUuid:originalJSON[@"id"]
+    imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]
                                                               url:originalJSON[@"url"]
                                                              type:NXMImageTypeOriginal];
     
     NSDictionary *mediumJSON = body[@"medium"];
-    imageEvent.mediumImage = [[NXMImageInfo alloc] initWithUuid:mediumJSON[@"id"]
+    imageEvent.mediumImage = [[NXMImageInfo alloc] initWithId:mediumJSON[@"id"]
                                                            size:[mediumJSON[@"size"] integerValue]
                                                             url:mediumJSON[@"url"]
                                                            type:NXMImageTypeMedium];
     
     
     NSDictionary *thumbnailJSON = body[@"thumbnail"];
-    imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithUuid:thumbnailJSON[@"id"]
+    imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithId:thumbnailJSON[@"id"]
                                                               size:[thumbnailJSON[@"size"] integerValue]
                                                                url:thumbnailJSON[@"url"]
                                                               type:NXMImageTypeThumbnail];

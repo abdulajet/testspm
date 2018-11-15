@@ -46,7 +46,7 @@
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
     for (NXMMember *member in conversationDetails.members) {
-        if(self.currentUser && [member.userId isEqualToString:self.currentUser.uuid]) {
+        if(self.currentUser && [member.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
         } else {
             [self.mutableOtherMembers addObject:member];
@@ -119,7 +119,7 @@
 -(void)addMember:(NXMMember *)member {
     if(!self.membersDictionary[member.memberId]) {
         self.membersDictionary[member.memberId] = member;
-        if([member.userId isEqualToString:self.currentUser.uuid]) {
+        if([member.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
         } else {
             [self.mutableOtherMembers addObject:member];
@@ -136,7 +136,7 @@
     if(self.membersDictionary[memberId]) {
         NXMMember *memberToRemove = self.membersDictionary[memberId];
         [self.membersDictionary removeObjectForKey:memberId];
-        if([memberToRemove.userId isEqualToString:self.currentUser.uuid]) {
+        if([memberToRemove.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = nil;
         } else {
             [self.mutableOtherMembers removeObject:memberToRemove];

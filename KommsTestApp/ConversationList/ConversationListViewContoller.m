@@ -58,7 +58,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 NXMConversationDetails *conversationDetails =  [NXMConversationDetails new];
                 conversationDetails.displayName = conversation.displayName;
-                conversationDetails.uuid = conversation.conversationId;
+                conversationDetails.conversationId = conversation.conversationId;
                 [self.conversationsDetails insertObject:conversationDetails atIndex:0];
                 
                 [self.tableView reloadData];
@@ -111,7 +111,7 @@
                     
                     NXMConversationDetails *conversationDetails =  [NXMConversationDetails new];
                     conversationDetails.displayName = conversation.displayName;
-                    conversationDetails.uuid = conversation.conversationId;
+                    conversationDetails.conversationId = conversation.conversationId;
                     
                     [self.conversationsDetails insertObject:conversationDetails atIndex:0];
                     
@@ -145,7 +145,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.kommsWrapper.kommsClient getConversationWithId:self.conversationsDetails[indexPath.row].uuid completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+    [self.kommsWrapper.kommsClient getConversationWithId:self.conversationsDetails[indexPath.row].conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
         if(error) {
             [self displayMessage:@"failed getting conversation for selection" andTitle:@"server error"];
             return;
@@ -195,7 +195,7 @@
     //TODO: this is above the core instead of object model because no pagination and data returned is not the data we really need
     NSLog(@"get conversations %@", [self.kommsWrapper.kommsClient getUser]);
     
-    [self.conversationManager.stitchConversationClient getConversationsForUser:self.conversationManager.connectedUser.uuid
+    [self.conversationManager.stitchConversationClient getConversationsForUser:self.conversationManager.connectedUser.userId
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.conversationsDetails = [conversationsDetails mutableCopy];
