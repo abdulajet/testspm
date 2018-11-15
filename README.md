@@ -189,7 +189,7 @@ Add other users as members of this conversation for them to send and receive mes
     }];
 ```
 
-## Get conversation members (Member Controller)
+### Get conversation members (Member Controller)
 A conversations' Member Controller allows for a realtime updated information regarding the members of this conversation.  
 * Use membersControllerWithDelegate to get a Member Controller for a conversation.
   ```objective-c
@@ -227,19 +227,115 @@ A conversations' Member Controller allows for a realtime updated information reg
   **Note:** changes to the members in this controller are done on the main thread, so it is safe to use this controller directly to update the UI.
   
 ### Send message
-call this method to send a text message
+#### Send a text message
+Use the conversation object to send a text message
+```objective-c
+[conversartion sendText:@"text" completion:^(NSError * _Nullable error) {
+        if(error) {
+            //handle error in sending text
+        }
+        //text arrived at server
+}];
+```
 
-### Send attachment
+#### Send an attachment message
+Use the conversation object to send attachments.  
+The following example shows how to allow a user to choose an image and send it in a conversation.
+
+1. open image picker
+   ```objective-c
+   UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+   imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+   imagePickerController.delegate = self;
+   [self presentViewController:imagePickerController animated:YES completion:nil];
+   ```
+2. send the chosen image
+   ```objective-c
+   // This method is called when an image has been chosen from the library or taken from the camera.
+   - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+   {
+       //You can retrieve the actual UIImage
+       UIImage *image = [info valueForKey:UIImagePickerControllerOriginalImage];
+       NSData* data = UIImagePNGRepresentation(image);
+    
+       NSString *filename = [NSString stringWithFormat:@"IMAGE_%@.png", [[NSUUID UUID] UUIDString]];
+
+       [conversation sendAttachmentOfType:NXMAttachmentTypeImage WithName:filename data:data completion:^(NSError * _Nullable error) {
+          if(error) {
+             //Handle error sending image
+             return;
+          }
+
+          //image sent to server
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+   }
+   ```
+**Note:** 
+* Both code snippets to choose and send an image should reside in the same Controller.
+* Currently only png images are supported as attachments.
+
+#### Message status
 TBA
 
 ### Typing indicator
 TBA
 
-## Events Controller
-TBA
-
 ### Sending startTyping/stopTyping for current member:
 TBA
+
+### Events Controller
+EventsController allows to see the events of a conversation. The controller syncs the data from the server to make sure events are handled realtime, inorder, and with no gaps.  
+
+* Get conversation events  
+  ```objective-c
+  NSSet<NSNumber *> *eventsToPresent = [[NSSet alloc] initWithObjects:@(NXMEventTypeText),@(NXMEventTypeImage),@(NXMEventTypeMessageStatus),@(NXMEventTypeMedia),@(NXMEventTypeMember),@(NXMEventTypeSip),@(NXMEventTypeGeneral), nil];
+
+  NXMConversationEventsController *eventsController = [conversation eventsControllerWithTypes:eventsToPresent andDelegate:NXMConversationEventsControllerDelegateImp];
+
+  NSArray<NXMEvent *> *events = eventsController.events;
+  ```
+  where NXMConversationEventsControllerDelegateImp implements `NXMConversationEventsControllerDelegate` protocol.
+
+  **Note:** 
+  * Events Controller filters incoming events to hold only the events you need
+  * Events Controller starts syncing events from the latest event_id the conversation is familiar and onwards. The controller invokes delegate methods when the controllers content is changes. If for example conversation object knows that the latest event to happen was event #5, and a new event #8 was received, events controller will make sure to query for events #6,#7, but not for events #1,#2,#3,#4.
+
+* Get live updates regarding the events in your delegate object
+The following three methods are used to report changes to the members of the conversation
+  ```objective-c
+  - (void)nxmConversationEventsControllerWillChangeContent:(NXMConversationEventsController *_Nonnull)controller;
+  ```
+  Invoked when the controller is about to update events array. A number of changes might occur after the invocation of this method.
+
+  ```objective-c
+  - (void)nxmConversationEventsControllerDidChangeContent:(NXMConversationEventsController *_Nonnull)controller;
+  ```
+  Invoked when the controller is finished updating events array. A number of changes might have occured before the invocation of this method.
+
+  ```objective-c
+  - (void)nxmConversationEventsController:(NXMConversationEventsController *_Nonnull)controller didChangeEvent:(NXMEvent*_Nonnull)anEvent atIndex:(NSUInteger)index forChangeType:(NXMConversationEventsControllerChangeType)type newIndex:(NSUInteger)newIndex;
+  ```
+  Invoked on each change to an event. The type of change is indicated by the NXMConversationEventsControllerChangeType enum.
+  
+  **Note:** changes to the events in this controller are done on the main thread, so it is safe to use this controller directly to update the UI.
+
+* Load past events  
+Events Controller syncs events forward. Loading past events is done on demand.
+  ```objective-c
+  [eventsController loadEarlierEventsWithMaxAmount:AMOUNT_OF_EVENTS_TO_LOAD_MORE completion:^(NSError * _Nullable error) {
+            if (error) {
+                //error loading more events
+                return;
+            }
+            
+            //more events loaded, update
+        }];
+  ```
+  **Note:** 
+  * completion is not guaranteed to be invoked on the main thread, so beware of directly calling UI methods here.
+  * AMOUNT_OF_EVENTS_TO_LOAD_MORE is the maximum amount of events to load. Filtered or deleted events will reduce the number of actuall events loaded.
 
 ## Push notifications
 TBA
