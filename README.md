@@ -190,14 +190,14 @@ Add other users as members of this conversation for them to send and receive mes
 ```
 
 ### Get conversation members (Member Controller)
-A conversations' Member Controller allows for a realtime updated information regarding the members of this conversation.  
+A conversation's Member Controller allows for a realtime updated information regarding the members of this conversation.  
 * Use membersControllerWithDelegate to get a Member Controller for a conversation.
   ```objective-c
   NXMConversationMembersController *membersController = [conversation membersControllerWithDelegate:NXMConversationMembersControllerDelegateImp];
   ```
   where NXMConversationMembersControllerDelegateImp implements the NXMConversationMembersControllerDelegate protocol.
 
-* Get current users' member
+* Get current user's member
   ```objective-c
   NXMMember *myMember = membersController.myMember;
   ```
@@ -338,6 +338,63 @@ Events Controller syncs events forward. Loading past events is done on demand.
   * AMOUNT_OF_EVENTS_TO_LOAD_MORE is the maximum amount of events to load. Filtered or deleted events will reduce the number of actuall events loaded.
 
 ## Push notifications
-TBA
+The SDK supports receiving push notifications for some events.
 
+1. Upload your app's apple push certificate to the [Nexmo push server](linkToPushUpload)
 
+2. Enable push notifications for a user's current device after registering the device with Apple's push server in your appDelegate
+    ```objective-c
+    - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+    {
+        [stitchClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:false isSandbox:false completion:^(NSError * _Nullable error) {
+                if (error) {
+                    //error enabling push notifications for this user's device
+                    return;
+                }
+                
+                //push enabled
+            }];
+    }
+    ```
+    **Note:** 
+    * enabling push notifications connects a user's push notificiations to a specific device and should be called once for as long as the same user uses the same app on the same device. There is no need to call enablePushNotifications every time a user logs in.??????
+    * isSandbox should be true if your push certificate is configured to work with Apple's sandbox push environment and false if it's configured to work with the production environment.
+    * isPushkit is a placeholder and is not yet implemented.
+
+3. Handeling an incoming push notification in your appDelegate
+    ```objective-c
+    - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+        if([stitchClient isStitchPushWithUserInfo:userInfo]) {
+            [stitchClient processStitchPushWithUserInfo:userInfo completion:^(NSError * _Nullable error) {
+                if (error) {
+                    //error processing incoming push
+                    return;
+                }
+                
+                //push processed
+            }];
+        }
+    }
+    ```
+
+4. The sdk processes the push notification and will invoke the appropriate `NXMStitchClientDelegate` delegate methods
+
+    ```objective-c
+    - (void)incomingCall:(nonnull NXMCall *)call;
+    ```
+
+    ```objective-c
+    - (void)invitedToConversation:(nonnull NXMConversation *)conversation;
+    ```
+
+5. Disable push notifications to stop receiving user's notifications on the device
+    ```objective-c
+    [stitchClient disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+                if (error) {
+                    //error disabling push notifications for this user's device
+                    return;
+                }
+                
+                //push disabled
+            }];
+    ```
