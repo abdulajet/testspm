@@ -174,7 +174,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
                              andDuration:(int) duration
                                   andGap:(int) gap;
 
-
+//TODO: integrate properly with miniRTC - today this only works with CS
 - (void)suspendMedia:(NXMMediaType)mediaType
             ofMember:(nonnull NSString *)memberId
       inConversation:(nonnull NSString *)conversationId
