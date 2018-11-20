@@ -6,6 +6,8 @@
 //
 
 #import "NXMStitchContext.h"
+#import <StitchCore/StitchCore.h>
+
 
 @interface NXMStitchContext()
 @property (readwrite, nonnull, nonatomic) NXMStitchCore *coreClient;

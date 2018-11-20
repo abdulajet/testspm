@@ -19,3 +19,4 @@
 -(void)setDelegate:(NSObject<NXMStitchContextDelegate> * _Nonnull)stitchContextDelegate;
 -(instancetype)initWithCoreClient:(nonnull NXMStitchCore *)coreClient;
 @end
+ 
