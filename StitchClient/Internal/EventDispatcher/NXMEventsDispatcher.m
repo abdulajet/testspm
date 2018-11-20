@@ -7,6 +7,9 @@
 
 #import "NXMEventsDispatcher.h"
 
+@interface NXMEventsDispatcher()
+@end
+
 @implementation NXMEventsDispatcher
 - (instancetype)init
 {
