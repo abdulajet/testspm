@@ -13,6 +13,7 @@
 
 - (void)connectionStatusChanged:(BOOL)isOnline;
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
+- (void)tokenRefreshed;
 
 @optional
 #pragma mark - member events

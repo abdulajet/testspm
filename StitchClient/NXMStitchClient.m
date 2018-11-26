@@ -62,7 +62,7 @@
 }
 
 -(void)refreshAuthToken:(nonnull NSString *)authToken {
-    //TODO: 🐣
+    [self.stitchContext.coreClient refreshAuthToken:authToken];
 }
 
 -(void)logout {
@@ -75,6 +75,10 @@
 
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
     [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
+}
+
+- (void)tokenRefreshed {
+    [self.delegate tokenRefreshed];
 }
 
 #pragma mark - conversation

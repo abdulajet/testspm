@@ -15,6 +15,7 @@
 
 - (void)connectionStatusChanged:(BOOL)isOnline;
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
+- (void)tokenRefreshed;
 
 @optional
 - (void)incomingCall:(nonnull NXMCall *)call;

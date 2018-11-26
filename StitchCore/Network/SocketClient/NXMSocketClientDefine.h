@@ -10,6 +10,8 @@
 static NSString *const kNXMSocketEventConversationGet = @"conversation:get";
 static NSString *const kNXMSocketEventLogin = @"session:login";
 static NSString *const kNXMSocketEventLogout = @"session:logout";
+static NSString *const kNXMSocketEventRefreshToken = @"session:update-token";
+static NSString *const kNXMSocketEventRefreshTokenDone = @"session:update-token:success";
 
 // events
 static NSString *const kNXMSocketEventLoginSuccess = @"session:success";

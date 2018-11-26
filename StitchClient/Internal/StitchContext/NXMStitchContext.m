@@ -125,4 +125,9 @@
     [self.stitchContextDelegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
 }
 
+- (void)tokenRefreshed {
+    [self.stitchContextDelegate tokenRefreshed];
+}
+
+
 @end

@@ -80,6 +80,17 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     // [self login] would be called on successful connection callback (onWSConnect).
 }
 
+
+- (void)refreshAuthToken:(nonnull NSString *)authToken {
+    self.token = authToken;
+    
+    NSDictionary * msg = @{ @"body" : @{
+                                    @"token":authToken
+                                    }};
+    
+    [self.socket emit:kNXMSocketEventRefreshToken items:@[msg]];
+}
+
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
               eventId:(NSInteger)eventId
@@ -219,6 +230,13 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         self.user = user;
         [self.delegate didSuccessfulAuthorization:user sessionId:response[@"id"]];
     }];
+    
+    [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeSessionInvalid userInfo:nil];
+        [self.delegate didRefreshToken];
+    }];
+    
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];

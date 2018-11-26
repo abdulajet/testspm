@@ -12,6 +12,7 @@
 
 - (void)connectionStatusChanged:(BOOL)isOpen;
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
+- (void)didRefreshToken;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

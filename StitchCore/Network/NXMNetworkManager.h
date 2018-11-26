@@ -37,6 +37,8 @@
 
 - (void)loginWithToken:(NSString * _Nonnull)token;
 
+- (void)refreshAuthToken:(nonnull NSString *)authToken;
+
 - (void)logout;
 
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request

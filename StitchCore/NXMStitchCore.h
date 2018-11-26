@@ -20,12 +20,22 @@
 
 @property (readonly) BOOL isLoggedIn;
 @property (readonly) BOOL isConnected;
+@property (nonatomic, strong, readonly, nullable, getter=getUser) NXMUser *user;
+@property (nonatomic, strong, readonly, nullable, getter=getToken) NSString *token;
 
 - (instancetype _Nullable)init;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 
 - (void)loginWithAuthToken:(nonnull NSString *)authToken;
+
+- (void)refreshAuthToken:(nonnull NSString *)authToken;
+
 - (void)logout;
+
+- (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate;
+
+#pragma mark - Push Notifications
+
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isSandbox:(BOOL)isSandbox
@@ -189,13 +199,5 @@ fromConversationWithId:(nonnull NSString *)conversationId
           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
             onError:(NXMErrorCallback _Nullable)onError;
 
-
-#pragma mark - other Methods
-
-- (nullable NXMUser *)getUser;
-- (nullable NSString *)getToken;
-
-- (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate;
-- (void)unregisterEvents;
 
 @end

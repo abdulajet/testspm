@@ -42,9 +42,13 @@
 }
 
 - (void)loginWithToken:(NSString * _Nonnull)token{
-    
     [self.socketClient loginWithToken:token];
     [self.router setToken:token];
+}
+
+- (void)refreshAuthToken:(nonnull NSString *)authToken {
+    [self.socketClient refreshAuthToken:authToken];
+    [self.router setToken:authToken];
 }
 
 - (void)logout {
@@ -295,6 +299,10 @@
 
 - (void)didFailedAuthorization: (nonnull NSError*) error {
     [self.delegate loginStatusChanged:nil loginStatus:NO withError:error];
+}
+
+- (void)didRefreshToken {
+    [self.delegate didRefreshToken];
 }
 
 

@@ -60,6 +60,10 @@
     }
 }
 
+- (void)refreshAuthToken:(nonnull NSString *)authToken {
+    [self.network refreshAuthToken:authToken];
+}
+
 - (nullable NXMUser *)getUser {
     return  self.user;
 }
@@ -72,10 +76,6 @@
 
 - (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate {
     self.delegate = delegate;
-}
-
-- (void)unregisterEvents {
-    
 }
 
 - (void)connectionStatusChanged:(BOOL)isConnected {
@@ -376,6 +376,10 @@ fromConversationWithId:(nonnull NSString *)conversationId
     self.user = user;
     self.isLoggedIn = isLoggedIn;
     [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
+}
+
+- (void)didRefreshToken {
+    [self.delegate tokenRefreshed];
 }
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member {

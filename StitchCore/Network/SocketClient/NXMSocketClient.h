@@ -21,6 +21,7 @@
 - (void)setDelegate:(_Nonnull id<NXMSocketClientDelegate>)delegate;
 - (BOOL)isSocketOpen;
 - (void)loginWithToken:(nonnull NSString *)token;
+- (void)refreshAuthToken:(nonnull NSString *)authToken;
 - (void)logout;
 
 #pragma conversation actions

@@ -14,6 +14,7 @@
 - (void)didLogout:(NXMUser *)user;
 - (void)didSuccessfulAuthorization:(NXMUser *)user sessionId:(NSString *)sessionId;
 - (void)didFailedAuthorization:(NSError *)error;
+- (void)didRefreshToken;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
