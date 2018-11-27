@@ -24,24 +24,26 @@ end
 target 'StitchCore' do
     shared_pods
     
-#    target 'StitchCoreTests' do
-#        inherit! :search_paths
-#
-#        pod 'OCMock', '3.4'
-#
-#    end
+end
+
+target 'StitchCoreTests' do
+    inherit! :search_paths
+
+    pod 'OCMock', '3.4'
+
 end
 
 target 'StitchClient' do
     shared_pods
-    
-#    target 'StitchClientTests' do
-#        inherit! :search_paths
-#
-#        pod 'OCMock', '3.4'
-#
-#    end
 end
+
+target 'StitchClientTests' do
+    inherit! :search_paths
+
+    pod 'OCMock', '3.4'
+
+end
+
 
 post_install do |installer|
     installer.pods_project.targets.each do |target|

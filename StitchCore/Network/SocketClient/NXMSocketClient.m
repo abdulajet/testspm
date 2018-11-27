@@ -245,8 +245,9 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        NSDictionary * userInfo = @{@"token" : self.token};
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenInvalid userInfo:nil];
+        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenInvalid userInfo:userInfo];
         [self onFailedAuthentication:err];
     }];
     
