@@ -13,36 +13,39 @@ def shared_pods
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 
-target 'StitchTestApp' do
+target 'StitchCoreTestApp' do
     shared_pods
 end
 
-target 'KommsTestApp' do
+target 'StitchClientTestApp' do
     shared_pods
 end
 
 target 'StitchCore' do
     shared_pods
     
+    target 'StitchCoreTests' do
+        inherit! :search_paths
+        
+        pod 'OCMock', '3.4'
+        
+    end
 end
 
-target 'StitchCoreTests' do
-    inherit! :search_paths
 
-    pod 'OCMock', '3.4'
-
-end
 
 target 'StitchClient' do
     shared_pods
+    
+    target 'StitchClientTests' do
+        inherit! :search_paths
+        
+        pod 'OCMock', '3.4'
+        
+    end
 end
 
-target 'StitchClientTests' do
-    inherit! :search_paths
 
-    pod 'OCMock', '3.4'
-
-end
 
 
 post_install do |installer|

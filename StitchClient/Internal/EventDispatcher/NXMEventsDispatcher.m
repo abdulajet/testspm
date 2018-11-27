@@ -126,5 +126,10 @@
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationLoginStatus andUserInfo:[NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherLoginStatusModel *> notificationUserInfoWithNotificationModel:model]];
 }
 
+- (void)tokenRefreshed {
+    // TODO:
+}
+
+
 
 @end
