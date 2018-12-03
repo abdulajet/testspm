@@ -47,11 +47,11 @@
 }
 
 -(NXMUser *)getUser {
-    return  [self.stitchContext.coreClient getUser];
+    return  self.stitchContext.coreClient.user;
 }
 
 -(NSString *)getToken {
-    return [self.stitchContext.coreClient getToken];
+    return self.stitchContext.coreClient.token;
 }
 
 -(void)loginWithAuthToken:(nonnull NSString *)authToken {

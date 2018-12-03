@@ -39,7 +39,7 @@
     NSDictionary *userInfo = notification.userInfo;
     NXMMemberEvent *member = userInfo[@"member"];
     if (!(member.state==NXMMemberStateInvited &&
-        [member.user.name isEqualToString:[self.kommsWrapper.kommsClient getUser].name])) {
+        [member.user.name isEqualToString:self.kommsWrapper.kommsClient.user.name])) {
         return;
     }
     
@@ -81,7 +81,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.navigationItem.title = [self.kommsWrapper.kommsClient getUser].name;
+    self.navigationItem.title = self.kommsWrapper.kommsClient.user.name;
     [self subscribeLoginEvents];
 }
 
@@ -191,9 +191,9 @@
 
 - (void)getConversations {
     //TODO: this is above the core instead of object model because no pagination and data returned is not the data we really need
-    NSLog(@"get conversations %@", [self.kommsWrapper.kommsClient getUser]);
+    NSLog(@"get conversations %@", self.kommsWrapper.kommsClient.user);
     
-    [self.kommsWrapper getConversationsForUser:[self.kommsWrapper.kommsClient getUser].userId
+    [self.kommsWrapper getConversationsForUser:self.kommsWrapper.kommsClient.user.userId
                             onSuccess:^(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo) {
         dispatch_async(dispatch_get_main_queue(), ^{
             self.conversationsDetails = [conversationsDetails mutableCopy];

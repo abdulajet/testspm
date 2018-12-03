@@ -20,8 +20,8 @@
 
 @property (readonly) BOOL isLoggedIn;
 @property (readonly) BOOL isConnected;
-@property (nonatomic, strong, readonly, nullable, getter=getUser) NXMUser *user;
-@property (nonatomic, strong, readonly, nullable, getter=getToken) NSString *token;
+@property (nonatomic, strong, readonly, nullable) NXMUser *user;
+@property (nonatomic, strong, readonly, nullable) NSString *token;
 
 - (instancetype _Nullable)init;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?

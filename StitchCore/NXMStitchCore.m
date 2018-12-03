@@ -21,6 +21,7 @@
 @property NXMNetworkManager *network;
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
+@property NSString* token;
 // TODO: the use when network is down but still logged in
 @property (readwrite) BOOL isLoggedIn;
 @property (readwrite) BOOL isConnected;
@@ -62,16 +63,6 @@
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken {
     [self.network refreshAuthToken:authToken];
-}
-
-- (nullable NXMUser *)getUser {
-    return  self.user;
-}
-
-// TODO:
-- (nullable NSString *)getToken {
-    //return  self.;
-    return nil;
 }
 
 - (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate {

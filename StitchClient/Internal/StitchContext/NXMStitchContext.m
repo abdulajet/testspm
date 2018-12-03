@@ -28,7 +28,7 @@
 }
 
 -(NXMUser *)currentUser {
-    return [self.coreClient getUser];
+    return self.coreClient.user;
 }
 
 -(void)setDelegate:(NSObject<NXMStitchContextDelegate> *)stitchContextDelegate {
