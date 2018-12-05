@@ -11,7 +11,7 @@
 @implementation NXMMember
 
 - (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId
-                            user:(NSString *)userId name:(NSString *)name state:(NXMMemberState)state {
+                            userId:(NSString *)userId name:(NSString *)name state:(NXMMemberState)state {
     if (self = [super init]) {
         self.memberId = memberId;
         self.conversationId = conversationId;

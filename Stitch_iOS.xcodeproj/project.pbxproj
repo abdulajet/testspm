@@ -12,6 +12,9 @@
 		363852DF21A5398800838B2D /* NXMSocketClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */; };
 		3B9A3F9CD64FBF3824AE2A59 /* Pods_StitchClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F3462309E2A0325ED4955F /* Pods_StitchClientTests.framework */; };
 		79F98BA4152C98DA3A4BEDCC /* Pods_StitchCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0E66681E49A6B99C339226 /* Pods_StitchCoreTests.framework */; };
+		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
+		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
+		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
 		9216303E21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m in Sources */ = {isa = PBXBuildFile; fileRef = 9216303D21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m */; };
 		92201E3021AC3BED0072A283 /* Pods_StitchClientTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92201E3121AC3BED0072A283 /* Pods_StitchClientTestApp.framework */; };
 		92201E3221AC3C000072A283 /* Pods_StitchCoreTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 92201E3321AC3C000072A283 /* Pods_StitchCoreTestApp.framework */; };
@@ -20,6 +23,7 @@
 		923A85A92123020300C81F6E /* OngoingCallsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923A85A82123020300C81F6E /* OngoingCallsViewController.m */; };
 		92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBC2125B7D400FCEA19 /* OngoingMedia.m */; };
 		92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */; };
+		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
 		92BDBEBD2177581C00C33D38 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92BDBEBB2177581C00C33D38 /* Main.storyboard */; };
 		92BDBEC22177581C00C33D38 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 92BDBEC02177581C00C33D38 /* LaunchScreen.storyboard */; };
 		92BDBEE02177589400C33D38 /* SCLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BDBECF2177589300C33D38 /* SCLLoginViewController.m */; };
@@ -168,7 +172,6 @@
 		F923DD9921985BF600D29065 /* StitchClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DD8B21985BF600D29065 /* StitchClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA021985C8000D29065 /* NXMConversationMembersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A40F216A639F00390258 /* NXMConversationMembersController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA121985C8000D29065 /* NXMConversationMembersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A410216A639F00390258 /* NXMConversationMembersController.m */; };
-		F923DDA221985C8000D29065 /* NXMConversationMembersControllerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BDBE5F21749D9E00C33D38 /* NXMConversationMembersControllerPrivate.h */; };
 		F923DDA321985C8700D29065 /* NXMConversationEventsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A4072164E52200390258 /* NXMConversationEventsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA421985C8700D29065 /* NXMConversationEventsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A4062164E52100390258 /* NXMConversationEventsController.m */; };
 		F923DDA521985C8700D29065 /* NXMConversationEventsControllerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */; };
@@ -340,6 +343,13 @@
 		92020BA5211B0CB10021C5A1 /* NXMMediaSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSettings.m; sourceTree = "<group>"; };
 		92020BA9211B3DED0021C5A1 /* NXMMediaSuspendEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSuspendEvent.h; sourceTree = "<group>"; };
 		92020BAA211B3DED0021C5A1 /* NXMMediaSuspendEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaSuspendEvent.m; sourceTree = "<group>"; };
+		9214F61021AEF8810021CD05 /* NXMTestingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtils.h; sourceTree = "<group>"; };
+		9214F61121AEF8810021CD05 /* NXMTestingUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTestingUtils.m; sourceTree = "<group>"; };
+		9214F61321AEF8A80021CD05 /* NXMTestingUtils+Members.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NXMTestingUtils+Members.h"; sourceTree = "<group>"; };
+		9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NXMTestingUtils+Members.m"; sourceTree = "<group>"; };
+		9214F61621AEF8E40021CD05 /* NXMTestingUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtilities.h; sourceTree = "<group>"; };
+		9214F61721AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NXMTestingUtils+ConversationDetails.h"; sourceTree = "<group>"; };
+		9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NXMTestingUtils+ConversationDetails.m"; sourceTree = "<group>"; };
 		921630312191ABCD008D9550 /* NXMPushParserInviteEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPushParserInviteEvent.h; sourceTree = "<group>"; };
 		921630322191ABCD008D9550 /* NXMPushParserInviteEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPushParserInviteEvent.m; sourceTree = "<group>"; };
 		9216303C21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCLStitchClientWrapper+CoreExpose.h"; sourceTree = "<group>"; };
@@ -358,6 +368,7 @@
 		92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMediaCollection.m; sourceTree = "<group>"; };
 		92A1DE2520F50A960099D601 /* NXMUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMUtils.h; sourceTree = "<group>"; };
 		92A1DE2620F50A960099D601 /* NXMUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMUtils.m; sourceTree = "<group>"; };
+		92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationTests.m; sourceTree = "<group>"; };
 		92B7A394213FCD2A00390258 /* NXMEventsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcher.h; sourceTree = "<group>"; };
 		92B7A395213FCD2A00390258 /* NXMEventsDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsDispatcher.m; sourceTree = "<group>"; };
 		92B7A3B0214FAC1C00390258 /* NXMStitchCoreDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMStitchCoreDelegate.h; sourceTree = "<group>"; };
@@ -384,7 +395,6 @@
 		92B7A40F216A639F00390258 /* NXMConversationMembersController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationMembersController.h; sourceTree = "<group>"; };
 		92B7A410216A639F00390258 /* NXMConversationMembersController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationMembersController.m; sourceTree = "<group>"; };
 		92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsControllerPrivate.h; sourceTree = "<group>"; };
-		92BDBE5F21749D9E00C33D38 /* NXMConversationMembersControllerPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationMembersControllerPrivate.h; sourceTree = "<group>"; };
 		92BDBEB32177581C00C33D38 /* StitchClientTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StitchClientTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92BDBEBC2177581C00C33D38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		92BDBEC12177581C00C33D38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -721,6 +731,20 @@
 			path = MediaAction;
 			sourceTree = "<group>";
 		};
+		9214F60F21AEF8450021CD05 /* TestingUtils */ = {
+			isa = PBXGroup;
+			children = (
+				9214F61021AEF8810021CD05 /* NXMTestingUtils.h */,
+				9214F61121AEF8810021CD05 /* NXMTestingUtils.m */,
+				9214F61321AEF8A80021CD05 /* NXMTestingUtils+Members.h */,
+				9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */,
+				9214F61621AEF8E40021CD05 /* NXMTestingUtilities.h */,
+				9214F61721AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.h */,
+				9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */,
+			);
+			path = TestingUtils;
+			sourceTree = "<group>";
+		};
 		923A85A4212300D600C81F6E /* OngoingCallsView */ = {
 			isa = PBXGroup;
 			children = (
@@ -787,6 +811,7 @@
 		92B7A3F32164E31600390258 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				92B7A40E216A638300390258 /* Members */,
 				92B7A3F62164E35D00390258 /* NXMConversationPrivate.h */,
 				F9B9CB8B2193443300C6C36D /* Call */,
 				92B7A3F22163AEBC00390258 /* EventsQueue */,
@@ -811,7 +836,6 @@
 			children = (
 				92B7A40F216A639F00390258 /* NXMConversationMembersController.h */,
 				92B7A410216A639F00390258 /* NXMConversationMembersController.m */,
-				92BDBE5F21749D9E00C33D38 /* NXMConversationMembersControllerPrivate.h */,
 			);
 			path = Members;
 			sourceTree = "<group>";
@@ -1085,7 +1109,6 @@
 				92B7A3F72164E35D00390258 /* NXMConversation.m */,
 				92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */,
 				F923DD8C21985BF600D29065 /* Info.plist */,
-				92B7A40E216A638300390258 /* Members */,
 				92B7A4052164E4F800390258 /* Events */,
 				92B7A3F32164E31600390258 /* Internal */,
 			);
@@ -1095,8 +1118,10 @@
 		F923DD9521985BF600D29065 /* StitchClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				9214F60F21AEF8450021CD05 /* TestingUtils */,
 				F923DD9621985BF600D29065 /* StitchClientTests.m */,
 				F923DD9821985BF600D29065 /* Info.plist */,
+				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
 			);
 			path = StitchClientTests;
 			sourceTree = "<group>";
@@ -1487,7 +1512,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F923DDAC21985C9500D29065 /* NXMCallParticipant.h in Headers */,
-				F923DDA221985C8000D29065 /* NXMConversationMembersControllerPrivate.h in Headers */,
 				F923DDC121985CB600D29065 /* NXMCallParticipantPrivate.h in Headers */,
 				F923DD9921985BF600D29065 /* StitchClient.h in Headers */,
 				F923DDB621985CA900D29065 /* NXMEventsDispatcherNotificationHelper.h in Headers */,
@@ -1651,6 +1675,9 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -1660,6 +1687,9 @@
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Manual;
 						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
 							com.apple.Push = {
 								enabled = 1;
 							};
@@ -1796,15 +1826,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-StitchClientTests-checkManifestLockResult.txt",
 			);
@@ -1854,16 +1880,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchClientTests/Pods-StitchClientTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
 				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
@@ -1896,15 +1918,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-StitchCoreTests-checkManifestLockResult.txt",
 			);
@@ -1950,16 +1968,12 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-StitchCoreTests/Pods-StitchCoreTests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
 				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
@@ -2144,7 +2158,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
+				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
+				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,
 				F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */,
+				9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

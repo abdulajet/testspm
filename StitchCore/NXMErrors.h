@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
     NXMStitchErrorCodeMemberUnknown,
     NXMStitchErrorCodeMemberNotFound,           // @"member:error:not-found"
     NXMStitchErrorCodeMemberAlreadyRemoved,     // @"conversation:error:invalid-member-state"
+    NXMStitchErrorCodeNotAMemberOfTheConversation,
     
     NXMStitchErrorCodeEventUnknown,
     NXMStitchErrorCodeEventUserNotFound,        // @"user:error:not-found"

@@ -7,46 +7,47 @@
 #import <StitchCore/StitchCore.h>
 
 #import "NXMConversationMembersController.h"
-#import "NXMConversationEventsQueue.h"
 
 #import "NXMConversation.h"
 #import "NXMStitchContext.h"
 
-@interface NXMConversationMembersController () <NXMConversationEventsQueueDelegate>
+@interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
-@property (nonatomic, readwrite, nullable) NSMutableSet<NXMMember *> *mutableOtherMembers;
+@property (nonatomic, readwrite, nullable) NSMutableArray<NXMMember *> *mutableOtherMembers;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary<NSString *, NXMMember *> *membersDictionary;
 @property (nonatomic, readwrite, nullable, weak) id <NXMConversationMembersControllerDelegate> delegate;
 @property (nonatomic, readwrite, nonnull) NXMConversationDetails *conversationDetails;
 @property (nonatomic, readwrite, nullable) NXMUser *currentUser;
 @property (nonatomic, readwrite) BOOL contentChanging;
-@property (nonatomic, readwrite, nonnull) NXMConversationEventsQueue *eventsQueue;
 @end
 
 @implementation NXMConversationMembersController
 
 #pragma mark - init
--(instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails  andStitchContext:(nonnull NXMStitchContext *)stitchContext {
-    return [self initWithConversationDetails:conversationDetails andStitchContext:stitchContext delegate:nil];
+- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andCurrentUser:(nonnull NXMUser *)currentUser {
+    return [self initWithConversationDetails:conversationDetails andCurrentUser:currentUser delegate:nil];
 }
 
--(instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails  andStitchContext:(nonnull NXMStitchContext *)stitchContext delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte
+- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails  andCurrentUser:(nonnull NXMUser *)currentUser delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte
 {
     self = [super init];
     if (self) {
         self.conversationDetails = conversationDetails;
-        self.currentUser = stitchContext.currentUser;
-        self.mutableOtherMembers = [NSMutableSet<NXMMember *> new];
+        self.currentUser = currentUser;
+        self.mutableOtherMembers = [NSMutableArray<NXMMember *> new];
         self.membersDictionary = [NSMutableDictionary new];
         [self initMembersWithConversationDetails:conversationDetails];
-        self.eventsQueue = [[NXMConversationEventsQueue alloc] initWithConversationDetails:conversationDetails stitchContext:stitchContext delegate:self];
     }
     return self;
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
     for (NXMMember *member in conversationDetails.members) {
-        if(self.currentUser && [member.userId isEqualToString:self.currentUser.userId]) {
+        if(!member || member.state != NXMMemberStateJoined) {
+            continue;
+        }
+        
+        if([member.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
         } else {
             [self.mutableOtherMembers addObject:member];
@@ -57,7 +58,7 @@
 }
 
 #pragma mark - unsynthesized properties
--(NSSet<NXMMember *> *)otherMembers {
+-(NSArray<NXMMember *> *)otherMembers {
     return self.mutableOtherMembers;
 }
 
@@ -67,7 +68,7 @@
 }
 
 
-#pragma mark - EventsQueueDelegate
+#pragma mark - Private Updating Methods
 - (void)handleEvent:(NXMEvent*_Nonnull)event {
     if(event.type != NXMEventTypeMember) {
         return;

@@ -10,9 +10,9 @@
 
 @implementation NXMConversationDetails
 
-- (instancetype)initWithId:(NSString *)uuid {
+- (instancetype)initWithConversationId:(NSString *)conversationId {
     if (self = [super init]) {
-        self.conversationId = uuid;
+        self.conversationId = conversationId;
     }
     
     return  self;

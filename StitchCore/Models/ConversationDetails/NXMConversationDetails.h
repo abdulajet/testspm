@@ -18,6 +18,6 @@
 @property NSDate *created;
 @property NSData *properties;
 
-- (instancetype)initWithId:(NSString *)uuid;
+- (instancetype)initWithConversationId:(NSString *)conversationId;
 
 @end

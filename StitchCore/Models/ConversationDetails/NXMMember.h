@@ -22,7 +22,7 @@
 @property (nonatomic) NXMMemberState state;
 
 - (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId
-                          user:(NSString *)userId name:(NSString *)name state:(NXMMemberState)state;
+                          userId:(NSString *)userId name:(NSString *)name state:(NXMMemberState)state;
 
 -(instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent;
 @end

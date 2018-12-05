@@ -39,13 +39,13 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 @property NXMConversation *conversation;
 @property NXMConversationDetails *conversationDetails;
 @property NXMConversationEventsController *eventsController;
-@property NXMConversationMembersController *membersController;
 
 @property NSDictionary<NSString *,NSString *> * testUserIDs;
 @property NSDictionary<NSString *,NSString *> * testUserNames;
 
-@property NSString *memberId;
-@property NSString *userId;
+@property (nonatomic, readonly, nullable) NXMMember *myMember;
+@property (nonatomic, readonly, nullable) NXMUser *myUser;
+@property NSString *userId; // what is this???? some testuser for pstn webhook?????
 
 @property BOOL isAudioEnabled;
 @property BOOL isLoadMoreRequested;
@@ -63,7 +63,13 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
 @implementation SCLConversationViewController
 
+- (nullable NXMMember *)myMember {
+    return self.conversation.myMember;
+}
 
+- (nullable NXMUser *)myUser {
+    return self.kommsWrapper.kommsClient.user;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -193,7 +199,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         return;
     }
     
-    if ([typing.fromMemberId isEqualToString:self.membersController.myMember.memberId]) {
+    if ([typing.fromMemberId isEqualToString:self.myMember.memberId]) {
         return;
     }
     
@@ -202,7 +208,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         return;
     }
     
-    NSString* memberName = [self.membersController memberForMemberId:typing.fromMemberId].name;
+    NSString* memberName = [self memberForMemberId:typing.fromMemberId].name;
     if (!memberName) {
         return;
     }
@@ -232,13 +238,30 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         return;
     }
 
-    if (self.membersController.myMember.memberId) {
-        [self.conversationManager.stitchConversationClient markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.membersController.myMember.memberId onSuccess:^{
+    if (self.myMember.memberId) {
+        [self.conversationManager.stitchConversationClient markAsSeen:text.sequenceId conversationId:text.conversationId fromMemberWithId:self.myMember.memberId onSuccess:^{
         
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error markAsSeen");
         }];
     }
+}
+
+-(nullable NXMMember *)memberForMemberId:(NSString *)memberId {
+    
+    if(!memberId) {
+        return nil;
+    }
+    
+    if([self.myMember.memberId isEqualToString:memberId]) {
+        return self.myMember;
+    }
+    for (NXMMember *member in self.conversation.otherMembers) {
+        if([member.memberId isEqualToString:memberId]) {
+            return member;
+        }
+    }
+    return nil;
 }
 
 #pragma mark - User Press Actions
@@ -307,10 +330,10 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
 - (IBAction)addMemberPressed:(id)sender {
     NSMutableString *message = [NSMutableString new];
-    if(self.membersController.myMember) {
-        [message appendFormat:@"%@\n",self.membersController.myMember.name];
+    if(self.myMember) {
+        [message appendFormat:@"%@\n",self.myMember.name];
     }
-    NSArray<NSString *> *membersIds = [[self.membersController.otherMembers valueForKey:@"name"] allObjects];
+    NSArray<NSString *> *membersIds = [[self.conversation.otherMembers valueForKey:@"name"] allObjects];
     [message appendFormat:@"%@\n",[membersIds componentsJoinedByString:@"\n"]];
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"members" message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -324,7 +347,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         
         NSString * userId = self.testUserIDs[username];
         __weak SCLConversationViewController *weakSelf = self;
-        [self.conversation addMemberWithUserId:userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+        [self.conversation joinMemberWithUserId:userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
             if(error) {
                 NSLog(@"failed adding user with Error: %@", error);
                 [weakSelf showMessageWithTitle:@"error" andMessage:@"failed adding user" andDismissAfterSeconds:2];
@@ -345,7 +368,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
     
-    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.conversationId memberId:self.membersController.myMember.memberId onSuccess:^{
+    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.conversationId memberId:self.myMember.memberId onSuccess:^{
     } onError:^(NSError * _Nullable error) {
         NSLog(@"error typing");
     }];
@@ -421,12 +444,11 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         });
     }];
     
-    self.membersController = [conversation membersControllerWithDelegate:self];
-    if(self.membersController.myMember) {
-        [self.conversationManager addLookupMemberId:self.membersController.myMember.memberId forUser:self.membersController.myMember.userId inConversation:conversation.conversationId];
-        [self.conversationManager.memberIdToName setObject:self.membersController.myMember.name forKey:self.membersController.myMember.memberId];
+    if(self.myMember) {
+        [self.conversationManager addLookupMemberId:self.myMember.memberId forUser:self.myMember.userId inConversation:conversation.conversationId];
+        [self.conversationManager.memberIdToName setObject:self.myMember.name forKey:self.myMember.memberId];
     }
-    for (NXMMember *member in self.membersController.otherMembers) {
+    for (NXMMember *member in self.conversation.otherMembers) {
         [self.conversationManager.memberIdToName setObject:member.name forKey:member.memberId];
     }
     //init conversationDetails - to be removed soon
@@ -440,22 +462,6 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 #pragma mark - conversationEventsController delegate
 - (void)nxmConversationEventsControllerDidChangeContent:(NXMConversationEventsController *_Nonnull)controller {
     [self reloadDataSourceWithScrollFlag:NO];
-}
-
-#pragma mark - conversationmembersController delegate
--(void)nxmConversationMembersController:(NXMConversationMembersController * _Nonnull)controller didChangeMember:(nonnull NXMMember *)member atIndex:(NSUInteger)index forChangeType:(NXMMembersControllerChangeType)type {
-    switch (type) {
-        case NXMMembersControllerChangeTypeAdded:
-            
-            
-            break;
-        case NXMMembersControllerChangeTypeRemoved:
-            
-            
-            break;
-        default:
-            break;
-    }
 }
 
 #pragma mark - tableView delegate
@@ -479,7 +485,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     
     if (event.type == NXMEventTypeMedia) {
         SCLConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"sclConversationEventCell"];
-        [cell updateWithEvent:event memberName:[self.membersController memberForMemberId:event.fromMemberId].name];
+        [cell updateWithEvent:event memberName:[self memberForMemberId:event.fromMemberId].name];
 
         return cell;
     }
@@ -491,7 +497,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     
-        SCLSenderType senderType = ([self.conversation.myMember.memberId isEqualToString:event.fromMemberId]) ? SCLSenderTypeSelf : SCLSenderTypeOther;
+        SCLSenderType senderType = ([self.myMember.memberId isEqualToString:event.fromMemberId]) ? SCLSenderTypeSelf : SCLSenderTypeOther;
         
         SCLConversationTableCellMessageStatus messageStatus = SCLConversationTableCellMessageStatusNone; //this really should be handled better but not for now
         NXMMessageEvent *messageEvent = (NXMMessageEvent *)event;
@@ -506,13 +512,13 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
         
         [cell updateWithEvent:event
                    senderType:senderType
-                   memberName:[self.membersController memberForMemberId:event.fromMemberId].name
+                   memberName:[self memberForMemberId:event.fromMemberId].name
                 messageStatus:messageStatus];
         return cell;
     }
     if (event.type == NXMEventTypeSip){
         SCLConversationEventTableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"sclConversationEventCell"];
-        [cell updateWithEvent:event memberName:[self.membersController memberForMemberId:event.fromMemberId].name];
+        [cell updateWithEvent:event memberName:[self memberForMemberId:event.fromMemberId].name];
         
         return cell;
     }
@@ -534,8 +540,8 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
                                                     attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14.0f]}
                                                        context:nil].size;
         CGSize nameSize = CGSizeZero;
-        if (!([self.membersController.myMember.memberId isEqualToString:event.fromMemberId])) {
-            NXMMember *fromMember = [self.membersController memberForMemberId:event.fromMemberId];
+        if (!([self.myMember.memberId isEqualToString:event.fromMemberId])) {
+            NXMMember *fromMember = [self memberForMemberId:event.fromMemberId];
             if(fromMember) {
             nameSize = [fromMember.name boundingRectWithSize:boundSize
                                                         options:NSStringDrawingUsesLineFragmentOrigin
@@ -591,7 +597,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:locationInView];
     NXMEvent *event = self.eventsController.events[indexPath.row];
     
-    if (![event.fromMemberId isEqualToString:self.membersController.myMember.memberId]) {
+    if (![event.fromMemberId isEqualToString:self.myMember.memberId]) {
         return;
     }
     
@@ -615,7 +621,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
 - (void)textViewDidChange:(UITextView *)textView {
     if (!self.sendButton.enabled && self.kommsWrapper.kommsClient.isConnected) {
-        [self.conversationManager.stitchConversationClient startTyping:self.conversation.conversationId memberId:self.membersController.myMember.memberId onSuccess:^{
+        [self.conversationManager.stitchConversationClient startTyping:self.conversation.conversationId memberId:self.myMember.memberId onSuccess:^{
         } onError:^(NSError * _Nullable error) {
             NSLog(@"error typing");
         }];
