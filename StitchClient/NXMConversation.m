@@ -12,7 +12,6 @@
 #import "NXMConversationEventsQueue.h"
 
 @interface NXMConversation () <NXMConversationEventsQueueDelegate>
-@property (readwrite, nonatomic) NSObject<NXMConversationDelegate> *delegate;
 @property (readwrite, nonatomic) NXMStitchContext *stitchContext;
 
 @property (readwrite, nonatomic, nonnull) NXMConversationDetails *conversationDetails;
@@ -87,33 +86,41 @@
             case NXMEventTypeGeneral:
                 break;
             case NXMEventTypeText:
-                [self.delegate textEvent:(NXMMessageEvent *)event];
+                if([self.delegate respondsToSelector:@selector(textEvent:)]) {
+                    [self.delegate textEvent:(NXMMessageEvent *)event];
+                }
                 break;
             case NXMEventTypeImage:
-                [self.delegate attachmentEvent:(NXMMessageEvent *)event];
+                if([self.delegate respondsToSelector:@selector(attachmentEvent:)]) {
+                    [self.delegate attachmentEvent:(NXMMessageEvent *)event];
+                }
                 break;
             case NXMEventTypeMessageStatus:
-                [self.delegate messageStatusEvent:(NXMMessageStatusEvent *)event];
+                if([self.delegate respondsToSelector:@selector(messageStatusEvent:)]) {
+                    [self.delegate messageStatusEvent:(NXMMessageStatusEvent *)event];
+                }
                 break;
             case NXMEventTypeTextTyping:
-                [self.delegate typingEvent:(NXMTextTypingEvent *)event];
+                if([self.delegate respondsToSelector:@selector(typingEvent:)]) {
+                    [self.delegate typingEvent:(NXMTextTypingEvent *)event];
+                }
                 break;
             case NXMEventTypeMedia:
             case NXMEventTypeMediaAction:
             case NXMEventTypeSip:
-                [self.delegate mediaEvent:event];
+                if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
+                    [self.delegate mediaEvent:event];
+                }
                 break;
             case NXMEventTypeMember:
-                [self.delegate memberEvent:(NXMMemberEvent *)event];
+                if([self.delegate respondsToSelector:@selector(memberEvent:)]) {
+                    [self.delegate memberEvent:(NXMMemberEvent *)event];
+                }
                 break;
             default:
                 break;
         }
     }];
-}
-
-- (void)setDelegate:(nonnull NSObject<NXMConversationDelegate> *)delegate {
-    self.delegate = delegate;
 }
 
 #pragma mark - Public Methods
@@ -138,9 +145,10 @@
 }
 
 - (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    if(!self.myMember) {
+    NSError *validityError = [self validateMyMember];
+    if (validityError) {
         if(completion) {
-            completion([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeNotAMemberOfTheConversation andUserInfo:nil]);
+            completion(validityError);
         }
         return;
     }
@@ -164,8 +172,16 @@
                                         }];
 }
 
-#pragma mark messages
-- (void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+-(void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    
+    NSError *validityError = [self validateMyMember];
+    if (validityError) {
+        if(completion) {
+            completion(validityError);
+        }
+        return;
+    }
+    
     [self.stitchContext.coreClient sendText:text
                              conversationId:self.conversationId
                                fromMemberId:self.myMember.memberId
@@ -181,7 +197,15 @@
                                     }];
 }
 
-- (void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+-(void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    NSError *validityError = [self validateMyMember];
+    if (validityError) {
+        if(completion) {
+            completion(validityError);
+        }
+        return;
+    }
+    
     if(attachmentType != NXMAttachmentTypeImage) {
         if(completion) {
             completion([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeNotImplemented andUserInfo:nil]);
@@ -198,6 +222,32 @@
             completion(error);
         }
     }];
+}
+
+- (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    NSError *validityError = [self validateMyMember];
+    if (validityError) {
+        if(completion) {
+            completion(validityError);
+        }
+        return;
+    }
+    
+    [self.stitchContext.coreClient startTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
+    completion(nil);
+}
+
+- (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    NSError *validityError = [self validateMyMember];
+    if (validityError) {
+        if(completion) {
+            completion(validityError);
+        }
+        return;
+    }
+    
+    [self.stitchContext.coreClient stopTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
+    completion(nil);
 }
 
 #pragma mark events
@@ -219,5 +269,13 @@
 
 - (void)finishHandleEventsSequence {
     [self.conversationMembersController finishHandleEventsSequence];
+}
+
+- (NSError *)validateMyMember {
+    if (self.myMember.state == NXMMemberStateJoined) {
+        return nil;
+    }
+    
+    return [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeNotAMemberOfTheConversation andUserInfo:nil];
 }
 @end

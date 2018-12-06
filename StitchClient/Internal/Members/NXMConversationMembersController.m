@@ -43,7 +43,7 @@
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
     for (NXMMember *member in conversationDetails.members) {
-        if(!member || member.state != NXMMemberStateJoined) {
+        if(member.state != NXMMemberStateJoined) {
             continue;
         }
         

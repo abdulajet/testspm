@@ -80,7 +80,7 @@ Logout
 #pragma mark - Call
 
 ///**
-// Creatw a new call to users
+// Create a new call to users
 //
 // @param users           user ids to call
 // @param delegate        call delegate

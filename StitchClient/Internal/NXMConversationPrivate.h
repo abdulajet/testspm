@@ -6,6 +6,7 @@
 //
 
 #import "NXMConversation.h"
+#import "NXMStitchContext.h"
 
 @interface NXMConversation (Private)
 -(instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andStitchContext:(nonnull NXMStitchContext *)stitchContext;

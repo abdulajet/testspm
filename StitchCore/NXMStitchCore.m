@@ -283,17 +283,13 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network deliverTextEvent:conversationId memberId:memberId eventId:messageId];
 }
 
-- (void)startTyping:(nonnull NSString *)conversationId
-           memberId:(nonnull NSString *)memberId
-          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-            onError:(NXMErrorCallback _Nullable)onError {
+- (void)startTypingWithConversationId:(nonnull NSString *)conversationId
+           memberId:(nonnull NSString *)memberId {
     [self.network textTypingOn:conversationId memberId:memberId];
 }
 
-- (void)stopTyping:(nonnull NSString *)conversationId
-          memberId:(nonnull NSString *)memberId
-         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-           onError:(NXMErrorCallback _Nullable)onError {
+- (void)stopTypingWithConversationId:(nonnull NSString *)conversationId
+          memberId:(nonnull NSString *)memberId {
     [self.network textTypingOff:conversationId memberId:memberId];
 }
 

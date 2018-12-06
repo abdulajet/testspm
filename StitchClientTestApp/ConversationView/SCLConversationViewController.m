@@ -22,7 +22,7 @@ const CGFloat ONGOING_CALLS_OPEN_HEIGHT = 300;
 const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
-@interface SCLConversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate, NXMConversationEventsControllerDelegate, NXMCallDelegate>
+@interface SCLConversationViewController ()<UIGestureRecognizerDelegate, UITextViewDelegate, NXMConversationDelegate, NXMConversationEventsControllerDelegate, NXMCallDelegate>
 @property SCLConversationManager *conversationManager;
 @property SCLStitchClientWrapper *kommsWrapper;
 
@@ -114,12 +114,6 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
                                                  name:@"textEvent"
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(receivedTypingEvent:)
-                                                 name:@"typingEvent"
-                                               object:nil];
-    
-    
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(keyboardWillShow:)
@@ -190,25 +184,21 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 }
 
 #pragma mark - events ******** events still supported by core
-
-- (void)receivedTypingEvent:(NSNotification *) notification {
-    NSDictionary *userInfo = notification.userInfo;
-    NXMTextTypingEvent *typing = userInfo[@"typingEvent"];
-    
-    if (![typing.conversationId isEqualToString:self.conversation.conversationId]) {
+-(void)typingEvent:(NXMTextTypingEvent *)typingEvent {
+    if (![typingEvent.conversationId isEqualToString:self.conversation.conversationId]) {
         return;
     }
     
-    if ([typing.fromMemberId isEqualToString:self.myMember.memberId]) {
+    if ([typingEvent.fromMemberId isEqualToString:self.myMember.memberId]) {
         return;
     }
     
-    if (typing.status == NXMTextTypingEventStatusOff) {
+    if (typingEvent.status == NXMTextTypingEventStatusOff) {
         self.typingLabel.hidden = YES;
         return;
     }
     
-    NSString* memberName = [self memberForMemberId:typing.fromMemberId].name;
+    NSString* memberName = [self memberForMemberId:typingEvent.fromMemberId].name;
     if (!memberName) {
         return;
     }
@@ -368,9 +358,11 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
     
-    [self.conversationManager.stitchConversationClient stopTyping:self.conversation.conversationId memberId:self.myMember.memberId onSuccess:^{
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"error typing");
+    [self.conversation sendStopTypingWithCompletion:^(NSError * _Nullable error) {
+        if(error) {
+            NSLog(@"error typing");
+
+        }
     }];
     
     [self.conversation sendText:self.textinput.text completion:^(NSError * _Nullable error) {
@@ -433,7 +425,8 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     self.conversationManager = self.conversationManager ?: SCLConversationManager.sharedInstance; //happens before viewDidLoad
     self.kommsWrapper = self.kommsWrapper ?: SCLStitchClients.sharedWrapperClient;
     self.conversation = conversation;
-
+    [self.conversation setDelegate:self];
+    
     self.navigationItem.title = self.conversation.displayName;
     NSSet<NSNumber *> *eventsToPresent = [[NSSet alloc] initWithObjects:@(NXMEventTypeText),@(NXMEventTypeImage),@(NXMEventTypeMessageStatus),@(NXMEventTypeMedia),@(NXMEventTypeMember),@(NXMEventTypeSip),@(NXMEventTypeGeneral), nil];
     
@@ -621,11 +614,21 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 
 - (void)textViewDidChange:(UITextView *)textView {
     if (!self.sendButton.enabled && self.kommsWrapper.kommsClient.isConnected) {
-        [self.conversationManager.stitchConversationClient startTyping:self.conversation.conversationId memberId:self.myMember.memberId onSuccess:^{
-        } onError:^(NSError * _Nullable error) {
-            NSLog(@"error typing");
+        [self.conversation sendStartTypingWithCompletion:^(NSError * _Nullable error) {
+            if(error) {
+                NSLog(@"error typing");
+            }
         }];
     }
+    
+    if(textView.text.length == 0) {
+        [self.conversation sendStopTypingWithCompletion:^(NSError * _Nullable error) {
+            if(error) {
+                NSLog(@"error typing");
+            }
+        }];
+    }
+    
     [self updateSendButtonIfNeeded];
 }
 

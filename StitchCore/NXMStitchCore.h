@@ -147,15 +147,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
               onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                 onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)startTyping:(nonnull NSString *)conversationId
-           memberId:(nonnull NSString *)memberId
-          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-            onError:(NXMErrorCallback _Nullable)onError;
+- (void)startTypingWithConversationId:(nonnull NSString *)conversationId
+           memberId:(nonnull NSString *)memberId;
 
-- (void)stopTyping:(nonnull NSString *)conversationId
-          memberId:(nonnull NSString *)memberId
-         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-           onError:(NXMErrorCallback _Nullable)onError;
+- (void)stopTypingWithConversationId:(nonnull NSString *)conversationId
+          memberId:(nonnull NSString *)memberId;
 
 #pragma mark - Media Methods
 

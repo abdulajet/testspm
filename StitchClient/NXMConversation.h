@@ -25,9 +25,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 @property (readonly, nonatomic, nonnull) NSDate *creationDate;
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
 @property (readonly, nonatomic, nullable) NSArray<NXMMember *> *otherMembers;
-
-- (void)setDelegate:(nonnull NSObject<NXMConversationDelegate> *)delegate;
-
+@property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;
 /**
  Join the current logged user as a member of the conversation
 
@@ -103,6 +101,23 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
                    WithName:(nonnull NSString *)name
                         data:(nonnull NSData *)data
                   completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
+/**
+ Sends an indication that the current user's member started typing
+ 
+ @param completion
+ A completion block with an error object if one occured
+ */
+- (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
+/**
+ Sends an indication that the current user's member stopped typing
+ 
+ @param completion
+ A completion block with an error object if one occured
+ */
+- (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
 
 /**
  Get an instance of NXMConversationEventsController.
