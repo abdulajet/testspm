@@ -31,12 +31,12 @@
         self.conversationDetails = conversationDetails;
         self.eventsQueue = [[NXMConversationEventsQueue alloc] initWithConversationDetails:self.conversationDetails stitchContext:self.stitchContext delegate:self];
         self.conversationMembersController = [[NXMConversationMembersController alloc] initWithConversationDetails:self.conversationDetails andCurrentUser:self.currentUser];
-        [self signToEventDispatcherEvents];
     }
     return self;
 }
 
-#pragma mark - Unsynthesized Properties
+#pragma mark - Properties
+
 - (NSString *)name {
     return self.conversationDetails.name;
 }
@@ -61,69 +61,58 @@
     return self.conversationMembersController.otherMembers;
 }
 
-#pragma mark Private Unsynthesized Properties
+#pragma mark Private Properties
 -(NXMUser *)currentUser {
     return self.stitchContext.currentUser;
 }
 
-#pragma mark - Delegate Methods
-- (void)signToEventDispatcherEvents {
-    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(didReceiveEventNotification:) name:kNXMEventsDispatcherNotificationMedia object:nil];
-    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(didReceiveEventNotification:) name:kNXMEventsDispatcherNotificationMember object:nil];
-    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(didReceiveEventNotification:) name:kNXMEventsDispatcherNotificationMessage object:nil];
-    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(didReceiveEventNotification:) name:kNXMEventsDispatcherNotificationMessageStatus object:nil];
-    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(didReceiveEventNotification:) name:kNXMEventsDispatcherNotificationTyping object:nil];
-}
+#pragma mark EventQueueDelegate
 
-- (void)didReceiveEventNotification:(NSNotification *)notification {
-    NXMEvent *event = [NXMEventsDispatcherNotificationHelper<NXMEvent *> nxmNotificationModelWithNotification:notification];
-    if(![event.conversationId isEqualToString:self.conversationId]) {
-        return;
-    }
+- (void)handleEvent:(NXMEvent*_Nonnull)event {
+    [self.conversationMembersController handleEvent:event];
     
-    [[NSOperationQueue currentQueue] addOperationWithBlock:^{
-        switch (event.type) {
-            case NXMEventTypeGeneral:
-                break;
-            case NXMEventTypeText:
-                if([self.delegate respondsToSelector:@selector(textEvent:)]) {
-                    [self.delegate textEvent:(NXMMessageEvent *)event];
-                }
-                break;
-            case NXMEventTypeImage:
-                if([self.delegate respondsToSelector:@selector(attachmentEvent:)]) {
-                    [self.delegate attachmentEvent:(NXMMessageEvent *)event];
-                }
-                break;
-            case NXMEventTypeMessageStatus:
-                if([self.delegate respondsToSelector:@selector(messageStatusEvent:)]) {
-                    [self.delegate messageStatusEvent:(NXMMessageStatusEvent *)event];
-                }
-                break;
-            case NXMEventTypeTextTyping:
-                if([self.delegate respondsToSelector:@selector(typingEvent:)]) {
-                    [self.delegate typingEvent:(NXMTextTypingEvent *)event];
-                }
-                break;
-            case NXMEventTypeMedia:
-            case NXMEventTypeMediaAction:
-            case NXMEventTypeSip:
-                if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
-                    [self.delegate mediaEvent:event];
-                }
-                break;
-            case NXMEventTypeMember:
-                if([self.delegate respondsToSelector:@selector(memberEvent:)]) {
-                    [self.delegate memberEvent:(NXMMemberEvent *)event];
-                }
-                break;
-            default:
-                break;
-        }
-    }];
+    switch (event.type) {
+        case NXMEventTypeGeneral:
+            break;
+        case NXMEventTypeText:
+            if([self.delegate respondsToSelector:@selector(textEvent:)]) {
+                [self.delegate textEvent:(NXMMessageEvent *)event];
+            }
+            break;
+        case NXMEventTypeImage:
+            if([self.delegate respondsToSelector:@selector(attachmentEvent:)]) {
+                [self.delegate attachmentEvent:(NXMMessageEvent *)event];
+            }
+            break;
+        case NXMEventTypeMessageStatus:
+            if([self.delegate respondsToSelector:@selector(messageStatusEvent:)]) {
+                [self.delegate messageStatusEvent:(NXMMessageStatusEvent *)event];
+            }
+            break;
+        case NXMEventTypeTextTyping:
+            if([self.delegate respondsToSelector:@selector(typingEvent:)]) {
+                [self.delegate typingEvent:(NXMTextTypingEvent *)event];
+            }
+            break;
+        case NXMEventTypeMedia:
+        case NXMEventTypeMediaAction:
+        case NXMEventTypeSip:
+            if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
+                [self.delegate mediaEvent:(NXMMediaEvent *)event];
+            }
+            break;
+        case NXMEventTypeMember:
+            if([self.delegate respondsToSelector:@selector(memberEvent:)]) {
+                [self.delegate memberEvent:(NXMMemberEvent *)event];
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - Public Methods
+
 #pragma mark members
 - (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
     [self joinMemberWithUserId:self.currentUser.userId completion:completion];
@@ -257,15 +246,10 @@
 }
 
 #pragma mark - Private Methods
+
 - (nonnull NXMConversationEventsController *)createEventsControllerWithTypes:(nonnull NSSet<NSNumber *> *)eventTypes andDelegate:(id   <NXMConversationEventsControllerDelegate>_Nullable)delegate{
     return [[NXMConversationEventsController alloc] initWithSubscribedEventsType:eventTypes andConversationDetails:self.conversationDetails andStitchContext:self.stitchContext delegate:delegate];
 }
-
-#pragma mark EventQueueDelegate
-- (void)handleEvent:(NXMEvent*_Nonnull)event {
-    [self.conversationMembersController handleEvent:event];
-}
-
 
 - (void)finishHandleEventsSequence {
     [self.conversationMembersController finishHandleEventsSequence];

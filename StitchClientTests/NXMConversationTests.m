@@ -15,18 +15,9 @@
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
 
-@interface NXMConversation (testing)
-
-@property (readwrite, nonatomic, nonnull) NXMConversationEventsQueue *eventsQueue;
-
-@end
-
-
 @interface NXMConversationTests : XCTestCase
 @property (nonatomic) id stitchContextMock;
 @property (nonatomic) id stitchCoreMock;
-@property (nonatomic) id eventsDispatcherMock;
-@property (nonatomic) id notificationCenterMock;
 @property (nonatomic) id eventsQueueMock;
 @end
 
@@ -34,26 +25,22 @@
 
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+
     self.stitchContextMock = OCMClassMock([NXMStitchContext class]);
     self.stitchCoreMock = OCMClassMock([NXMStitchCore class]);
-    self.eventsDispatcherMock = OCMClassMock([NXMEventsDispatcher class]);
-    self.notificationCenterMock = OCMClassMock([NSNotificationCenter class]);
     self.eventsQueueMock = OCMClassMock([NXMConversationEventsQueue class]);
 
-    OCMStub([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector]  name:[OCMArg isKindOfClass:[NSString class]] object:[OCMArg any]]);
-    OCMStub([self.notificationCenterMock addObserverForName:[OCMArg any] object:[OCMArg any] queue:[OCMArg any] usingBlock:[OCMArg invokeBlock]]).andReturn([OCMArg any]);
-    OCMStub([self.eventsDispatcherMock notificationCenter]).andReturn(self.notificationCenterMock);
-    OCMStub([self.stitchContextMock eventsDispatcher]).andReturn(self.eventsDispatcherMock);
+    OCMStub([self.eventsQueueMock alloc]).andReturn(self.eventsQueueMock);
+    OCMStub([self.eventsQueueMock initWithConversationDetails:[OCMArg any] stitchContext:[OCMArg any] delegate:[OCMArg any]])
+        .andReturn(self.eventsQueueMock);
+    
     OCMStub([self.stitchContextMock coreClient]).andReturn(self.stitchCoreMock);
 }
 
 - (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
+
     [self.stitchCoreMock stopMocking];
     [self.stitchContextMock stopMocking];
-    [self.eventsDispatcherMock stopMocking];
-    [self.notificationCenterMock stopMocking];
     [self.eventsQueueMock stopMocking];
 
     [super tearDown];
@@ -64,15 +51,6 @@
     NSString *userName = [@"name_" stringByAppendingString:userId];
     NXMUser *user = [[NXMUser alloc] initWithId:userId name:userName displayName:userName];
     OCMStub([self.stitchContextMock currentUser]).andReturn(user);
-}
-
-- (void)verifySignToEventsDispatcher {
-    OCMVerify([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector] name:kNXMEventsDispatcherNotificationMedia object:[OCMArg any]]);
-    OCMVerify([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector] name:kNXMEventsDispatcherNotificationMember object:[OCMArg any]]);
-    OCMVerify([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector] name:kNXMEventsDispatcherNotificationMessage object:[OCMArg any]]);
-    OCMVerify([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector] name:kNXMEventsDispatcherNotificationMessageStatus object:[OCMArg any]]);
-    OCMVerify([self.notificationCenterMock addObserver:[OCMArg any] selector:[OCMArg anySelector] name:kNXMEventsDispatcherNotificationTyping object:[OCMArg any]]);
-
 }
 
 #pragma mark - init tests
@@ -94,7 +72,6 @@
 
     //Assert
     XCTAssertEqualObjects(conversation.myMember, currentMember);
-    [self verifySignToEventsDispatcher];
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_CurrentUserInvitedToConversation {
@@ -116,7 +93,6 @@
     //Assert
     XCTAssertNotNil(conversation);
     XCTAssertNil(conversation.myMember);
-    [self verifySignToEventsDispatcher];
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_CurrentUserLeftConversation {
@@ -138,7 +114,6 @@
     //Assert
     XCTAssertNotNil(conversation);
     XCTAssertNil(conversation.myMember);
-    [self verifySignToEventsDispatcher];
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_CurrentUserNotInConversation {
@@ -158,7 +133,6 @@
     //Assert
     XCTAssertNotNil(conversation);
     XCTAssertNil(conversation.myMember);
-    [self verifySignToEventsDispatcher];
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_NoMembersInConversation {
@@ -174,7 +148,6 @@
     //Assert
     XCTAssertNotNil(conversation);
     XCTAssertNil(conversation.myMember);
-    [self verifySignToEventsDispatcher];
 }
 
 #pragma mark - members tests
@@ -571,7 +544,6 @@
 - (NXMConversation *)createDefaultConversationWithConvId:(NSString *)convId members:(NSArray<NXMMember *> *)members {
     NXMConversationDetails *conversationDetails = [NXMTestingUtils conversationDetailsWithConversationId:convId sequenceId:10 members:members];
     NXMConversation *conv = [[NXMConversation alloc] initWithConversationDetails:conversationDetails andStitchContext:self.stitchContextMock];
-    conv.eventsQueue = self.eventsQueueMock;
     
     return conv;
 }
