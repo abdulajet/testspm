@@ -21,6 +21,10 @@ target 'StitchClientTestApp' do
     shared_pods
 end
 
+target 'NexmoTestApp' do
+    shared_pods
+end
+
 target 'StitchCore' do
     shared_pods
     

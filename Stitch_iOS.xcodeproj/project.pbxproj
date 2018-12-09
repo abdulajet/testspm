@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		03C151E9B161DB1E6BA3F922 /* Pods_StitchClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA70C65DE7766D73D00B5679 /* Pods_StitchClient.framework */; };
+		2771AC664A86B9A252ECE536 /* Pods_NexmoTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CBAC20CAAF598E3BCCFDF37 /* Pods_NexmoTestApp.framework */; };
 		363852DD21A5392A00838B2D /* (null) in Sources */ = {isa = PBXBuildFile; };
 		363852DF21A5398800838B2D /* NXMSocketClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */; };
 		3B9A3F9CD64FBF3824AE2A59 /* Pods_StitchClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C2F3462309E2A0325ED4955F /* Pods_StitchClientTests.framework */; };
@@ -247,6 +248,20 @@
 		F923DE6721998F6900D29065 /* VPSocketIOClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DE4721998F6900D29065 /* VPSocketIOClient.h */; };
 		F923DE6A21998F9400D29065 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F923DE6821998F9400D29065 /* README.md */; };
 		F923DE6B21998F9400D29065 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F923DE6921998F9400D29065 /* LICENSE */; };
+		F94291E621BD46F900FA45A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291E521BD46F900FA45A1 /* AppDelegate.m */; };
+		F94291EC21BD46F900FA45A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94291EA21BD46F900FA45A1 /* Main.storyboard */; };
+		F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F94291ED21BD46FB00FA45A1 /* Assets.xcassets */; };
+		F94291F121BD46FB00FA45A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94291EF21BD46FB00FA45A1 /* LaunchScreen.storyboard */; };
+		F94291F421BD46FB00FA45A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291F321BD46FB00FA45A1 /* main.m */; };
+		F94291FE21BD500D00FA45A1 /* NXMLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */; };
+		F942920321BD643700FA45A1 /* NTATokenProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920221BD643700FA45A1 /* NTATokenProvider.m */; };
+		F942920421BD65D000FA45A1 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; };
+		F942920521BD65D000FA45A1 /* StitchCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F942920821BD65D000FA45A1 /* StitchClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; };
+		F942920921BD65D000FA45A1 /* StitchClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */; };
+		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
+		F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsViewController.m */; };
 		F96ED16721ADA3D700137D96 /* VPSocketIOClientStub.m in Sources */ = {isa = PBXBuildFile; fileRef = F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */; };
 		F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93920BC67BA006DBBEA /* ConversationTextTableViewCell.m */; };
 		F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93C20BC74A9006DBBEA /* ConversationEventTableViewCell.m */; };
@@ -277,6 +292,20 @@
 			remoteInfo = StitchCore;
 		};
 		F923DDCC2198664B00D29065 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F923DD8821985BF600D29065;
+			remoteInfo = StitchClient;
+		};
+		F942920621BD65D000FA45A1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F923DCDC2198528900D29065;
+			remoteInfo = StitchCore;
+		};
+		F942920A21BD65D000FA45A1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
 			proxyType = 1;
@@ -316,6 +345,18 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F942920C21BD65D000FA45A1 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F942920921BD65D000FA45A1 /* StitchClient.framework in Embed Frameworks */,
+				F942920521BD65D000FA45A1 /* StitchCore.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -327,16 +368,19 @@
 		0BDDE76F20FF7AD500C2F320 /* NXMInvitePstnKnockingRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMInvitePstnKnockingRequest.m; sourceTree = "<group>"; };
 		0BFC14FA57E033613B54DA22 /* Pods-StitchClientTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchClientTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchClientTestApp/Pods-StitchClientTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		22C1AD885F9996A9B34B0712 /* Pods-StitchClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchClient/Pods-StitchClient.release.xcconfig"; sourceTree = "<group>"; };
+		2D24CE74C5B620529AE5D377 /* Pods-NexmoTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		3EB8B9A9B3260ABE57A48BDB /* Pods-StitchClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchClient/Pods-StitchClient.debug.xcconfig"; sourceTree = "<group>"; };
 		430414B821369B80002E0782 /* NXMMessageEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMessageEvent.h; sourceTree = "<group>"; };
 		430414B921369B80002E0782 /* NXMMessageEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMessageEvent.m; sourceTree = "<group>"; };
 		435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsQueue.h; sourceTree = "<group>"; };
 		435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueue.m; sourceTree = "<group>"; };
+		48D6D2AACD8E338A06DFE1E0 /* Pods-NexmoTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5C0E66681E49A6B99C339226 /* Pods_StitchCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		73966BA5CD0BFDEF0159F7F5 /* Pods-StitchCore.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCore.release.xcconfig"; path = "Pods/Target Support Files/Pods-StitchCore/Pods-StitchCore.release.xcconfig"; sourceTree = "<group>"; };
 		825A47D891581F7AB3B284B9 /* Pods_testApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_testApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		85A8F20296CE735FD82F7516 /* Pods-StitchCoreTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StitchCoreTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StitchCoreTestApp/Pods-StitchCoreTestApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8A737A30BAEEF5BD743F3CD3 /* Pods_StitchObjCTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StitchObjCTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CBAC20CAAF598E3BCCFDF37 /* Pods_NexmoTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		92020BA02119EFE60021C5A1 /* NXMMediaActionEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaActionEvent.h; sourceTree = "<group>"; };
 		92020BA12119EFE60021C5A1 /* NXMMediaActionEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaActionEvent.m; sourceTree = "<group>"; };
 		92020BA4211B0CB10021C5A1 /* NXMMediaSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSettings.h; sourceTree = "<group>"; };
@@ -574,6 +618,25 @@
 		F923DE4721998F6900D29065 /* VPSocketIOClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClient.h; sourceTree = "<group>"; };
 		F923DE6821998F9400D29065 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = "StitchCore/External Libraries/VPSocketIO/README.md"; sourceTree = SOURCE_ROOT; };
 		F923DE6921998F9400D29065 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = "StitchCore/External Libraries/VPSocketIO/LICENSE"; sourceTree = SOURCE_ROOT; };
+		F94291E221BD46F900FA45A1 /* NexmoTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NexmoTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F94291E421BD46F900FA45A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		F94291E521BD46F900FA45A1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		F94291EB21BD46F900FA45A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F94291ED21BD46FB00FA45A1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F94291F021BD46FB00FA45A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F94291F221BD46FB00FA45A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F94291F321BD46FB00FA45A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F94291FC21BD500D00FA45A1 /* NXMLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLoginVC.h; sourceTree = "<group>"; };
+		F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLoginVC.m; sourceTree = "<group>"; };
+		F942920021BD52AC00FA45A1 /* NXMToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMToken.h; sourceTree = "<group>"; };
+		F942920121BD643700FA45A1 /* NTATokenProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTATokenProvider.h; sourceTree = "<group>"; };
+		F942920221BD643700FA45A1 /* NTATokenProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTATokenProvider.m; sourceTree = "<group>"; };
+		F942920D21BD661400FA45A1 /* NexmoClientWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NexmoClientWrapper.h; sourceTree = "<group>"; };
+		F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NexmoClientWrapper.m; sourceTree = "<group>"; };
+		F942921021BD703200FA45A1 /* MainTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
+		F942921121BD703200FA45A1 /* MainTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
+		F942921321BD720700FA45A1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
+		F942921421BD720700FA45A1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
@@ -684,6 +747,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F94291DF21BD46F900FA45A1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F942920421BD65D000FA45A1 /* StitchCore.framework in Frameworks */,
+				2771AC664A86B9A252ECE536 /* Pods_NexmoTestApp.framework in Frameworks */,
+				F942920821BD65D000FA45A1 /* StitchClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -703,6 +776,7 @@
 				BA70C65DE7766D73D00B5679 /* Pods_StitchClient.framework */,
 				C2F3462309E2A0325ED4955F /* Pods_StitchClientTests.framework */,
 				5C0E66681E49A6B99C339226 /* Pods_StitchCoreTests.framework */,
+				8CBAC20CAAF598E3BCCFDF37 /* Pods_NexmoTestApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1005,6 +1079,8 @@
 				946A16F5461EC937AEE7F0DF /* Pods-StitchClientTests.release.xcconfig */,
 				C0DE3F98D7D483D321E4831E /* Pods-StitchCoreTests.debug.xcconfig */,
 				FF4C212DE2526098B2F07DCD /* Pods-StitchCoreTests.release.xcconfig */,
+				48D6D2AACD8E338A06DFE1E0 /* Pods-NexmoTestApp.debug.xcconfig */,
+				2D24CE74C5B620529AE5D377 /* Pods-NexmoTestApp.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1193,6 +1269,47 @@
 				F923DE2121998F4C00D29065 /* JFRWebSocket.m */,
 			);
 			path = jetfire;
+			sourceTree = "<group>";
+		};
+		F94291E321BD46F900FA45A1 /* NexmoTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				F94291FF21BD528F00FA45A1 /* App code */,
+				F94291FA21BD4F3500FA45A1 /* Login */,
+				F94291E421BD46F900FA45A1 /* AppDelegate.h */,
+				F942921121BD703200FA45A1 /* MainTabViewController.m */,
+				F94291E521BD46F900FA45A1 /* AppDelegate.m */,
+				F94291EA21BD46F900FA45A1 /* Main.storyboard */,
+				F94291ED21BD46FB00FA45A1 /* Assets.xcassets */,
+				F94291EF21BD46FB00FA45A1 /* LaunchScreen.storyboard */,
+				F94291F221BD46FB00FA45A1 /* Info.plist */,
+				F94291F321BD46FB00FA45A1 /* main.m */,
+				F942921021BD703200FA45A1 /* MainTabViewController.h */,
+				F942921321BD720700FA45A1 /* ContactsViewController.h */,
+				F942921421BD720700FA45A1 /* ContactsViewController.m */,
+			);
+			path = NexmoTestApp;
+			sourceTree = "<group>";
+		};
+		F94291FA21BD4F3500FA45A1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				F94291FC21BD500D00FA45A1 /* NXMLoginVC.h */,
+				F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		F94291FF21BD528F00FA45A1 /* App code */ = {
+			isa = PBXGroup;
+			children = (
+				F942920021BD52AC00FA45A1 /* NXMToken.h */,
+				F942920121BD643700FA45A1 /* NTATokenProvider.h */,
+				F942920221BD643700FA45A1 /* NTATokenProvider.m */,
+				F942920D21BD661400FA45A1 /* NexmoClientWrapper.h */,
+				F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */,
+			);
+			path = "App code";
 			sourceTree = "<group>";
 		};
 		F984C93720BC6778006DBBEA /* ConversationView */ = {
@@ -1386,6 +1503,7 @@
 				F923DCE92198528A00D29065 /* StitchCoreTests */,
 				F91052F120B6EBAE006318F9 /* StitchCoreTestApp */,
 				92BDBEB42177581C00C33D38 /* StitchClientTestApp */,
+				F94291E321BD46F900FA45A1 /* NexmoTestApp */,
 				F9C35DCE203078BD009FAE4F /* Products */,
 				E0E7553849ECA3AA08DC7D85 /* Pods */,
 				0C77F825E1C5CD9646B440FA /* Frameworks */,
@@ -1401,6 +1519,7 @@
 				F923DCE52198528A00D29065 /* StitchCoreTests.xctest */,
 				F923DD8921985BF600D29065 /* StitchClient.framework */,
 				F923DD9121985BF600D29065 /* StitchClientTests.xctest */,
+				F94291E221BD46F900FA45A1 /* NexmoTestApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1662,6 +1781,28 @@
 			productReference = F923DD9121985BF600D29065 /* StitchClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		F94291E121BD46F900FA45A1 /* NexmoTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F94291F721BD46FB00FA45A1 /* Build configuration list for PBXNativeTarget "NexmoTestApp" */;
+			buildPhases = (
+				8FF4F58F333263F0EA007C4B /* [CP] Check Pods Manifest.lock */,
+				F94291DE21BD46F900FA45A1 /* Sources */,
+				F94291DF21BD46F900FA45A1 /* Frameworks */,
+				F94291E021BD46F900FA45A1 /* Resources */,
+				4CBE7B900779F54FC20CA6CD /* [CP] Embed Pods Frameworks */,
+				F942920C21BD65D000FA45A1 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F942920721BD65D000FA45A1 /* PBXTargetDependency */,
+				F942920B21BD65D000FA45A1 /* PBXTargetDependency */,
+			);
+			name = NexmoTestApp;
+			productName = NexmoTestApp;
+			productReference = F94291E221BD46F900FA45A1 /* NexmoTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1711,6 +1852,10 @@
 						CreatedOnToolsVersion = 9.4.1;
 						ProvisioningStyle = Automatic;
 					};
+					F94291E121BD46F900FA45A1 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = F9C35DC7203078BD009FAE4F /* Build configuration list for PBXProject "Stitch_iOS" */;
@@ -1732,6 +1877,7 @@
 				F923DD9021985BF600D29065 /* StitchClientTests */,
 				F91052EF20B6EBAE006318F9 /* StitchCoreTestApp */,
 				92BDBEB22177581C00C33D38 /* StitchClientTestApp */,
+				F94291E121BD46F900FA45A1 /* NexmoTestApp */,
 			);
 		};
 /* End PBXProject section */
@@ -1787,6 +1933,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F94291E021BD46F900FA45A1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F94291F121BD46FB00FA45A1 /* LaunchScreen.storyboard in Resources */,
+				F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */,
+				F94291EC21BD46F900FA45A1 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1837,6 +1993,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4CBE7B900779F54FC20CA6CD /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp-frameworks.sh",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		5416A4EE73DF9DF1B675CD29 /* [CP] Check Pods Manifest.lock */ = {
@@ -1947,6 +2121,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StitchCoreTestApp/Pods-StitchCoreTestApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8FF4F58F333263F0EA007C4B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NexmoTestApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		92BDBF1E217761D700C33D38 /* Run Script */ = {
@@ -2166,6 +2358,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F94291DE21BD46F900FA45A1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */,
+				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
+				F942920321BD643700FA45A1 /* NTATokenProvider.m in Sources */,
+				F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */,
+				F94291FE21BD500D00FA45A1 /* NXMLoginVC.m in Sources */,
+				F94291F421BD46FB00FA45A1 /* main.m in Sources */,
+				F94291E621BD46F900FA45A1 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2188,6 +2394,16 @@
 			isa = PBXTargetDependency;
 			target = F923DD8821985BF600D29065 /* StitchClient */;
 			targetProxy = F923DDCC2198664B00D29065 /* PBXContainerItemProxy */;
+		};
+		F942920721BD65D000FA45A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F923DCDC2198528900D29065 /* StitchCore */;
+			targetProxy = F942920621BD65D000FA45A1 /* PBXContainerItemProxy */;
+		};
+		F942920B21BD65D000FA45A1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F923DD8821985BF600D29065 /* StitchClient */;
+			targetProxy = F942920A21BD65D000FA45A1 /* PBXContainerItemProxy */;
 		};
 		F9F38D492199C49C00B7321E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2225,6 +2441,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				F91052FE20B6EBAE006318F9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F94291EA21BD46F900FA45A1 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F94291EB21BD46F900FA45A1 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F94291EF21BD46FB00FA45A1 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F94291F021BD46FB00FA45A1 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -2477,6 +2709,43 @@
 			};
 			name = Release;
 		};
+		F94291F521BD46FB00FA45A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48D6D2AACD8E338A06DFE1E0 /* Pods-NexmoTestApp.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = NexmoTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.NexmoTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		F94291F621BD46FB00FA45A1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2D24CE74C5B620529AE5D377 /* Pods-NexmoTestApp.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = NexmoTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.NexmoTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		F9C35DDF203078BD009FAE4F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2644,6 +2913,15 @@
 			buildConfigurations = (
 				F923DD9E21985BF600D29065 /* Debug */,
 				F923DD9F21985BF600D29065 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F94291F721BD46FB00FA45A1 /* Build configuration list for PBXNativeTarget "NexmoTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F94291F521BD46FB00FA45A1 /* Debug */,
+				F94291F621BD46FB00FA45A1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
