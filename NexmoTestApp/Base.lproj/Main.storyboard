@@ -185,7 +185,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KbS-Ru-Dwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1513" y="115"/>
+            <point key="canvasLocation" x="1634" y="494"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="VwP-Ak-1nX">
@@ -567,15 +567,76 @@
                     </tabBar>
                     <connections>
                         <segue destination="ivG-qE-7nW" kind="relationship" relationship="viewControllers" id="Q3d-ta-SQX"/>
+                        <segue destination="uPs-r8-PIO" kind="relationship" relationship="viewControllers" id="AKU-MD-azG"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NyL-j7-ZcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="735" y="115"/>
         </scene>
+        <!--userSettings-->
+        <scene sceneID="3pA-dN-ota">
+            <objects>
+                <viewController storyboardIdentifier="userSettings" title="userSettings" id="uPs-r8-PIO" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="D1K-Pk-ge4">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9D-Vs-PMA">
+                                <rect key="frame" x="87.666666666666686" y="154" width="200" height="200"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="MVM-Ua-IOB">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZZ-0Y-lAq">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="70"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="MVM-Ua-IOB" firstAttribute="centerX" secondItem="P9D-Vs-PMA" secondAttribute="centerX" id="AYh-MT-HLH"/>
+                                    <constraint firstItem="rZZ-0Y-lAq" firstAttribute="centerX" secondItem="MVM-Ua-IOB" secondAttribute="centerX" id="MH6-MP-6qi"/>
+                                    <constraint firstItem="rZZ-0Y-lAq" firstAttribute="width" secondItem="MVM-Ua-IOB" secondAttribute="width" id="PT7-if-18E"/>
+                                    <constraint firstItem="rZZ-0Y-lAq" firstAttribute="height" secondItem="MVM-Ua-IOB" secondAttribute="height" id="ScJ-Ta-wK0"/>
+                                    <constraint firstItem="MVM-Ua-IOB" firstAttribute="centerY" secondItem="P9D-Vs-PMA" secondAttribute="centerY" id="TuR-Iq-Hje"/>
+                                    <constraint firstAttribute="height" constant="200" id="UiE-os-zzR"/>
+                                    <constraint firstAttribute="width" constant="200" id="VM6-Qd-Vup"/>
+                                    <constraint firstItem="MVM-Ua-IOB" firstAttribute="width" secondItem="P9D-Vs-PMA" secondAttribute="width" id="W8a-gE-njH"/>
+                                    <constraint firstItem="rZZ-0Y-lAq" firstAttribute="centerY" secondItem="MVM-Ua-IOB" secondAttribute="centerY" id="pz6-rl-OBE"/>
+                                    <constraint firstItem="MVM-Ua-IOB" firstAttribute="height" secondItem="P9D-Vs-PMA" secondAttribute="height" id="qWf-X1-Aje"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-BO-n1W">
+                                <rect key="frame" x="153" y="391" width="69" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="SendLogs"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
+                                <rect key="frame" x="169" y="574" width="48" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Logout"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="P9D-Vs-PMA" firstAttribute="top" secondItem="Qha-Fv-hFI" secondAttribute="top" constant="110" id="qFT-3b-Bz0"/>
+                            <constraint firstItem="P9D-Vs-PMA" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="r4b-1d-Fee"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Qha-Fv-hFI"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Item" image="settingsTab" id="SrA-CF-tTN"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XfD-Bz-DIQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1664.8" y="-233.49753694581281"/>
+        </scene>
     </scenes>
     <resources>
         <image name="addMember" width="24" height="24"/>
+        <image name="avatar" width="50" height="50"/>
         <image name="btnAttachment" width="41" height="45"/>
         <image name="callPhone" width="23" height="15"/>
         <image name="enableAudio" width="22" height="22"/>
@@ -584,6 +645,7 @@
         <image name="ongoingCallsMemberAudioMuteOff" width="22" height="22"/>
         <image name="openOngoingCallsTrayIcon" width="30" height="22"/>
         <image name="sendMessege" width="25" height="24"/>
+        <image name="settingsTab" width="25" height="25"/>
         <image name="vonage_logo" width="215" height="79"/>
     </resources>
 </document>

@@ -262,6 +262,7 @@
 		F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */; };
 		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
 		F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsViewController.m */; };
+		F942921821BD9B6C00FA45A1 /* UserSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */; };
 		F96ED16721ADA3D700137D96 /* VPSocketIOClientStub.m in Sources */ = {isa = PBXBuildFile; fileRef = F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */; };
 		F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93920BC67BA006DBBEA /* ConversationTextTableViewCell.m */; };
 		F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93C20BC74A9006DBBEA /* ConversationEventTableViewCell.m */; };
@@ -637,6 +638,8 @@
 		F942921121BD703200FA45A1 /* MainTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		F942921321BD720700FA45A1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
 		F942921421BD720700FA45A1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		F942921621BD9B6C00FA45A1 /* UserSettingsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingsVC.h; sourceTree = "<group>"; };
+		F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingsVC.m; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
@@ -1277,7 +1280,6 @@
 				F94291FF21BD528F00FA45A1 /* App code */,
 				F94291FA21BD4F3500FA45A1 /* Login */,
 				F94291E421BD46F900FA45A1 /* AppDelegate.h */,
-				F942921121BD703200FA45A1 /* MainTabViewController.m */,
 				F94291E521BD46F900FA45A1 /* AppDelegate.m */,
 				F94291EA21BD46F900FA45A1 /* Main.storyboard */,
 				F94291ED21BD46FB00FA45A1 /* Assets.xcassets */,
@@ -1285,8 +1287,11 @@
 				F94291F221BD46FB00FA45A1 /* Info.plist */,
 				F94291F321BD46FB00FA45A1 /* main.m */,
 				F942921021BD703200FA45A1 /* MainTabViewController.h */,
+				F942921121BD703200FA45A1 /* MainTabViewController.m */,
 				F942921321BD720700FA45A1 /* ContactsViewController.h */,
 				F942921421BD720700FA45A1 /* ContactsViewController.m */,
+				F942921621BD9B6C00FA45A1 /* UserSettingsVC.h */,
+				F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */,
 			);
 			path = NexmoTestApp;
 			sourceTree = "<group>";
@@ -2363,6 +2368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */,
+				F942921821BD9B6C00FA45A1 /* UserSettingsVC.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
 				F942920321BD643700FA45A1 /* NTATokenProvider.m in Sources */,
 				F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */,

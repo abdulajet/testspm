@@ -9,6 +9,7 @@
 #import "NTATokenProvider.h"
 #import "NexmoClientWrapper.h"
 #import "ContactsViewController.h"
+#import "UserSettingsVC.h"
 #import "MainTabViewController.h"
 
 @interface NXMLoginVC ()
@@ -123,9 +124,10 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     ContactsViewController *contactsViewController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsList"];
+    UserSettingsVC *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"userSettings"];
     
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[contactsViewController];
+    tabBarController.viewControllers = @[userSettingsVC, contactsViewController];
     
     [self presentViewController:tabBarController animated:NO completion:nil];
 }
