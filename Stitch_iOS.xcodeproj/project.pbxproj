@@ -1814,7 +1814,7 @@
 		F9C35DC4203078BD009FAE4F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Vonage;
 				TargetAttributes = {
 					92BDBEB22177581C00C33D38 = {
@@ -2564,7 +2564,7 @@
 			baseConfigurationReference = CFA963BF05363B6473687A9E /* Pods-StitchCore.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -2588,7 +2588,7 @@
 			baseConfigurationReference = 73966BA5CD0BFDEF0159F7F5 /* Pods-StitchCore.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PR6C39UQ38;

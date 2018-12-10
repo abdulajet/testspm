@@ -90,6 +90,7 @@ Logout
            delegate:(nullable id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
 
+- (void)onMemberEvent:(NSNotification* )notification;
 
 #pragma mark - Push Notifications
 
@@ -130,4 +131,5 @@ Logout
  */
 - (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo
                            completion:(void(^_Nullable)(NSError * _Nullable error))completion;
+
 @end

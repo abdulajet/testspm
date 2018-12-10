@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMConversation.h"
+#import "NXMConversationPrivate.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsControllerPrivate.h"
 #import "NXMConversationMembersController.h"
@@ -237,6 +237,50 @@
     
     [self.stitchContext.coreClient stopTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
     completion(nil);
+}
+#pragma mark internal
+
+- (void)inviteMemberWithUserId:(nonnull NSString *)userId withMedia:(bool)withMedia
+                    completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
+    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUserId:userId withMedia:withMedia onSuccess:^(NSObject * _Nullable object) {
+        if(completion) {
+            completion(nil, (NXMMember *)object);
+        }
+    } onError:^(NSError * _Nullable error) {
+        if(completion) {
+            completion(error, nil);
+        }
+    }];
+}
+
+- (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber
+                                 completion:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable knockingId))completion {
+    [self.stitchContext.coreClient inviteToConversation:self.stitchContext.currentUser.name withPhoneNumber:phoneNumber onSuccess:^(NSString * _Nullable value) {
+        completion(nil, value);
+    } onError:^(NSError * _Nullable error) {
+        completion(error,nil);
+    }];
+}
+- (NXMStitchErrorCode)enableMedia:(NSString *)memberId {
+    [self.stitchContext.coreClient enableMedia:self.conversationId memberId:memberId];
+    return NXMStitchErrorCodeNone;
+}
+
+- (NXMStitchErrorCode)disableMedia {
+    [self.stitchContext.coreClient disableMedia:self.conversationId];
+    return NXMStitchErrorCodeNone;
+}
+
+- (void)hold:(BOOL)isHold {
+    
+}
+
+- (void)mute:(BOOL)isMuted {
+    
+}
+
+- (void)earmuff:(BOOL)isEarmuff {
+    
 }
 
 #pragma mark events

@@ -18,6 +18,10 @@
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property SCLStitchClientWrapper *kommsWrapper;
 @property NSMutableArray<NXMConversationDetails *> *conversationsDetails;
+
+@property NSDictionary<NSString *,NSString *> * testUserIDs;
+@property NSDictionary<NSString *,NSString *> * testUserNames;
+
 //@property lastestId
 @end
 
@@ -33,6 +37,31 @@
                                              selector:@selector(receivedMemberEvent:)
                                                  name:@"memberEvent"
                                                object:nil];
+    self.testUserIDs = @{@"testuser1":@"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2",
+                         @"testuser2":@"USR-1628dc75-fa09-4746-9e29-681430cb6419",
+                         @"testuser3":@"USR-0e364e72-d343-42bd-9a12-024518a88896",
+                         @"testuser4":@"USR-effc7845-333c-4779-aeaf-fdbb4167f93c",
+                         @"testuser5":@"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205",
+                         @"testuser6":@"USR-de6954dc-9a54-4a65-8cf4-8628d312a611",
+                         @"testuser7":@"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b",
+                         @"testuser8":@"USR-a7862767-e77a-4c0d-9bea-41754f1918c0",
+                         @"TheCustomer":@"USR-f791c83e-0b9e-4671-88dd-9a64344ff2b3",
+                         @"TheTech":@"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e",
+                         @"TheManager":@"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb"
+                         };
+    
+    self.testUserNames = @{@"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2":@"testuser1",
+                           @"USR-1628dc75-fa09-4746-9e29-681430cb6419":@"testuser2",
+                           @"USR-0e364e72-d343-42bd-9a12-024518a88896":@"testuser3",
+                           @"USR-effc7845-333c-4779-aeaf-fdbb4167f93c":@"testuser4",
+                           @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205":@"testuser5",
+                           @"USR-de6954dc-9a54-4a65-8cf4-8628d312a611":@"testuser6",
+                           @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b":@"testuser7",
+                           @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0":@"testuser8",
+                           @"USR-f791c83e-0b9e-4671-88dd-9a64344ff2b3":@"TheCustomer",
+                           @"USR-65aa7c31-f5ea-46fb-9a94-c712e5787f6e":@"TheTech",
+                           @"USR-c0093b90-d91b-4932-b41d-4b043a5c95cb":@"TheManager"
+                           };
 }
 
 - (void)receivedMemberEvent:(NSNotification *) notification {
@@ -84,6 +113,34 @@
     self.navigationItem.title = self.kommsWrapper.kommsClient.user.name;
     [self subscribeLoginEvents];
 }
+
+- (IBAction)createCallPressed:(UIBarButtonItem *)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Create call" message:@"" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"users name";
+    }];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *displayName =[[alertController textFields][0] text];
+        NSLog(@"users name %@", displayName);
+        NSArray *names = [(NSString*)displayName componentsSeparatedByString:@";"];
+        NSMutableArray *namesIds = [NSMutableArray arrayWithArray:names];
+        for (int i= 0 ; i < names.count; i++){
+            namesIds[i] = self.testUserIDs[names[i]];
+        }
+        [self.kommsWrapper.kommsClient callToUsers:namesIds delegate:nil completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+            
+        }];
+    }];
+
+    [alertController addAction:confirmAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Cancelled");
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];;
+}
+
+
 
 - (IBAction)createConversationPressed:(UIBarButtonItem *)sender {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Create conversation" message:@"" preferredStyle:UIAlertControllerStyleAlert];

@@ -254,6 +254,23 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     return nil;
 }
 
+- (NSString *)memberStateStringWithMemberState:(NXMMemberState)memberState {
+    switch (memberState) {
+        case NXMMemberStateInvited:
+            return @"invited";
+            break;
+        case NXMMemberStateJoined:
+            return @"joined";
+            break;
+        case NXMMemberStateLeft:
+            return @"left";
+            break;
+        default:
+            break;
+    }
+    return nil;
+}
+
 #pragma mark - User Press Actions
 
 - (void)updatePhoneNumber2ConverationWebHook:(NSString* )phoneNumber conversationName:(NSString* )conversationName handler:(void (^)(void))handler{
@@ -321,10 +338,12 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 - (IBAction)addMemberPressed:(id)sender {
     NSMutableString *message = [NSMutableString new];
     if(self.myMember) {
-        [message appendFormat:@"%@\n",self.myMember.name];
+        [message appendFormat:@"%@ (ME) - %@\n",self.myMember.name, [self memberStateStringWithMemberState:self.myMember.state]];
     }
-    NSArray<NSString *> *membersIds = [[self.conversation.otherMembers valueForKey:@"name"] allObjects];
-    [message appendFormat:@"%@\n",[membersIds componentsJoinedByString:@"\n"]];
+    
+    for (NXMMember *member in self.conversation.otherMembers) {
+        [message appendFormat:@"%@ - %@\n",member.name, [self memberStateStringWithMemberState:member.state]];
+    }
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"members" message:message preferredStyle:UIAlertControllerStyleAlert];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -669,7 +688,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
 - (IBAction)enableAudioPressed:(id)sender {
     if (self.isAudioEnabled) {
         self.isAudioEnabled = NO;
-        [self.call turnOff];
+        [self.call hangup:nil];
         return;
     }
     

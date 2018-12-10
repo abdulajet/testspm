@@ -7,6 +7,8 @@
 //
 
 #import "SCLStitchClientWrapper.h"
+#import "SCLIncomingCallViewController.h"
+#import <UIKit/UINavigationController.h>
 
 @interface SCLStitchClientWrapper ()
 @property (nonatomic, nonnull, readwrite) NXMStitchClient *kommsClient;
@@ -39,6 +41,22 @@
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:nil userInfo:@{@"user":user}];
     }
+}
+
+
+- (void)incomingCall:(nonnull NXMCall *)call{
+    NSLog(@"SCLStitchClientWrapper::incomingCall %@", call.conversation.conversationId);
+//    SCLIncomingCallViewController *myViewController=[[UIStoryboard storyboardWithName:@"MainStoryboard" bundle:NULL]  instantiateViewControllerWithIdentifier:@"SCLInomingCallViewController"];
+//    [myViewController updateWithCall:call];
+//    UINavigationController * navigationController = [UINavigationController init];
+//    [navigationController showViewController:myViewController sender:nil];
+    [call answer:nil completionHandler:^(NSError * _Nullable error) {
+        NSLog(@"Error ");
+    }];
+}
+
+- (void)tokenRefreshed {
+    
 }
 
 @end

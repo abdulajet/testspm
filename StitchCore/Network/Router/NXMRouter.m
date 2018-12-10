@@ -399,11 +399,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     
     if (inviteUserRequest.mediaEnabled) {
         dict[@"media"] = @{
-                   @"audio": @{
-                   @"muted": @"false",
-                   @"earmuffed": @"false"
-        }};
-    }
+                   @"audio": @YES
+                   };
+    };
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/conversations/%@/members", self.baseUrl, inviteUserRequest.conversationID]];
     

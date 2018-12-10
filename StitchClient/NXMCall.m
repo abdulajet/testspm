@@ -11,15 +11,16 @@
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMCallParticipantPrivate.h"
+#import "NXMConversation.h"
+#import "NXMConversationPrivate.h"
 
 
-@interface NXMCall() <NXMCallProxy,NXMConversationEventsQueueDelegate>
+@interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
 
-@property (readwrite, nonatomic) NSString *conversationId;
+@property (readwrite, nonatomic) NXMConversation *conversation;
 @property (readwrite, nonatomic) NSMutableArray<NXMCallParticipant *> *otherParticipants;
 @property (readwrite, nonatomic) NXMCallParticipant *myParticipant;
 
-@property (readwrite, nonatomic) NXMStitchContext *stitchContext;
 @property (readwrite, nonatomic) id<NXMCallDelegate> delegate;
 @property (readwrite, nonatomic) NXMConversationEventsQueue *eventsQueue;
 
@@ -28,15 +29,21 @@
 
 @implementation NXMCall
 
-- (nullable instancetype)initWithStitchContext:(nonnull NXMStitchContext *)stitchContext
-                           conversationDetails:(nonnull NXMConversationDetails *)conversationDetails {
+- (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
     if (self = [super init]) {
-        self.lastEventId = 0;
-        self.stitchContext = stitchContext;
-        self.conversationId = conversationDetails.conversationId;
-        self.eventsQueue = [[NXMConversationEventsQueue alloc] initWithConversationDetails:conversationDetails stitchContext:stitchContext delegate:self];
+        self.lastEventId = conversation.lastEventId;
+        self.conversation = conversation;
+        if (self.conversation.myMember){
+            self.myParticipant = [[NXMCallParticipant alloc] initWithMember:self.conversation.myMember andCallProxy:self];
+        }
+        self.otherParticipants = [[NSMutableArray<NXMCallParticipant*>  alloc] init];
+        if (self.conversation.otherMembers){
+            for (id member in self.conversation.otherMembers){
+                [self.otherParticipants addObject: [[NXMCallParticipant alloc] initWithMember:member andCallProxy:self]];
+            }
+        }
+        [conversation setDelegate:self];
     }
-    
     return self;
 }
 
@@ -46,8 +53,32 @@
     _delegate = delegate;
 }
 
+- (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+    if (self.myParticipant.status == NXMParticipantStatusAnswered
+        || self.myParticipant.status == NXMParticipantStatusCompleted
+        || self.myParticipant.status == NXMParticipantStatusCancelled) {
+        completionHandler(nil); // TODO: error;
+        return;
+    }
+    
+    [self.conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+        if (member){
+            [self.conversation enableMedia:self.myParticipant.participantId];
+        }
+        completionHandler(error);
+    }];
+}
+
+- (void)hangup:(NXMErrorCallback)completionHandler {
+    if (self.status == NXMCallStatusDisconnected) {
+        return;
+    }
+    
+    [self.conversation disableMedia];
+}
+
 - (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (userId == self.stitchContext.currentUser.userId) {
+    if (userId == self.conversation.myMember.userId){
         completionHandler(nil); // TODO: error;
         return;
     }
@@ -56,23 +87,15 @@
         completionHandler(nil); // TODO: error;
         return;
     }
-    
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId
-                                             withUserId:userId
-                                              withMedia:YES
-                                              onSuccess:^(NSObject * _Nullable object) {
-        NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:((NXMMember *)object).memberId
+    [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+        NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
                                                                           andCallProxy:self];
         [self.otherParticipants addObject:participant];
-        
-        if (completionHandler) {
-            completionHandler(nil);
-        }
-    } onError:^(NSError * _Nullable error) {
         if (completionHandler) {
             completionHandler(error);
         }
     }];
+
 }
 
 - (void)addParticipantWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
@@ -81,21 +104,14 @@
         return;
     }
     
-    [self.stitchContext.coreClient inviteToConversation:self.stitchContext.currentUser.name withPhoneNumber:number onSuccess:^(NSString * _Nullable value) {
-        NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:value
-                                                                          andCallProxy:self];
-        [self.otherParticipants addObject:participant];
-    } onError:^(NSError * _Nullable error) {
-        completionHandler(error);
+    [self.conversation inviteToConversationWithPhoneNumber:number completion:^(NSError * _Nullable error, NSString * _Nullable knockingId) {
+        if (knockingId){
+            //TODO: register the knockingId with the call object
+        }
+        if (completionHandler){
+            completionHandler(error);
+        }
     }];
-}
-
-- (void)turnOff {
-    if (self.status == NXMCallStatusDisconnected) {
-        return;
-    }
-    
-    [self.stitchContext.coreClient disableMedia:self.conversationId];
 }
 
 - (NXMCallStatus)callStatus {
@@ -112,26 +128,6 @@
     return NXMCallStatusDisconnected;
 }
 
-
-
-#pragma mark - NXMConversationEventsQueueDelegate
-
-- (void)handleEvent:(NXMEvent *)event {
-    if ([self isEventTypeSupported:event]) {
-        return;
-    }
-    
-    if (event.type == NXMEventTypeMember) {
-       [self handleMemberEvent:(NXMMemberEvent *)event];
-        return;
-    }
-    
-    if (event.type == NXMEventTypeMedia) {
-        [self handleMediaEvent:(NXMMediaEvent *)event];
-        return;
-    }
-}
-
 #pragma mark - callProxy
 
 - (void)hold:(NXMCallParticipant *)participant isHold:(BOOL)isHold {
@@ -141,7 +137,7 @@
 - (void)mute:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted {
     if (self.status == NXMCallStatusDisconnected) { return; }
     
-    [self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.conversationId];
+   //[self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.conversation.conversationId];
 }
 
 - (void)earmuff:(NXMCallParticipant *)participant isEarmuff:(BOOL)isEarmuff {
@@ -150,6 +146,34 @@
 
 - (void)onChange {
     [self.delegate statusChanged];
+}
+
+#pragma mark - NXMConversationDelegate
+
+
+- (void)textEvent:(NXMMessageEvent *)textEvent {
+    
+}
+- (void)attachmentEvent:(NXMMessageEvent *)attachmentEvent {
+    
+}
+- (void)messageStatusEvent:(NXMMessageStatusEvent *)messageStatusEvent {
+    
+}
+- (void)mediaEvent:(NXMEvent *)mediaEvent {
+    [self handleMediaEvent:mediaEvent];
+    if (_delegate){
+        [_delegate mediaEvent:mediaEvent];
+    }
+}
+- (void)typingEvent:(NXMTextTypingEvent *)typingEvent{
+    
+}
+- (void)memberEvent:(NXMMemberEvent *)memberEvent{
+    [self handleMemberEvent:memberEvent];
+    if (_delegate){
+        [_delegate memberEvent:memberEvent];
+    }
 }
 
 #pragma mark - private

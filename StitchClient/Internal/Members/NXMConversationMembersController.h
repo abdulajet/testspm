@@ -12,8 +12,9 @@
 @class NXMConversationMembersController;
 
 typedef NS_ENUM(NSInteger, NXMMembersControllerChangeType){
-    NXMMembersControllerChangeTypeAdded,
-    NXMMembersControllerChangeTypeRemoved
+    NXMMembersControllerChangeTypeInvited,
+    NXMMembersControllerChangeTypeJoined,
+    NXMMembersControllerChangeTypeLeft
 };
 
 @protocol NXMConversationMembersControllerDelegate <NSObject>

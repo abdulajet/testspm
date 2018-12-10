@@ -232,8 +232,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
     
     [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeSessionInvalid userInfo:nil];
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
+     
         [self.delegate didRefreshToken];
     }];
     

@@ -43,10 +43,6 @@
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
     for (NXMMember *member in conversationDetails.members) {
-        if(member.state != NXMMemberStateJoined) {
-            continue;
-        }
-        
         if([member.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
         } else {
@@ -105,46 +101,105 @@
     }
     NXMMember *member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
     switch (member.state) {
+        case NXMMemberStateInvited:
+            [self handleInvitedMember:member];
         case NXMMemberStateJoined:
-            [self addMember:member];
+            [self handleJoinedMember:member];
             break;
         case NXMMemberStateLeft:
-            [self removeMember:member];
+            [self handleLeftMember:member];
             break;
-        case NXMMemberStateInvited:
         default:
             break;
     }
 }
 
--(void)addMember:(NXMMember *)member {
-    if(!self.membersDictionary[member.memberId]) {
-        self.membersDictionary[member.memberId] = member;
-        if([member.userId isEqualToString:self.currentUser.userId]) {
-            self.myMember = member;
-        } else {
-            [self.mutableOtherMembers addObject:member];
-        }
-        [self member:member changedWithType:NXMMembersControllerChangeTypeAdded];
+//TODO: for now assuming memebr has the following flow invited->joined->removed -> if it's a different flow we'll need to do conflict resolution with sequenceId, if not we'll need to remove this comment 🧔🏻
+
+- (void)handleInvitedMember:(NXMMember *)member {
+    if(self.membersDictionary[member.memberId]) {
+        return;
+    }
+    
+    [self addMember:member];
+    [self member:member changedWithType:NXMMembersControllerChangeTypeInvited];
+}
+
+- (void)handleJoinedMember:(NXMMember *)member {
+    if(self.membersDictionary[member.memberId].state == NXMMemberStateJoined || self.membersDictionary[member.memberId].state == NXMMemberStateLeft) {
+        return;
+    }
+    
+    if(self.membersDictionary[member.memberId]) {
+        [self updateMember:member];
+    } else {
+        [self addMember:member];
+    }
+    
+    [self member:member changedWithType:NXMMembersControllerChangeTypeJoined];
+}
+
+- (void)handleLeftMember:(NXMMember *)member {
+    if(self.membersDictionary[member.memberId].state == NXMMemberStateLeft) {
+        return;
+    }
+    
+    if(self.membersDictionary[member.memberId]) {
+        [self updateMember:member];
+    } else {
+        [self addMember:member];
+    }
+    
+    [self member:member changedWithType:NXMMembersControllerChangeTypeLeft];
+}
+
+- (void)addMember:(nonnull NXMMember *)member {
+    self.membersDictionary[[member.memberId copy]] = member;
+    if([member.userId isEqualToString:self.currentUser.userId]) {
+        self.myMember = member;
+    } else {
+        [self.mutableOtherMembers addObject:member];
     }
 }
 
--(void)removeMember:(NXMMember *)member {
-    [self removeMemberWithMemberId:member.memberId];
+- (void)updateMember:(nonnull NXMMember *)member {
+    NSUInteger indexOfMember = [self.mutableOtherMembers indexOfObject:self.membersDictionary[member.memberId]];
+    if(indexOfMember == NSNotFound) {
+        return;
+    }
+    
+    self.membersDictionary[member.memberId] = member;
+    [self.mutableOtherMembers replaceObjectAtIndex:indexOfMember withObject:member];
 }
 
--(void)removeMemberWithMemberId:(NSString *)memberId {
-    if(self.membersDictionary[memberId]) {
-        NXMMember *memberToRemove = self.membersDictionary[memberId];
-        [self.membersDictionary removeObjectForKey:memberId];
-        if([memberToRemove.userId isEqualToString:self.currentUser.userId]) {
-            self.myMember = nil;
-        } else {
-            [self.mutableOtherMembers removeObject:memberToRemove];
-        }
-        [self member:memberToRemove changedWithType:NXMMembersControllerChangeTypeRemoved];
-    }
-}
+//-(void)addMember:(NXMMember *)member {
+//    if(!self.membersDictionary[member.memberId]) {
+//        self.membersDictionary[member.memberId] = member;
+//        if([member.userId isEqualToString:self.currentUser.userId]) {
+//            self.myMember = member;
+//        } else {
+//            [self.mutableOtherMembers addObject:member];
+//        }
+//        [self member:member changedWithType:NXMMembersControllerChangeTypeJoined];
+//    }
+//}
+//
+//-(void)removeMember:(NXMMember *)member {
+//    [self removeMemberWithMemberId:member.memberId];
+//}
+//
+//-(void)removeMemberWithMemberId:(NSString *)memberId {
+//    if(self.membersDictionary[memberId]) {
+//        NXMMember *memberToRemove = self.membersDictionary[memberId];
+//        [self.membersDictionary removeObjectForKey:memberId];
+//        if([memberToRemove.userId isEqualToString:self.currentUser.userId]) {
+//            self.myMember = nil;
+//        } else {
+//            [self.mutableOtherMembers removeObject:memberToRemove];
+//        }
+//        [self member:memberToRemove changedWithType:NXMMembersControllerChangeTypeLeft];
+//    }
+//}
 
 #pragma mark - delegate
 -(void)contentWillChange {

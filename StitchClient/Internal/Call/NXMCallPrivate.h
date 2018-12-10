@@ -9,8 +9,7 @@
 
 @interface NXMCall (NXMCallPrivate)
 
-- (nullable instancetype)initWithStitchContext:(nonnull NXMStitchContext *)stitchContext
-                           conversationDetails:(nonnull NXMConversationDetails *)conversationDetails;
+- (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation;
 
 - (void)setMyParticipant:(NXMCallParticipant *)participant;
 

@@ -27,11 +27,25 @@
     return _sharedStitchClient;
 }
 
+- (void)onMemberEvent:(NSNotification* )notification{
+    NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
+    if (event.media.isEnabled){
+        NSLog(@"NXMStitchClient:event.media.isEnabled incoming call");
+        [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            if (conversation){
+                NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+                [self.delegate incomingCall:call];
+            }
+        }];
+    }
+}
 
 - (instancetype)init {
     if(self = [super init]) {
         self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[NXMStitchCore new]];
         [self.stitchContext setDelegate:self];
+         
+        [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
     }
     return self;
 }
@@ -126,65 +140,78 @@
     __weak NXMStitchClient *weakSelf = self;
     __weak NXMStitchCore *weakCore = self.stitchContext.coreClient;
     
-    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString] onSuccess:^(NSString * _Nullable convId) {
-        [weakCore getConversationDetails:convId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
-            
-            [weakCore joinToConversation:convId withUserId:weakSelf.getUser.userId onSuccess:^(NSObject * _Nullable object) {
-
-                NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext
-                                                   conversationDetails:conversationDetails];
-                
-                NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:((NXMMember *)object).memberId
-                                                                                  andCallProxy:(id<NXMCallProxy>)call];
-                [call setMyParticipant:participant];
-            
-                [weakCore enableMedia:convId memberId:call.myParticipant.participantId];
-                
-                for (NSString *userId in users) {
-                    [call addParticipantWithUserId:userId completionHandler:nil];
-                }
-                
-                [call setDelegate:delegate];
-                
-                completion(nil, call);
-            } onError:^(NSError * _Nullable error) {
-                completion(error, nil); // TODO: Error handling
-            }];
-        } onError:^(NSError * _Nullable error) {
-            completion(error, nil); // TODO: Error handling
-        }];
-    } onError:^(NSError * _Nullable error) {
-        completion(error, nil); // TODO: Error handling
-    }];
+    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString]
+                               onSuccess:^(NSString * _Nullable convId) {
+                                   [weakSelf getConversationWithId:convId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+                                       if (conversation){
+                                           [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+                                               if (member){
+                                                   NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+                                                   NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
+                                                                                                                     andCallProxy:(id<NXMCallProxy>)call];
+                                                   [call setMyParticipant:participant];
+                                                   
+                                                   [conversation enableMedia:member.memberId];
+                                                   
+                                                   for (NSString *userId in users) {
+                                                       [call addParticipantWithUserId:userId completionHandler:nil];
+                                                   }
+                                                   
+                                                   [call setDelegate:delegate];
+                                                   
+                                                   completion(nil, call);
+                                               }
+                                           }];
+                                       }else{
+                                           completion(error, nil);
+                                       }
+                                   }];
+                               }
+                                 onError:^(NSError * _Nullable error) {
+                                     completion(error, nil); // TODO: Error handling
+                                 }
+     ];
 }
 
 - (void)callToNumber:(nonnull NSString *)number
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    __weak NXMStitchClient *weakSelf = self;
-    
-    [self.stitchContext.coreClient createConversationWithName:[[NSUUID UUID] UUIDString] onSuccess:^(NSString * _Nullable convId) {
-        [weakSelf.stitchContext.coreClient getConversationDetails:convId onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
-            NXMCall *call = [[NXMCall alloc] initWithStitchContext:weakSelf.stitchContext conversationDetails:conversationDetails];
-            
-            __weak NXMCall *weakCall = call;
-            [call addParticipantWithUserId:weakSelf.getUser.userId completionHandler:^(NSError * _Nullable error) {
-                if (error) {
-                    completion(error, nil); // TODO: error
-                }
-                
-                [weakSelf.stitchContext.coreClient enableMedia:convId memberId:weakCall.myParticipant.participantId];
-                [weakCall addParticipantWithNumber:number completionHandler:nil];
-                
-                [weakCall setDelegate:delegate];
-                completion(nil, weakCall);
-            }];
-        } onError:^(NSError * _Nullable error) {
-            completion(error, nil); // TODO: Error handling
-        }];
-    } onError:^(NSError * _Nullable error) {
-        completion(error, nil); // TODO: Error handling
-    }];
+    //TODO: the flow for PSTN is diffrent:
+    //1. create a knocking request [conversation.inviteToConversationWithPhoneNumber]
+    //2. wait for knocking event and get the conversation
+    //3. add the current user to the conversation
+    //4. return the call object
+//    __weak NXMStitchClient *weakSelf = self;
+//    __weak NXMStitchCore *weakCore = self.stitchContext.coreClient;
+//    
+//    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString]
+//                               onSuccess:^(NSString * _Nullable convId) {
+//                                   [weakSelf getConversationWithId:convId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+//                                       if (conversation){
+//                                           [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+//                                               if (member){
+//                                                   NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+//                                                   NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
+//                                                                                                                     andCallProxy:(id<NXMCallProxy>)call];
+//                                                   [call setMyParticipant:participant];
+//                                                   
+//                                                   [conversation enableMedia];
+//                                                   [call addParticipantWithNumber:number completionHandler:nil];
+//                                                   
+//                                                   [call setDelegate:delegate];
+//                                                   
+//                                                   completion(nil, call);
+//                                               }
+//                                           }];
+//                                       }else{
+//                                           completion(error, nil);
+//                                       }
+//                                   }];
+//                               }
+//                                 onError:^(NSError * _Nullable error) {
+//                                     completion(error, nil); // TODO: Error handling
+//                                 }
+//     ];
 }
 
 
