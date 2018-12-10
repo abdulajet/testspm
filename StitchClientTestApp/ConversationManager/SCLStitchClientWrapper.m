@@ -7,7 +7,6 @@
 //
 
 #import "SCLStitchClientWrapper.h"
-#import "SCLIncomingCallViewController.h"
 #import <UIKit/UINavigationController.h>
 
 @interface SCLStitchClientWrapper ()
