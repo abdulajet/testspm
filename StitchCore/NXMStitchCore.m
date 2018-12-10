@@ -22,7 +22,6 @@
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
 @property NSString* token;
-// TODO: the use when network is down but still logged in
 @property (readwrite) BOOL isLoggedIn;
 @property (readwrite) BOOL isConnected;
 @property (readwrite, nonnull, nonatomic) NXMPushParserManager *pushParser;
@@ -51,14 +50,16 @@
 }
 
 - (void)logout {
-    if (!self.isConnected) {
-       [NXMLogger error:@"Tried to logout when not connected to CS"];
-    } else if (self.isLoggedIn) {
-        // TODO: error handling of logout
-        [self.network logout];
-    } else {
-       [NXMLogger error:@"Tried to logout when not logged in"];
+    if(!self.isLoggedIn) {
+        return; //Q: maybe change to call loginStatusChanged with error AlreadyLoggedOut
     }
+    
+    if (!self.isConnected) {
+        [self loginStatusChanged:self.user loginStatus:self.isLoggedIn withError:[NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionDisconnected andUserInfo:nil]];
+        return;
+    }
+    
+    [self.network logout];
 }
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken {
@@ -67,11 +68,6 @@
 
 - (void)setDelgate:(nonnull id<NXMStitchCoreDelegate>)delegate {
     self.delegate = delegate;
-}
-
-- (void)connectionStatusChanged:(BOOL)isConnected {
-    self.isConnected = isConnected;
-    [self.delegate connectionStatusChanged:isConnected];
 }
 
 #pragma mark - Push
@@ -363,6 +359,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
     self.user = user;
     self.isLoggedIn = isLoggedIn;
     [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
+}
+
+- (void)connectionStatusChanged:(BOOL)isConnected {
+    self.isConnected = isConnected;
+    [self.delegate connectionStatusChanged:isConnected];
 }
 
 - (void)didRefreshToken {

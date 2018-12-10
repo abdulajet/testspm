@@ -419,10 +419,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
     self.sendButton.enabled = NO;
     self.textinput.editable = NO;
     
-    [self.conversationManager.stitchConversationClient stopTypingWithConversationId:self.conversation.conversationId memberId:self.memberId onSuccess:^{
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"error typing");
-    }];
+    [self.conversationManager.stitchConversationClient stopTypingWithConversationId:self.conversation.conversationId memberId:self.memberId];
     
     [self.conversationManager.stitchConversationClient sendText:self.textinput.text conversationId:self.conversation.conversationId fromMemberId:self.memberId onSuccess:^(NSString * _Nullable value) {
         NSLog(@"msg sent");
@@ -671,10 +668,7 @@ const CGFloat ONGOING_CALLS_BUTTON_VISIBLE_HEIGHT = 44;
 
 - (void)textViewDidChange:(UITextView *)textView {
     if (!self.sendButton.enabled && self.conversationManager.stitchConversationClient.isConnected) {
-        [self.conversationManager.stitchConversationClient startTypingWithConversationId:self.conversation.conversationId memberId:self.memberId onSuccess:^{
-        } onError:^(NSError * _Nullable error) {
-            NSLog(@"error typing");
-        }];
+        [self.conversationManager.stitchConversationClient startTypingWithConversationId:self.conversation.conversationId memberId:self.memberId];
     }
     [self updateSendButtonIfNeeded];
 }

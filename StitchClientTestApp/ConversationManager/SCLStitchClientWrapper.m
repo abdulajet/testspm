@@ -9,6 +9,10 @@
 #import "SCLStitchClientWrapper.h"
 #import <UIKit/UINavigationController.h>
 
+NSString *const kSCLLoginSuccessNotificationKey = @"sclLoginSuccess";
+NSString *const kSCLLogoutSuccessNotificationKey = @"sclLogoutSuccess";;
+NSString *const kSCLLoginFailureNotificationKey = @"sclLoginFailure";
+
 @interface SCLStitchClientWrapper ()
 @property (nonatomic, nonnull, readwrite) NXMStitchClient *kommsClient;
 @end
@@ -31,14 +35,14 @@
 
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
     if(error) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"loginFailure" object:nil userInfo:@{@"error":error}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSCLLoginFailureNotificationKey object:nil userInfo:@{@"error":error}];
         return;
     }
 
     if(isLoggedIn) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"loginSuccess" object:nil userInfo:@{@"user":user}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSCLLoginSuccessNotificationKey object:nil userInfo:@{@"user":user}];
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"logout" object:nil userInfo:@{@"user":user}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kSCLLogoutSuccessNotificationKey object:nil userInfo:@{@"user":user}];
     }
 }
 

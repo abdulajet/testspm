@@ -216,8 +216,9 @@
 
 #pragma mark - Authentication events
 - (void)subscribeLoginEvents {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:@"loginSuccess" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLogout:) name:@"logout" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:kSCLLoginSuccessNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didLogout:) name:kSCLLogoutSuccessNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loginStatusChangedErrorWithNotification:) name:kSCLLoginFailureNotificationKey object:nil];
 }
 
 - (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
@@ -244,6 +245,14 @@
 - (void)didSuccessfulLogin:(NSNotification  *) notification{
     [self getConversations];
 }
+
+- (void)loginStatusChangedErrorWithNotification:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSError *error = userInfo[@"error"];
+    NSString *isLoggedIn = self.kommsWrapper.kommsClient.isLoggedIn ? @"logged-in" : @"logged-out";
+    [self displayMessage:[NSString stringWithFormat:@"Current Login Status: %@\n Current User: %@\nError: %@\n", isLoggedIn, self.kommsWrapper.kommsClient.user.name, error] andTitle:@"Login Status Changed With Error"];
+}
+
 #pragma mark - Private
 
 - (void)getConversations {
@@ -280,6 +289,17 @@
 }
 
 -(void)displayMessage:(NSString *)message andTitle:(NSString *)title {
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayMessage:message andTitle:title];
+        });
+        return;
+    }
+    
+    if(!self.isViewLoaded || !self.view.window) {
+        return;
+    }
+    
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
     [alertController addAction:okAction];

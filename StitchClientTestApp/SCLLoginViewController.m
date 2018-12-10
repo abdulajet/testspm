@@ -92,6 +92,7 @@
     if (!token) {
         return;
     }
+
     [[SCLStitchClients sharedWrapperClient].kommsClient loginWithAuthToken:token];
 }
 
@@ -100,13 +101,15 @@
     NXMUser *user = userInfo[@"user"];
     
     NSData *deviceToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
-    [[SCLStitchClients sharedWrapperClient].kommsClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:false isSandbox:true completion:^(NSError * _Nullable error) {
-        if(error) {
-            NSLog(@"device push enabling failed with error: %@", error);
-            return;
-        }
-        NSLog(@"device push enabling succeeded");
-    }];
+    if(deviceToken) {
+        [[SCLStitchClients sharedWrapperClient].kommsClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:false isSandbox:true completion:^(NSError * _Nullable error) {
+            if(error) {
+                NSLog(@"device push enabling failed with error: %@", error);
+                return;
+            }
+            NSLog(@"device push enabling succeeded");
+        }];
+    }
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self showConvertionListVC];
@@ -116,18 +119,36 @@
 - (void)didFailedLogin:(NSNotification *) notification {
     NSDictionary *userInfo = notification.userInfo;
     NSError *error = userInfo[@"error"];
-    // TODO:
+    [self displayMessage:[NSString stringWithFormat:@"login status changed with error: %@", error] andTitle:@"failed login"];
 }
 
 - (void)subscribeLoginEvents {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:@"loginSuccess" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailedLogin:) name:@"loginFailure" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didSuccessfulLogin:) name:kSCLLoginSuccessNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFailedLogin:) name:kSCLLoginFailureNotificationKey object:nil];
 }
 
 - (void)showConvertionListVC {
     SCLConversationListViewContoller *conversationVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"ConversationNav"];
     
     [self presentViewController:conversationVC animated:YES completion:nil];
+}
+
+-(void)displayMessage:(NSString *)message andTitle:(NSString *)title {
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayMessage:message andTitle:title];
+        });
+        return;
+    }
+    
+    if(!self.isViewLoaded || !self.view.window) {
+        return;
+    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+    return;
 }
 @end

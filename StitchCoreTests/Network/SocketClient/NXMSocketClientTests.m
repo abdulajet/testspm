@@ -47,7 +47,7 @@
 //                                                 @"id":@"12345"
 //                                                 }};
     
-    OCMExpect([socketClientDelegateMock didSuccessfulAuthorization:[OCMArg checkWithBlock:^BOOL(NXMUser * usr){
+    OCMExpect([socketClientDelegateMock didLogin:[OCMArg checkWithBlock:^BOOL(NXMUser * usr){
         XCTAssertEqual(usr.name, @"testuser");
         XCTAssertEqual(usr.userId, @"1234");
         return ([usr.name isEqualToString:@"testuser"]) ? YES : NO;
@@ -100,7 +100,7 @@
     NSString * expiredToken = @"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTUyODk2Nzk5OCwibmJmIjoxNTI4OTY3OTk4LCJleHAiOjE1Mjg5OTgwMjgsImp0aSI6MTUyODk2ODAyODk2NywiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiLyoqIjp7fX19LCJzdWIiOiJUaGVNYW5hZ2VyIn0.xrPVESnkhd438QqkEwoOOnfD776i3kehVAiGengajUj1g8qmR2tHEGekFrL_9YihSTYNLDT1vMEkumjJWfTM01BWgw8OO1nBdPR_0JCWC5_53RBEdrip3_IHjuhn7W0FqoqZMmZFT7nzRcCeS0Z6nyw_ERnE6XeXQop__4QwTX1detkoULWeFUrnWLeH5nfPy4BWdqgkUhlo3-e1xm3F5xMOrALk_2y0_fQYY00HYYUIz8nBODfZbrc35YvnQtXDhMi_oKk4srcjqMw7O_8Uu1-FeqjLuqrR0bgrCxYXFJaOvqLxX-1S3XBT_Wa4YuixHGyZk5lgVv4Lf-0pUJMQtg";
 
     
-    OCMExpect([socketClientDelegateMock didFailedAuthorization:[OCMArg checkWithBlock:^BOOL(NSError * err){
+    OCMExpect([socketClientDelegateMock didFailAuthorization:[OCMArg checkWithBlock:^BOOL(NSError * err){
          XCTAssertEqual(err.code, NXMStitchErrorCodeTokenExpired);
          XCTAssertEqual(err.domain, NXMStitchErrorDomain);
          XCTAssertEqual(err.userInfo[@"token"], expiredToken);
@@ -130,7 +130,7 @@
     NSString * invalidToken = @"blabla";
     
     
-    OCMExpect([socketClientDelegateMock didFailedAuthorization:[OCMArg checkWithBlock:^BOOL(NSError * err){
+    OCMExpect([socketClientDelegateMock didFailAuthorization:[OCMArg checkWithBlock:^BOOL(NSError * err){
         XCTAssertEqual(err.code, NXMStitchErrorCodeTokenInvalid);
         XCTAssertEqual(err.domain, NXMStitchErrorDomain);
         XCTAssertEqual(err.userInfo[@"token"], invalidToken);

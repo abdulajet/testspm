@@ -21,7 +21,6 @@
 
 @interface NXMSocketClient()
 
-@property BOOL isWSOpen;
 @property BOOL isLoggedIn;
 @property id<NXMSocketClientDelegate> delegate;
 @property VPSocketIOClient *socket;
@@ -34,12 +33,7 @@
 
 static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
-#pragma Public
-
-- (void)close {
-    
-}
-
+#pragma mark - Public
 - (instancetype)initWithHost:(NSString *)host {
     if (self = [super init]) {
         
@@ -54,7 +48,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                                        @"path":@"/rtc/",
                                                        @"forceWebsockets":@YES,
                                                        @"selfSigned":@YES,
-                                                       @"reconnectWait":@1000,
+                                                       @"reconnectWait":@10,
+                                                       @"reconnectAttempts": @3,
                                                        @"nsp":@"/",
                                                        @"connectParams":connectParams,
                                                        @"logger":logger
@@ -65,21 +60,16 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     return self;
 }
+#pragma mark login
 
-- (BOOL)isSocketOpen {
-    return self.isWSOpen;
+- (BOOL)isSocketConnected {
+    return self.socket.status == VPSocketIOClientStatusNotConnected;
 }
-
 
 - (void)loginWithToken:(NSString *)token {
     self.token = token;
-    self.socket.reconnects = YES;
-    if (!self.isWSOpen) {
-        [self.socket connect];
-    }
-    // [self login] would be called on successful connection callback (onWSConnect).
+    [self connectSocket];
 }
-
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken {
     self.token = authToken;
@@ -91,6 +81,13 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.socket emit:kNXMSocketEventRefreshToken items:@[msg]];
 }
 
+- (void)logout {
+    if(self.isLoggedIn) {
+        [self serverLogout];
+    }
+}
+
+#pragma mark conversation actions
 - (void)seenTextEvent:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId
               eventId:(NSInteger)eventId
@@ -148,11 +145,75 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 
 #pragma mark - Private
+#pragma mark Socket
+- (void)connectSocket {
+    switch (self.socket.status) {
+        case VPSocketIOClientStatusNotConnected:
+        case VPSocketIOClientStatusDisconnected:
+            self.socket.reconnects = YES;
+            [self.socket connect];
+            break;
+        case VPSocketIOClientStatusConnecting:
+        case VPSocketIOClientStatusOpened:
+        case VPSocketIOClientStatusConnected:
+        default:
+            break;
+    }
+}
 
+- (void)disconnectSocket {
+    switch (self.socket.status) {
+        case VPSocketIOClientStatusConnected:
+        case VPSocketIOClientStatusOpened:
+        case VPSocketIOClientStatusConnecting:
+            [self.socket disconnect];
+            break;
+        case VPSocketIOClientStatusNotConnected:
+        case VPSocketIOClientStatusDisconnected:
+        default:
+            break;
+    }
+}
 
+- (void)didSocketConnect {
+    [NXMLogger debug:@"socket connected"];
+    [self.delegate connectionStatusChanged:YES];
+    //TODO: question - what happens if we try to log in while already logged in to the server for example after a reconnect?
+    [self serverLogin];
+}
 
-- (void)login {
-    // TODO: device id
+- (void)didSocketDisconnect{
+    [self.delegate connectionStatusChanged:NO];
+    //TODO: this might mean that a logout happend on the server side
+}
+
+- (void)socketDidChangeStatus {
+    switch (self.socket.status) {
+        case VPSocketIOClientStatusConnected:
+            [NXMLogger debug:@"socket connected"];
+            [self didSocketConnect];
+            break;
+        case VPSocketIOClientStatusNotConnected:
+            [NXMLogger debug:@"socket not connected"];
+            [self didSocketDisconnect];
+            break;
+        case VPSocketIOClientStatusDisconnected:
+            [NXMLogger debug:@"socket disconnected"];
+            [self didSocketDisconnect];
+            break;
+        case VPSocketIOClientStatusConnecting: //TODO: support reporting reconnect? or keep it boolean
+            [NXMLogger debug:@"socket connecting"];
+            [self didSocketDisconnect];
+            break;
+        case VPSocketIOClientStatusOpened:
+            [NXMLogger debug:@"socket opened"];
+            [self didSocketDisconnect];
+            break;
+    }
+}
+
+#pragma mark login
+- (void)serverLogin {
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString],
                            @"body" : @{
                                    @"token": self.token,
@@ -163,21 +224,49 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.socket emit:kNXMSocketEventLogin items:@[msg]];
 }
 
-- (void)logout {
+- (void)serverLogout {
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString]};
     [self.socket emit:kNXMSocketEventLogout items:@[msg]];
-    [self.socket disconnect];
-    [self onWSDisconnect];
-    NXMUser * user = self.user;
-    self.token = nil;
+}
+//    NXMUser * user = self.user;
+//    self.token = nil;
+//    self.user = nil;
+//    [self.delegate didLogout:user];
+//}
+
+- (void)didFailLoginWithError:(NSError *)error {
+    self.isLoggedIn = NO;
     self.user = nil;
-    [self.delegate didLogout:user];
-   
+    self.token = nil;
+    [self disconnectSocket];
+    [self.delegate loginStatusChangedWithUser:self.user sessionId:nil isLoggedIn:self.isLoggedIn error:error];
+    
 }
 
+- (void)didServerLoginWithData:(NSArray *)data {
+    self.isLoggedIn = YES;
+    NSDictionary *response = ((NSDictionary *)data[0])[@"body"];
+    NXMUser *user = [[NXMUser alloc] initWithId:response[@"user_id"] name:response[@"name"]];
+    self.user = user;
+    NSString * sessionid = response[@"id"];
+    [self.delegate loginStatusChangedWithUser:self.user sessionId:sessionid isLoggedIn:self.isLoggedIn error:nil];
+}
+
+- (void)didServerLogout {
+    [NXMLogger debug:@"did server logout"];
+    self.isLoggedIn = NO;
+    NXMUser *byeByeUser = self.user;
+    self.user = nil;
+    self.token = nil;
+    [self.delegate loginStatusChangedWithUser:byeByeUser sessionId:nil isLoggedIn:NO error:nil];
+    [self disconnectSocket];
+}
+
+#pragma mark subscribe
 
 - (void)subscribeSocketEvent {
-    [self subscribeSocketGeneralEvents];
+    [self subscribeVPSocketEvents];
+    [self subscribeGeneralEvents];
     [self subscribeLoginEvents];
     [self subscribeMemberEvents];
     [self subscribeTextEvents];
@@ -185,93 +274,83 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self subscribeSipEvents];
 }
 
-- (void)subscribeSocketGeneralEvents {
+- (void)subscribeVPSocketEvents {
 
     [self.socket on:kSocketEventStatusChange callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        switch (self.socket.status) {
-            //TODO: when no internet connection is available after some time ping timeout would occur and the
-            // socket would disconnect, hence not trying to reconnect.
-            case VPSocketIOClientStatusDisconnected:
-            case VPSocketIOClientStatusNotConnected:
-                [self onWSDisconnect];
-                [NXMLogger debug:@"socket disconnected"];
-                break;
-                
-            case VPSocketIOClientStatusConnected:
-                [self onWSConnect];
-                [NXMLogger debug:@"socket connected"];
-                break;
-                
-            case VPSocketIOClientStatusConnecting:
-                // TODO: not sure if needed (to remove?)
-                break;
-            case VPSocketIOClientStatusOpened:
-                // TODO: not sure if needed (to remove?)
-                break;
-        }
+        [self socketDidChangeStatus];
     }];
 
     [self.socket on:kSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"socket error"];
+        [NXMLogger error:@"socket error"];
+    }];
+}
+
+- (void)subscribeGeneralEvents {
+    [self.socket on:kNXMSocketEventBadPermission callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket BadPermission"];
+    }];
+
+    [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidEvent"];
     }];
     
-    [self.socket on:kNXMSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"socket event error"];
+    [self.socket on:kNXMSocketEventUserNotFound callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventUserNotFound"];
+        //TODO: check if this means anything about login/logout and also regard the invaliduser sessioninternalerror
     }];
 }
 
 - (void)subscribeLoginEvents {
     [self.socket on:kNXMSocketEventLoginSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        if (self.isLoggedIn) {return;}
-        
-        self.isLoggedIn = YES;
-        NSDictionary *response = ((NSDictionary *)data[0])[@"body"];
-        NXMUser *user = [[NXMUser alloc] initWithId:response[@"user_id"] name:response[@"name"]];
-        self.user = user;
-        [self.delegate didSuccessfulAuthorization:user sessionId:response[@"id"]];
+        [NXMLogger debug:@"socketLoginSuccess"];
+        [self didServerLoginWithData:data];
     }];
     
-    [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
-     
-        [self.delegate didRefreshToken];
+    [self.socket on:kNXMSocketEventSessionLogoutSuccess callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"socketLogoutSuccess"];
+        [self didServerLogout];
     }];
     
+    [self.socket on:kNXMSocketEventSessionTerminated callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"socketSessionTerminated"];
+        [self didServerLogout];
+    }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeSessionInvalid userInfo:nil];
-        [self onFailedAuthentication:err];
+        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionInvalid andUserInfo:nil];
+        [self didFailLoginWithError:error];
+    }];
+    
+    [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
+        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionInvalid andUserInfo:nil];
+        [self didFailLoginWithError:error];
+    }];
+    
+    [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
+        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMaxOpenedSessions andUserInfo:nil];
+        [self didFailLoginWithError:error];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         NSDictionary * userInfo = @{@"token" : self.token};
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenInvalid userInfo:userInfo];
-        [self onFailedAuthentication:err];
+        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeTokenInvalid andUserInfo:userInfo];
+        [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
         NSDictionary * userInfo = @{@"token" : self.token};
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeTokenExpired userInfo:userInfo];
-        [self onFailedAuthentication:err];
+        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeTokenExpired andUserInfo:userInfo];
+        [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
     }];
     
-    [self.socket on:kNXMSocketEventBadPermission callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket BadPermission"];
-    }];
-    
-    [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidEvent"];
-        NSError *err = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeEventInvalid userInfo:nil];
-        [self onFailedAuthentication:err];
-    }];
-    
-    [self.socket on:kNXMSocketEventUserNotFound callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventUserNotFound"];
-        NSError *err = [[NSError alloc] initWithDomain: NXMStitchErrorDomain code:NXMStitchErrorCodeEventUserNotFound userInfo:nil];
-        [self onFailedAuthentication:err];
+    [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
+        [self.delegate didRefreshToken];
     }];
 }
 
@@ -388,74 +467,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }];
 }
 
-#pragma socket event handle
-- (void)onWSConnect{
-    if (self.isWSOpen) { return; }
-    
-    [NXMLogger debug:@"socket connected"];
-    self.isWSOpen = YES;
-    [self.delegate connectionStatusChanged:YES];
-    
-    [self login];
-}
-
-- (void)onWSDisconnect{
-    self.isLoggedIn = NO;
-    if (!self.isWSOpen) {return;}
-    
-    self.isWSOpen = NO;
-    [self.delegate connectionStatusChanged:NO];
-}
-
-
-
-- (void)onFailedAuthentication:(NSError *)err{
-    [self.socket disconnect];
-    self.isLoggedIn = NO;
-    
-    [self.delegate connectionStatusChanged:NO];
-    [self.delegate didFailedAuthorization:err]; // TODO: remove one of them
-}
-
-- (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
-    NXMSipEvent * sipEvent= [NXMSipEvent new];
-    sipEvent.fromMemberId = json[@"from"];
-    sipEvent.sequenceId = [json[@"id"] integerValue];
-    sipEvent.conversationId = json[@"cid"];
-    sipEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
-    sipEvent.applicationId = json[@"application_id"];
-    sipEvent.type = NXMEventTypeSip;
-    return sipEvent;
-}
-// member events handle
-- (void)onSipRinging:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    NSDictionary *json = data[0];
-    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
-    sipEvent.sipType = NXMSipEventRinging;
-    
-    [self.delegate sipRinging:sipEvent];
-}
-- (void)onSipAnswered:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    NSDictionary *json = data[0];
-    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
-    sipEvent.sipType = NXMSipEventAnswered;
-    
-    [self.delegate sipAnswered:sipEvent];
-}
-- (void)onSipHangup:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    NSDictionary *json = data[0];
-    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
-    sipEvent.sipType = NXMSipEventHangup;
-    
-    [self.delegate sipHangup:sipEvent];
-}
-- (void)onSipStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    NSDictionary *json = data[0];
-    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
-    sipEvent.sipType = NXMSipEventStatus;
-    
-    [self.delegate sipStatus:sipEvent];
-}
+#pragma mark - Socket Events
+#pragma mark members
 - (void)onMemberJoined:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     NSDictionary *json = data[0];
     NXMMemberEvent *memberEvent = [NXMMemberEvent new];
@@ -509,7 +522,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.delegate memberRemoved:memberEvent];
 }
 
-#pragma text event handle
+#pragma mark messages
 
 - (void)onTextRecevied:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
@@ -519,7 +532,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     textEvent.text = json[@"body"][@"text"];
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
-    textEvent.creationDate = [self getCreationDate:json];
+    textEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     textEvent.sequenceId = [json[@"id"] integerValue];
     textEvent.type = NXMEventTypeText;
     
@@ -534,7 +547,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NXMImageEvent *imageEvent = [[NXMImageEvent alloc] initWithConversationId:json[@"cid"]
                                                                    sequenceId:[json[@"id"] integerValue]
                                                                  fromMemberId:json[@"from"]
-                                                                 creationDate:[self getCreationDate:json]
+                                                                 creationDate:[NXMUtils dateFromISOString:json[@"timestamp"]]
                                                                          type:NXMEventTypeImage];
     NSDictionary *body = json[@"body"];
     imageEvent.imageId = body[@"id"];
@@ -570,7 +583,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     messageEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     messageEvent.conversationId = json[@"cid"];
     messageEvent.fromMemberId = json[@"from"];
-    messageEvent.creationDate = [self getCreationDate:json];
+    messageEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     messageEvent.sequenceId = [json[@"id"] integerValue];
     messageEvent.status = NXMMessageStatusTypeDeleted;
     messageEvent.type = NXMEventTypeMessageStatus;
@@ -586,7 +599,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
-    statusEvent.creationDate = [self getCreationDate:json];
+    statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     statusEvent.sequenceId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
@@ -602,7 +615,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
-    statusEvent.creationDate = [self getCreationDate:json];
+    statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     statusEvent.sequenceId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
@@ -619,7 +632,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
-    statusEvent.creationDate = [self getCreationDate:json];
+    statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     statusEvent.sequenceId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
@@ -635,7 +648,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
-    statusEvent.creationDate = [self getCreationDate:json];
+    statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     statusEvent.sequenceId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
@@ -643,6 +656,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.delegate imageDelivered:statusEvent];
 }
 
+#pragma mark typing
 - (void)onTextTypingOn:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     [NXMLogger debug:@"onTextTypingOn"];
     NSDictionary *json = data[0];
@@ -650,7 +664,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NXMTextTypingEvent *textTypingEvent = [NXMTextTypingEvent new];
     textTypingEvent.conversationId = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
-    textTypingEvent.creationDate = [self getCreationDate:json];
+    textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     textTypingEvent.sequenceId = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOn;
     textTypingEvent.type = NXMEventTypeTextTyping;
@@ -665,15 +679,55 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NXMTextTypingEvent *textTypingEvent = [NXMTextTypingEvent new];
     textTypingEvent.conversationId = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
-    textTypingEvent.creationDate = [self getCreationDate:json];
+    textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     textTypingEvent.sequenceId = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOff;
     textTypingEvent.type = NXMEventTypeTextTyping;
     
     [self.delegate textTypingOff:textTypingEvent];
 }
+#pragma mark media sip
 
-#pragma mark - rtc event handle
+- (void)onSipRinging:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventRinging;
+    
+    [self.delegate sipRinging:sipEvent];
+}
+- (void)onSipAnswered:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventAnswered;
+    
+    [self.delegate sipAnswered:sipEvent];
+}
+- (void)onSipHangup:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventHangup;
+    
+    [self.delegate sipHangup:sipEvent];
+}
+- (void)onSipStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMSipEvent * sipEvent = [self fillSipEventFromJson:json];
+    sipEvent.sipType = NXMSipEventStatus;
+    
+    [self.delegate sipStatus:sipEvent];
+}
+
+- (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
+    NXMSipEvent * sipEvent= [NXMSipEvent new];
+    sipEvent.fromMemberId = json[@"from"];
+    sipEvent.sequenceId = [json[@"id"] integerValue];
+    sipEvent.conversationId = json[@"cid"];
+    sipEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
+    sipEvent.applicationId = json[@"application_id"];
+    sipEvent.type = NXMEventTypeSip;
+    return sipEvent;
+}
+#pragma mark media rtc
 
 - (void)onRTCAnswer:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
@@ -713,7 +767,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NXMMediaEvent *mediaEvent = [NXMMediaEvent new];
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
-    mediaEvent.creationDate = [self getCreationDate:json];
+    mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     mediaEvent.sequenceId = [json[@"id"] integerValue];
     mediaEvent.mediaSettings = [NXMMediaSettings new];
     mediaEvent.mediaSettings.isEnabled = [json[@"body"][@"media"][@"audio_settings"][@"enabled"] boolValue];
@@ -730,7 +784,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.toMemberId = json[@"to"];
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
-    mediaEvent.creationDate = [self getCreationDate:json];
+    mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     mediaEvent.sequenceId = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
@@ -747,7 +801,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.toMemberId = json[@"to"];
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
-    mediaEvent.creationDate = [self getCreationDate:json];
+    mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     mediaEvent.sequenceId = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
@@ -757,8 +811,4 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.delegate mediaActionEvent:mediaEvent];
 }
 
-#pragma mark - Private
-- (NSDate*)getCreationDate:(nonnull NSDictionary*)dict{
-    return [NXMUtils dateFromISOString:dict[@"timestamp"]];
-}
 @end

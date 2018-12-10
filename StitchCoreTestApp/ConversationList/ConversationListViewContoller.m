@@ -137,10 +137,12 @@
 
 - (IBAction)onLogoutButtonPressed:(UIBarButtonItem *)sender {
     [self.conversationManager.stitchConversationClient disablePushNotificationsWithOnSuccess:^{
-        [self.conversationManager.stitchConversationClient logout];
+        NSLog(@"disabled push notifications");
     } onError:^(NSError * _Nullable error) {
-        NSLog(@"failed deisabling push with error: %@", error);
+        NSLog(@"failed disabling push with error: %@", error);
     }];
+    
+    [self.conversationManager.stitchConversationClient logout];
 }
 
 - (void)didLogout:(NSNotification *) notification {

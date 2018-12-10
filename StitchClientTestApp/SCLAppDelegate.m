@@ -74,6 +74,10 @@ SCLNSLogger *logger;
     NSLog( @"Push registration didRegisterForRemoteNotificationsWithDeviceToken" );
 }
 
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog( @"Push registration failed didFailToRegisterForRemoteNotificationsWithError with error %@", error);
+}
+
 #pragma mark - UNUserNotificationCenterDelegate
 
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center

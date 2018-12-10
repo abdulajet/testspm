@@ -80,14 +80,44 @@
 }
 
 -(void)logout {
+    
+    if(!self.isLoggedIn) {
+        return;
+    }
+    
+    //TODO: disableAudio
+    
+    //TODO: decide if disable should be required before logout, or maybe it should be 
+    [self disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+        if(error) {
+            [NXMLogger errorWithFormat:@"StitchClient: failed disabling push during logout with error: %@", error];
+            return;
+        }
+    }];
+    
     [self.stitchContext.coreClient logout];
 }
+
+
 
 - (void)connectionStatusChanged:(BOOL)isOnline {
     [self.delegate connectionStatusChanged:isOnline];
 }
 
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
+    
+    //TODO: when deciding how to handle setup/cleanup maybe change this instead of setting up an error, to have a delegate method for setup/cleanup error
+    NSError *setUpCleanUpError = nil;
+    if(isLoggedIn) {
+        if(![self setUpWithErrorPtr:&setUpCleanUpError]) {
+            //TODO: report/fail setup error
+        }
+    } else {
+        if(![self cleanUpWithErrorPtr:&setUpCleanUpError]) {
+            //TODO: report/fail cleanup error
+        }
+    }
+    
     [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
 }
 
@@ -256,6 +286,16 @@
     if (completion) {
         completion(error);
     }
+}
+
+- (BOOL)setUpWithErrorPtr:(NSError **)errorPtr {
+    //TODO: set up, set error and return false if problematic
+    return YES;
+}
+
+- (BOOL)cleanUpWithErrorPtr:(NSError **)errorPtr {
+    //TODO: clean up, set error and return false if problematic
+    return YES;
 }
 
 @end

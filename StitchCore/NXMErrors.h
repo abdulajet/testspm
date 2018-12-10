@@ -16,6 +16,8 @@ typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
     
     NXMStitchErrorCodeSessionUnknown,
     NXMStitchErrorCodeSessionInvalid,           // @"system:error:invalid-session"
+    NXMStitchErrorCodeSessionDisconnected,
+    NXMStitchErrorCodeMaxOpenedSessions,
     
     NXMStitchErrorCodeTokenUnknown,
     NXMStitchErrorCodeTokenInvalid,             // @"system:error:invalid-token"

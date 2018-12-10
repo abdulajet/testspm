@@ -56,13 +56,15 @@
     NSDictionary *userInfo = notification.userInfo;
     NXMUser *user = userInfo[@"user"];
     AppDelegate *appDelegate = (AppDelegate *)([UIApplication sharedApplication].delegate);
-    [ConversationManager.sharedInstance.stitchConversationClient enablePushNotificationsWithDeviceToken:appDelegate.deviceToken isSandbox:true onSuccess:^{
-        NSLog(@"device push enabling succeeded");
+    if(appDelegate.deviceToken) {
+        [ConversationManager.sharedInstance.stitchConversationClient enablePushNotificationsWithDeviceToken:appDelegate.deviceToken isSandbox:true onSuccess:^{
+            NSLog(@"device push enabling succeeded");
 
-    } onError:^(NSError * _Nullable error) {
-        NSLog(@"device push enabling failed with error: %@", error);
+        } onError:^(NSError * _Nullable error) {
+            NSLog(@"device push enabling failed with error: %@", error);
 
-    }];
+        }];
+    }
 
     dispatch_async(dispatch_get_main_queue(), ^{
         [self showConvertionListVC];

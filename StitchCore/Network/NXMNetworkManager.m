@@ -288,17 +288,9 @@
     [self.delegate connectionStatusChanged:isConnected];
 }
 
-- (void)didLogout:(nonnull NXMUser*)user {
-    [self.delegate loginStatusChanged:user loginStatus:NO withError:nil];
-}
-
-- (void)didSuccessfulAuthorization:(nonnull NXMUser*)user  sessionId:(nonnull NSString*)sessionId {
+- (void)loginStatusChangedWithUser:(nullable NXMUser *)user sessionId:(nullable NSString *)sessionId isLoggedIn:(BOOL)isLoggedIn error:(NSError *)error {
     [self.router setSessionId:sessionId];
-    [self.delegate loginStatusChanged:user loginStatus:YES withError:nil];
-}
-
-- (void)didFailedAuthorization: (nonnull NSError*) error {
-    [self.delegate loginStatusChanged:nil loginStatus:NO withError:error];
+    [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
 }
 
 - (void)didRefreshToken {

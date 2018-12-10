@@ -29,9 +29,9 @@
 
 - (nullable instancetype)initWithHost:(nonnull NSString *)host;
 
-- (void)setToken:(nonnull NSString *)token;
+- (void)setToken:(NSString *)token;
 
-- (void)setSessionId:(nonnull NSString *)sessionId;
+- (void)setSessionId:(NSString *)sessionId;
 
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <StitchClient/StitchClient.h>
 
+FOUNDATION_EXPORT NSString *const kSCLLoginSuccessNotificationKey;
+FOUNDATION_EXPORT NSString *const kSCLLogoutSuccessNotificationKey;
+FOUNDATION_EXPORT NSString *const kSCLLoginFailureNotificationKey;
 
 @class NXMStitchClient;
 
