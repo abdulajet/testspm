@@ -11,7 +11,7 @@
 @class NXMCall;
 @class NXMConversation;
 
-@protocol NXMStitchClientDelegate
+@protocol NXMStitchClientDelegate <NSObject>
 
 - (void)connectionStatusChanged:(BOOL)isOnline;
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
@@ -19,6 +19,6 @@
 
 @optional
 - (void)incomingCall:(nonnull NXMCall *)call;
-- (void)invitedToConversation:(nonnull NXMConversation *)conversation;
+- (void)addedToConversation:(nonnull NXMConversation *)conversation;
 
 @end

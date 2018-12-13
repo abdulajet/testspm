@@ -18,26 +18,14 @@
 @end
 
 @implementation NXMStitchClient
-+(NXMStitchClient *)sharedInstance {
+
++ (NXMStitchClient *)sharedInstance {
     static NXMStitchClient *_sharedStitchClient;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedStitchClient = [[NXMStitchClient alloc] init];
     });
     return _sharedStitchClient;
-}
-
-- (void)onMemberEvent:(NSNotification* )notification{
-    NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
-    if (event.media.isEnabled){
-        NSLog(@"NXMStitchClient:event.media.isEnabled incoming call");
-        [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
-            if (conversation){
-                NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-                [self.delegate incomingCall:call];
-            }
-        }];
-    }
 }
 
 - (instancetype)init {
@@ -50,6 +38,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [self.stitchContext.eventsDispatcher.notificationCenter removeObserver:self];
+}
+
 #pragma mark - login and connectivity
 
 -(BOOL)isLoggedIn {
@@ -60,10 +52,12 @@
     return self.stitchContext.coreClient.isConnected;
 }
 
+// TODO: move to user defaults
 -(NXMUser *)getUser {
-    return  self.stitchContext.coreClient.user;
+    return self.stitchContext.coreClient.user;
 }
 
+// TODO: move to user defaults
 -(NSString *)getToken {
     return self.stitchContext.coreClient.token;
 }
@@ -279,6 +273,58 @@
     }];
 }
 
+
+#pragma mark - notification center
+
+- (void)onMemberEvent:(NSNotification* )notification {
+    NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
+    
+    if (![event.user.userId isEqualToString:self.user.userId]) { return; }
+    
+    if (event.state == NXMMemberStateJoined && ![event.fromMemberId isEqualToString:event.memberId]) { 
+        if ([self.delegate respondsToSelector:@selector(addedToConversation:)]) {            
+            [NXMLogger info:@"got member joined event"];
+            
+            [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+                if (error) {
+                    [NXMLogger error:[NSString stringWithFormat:@"get conversation failed %@", error]];
+                    return;
+                }
+                
+                if (!conversation) {
+                    [NXMLogger error:[NSString stringWithFormat:@"got empty conversation without error conversation id %@:", event.conversationId]];
+                }
+                
+                [self.delegate addedToConversation:conversation];
+            }];
+            
+        }
+        
+        return;
+    }
+    
+    if (event.state == NXMMemberStateInvited && event.media.isEnabled) {
+        if ([self.delegate respondsToSelector:@selector(incomingCall:)]) { // optimization
+            
+            [NXMLogger info:@"got member invited event with enable media"];
+            
+            [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+                if (error) {
+                    [NXMLogger error:[NSString stringWithFormat:@"get conversation failed %@", error]];
+                    return;
+                }
+
+                if (!conversation){
+                    [NXMLogger error:[NSString stringWithFormat:@"got empty conversation without error conversation id %@:", event.conversationId]];
+                }
+                
+                NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+                [self.delegate incomingCall:call];
+            }];
+            
+        }
+    }
+}
 
 #pragma mark - private
 

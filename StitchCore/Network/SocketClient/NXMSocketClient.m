@@ -468,58 +468,45 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 #pragma mark - Socket Events
+
 #pragma mark members
 - (void)onMemberJoined:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    NSDictionary *json = data[0];
-    NXMMemberEvent *memberEvent = [NXMMemberEvent new];
-    memberEvent.memberId = json[@"from"];
-    memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
+    NXMMemberEvent *memberEvent = [self parseMemberWithDict:data[0] state:NXMMemberStateJoined];
+
     //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
-    memberEvent.sequenceId = [json[@"id"] integerValue];
-    memberEvent.state = NXMMemberStateJoined;
-    memberEvent.conversationId = json[@"cid"];
-    memberEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
-    memberEvent.type = NXMEventTypeMember;
-    memberEvent.name = json[@"body"][@"user"][@"name"]; //TODO - make sure with cs that this is indeed the name, and the payload is correct
     [self.delegate memberJoined:memberEvent];
 }
 
 - (void)onMemberInvited:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    
-    NSDictionary *json = data[0];
-    NXMUser *user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
-    NXMMediaSettings *mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:(json[@"body"][@"media"] != nil ? YES : NO) suspend:NO];
-    
-    NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
-                                                                            type:NXMEventTypeMember
-                                                                    fromMemberId:json[@"invited_by"]
-                                                                      sequenceId:[json[@"id"] integerValue]
-                                                                        memberId:json[@"from"]
-                                                                            name:json[@"body"][@"user"][@"name"]
-                                                                           state:NXMMemberStateInvited
-                                                                            user:user
-                                                                     phoneNumber:json[@"body"][@"channel"][@"to"][@"number"]
-                                                                           media:mediaSettings];
-
+    NXMMemberEvent *memberEvent = [self parseMemberWithDict:data[0] state:NXMMemberStateInvited];
 
     [self.delegate memberInvited:memberEvent];
 }
 
 - (void)onMemberLeft:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
-    
-    NSDictionary *json = data[0];
-    NXMMemberEvent *memberEvent = [NXMMemberEvent new];
-    memberEvent.memberId = json[@"from"];
-    memberEvent.user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"id"] name:json[@"body"][@"user"][@"name"]];
-    //    memberEvent.joinDate = json[@"body"][@"timestamp"][@"joined"]; // TODO: NSDate
-    //    memberEvent.leftDate = json[@"body"][@"timestamp"][@"left"]; // TODO: NSDate
-    memberEvent.sequenceId = [json[@"id"] integerValue];
-    memberEvent.state = NXMMemberStateLeft;
-    memberEvent.conversationId = json[@"cid"];
-    memberEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
-    memberEvent.type = NXMEventTypeMember;
-    memberEvent.name = json[@"body"][@"user"][@"name"]; //TODO - make sure with cs that this is indeed the name, and the payload is correct
+    NXMMemberEvent *memberEvent = [self parseMemberWithDict:data[0] state:NXMMemberStateLeft];
+
     [self.delegate memberRemoved:memberEvent];
+}
+
+- (NXMMemberEvent *)parseMemberWithDict:(NSDictionary *)json state:(NXMMemberState)state{
+    NXMUser *user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
+    NXMMediaSettings *mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:(json[@"body"][@"media"] != nil ? YES : NO) suspend:NO];
+    
+    NSString *fromKey = state == NXMMemberStateInvited ? @"invited" : state == NXMMemberStateJoined ? @"joined" : @"left";
+    
+    NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
+                                                                            type:NXMEventTypeMember
+                                                                    fromMemberId:json[@"body"][@"initiator"][fromKey][@"memberId"]
+                                                                      sequenceId:[json[@"id"] integerValue]
+                                                                        memberId:json[@"from"]
+                                                                            name:json[@"body"][@"user"][@"name"]
+                                                                           state:state
+                                                                            user:user
+                                                                     phoneNumber:json[@"body"][@"channel"][@"to"][@"number"]
+                                                                           media:mediaSettings];
+    
+    return memberEvent;
 }
 
 #pragma mark messages
