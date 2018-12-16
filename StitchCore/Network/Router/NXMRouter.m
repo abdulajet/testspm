@@ -33,6 +33,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 @property NSString *baseUrl;
 @property (nonatomic) NSString *token;
 @property (nonatomic) NSString *sessionId;
+@property (nonatomic) NSString *agentDescription;
 
 
 @end
@@ -41,6 +42,9 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (nullable instancetype)initWithHost:(nonnull NSString *)host {
     if (self = [super init]) {
         self.baseUrl = host;
+        self.agentDescription = [NSString stringWithFormat:@"iOS %@ %@",
+                                 [UIDevice currentDevice].systemVersion,
+                                 [UIDevice currentDevice].model];
     }
     
     return self;
@@ -679,7 +683,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
           onError:(NXMErrorCallback _Nullable)onError {
     
     NSDictionary *headers = @{ @"content-type": @"multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
-                               @"authorization": [NSString stringWithFormat:@"bearer %@", self.token]
+                               @"authorization": [NSString stringWithFormat:@"bearer %@", self.token],
+                               @"X-Nexmo-Trace-Id": self.sessionId.length > 0 ? self.sessionId : @"",
+                               @"User-Agent": self.agentDescription
                                };
 
     NSString *boundary = @"----WebKitFormBoundary7MA4YWxkTrZu0gW";
@@ -894,6 +900,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)addHeader:(NSMutableURLRequest *)request {
     [request setValue:[NSString stringWithFormat:@"bearer %@", self.token] forHTTPHeaderField:@"Authorization"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:self.sessionId.length > 0 ? self.sessionId : @"" forHTTPHeaderField:@"X-Nexmo-Trace-Id"];
+    [request setValue:self.agentDescription forHTTPHeaderField:@"User-Agent"];
 }
 
 - (void)executeRequest:(NSURLRequest *)request  responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary *      _Nullable data))responseBlock {
