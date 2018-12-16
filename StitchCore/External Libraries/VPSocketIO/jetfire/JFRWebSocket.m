@@ -251,7 +251,7 @@ static const size_t  JFRMaxFrameSize        = 32;
                                          (__bridge CFStringRef)self.headers[key]);
     }
     
-    [NXMLogger debug:[NSString stringWithFormat:@"urlRequest = \"%@\"", urlRequest]]
+    [NXMLogger debug:[NSString stringWithFormat:@"urlRequest = \"%@\"", urlRequest]];
     
     NSData *serializedRequest = (__bridge_transfer NSData *)(CFHTTPMessageCopySerializedMessage(urlRequest));
     [self initStreamsWithData:serializedRequest port:port];
