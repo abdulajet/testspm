@@ -20,6 +20,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
 #import "JFRWebSocket.h"
+#import "NXMLogger.h"
 
 //get the opCode from the packet
 typedef NS_ENUM(NSUInteger, JFROpCode) {
@@ -250,9 +251,8 @@ static const size_t  JFRMaxFrameSize        = 32;
                                          (__bridge CFStringRef)self.headers[key]);
     }
     
-#if defined(DEBUG)
-    NSLog(@"urlRequest = \"%@\"", urlRequest);
-#endif
+    [NXMLogger debug:[NSString stringWithFormat:@"urlRequest = \"%@\"", urlRequest]]
+    
     NSData *serializedRequest = (__bridge_transfer NSData *)(CFHTTPMessageCopySerializedMessage(urlRequest));
     [self initStreamsWithData:serializedRequest port:port];
     CFRelease(urlRequest);
@@ -385,7 +385,8 @@ static const size_t  JFRMaxFrameSize        = 32;
                 } else {
                     buffer[BUFFER_MAX - 1] = 0x00;
                 }
-                NSLog(@"response (%ld) = \"%s\"", responseStatusCode, buffer);
+                
+                [NXMLogger debug:[NSString stringWithFormat:@"response (%ld) = \"%s\"", responseStatusCode, buffer]];
 #endif
                 if(status == NO) {
                     [self doDisconnect:[self errorWithDetail:@"Invalid HTTP upgrade" code:1 userInfo:@{@"HTTPResponseStatusCode" : @(responseStatusCode)}]];

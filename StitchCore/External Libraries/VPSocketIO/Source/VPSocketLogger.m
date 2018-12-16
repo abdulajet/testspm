@@ -7,6 +7,7 @@
 //
 
 #import "VPSocketLogger.h"
+#import "NXMLogger.h"
 
 @implementation VPSocketLogger
 
@@ -31,7 +32,7 @@
 -(void) printLog:(NSString*)logType message:(NSString*)message type:(NSString*)type
 {
     if(_log) {
-        NSLog(@"%@ %@: %@", logType, type, message);
+        [NXMLogger debug:message];
     }
     
 }
