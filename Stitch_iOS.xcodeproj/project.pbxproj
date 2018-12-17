@@ -22,6 +22,11 @@
 		922C801F21AC471F00AF2FA6 /* SCLNSLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 922C801E21AC471F00AF2FA6 /* SCLNSLogger.m */; };
 		923A85A22121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 923A85A02121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m */; };
 		923A85A92123020300C81F6E /* OngoingCallsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923A85A82123020300C81F6E /* OngoingCallsViewController.m */; };
+		9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */; };
+		9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CD9E21BFDD6800ED2B51 /* NTAUserInfo.m */; };
+		9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */; };
+		9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA721BFF07100ED2B51 /* NTALogger.m */; };
+		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
 		92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBC2125B7D400FCEA19 /* OngoingMedia.m */; };
 		92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
@@ -253,16 +258,16 @@
 		F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F94291ED21BD46FB00FA45A1 /* Assets.xcassets */; };
 		F94291F121BD46FB00FA45A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94291EF21BD46FB00FA45A1 /* LaunchScreen.storyboard */; };
 		F94291F421BD46FB00FA45A1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291F321BD46FB00FA45A1 /* main.m */; };
-		F94291FE21BD500D00FA45A1 /* NXMLoginVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */; };
-		F942920321BD643700FA45A1 /* NTATokenProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920221BD643700FA45A1 /* NTATokenProvider.m */; };
+		F94291FE21BD500D00FA45A1 /* NXMLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291FD21BD500D00FA45A1 /* NXMLoginViewController.m */; };
+		F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920221BD643700FA45A1 /* NTAUserInfoProvider.m */; };
 		F942920421BD65D000FA45A1 /* StitchCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; };
 		F942920521BD65D000FA45A1 /* StitchCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DCDD2198528900D29065 /* StitchCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F942920821BD65D000FA45A1 /* StitchClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; };
 		F942920921BD65D000FA45A1 /* StitchClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* StitchClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */; };
+		F942920F21BD661400FA45A1 /* CommunicationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920E21BD661400FA45A1 /* CommunicationsManager.m */; };
 		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
 		F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsViewController.m */; };
-		F942921821BD9B6C00FA45A1 /* UserSettingsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */; };
+		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
 		F96ED16721ADA3D700137D96 /* VPSocketIOClientStub.m in Sources */ = {isa = PBXBuildFile; fileRef = F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */; };
 		F984C93A20BC67BA006DBBEA /* ConversationTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93920BC67BA006DBBEA /* ConversationTextTableViewCell.m */; };
 		F984C93D20BC74A9006DBBEA /* ConversationEventTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F984C93C20BC74A9006DBBEA /* ConversationEventTableViewCell.m */; };
@@ -407,6 +412,19 @@
 		923A85A02121CE3C00C81F6E /* OnGoingCallsCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OnGoingCallsCollectionViewCell.m; sourceTree = "<group>"; };
 		923A85A72123020300C81F6E /* OngoingCallsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingCallsViewController.h; sourceTree = "<group>"; };
 		923A85A82123020300C81F6E /* OngoingCallsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingCallsViewController.m; sourceTree = "<group>"; };
+		9242CD9821BED37300ED2B51 /* CommunicationsManagerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerObserver.h; sourceTree = "<group>"; };
+		9242CD9A21BFDB6700ED2B51 /* NTAErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAErrors.h; sourceTree = "<group>"; };
+		9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAErrors.m; sourceTree = "<group>"; };
+		9242CD9D21BFDD6800ED2B51 /* NTAUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAUserInfo.h; sourceTree = "<group>"; };
+		9242CD9E21BFDD6800ED2B51 /* NTAUserInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAUserInfo.m; sourceTree = "<group>"; };
+		9242CDA321BFEA1600ED2B51 /* NTAAlertUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAAlertUtils.h; sourceTree = "<group>"; };
+		9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAAlertUtils.m; sourceTree = "<group>"; };
+		9242CDA621BFF07100ED2B51 /* NTALogger.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALogger.h; sourceTree = "<group>"; };
+		9242CDA721BFF07100ED2B51 /* NTALogger.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTALogger.m; sourceTree = "<group>"; };
+		9242CDB221C2551100ED2B51 /* NTALoginHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandler.h; sourceTree = "<group>"; };
+		9242CDB321C2551100ED2B51 /* NTALoginHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTALoginHandler.m; sourceTree = "<group>"; };
+		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
+		9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandlerObserver.h; sourceTree = "<group>"; };
 		92556CBB2125B7D400FCEA19 /* OngoingMedia.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMedia.h; sourceTree = "<group>"; };
 		92556CBC2125B7D400FCEA19 /* OngoingMedia.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMedia.m; sourceTree = "<group>"; };
 		92556CBE2125C0BA00FCEA19 /* OngoingMediaCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMediaCollection.h; sourceTree = "<group>"; };
@@ -627,19 +645,19 @@
 		F94291F021BD46FB00FA45A1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F94291F221BD46FB00FA45A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F94291F321BD46FB00FA45A1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F94291FC21BD500D00FA45A1 /* NXMLoginVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLoginVC.h; sourceTree = "<group>"; };
-		F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLoginVC.m; sourceTree = "<group>"; };
-		F942920021BD52AC00FA45A1 /* NXMToken.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMToken.h; sourceTree = "<group>"; };
-		F942920121BD643700FA45A1 /* NTATokenProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTATokenProvider.h; sourceTree = "<group>"; };
-		F942920221BD643700FA45A1 /* NTATokenProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTATokenProvider.m; sourceTree = "<group>"; };
-		F942920D21BD661400FA45A1 /* NexmoClientWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NexmoClientWrapper.h; sourceTree = "<group>"; };
-		F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NexmoClientWrapper.m; sourceTree = "<group>"; };
+		F94291FC21BD500D00FA45A1 /* NXMLoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLoginViewController.h; sourceTree = "<group>"; };
+		F94291FD21BD500D00FA45A1 /* NXMLoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLoginViewController.m; sourceTree = "<group>"; };
+		F942920021BD52AC00FA45A1 /* NXMTokens.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTokens.h; sourceTree = "<group>"; };
+		F942920121BD643700FA45A1 /* NTAUserInfoProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAUserInfoProvider.h; sourceTree = "<group>"; };
+		F942920221BD643700FA45A1 /* NTAUserInfoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAUserInfoProvider.m; sourceTree = "<group>"; };
+		F942920D21BD661400FA45A1 /* CommunicationsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManager.h; sourceTree = "<group>"; };
+		F942920E21BD661400FA45A1 /* CommunicationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommunicationsManager.m; sourceTree = "<group>"; };
 		F942921021BD703200FA45A1 /* MainTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
 		F942921121BD703200FA45A1 /* MainTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
 		F942921321BD720700FA45A1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
 		F942921421BD720700FA45A1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
-		F942921621BD9B6C00FA45A1 /* UserSettingsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingsVC.h; sourceTree = "<group>"; };
-		F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingsVC.m; sourceTree = "<group>"; };
+		F942921621BD9B6C00FA45A1 /* UserSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingsViewController.h; sourceTree = "<group>"; };
+		F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingsViewController.m; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
@@ -831,6 +849,68 @@
 				923A85A82123020300C81F6E /* OngoingCallsViewController.m */,
 			);
 			path = OngoingCallsView;
+			sourceTree = "<group>";
+		};
+		9242CDA021BFDD7A00ED2B51 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				F942920021BD52AC00FA45A1 /* NXMTokens.h */,
+				F942920121BD643700FA45A1 /* NTAUserInfoProvider.h */,
+				F942920221BD643700FA45A1 /* NTAUserInfoProvider.m */,
+				9242CD9D21BFDD6800ED2B51 /* NTAUserInfo.h */,
+				9242CD9E21BFDD6800ED2B51 /* NTAUserInfo.m */,
+			);
+			path = Users;
+			sourceTree = "<group>";
+		};
+		9242CDA221BFE9E900ED2B51 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				9242CDA321BFEA1600ED2B51 /* NTAAlertUtils.h */,
+				9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */,
+				9242CDA621BFF07100ED2B51 /* NTALogger.h */,
+				9242CDA721BFF07100ED2B51 /* NTALogger.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9242CDAF21C17D3200ED2B51 /* UserSettings */ = {
+			isa = PBXGroup;
+			children = (
+				F942921621BD9B6C00FA45A1 /* UserSettingsViewController.h */,
+				F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */,
+			);
+			path = UserSettings;
+			sourceTree = "<group>";
+		};
+		9242CDB021C17D5100ED2B51 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F94291FA21BD4F3500FA45A1 /* Login */,
+				9242CDAF21C17D3200ED2B51 /* UserSettings */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9242CDB121C254A600ED2B51 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				9242CDB221C2551100ED2B51 /* NTALoginHandler.h */,
+				9242CDB321C2551100ED2B51 /* NTALoginHandler.m */,
+				9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		9242CDB521C29D2F00ED2B51 /* Communications */ = {
+			isa = PBXGroup;
+			children = (
+				F942920D21BD661400FA45A1 /* CommunicationsManager.h */,
+				F942920E21BD661400FA45A1 /* CommunicationsManager.m */,
+				9242CD9821BED37300ED2B51 /* CommunicationsManagerObserver.h */,
+				9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */,
+			);
+			path = Communications;
 			sourceTree = "<group>";
 		};
 		92B7A393213FCD0700390258 /* EventDispatcher */ = {
@@ -1277,8 +1357,8 @@
 		F94291E321BD46F900FA45A1 /* NexmoTestApp */ = {
 			isa = PBXGroup;
 			children = (
-				F94291FF21BD528F00FA45A1 /* App code */,
-				F94291FA21BD4F3500FA45A1 /* Login */,
+				9242CDB021C17D5100ED2B51 /* ViewControllers */,
+				F94291FF21BD528F00FA45A1 /* AppCode */,
 				F94291E421BD46F900FA45A1 /* AppDelegate.h */,
 				F94291E521BD46F900FA45A1 /* AppDelegate.m */,
 				F94291EA21BD46F900FA45A1 /* Main.storyboard */,
@@ -1290,8 +1370,6 @@
 				F942921121BD703200FA45A1 /* MainTabViewController.m */,
 				F942921321BD720700FA45A1 /* ContactsViewController.h */,
 				F942921421BD720700FA45A1 /* ContactsViewController.m */,
-				F942921621BD9B6C00FA45A1 /* UserSettingsVC.h */,
-				F942921721BD9B6C00FA45A1 /* UserSettingsVC.m */,
 			);
 			path = NexmoTestApp;
 			sourceTree = "<group>";
@@ -1299,22 +1377,23 @@
 		F94291FA21BD4F3500FA45A1 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				F94291FC21BD500D00FA45A1 /* NXMLoginVC.h */,
-				F94291FD21BD500D00FA45A1 /* NXMLoginVC.m */,
+				F94291FC21BD500D00FA45A1 /* NXMLoginViewController.h */,
+				F94291FD21BD500D00FA45A1 /* NXMLoginViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
 		};
-		F94291FF21BD528F00FA45A1 /* App code */ = {
+		F94291FF21BD528F00FA45A1 /* AppCode */ = {
 			isa = PBXGroup;
 			children = (
-				F942920021BD52AC00FA45A1 /* NXMToken.h */,
-				F942920121BD643700FA45A1 /* NTATokenProvider.h */,
-				F942920221BD643700FA45A1 /* NTATokenProvider.m */,
-				F942920D21BD661400FA45A1 /* NexmoClientWrapper.h */,
-				F942920E21BD661400FA45A1 /* NexmoClientWrapper.m */,
+				9242CDB521C29D2F00ED2B51 /* Communications */,
+				9242CDB121C254A600ED2B51 /* Login */,
+				9242CDA221BFE9E900ED2B51 /* Utils */,
+				9242CDA021BFDD7A00ED2B51 /* Users */,
+				9242CD9A21BFDB6700ED2B51 /* NTAErrors.h */,
+				9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */,
 			);
-			path = "App code";
+			path = AppCode;
 			sourceTree = "<group>";
 		};
 		F984C93720BC6778006DBBEA /* ConversationView */ = {
@@ -1791,6 +1870,7 @@
 			buildConfigurationList = F94291F721BD46FB00FA45A1 /* Build configuration list for PBXNativeTarget "NexmoTestApp" */;
 			buildPhases = (
 				8FF4F58F333263F0EA007C4B /* [CP] Check Pods Manifest.lock */,
+				9242CD9921BFC21A00ED2B51 /* ShellScript */,
 				F94291DE21BD46F900FA45A1 /* Sources */,
 				F94291DF21BD46F900FA45A1 /* Frameworks */,
 				F94291E021BD46F900FA45A1 /* Resources */,
@@ -1980,7 +2060,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "python set_tokens.py ${TARGET_NAME}";
+			shellScript = "python set_tokens.py ${TARGET_NAME}\n";
 		};
 		4779F398C0DBA00DB7544EB1 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2146,6 +2226,23 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		9242CD9921BFC21A00ED2B51 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "python ${PROJECT_DIR}/${TARGET_NAME}/Scripts/set_tokens.py ${TARGET_NAME}\n";
+		};
 		92BDBF1E217761D700C33D38 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2158,7 +2255,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "python set_tokens.py ${TARGET_NAME}";
+			shellScript = "python set_tokens.py ${TARGET_NAME}\n";
 		};
 		981E2E01894FD48647AB2C1E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2367,12 +2464,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F942920F21BD661400FA45A1 /* NexmoClientWrapper.m in Sources */,
-				F942921821BD9B6C00FA45A1 /* UserSettingsVC.m in Sources */,
+				9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */,
+				9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */,
+				F942920F21BD661400FA45A1 /* CommunicationsManager.m in Sources */,
+				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
+				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
-				F942920321BD643700FA45A1 /* NTATokenProvider.m in Sources */,
+				9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */,
+				F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */,
+				9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */,
 				F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */,
-				F94291FE21BD500D00FA45A1 /* NXMLoginVC.m in Sources */,
+				F94291FE21BD500D00FA45A1 /* NXMLoginViewController.m in Sources */,
 				F94291F421BD46FB00FA45A1 /* main.m in Sources */,
 				F94291E621BD46F900FA45A1 /* AppDelegate.m in Sources */,
 			);
@@ -2540,6 +2642,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = StitchCoreTestApp/StitchCoreTestApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -2554,7 +2657,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "25698051-180d-4a88-9313-54dd29aeb400";
-				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk adhoc";
+				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

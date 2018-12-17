@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--LoginVC-->
+        <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="NXMLoginVC" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="NXMLoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -31,13 +31,13 @@
                                         <rect key="frame" x="0.0" y="25" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="username"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LLv-O4-1BA" userLabel="password">
                                         <rect key="frame" x="0.0" y="75" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGW-Y1-6uY" userLabel="loginButton">
                                         <rect key="frame" x="0.0" y="125" width="315" height="44"/>
@@ -63,6 +63,7 @@
                                             </attributedString>
                                         </state>
                                         <connections>
+                                            <action selector="loadDefaultUserToTextFields:" destination="BYZ-38-t0r" eventType="touchDragExit" id="M4P-Sr-qui"/>
                                             <action selector="onLoginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ddi-ow-dyI"/>
                                         </connections>
                                     </button>
@@ -232,7 +233,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivered" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="03i-04-oVZ">
-                                                    <rect key="frame" x="294" y="21.666666666666668" width="53" height="14.666666666666668"/>
+                                                    <rect key="frame" x="294" y="21.666666666666668" width="53" height="15.000000000000004"/>
                                                     <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
                                                     <color key="textColor" red="0.39215686274509803" green="0.39215686274509803" blue="0.39215686274509803" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -298,7 +299,7 @@
                                 <rect key="frame" x="0.0" y="701" width="375" height="17"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="typing..." textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UnU-fX-ZKP">
-                                        <rect key="frame" x="323.66666666666669" y="1.3333333333333721" width="46.333333333333314" height="14.333333333333336"/>
+                                        <rect key="frame" x="323.66666666666669" y="1.6666666666666288" width="46.333333333333314" height="14"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" red="0.72646519781928931" green="0.32415937306781417" blue="0.3680909648691888" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
@@ -577,7 +578,7 @@
         <!--userSettings-->
         <scene sceneID="3pA-dN-ota">
             <objects>
-                <viewController storyboardIdentifier="userSettings" title="userSettings" id="uPs-r8-PIO" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="userSettings" title="userSettings" id="uPs-r8-PIO" customClass="UserSettingsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="D1K-Pk-ge4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -585,10 +586,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P9D-Vs-PMA">
                                 <rect key="frame" x="87.666666666666686" y="154" width="200" height="200"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="MVM-Ua-IOB">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SettingsAvatarConnectionOffline" translatesAutoresizingMaskIntoConstraints="NO" id="MVM-Ua-IOB" userLabel="AvatarImage">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZZ-0Y-lAq">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rZZ-0Y-lAq" userLabel="AvaterInitialsLabel">
                                         <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="70"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -609,25 +610,47 @@
                                     <constraint firstItem="MVM-Ua-IOB" firstAttribute="height" secondItem="P9D-Vs-PMA" secondAttribute="height" id="qWf-X1-Aje"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-BO-n1W">
-                                <rect key="frame" x="153" y="391" width="69" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-BO-n1W">
+                                <rect key="frame" x="153" y="508" width="69" height="30"/>
                                 <state key="normal" title="SendLogs"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
-                                <rect key="frame" x="169" y="574" width="48" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
+                                <rect key="frame" x="163.66666666666666" y="574" width="48" height="30"/>
                                 <state key="normal" title="Logout"/>
+                                <connections>
+                                    <action selector="LogoutPressed:" destination="uPs-r8-PIO" eventType="touchUpInside" id="jKs-L0-zmJ"/>
+                                </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfb-Q4-XVf">
+                                <rect key="frame" x="53" y="377" width="269" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="269" id="PDM-Zd-62q"/>
+                                    <constraint firstAttribute="height" constant="21" id="S6Z-C0-hgw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Jfb-Q4-XVf" firstAttribute="top" secondItem="rZZ-0Y-lAq" secondAttribute="bottom" constant="23" id="0wN-c2-HDd"/>
+                            <constraint firstItem="Jfb-Q4-XVf" firstAttribute="centerX" secondItem="rZZ-0Y-lAq" secondAttribute="centerX" id="3lJ-rL-eAw"/>
+                            <constraint firstItem="waV-Um-pqy" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="FLJ-gH-jYQ"/>
+                            <constraint firstItem="ygo-BO-n1W" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="N1k-SP-0zS"/>
+                            <constraint firstItem="ygo-BO-n1W" firstAttribute="top" secondItem="rZZ-0Y-lAq" secondAttribute="bottom" constant="37" id="abr-a3-Ap5"/>
+                            <constraint firstItem="waV-Um-pqy" firstAttribute="top" secondItem="ygo-BO-n1W" secondAttribute="bottom" constant="153" id="kEH-NG-Xfy"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="top" secondItem="Qha-Fv-hFI" secondAttribute="top" constant="110" id="qFT-3b-Bz0"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="r4b-1d-Fee"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qha-Fv-hFI"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" image="settingsTab" id="SrA-CF-tTN"/>
+                    <connections>
+                        <outlet property="AvatarImage" destination="MVM-Ua-IOB" id="lUm-eu-Vxb"/>
+                        <outlet property="AvatarInitialsLabel" destination="rZZ-0Y-lAq" id="ptW-Eb-8F3"/>
+                        <outlet property="statusReason" destination="Jfb-Q4-XVf" id="SdG-Gr-hcg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XfD-Bz-DIQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -635,8 +658,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="SettingsAvatarConnectionOffline" width="50" height="50"/>
         <image name="addMember" width="24" height="24"/>
-        <image name="avatar" width="50" height="50"/>
         <image name="btnAttachment" width="41" height="45"/>
         <image name="callPhone" width="23" height="15"/>
         <image name="enableAudio" width="22" height="22"/>

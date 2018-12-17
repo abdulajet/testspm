@@ -7,6 +7,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NXMLoginVC : UIViewController
+@interface NXMLoginViewController : UIViewController
 
 @end

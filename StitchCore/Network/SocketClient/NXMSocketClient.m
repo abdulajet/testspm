@@ -48,8 +48,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                                        @"path":@"/rtc/",
                                                        @"forceWebsockets":@YES,
                                                        @"selfSigned":@YES,
-                                                       @"reconnectWait":@10,
-                                                       @"reconnectAttempts": @3,
+                                                       @"reconnectWait":@2,
                                                        @"nsp":@"/",
                                                        @"connectParams":connectParams,
                                                        @"logger":logger
@@ -182,7 +181,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self serverLogin];
 }
 
-- (void)didSocketDisconnect{
+- (void)didSocketDisconnect {
     [self.delegate connectionStatusChanged:NO];
     //TODO: this might mean that a logout happend on the server side
 }

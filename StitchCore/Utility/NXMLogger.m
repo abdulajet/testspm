@@ -53,18 +53,21 @@
     [self error:[[NSString alloc] initWithFormat:format arguments:ap]];
     va_end(ap);
 }
+
 + (void)warningWithFormat:(NSString *)format, ... {
     va_list ap;
     va_start(ap, format);
     [self warning:[[NSString alloc] initWithFormat:format arguments:ap]];
     va_end(ap);
 }
+
 + (void)infoWithFormat:(NSString *)format, ... {
     va_list ap;
     va_start(ap, format);
     [self info:[[NSString alloc] initWithFormat:format arguments:ap]];
     va_end(ap);
 }
+
 + (void)debugWithFormat:(NSString *)format, ... {
     va_list ap;
     va_start(ap, format);
