@@ -12,6 +12,7 @@
 @interface NTAUserInfoProvider : NSObject
 + (NTAUserInfo *)getDefaultUser;
 + (NTAUserInfo *)getRandomUser;
++ (NSArray<NTAUserInfo *> *)getAllUsers;
 
 + (void)getUserInfoForUserName:(nonnull NSString *)userName
                password:(NSString *)password

@@ -22,6 +22,7 @@
 		9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */; };
 		9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA721BFF07100ED2B51 /* NTALogger.m */; };
 		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
+		9242CDC221C7C12600ED2B51 /* ContactsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */; };
 		92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBC2125B7D400FCEA19 /* OngoingMedia.m */; };
 		92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
@@ -413,6 +414,8 @@
 		9242CDB321C2551100ED2B51 /* NTALoginHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTALoginHandler.m; sourceTree = "<group>"; };
 		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
 		9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandlerObserver.h; sourceTree = "<group>"; };
+		9242CDC021C7C12600ED2B51 /* ContactsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewCell.h; sourceTree = "<group>"; };
+		9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewCell.m; sourceTree = "<group>"; };
 		92556CBB2125B7D400FCEA19 /* OngoingMedia.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMedia.h; sourceTree = "<group>"; };
 		92556CBC2125B7D400FCEA19 /* OngoingMedia.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMedia.m; sourceTree = "<group>"; };
 		92556CBE2125C0BA00FCEA19 /* OngoingMediaCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMediaCollection.h; sourceTree = "<group>"; };
@@ -866,6 +869,7 @@
 		9242CDB021C17D5100ED2B51 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				9242CDBD21C7C03000ED2B51 /* Contacts */,
 				F94291FA21BD4F3500FA45A1 /* Login */,
 				9242CDAF21C17D3200ED2B51 /* UserSettings */,
 			);
@@ -891,6 +895,17 @@
 				9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */,
 			);
 			path = Communications;
+			sourceTree = "<group>";
+		};
+		9242CDBD21C7C03000ED2B51 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				F942921321BD720700FA45A1 /* ContactsViewController.h */,
+				F942921421BD720700FA45A1 /* ContactsViewController.m */,
+				9242CDC021C7C12600ED2B51 /* ContactsTableViewCell.h */,
+				9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */,
+			);
+			path = Contacts;
 			sourceTree = "<group>";
 		};
 		92B7A393213FCD0700390258 /* EventDispatcher */ = {
@@ -1347,8 +1362,6 @@
 				F94291F321BD46FB00FA45A1 /* main.m */,
 				F942921021BD703200FA45A1 /* MainTabViewController.h */,
 				F942921121BD703200FA45A1 /* MainTabViewController.m */,
-				F942921321BD720700FA45A1 /* ContactsViewController.h */,
-				F942921421BD720700FA45A1 /* ContactsViewController.m */,
 			);
 			path = NexmoTestApp;
 			sourceTree = "<group>";
@@ -2446,6 +2459,7 @@
 				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
+				9242CDC221C7C12600ED2B51 /* ContactsTableViewCell.m in Sources */,
 				9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */,
 				F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */,
 				9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */,

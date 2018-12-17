@@ -152,29 +152,54 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="conversationListCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationListCell" id="VyZ-er-ufF" customClass="ConversationListTableCellView">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="contactsCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="contactsCell" id="VyZ-er-ufF" userLabel="contactsTableViewCell" customClass="ContactsTableViewCell">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="VyZ-er-ufF" id="ddF-Ie-YN5">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftH-xK-Eba" userLabel="text">
-                                            <rect key="frame" x="30" y="11.333333333333336" width="42" height="21"/>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="avatar" translatesAutoresizingMaskIntoConstraints="NO" id="4KT-Jg-yja" userLabel="avatarImage">
+                                            <rect key="frame" x="20" y="3" width="38" height="38"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="38" id="dxZ-jn-S6a"/>
+                                                <constraint firstAttribute="height" constant="38" id="xMT-2P-gcl"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZYX-g4-dEF" userLabel="avatarInitials">
+                                            <rect key="frame" x="20" y="3" width="38" height="38"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="contactName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ftH-xK-Eba" userLabel="contactNameLabel">
+                                            <rect key="frame" x="66" y="11.333333333333336" width="103.33333333333331" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="ftH-xK-Eba" firstAttribute="leading" secondItem="ddF-Ie-YN5" secondAttribute="leading" constant="30" id="RxZ-8d-yoH"/>
+                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ftH-xK-Eba" secondAttribute="trailing" constant="20" symbolic="YES" id="2Wt-gP-OdG"/>
+                                        <constraint firstItem="ZYX-g4-dEF" firstAttribute="centerX" secondItem="4KT-Jg-yja" secondAttribute="centerX" id="3se-VB-pGn"/>
+                                        <constraint firstItem="4KT-Jg-yja" firstAttribute="centerY" secondItem="ddF-Ie-YN5" secondAttribute="centerY" id="FKa-4i-6fb"/>
+                                        <constraint firstItem="ZYX-g4-dEF" firstAttribute="width" secondItem="4KT-Jg-yja" secondAttribute="width" id="QXP-Lf-1aE"/>
+                                        <constraint firstItem="ZYX-g4-dEF" firstAttribute="centerY" secondItem="4KT-Jg-yja" secondAttribute="centerY" id="VcQ-VZ-7hy"/>
+                                        <constraint firstItem="ftH-xK-Eba" firstAttribute="leading" secondItem="4KT-Jg-yja" secondAttribute="trailing" constant="8" symbolic="YES" id="kR3-uq-JPY"/>
                                         <constraint firstItem="ftH-xK-Eba" firstAttribute="centerY" secondItem="ddF-Ie-YN5" secondAttribute="centerY" id="lhn-rH-vQP"/>
+                                        <constraint firstItem="ZYX-g4-dEF" firstAttribute="height" secondItem="4KT-Jg-yja" secondAttribute="height" id="nWA-KY-yf3"/>
+                                        <constraint firstItem="4KT-Jg-yja" firstAttribute="leading" secondItem="ddF-Ie-YN5" secondAttribute="leading" constant="20" symbolic="YES" id="rnI-KL-m3m"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="avatarImage" destination="4KT-Jg-yja" id="56A-Jc-S8l"/>
+                                    <outlet property="avatarInitialsLabel" destination="ZYX-g4-dEF" id="2li-yk-hqF"/>
+                                    <outlet property="contactNameLabel" destination="ftH-xK-Eba" id="Pn8-dy-Nuy"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Item" id="xJF-dR-g9N"/>
+                    <tabBarItem key="tabBarItem" title="" image="ContactsTab" id="xJF-dR-g9N"/>
                     <navigationItem key="navigationItem" id="pfd-hA-P0N">
                         <barButtonItem key="leftBarButtonItem" title="logout" id="ohW-tB-df6" userLabel="logout">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -183,10 +208,13 @@
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="contactsTableView" destination="S7p-Dm-Sqd" id="1mb-ly-0GY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KbS-Ru-Dwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1634" y="494"/>
+            <point key="canvasLocation" x="1632.8" y="493.5960591133005"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="VwP-Ak-1nX">
@@ -645,7 +673,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Qha-Fv-hFI"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" image="settingsTab" id="SrA-CF-tTN"/>
+                    <tabBarItem key="tabBarItem" title="" image="settingsTab" id="SrA-CF-tTN"/>
                     <connections>
                         <outlet property="AvatarImage" destination="MVM-Ua-IOB" id="lUm-eu-Vxb"/>
                         <outlet property="AvatarInitialsLabel" destination="rZZ-0Y-lAq" id="ptW-Eb-8F3"/>
@@ -658,8 +686,10 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ContactsTab" width="24" height="24"/>
         <image name="SettingsAvatarConnectionOffline" width="50" height="50"/>
         <image name="addMember" width="24" height="24"/>
+        <image name="avatar" width="50" height="50"/>
         <image name="btnAttachment" width="41" height="45"/>
         <image name="callPhone" width="23" height="15"/>
         <image name="enableAudio" width="22" height="22"/>

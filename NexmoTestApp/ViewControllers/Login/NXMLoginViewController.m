@@ -106,7 +106,7 @@
     UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"userSettings"];
     
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[userSettingsVC, contactsViewController];
+    tabBarController.viewControllers = @[contactsViewController, userSettingsVC];
     
     [self presentViewController:tabBarController animated:NO completion:nil];
 }

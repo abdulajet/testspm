@@ -75,6 +75,10 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
     return testAppUsers[[testAppUsers allKeys][index]];
 }
 
++ (NSArray<NTAUserInfo *> *)getAllUsers {
+    return testAppUsers.allValues;
+}
+
 + (void)getUserInfoForUserName:(nonnull NSString *)userName
                password:(nonnull NSString *)password
              completion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion {

@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "NTALoginHandlerObserver.h"
-#import "NTAuserInfo.h"
+#import "NTAUserInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
