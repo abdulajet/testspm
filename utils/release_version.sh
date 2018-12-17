@@ -1,5 +1,5 @@
 
-FILES=(./StitchCore.podspec ./StitchClient.podspec)
+FILES=(./NexmoCore.podspec ./NexmoClient.podspec)
 
 for FILE in ${FILES[@]}
 	do

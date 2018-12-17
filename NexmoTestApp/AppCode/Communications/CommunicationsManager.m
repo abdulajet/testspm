@@ -15,7 +15,7 @@ NSString * const notificationConnectionStatusKey = @"connectionStatus";
 NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReason";
 
 @interface CommunicationsManager() <NTALoginHandlerObserver>
-@property (nonatomic, nonnull, readwrite) NXMStitchClient *client;
+@property (nonatomic, nonnull, readwrite) NXMClient *client;
 @end
 
 @implementation CommunicationsManager
@@ -25,14 +25,14 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
     static CommunicationsManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[CommunicationsManager alloc] initWithNexmoClient:[NXMStitchClient new]];
+        sharedInstance = [[CommunicationsManager alloc] initWithNexmoClient:[NXMClient new]];
     });
     
     return sharedInstance;
 }
 
 #pragma mark - init
-- (instancetype)initWithNexmoClient:(NXMStitchClient *)client {
+- (instancetype)initWithNexmoClient:(NXMClient *)client {
     if(self = [super init]) {
         self.client = client;
         [client setDelegate:self];
@@ -179,7 +179,7 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
 }
 
 - (void)setupNexmoClient {
-    self.client = [NXMStitchClient new];
+    self.client = [NXMClient new];
     [self.client setDelegate:self];
 }
 

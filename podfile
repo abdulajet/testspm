@@ -4,7 +4,7 @@ source 'git@github.com:Vonage/NexmoCocoaPodSpecs.git'
 platform :ios, '10.0'
 use_frameworks!
 
-project 'Stitch_iOS.xcodeproj'
+project 'NXMiOSSDK.xcodeproj'
 
 use_frameworks!
 
@@ -13,11 +13,11 @@ def shared_pods
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 
-target 'StitchCoreTestApp' do
+target 'NexmoCoreTestApp' do
     shared_pods
 end
 
-target 'StitchClientTestApp' do
+target 'NexmoClientTestApp' do
     shared_pods
 end
 
@@ -25,10 +25,10 @@ target 'NexmoTestApp' do
     shared_pods
 end
 
-target 'StitchCore' do
+target 'NexmoCore' do
     shared_pods
     
-    target 'StitchCoreTests' do
+    target 'NexmoCoreTests' do
         inherit! :search_paths
         
         pod 'OCMock', '3.4'
@@ -38,18 +38,16 @@ end
 
 
 
-target 'StitchClient' do
+target 'NexmoClient' do
     shared_pods
     
-    target 'StitchClientTests' do
+    target 'NexmoClientTests' do
         inherit! :search_paths
         
         pod 'OCMock', '3.4'
         
     end
 end
-
-
 
 
 post_install do |installer|

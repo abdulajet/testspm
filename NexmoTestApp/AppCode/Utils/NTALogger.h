@@ -6,9 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <StitchClient/StitchClient.h>
-
-NS_ASSUME_NONNULL_BEGIN
+#import <NexmoClient/NexmoClient.h>
 
 @interface NTALogger : NSObject<NXMLoggerDelegate>
 
@@ -23,4 +21,3 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)debugWithFormat:(nonnull NSString *)format, ...;
 @end
 
-NS_ASSUME_NONNULL_END

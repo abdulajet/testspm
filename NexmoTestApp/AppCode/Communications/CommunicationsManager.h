@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-#import <StitchClient/StitchClient.h>
+#import <NexmoClient/NexmoClient.h>
 
 #import "CommunicationsManagerObserver.h"
 
-@interface CommunicationsManager : NSObject <NXMStitchClientDelegate>
+@interface CommunicationsManager : NSObject <NXMClientDelegate>
 
-@property (nonatomic, nonnull, readonly) NXMStitchClient *client;
+@property (nonatomic, nonnull, readonly) NXMClient *client;
 @property (nonatomic, readonly) CommunicationsManagerConnectionStatus connectionStatus;
 + (nonnull CommunicationsManager *)sharedInstance;
 

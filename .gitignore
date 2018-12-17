@@ -8,14 +8,14 @@ Pods/*
 
 ## Settings
 *.xcuserdata
-Stitch_iOS.xcworkspace/xcshareddata/*
-Stitch_iOS.xcworkspace/xcuserdata/*
-Stitch_iOS.xcodeproj/xcuserdata
+NXMiOSSDK.xcworkspace/xcshareddata/*
+NXMiOSSDK.xcworkspace/xcuserdata/*
+NXMiOSSDK.xcodeproj/xcuserdata
 xcschememanagement.plist
 
 ## Other
 .DS_Store
 
-## Stitch
+## Nexmo
 **/Tokens.h
 **/NXMTokens.h
