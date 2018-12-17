@@ -18,8 +18,8 @@
 - (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber
                     completion:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable knockingId))completion;
 
-- (NXMStitchErrorCode)enableMedia:(NSString *)memberId;
-- (NXMStitchErrorCode)disableMedia;
+- (NXMErrorCode)enableMedia:(NSString *)memberId;
+- (NXMErrorCode)disableMedia;
 - (void)hold:(BOOL)isHold;
 - (void)mute:(BOOL)isMuted;
 - (void)earmuff:(BOOL)isEarmuff;

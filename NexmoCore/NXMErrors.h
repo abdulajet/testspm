@@ -7,55 +7,55 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString * _Nonnull const NXMStitchErrorDomain;
+FOUNDATION_EXPORT NSString * _Nonnull const NXMErrorDomain;
 
-typedef NS_ENUM(NSInteger, NXMStitchErrorCode) {
-    NXMStitchErrorCodeNone,
+typedef NS_ENUM(NSInteger, NXMErrorCode) {
+    NXMErrorCodeNone,
 
-    NXMStitchErrorCodeUnknown,
+    NXMErrorCodeUnknown,
     
-    NXMStitchErrorCodeSessionUnknown,
-    NXMStitchErrorCodeSessionInvalid,           // @"system:error:invalid-session"
-    NXMStitchErrorCodeSessionDisconnected,
-    NXMStitchErrorCodeMaxOpenedSessions,
+    NXMErrorCodeSessionUnknown,
+    NXMErrorCodeSessionInvalid,           // @"system:error:invalid-session"
+    NXMErrorCodeSessionDisconnected,
+    NXMErrorCodeMaxOpenedSessions,
     
-    NXMStitchErrorCodeTokenUnknown,
-    NXMStitchErrorCodeTokenInvalid,             // @"system:error:invalid-token"
-    NXMStitchErrorCodeTokenExpired,             // @"system:error:expired-token"
+    NXMErrorCodeTokenUnknown,
+    NXMErrorCodeTokenInvalid,             // @"system:error:invalid-token"
+    NXMErrorCodeTokenExpired,             // @"system:error:expired-token"
     
-    NXMStitchErrorCodeMemberUnknown,
-    NXMStitchErrorCodeMemberNotFound,           // @"member:error:not-found"
-    NXMStitchErrorCodeMemberAlreadyRemoved,     // @"conversation:error:invalid-member-state"
-    NXMStitchErrorCodeNotAMemberOfTheConversation,
+    NXMErrorCodeMemberUnknown,
+    NXMErrorCodeMemberNotFound,           // @"member:error:not-found"
+    NXMErrorCodeMemberAlreadyRemoved,     // @"conversation:error:invalid-member-state"
+    NXMErrorCodeNotAMemberOfTheConversation,
     
-    NXMStitchErrorCodeEventUnknown,
-    NXMStitchErrorCodeEventUserNotFound,        // @"user:error:not-found"
-    NXMStitchErrorCodeEventUserAlreadyJoined,   // @"conversation:error:member-already-joined"
-    NXMStitchErrorCodeEventInvalid,             // @"conversation:error:invalid-event"
-    NXMStitchErrorCodeEventBadPermission,
-    NXMStitchErrorCodeEventNotFound,      
+    NXMErrorCodeEventUnknown,
+    NXMErrorCodeEventUserNotFound,        // @"user:error:not-found"
+    NXMErrorCodeEventUserAlreadyJoined,   // @"conversation:error:member-already-joined"
+    NXMErrorCodeEventInvalid,             // @"conversation:error:invalid-event"
+    NXMErrorCodeEventBadPermission,
+    NXMErrorCodeEventNotFound,
     
-    NXMStitchErrorCodeConversationRetrievalFailed,
-    NXMStitchErrorCodeConversationNotFound,
-    NXMStitchErrorCodeConversationInvalidMember,
+    NXMErrorCodeConversationRetrievalFailed,
+    NXMErrorCodeConversationNotFound,
+    NXMErrorCodeConversationInvalidMember,
     
-    NXMStitchErrorCodeMediaNotSupported,
-    NXMStitchErrorCodeMediaNotFound,
-    NXMStitchErrorCodeInvalidMediaRequest,
-    NXMStitchErrorCodeMediaTooManyRequests,
-    NXMStitchErrorCodeMediaBadRequest,
-    NXMStitchErrorCodeMediaInternalError,
+    NXMErrorCodeMediaNotSupported,
+    NXMErrorCodeMediaNotFound,
+    NXMErrorCodeInvalidMediaRequest,
+    NXMErrorCodeMediaTooManyRequests,
+    NXMErrorCodeMediaBadRequest,
+    NXMErrorCodeMediaInternalError,
     
-    NXMStitchErrorCodePushNotAStitchPush,
-    NXMStitchErrorCodePushParsingFailed,
+    NXMErrorCodePushNotAStitchPush,
+    NXMErrorCodePushParsingFailed,
     
-    NXMStitchErrorCodeNotImplemented,
-    NXMStitchErrorCodePayloadTooBig
+    NXMErrorCodeNotImplemented,
+    NXMErrorCodePayloadTooBig
 
     
 };
 
 
 @interface NXMErrors : NSObject
-+(NSError *)nxmStitchErrorWithErrorCode:(NXMStitchErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo;
++(NSError *)nxmErrorWithErrorCode:(NXMErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo;
 @end

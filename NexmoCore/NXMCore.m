@@ -55,7 +55,7 @@
     }
     
     if (!self.isConnected) {
-        [self loginStatusChanged:self.user loginStatus:self.isLoggedIn withError:[NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionDisconnected andUserInfo:nil]];
+        [self loginStatusChanged:self.user loginStatus:self.isLoggedIn withError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionDisconnected andUserInfo:nil]];
         return;
     }
     
@@ -85,14 +85,14 @@
     [self.network disablePushNotificationsWithOnSuccess:onSuccess onError:onError];
 }
 
-- (BOOL)isStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo {
+- (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo {
     return [self.pushParser isStitchPushWithUserInfo:userInfo];
 }
 
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError {
-    if(![self isStitchPushWithUserInfo:userInfo]) {
+- (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError {
+    if(![self isNexmoPushWithUserInfo:userInfo]) {
         if(onError) {
-            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodePushNotAStitchPush andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushNotAStitchPush andUserInfo:nil]);
             return;
         }
     }
@@ -100,7 +100,7 @@
     NXMEvent *parsedEvent = [self.pushParser parseStitchPushEventWithUserInfo:userInfo];
     if(!parsedEvent) {
         if(onError) {
-            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodePushParsingFailed andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushParsingFailed andUserInfo:nil]);
         }
         return;
     }
@@ -291,36 +291,36 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 #pragma mark - Media Methods
 
-- (NXMStitchErrorCode)enableMedia:(nonnull NSString *)conversationId
+- (NXMErrorCode)enableMedia:(nonnull NSString *)conversationId
                          memberId:(nonnull NSString *)memberId {
     [self.rtcMedia enableMediaWithMediaID:conversationId memberId:memberId andWithAudio:NXMMediaStreamTypeSendReceive andWithVideo:NXMMediaStreamTypeNone];
     
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
-- (NXMStitchErrorCode)disableMedia:(nonnull NSString *)conversationId {
+- (NXMErrorCode)disableMedia:(nonnull NSString *)conversationId {
     [self.rtcMedia disableMedia:conversationId];
     
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
-- (NXMStitchErrorCode)suspendMyMedia:(NXMMediaType)mediaType
+- (NXMErrorCode)suspendMyMedia:(NXMMediaType)mediaType
                     inConversation:(nonnull NSString *)conversationId{
     if(![self isSupportedMediaType:mediaType]) {
-        return NXMStitchErrorCodeMediaNotSupported;
+        return NXMErrorCodeMediaNotSupported;
     }
     return [self.rtcMedia suspendMediaWithMediaId:conversationId andMediaType:mediaType];
 }
 
-- (NXMStitchErrorCode)resumeMyMedia:(NXMMediaType)mediaType
+- (NXMErrorCode)resumeMyMedia:(NXMMediaType)mediaType
                     inConversation:(nonnull NSString *)conversationId{
     if(![self isSupportedMediaType:mediaType]) {
-        return NXMStitchErrorCodeMediaNotSupported;
+        return NXMErrorCodeMediaNotSupported;
     }
     return [self.rtcMedia resumeMediaWithMediaId:conversationId andMediaType:mediaType];
 }
 
-- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
                       andConversationId:(nonnull NSString*)conversationId
                             andMemberId:(nonnull NSString*)memberId
                             andDuration:(int) duration
@@ -335,7 +335,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(NXMSuccessCallback _Nullable)onSuccess
              onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
-        onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
     }
     NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
     [self.network suspendMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
@@ -348,7 +348,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
             onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
-        onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
     }
     NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
     [self.network resumeMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];

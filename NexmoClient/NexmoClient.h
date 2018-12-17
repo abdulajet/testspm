@@ -7,10 +7,10 @@
 
 #import <UIKit/UIKit.h>
 
-//! Project version number for StitchClient.
+//! Project version number for NexmoClient.
 FOUNDATION_EXPORT double NexmoClientVersionNumber;
 
-//! Project version string for StitchClient.
+//! Project version string for NexmoClient.
 FOUNDATION_EXPORT const unsigned char NexmoClientVersionString[];
 
 // to use this framework: #import <NexmoClient/NexmoClient.h>

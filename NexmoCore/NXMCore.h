@@ -45,9 +45,9 @@
 - (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError;
 
-- (BOOL)isStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo;
+- (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo;
 
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError;
+- (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError;
 
 #pragma mark - Conversation Methods
 
@@ -155,26 +155,26 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 #pragma mark - Media Methods
 
-- (NXMStitchErrorCode)enableMedia:(nonnull NSString *)conversationId
+- (NXMErrorCode)enableMedia:(nonnull NSString *)conversationId
                          memberId:(nonnull NSString *)memberId;
 
-- (NXMStitchErrorCode)disableMedia:(nonnull NSString *)conversationId;
+- (NXMErrorCode)disableMedia:(nonnull NSString *)conversationId;
 
-- (NXMStitchErrorCode)suspendMyMedia:(NXMMediaType)mediaType
+- (NXMErrorCode)suspendMyMedia:(NXMMediaType)mediaType
                     inConversation:(nonnull NSString *)conversationId;
 
 //TODO: add callback functionality?
 //                         onSuccess:(SuccessCallback _Nullable)onSuccess
 //                           onError:(ErrorCallback _Nullable)onError;
 //TODO: not have a return error and a callback.
-- (NXMStitchErrorCode)resumeMyMedia:(NXMMediaType)mediaType
+- (NXMErrorCode)resumeMyMedia:(NXMMediaType)mediaType
                    inConversation:(nonnull NSString *)conversationId;
 //TODO: add callback functionality?
 //                         onSuccess:(SuccessCallback _Nullable)onSuccess
 //                           onError:(ErrorCallback _Nullable)onError;
 
 
-- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
                        andConversationId:(nonnull NSString*)conversationId
                              andMemberId:(nonnull NSString*)memberId
                              andDuration:(int) duration

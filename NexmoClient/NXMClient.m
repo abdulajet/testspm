@@ -1,5 +1,5 @@
 //
-//  NXMStitch.m
+//  NXMClient.m
 //  NexmoClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
@@ -55,7 +55,7 @@
 
 -(void)loginWithAuthToken:(nonnull NSString *)authToken {
     if(!self.delegate) {
-        [NXMLogger warning:@"NXTStitchClient: login called without setting stitch delegate"];
+        [NXMLogger warning:@"NXMClient: login called without setting delegate"];
     }
     [self.stitchContext.coreClient loginWithAuthToken:authToken];
 }
@@ -75,7 +75,7 @@
     //TODO: decide if disable should be required before logout, or maybe it should be 
     [self disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
         if(error) {
-            [NXMLogger errorWithFormat:@"StitchClient: failed disabling push during logout with error: %@", error];
+            [NXMLogger errorWithFormat:@"NXMClient: failed disabling push during logout with error: %@", error];
             return;
         }
     }];
@@ -134,7 +134,7 @@
                                                         if(completion) {
                                                             [weakSelf getConversationWithId:value completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation){
                                                                 if(error) {
-                                                                    NSError *wrappingError = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeConversationRetrievalFailed andUserInfo:@{NSUnderlyingErrorKey: error}];
+                                                                    NSError *wrappingError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeConversationRetrievalFailed andUserInfo:@{NSUnderlyingErrorKey: error}];
                                                                     completion(wrappingError, nil);
                                                                 } else {
                                                                     completion(nil, conversation);
@@ -252,12 +252,12 @@
     }];
 }
 
-- (BOOL)isStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo {
-    return [self.stitchContext.coreClient isStitchPushWithUserInfo:userInfo];
+- (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo {
+    return [self.stitchContext.coreClient isNexmoPushWithUserInfo:userInfo];
 }
 
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    [self.stitchContext.coreClient processStitchPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
+- (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [self executeBlockWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
         [self executeBlockWithError:error completion:completion];

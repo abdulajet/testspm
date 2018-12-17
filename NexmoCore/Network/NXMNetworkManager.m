@@ -197,7 +197,7 @@
         case NXMMediaTypeVideo:
         default:{
             [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
-            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
         }
     }
 }
@@ -212,7 +212,7 @@
         case NXMMediaTypeVideo:
         default:{
             [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
-            onError([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMediaNotSupported andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
         }
     }
 }

@@ -2553,7 +2553,7 @@
 			baseConfigurationReference = 9A2FC197B8CF1BE15171A67D /* Pods-NexmoClientTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = StitchClientTestApp/StitchClientTestApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NexmoClientTestApp/NexmoClientTestApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -2574,7 +2574,7 @@
 			baseConfigurationReference = D6CB810BCDBDAFBD3F460015 /* Pods-NexmoClientTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = StitchClientTestApp/StitchClientTestApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NexmoClientTestApp/NexmoClientTestApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
@@ -2593,7 +2593,7 @@
 			baseConfigurationReference = BEDFFA90A427C40290693112 /* Pods-NexmoCoreTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = StitchCoreTestApp/StitchCoreTestApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NexmoCoreTestApp/NexmoCoreTestApp.entitlements;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
@@ -2617,7 +2617,7 @@
 			baseConfigurationReference = 940F5589D31EF57D4747623F /* Pods-NexmoCoreTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = StitchCoreTestApp/StitchCoreTestApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = NexmoCoreTestApp/NexmoCoreTestApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;

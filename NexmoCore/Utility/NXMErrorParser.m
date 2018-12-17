@@ -16,20 +16,20 @@ static NSDictionary<NSString *,NSNumber *> *csErrorToNXMCode;
 
 +(void)initialize {
     csErrorToNXMCode = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMemberNotFound],@"member:error:not-found",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMemberAlreadyRemoved],@"conversation:error:invalid-member-state",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventUserNotFound],@"user:error:not-found",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventUserAlreadyJoined],@"conversation:error:member-already-joined",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeTokenInvalid],@"system:error:invalid-token",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeTokenExpired],@"system:error:expired-token",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeEventNotFound],@"event:error:not-found",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeConversationNotFound],@"conversation:error:not-found",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeInvalidMediaRequest],@"audio:error:invalid-event",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaNotFound],@"media:error:not-found",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaTooManyRequests],@"media:error:too-many-request",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaBadRequest],@"media:error:bad-request",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeMediaInternalError],@"media:error:internal",
-                        [NSNumber numberWithInteger:NXMStitchErrorCodeConversationInvalidMember],@"conversation:error:invalid-member",
+                        [NSNumber numberWithInteger:NXMErrorCodeMemberNotFound],@"member:error:not-found",
+                        [NSNumber numberWithInteger:NXMErrorCodeMemberAlreadyRemoved],@"conversation:error:invalid-member-state",
+                        [NSNumber numberWithInteger:NXMErrorCodeEventUserNotFound],@"user:error:not-found",
+                        [NSNumber numberWithInteger:NXMErrorCodeEventUserAlreadyJoined],@"conversation:error:member-already-joined",
+                        [NSNumber numberWithInteger:NXMErrorCodeTokenInvalid],@"system:error:invalid-token",
+                        [NSNumber numberWithInteger:NXMErrorCodeTokenExpired],@"system:error:expired-token",
+                        [NSNumber numberWithInteger:NXMErrorCodeEventNotFound],@"event:error:not-found",
+                        [NSNumber numberWithInteger:NXMErrorCodeConversationNotFound],@"conversation:error:not-found",
+                        [NSNumber numberWithInteger:NXMErrorCodeInvalidMediaRequest],@"audio:error:invalid-event",
+                        [NSNumber numberWithInteger:NXMErrorCodeMediaNotFound],@"media:error:not-found",
+                        [NSNumber numberWithInteger:NXMErrorCodeMediaTooManyRequests],@"media:error:too-many-request",
+                        [NSNumber numberWithInteger:NXMErrorCodeMediaBadRequest],@"media:error:bad-request",
+                        [NSNumber numberWithInteger:NXMErrorCodeMediaInternalError],@"media:error:internal",
+                        [NSNumber numberWithInteger:NXMErrorCodeConversationInvalidMember],@"conversation:error:invalid-member",
                         nil];
 }
 
@@ -41,7 +41,7 @@ static NSDictionary<NSString *,NSNumber *> *csErrorToNXMCode;
 + (int) parseError:(nonnull NSDictionary*) data{
     
     NSString* errorCodeMsg = data[@"code"];
-    return csErrorToNXMCode[errorCodeMsg] ? csErrorToNXMCode[errorCodeMsg].integerValue : NXMStitchErrorCodeUnknown;
+    return csErrorToNXMCode[errorCodeMsg] ? csErrorToNXMCode[errorCodeMsg].integerValue : NXMErrorCodeUnknown;
 }
 
 @end

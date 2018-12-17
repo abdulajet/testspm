@@ -8,11 +8,11 @@
 
 #import "NXMErrors.h"
 
-NSString *const NXMStitchErrorDomain = @"com.nexmo.StitchErrorDomain";
+NSString *const NXMErrorDomain = @"com.nexmo.errorDomain";
 
 @implementation NXMErrors
-+(NSError *)nxmStitchErrorWithErrorCode:(NXMStitchErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo {
-    return [NSError errorWithDomain:NXMStitchErrorDomain code:errorCode userInfo:userInfo];
++(NSError *)nxmErrorWithErrorCode:(NXMErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo {
+    return [NSError errorWithDomain:NXMErrorDomain code:errorCode userInfo:userInfo];
 }
 @end
 

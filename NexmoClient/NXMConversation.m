@@ -197,7 +197,7 @@
     
     if(attachmentType != NXMAttachmentTypeImage) {
         if(completion) {
-            completion([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeNotImplemented andUserInfo:nil]);
+            completion([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotImplemented andUserInfo:nil]);
         }
         return;
     }
@@ -261,14 +261,14 @@
         completion(error,nil);
     }];
 }
-- (NXMStitchErrorCode)enableMedia:(NSString *)memberId {
+- (NXMErrorCode)enableMedia:(NSString *)memberId {
     [self.stitchContext.coreClient enableMedia:self.conversationId memberId:memberId];
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
-- (NXMStitchErrorCode)disableMedia {
+- (NXMErrorCode)disableMedia {
     [self.stitchContext.coreClient disableMedia:self.conversationId];
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
 - (void)hold:(BOOL)isHold {
@@ -304,6 +304,6 @@
         return nil;
     }
     
-    return [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeNotAMemberOfTheConversation andUserInfo:nil];
+    return [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotAMemberOfTheConversation andUserInfo:nil];
 }
 @end

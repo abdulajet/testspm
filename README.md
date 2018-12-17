@@ -1,17 +1,17 @@
-# Stitch - Nexmo's Mobile SDK for iOS
+# Nexmo's Mobile SDK for iOS
 [![Platforms](https://img.shields.io/badge/platform-ios%7Cosx-lightgrey.svg)]()
 [![CocoaPods](https://img.shields.io/badge/podspec-v0.1-blue.svg)]()
 
 ## Setup
 
-To get started with the Stitch SDK for iOS, check out the [Stitch Mobile Developer Guide for iOS](devral-linkurl)
+To get started with the nexmo SDK for iOS, check out the [nexmo Mobile Developer Guide for iOS](devral-linkurl)
 
-To use the Stitch SDK for iOS, you will need the following installed:
+To use the nexmo SDK for iOS, you will need the following installed:
 
 * Xcode 9.4 or later
 * iOS 10 or later
 
-There are two ways to import the Stitch SDK for iOS into your project:
+There are two ways to import the nexmo SDK for iOS into your project:
 
 * [CocoaPods](https://cocoapods.org/) - version 1.3 or later
 * [Dynamic Frameworks](devral-linkurl)
@@ -29,7 +29,7 @@ There are two ways to import the Stitch SDK for iOS into your project:
 
    ```ruby
    target 'TargetName' do
-       pod 'StitchClient'
+       pod 'NexmoClient'
    end
    ```
 
@@ -42,27 +42,27 @@ There are two ways to import the Stitch SDK for iOS into your project:
    where `Project Dir` is the path to the parent directory of the `PodFile`
 
 ### Frameworks
-Download the stitch SDK and add it to your project
+Download the Nexmo SDK and add it to your project
 
 ## Getting Started with Swift
 TBA
 
 
 ## Getting Started with Objective-C
-As part of the authentication process, the stitch client requires a jwt token with the [proper credentials](devral-linkurlTo_application_users_jwt).  
+As part of the authentication process, the nexmo client requires a jwt token with the [proper credentials](devral-linkurlTo_application_users_jwt).  
 For ease of access, we advise to set up a Web Service to generate a unique Identity Token for each user on request.
 
 ### Login
-Create a NXMStitchClient object and login with a token.
+Create a NXMClient object and login with a token.
 
 ```objective-c
-    NXMStitchClient *stitchClient = [NXMStitchClient new];
-    [stitchClient setDelegate:self];
-    [stitchClient loginWithAuthToken:@"your token"];
+    NXMClient *client = [NXMClient new];
+    [client setDelegate:self];
+    [client loginWithAuthToken:@"your token"];
 ```
 where `"your token"` is the string format of the jwt for the user you wish to log in.  
-**Note:** self should implement the `NXMStitchClientDelegate` protocol.  
-At the end of a succesfull login process, The following delegate method is called with isLoggedIn = true, now you can use the stitch client.
+**Note:** self should implement the `NXMClientDelegate` protocol.  
+At the end of a succesfull login process, The following delegate method is called with isLoggedIn = true, now you can use the client.
 
 ```objective-c
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
@@ -70,16 +70,16 @@ At the end of a succesfull login process, The following delegate method is calle
 if an error occured, isLoggedIn = false, and more details about the error are present in the error object.
 
 ### Logout
-Logout using the stitch client.
+Logout using the nexmo client.
 ```objective-c
-    [stitchClient logout];
+    [client logout];
 ```
 **Note:**  At the end of a succesfull logout the loginstatuschanged method is called with isLoggedIn = false. If an error occured, isLoggedIn = true, and more details about the error are present in the error object.
 
 ### Get current user info
 
 ```objective-c
-    NXMUser *user = stitchClient.user;
+    NXMUser *user = client.user;
 ```
 **Note:** this method returns nil if no user is currently logged in.
 
@@ -89,7 +89,7 @@ Logout using the stitch client.
 IP-IP calls are done by supplying an array of userIds to call, and a delegate object implementing the `NXMCallDelegate` protocol on which to receive call events.
 
 ```objective-c
-    [stitchClient callToUsers:@[@"userId"] delegate:NXMCallDelegateImp completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+    [client callToUsers:@[@"userId"] delegate:NXMCallDelegateImp completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
         if (error) {
             // create call failed
         }
@@ -125,9 +125,9 @@ TBA
 A conversation is used to provide a contextual communication between users.
 
 ### Create new conversation
-Use the stitchClient to create a new conversation
+Use the NexmoClient to create a new conversation
 ```objective-c
-    [stitchClient createConversationWithName:@"conversation name" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+    [client createConversationWithName:@"conversation name" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if(error) {
                 //Handle error
                 return;
@@ -149,7 +149,7 @@ Use the stitchClient to create a new conversation
 ### Get existing conversation
 Getting an existing conversation using a conversation identifier
 ```objective-c
-    [stitchClient getConversationWithId:@"conversation identifier" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+    [client getConversationWithId:@"conversation identifier" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if(error) {
                 //Handle error
                 return;
@@ -346,7 +346,7 @@ The SDK supports receiving push notifications for some events.
     ```objective-c
     - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     {
-        [stitchClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:false isSandbox:false completion:^(NSError * _Nullable error) {
+        [client enablePushNotificationsWithDeviceToken:deviceToken isPushKit:false isSandbox:false completion:^(NSError * _Nullable error) {
                 if (error) {
                     //error enabling push notifications for this user's device
                     return;
@@ -364,8 +364,8 @@ The SDK supports receiving push notifications for some events.
 3. Handeling an incoming push notification in your appDelegate
     ```objective-c
     - (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
-        if([stitchClient isStitchPushWithUserInfo:userInfo]) {
-            [stitchClient processStitchPushWithUserInfo:userInfo completion:^(NSError * _Nullable error) {
+        if([client isPushWithUserInfo:userInfo]) {
+            [client processPushWithUserInfo:userInfo completion:^(NSError * _Nullable error) {
                 if (error) {
                     //error processing incoming push
                     return;
@@ -377,7 +377,7 @@ The SDK supports receiving push notifications for some events.
     }
     ```
 
-4. The sdk processes the push notification and will invoke the appropriate `NXMStitchClientDelegate` delegate methods
+4. The sdk processes the push notification and will invoke the appropriate `NXMClientDelegate` delegate methods
 
     ```objective-c
     - (void)incomingCall:(nonnull NXMCall *)call;
@@ -389,7 +389,7 @@ The SDK supports receiving push notifications for some events.
 
 5. Disable push notifications to stop receiving user's notifications on the device
     ```objective-c
-    [stitchClient disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+    [client disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
                 if (error) {
                     //error disabling push notifications for this user's device
                     return;

@@ -158,7 +158,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     
     [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseError:data] userInfo:nil];
             onError(resError);
             return;
         }
@@ -262,7 +262,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         }
         
         if (!data){
-            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
             return;
         }
         
@@ -299,7 +299,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         }
         
         if (!data){
-            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
             return;
         }
         NSMutableArray *items = [NSMutableArray new];
@@ -336,7 +336,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         }
         
         if (!data){
-            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
             return;
         }
         
@@ -791,7 +791,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         }
         
         if (!data){
-            onError([[NSError alloc] initWithDomain:NXMStitchErrorDomain code:NXMStitchErrorCodeUnknown userInfo:nil]);
+            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
             return;
         }
         
@@ -917,7 +917,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         
         // TODO: make this more robust
         if (((NSHTTPURLResponse *)response).statusCode == 413) {
-            responseBlock([NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodePayloadTooBig andUserInfo:nil], nil);
+            responseBlock([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePayloadTooBig andUserInfo:nil], nil);
             return;
         }
         
@@ -925,7 +925,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
             NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:dataDict];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:dataDict];
             responseBlock(resError, nil);
             return;
         }
@@ -933,7 +933,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
         if (!jsonDict || jsonError) {
             // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMStitchErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
+            NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
             responseBlock(resError, nil);
             return;
         }

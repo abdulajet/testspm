@@ -56,34 +56,34 @@
     [self.mrtcMedia answerWithMediaId:convId andSDP:sdp andRtcId:mediaId];
 }
 
-- (NXMStitchErrorCode)suspendMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
+- (NXMErrorCode)suspendMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
         [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
-        return NXMStitchErrorCodeMediaNotSupported;
+        return NXMErrorCodeMediaNotSupported;
     }
     [self.mrtcMedia suspendMediaWithMediaId:conversationId andMediaType:mrtcMediaType];
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
-- (NXMStitchErrorCode)resumeMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
+- (NXMErrorCode)resumeMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
         [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
-        return NXMStitchErrorCodeMediaNotSupported;
+        return NXMErrorCodeMediaNotSupported;
     }
     [self.mrtcMedia resumeMediaWithMediaId:conversationId andMediaType:mrtcMediaType];
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
 
-- (NXMStitchErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
                       andConversationId:(nonnull NSString*)conversationId
                             andMemberId:(nonnull NSString*)memberId
                             andDuration:(int) duration
                                  andGap:(int) gap{
     [self.mrtcMedia sendDTMFDigitsWithMediaId:conversationId andDigits:digits andDuration:duration andGap:gap];
-    return NXMStitchErrorCodeNone;
+    return NXMErrorCodeNone;
 }
 
 #pragma mark: - private

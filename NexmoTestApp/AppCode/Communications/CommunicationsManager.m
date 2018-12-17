@@ -136,16 +136,16 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
         reason = loginStatus ? CommunicationsManagerConnectionStatusReasonLogin : CommunicationsManagerConnectionStatusReasonLogout;
     } else {
         switch (error.code) {
-            case NXMStitchErrorCodeSessionInvalid:
+            case NXMErrorCodeSessionInvalid:
                 reason = CommunicationsManagerConnectionStatusReasonSessionInvalid;
                 break;
-            case NXMStitchErrorCodeMaxOpenedSessions:
+            case NXMErrorCodeMaxOpenedSessions:
                 reason = CommunicationsManagerConnectionStatusReasonMaxSessions;
                 break;
-            case NXMStitchErrorCodeTokenInvalid:
+            case NXMErrorCodeTokenInvalid:
                 reason = CommunicationsManagerConnectionStatusReasonTokenInvalid;
                 break;
-                case NXMStitchErrorCodeTokenExpired:
+                case NXMErrorCodeTokenExpired:
                 reason = CommunicationsManagerConnectionStatusReasonTokenExpired;
                 break;
             default:

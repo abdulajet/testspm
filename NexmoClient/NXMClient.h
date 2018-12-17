@@ -1,5 +1,5 @@
 //
-//  NXMStitch.h
+//  NXMClient.h
 //  NexmoClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
@@ -36,7 +36,7 @@ Return true when user logged in.
 
 /*!
  Set stitch client delegate
- *  @param delegate a `NXMStitchClientDelegate` object.
+ *  @param delegate a `NXMClientDelegate` object.
  *
  */
 - (void)setDelegate:(nullable id <NXMClientDelegate>)delegate;
@@ -118,18 +118,18 @@ Logout
  Call this method on incoming push
 
  @param userInfo    pushInfo
- @return true if stitch push
+ @return true if nexmo push
  */
-- (BOOL)isStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo;
+- (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo;
 
 /**
- Handle stitch push
- Call this method when isStitchPushWithUserInfo:userInfo return true
+ Handle nexmo push
+ Call this method when isNexmoPushWithUserInfo:userInfo return true
  
  @param userInfo    pushInfo
  @param completion  completion block
  */
-- (void)processStitchPushWithUserInfo:(nonnull NSDictionary *)userInfo
+- (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo
                            completion:(void(^_Nullable)(NSError * _Nullable error))completion;
 
 @end

@@ -317,33 +317,33 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionInvalid andUserInfo:nil];
+        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionInvalid andUserInfo:nil];
         [self didFailLoginWithError:error];
     }];
     
     [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
-        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeSessionInvalid andUserInfo:nil];
+        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionInvalid andUserInfo:nil];
         [self didFailLoginWithError:error];
     }];
     
     [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
-        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeMaxOpenedSessions andUserInfo:nil];
+        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMaxOpenedSessions andUserInfo:nil];
         [self didFailLoginWithError:error];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         NSDictionary * userInfo = @{@"token" : self.token};
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeTokenInvalid andUserInfo:userInfo];
+        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeTokenInvalid andUserInfo:userInfo];
         [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
         NSDictionary * userInfo = @{@"token" : self.token};
-        NSError *error = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeTokenExpired andUserInfo:userInfo];
+        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeTokenExpired andUserInfo:userInfo];
         [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
     }];
     
