@@ -10,6 +10,7 @@
 #import "NXMConversationPrivate.h"
 #import "NXMCallPrivate.h"
 #import "NXMCallParticipantPrivate.h"
+#import "NXMBlocksHelper.h"
 
 @interface NXMClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
@@ -112,7 +113,8 @@
 
 #pragma mark - conversation
 
--(void)getConversationWithId:(nonnull NSString *)converesationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
+-(void)getConversationWithId:(nonnull NSString *)converesationId
+                  completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
     [self.stitchContext.coreClient getConversationDetails:converesationId
                                                 onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
                                                     if(completion) {
@@ -121,9 +123,7 @@
                                                     }
                                                 }
                                                   onError:^(NSError * _Nullable error) {
-                                                      if(completion) {
-                                                          completion(error, nil);
-                                                      }
+                                                      [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                                   }];
 }
 
@@ -133,19 +133,20 @@
                                                     onSuccess:^(NSString * _Nullable value) {
                                                         if(completion) {
                                                             [weakSelf getConversationWithId:value completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation){
-                                                                if(error) {
+                                                                if(!conversation) {
                                                                     NSError *wrappingError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeConversationRetrievalFailed andUserInfo:@{NSUnderlyingErrorKey: error}];
-                                                                    completion(wrappingError, nil);
-                                                                } else {
-                                                                    completion(nil, conversation);
+                                                                    
+                                                                    [NXMBlocksHelper runWithError:wrappingError value:nil completion:completion];
+                                                                    return;
                                                                 }
+                                                                
+                                                                [NXMBlocksHelper runWithError:nil value:conversation completion:completion];
                                                             }];
                                                         }
                                                     }
                                                     onError:^(NSError * _Nullable error) {
-                                                        if(completion) {
-                                                            completion(error, nil);
-                                                        }
+                                                        [NXMBlocksHelper runWithError:error value:nil completion:completion];
+
                                                     }];
 }
 
@@ -174,16 +175,19 @@
                                                    
                                                    [call setDelegate:delegate];
                                                    
-                                                   completion(nil, call);
+                                                   [NXMBlocksHelper runWithError:nil value:call completion:completion];
                                                }
                                            }];
-                                       }else{
-                                           completion(error, nil);
+                                       } else {
+                                           [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                                                        value:nil
+                                                   completion:completion];
+
                                        }
                                    }];
                                }
                                  onError:^(NSError * _Nullable error) {
-                                     completion(error, nil); // TODO: Error handling
+                                     [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                  }
      ];
 }
@@ -237,18 +241,19 @@
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
         [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox onSuccess:^{
-        [self executeBlockWithError:nil completion:completion];
+        [NXMBlocksHelper runWithError:nil completion:completion];
+            
     } onError:^(NSError * _Nullable error) {
-        [self executeBlockWithError:error completion:completion];
+        [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
 
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
     
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
-        [self executeBlockWithError:nil completion:completion];
+        [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
-        [self executeBlockWithError:error completion:completion];
+        [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
 
@@ -258,9 +263,9 @@
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
-        [self executeBlockWithError:nil completion:completion];
+        [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
-        [self executeBlockWithError:error completion:completion];
+        [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
 
@@ -318,12 +323,6 @@
 }
 
 #pragma mark - private
-
-- (void)executeBlockWithError:(nullable NSError *)error completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    if (completion) {
-        completion(error);
-    }
-}
 
 - (BOOL)setUpWithErrorPtr:(NSError **)errorPtr {
     //TODO: set up, set error and return false if problematic

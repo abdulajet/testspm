@@ -50,6 +50,8 @@
 		D64556E5092D8AF866F25BA7 /* Pods_NexmoClientTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5890C514252606670D16B3BA /* Pods_NexmoClientTestApp.framework */; };
 		F2A56829373FCD027FCEBF46 /* Pods_NexmoCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9457F651321999A33D791FB2 /* Pods_NexmoCoreTests.framework */; };
 		F5696E68A483B6EA1933090C /* Pods_NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B589688FB93961D331FAE0 /* Pods_NexmoClient.framework */; };
+		F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */; };
+		F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */; };
 		F91052F420B6EBAE006318F9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F91052F320B6EBAE006318F9 /* AppDelegate.m */; };
 		F91052F720B6EBAE006318F9 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F91052F620B6EBAE006318F9 /* ViewController.m */; };
 		F91052FA20B6EBAE006318F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F91052F820B6EBAE006318F9 /* Main.storyboard */; };
@@ -544,6 +546,8 @@
 		D1B589688FB93961D331FAE0 /* Pods_NexmoClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6CB810BCDBDAFBD3F460015 /* Pods-NexmoClientTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClientTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClientTestApp/Pods-NexmoClientTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		EA7D01F954DEB749488552E3 /* Pods-NexmoClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClient/Pods-NexmoClient.debug.xcconfig"; sourceTree = "<group>"; };
+		F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMBlocksHelper.h; sourceTree = "<group>"; };
+		F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMBlocksHelper.m; sourceTree = "<group>"; };
 		F903DF772097732A008A161A /* NXMMediaEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaEvent.h; sourceTree = "<group>"; };
 		F903DF782097732A008A161A /* NXMMediaEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMMediaEvent.m; sourceTree = "<group>"; };
 		F903DF7B2099AB16008A161A /* NXMRtcAnswerEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMRtcAnswerEvent.h; sourceTree = "<group>"; };
@@ -963,6 +967,8 @@
 		92B7A3F32164E31600390258 /* Internal */ = {
 			isa = PBXGroup;
 			children = (
+				F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */,
+				F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */,
 				92B7A40E216A638300390258 /* Members */,
 				92B7A3F62164E35D00390258 /* NXMConversationPrivate.h */,
 				F9B9CB8B2193443300C6C36D /* Call */,
@@ -1729,6 +1735,7 @@
 				F923DDA921985C9500D29065 /* NXMCall.h in Headers */,
 				F923DDBC21985CAE00D29065 /* NXMStitchContext.h in Headers */,
 				F923DDBA21985CA900D29065 /* NXMEventsDispatcherConstants.h in Headers */,
+				F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */,
 				F923DDA521985C8700D29065 /* NXMConversationEventsControllerPrivate.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2434,6 +2441,7 @@
 				F923DDB321985CA900D29065 /* NXMEventsDispatcherConnectionStatusModel.m in Sources */,
 				F923DDAA21985C9500D29065 /* NXMCall.m in Sources */,
 				F923DDBB21985CA900D29065 /* NXMEventsDispatcherConstants.m in Sources */,
+				F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

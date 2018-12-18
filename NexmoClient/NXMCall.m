@@ -13,6 +13,7 @@
 #import "NXMCallParticipantPrivate.h"
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
+#import "NXMBlocksHelper.h"
 
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
@@ -57,15 +58,20 @@
     if (self.myParticipant.status == NXMParticipantStatusAnswered
         || self.myParticipant.status == NXMParticipantStatusCompleted
         || self.myParticipant.status == NXMParticipantStatusCancelled) {
-        completionHandler(nil); // TODO: error;
+        
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
         return;
     }
     
     [self.conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
-        if (member){
+        if (member) {
             [self.conversation enableMedia:self.myParticipant.participantId];
+            return;
         }
-        completionHandler(error);
+    
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
     }];
 }
 
@@ -79,38 +85,50 @@
 
 - (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (userId == self.conversation.myMember.userId){
-        completionHandler(nil); // TODO: error;
+        
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
+
         return;
     }
     
     if (self.status == NXMCallStatusDisconnected) {
-        completionHandler(nil); // TODO: error;
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
+
         return;
     }
     [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
-        NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
-                                                                          andCallProxy:self];
-        [self.otherParticipants addObject:participant];
-        if (completionHandler) {
-            completionHandler(error);
+        if (member) {
+            NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
+                                                                              andCallProxy:self];
+            [self.otherParticipants addObject:participant];
+            return;
         }
+        
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
     }];
 
 }
 
 - (void)addParticipantWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (self.status == NXMCallStatusDisconnected) {
-        completionHandler(nil); // TODO: error;
+        
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
+
         return;
     }
     
     [self.conversation inviteToConversationWithPhoneNumber:number completion:^(NSError * _Nullable error, NSString * _Nullable knockingId) {
         if (knockingId){
             //TODO: register the knockingId with the call object
+            return;
         }
-        if (completionHandler){
-            completionHandler(error);
-        }
+        
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
     }];
 }
 
@@ -161,7 +179,7 @@
     
 }
 - (void)mediaEvent:(NXMEvent *)mediaEvent {
-    [self handleMediaEvent:mediaEvent];
+    [self handleMediaEvent:(NXMMediaEvent *)mediaEvent];
     if (_delegate){
         [_delegate mediaEvent:mediaEvent];
     }

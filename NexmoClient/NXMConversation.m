@@ -10,6 +10,7 @@
 #import "NXMConversationEventsControllerPrivate.h"
 #import "NXMConversationMembersController.h"
 #import "NXMConversationEventsQueue.h"
+#import "NXMBlocksHelper.h"
 
 @interface NXMConversation () <NXMConversationEventsQueueDelegate>
 @property (readwrite, nonatomic) NXMStitchContext *stitchContext;
@@ -115,30 +116,28 @@
 
 #pragma mark members
 - (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self joinMemberWithUserId:self.currentUser.userId completion:completion];
+    [self joinMemberWithUserId:self.currentUser.userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+        [NXMBlocksHelper runWithError:error value:member completion:completion];
+    }];
 }
 
-- (void)joinMemberWithUserId:(nonnull NSString *)userId completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
+- (void)joinMemberWithUserId:(nonnull NSString *)userId
+                  completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
     [self.stitchContext.coreClient joinToConversation:self.conversationId
                                            withUserId:userId
                                             onSuccess:^(NSObject * _Nullable object) {
-                                                if(completion) {
-                                                    completion(nil, (NXMMember *)object);
-                                                }
+                                                [NXMBlocksHelper runWithError:nil value:object completion:completion];
                                             }
                                               onError:^(NSError * _Nullable error) {
-                                                  if(completion) {
-                                                      completion(error, nil);
-                                                  }
+                                                  [NXMBlocksHelper runWithError:error value:nil completion:completion];
+
                                               }];
 }
 
 - (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMember];
     if (validityError) {
-        if(completion) {
-            completion(validityError);
-        }
+        [NXMBlocksHelper runWithError:validityError completion:completion];
         return;
     }
     
@@ -150,14 +149,12 @@
     [self.stitchContext.coreClient deleteMember:memberId
                          fromConversationWithId:self.conversationId
                                       onSuccess:^(NSString * _Nullable value) {
-                                          if(completion) {
-                                              completion(nil);
-                                          }
+                                          [NXMBlocksHelper runWithError:nil completion:completion];
+
                                       }
                                         onError:^(NSError * _Nullable error) {
-                                            if(completion) {
-                                                completion(error);
-                                            }
+                                            [NXMBlocksHelper runWithError:error completion:completion];
+
                                         }];
 }
 
@@ -165,9 +162,8 @@
     
     NSError *validityError = [self validateMyMember];
     if (validityError) {
-        if(completion) {
-            completion(validityError);
-        }
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+
         return;
     }
     
@@ -175,91 +171,81 @@
                              conversationId:self.conversationId
                                fromMemberId:self.myMember.memberId
                                   onSuccess:^(NSString * _Nullable value) {
-                                      if(completion) {
-                                          completion(nil);
-                                      }
+                                      [NXMBlocksHelper runWithError:nil completion:completion];
                                   }
                                     onError:^(NSError * _Nullable error) {
-                                        if(completion) {
-                                            completion(error);
-                                        }
+                                        [NXMBlocksHelper runWithError:error completion:completion];
                                     }];
 }
 
 -(void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMember];
     if (validityError) {
-        if(completion) {
-            completion(validityError);
-        }
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+
         return;
     }
     
     if(attachmentType != NXMAttachmentTypeImage) {
-        if(completion) {
-            completion([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotImplemented andUserInfo:nil]);
-        }
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotImplemented andUserInfo:nil] completion:completion];
+
         return;
     }
     
     [self.stitchContext.coreClient sendImageWithName:name image:data conversationId:self.conversationId fromMemberId:self.myMember.memberId onSuccess:^(NSString * _Nullable value) {
-        if(completion) {
-            completion(nil);
-        }
+        [NXMBlocksHelper runWithError:nil completion:completion];
+
     } onError:^(NSError * _Nullable error) {
-        if(completion) {
-            completion(error);
-        }
+        [NXMBlocksHelper runWithError:error completion:completion];
+
     }];
 }
 
 - (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMember];
     if (validityError) {
-        if(completion) {
-            completion(validityError);
-        }
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+
         return;
     }
     
     [self.stitchContext.coreClient startTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
-    completion(nil);
+    [NXMBlocksHelper runWithError:nil completion:completion];
 }
 
 - (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMember];
     if (validityError) {
-        if(completion) {
-            completion(validityError);
-        }
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+
         return;
     }
     
     [self.stitchContext.coreClient stopTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
-    completion(nil);
+    [NXMBlocksHelper runWithError:nil completion:completion];
 }
 #pragma mark internal
 
 - (void)inviteMemberWithUserId:(nonnull NSString *)userId withMedia:(bool)withMedia
                     completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUserId:userId withMedia:withMedia onSuccess:^(NSObject * _Nullable object) {
-        if(completion) {
-            completion(nil, (NXMMember *)object);
-        }
-    } onError:^(NSError * _Nullable error) {
-        if(completion) {
-            completion(error, nil);
-        }
-    }];
+    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUserId:userId withMedia:withMedia
+                                              onSuccess:^(NSObject * _Nullable object) {
+                                                    [NXMBlocksHelper runWithError:nil value:object completion:completion];
+
+                                                } onError:^(NSError * _Nullable error) {
+                                                    [NXMBlocksHelper runWithError:error value:nil completion:completion];
+
+                                                }];
 }
 
 - (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber
                                  completion:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable knockingId))completion {
-    [self.stitchContext.coreClient inviteToConversation:self.stitchContext.currentUser.name withPhoneNumber:phoneNumber onSuccess:^(NSString * _Nullable value) {
-        completion(nil, value);
-    } onError:^(NSError * _Nullable error) {
-        completion(error,nil);
-    }];
+    [self.stitchContext.coreClient inviteToConversation:self.stitchContext.currentUser.name withPhoneNumber:phoneNumber
+                                              onSuccess:^(NSString * _Nullable value) {
+                                                  [NXMBlocksHelper runWithError:nil value:value completion:completion];
+                                              } onError:^(NSError * _Nullable error) {
+                                                    [NXMBlocksHelper runWithError:error value:nil completion:completion];
+                                                }];
 }
 - (NXMErrorCode)enableMedia:(NSString *)memberId {
     [self.stitchContext.coreClient enableMedia:self.conversationId memberId:memberId];
