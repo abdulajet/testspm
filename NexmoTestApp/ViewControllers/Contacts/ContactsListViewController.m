@@ -6,18 +6,18 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "ContactsViewController.h"
-#import "ContactsTableViewCell.h"
+#import "ContactsListViewController.h"
+#import "ContactsListTableViewCell.h"
 #import "NTAUserInfoProvider.h"
 #import "NTALoginHandler.h"
 
-@interface ContactsViewController ()<UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface ContactsListViewController ()<UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *contactsTableView;
 
 @property (nonatomic) NSArray<NTAUserInfo *> *contactsList;
 @end
 
-@implementation ContactsViewController
+@implementation ContactsListViewController
 
 - (void)viewDidLoad {
     self.contactsList = [self sortedContactsArray];
@@ -39,7 +39,7 @@
         return 0;
     }
     
-    ContactsTableViewCell *contactsCell = [self.contactsTableView dequeueReusableCellWithIdentifier:contactstableViewCellIdentifier];
+    ContactsListTableViewCell *contactsCell = [self.contactsTableView dequeueReusableCellWithIdentifier:contactstableViewCellIdentifier];
     [contactsCell updateWithUserInfo:self.contactsList[indexPath.row]];
     
     return contactsCell;

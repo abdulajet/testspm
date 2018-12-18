@@ -22,7 +22,7 @@
 		9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */; };
 		9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA721BFF07100ED2B51 /* NTALogger.m */; };
 		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
-		9242CDC221C7C12600ED2B51 /* ContactsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */; };
+		9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */; };
 		92556CBD2125B7D400FCEA19 /* OngoingMedia.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBC2125B7D400FCEA19 /* OngoingMedia.m */; };
 		92556CC02125C0BA00FCEA19 /* OngoingMediaCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 92556CBF2125C0BA00FCEA19 /* OngoingMediaCollection.m */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
@@ -261,7 +261,7 @@
 		F942920921BD65D000FA45A1 /* NexmoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F942920F21BD661400FA45A1 /* CommunicationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F942920E21BD661400FA45A1 /* CommunicationsManager.m */; };
 		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
-		F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsViewController.m */; };
+		F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsListViewController.m */; };
 		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
 		F943D9A421C7CBB6004173FE /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F943D9A321C7CBB6004173FE /* LICENSE */; };
 		F943D9A621C7CBC0004173FE /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F943D9A521C7CBBF004173FE /* README.md */; };
@@ -414,8 +414,8 @@
 		9242CDB321C2551100ED2B51 /* NTALoginHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTALoginHandler.m; sourceTree = "<group>"; };
 		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
 		9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandlerObserver.h; sourceTree = "<group>"; };
-		9242CDC021C7C12600ED2B51 /* ContactsTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsTableViewCell.h; sourceTree = "<group>"; };
-		9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsTableViewCell.m; sourceTree = "<group>"; };
+		9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsListTableViewCell.h; sourceTree = "<group>"; };
+		9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListTableViewCell.m; sourceTree = "<group>"; };
 		92556CBB2125B7D400FCEA19 /* OngoingMedia.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMedia.h; sourceTree = "<group>"; };
 		92556CBC2125B7D400FCEA19 /* OngoingMedia.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OngoingMedia.m; sourceTree = "<group>"; };
 		92556CBE2125C0BA00FCEA19 /* OngoingMediaCollection.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OngoingMediaCollection.h; sourceTree = "<group>"; };
@@ -643,8 +643,8 @@
 		F942920E21BD661400FA45A1 /* CommunicationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CommunicationsManager.m; sourceTree = "<group>"; };
 		F942921021BD703200FA45A1 /* MainTabViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainTabViewController.h; sourceTree = "<group>"; };
 		F942921121BD703200FA45A1 /* MainTabViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainTabViewController.m; sourceTree = "<group>"; };
-		F942921321BD720700FA45A1 /* ContactsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsViewController.h; sourceTree = "<group>"; };
-		F942921421BD720700FA45A1 /* ContactsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsViewController.m; sourceTree = "<group>"; };
+		F942921321BD720700FA45A1 /* ContactsListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsListViewController.h; sourceTree = "<group>"; };
+		F942921421BD720700FA45A1 /* ContactsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListViewController.m; sourceTree = "<group>"; };
 		F942921621BD9B6C00FA45A1 /* UserSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingsViewController.h; sourceTree = "<group>"; };
 		F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingsViewController.m; sourceTree = "<group>"; };
 		F943D9A321C7CBB6004173FE /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -900,10 +900,10 @@
 		9242CDBD21C7C03000ED2B51 /* Contacts */ = {
 			isa = PBXGroup;
 			children = (
-				F942921321BD720700FA45A1 /* ContactsViewController.h */,
-				F942921421BD720700FA45A1 /* ContactsViewController.m */,
-				9242CDC021C7C12600ED2B51 /* ContactsTableViewCell.h */,
-				9242CDC121C7C12600ED2B51 /* ContactsTableViewCell.m */,
+				F942921321BD720700FA45A1 /* ContactsListViewController.h */,
+				F942921421BD720700FA45A1 /* ContactsListViewController.m */,
+				9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */,
+				9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -2459,11 +2459,11 @@
 				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
-				9242CDC221C7C12600ED2B51 /* ContactsTableViewCell.m in Sources */,
+				9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */,
 				9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */,
 				F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */,
 				9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */,
-				F942921521BD720700FA45A1 /* ContactsViewController.m in Sources */,
+				F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */,
 				F94291FE21BD500D00FA45A1 /* NXMLoginViewController.m in Sources */,
 				F94291F421BD46FB00FA45A1 /* main.m in Sources */,
 				F94291E621BD46F900FA45A1 /* AppDelegate.m in Sources */,

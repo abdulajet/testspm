@@ -6,7 +6,7 @@
 //
 
 #import "NXMLoginViewController.h"
-#import "ContactsViewController.h"
+#import "ContactsListViewController.h"
 #import "UserSettingsViewController.h"
 #import "MainTabViewController.h"
 
@@ -102,11 +102,11 @@
 - (void)showMainScreen {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    ContactsViewController *contactsViewController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsList"];
-    UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"userSettings"];
+    UINavigationController *contactsNavigationViewController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsListNavigation"];
+    UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"UserSettings"];
     
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[contactsViewController, userSettingsVC];
+    tabBarController.viewControllers = @[contactsNavigationViewController, userSettingsVC];
     
     [self presentViewController:tabBarController animated:NO completion:nil];
 }

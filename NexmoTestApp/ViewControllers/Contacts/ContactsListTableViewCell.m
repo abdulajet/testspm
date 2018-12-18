@@ -6,9 +6,9 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "ContactsTableViewCell.h"
+#import "ContactsListTableViewCell.h"
 
-@interface ContactsTableViewCell ()
+@interface ContactsListTableViewCell ()
 @property (weak, nonatomic) IBOutlet UILabel *contactNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *avatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;
@@ -16,7 +16,7 @@
 @property (nonatomic) NTAUserInfo *userInfo;
 @end
 
-@implementation ContactsTableViewCell
+@implementation ContactsListTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
