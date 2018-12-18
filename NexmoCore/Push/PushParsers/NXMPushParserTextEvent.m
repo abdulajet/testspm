@@ -44,7 +44,10 @@
     return @"text";
 }
 -(nullable NXMEvent *)parseStitchPushEventWithStitchPushInfo:(NSDictionary *)stitchPushInfo {
-    NXMTextEvent *textEvent = [[NXMTextEvent alloc] initWithConversationId:stitchPushInfo[@"conversation_id"] sequenceId:[stitchPushInfo[@"id"] integerValue] fromMemberId:stitchPushInfo[@"from"] creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"]] type:NXMEventTypeText];
+    NXMTextEvent *textEvent = [[NXMTextEvent alloc] initWithConversationId:stitchPushInfo[@"conversation_id"]
+                                                                sequenceId:[stitchPushInfo[@"id"] integerValue]
+                                                              fromMemberId:stitchPushInfo[@"from"]
+                                                              creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"]] type:NXMEventTypeText];
     textEvent.text = stitchPushInfo[@"body"][@"text"];
     return textEvent;
 }

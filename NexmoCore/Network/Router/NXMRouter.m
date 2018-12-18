@@ -957,7 +957,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
-    NXMMemberEvent* event = [NXMMemberEvent alloc];
+    NXMMemberEvent* event = [[NXMMemberEvent alloc] init];
     event.sequenceId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
@@ -973,7 +973,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (NXMMediaEvent* )parseMediaEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
-    NXMMediaEvent* event = [NXMMediaEvent alloc];
+    NXMMediaEvent* event = [[NXMMediaEvent alloc] init];
     event.sequenceId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
@@ -992,7 +992,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (NXMSipEvent* )parseSipEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMSipEventType )state{
-    NXMSipEvent * event = [NXMSipEvent alloc];
+    NXMSipEvent * event = [[NXMSipEvent alloc] init];
     event.sequenceId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
@@ -1005,7 +1005,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return event;
 }
 - (NXMMessageStatusEvent* )parseMessageStatusEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMMessageStatusType )state{
-    NXMMessageStatusEvent * event = [NXMMessageStatusEvent alloc];
+    NXMMessageStatusEvent * event = [[NXMMessageStatusEvent alloc] init];
     event.sequenceId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
@@ -1018,7 +1018,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (NXMTextEvent *)parseTextEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId {
-    NXMTextEvent* event = [NXMTextEvent alloc];
+    NXMTextEvent* event = [[NXMTextEvent alloc] init];
     event.sequenceId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
