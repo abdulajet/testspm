@@ -9,7 +9,7 @@
 #import "NXMPushParserManager.h"
 #import "NXMPushParsers.h"
 
-static const NSString *stitchPushIdentifier = @"stitch";
+static const NSString *stitchPushIdentifier = @"nexmo";
 @interface NXMPushParserManager ()
 @property (nonatomic, nonnull) NSMutableDictionary<NSString *, id<NXMPushParsing>> *parsers;
 -(nullable NSDictionary *)stitchPushInfoWithUserInfo:(nonnull NSDictionary *)userInfo;
