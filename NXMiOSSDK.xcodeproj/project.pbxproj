@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1B6AFAC7640AA24C676E624F /* Pods_NexmoTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05133DBC1E662EDC167A4966 /* Pods_NexmoTestApp.framework */; };
-		5A05795B72D79085ECA78F79 /* Pods_NexmoCoreTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 572A9944262627730BF8B10A /* Pods_NexmoCoreTestApp.framework */; };
 		62509C29CABEADB68B6E86BC /* Pods_NexmoClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D025FDDEF0124077C852B503 /* Pods_NexmoClientTests.framework */; };
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
@@ -192,6 +191,12 @@
 		F9024EC821CA9AF000D58AD0 /* RTCMediaWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024E3421CA9AF000D58AD0 /* RTCMediaWrapper.m */; };
 		F9024EC921CA9AF000D58AD0 /* NXMMediaInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024E3521CA9AF000D58AD0 /* NXMMediaInfo.h */; };
 		F9024ECA21CA9AF000D58AD0 /* RTCMediaWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024E3621CA9AF000D58AD0 /* RTCMediaWrapper.h */; };
+		F9024ED221CAA4F300D58AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9024ED121CAA4F300D58AD0 /* AppDelegate.swift */; };
+		F9024ED421CAA4F300D58AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9024ED321CAA4F300D58AD0 /* ViewController.swift */; };
+		F9024ED721CAA4F300D58AD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9024ED521CAA4F300D58AD0 /* Main.storyboard */; };
+		F9024ED921CAA4F500D58AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9024ED821CAA4F500D58AD0 /* Assets.xcassets */; };
+		F9024EDC21CAA4F500D58AD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9024EDA21CAA4F500D58AD0 /* LaunchScreen.storyboard */; };
+		F9024EE121CAA52600D58AD0 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		F923DCEB2198528A00D29065 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
 		F923DD9221985BF600D29065 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DD9621985BF600D29065 /* StitchClientTests.m */; };
@@ -279,16 +284,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F923DDCB2198664B00D29065 /* NexmoClient.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		F93E2F5720D7AF38002BF74A /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +563,13 @@
 		F9024E3421CA9AF000D58AD0 /* RTCMediaWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTCMediaWrapper.m; sourceTree = "<group>"; };
 		F9024E3521CA9AF000D58AD0 /* NXMMediaInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMMediaInfo.h; sourceTree = "<group>"; };
 		F9024E3621CA9AF000D58AD0 /* RTCMediaWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTCMediaWrapper.h; sourceTree = "<group>"; };
-		F91052F020B6EBAE006318F9 /* NexmoCoreTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NexmoCoreTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9024ECF21CAA4F300D58AD0 /* NexmoSwiftApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NexmoSwiftApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F9024ED121CAA4F300D58AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F9024ED321CAA4F300D58AD0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F9024ED621CAA4F300D58AD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F9024ED821CAA4F500D58AD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F9024EDB21CAA4F500D58AD0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F9024EDD21CAA4F500D58AD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F923DCE52198528A00D29065 /* NexmoCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DCEA2198528A00D29065 /* StitchCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchCoreTests.m; sourceTree = "<group>"; };
 		F923DCEC2198528A00D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -612,19 +613,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		312052196CE764083B55D7B3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5A05795B72D79085ECA78F79 /* Pods_NexmoCoreTestApp.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A282BCDF1379ECA54616D403 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				D64556E5092D8AF866F25BA7 /* Pods_NexmoClientTestApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F9024ECC21CAA4F300D58AD0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F9024EE121CAA52600D58AD0 /* NexmoClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1287,6 +1288,19 @@
 			path = Media;
 			sourceTree = "<group>";
 		};
+		F9024ED021CAA4F300D58AD0 /* NexmoSwiftApp */ = {
+			isa = PBXGroup;
+			children = (
+				F9024ED121CAA4F300D58AD0 /* AppDelegate.swift */,
+				F9024ED321CAA4F300D58AD0 /* ViewController.swift */,
+				F9024ED521CAA4F300D58AD0 /* Main.storyboard */,
+				F9024ED821CAA4F500D58AD0 /* Assets.xcassets */,
+				F9024EDA21CAA4F500D58AD0 /* LaunchScreen.storyboard */,
+				F9024EDD21CAA4F500D58AD0 /* Info.plist */,
+			);
+			path = NexmoSwiftApp;
+			sourceTree = "<group>";
+		};
 		F923DCE92198528A00D29065 /* NexmoCoreTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1410,6 +1424,7 @@
 				F923DCE92198528A00D29065 /* NexmoCoreTests */,
 				92BDBEB42177581C00C33D38 /* NexmoClientTestApp */,
 				F94291E321BD46F900FA45A1 /* NexmoTestApp */,
+				F9024ED021CAA4F300D58AD0 /* NexmoSwiftApp */,
 				F9C35DCE203078BD009FAE4F /* Products */,
 				0C77F825E1C5CD9646B440FA /* Frameworks */,
 				CA471F4331F8DBA6DCD102CE /* Pods */,
@@ -1419,12 +1434,12 @@
 		F9C35DCE203078BD009FAE4F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F91052F020B6EBAE006318F9 /* NexmoCoreTestApp.app */,
 				92BDBEB32177581C00C33D38 /* NexmoClientTestApp.app */,
 				F923DCE52198528A00D29065 /* NexmoCoreTests.xctest */,
 				F923DD8921985BF600D29065 /* NexmoClient.framework */,
 				F923DD9121985BF600D29065 /* NexmoClientTests.xctest */,
 				F94291E221BD46F900FA45A1 /* NexmoTestApp.app */,
+				F9024ECF21CAA4F300D58AD0 /* NexmoSwiftApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1567,25 +1582,21 @@
 			productReference = 92BDBEB32177581C00C33D38 /* NexmoClientTestApp.app */;
 			productType = "com.apple.product-type.application";
 		};
-		F91052EF20B6EBAE006318F9 /* NexmoCoreTestApp */ = {
+		F9024ECE21CAA4F300D58AD0 /* NexmoSwiftApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = F910530520B6EBAE006318F9 /* Build configuration list for PBXNativeTarget "NexmoCoreTestApp" */;
+			buildConfigurationList = F9024EDE21CAA4F500D58AD0 /* Build configuration list for PBXNativeTarget "NexmoSwiftApp" */;
 			buildPhases = (
-				D2A3C20029E7B32F1B1CFF84 /* [CP] Check Pods Manifest.lock */,
-				0B39300720F25B0B000BCB3D /* ShellScript */,
-				F91052EC20B6EBAE006318F9 /* Sources */,
-				F91052EE20B6EBAE006318F9 /* Resources */,
-				F93E2F5720D7AF38002BF74A /* Embed Frameworks */,
-				312052196CE764083B55D7B3 /* Frameworks */,
-				D807697296475AA338806AB9 /* [CP] Embed Pods Frameworks */,
+				F9024ECB21CAA4F300D58AD0 /* Sources */,
+				F9024ECC21CAA4F300D58AD0 /* Frameworks */,
+				F9024ECD21CAA4F300D58AD0 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = NexmoCoreTestApp;
-			productName = StitchTestApp;
-			productReference = F91052F020B6EBAE006318F9 /* NexmoCoreTestApp.app */;
+			name = NexmoSwiftApp;
+			productName = NexmoSwiftApp;
+			productReference = F9024ECF21CAA4F300D58AD0 /* NexmoSwiftApp.app */;
 			productType = "com.apple.product-type.application";
 		};
 		F923DCE42198528A00D29065 /* NexmoCoreTests */ = {
@@ -1674,6 +1685,7 @@
 		F9C35DC4203078BD009FAE4F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1010;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Vonage;
 				TargetAttributes = {
@@ -1689,17 +1701,9 @@
 							};
 						};
 					};
-					F91052EF20B6EBAE006318F9 = {
-						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Manual;
-						SystemCapabilities = {
-							com.apple.BackgroundModes = {
-								enabled = 1;
-							};
-							com.apple.Push = {
-								enabled = 1;
-							};
-						};
+					F9024ECE21CAA4F300D58AD0 = {
+						CreatedOnToolsVersion = 10.1;
+						ProvisioningStyle = Automatic;
 					};
 					F923DCE42198528A00D29065 = {
 						CreatedOnToolsVersion = 9.4.1;
@@ -1735,9 +1739,9 @@
 				F923DD8821985BF600D29065 /* NexmoClient */,
 				F923DCE42198528A00D29065 /* NexmoCoreTests */,
 				F923DD9021985BF600D29065 /* NexmoClientTests */,
-				F91052EF20B6EBAE006318F9 /* NexmoCoreTestApp */,
 				92BDBEB22177581C00C33D38 /* NexmoClientTestApp */,
 				F94291E121BD46F900FA45A1 /* NexmoTestApp */,
+				F9024ECE21CAA4F300D58AD0 /* NexmoSwiftApp */,
 			);
 		};
 /* End PBXProject section */
@@ -1753,10 +1757,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F91052EE20B6EBAE006318F9 /* Resources */ = {
+		F9024ECD21CAA4F300D58AD0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9024EDC21CAA4F500D58AD0 /* LaunchScreen.storyboard in Resources */,
+				F9024ED921CAA4F500D58AD0 /* Assets.xcassets in Resources */,
+				F9024ED721CAA4F300D58AD0 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1796,19 +1803,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0B39300720F25B0B000BCB3D /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "python set_tokens.py ${TARGET_NAME}\n";
-		};
 		188B87B4ADC3E03D973821F6 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1964,24 +1958,6 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D2A3C20029E7B32F1B1CFF84 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NexmoCoreTestApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		D2D3D60D8BFF436BE8B1843A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1998,24 +1974,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D807697296475AA338806AB9 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoCoreTestApp/Pods-NexmoCoreTestApp-frameworks.sh",
-				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoCoreTestApp/Pods-NexmoCoreTestApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E14D019D97F388DB5179BCEF /* [CP] Embed Pods Frameworks */ = {
@@ -2066,10 +2024,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F91052EC20B6EBAE006318F9 /* Sources */ = {
+		F9024ECB21CAA4F300D58AD0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9024ED421CAA4F300D58AD0 /* ViewController.swift in Sources */,
+				F9024ED221CAA4F300D58AD0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2237,6 +2197,22 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		F9024ED521CAA4F300D58AD0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F9024ED621CAA4F300D58AD0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		F9024EDA21CAA4F500D58AD0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F9024EDB21CAA4F500D58AD0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		F94291EA21BD46F900FA45A1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2296,52 +2272,42 @@
 			};
 			name = Release;
 		};
-		F910530320B6EBAE006318F9 /* Debug */ = {
+		F9024EDF21CAA4F500D58AD0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BEDFFA90A427C40290693112 /* Pods-NexmoCoreTestApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NexmoCoreTestApp/NexmoCoreTestApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = NexmoCoreTestApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				INFOPLIST_FILE = NexmoSwiftApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.coreApp;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.NexmoSwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "3f3c18f6-4eab-4c8a-93b5-0fd09845676b";
-				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		F910530420B6EBAE006318F9 /* Release */ = {
+		F9024EE021CAA4F500D58AD0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 940F5589D31EF57D4747623F /* Pods-NexmoCoreTestApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = NexmoCoreTestApp/NexmoCoreTestApp.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
-				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)",
-				);
-				INFOPLIST_FILE = NexmoCoreTestApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				INFOPLIST_FILE = NexmoSwiftApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.coreApp;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.NexmoSwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "25698051-180d-4a88-9313-54dd29aeb400";
-				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2619,11 +2585,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		F910530520B6EBAE006318F9 /* Build configuration list for PBXNativeTarget "NexmoCoreTestApp" */ = {
+		F9024EDE21CAA4F500D58AD0 /* Build configuration list for PBXNativeTarget "NexmoSwiftApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F910530320B6EBAE006318F9 /* Debug */,
-				F910530420B6EBAE006318F9 /* Release */,
+				F9024EDF21CAA4F500D58AD0 /* Debug */,
+				F9024EE021CAA4F500D58AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
