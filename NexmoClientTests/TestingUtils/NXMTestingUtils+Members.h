@@ -7,6 +7,7 @@
 //
 
 #import "NXMTestingUtils.h"
+#import "NXMMember.h"
 
 @interface NXMTestingUtils (Members)
 

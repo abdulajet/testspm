@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <StitchCore/StitchCore.h>
 
 @interface NXMTestingUtils : NSObject
 

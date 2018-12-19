@@ -14,6 +14,7 @@
 #import "NXMTestingUtilities.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
+#import "NXMCore.h"
 
 @interface NXMConversationTests : XCTestCase
 @property (nonatomic) id stitchContextMock;
@@ -27,7 +28,7 @@
     [super setUp];
 
     self.stitchContextMock = OCMClassMock([NXMStitchContext class]);
-    self.stitchCoreMock = OCMClassMock([NXMStitchCore class]);
+    self.stitchCoreMock = OCMClassMock([NXMCore class]);
     self.eventsQueueMock = OCMClassMock([NXMConversationEventsQueue class]);
 
     OCMStub([self.eventsQueueMock alloc]).andReturn(self.eventsQueueMock);
@@ -330,7 +331,7 @@
     NSString *currentUserId = @"currentUser";
     NSString *anotherUserId = @"anotherUser";
     
-    NSError *returnedError = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeEventUserAlreadyJoined andUserInfo:nil];
+    NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
     OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:anotherUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
@@ -359,7 +360,7 @@
     NSString *convId = @"convId";
     NSString *currentUserId = @"currentUser";
     
-    NSError *returnedError = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeEventUserAlreadyJoined andUserInfo:nil];
+    NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
     OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
@@ -389,7 +390,7 @@
     NSString *convId = @"convId";
     NSString *currentUserId = @"currentUser";
     
-    NSError *returnedError = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeEventUserAlreadyJoined andUserInfo:nil];
+    NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
     OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
@@ -419,7 +420,7 @@
     NSString *convId = @"convId";
     NSString *currentUserId = @"currentUser";
     
-    NSError *returnedError = [NXMErrors nxmStitchErrorWithErrorCode:NXMStitchErrorCodeEventUserAlreadyJoined andUserInfo:nil];
+    NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
     OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
@@ -481,7 +482,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [conversation sendStartTypingWithCompletion:^(NSError * _Nullable error) {
-        XCTAssertEqual(error.code, NXMStitchErrorCodeNotAMemberOfTheConversation);
+        XCTAssertEqual(error.code, NXMErrorCodeNotAMemberOfTheConversation);
         [expectation fulfill];
     }];
     
@@ -528,7 +529,7 @@
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     [conversation sendStopTypingWithCompletion:^(NSError * _Nullable error) {
-        XCTAssertEqual(error.code, NXMStitchErrorCodeNotAMemberOfTheConversation);
+        XCTAssertEqual(error.code, NXMErrorCodeNotAMemberOfTheConversation);
         [expectation fulfill];
     }];
     

@@ -8,6 +8,8 @@
 
 #import "NXMTestingUtils.h"
 
+#import "NXMConversationDetails.h"
+
 @interface NXMTestingUtils (ConversationDetails)
 + (NXMConversationDetails *)conversationDetailsWithConversationId:(NSString *)conversationId;
 + (NXMConversationDetails *)conversationDetailsWithConversationId:(NSString *)conversationId sequenceId:(NSInteger)sequenceId;

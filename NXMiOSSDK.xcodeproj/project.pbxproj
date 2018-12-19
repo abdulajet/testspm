@@ -198,7 +198,7 @@
 		F9024EDC21CAA4F500D58AD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9024EDA21CAA4F500D58AD0 /* LaunchScreen.storyboard */; };
 		F9024EE721CAA5F800D58AD0 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		F9024EE821CAA5F800D58AD0 /* NexmoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F923DCEB2198528A00D29065 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
+		F9024EEC21CAB54600D58AD0 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
 		F923DD9221985BF600D29065 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DD9621985BF600D29065 /* StitchClientTests.m */; };
 		F923DD9921985BF600D29065 /* NexmoClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DD8B21985BF600D29065 /* NexmoClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -592,7 +592,6 @@
 		F9024EDD21CAA4F500D58AD0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F923DCE52198528A00D29065 /* NexmoCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DCEA2198528A00D29065 /* StitchCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchCoreTests.m; sourceTree = "<group>"; };
-		F923DCEC2198528A00D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F923DD8921985BF600D29065 /* NexmoClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DD8B21985BF600D29065 /* NexmoClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NexmoClient.h; sourceTree = "<group>"; };
 		F923DD8C21985BF600D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1322,16 +1321,6 @@
 			path = NexmoSwiftApp;
 			sourceTree = "<group>";
 		};
-		F923DCE92198528A00D29065 /* NexmoCoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				F9998ACF2083A02200EAC286 /* Network */,
-				F923DCEA2198528A00D29065 /* StitchCoreTests.m */,
-				F923DCEC2198528A00D29065 /* Info.plist */,
-			);
-			path = NexmoCoreTests;
-			sourceTree = "<group>";
-		};
 		F923DD8A21985BF600D29065 /* NexmoClient */ = {
 			isa = PBXGroup;
 			children = (
@@ -1361,6 +1350,8 @@
 		F923DD9521985BF600D29065 /* NexmoClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				F923DCEA2198528A00D29065 /* StitchCoreTests.m */,
+				F9998ACF2083A02200EAC286 /* Network */,
 				9214F60F21AEF8450021CD05 /* TestingUtils */,
 				F923DD9621985BF600D29065 /* StitchClientTests.m */,
 				F923DD9821985BF600D29065 /* Info.plist */,
@@ -1442,7 +1433,6 @@
 			children = (
 				F923DD8A21985BF600D29065 /* NexmoClient */,
 				F923DD9521985BF600D29065 /* NexmoClientTests */,
-				F923DCE92198528A00D29065 /* NexmoCoreTests */,
 				92BDBEB42177581C00C33D38 /* NexmoClientTestApp */,
 				F94291E321BD46F900FA45A1 /* NexmoTestApp */,
 				F9024ED021CAA4F300D58AD0 /* NexmoSwiftApp */,
@@ -2058,7 +2048,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F923DCEB2198528A00D29065 /* StitchCoreTests.m in Sources */,
 				F96ED16721ADA3D700137D96 /* VPSocketIOClientStub.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2155,6 +2144,7 @@
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,
+				F9024EEC21CAB54600D58AD0 /* StitchCoreTests.m in Sources */,
 				F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */,
 				9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */,
 			);
