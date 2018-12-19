@@ -21,6 +21,10 @@ target 'NexmoTestApp' do
     shared_pods
 end
 
+target 'NexmoSwiftApp' do
+    shared_pods
+end
+
 
 target 'NexmoClient' do
     shared_pods

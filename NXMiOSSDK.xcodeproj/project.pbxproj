@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B6AFAC7640AA24C676E624F /* Pods_NexmoTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05133DBC1E662EDC167A4966 /* Pods_NexmoTestApp.framework */; };
 		62509C29CABEADB68B6E86BC /* Pods_NexmoClientTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D025FDDEF0124077C852B503 /* Pods_NexmoClientTests.framework */; };
+		7FE38FD5DE3AC4F035D39284 /* Pods_NexmoSwiftApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80AB9F56B1D529E608967711 /* Pods_NexmoSwiftApp.framework */; };
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
 		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
@@ -41,7 +42,6 @@
 		92BDBF2321777F1A00C33D38 /* SCLStitchClients.m in Sources */ = {isa = PBXBuildFile; fileRef = 92BDBF2221777F1A00C33D38 /* SCLStitchClients.m */; };
 		92C5585A2178E41D006D4063 /* SCLStitchClientWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 92C558592178E41D006D4063 /* SCLStitchClientWrapper.m */; };
 		D64556E5092D8AF866F25BA7 /* Pods_NexmoClientTestApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5890C514252606670D16B3BA /* Pods_NexmoClientTestApp.framework */; };
-		F2A56829373FCD027FCEBF46 /* Pods_NexmoCoreTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9457F651321999A33D791FB2 /* Pods_NexmoCoreTests.framework */; };
 		F5696E68A483B6EA1933090C /* Pods_NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B589688FB93961D331FAE0 /* Pods_NexmoClient.framework */; };
 		F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */; };
 		F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */; };
@@ -196,7 +196,8 @@
 		F9024ED721CAA4F300D58AD0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9024ED521CAA4F300D58AD0 /* Main.storyboard */; };
 		F9024ED921CAA4F500D58AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F9024ED821CAA4F500D58AD0 /* Assets.xcassets */; };
 		F9024EDC21CAA4F500D58AD0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F9024EDA21CAA4F500D58AD0 /* LaunchScreen.storyboard */; };
-		F9024EE121CAA52600D58AD0 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
+		F9024EE721CAA5F800D58AD0 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
+		F9024EE821CAA5F800D58AD0 /* NexmoClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F923DCEB2198528A00D29065 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
 		F923DD9221985BF600D29065 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DD9621985BF600D29065 /* StitchClientTests.m */; };
@@ -253,6 +254,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		F9024EE921CAA5F800D58AD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F923DD8821985BF600D29065;
+			remoteInfo = NexmoClient;
+		};
 		F923DD9321985BF600D29065 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F9C35DC4203078BD009FAE4F /* Project object */;
@@ -288,6 +296,17 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F9024EEB21CAA5F800D58AD0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F9024EE821CAA5F800D58AD0 /* NexmoClient.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F942920C21BD65D000FA45A1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -304,6 +323,8 @@
 /* Begin PBXFileReference section */
 		04EA820CAB9C2D3959C686D6 /* Pods-NexmoClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClient/Pods-NexmoClient.release.xcconfig"; sourceTree = "<group>"; };
 		05133DBC1E662EDC167A4966 /* Pods_NexmoTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0C3A305FF0204D25D2404F43 /* Pods-NexmoSwiftApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoSwiftApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoSwiftApp/Pods-NexmoSwiftApp.release.xcconfig"; sourceTree = "<group>"; };
+		1814DF449E7380E47155F3DB /* Pods-NexmoSwiftApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoSwiftApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoSwiftApp/Pods-NexmoSwiftApp.debug.xcconfig"; sourceTree = "<group>"; };
 		435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsQueue.h; sourceTree = "<group>"; };
 		435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueue.m; sourceTree = "<group>"; };
 		4DE63779961F95970D298753 /* Pods-NexmoClientTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClientTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClientTests/Pods-NexmoClientTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -311,9 +332,8 @@
 		5890C514252606670D16B3BA /* Pods_NexmoClientTestApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoClientTestApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		68A313A026ADF160D7A42D95 /* Pods-NexmoTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoTestApp/Pods-NexmoTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		6EF3A2295FD1418C64D436C7 /* Pods_NexmoCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6F278E4C1E2FDA136991A391 /* Pods-NexmoCoreTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoCoreTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoCoreTests/Pods-NexmoCoreTests.debug.xcconfig"; sourceTree = "<group>"; };
-		74452557AA60D5F81CC9E24E /* Pods-NexmoCoreTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoCoreTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoCoreTests/Pods-NexmoCoreTests.release.xcconfig"; sourceTree = "<group>"; };
 		78932C74C3FC97B5E67FE87B /* Pods-NexmoClientTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClientTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClientTests/Pods-NexmoClientTests.release.xcconfig"; sourceTree = "<group>"; };
+		80AB9F56B1D529E608967711 /* Pods_NexmoSwiftApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoSwiftApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9214F61021AEF8810021CD05 /* NXMTestingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtils.h; sourceTree = "<group>"; };
 		9214F61121AEF8810021CD05 /* NXMTestingUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTestingUtils.m; sourceTree = "<group>"; };
 		9214F61321AEF8A80021CD05 /* NXMTestingUtils+Members.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NXMTestingUtils+Members.h"; sourceTree = "<group>"; };
@@ -625,7 +645,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F9024EE121CAA52600D58AD0 /* NexmoClient.framework in Frameworks */,
+				F9024EE721CAA5F800D58AD0 /* NexmoClient.framework in Frameworks */,
+				7FE38FD5DE3AC4F035D39284 /* Pods_NexmoSwiftApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -633,7 +654,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2A56829373FCD027FCEBF46 /* Pods_NexmoCoreTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,6 +696,7 @@
 				572A9944262627730BF8B10A /* Pods_NexmoCoreTestApp.framework */,
 				9457F651321999A33D791FB2 /* Pods_NexmoCoreTests.framework */,
 				05133DBC1E662EDC167A4966 /* Pods_NexmoTestApp.framework */,
+				80AB9F56B1D529E608967711 /* Pods_NexmoSwiftApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -948,10 +969,10 @@
 				D02C5F728B4C16E57E96AFA9 /* Pods-NexmoCore.release.xcconfig */,
 				BEDFFA90A427C40290693112 /* Pods-NexmoCoreTestApp.debug.xcconfig */,
 				940F5589D31EF57D4747623F /* Pods-NexmoCoreTestApp.release.xcconfig */,
-				6F278E4C1E2FDA136991A391 /* Pods-NexmoCoreTests.debug.xcconfig */,
-				74452557AA60D5F81CC9E24E /* Pods-NexmoCoreTests.release.xcconfig */,
 				C2FDDCA4FFB0E3A883CF1BBB /* Pods-NexmoTestApp.debug.xcconfig */,
 				68A313A026ADF160D7A42D95 /* Pods-NexmoTestApp.release.xcconfig */,
+				1814DF449E7380E47155F3DB /* Pods-NexmoSwiftApp.debug.xcconfig */,
+				0C3A305FF0204D25D2404F43 /* Pods-NexmoSwiftApp.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1586,13 +1607,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9024EDE21CAA4F500D58AD0 /* Build configuration list for PBXNativeTarget "NexmoSwiftApp" */;
 			buildPhases = (
+				9F11C3D81137F74D96036654 /* [CP] Check Pods Manifest.lock */,
 				F9024ECB21CAA4F300D58AD0 /* Sources */,
 				F9024ECC21CAA4F300D58AD0 /* Frameworks */,
 				F9024ECD21CAA4F300D58AD0 /* Resources */,
+				F9024EEB21CAA5F800D58AD0 /* Embed Frameworks */,
+				7E899BD5EFAA48713BA5C5B2 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F9024EEA21CAA5F800D58AD0 /* PBXTargetDependency */,
 			);
 			name = NexmoSwiftApp;
 			productName = NexmoSwiftApp;
@@ -1603,11 +1628,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F923DCF12198528A00D29065 /* Build configuration list for PBXNativeTarget "NexmoCoreTests" */;
 			buildPhases = (
-				606A4A43435C0EB9967E70E1 /* [CP] Check Pods Manifest.lock */,
 				F923DCE12198528A00D29065 /* Sources */,
 				F923DCE22198528A00D29065 /* Frameworks */,
 				F923DCE32198528A00D29065 /* Resources */,
-				188B87B4ADC3E03D973821F6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1803,26 +1826,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		188B87B4ADC3E03D973821F6 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoCoreTests/Pods-NexmoCoreTests-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/OCMock/OCMock.framework",
-				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/OCMock.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoCoreTests/Pods-NexmoCoreTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		19AF97275DCA7D1F6F202D5D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1877,22 +1880,22 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		606A4A43435C0EB9967E70E1 /* [CP] Check Pods Manifest.lock */ = {
+		7E899BD5EFAA48713BA5C5B2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+				"${SRCROOT}/Pods/Target Support Files/Pods-NexmoSwiftApp/Pods-NexmoSwiftApp-frameworks.sh",
+				"${PODS_ROOT}/MiniRTC_Release/iOSFramework.framework",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-NexmoCoreTests-checkManifestLockResult.txt",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/iOSFramework.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NexmoSwiftApp/Pods-NexmoSwiftApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		8C77C1A9C179293251D26953 /* [CP] Check Pods Manifest.lock */ = {
@@ -1939,6 +1942,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "python set_tokens.py ${TARGET_NAME}\n";
+		};
+		9F11C3D81137F74D96036654 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-NexmoSwiftApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 		D0C1213379CCD7AB64C834FC /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2163,6 +2184,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		F9024EEA21CAA5F800D58AD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F923DD8821985BF600D29065 /* NexmoClient */;
+			targetProxy = F9024EE921CAA5F800D58AD0 /* PBXContainerItemProxy */;
+		};
 		F923DD9421985BF600D29065 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = F923DD8821985BF600D29065 /* NexmoClient */;
@@ -2274,6 +2300,7 @@
 		};
 		F9024EDF21CAA4F500D58AD0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1814DF449E7380E47155F3DB /* Pods-NexmoSwiftApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -2295,6 +2322,7 @@
 		};
 		F9024EE021CAA4F500D58AD0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0C3A305FF0204D25D2404F43 /* Pods-NexmoSwiftApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -2314,7 +2342,6 @@
 		};
 		F923DCF22198528A00D29065 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6F278E4C1E2FDA136991A391 /* Pods-NexmoCoreTests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -2329,7 +2356,6 @@
 		};
 		F923DCF32198528A00D29065 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 74452557AA60D5F81CC9E24E /* Pods-NexmoCoreTests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_STYLE = Automatic;
