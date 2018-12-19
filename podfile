@@ -13,10 +13,6 @@ def shared_pods
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 
-target 'NexmoClientTestApp' do
-    shared_pods
-end
-
 target 'NexmoTestApp' do
     shared_pods
 end
