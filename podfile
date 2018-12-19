@@ -13,10 +13,6 @@ def shared_pods
     #pod 'MiniRTC_Debug', :path => "~/.m2/repository/ios/debug"
 end
 
-target 'NexmoCoreTestApp' do
-    shared_pods
-end
-
 target 'NexmoClientTestApp' do
     shared_pods
 end
@@ -24,18 +20,6 @@ end
 target 'NexmoTestApp' do
     shared_pods
 end
-
-target 'NexmoCore' do
-    shared_pods
-    
-    target 'NexmoCoreTests' do
-        inherit! :search_paths
-        
-        pod 'OCMock', '3.4'
-        
-    end
-end
-
 
 
 target 'NexmoClient' do

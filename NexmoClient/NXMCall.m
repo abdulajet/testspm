@@ -172,26 +172,25 @@
 - (void)textEvent:(NXMMessageEvent *)textEvent {
     
 }
+
 - (void)attachmentEvent:(NXMMessageEvent *)attachmentEvent {
     
 }
+
 - (void)messageStatusEvent:(NXMMessageStatusEvent *)messageStatusEvent {
     
 }
+
 - (void)mediaEvent:(NXMEvent *)mediaEvent {
     [self handleMediaEvent:(NXMMediaEvent *)mediaEvent];
-    if (_delegate){
-        [_delegate mediaEvent:mediaEvent];
-    }
 }
+
 - (void)typingEvent:(NXMTextTypingEvent *)typingEvent{
     
 }
+
 - (void)memberEvent:(NXMMemberEvent *)memberEvent{
     [self handleMemberEvent:memberEvent];
-    if (_delegate){
-        [_delegate memberEvent:memberEvent];
-    }
 }
 
 #pragma mark - private

@@ -5,10 +5,10 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <NexmoCore/NexmoCore.h>
-
 #import "NXMCallParticipant.h"
 #import "NXMCallProxy.h"
+#import "NXMMember.h"
+#import "NXMCoreEvents.h"
 
 @interface NXMCallParticipant()
 

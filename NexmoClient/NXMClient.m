@@ -11,6 +11,7 @@
 #import "NXMCallPrivate.h"
 #import "NXMCallParticipantPrivate.h"
 #import "NXMBlocksHelper.h"
+#import "NXMLogger.h"
 
 @interface NXMClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
@@ -83,6 +84,11 @@
     
     [self.stitchContext.coreClient logout];
 }
+
+- (void)setLoggerDelegate:(nullable id <NXMLoggerDelegate>)delegate {
+    [NXMLogger setDelegate:delegate];
+}
+
 
 
 

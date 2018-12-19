@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
+
+#import "NXMCoreEvents.h"
 
 @protocol NXMConversationDelegate <NSObject> //TODO: devrel this delegate
 @optional

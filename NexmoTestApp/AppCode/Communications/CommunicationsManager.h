@@ -20,6 +20,8 @@
 
 + (NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status;
 
++ (void)setLogger:(id<NXMLoggerDelegate>)delegate;
+
 
 
 /**

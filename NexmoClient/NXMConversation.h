@@ -6,7 +6,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
 
 #import "NXMConversationDelegate.h"
 #import "NXMConversationEventsController.h"

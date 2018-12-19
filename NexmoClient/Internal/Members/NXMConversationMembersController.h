@@ -6,7 +6,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
+
+#import "NXMMember.h"
+#import "NXMConversationDetails.h"
+#import "NXMUser.h"
+#import "NXMCoreEvents.h"
 
 @class NXMConversation;
 @class NXMConversationMembersController;

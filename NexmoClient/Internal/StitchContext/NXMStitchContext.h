@@ -6,10 +6,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
 
 #import "NXMEventsDispatcher.h"
 #import "NXMStitchContextDelegate.h"
+#import "NXMStitchContextDelegate.h"
+
+#import "NXMCore.h"
 
 @interface NXMStitchContext : NSObject<NXMCoreDelegate>
 @property (readonly, nonatomic, nonnull) NXMCore *coreClient;

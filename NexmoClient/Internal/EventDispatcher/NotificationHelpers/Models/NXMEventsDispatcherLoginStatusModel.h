@@ -6,7 +6,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
+
+#import "NXMUser.h"
 
 @interface NXMEventsDispatcherLoginStatusModel : NSObject
 @property (nonatomic, nullable) NXMUser *user;

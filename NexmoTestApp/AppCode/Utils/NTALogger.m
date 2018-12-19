@@ -30,7 +30,6 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         sharedLogger = [NTALogger new];
-        [NXMLogger setDelegate:sharedLogger];
     });
     
     return sharedLogger;

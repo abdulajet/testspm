@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "NTALogger.h"
+#import "CommunicationsManager.h"
 
 @interface AppDelegate ()
 
@@ -20,6 +21,7 @@
     // Override point for customization after application launch.
     
     [NTALogger info:@"launch done"];
+    [CommunicationsManager setLogger:[NTALogger sharedLogger]];
     
     return YES;
 }

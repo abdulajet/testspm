@@ -6,17 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
 
 #import "NXMCallParticipant.h"
 #import "NXMConversation.h"
+#import "NXMBlocks.h"
 
 @protocol NXMCallDelegate
 - (void)statusChanged;
 - (void)holdChanged:(NXMCallParticipant *)participant isHold:(BOOL)isHold member:(NSString *)member;
 - (void)muteChanged:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted member:(NSString *)member;
-- (void)mediaEvent:(NXMEvent *)mediaEvent;
-- (void)memberEvent:(NXMMemberEvent *)memberEvent;
 @end
 
 typedef NS_ENUM(NSInteger, NXMCallStatus) {

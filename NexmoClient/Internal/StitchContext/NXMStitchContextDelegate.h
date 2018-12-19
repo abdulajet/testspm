@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
+#import "NXMCoreDelegate.h"
 
 @protocol NXMStitchContextDelegate <NXMCoreDelegate>
 

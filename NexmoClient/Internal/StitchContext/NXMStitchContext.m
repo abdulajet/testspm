@@ -6,7 +6,7 @@
 //
 
 #import "NXMStitchContext.h"
-#import <NexmoCore/NexmoCore.h>
+#import "NXMCoreEvents.h"
 
 @interface NXMStitchContext()
 @property (readwrite, nonnull, nonatomic) NXMCore *coreClient;

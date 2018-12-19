@@ -4,12 +4,12 @@
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
-#import <NexmoCore/NexmoCore.h>
 
 #import "NXMConversationMembersController.h"
 
 #import "NXMConversation.h"
 #import "NXMStitchContext.h"
+#import "NXMCoreEvents.h"
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;

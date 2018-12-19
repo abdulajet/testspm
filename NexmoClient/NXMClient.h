@@ -10,6 +10,7 @@
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
+#import "NXMLoggerDelegate.h"
 
 @interface NXMClient : NSObject
 
@@ -34,8 +35,16 @@ Return true when user logged in.
  */
 @property (nonatomic, strong, readonly, nullable, getter=getToken) NSString *token;
 
+
 /*!
- Set stitch client delegate
+ Set nexmo client logger delegate
+ *  @param delegate a `NXMLoggerDelegate` object.
+ *
+ */
+- (void)setLoggerDelegate:(nullable id <NXMLoggerDelegate>)delegate;
+
+/*!
+ Set nexmo client delegate
  *  @param delegate a `NXMClientDelegate` object.
  *
  */

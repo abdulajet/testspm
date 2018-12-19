@@ -31,6 +31,10 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
     return sharedInstance;
 }
 
++ (void)setLogger:(id<NXMLoggerDelegate>)delegate {
+    [[CommunicationsManager sharedInstance].client setLoggerDelegate:delegate];
+}
+
 #pragma mark - init
 - (instancetype)initWithNexmoClient:(NXMClient *)client {
     if(self = [super init]) {

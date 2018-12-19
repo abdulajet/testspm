@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <NexmoCore/NexmoCore.h>
+#import "NXMUser.h"
 
 @class NXMCall;
 @class NXMConversation;
