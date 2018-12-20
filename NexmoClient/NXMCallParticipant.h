@@ -20,6 +20,8 @@ typedef NS_ENUM(NSInteger, NXMParticipantStatus) {
 
 @property (nonatomic, readonly) NSString *callId;
 @property (nonatomic, readonly) NSString *participantId;
+@property (nonatomic, readonly) NSString *userId;
+@property (nonatomic, readonly) NSString *userName;
 @property (nonatomic, readonly) BOOL isMuted;
 @property (nonatomic, readonly) NXMParticipantStatus status;
 @property (nonatomic, readonly) NSString *metaInfo;

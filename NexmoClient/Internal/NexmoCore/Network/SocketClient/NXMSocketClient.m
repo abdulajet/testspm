@@ -496,7 +496,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
                                                                             type:NXMEventTypeMember
-                                                                    fromMemberId:json[@"body"][@"initiator"][fromKey][@"memberId"]
+                                                                    fromMemberId:json[@"body"][@"initiator"][fromKey][@"member_id"]
                                                                       sequenceId:[json[@"id"] integerValue]
                                                                         memberId:json[@"from"]
                                                                             name:json[@"body"][@"user"][@"name"]

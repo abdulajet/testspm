@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol CommunicationsManagerObserver
 @optional
 - (void)connectionStatusChanged:(CommunicationsManagerConnectionStatus)connectionStatus withReason:(CommunicationsManagerConnectionStatusReason)reason;
+- (void)incomingCall:(NXMCall *)call;
 @end
 
 NS_ASSUME_NONNULL_END

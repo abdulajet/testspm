@@ -7,10 +7,10 @@
 //
 
 #import "CallViewController.h"
-#import "CallCreator.h"
 #import "NTAUserInfo.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
+#import "CallsDefine.h"
 
 @interface CallViewController () <NXMCallDelegate>
 @property (weak, nonatomic) IBOutlet UIView *InCallView;
@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *InCallKeyPadButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallEndCallButton;
 @property (weak, nonatomic) IBOutlet UILabel *InCallStatusLabel;
-
 
 @property (weak, nonatomic) IBOutlet UIView *IncomingCallView;
 @property (weak, nonatomic) IBOutlet UIImageView *IncomingCallAvatarImage;
@@ -120,9 +119,8 @@
 
 - (void)didCreateCall:(NXMCall *)call {
     self.call = call;
-    [self updateInCallStatusLabelWithText:@"Dialing"];
-    if(self.isControllerInIncomingCallState) {
-        [self activateInCallView];
+        if(!self.isControllerInIncomingCallState) {
+            [self updateInCallStatusLabelWithText:@"Dialing"];
     }
 }
 
@@ -142,22 +140,25 @@
 #pragma mark AnswerCall
 
 - (IBAction)answerCallButtonPressed:(id)sender {
+    [self.call answer:self completionHandler:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Failed answering incoming call with error: %@", error];
+            [self endCall];
+        }
+    }];
     
+    [self activateInCallView];
 }
 
 #pragma mark Decline Call
 
 - (IBAction)declineCallButtonPressed:(UIButton *)sender {
-    
-    [self dismiss];
+    [self endCall];
 }
 
 #pragma mark - InCall
 - (IBAction)endCallButtonPressed:(UIButton *)sender {
-    [self.call hangup:^(NSError * _Nullable error) {
-        [NTALogger errorWithFormat:@"Failed hangup call with error: %@", error];
-    }];
-    [self dismiss];
+    [self endCall];
 }
 
 - (void)didConnectCall {
@@ -165,7 +166,7 @@
 }
 
 - (void)didDisconnectCall {
-    [self dismiss];
+    [self endCall];
 }
 
 
@@ -200,6 +201,14 @@
 }
 
 #pragma mark - Private
+- (void)endCall {
+    [self.call hangup:^(NSError * _Nullable error) {
+        [NTALogger errorWithFormat:@"Failed hangup call with error: %@", error];
+    }];
+    [self dismiss];
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
+}
+
 - (void)dismiss {
     if(![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{

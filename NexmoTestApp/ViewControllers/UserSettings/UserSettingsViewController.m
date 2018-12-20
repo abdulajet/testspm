@@ -22,7 +22,8 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 @interface UserSettingsViewController () <CommunicationsManagerObserver>
 @property (weak, nonatomic) IBOutlet UIImageView *AvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *AvatarInitialsLabel;
-@property (weak, nonatomic) IBOutlet UILabel *statusReason;
+@property (weak, nonatomic) IBOutlet UILabel *statusReasonLabel;
+@property (weak, nonatomic) IBOutlet UILabel *csUserNamelabel;
 
 
 @property (nonatomic, nullable) NSArray<id <NSObject>> *nexmoClientWrapperSubscribers;
@@ -33,8 +34,10 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.statusReasonLabel.text = @"";
     [self setAvatarImageForStatus:CommunicationsManager.sharedInstance.connectionStatus];
-    [self setInitialsLabelWithUserInfo:[NTALoginHandler currentUser]];
+    [self setLabelsWithUserInfo:[NTALoginHandler currentUser]];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -70,7 +73,7 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 #pragma mark - ClientWrapperObserverDelegate
 - (void)connectionStatusChanged:(CommunicationsManagerConnectionStatus)connectionStatus withReason:(CommunicationsManagerConnectionStatusReason)reason {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusReason.text = [CommunicationsManager CommunicationsManagerConnectionStatusReasonToString:reason];
+        self.statusReasonLabel.text = [CommunicationsManager CommunicationsManagerConnectionStatusReasonToString:reason];
         [self setAvatarImageForStatus:connectionStatus];
     });
 }
@@ -93,8 +96,9 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     }
 }
 
-- (void)setInitialsLabelWithUserInfo:(NTAUserInfo *)userInfo {
+- (void)setLabelsWithUserInfo:(NTAUserInfo *)userInfo {
     self.AvatarInitialsLabel.text = userInfo.initials;
+    self.csUserNamelabel.text = userInfo.csUserName;
 }
 
     

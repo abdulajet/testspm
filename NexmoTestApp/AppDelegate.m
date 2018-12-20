@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "NTALogger.h"
 #import "CommunicationsManager.h"
+#import "MainFlow.h"
 
 #import <AVFoundation/AVAudioSession.h>
 
@@ -19,9 +20,13 @@
 @implementation AppDelegate
 
 
+- (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    return true;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
+    [[MainFlow sharedInstance] startMainFlowWithAppWindow:self.window];
     [NTALogger info:@"launch done"];
     [CommunicationsManager setLogger:[NTALogger sharedLogger]];
     

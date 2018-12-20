@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CallCreator.h"
+#import "NTACallCreator.h"
 
 @class NTAUserInfo;
 @interface CallViewController : UIViewController

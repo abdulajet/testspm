@@ -13,6 +13,7 @@
 + (NTAUserInfo *)getDefaultUser;
 + (NTAUserInfo *)getRandomUser;
 + (NSArray<NTAUserInfo *> *)getAllUsers;
++ (NTAUserInfo *)getUserInfoForCSUserName:(nonnull NSString *)csUserName;
 
 + (void)getUserInfoForUserName:(nonnull NSString *)userName
                password:(NSString *)password

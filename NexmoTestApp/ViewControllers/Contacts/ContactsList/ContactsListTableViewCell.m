@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *contactNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *avatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *avatarImage;
+@property (weak, nonatomic) IBOutlet UILabel *contactCSNameLabel;
 
 @property (nonatomic) NTAUserInfo *userInfo;
 @end
@@ -33,6 +34,7 @@
     self.userInfo = userInfo;
     self.contactNameLabel.text = userInfo.displayName;
     self.avatarInitialsLabel.text = userInfo.initials;
+    self.contactCSNameLabel.text = userInfo.csUserName;
 }
 
 @end

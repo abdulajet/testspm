@@ -14,6 +14,11 @@ NSString * const notificationConnectionStatusName = @"NTACommunicationsManagerCo
 NSString * const notificationConnectionStatusKey = @"connectionStatus";
 NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReason";
 
+NSString * const notificationIncomingCallName = @"NTACommunicationsManagerIncomingCall";
+NSString * const notificationIncomingCallKey = @"call";
+
+
+
 @interface CommunicationsManager() <NTALoginHandlerObserver>
 @property (nonatomic, nonnull, readwrite) NXMClient *client;
 @end
@@ -92,8 +97,8 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
 -(NSArray<id <NSObject>> *)subscribeToNotificationsWithObserver:(NSObject<CommunicationsManagerObserver> *)observer {
     
     id <NSObject> connectionObserver = [self subscribeToConnectionStatusWithObserver:observer];
-    
-    return @[connectionObserver];
+    id <NSObject> incomingCallObserver = [self subscribeToIncomingCallWithObserver:observer];
+    return @[connectionObserver, incomingCallObserver];
 }
 
 -(void)unsubscribeToNotificationsWithObserver:(NSArray<id <NSObject>> *)observers {
@@ -116,12 +121,32 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
     }];
 }
 
+-(id <NSObject>)subscribeToIncomingCallWithObserver:(NSObject<CommunicationsManagerObserver> *)observer {
+    __weak NSObject<CommunicationsManagerObserver> *weakObserver = observer;
+
+    return [NSNotificationCenter.defaultCenter addObserverForName:notificationIncomingCallName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
+        NXMCall *call = note.userInfo[notificationIncomingCallKey];
+        
+        if([weakObserver respondsToSelector:@selector(incomingCall:)]) {
+            [weakObserver incomingCall:call];
+        }
+    }];
+}
+
+
 - (void)didChangeConnectionStatus:(CommunicationsManagerConnectionStatus)connectionStatus WithReason:(CommunicationsManagerConnectionStatusReason)reason {
     NSDictionary *userInfo = @{
                                notificationConnectionStatusKey:@(connectionStatus),
                                notificationConnectionStatusReasonKey: @(reason)
                                };
     [NSNotificationCenter.defaultCenter postNotificationName:notificationConnectionStatusName object:nil userInfo:userInfo];
+}
+
+- (void)didgetIncomingCall:(NXMCall *)call {
+    NSDictionary *userInfo = @{
+                               notificationIncomingCallKey:call
+                               };
+    [NSNotificationCenter.defaultCenter postNotificationName:notificationIncomingCallName object:nil userInfo:userInfo];
 }
 
 #pragma mark - stitchClientDelegate
@@ -160,10 +185,18 @@ NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReaso
     return reason;
 }
 
+
 - (void)tokenRefreshed {
     //TODO: add to observer
 }
 
+- (void)incomingCall:(nonnull NXMCall *)call {
+    [self didgetIncomingCall:call];
+}
+
+- (void)addedToConversation:(nonnull NXMConversation *)conversation {
+    
+}
 
 #pragma mark - LoginHandlerObserver
 - (void)NTADidLoginWithUserName:(NSString *)userName {

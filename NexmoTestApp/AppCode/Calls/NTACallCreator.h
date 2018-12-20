@@ -6,7 +6,6 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import <NexmoClient/NexmoClient.h>
 
 @protocol CallCreator

@@ -17,7 +17,7 @@
 @property (nonatomic, strong) NSString *joinDate;
 @property (nonatomic, strong) NSString *inviteDate;
 @property (nonatomic, strong) NSString *leftDate;
-@property (nonatomic, strong) NSString *userId;
+@property (nonatomic, strong) NSString *userId; //TODO: change to NXMUser
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) NXMMemberState state;
 

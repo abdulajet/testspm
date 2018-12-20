@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "CallCreator.h"
+#import "NTACallCreator.h"
 
 @class NTAUserInfo;
 @interface InAppCallCreator : NSObject <CallCreator>

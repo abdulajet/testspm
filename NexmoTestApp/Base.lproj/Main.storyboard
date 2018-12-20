@@ -178,13 +178,21 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CSContactName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D1b-Rv-rAN" userLabel="contactCSNameLabel">
+                                            <rect key="frame" x="275" y="16" width="80" height="12"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ftH-xK-Eba" secondAttribute="trailing" constant="20" symbolic="YES" id="2Wt-gP-OdG"/>
+                                        <constraint firstItem="D1b-Rv-rAN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ftH-xK-Eba" secondAttribute="trailing" constant="8" symbolic="YES" id="2Wt-gP-OdG"/>
                                         <constraint firstItem="ZYX-g4-dEF" firstAttribute="centerX" secondItem="4KT-Jg-yja" secondAttribute="centerX" id="3se-VB-pGn"/>
                                         <constraint firstItem="4KT-Jg-yja" firstAttribute="centerY" secondItem="ddF-Ie-YN5" secondAttribute="centerY" id="FKa-4i-6fb"/>
+                                        <constraint firstAttribute="trailing" secondItem="D1b-Rv-rAN" secondAttribute="trailing" constant="20" symbolic="YES" id="L5p-jw-xdd"/>
                                         <constraint firstItem="ZYX-g4-dEF" firstAttribute="width" secondItem="4KT-Jg-yja" secondAttribute="width" id="QXP-Lf-1aE"/>
                                         <constraint firstItem="ZYX-g4-dEF" firstAttribute="centerY" secondItem="4KT-Jg-yja" secondAttribute="centerY" id="VcQ-VZ-7hy"/>
+                                        <constraint firstItem="D1b-Rv-rAN" firstAttribute="centerY" secondItem="ddF-Ie-YN5" secondAttribute="centerY" id="fw2-Qb-kh2"/>
                                         <constraint firstItem="ftH-xK-Eba" firstAttribute="leading" secondItem="4KT-Jg-yja" secondAttribute="trailing" constant="8" symbolic="YES" id="kR3-uq-JPY"/>
                                         <constraint firstItem="ftH-xK-Eba" firstAttribute="centerY" secondItem="ddF-Ie-YN5" secondAttribute="centerY" id="lhn-rH-vQP"/>
                                         <constraint firstItem="ZYX-g4-dEF" firstAttribute="height" secondItem="4KT-Jg-yja" secondAttribute="height" id="nWA-KY-yf3"/>
@@ -194,6 +202,7 @@
                                 <connections>
                                     <outlet property="avatarImage" destination="4KT-Jg-yja" id="56A-Jc-S8l"/>
                                     <outlet property="avatarInitialsLabel" destination="ZYX-g4-dEF" id="2li-yk-hqF"/>
+                                    <outlet property="contactCSNameLabel" destination="D1b-Rv-rAN" id="pEQ-wA-3SK"/>
                                     <outlet property="contactNameLabel" destination="ftH-xK-Eba" id="Pn8-dy-Nuy"/>
                                 </connections>
                             </tableViewCell>
@@ -1039,9 +1048,16 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="csUserName" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TjQ-Hg-PZW" userLabel="AvatarCSNameLabel">
+                                        <rect key="frame" x="58.333333333333329" y="151" width="82.999999999999986" height="17"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="TjQ-Hg-PZW" secondAttribute="bottom" constant="32" id="6bg-Vl-A6U"/>
                                     <constraint firstItem="MVM-Ua-IOB" firstAttribute="centerX" secondItem="P9D-Vs-PMA" secondAttribute="centerX" id="AYh-MT-HLH"/>
                                     <constraint firstItem="rZZ-0Y-lAq" firstAttribute="centerX" secondItem="MVM-Ua-IOB" secondAttribute="centerX" id="MH6-MP-6qi"/>
                                     <constraint firstItem="rZZ-0Y-lAq" firstAttribute="width" secondItem="MVM-Ua-IOB" secondAttribute="width" id="PT7-if-18E"/>
@@ -1052,6 +1068,7 @@
                                     <constraint firstItem="MVM-Ua-IOB" firstAttribute="width" secondItem="P9D-Vs-PMA" secondAttribute="width" id="W8a-gE-njH"/>
                                     <constraint firstItem="rZZ-0Y-lAq" firstAttribute="centerY" secondItem="MVM-Ua-IOB" secondAttribute="centerY" id="pz6-rl-OBE"/>
                                     <constraint firstItem="MVM-Ua-IOB" firstAttribute="height" secondItem="P9D-Vs-PMA" secondAttribute="height" id="qWf-X1-Aje"/>
+                                    <constraint firstItem="TjQ-Hg-PZW" firstAttribute="centerX" secondItem="P9D-Vs-PMA" secondAttribute="centerX" id="ss1-p6-2sn"/>
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-BO-n1W">
@@ -1065,8 +1082,8 @@
                                     <action selector="LogoutPressed:" destination="uPs-r8-PIO" eventType="touchUpInside" id="jKs-L0-zmJ"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfb-Q4-XVf">
-                                <rect key="frame" x="173.33333333333334" y="377" width="28.666666666666657" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LabelReason" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jfb-Q4-XVf">
+                                <rect key="frame" x="154" y="377" width="67" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="S6Z-C0-hgw"/>
                                 </constraints>
@@ -1092,7 +1109,8 @@
                     <connections>
                         <outlet property="AvatarImage" destination="MVM-Ua-IOB" id="lUm-eu-Vxb"/>
                         <outlet property="AvatarInitialsLabel" destination="rZZ-0Y-lAq" id="ptW-Eb-8F3"/>
-                        <outlet property="statusReason" destination="Jfb-Q4-XVf" id="SdG-Gr-hcg"/>
+                        <outlet property="csUserNamelabel" destination="TjQ-Hg-PZW" id="YRR-LB-2Ju"/>
+                        <outlet property="statusReasonLabel" destination="Jfb-Q4-XVf" id="ajn-wJ-TRh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XfD-Bz-DIQ" userLabel="First Responder" sceneMemberID="firstResponder"/>

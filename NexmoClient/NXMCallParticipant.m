@@ -15,6 +15,8 @@
 @property (nonatomic, readwrite) NSString *callId;
 @property (nonatomic, readwrite) NSString *participantId;
 @property (nonatomic, readwrite) NXMParticipantStatus status;
+@property (nonatomic, readwrite) NSString *userId;
+@property (nonatomic, readwrite) NSString *userName;
 @property (nonatomic, readwrite) BOOL isMuted;
 
 @property (nonatomic, readwrite) id<NXMCallProxy> callProxy; // tmp
@@ -76,6 +78,9 @@
             break;
     }
     
+    self.userId = member.userId;
+    self.userName = member.name;
+    
     [self.callProxy onChange];
 }
 
@@ -93,6 +98,9 @@
         default:
             break;
     }
+    
+    self.userId = member.user.userId;
+    self.userName = member.user.name;
     
     [self.callProxy onChange];
 }
