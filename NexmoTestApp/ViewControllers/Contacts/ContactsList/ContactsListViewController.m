@@ -8,8 +8,11 @@
 
 #import "ContactsListViewController.h"
 #import "ContactsListTableViewCell.h"
+#import "ContactViewController.h"
+
 #import "NTAUserInfoProvider.h"
 #import "NTALoginHandler.h"
+
 
 @interface ContactsListViewController ()<UIGestureRecognizerDelegate, UITableViewDelegate, UITableViewDataSource>
 @property (strong, nonatomic) IBOutlet UITableView *contactsTableView;
@@ -21,6 +24,7 @@
 
 - (void)viewDidLoad {
     self.contactsList = [self sortedContactsArray];
+    [self.contactsTableView setDelegate:self];
     [self.contactsTableView setDataSource:self];
     [self.contactsTableView reloadData];
 }
@@ -58,5 +62,16 @@
 
         return [userInfo1.displayName compare:userInfo2.displayName];
     }];
+}
+
+#pragma mark - TableViewDelegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self showContactWithUserInfo:self.contactsList[indexPath.row]];
+}
+
+- (void)showContactWithUserInfo:(NTAUserInfo *)userInfo {
+    ContactViewController *contactViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Contact"];
+    [contactViewController updateWithContactUserInfo:userInfo];
+    [self.navigationController pushViewController:contactViewController animated:YES];
 }
 @end

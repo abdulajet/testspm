@@ -10,6 +10,8 @@
 #import "NTALogger.h"
 #import "CommunicationsManager.h"
 
+#import <AVFoundation/AVAudioSession.h>
+
 @interface AppDelegate ()
 
 @end
@@ -22,6 +24,15 @@
     
     [NTALogger info:@"launch done"];
     [CommunicationsManager setLogger:[NTALogger sharedLogger]];
+    
+    if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)])
+    {
+        [[AVAudioSession sharedInstance] requestRecordPermission: ^ (BOOL response)
+         {
+             NSLog(@"iOS 7+: Allow microphone use response: %d", response);
+         }];
+    }
+    
     
     return YES;
 }

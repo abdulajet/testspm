@@ -20,6 +20,9 @@
 		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
 		9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
+        92CF9A0F21C91611001C86F1 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A0E21C91611001C86F1 /* ContactViewController.m */; };
+		92CF9A1321CA5FE6001C86F1 /* CallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A1221CA5FE6001C86F1 /* CallViewController.m */; };
+		92CF9A1A21CA6523001C86F1 /* InAppCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A1921CA6523001C86F1 /* InAppCallCreator.m */; };
 		F5696E68A483B6EA1933090C /* Pods_NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1B589688FB93961D331FAE0 /* Pods_NexmoClient.framework */; };
 		F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */; };
 		F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */; };
@@ -381,6 +384,13 @@
 		92C558582178E41D006D4063 /* SCLStitchClientWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCLStitchClientWrapper.h; sourceTree = "<group>"; };
 		92C558592178E41D006D4063 /* SCLStitchClientWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCLStitchClientWrapper.m; sourceTree = "<group>"; };
 		92C5585B21871852006D4063 /* StitchClientTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchClientTestApp.entitlements; sourceTree = "<group>"; };
+        92CF9A0D21C91611001C86F1 /* ContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
+		92CF9A0E21C91611001C86F1 /* ContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
+		92CF9A1121CA5FE6001C86F1 /* CallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallViewController.h; sourceTree = "<group>"; };
+		92CF9A1221CA5FE6001C86F1 /* CallViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CallViewController.m; sourceTree = "<group>"; };
+		92CF9A1821CA6523001C86F1 /* InAppCallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InAppCallCreator.h; sourceTree = "<group>"; };
+		92CF9A1921CA6523001C86F1 /* InAppCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InAppCallCreator.m; sourceTree = "<group>"; };
+		92CF9A1C21CA6632001C86F1 /* CallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallCreator.h; sourceTree = "<group>"; };
 		940F5589D31EF57D4747623F /* Pods-NexmoCoreTestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoCoreTestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoCoreTestApp/Pods-NexmoCoreTestApp.release.xcconfig"; sourceTree = "<group>"; };
 		9457F651321999A33D791FB2 /* Pods_NexmoCoreTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NexmoCoreTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A2FC197B8CF1BE15171A67D /* Pods-NexmoClientTestApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NexmoClientTestApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NexmoClientTestApp/Pods-NexmoClientTestApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -690,7 +700,8 @@
 		9242CDB021C17D5100ED2B51 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				9242CDBD21C7C03000ED2B51 /* Contacts */,
+				92CF9A1021CA5F90001C86F1 /* Calls */,
+				92CF9A0B21C915E1001C86F1 /* Contacts */,
 				F94291FA21BD4F3500FA45A1 /* Login */,
 				9242CDAF21C17D3200ED2B51 /* UserSettings */,
 			);
@@ -718,7 +729,7 @@
 			path = Communications;
 			sourceTree = "<group>";
 		};
-		9242CDBD21C7C03000ED2B51 /* Contacts */ = {
+		9242CDBD21C7C03000ED2B51 /* ContactsList */ = {
 			isa = PBXGroup;
 			children = (
 				F942921321BD720700FA45A1 /* ContactsListViewController.h */,
@@ -726,7 +737,7 @@
 				9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */,
 				9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */,
 			);
-			path = Contacts;
+			path = ContactsList;
 			sourceTree = "<group>";
 		};
 		92B7A393213FCD0700390258 /* EventDispatcher */ = {
@@ -894,6 +905,43 @@
 				92BDBF1321775B4100C33D38 /* SCLOngoingCallsViewController.m */,
 			);
 			path = OngoingCallsView;
+			sourceTree = "<group>";
+		};
+		92CF9A0B21C915E1001C86F1 /* Contacts */ = {
+			isa = PBXGroup;
+			children = (
+				92CF9A0C21C915EF001C86F1 /* Contact */,
+				9242CDBD21C7C03000ED2B51 /* ContactsList */,
+			);
+			path = Contacts;
+			sourceTree = "<group>";
+		};
+		92CF9A0C21C915EF001C86F1 /* Contact */ = {
+			isa = PBXGroup;
+			children = (
+				92CF9A0D21C91611001C86F1 /* ContactViewController.h */,
+				92CF9A0E21C91611001C86F1 /* ContactViewController.m */,
+			);
+			path = Contact;
+			sourceTree = "<group>";
+		};
+		92CF9A1021CA5F90001C86F1 /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				92CF9A1121CA5FE6001C86F1 /* CallViewController.h */,
+				92CF9A1221CA5FE6001C86F1 /* CallViewController.m */,
+			);
+			path = Calls;
+			sourceTree = "<group>";
+		};
+		92CF9A1421CA60A5001C86F1 /* Calls */ = {
+			isa = PBXGroup;
+			children = (
+				92CF9A1821CA6523001C86F1 /* InAppCallCreator.h */,
+				92CF9A1921CA6523001C86F1 /* InAppCallCreator.m */,
+				92CF9A1C21CA6632001C86F1 /* CallCreator.h */,
+			);
+			path = Calls;
 			sourceTree = "<group>";
 		};
 		CA471F4331F8DBA6DCD102CE /* Pods */ = {
@@ -1331,6 +1379,7 @@
 		F94291FF21BD528F00FA45A1 /* AppCode */ = {
 			isa = PBXGroup;
 			children = (
+				92CF9A1421CA60A5001C86F1 /* Calls */,
 				9242CDB521C29D2F00ED2B51 /* Communications */,
 				9242CDB121C254A600ED2B51 /* Login */,
 				9242CDA221BFE9E900ED2B51 /* Utils */,
@@ -1937,8 +1986,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */,
+				92CF9A1A21CA6523001C86F1 /* InAppCallCreator.m in Sources */,
 				9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */,
 				F942920F21BD661400FA45A1 /* CommunicationsManager.m in Sources */,
+				92CF9A1321CA5FE6001C86F1 /* CallViewController.m in Sources */,
 				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
@@ -1946,6 +1997,7 @@
 				9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */,
 				F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */,
 				9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */,
+				92CF9A0F21C91611001C86F1 /* ContactViewController.m in Sources */,
 				F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */,
 				F94291FE21BD500D00FA45A1 /* NXMLoginViewController.m in Sources */,
 				F94291F421BD46FB00FA45A1 /* main.m in Sources */,

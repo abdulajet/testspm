@@ -9,22 +9,37 @@
 
 @implementation NTAAlertUtils
 + (void)displayAlertForController:(nonnull UIViewController *)controller WithTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    [self displayAlertForController:controller WithTitle:title andMessage:message andActionBlock:nil];
+}
+
++ (void)displayAlertForController:(UIViewController *)controller WithTitle:(NSString *)title andMessage:(NSString *)message andActionBlock:(void (^ __nullable)(UIAlertAction *action))actionBlock {
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayAlertForController:controller WithTitle:title andMessage:message andActionBlock:actionBlock];
+        });
+        return;
+    }
+    
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:title
                                                                        message:message
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {}];
+                                                              handler:actionBlock];
         
         [alert addAction:defaultAction];
         [controller presentViewController:alert animated:YES completion:nil];
-    });
 }
 
 + (void)displayAlertForController:(nonnull UIViewController *)controller WithTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message andDismissAfterSeconds:(NSUInteger)seconds {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:title
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self displayAlertForController:controller WithTitle:title andMessage:message andDismissAfterSeconds:seconds];
+        });
+        return;
+    }
+    
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:title
                                                                        message:message
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
@@ -41,6 +56,5 @@
                 [weakController dismissViewControllerAnimated:YES completion:nil];
             }
         });
-    });
 }
 @end
