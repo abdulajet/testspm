@@ -155,15 +155,19 @@
 - (void)mute:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted {
     if (self.status == NXMCallStatusDisconnected) { return; }
     
-   //[self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.conversation.conversationId];
+    if (![participant.userId isEqualToString:self.myParticipant.userId]) {
+        return;
+    }
+    
+    [self.conversation mute:isMuted];
 }
 
 - (void)earmuff:(NXMCallParticipant *)participant isEarmuff:(BOOL)isEarmuff {
     
 }
 
-- (void)onChange {
-    [self.delegate statusChanged];
+- (void)onChange:(NXMCallParticipant *)participant {
+    [self.delegate statusChanged:participant];
 }
 
 #pragma mark - NXMConversationDelegate
@@ -182,7 +186,7 @@
 }
 
 - (void)mediaEvent:(NXMEvent *)mediaEvent {
-    [self handleMediaEvent:(NXMMediaEvent *)mediaEvent];
+    [self handleMediaEvent:mediaEvent];
 }
 
 - (void)typingEvent:(NXMTextTypingEvent *)typingEvent{
@@ -204,7 +208,7 @@
     [participant updateWithMemberEvent:member];
 }
 
-- (void)handleMediaEvent:(NXMMediaEvent *)media {
+- (void)handleMediaEvent:(NXMEvent *)media {
     NXMCallParticipant *participant = [self findParticipant:media.fromMemberId];
     [participant updateWithMedia:media];
 }

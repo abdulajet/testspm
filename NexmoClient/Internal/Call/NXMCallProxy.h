@@ -13,6 +13,6 @@
 - (void)mute:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted;
 - (void)earmuff:(NXMCallParticipant *)participant isEarmuff:(BOOL)isEarmuff;
 
-- (void)onChange;
+- (void)onChange:(NXMCallParticipant *)participant;
 
 @end

@@ -12,9 +12,7 @@
 #import "NXMBlocks.h"
 
 @protocol NXMCallDelegate
-- (void)statusChanged;
-- (void)holdChanged:(NXMCallParticipant *)participant isHold:(BOOL)isHold member:(NSString *)member;
-- (void)muteChanged:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted member:(NSString *)member;
+- (void)statusChanged:(NXMCallParticipant *)participant;
 @end
 
 typedef NS_ENUM(NSInteger, NXMCallType) {

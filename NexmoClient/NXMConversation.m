@@ -262,7 +262,12 @@
 }
 
 - (void)mute:(BOOL)isMuted {
+    if (isMuted) {
+        [self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.conversationId];
+        return;
+    }
     
+    [self.stitchContext.coreClient resumeMyMedia:NXMMediaTypeAudio inConversation:self.conversationId];
 }
 
 - (void)earmuff:(BOOL)isEarmuff {

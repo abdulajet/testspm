@@ -15,7 +15,7 @@
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy;
 
 - (void)updateWithMember:(NXMMember *)member;
-- (void)updateWithMedia:(NXMMediaEvent *)media;
+- (void)updateWithMedia:(NXMEvent *)media;
 - (void)updateWithMemberEvent:(NXMMemberEvent *)member;
 
 @end

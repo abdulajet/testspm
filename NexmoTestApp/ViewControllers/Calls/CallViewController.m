@@ -161,6 +161,10 @@
     [self endCall];
 }
 
+- (IBAction)mutePressed:(id)sender {
+    [self.call.myParticipant mute:!self.call.myParticipant.isMuted];
+}
+
 - (void)didConnectCall {
     [self updateInCallStatusLabelWithText:@"Connected"];
 }
@@ -171,7 +175,13 @@
 
 
 #pragma mark - NXMCallDelegate
-- (void)statusChanged {
+- (void)statusChanged:(NXMCallParticipant *)participant {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self statusChanged:participant];
+        });
+    }
+    
     switch (self.call.status) {
         case NXMCallStatusConnected:
             [self didConnectCall];
@@ -182,22 +192,10 @@
         default:
             break;
     }
-}
-
-- (void)holdChanged:(NXMCallParticipant *)participant isHold:(BOOL)isHold member:(NSString *)member {
-    //TODO
-}
-
-- (void)mediaEvent:(NXMEvent *)mediaEvent {
-    //TODO
-}
-
-- (void)memberEvent:(NXMMemberEvent *)memberEvent {
-    //TODO
-}
-
-- (void)muteChanged:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted member:(NSString *)member {
-    //TODO
+    
+    if ([participant.userId isEqualToString:self.call.myParticipant.userId]) {
+        [self.InCallMuteButton setSelected:participant.isMuted];
+    }
 }
 
 #pragma mark - Private
@@ -219,4 +217,5 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 @end

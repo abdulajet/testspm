@@ -55,54 +55,67 @@
     [self.callProxy earmuff:self isEarmuff:isEarmuff];
 }
 
-- (void)updateWithMedia:(NXMMediaEvent *)media {
-    self.status = media.mediaSettings.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusCompleted;
-    self.isMuted = media.mediaSettings.isSuspended;
+- (void)updateWithMedia:(NXMEvent *)media {
     
-    [self.callProxy onChange];
+    NXMParticipantStatus newStatus = self.status;
+    BOOL isMuted = self.isMuted;
+    
+    if (media.type == NXMEventTypeMedia) {
+        NXMMediaEvent *eventMedia = (NXMMediaEvent *)media;
+        newStatus = eventMedia.mediaSettings.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusCompleted;
+        isMuted = eventMedia.mediaSettings.isSuspended;
+    } else if ([media isKindOfClass:[NXMMediaSuspendEvent class]]){
+       isMuted = ((NXMMediaSuspendEvent *)media).isSuspended;
+    }
+    
+    if (newStatus != self.status || isMuted != self.isMuted) {
+        self.status = newStatus;
+        self.isMuted = isMuted;
+        
+        [self.callProxy onChange:self];
+        return;
+    }
+
 }
 
 
 - (void)updateWithMember:(NXMMember *)member {
-    switch (member.state) {
-        case NXMMemberStateInvited:
-            self.status = NXMParticipantStatusCalling;
-            break;
-        case NXMMemberStateLeft:
-            self.status = self.status == NXMParticipantStatusStarted ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
-            break;
-        case NXMMemberStateJoined:
-            //  self.status = member.media.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusStarted;  TODO: add memer event media
-            break;
-        default:
-            break;
-    }
-    
     self.userId = member.userId;
     self.userName = member.name;
     
-    [self.callProxy onChange];
+    [self updateWithMemberStatus:member.state isMedia:NO];
 }
 
 - (void)updateWithMemberEvent:(NXMMemberEvent *)member {
-    switch (member.state) {
+    self.userId = member.user.userId;
+    self.userName = member.user.name;
+    
+    [self updateWithMemberStatus:member.state isMedia:member.media.isEnabled];
+}
+
+- (void)updateWithMemberStatus:(NXMMemberState)state isMedia:(BOOL)isMedia {
+    NXMParticipantStatus newStatus = self.status;
+    switch (state) {
         case NXMMemberStateInvited:
-            self.status = NXMParticipantStatusCalling;
+            newStatus = NXMParticipantStatusCalling;
             break;
         case NXMMemberStateLeft:
-            self.status = self.status == NXMParticipantStatusStarted ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
+            newStatus = self.status == NXMParticipantStatusStarted ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
             break;
         case NXMMemberStateJoined:
-            self.status = member.media.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusStarted;
+            if (self.status != NXMParticipantStatusAnswered) {
+                newStatus = isMedia ? NXMParticipantStatusAnswered : NXMParticipantStatusStarted;
+            }
             break;
         default:
             break;
     }
     
-    self.userId = member.user.userId;
-    self.userName = member.user.name;
-    
-    [self.callProxy onChange];
+
+    if (newStatus != self.status) {
+        self.status = newStatus;
+        [self.callProxy onChange:self];
+    }
 }
 
 @end
