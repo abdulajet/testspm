@@ -6,27 +6,29 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "InAppCallCreator.h"
+#import "ServerCallCreator.h"
 #import "CommunicationsManager.h"
 #import "NTAUserInfo.h"
 
-@interface InAppCallCreator ()
+@interface ServerCallCreator ()
 @property (nonatomic) NSArray<NTAUserInfo *> *users;
 @end
 
-@implementation InAppCallCreator
+@implementation ServerCallCreator
+
 - (instancetype)initWithUsers:(NSArray<NTAUserInfo *> *)users {
     if(self = [super init]) {
         self.users = users;
     }
     return self;
 }
-- (void)callWithDelegate:(id<NXMCallDelegate>)delegate completion:(void (^ _Nullable)(NSError * _Nullable, NXMCall * _Nullable))completion { 
+
+- (void)callWithDelegate:(id<NXMCallDelegate>)delegate completion:(void (^ _Nullable)(NSError * _Nullable, NXMCall * _Nullable))completion {
     NSMutableArray <NSString *> *csUserNames = [NSMutableArray new];
     for (NTAUserInfo *userInfo in self.users) {
         [csUserNames addObject: [userInfo.csUserId copy]];
     }
-    [CommunicationsManager.sharedInstance.client callToUsers:csUserNames callType:NXMCallTypeIP delegate:delegate completion:completion];
+    [CommunicationsManager.sharedInstance.client callToUsers:csUserNames callType:NXMCallTypeServer delegate:delegate completion:completion];
 }
 
 @end

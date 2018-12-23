@@ -119,6 +119,7 @@
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"users name";
     }];
+    NXMCallType callType = NXMCallTypeServer;
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         NSString *displayName =[[alertController textFields][0] text];
         NSLog(@"users name %@", displayName);
@@ -127,11 +128,21 @@
         for (int i= 0 ; i < names.count; i++){
             namesIds[i] = self.testUserIDs[names[i]];
         }
-        [self.kommsWrapper.kommsClient callToUsers:namesIds delegate:nil completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
-            
-        }];
+        switch (callType) {
+            case NXMCallTypeServer:
+                [self.kommsWrapper.kommsClient callToUsers:names callType:callType delegate:nil completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+                }];
+                break;
+            case NXMCallTypeIP:
+                [self.kommsWrapper.kommsClient callToUsers:namesIds callType:callType delegate:nil completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+                }];
+                break;
+                
+            default:
+                break;
+        }
     }];
-
+    
     [alertController addAction:confirmAction];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSLog(@"Cancelled");

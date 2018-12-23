@@ -16,6 +16,8 @@
 @interface NXMClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
+typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
+@property (nonatomic, nonnull) NSMutableDictionary<NSString*, knockingComplition> * knockingIdsToCompletion;
 
 @end
 
@@ -27,6 +29,7 @@
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
+        self.knockingIdsToCompletion = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -156,12 +159,16 @@
                                                     }];
 }
 
-- (void)callToUsers:(nonnull NSArray<NSString *>*)users
-           delegate:(id<NXMCallDelegate>)delegate
-         completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+- (void) addPendingKnockingId:(nonnull NSString*)knockingId
+                   completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion{
+    self.knockingIdsToCompletion[knockingId] = completion;
+}
+
+- (void) startIpCall:(nonnull NSArray<NSString *>*)users
+            delegate:(id<NXMCallDelegate>)delegate
+          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
-    
     [weakCore createConversationWithName:[[NSUUID UUID] UUIDString]
                                onSuccess:^(NSString * _Nullable convId) {
                                    [weakSelf getConversationWithId:convId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
@@ -196,6 +203,36 @@
                                      [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                  }
      ];
+}
+
+- (void) startServerCall:(nonnull NSArray<NSString *>*)users
+            delegate:(id<NXMCallDelegate>)delegate
+          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+    __weak NXMClient *weakSelf = self;
+    __weak NXMCore *weakCore = self.stitchContext.coreClient;
+    [weakCore inviteToConversation:weakSelf.user.userId withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
+        if (value)
+            [weakSelf addPendingKnockingId:value completion:completion];
+    } onError:^(NSError * _Nullable error) {
+        NSLog(@"startServerCall");
+    }];
+}
+
+- (void)callToUsers:(nonnull NSArray<NSString *>*)users
+           callType:(NXMCallType)callType
+           delegate:(id<NXMCallDelegate>)delegate
+         completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+    switch (callType) {
+        case NXMCallTypeIP:
+            [self startIpCall:users delegate:delegate completion:completion];
+            break;
+        case NXMCallTypeServer:
+            [self startServerCall:users delegate:delegate completion:completion];
+            break;
+        default:
+            break;
+    }
+    
 }
 
 - (void)callToNumber:(nonnull NSString *)number
@@ -282,8 +319,14 @@
     NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
     
     if (![event.user.userId isEqualToString:self.user.userId]) { return; }
-    
-    if (event.state == NXMMemberStateJoined && ![event.fromMemberId isEqualToString:event.memberId]) { 
+    /*
+     Three types of events
+     1. incoming conversation (Joined + Someone else invite you + no knocking id)
+     2. incoming IP call (Invited + media enabled)
+     3. out going server call (Joined + knocking Id exist)
+    */
+    //Incoming conversation
+    if (event.state == NXMMemberStateJoined && ![event.fromMemberId isEqualToString:event.memberId] && !event.knockingId) {
         if ([self.delegate respondsToSelector:@selector(addedToConversation:)]) {            
             [NXMLogger info:@"got member joined event"];
             
@@ -304,7 +347,7 @@
         
         return;
     }
-    
+    //Incoming IP call
     if (event.state == NXMMemberStateInvited && event.media.isEnabled) {
         if ([self.delegate respondsToSelector:@selector(incomingCall:)]) { // optimization
             
@@ -322,9 +365,36 @@
                 
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
                 [self.delegate incomingCall:call];
+                
             }];
             
         }
+    }
+    //Out going server call
+    if (event.state == NXMMemberStateJoined && event.knockingId){
+        [NXMLogger info:@"got member JOINED event with knockingId"];
+        
+        [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            if (error) {
+                [NXMLogger error:[NSString stringWithFormat:@"get conversation failed %@", error]];
+                return;
+            }
+            
+            if (!conversation){
+                [NXMLogger error:[NSString stringWithFormat:@"got empty conversation without error conversation id %@:", event.conversationId]];
+            }
+            [conversation enableMedia:event.memberId];
+            NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+            if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){
+                self.knockingIdsToCompletion[event.knockingId](nil,call);
+                [self.knockingIdsToCompletion removeObjectForKey:event.knockingId];
+            }else{
+                //TODO: check if this is a valid state for a call
+                //this could happened if we get the member events before cs return the knocking id
+                //to prevent drop calls we use the Incoming IP call
+                [self.delegate incomingCall:call];
+            }
+        }];
     }
 }
 

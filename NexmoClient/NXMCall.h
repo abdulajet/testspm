@@ -17,6 +17,10 @@
 - (void)muteChanged:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted member:(NSString *)member;
 @end
 
+typedef NS_ENUM(NSInteger, NXMCallType) {
+    NXMCallTypeIP,
+    NXMCallTypeServer
+};
 typedef NS_ENUM(NSInteger, NXMCallStatus) {
     NXMCallStatusConnected,
     NXMCallStatusDisconnected

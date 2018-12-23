@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0B24A81321CFD3A300FEE109 /* ServerCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */; };
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
 		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
@@ -235,6 +236,7 @@
 		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
 		F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsListViewController.m */; };
 		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
+		F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -301,6 +303,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0B24A81121CFD35E00FEE109 /* ServerCallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerCallCreator.h; sourceTree = "<group>"; };
+		0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServerCallCreator.m; sourceTree = "<group>"; };
 		435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsQueue.h; sourceTree = "<group>"; };
 		435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueue.m; sourceTree = "<group>"; };
 		9214F61021AEF8810021CD05 /* NXMTestingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtils.h; sourceTree = "<group>"; };
@@ -598,6 +602,7 @@
 		F988E49F214AB22B0083D9A7 /* NXMCallParticipant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipant.h; sourceTree = "<group>"; };
 		F988E4A0214AB22B0083D9A7 /* NXMCallParticipant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallParticipant.m; sourceTree = "<group>"; };
 		F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
+		F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEventPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallProxy.h; sourceTree = "<group>"; };
 		F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipantPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
@@ -943,6 +948,8 @@
 				92CF9A1C21CA6632001C86F1 /* NTACallCreator.h */,
 				F9024EF021CBB5BD00D58AD0 /* IncomingCallCreator.h */,
 				F9024EF121CBB5BD00D58AD0 /* IncomingCallCreator.m */,
+				0B24A81121CFD35E00FEE109 /* ServerCallCreator.h */,
+				0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */,
 			);
 			path = Calls;
 			sourceTree = "<group>";
@@ -1163,6 +1170,7 @@
 			children = (
 				F9024DF821CA9AF000D58AD0 /* NXMMemberEvent.h */,
 				F9024DF921CA9AF000D58AD0 /* NXMMemberEvent.m */,
+				F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */,
 			);
 			path = Member;
 			sourceTree = "<group>";
@@ -1511,6 +1519,7 @@
 				F9024E8021CA9AF000D58AD0 /* NXMEnablePushRequest.h in Headers */,
 				F9024E4E21CA9AF000D58AD0 /* VPSocketEngine+Private.h in Headers */,
 				F923DDA921985C9500D29065 /* NXMCall.h in Headers */,
+				F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */,
 				F9024E3B21CA9AF000D58AD0 /* VPSocketAck.h in Headers */,
 				F9024E6621CA9AF000D58AD0 /* NXMSocketClient.h in Headers */,
 				F9024E9F21CA9AF000D58AD0 /* NXMTextTypingEvent.h in Headers */,
@@ -1861,6 +1870,7 @@
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
 				F9024EEF21CBACCF00D58AD0 /* MainFlow.m in Sources */,
+				0B24A81321CFD3A300FEE109 /* ServerCallCreator.m in Sources */,
 				9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */,
 				9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */,
 				F942920321BD643700FA45A1 /* NTAUserInfoProvider.m in Sources */,

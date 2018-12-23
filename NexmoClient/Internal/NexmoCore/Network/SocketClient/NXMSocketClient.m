@@ -19,6 +19,8 @@
 
 #import "NXMUtils.h"
 
+#import "NXMMemberEventPrivate.h"
+
 @interface NXMSocketClient()
 
 @property BOOL isLoggedIn;
@@ -494,6 +496,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     NSString *fromKey = state == NXMMemberStateInvited ? @"invited" : state == NXMMemberStateJoined ? @"joined" : @"left";
     
+    NSString* knockingId = json[@"body"][@"channel"][@"knocking_id"];
+    
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
                                                                             type:NXMEventTypeMember
                                                                     fromMemberId:json[@"body"][@"initiator"][fromKey][@"member_id"]
@@ -503,7 +507,10 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                                                            state:state
                                                                             user:user
                                                                      phoneNumber:json[@"body"][@"channel"][@"to"][@"number"]
-                                                                           media:mediaSettings];
+                                                                           media:mediaSettings
+                                                                     channelType:json[@"body"][@"channel"][@"type"]
+                                                                     channelData:json[@"body"][@"channel"][@"to"][@"number"]
+                                                                      knockingId:knockingId];
     
     return memberEvent;
 }

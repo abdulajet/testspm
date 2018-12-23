@@ -17,8 +17,8 @@
 #import "NXMLogger.h"
 
 #import "NXMNetworkCallbacks.h"
-#import "NXMMemberEvent.h"
 #import "NXMMediaEvent.h"
+#import "NXMMemberEventPrivate.h"
 #import "NXMTextEvent.h"
 #import "NXMSipEvent.h"
 #import "NXMTextTypingEvent.h"
@@ -958,17 +958,24 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     NXMMemberEvent* event = [[NXMMemberEvent alloc] init];
-    event.sequenceId = [[self getSequenceId:dict] integerValue];
-    event.conversationId = conversationId;
-    event.fromMemberId = [self getFromMemberId:dict];
-    event.creationDate = [self getCreationDate:dict];
-    event.type = NXMEventTypeMember;
-    event.state = [self parseMemberState:state];
-    event.memberId = dict[@"body"][@"user"][@"member_id"];
-    event.name = dict[@"body"][@"user"][@"name"];
-    event.user = [NXMUser alloc];
-    event.user.name = dict[@"body"][@"user"][@"name"];
-    event.user.userId = dict[@"body"][@"user"][@"user_id"];
+    
+    NXMUser *user = [[NXMUser alloc] initWithId:dict[@"body"][@"user"][@"user_id"] name:dict[@"body"][@"user"][@"name"]];
+
+    NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:conversationId
+                                                                            type:NXMEventTypeMember
+                                                                    fromMemberId:[self getFromMemberId:dict]
+                                                                      sequenceId:[[self getSequenceId:dict] integerValue]
+                                                                        memberId:dict[@"body"][@"user"][@"member_id"]
+                                                                            name:dict[@"body"][@"user"][@"name"]
+                                                                           state:[self parseMemberState:state]
+                                                                            user:user
+                                                                     phoneNumber:dict[@"body"][@"channel"][@"to"][@"number"]
+                                                                           media:nil
+                                                                     channelType:dict[@"body"][@"channel"][@"type"]
+                                                                     channelData:(event.channelType == NXMChannelTypePhone ? dict[@"body"][@"channel"][@"to"][@"number"] : nil)
+                                                                      knockingId:dict[@"body"][@"channel"][@"knocking_id"]];
+    memberEvent.creationDate = [self getCreationDate:dict];
+    
     return event;
 }
 

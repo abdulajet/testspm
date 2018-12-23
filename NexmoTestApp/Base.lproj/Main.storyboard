@@ -308,7 +308,6 @@
                                         <rect key="frame" x="108" y="0.0" width="64" height="64"/>
                                         <state key="normal" image="ContactsCallServerButton" backgroundImage="ContactButtonBackground"/>
                                         <connections>
-                                            <action selector="callButtonPressed:" destination="udX-OS-p2c" eventType="touchUpInside" id="YBm-Ss-ZeG"/>
                                             <action selector="callServerButtonPressed:" destination="udX-OS-p2c" eventType="touchUpInside" id="PGc-eC-Ref"/>
                                         </connections>
                                     </button>

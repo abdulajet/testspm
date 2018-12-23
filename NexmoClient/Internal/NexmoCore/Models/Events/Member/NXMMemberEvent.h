@@ -12,6 +12,12 @@
 #import "NXMUser.h"
 #import "NXMMediaSettings.h"
 
+typedef NS_ENUM(NSInteger, NXMChannelType){
+    NXMChannelTypeApp,
+    NXMChannelTypePhone,
+    NXMChannelTypeUnknown
+};
+
 @interface NXMMemberEvent : NXMEvent
 @property (nonatomic, strong) NSString *memberId;
 @property (nonatomic, strong) NSString *name;
@@ -19,28 +25,9 @@
 @property (nonatomic, strong) NXMUser *user;
 @property (nonatomic, strong) NSString* phoneNumber;
 @property (nonatomic, strong) NXMMediaSettings *media;
-
-- (instancetype)initWithConversationId:(NSString *)conversationId
-                         type:(NXMEventType)type
-                 fromMemberId:(NSString *)fromMemberId
-                   sequenceId:(NSInteger)sequenceId
-                     memberId:(NSString *)memberId
-                         name:(NSString *)name
-                        state:(NXMMemberState)state
-                         user:(NXMUser *)user
-                        media:(NXMMediaSettings *)isMediaEnabled;
-
-- (instancetype)initWithConversationId:(NSString *)conversationId
-                         type:(NXMEventType)type
-                 fromMemberId:(NSString *)fromMemberId
-                   sequenceId:(NSInteger)sequenceId
-                     memberId:(NSString *)memberId
-                         name:(NSString *)name
-                        state:(NXMMemberState)state
-                         user:(NXMUser *)user
-                  phoneNumber:(NSString *)phoneNumber
-                        media:(NXMMediaSettings *)isMediaEnabled;
-
+@property (nonatomic) NXMChannelType channelType;
+@property (nonatomic, strong) NSString* channelData;
+@property(nonatomic, strong) NSString* knockingId;
 
 @end
 

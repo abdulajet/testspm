@@ -10,6 +10,7 @@
 
 #import "NTAUserInfo.h"
 #import "InAppcallCreator.h"
+#import "ServerCallCreator.h"
 #import "CallViewController.h"
 
 @interface ContactViewController ()
@@ -57,6 +58,9 @@
 
 
 - (IBAction)callServerButtonPressed:(UIButton *)sender {
+    //create an NTA Call Object and initialize with inApp parameters it so that when we move to the next screen the next screen just calls start.
+    ServerCallCreator *callCreator = [[ServerCallCreator alloc] initWithUsers:@[self.contactUserInfo]];
+    [self showInCallViewControllerWithCallCreator:callCreator];
     
 }
 

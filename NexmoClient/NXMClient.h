@@ -92,10 +92,12 @@ Logout
 // Create a new call to users
 //
 // @param users           user ids to call
+// @param callType        type of the call (IP/SERVER)
 // @param delegate        call delegate
 // @param completion      completion block
 // */
 - (void)callToUsers:(nonnull NSArray<NSString *>*)users
+           callType:(NXMCallType)callType
            delegate:(nullable id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
 

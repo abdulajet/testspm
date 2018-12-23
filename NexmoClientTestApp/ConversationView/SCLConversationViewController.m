@@ -695,7 +695,7 @@ const NSUInteger AMOUNT_OF_EVENTS_TO_LOAD_MORE = 20;
     self.isAudioEnabled = YES;
     [self startAudioAnimation];
     
-    [self.kommsWrapper.kommsClient callToUsers:@[@"USR-effc7845-333c-4779-aeaf-fdbb4167f93c"] delegate:self completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+    [self.kommsWrapper.kommsClient callToUsers:@[@"USR-effc7845-333c-4779-aeaf-fdbb4167f93c"] callType:NXMCallTypeIP delegate:self completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
         self.call = call;
     }];
 }
