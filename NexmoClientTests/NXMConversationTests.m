@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <OCMOCK/OCMOCK.h>
+#import <OCMock/OCMock.h>
 
 #import "NXMConversationPrivate.h"
 
