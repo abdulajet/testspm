@@ -43,11 +43,11 @@ for CONFIG in ${CONFIGURATIONS[@]}; do
 	sed -e "s^###NAME_WITH_CONFIGURATION###^$NAME_WITH_CONFIGURATION^g" \
 	    -e "s^###ARTIFACTORY_TEMPLATE###^$ARTIFACTORY_PATH^g" \
 	    -e "s^###VERSION###^$PLIST_VERSION^g" \
-	    NexmoClient_podspec.template > NexmoClient_$CONFIG.podspec
+	    NexmoClient_podspec.template > $NAME_WITH_CONFIGURATION.podspec
 
     echo "Updating pods for $CONFIG"
-	pod repo push PrivatePods NexmoClient_$CONFIG.podspec --allow-warnings --verbose --use-libraries
-	#pod repo push PrivatePodsTest NexmoClient_$CONFIG.podspec --allow-warnings --verbose --use-libraries
+	pod repo push PrivatePods $NAME_WITH_CONFIGURATION.podspec --allow-warnings --verbose --use-libraries
+	#pod repo push PrivatePodsTest $NAME_WITH_CONFIGURATION.podspec --allow-warnings --verbose --use-libraries
 
 	if [ $? -ne 0 ]
 	then
