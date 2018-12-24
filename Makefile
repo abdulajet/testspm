@@ -1,12 +1,14 @@
 XCODEBUILD := xcodebuild
-BUILD_FLAGS = -scheme $(SCHEME)
+BUILD_FLAGS_IOS = -scheme $(SCHEME) -sdk iphoneos 
+BUILD_FLAGS_SIM = -scheme $(SCHEME) -sdk iphonesimulator
+
 TEST_FLAGS = -scheme $(TEST_SCHEME) -destination 'platform=iOS Simulator,name=iPhone 7'
 
 SCHEME ?= NexmoClient
 TEST_SCHEME ?= NexmoClientTests
 
 
-MINIRTC_VERSION ?= 0.01.78
+MINIRTC_VERSION ?= 0.01.80
 OCMOCK_VERSION ?= 3.4
 
 OCMOCK_FOLDER ?= Frameworks/OCMock
@@ -66,15 +68,69 @@ else
 endif
 
 clean:
+	@echo
+	@echo "--------"
+	@echo "Cleaning"
+	@echo "--------"
 	$(XCODEBUILD) clean $(BUILD_FLAGS)
 
 build_debug: deps
-	$(XCODEBUILD) build $(BUILD_FLAGS) -configuration Debug
+	@echo
+	@echo "------------------------------"
+	@echo "Building Debug Framework (iOS)"
+	@echo "------------------------------"
+	$(XCODEBUILD) build $(BUILD_FLAGS_IOS) -configuration Debug
+
+	@echo
+	@echo "------------------------------------"
+	@echo "Building Debug Framework (Simulator)"
+	@echo "------------------------------------"
+	$(XCODEBUILD) build $(BUILD_FLAGS_SIM) -configuration Debug
+
+	@echo
+	@echo "------------------------"
+	@echo "Merging Debug Frameworks"
+	@echo "------------------------"
+	@cd utils; ./create_fat_framework.sh Debug
 
 build_release: deps
+	@echo
+	@echo "--------------------------------"
+	@echo "Building Release Framework (iOS)"
+	@echo "--------------------------------"
 	$(XCODEBUILD) build $(BUILD_FLAGS) -configuration Release
 
+	@echo
+	@echo "--------------------------------------"
+	@echo "Building Release Framework (Simulator)"
+	@echo "--------------------------------------"
+	$(XCODEBUILD) build $(BUILD_FLAGS_SIM) -configuration Release
+
+	@echo
+	@echo "--------------------------"
+	@echo "Merging Release Frameworks"
+	@echo "--------------------------"
+	@cd utils; ./create_fat_framework.sh Release
+
 test: deps
+	@echo
+	@echo "-------------"
+	@echo "Running tests"
+	@echo "-------------"
 	$(XCODEBUILD) test $(TEST_FLAGS)
 
-deploy: build_release
+deploy_deps:
+	@echo
+	@echo "---------------------------"
+	@echo "Running Deploy Dependencies"
+	@echo "---------------------------"
+	@cd utils; ./set_build_number.sh
+	
+deploy: clean deploy_deps build
+	@echo
+	@echo "---------"
+	@echo "Deploying"
+	@echo "---------"
+	@cd utils ; ./publish_to_artifactory.sh
+	@cd utils ; ./release_version.sh
+

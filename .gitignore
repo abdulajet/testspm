@@ -21,4 +21,8 @@ xcschememanagement.plist
 **/NXMTokens.h
 Frameworks
 Output
+NexmoClient_Debug.podspec
+NexmoClient_Release.podspec
+NXMiOSSDK.xcodeproj/project.xcworkspace/xcuserdata
+build
 UserInterfaceState.xcuserstate

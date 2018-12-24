@@ -1,39 +1,53 @@
 
-FILES=(./NexmoCore.podspec ./NexmoClient.podspec)
+#!/bin/bash
 
-for FILE in ${FILES[@]}
-	do
-	#create a new git tag for this version
-	echo "Creating a git tag"
-	VERSION=`cat $FILE  | ggrep  s.version| ggrep -oP '(?<=").*?(?=")'`
-	IFS='. ' read -a array <<< "$VERSION"
-	TAG_NAME="${array[0]}.${array[1]}/v$VERSION"
+. script_include.sh
 
-	echo "Marking the repo with tag $TAG_NAME"
-	git tag $TAG_NAME
-	git push origin $TAG_NAME
+INFO_PLIST_FILE="$PWD/../NexmoClient/Info.plist"
 
-	#config the spec file with the tag
-	OLD_TAG=`cat $FILE | ggrep  ':tag =>'| ggrep -oP '(?<=:tag => ").*?(?=")'`
-	gsed -i.bak "s@$OLD_TAG@$TAG_NAME@" $FILE
+if [ "$BUILD_NUMBER" == "" ]; then
+	echo_red "BUILD_NUMBER env variable is not set. Aborting. Please Run from Jenkins job."
+	exit 1
+fi
 
+PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
+MAJOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f1)
+MINOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f2)
 
-	#create a private pod specs repo localy (if not already created)
-	REPO_NAME=PrivatePods
-	QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
-	if [ "$REPO_NAME" != "$QUERY_RES" ]; then
-	    pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
+#create a private pod specs repo localy (if not already created)
+REPO_NAME=PrivatePods
+#REPO_NAME=PrivatePodsTest
+QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
+if [ "$REPO_NAME" != "$QUERY_RES" ]; then
+    pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
+#    pod repo add PrivatePodsTest git@github.com:Vonage/CocoaPodsSpecsTest.git
+fi
+
+REPO_NAME=VonageNexmo
+QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
+if [ "$REPO_NAME" != "$QUERY_RES" ]; then
+    pod repo add VonageNexmo git@github.com:Vonage/NexmoCocoaPodSpecs.git
+fi
+
+CONFIGURATIONS=(Debug Release)
+for CONFIG in ${CONFIGURATIONS[@]}; do
+
+	ARTIFACTORY_PATH=$(get_artifactory_artifact_path $CONFIG $PLIST_VERSION)
+
+	if [ "$CONFIG" == "Debug" ]; then
+		NAME_WITH_CONFIGURATION="NexmoClient_Debug"
+	else
+		NAME_WITH_CONFIGURATION="NexmoClient"
 	fi
 
-	REPO_NAME=VonageNexmo
-	QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
-	if [ "$REPO_NAME" != "$QUERY_RES" ]; then
-	    pod repo add VonageNexmo git@github.com:Vonage/NexmoCocoaPodSpecs.git
-	fi
+	sed -e "s^###NAME_WITH_CONFIGURATION###^$NAME_WITH_CONFIGURATION^g" \
+	    -e "s^###ARTIFACTORY_TEMPLATE###^$ARTIFACTORY_PATH^g" \
+	    -e "s^###VERSION###^$PLIST_VERSION^g" \
+	    NexmoClient_podspec.template > NexmoClient_$CONFIG.podspec
 
-	#upload the new spec
-	echo "Uploading the version"
-	pod repo push PrivatePods $FILE --allow-warnings --verbose --use-libraries
+    echo "Updating pods for $CONFIG"
+	pod repo push PrivatePods NexmoClient_$CONFIG.podspec --allow-warnings --verbose --use-libraries
+	#pod repo push PrivatePodsTest NexmoClient_$CONFIG.podspec --allow-warnings --verbose --use-libraries
 
 	if [ $? -ne 0 ]
 	then
@@ -41,3 +55,11 @@ for FILE in ${FILES[@]}
 	    exit -1
 	fi
 done
+
+echo_green "Creating a git tag"
+
+TAG_NAME="${MAJOR_VERSION}.${MINOR_VERSION}/v$PLIST_VERSION"
+
+echo "Marking the repo with tag $TAG_NAME"
+git tag $TAG_NAME
+git push origin $TAG_NAME

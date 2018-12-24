@@ -25,12 +25,12 @@
 		D32D425821CC06760039A133 /* iOSFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D32D425421CC05E00039A133 /* iOSFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D32D425D21CC06BD0039A133 /* OCMock.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D32D425B21CC06B70039A133 /* OCMock.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D32D425E21CC07370039A133 /* iOSFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D425421CC05E00039A133 /* iOSFramework.framework */; };
-		D32D425F21CC07890039A133 /* iOSFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D32D425421CC05E00039A133 /* iOSFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		D32D426021CC07FA0039A133 /* iOSFramework.framework in Embed Frameworks (2 items) */ = {isa = PBXBuildFile; fileRef = D32D425421CC05E00039A133 /* iOSFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D32D426121CC08A90039A133 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
 		D32D426221CC096E0039A133 /* NexmoClient.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D32D426A21CC188F0039A133 /* OCMock.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32D425B21CC06B70039A133 /* OCMock.framework */; };
 		D32D426B21CC1A010039A133 /* NexmoClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F923DD8921985BF600D29065 /* NexmoClient.framework */; };
+		D3F18F1721CFE75B00DB3ED8 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F18F1621CFE75B00DB3ED8 /* GLKit.framework */; };
+		D3F18F1921CFE76400DB3ED8 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */; };
 		F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */; };
 		F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */; };
 		F9024E3721CA9AF000D58AD0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9024D8E21CA9AF000D58AD0 /* LICENSE */; };
@@ -282,7 +282,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D32D426021CC07FA0039A133 /* iOSFramework.framework in Embed Frameworks (2 items) */,
 				F9024EE821CAA5F800D58AD0 /* NexmoClient.framework in Embed Frameworks (2 items) */,
 			);
 			name = "Embed Frameworks (2 items)";
@@ -294,7 +293,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				D32D425F21CC07890039A133 /* iOSFramework.framework in Embed Frameworks */,
 				F942920921BD65D000FA45A1 /* NexmoClient.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -408,6 +406,8 @@
 		D32D425B21CC06B70039A133 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = "Frameworks/OCMock/iOS framework/OCMock.framework"; sourceTree = "<group>"; };
 		D32D426421CC173D0039A133 /* iOS framework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "iOS framework"; path = "Frameworks/OCMock/iOS framework"; sourceTree = "<group>"; };
 		D32D426821CC176C0039A133 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Frameworks/OCMock/iOSframework/OCMock.framework; sourceTree = "<group>"; };
+		D3F18F1621CFE75B00DB3ED8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
+		D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMBlocksHelper.h; sourceTree = "<group>"; };
 		F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMBlocksHelper.m; sourceTree = "<group>"; };
 		F9024D8E21CA9AF000D58AD0 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -621,6 +621,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3F18F1921CFE76400DB3ED8 /* VideoToolbox.framework in Frameworks */,
+				D3F18F1721CFE75B00DB3ED8 /* GLKit.framework in Frameworks */,
 				D32D425521CC05E00039A133 /* iOSFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -648,6 +650,8 @@
 		0C77F825E1C5CD9646B440FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */,
+				D3F18F1621CFE75B00DB3ED8 /* GLKit.framework */,
 				D32D426821CC176C0039A133 /* OCMock.framework */,
 				D32D426421CC173D0039A133 /* iOS framework */,
 				D32D425B21CC06B70039A133 /* OCMock.framework */,
@@ -2006,7 +2010,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Output/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2021,6 +2025,11 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2034,7 +2043,7 @@
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Output/$(CONFIGURATION)";
+				CONFIGURATION_BUILD_DIR = "$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2049,6 +2058,10 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-lc++",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
