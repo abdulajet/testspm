@@ -24,6 +24,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *InCallKeyPadButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallEndCallButton;
 @property (weak, nonatomic) IBOutlet UILabel *InCallStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *timerLabel;
 
 @property (weak, nonatomic) IBOutlet UIView *IncomingCallView;
 @property (weak, nonatomic) IBOutlet UIImageView *IncomingCallAvatarImage;
@@ -35,6 +36,8 @@
 @property (nonatomic) id<CallCreator> callCreator;
 @property (nonatomic) NXMCall *call;
 @property (nonatomic) BOOL isControllerInIncomingCallState;
+@property NSDate * startTime;
+@property NSTimer* timer;
 @end
 
 @implementation CallViewController
@@ -60,8 +63,15 @@
     } else {
         [self activateInCallView];
     }
+    
+    
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.timer invalidate];
+
+}
 #pragma mark - init
 - (void)updateWithContactUserInfo:(NTAUserInfo *)contactUserInfo callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall {
     self.contactUserInfo = contactUserInfo;
@@ -94,6 +104,7 @@
     self.isControllerInIncomingCallState = NO;
     [self.InCallView setHidden:NO];
     [self.IncomingCallView setHidden:YES];
+
 }
 
 - (void)activateIncomingCallView {
@@ -107,6 +118,7 @@
     self.isControllerInIncomingCallState = YES;
     [self.IncomingCallView setHidden:NO];
     [self.InCallView setHidden:YES];
+    
 }
 
 - (void)didFailCreatingCallWithError:(NSError *)error {
@@ -167,11 +179,45 @@
 
 - (void)didConnectCall {
     [self updateInCallStatusLabelWithText:@"Connected"];
+    [self startTimer];
 }
 
 - (void)didDisconnectCall {
     [self endCall];
 }
+
+- (void)refreshTimeLabel
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+
+        NSInteger   connectedTime = [[NSDate date] timeIntervalSinceDate:self.startTime];
+        NSString    *timeString;
+        
+        if ( connectedTime >= 3600 ) { // more than an hour
+            NSInteger   inHourTime = connectedTime%3600;
+            
+            timeString = [NSString stringWithFormat:@"%02d:%02d:%02d", (int)(connectedTime/3600), (int)(inHourTime/60), (int)(inHourTime%60)];
+        }
+        else {
+            timeString = [NSString stringWithFormat:@"%02d:%02d", (int)(connectedTime / 60), (int)(connectedTime % 60)];
+        }
+        
+        self.timerLabel.text = timeString;
+    });
+}
+
+- (void)startTimer
+{
+    self.startTime = [NSDate date]; //start dateTime for your timer, ensure that date format is correct
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                  target:self
+                                                selector:@selector(refreshTimeLabel)
+                                                userInfo:nil
+                                                 repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+}
+
+
 
 
 #pragma mark - NXMCallDelegate

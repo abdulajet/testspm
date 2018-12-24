@@ -590,7 +590,16 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Status" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hz0-JT-K7B" userLabel="InCallStatusLabel">
-                                        <rect key="frame" x="163" y="282" width="49.333333333333343" height="21"/>
+                                        <rect key="frame" x="47.666666666666657" y="23" width="49.333333333333343" height="21"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="21" id="FAa-ra-78c"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wfA-GO-sZT" userLabel="TimerLabel">
+                                        <rect key="frame" x="47.666666666666657" y="59" width="46" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
@@ -598,13 +607,15 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="wfA-GO-sZT" firstAttribute="top" secondItem="hz0-JT-K7B" secondAttribute="bottom" constant="15" id="1cQ-F1-W7b"/>
                                     <constraint firstItem="Pw5-8T-Mwo" firstAttribute="centerX" secondItem="DhQ-sf-auF" secondAttribute="centerX" id="CCf-dY-tT2"/>
-                                    <constraint firstItem="hz0-JT-K7B" firstAttribute="centerX" secondItem="DhQ-sf-auF" secondAttribute="centerX" id="JPs-91-1n5"/>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="hz0-JT-K7B" secondAttribute="trailing" constant="20" symbolic="YES" id="QZy-Tp-GAL"/>
                                     <constraint firstItem="c03-Pr-WZz" firstAttribute="top" secondItem="DhQ-sf-auF" secondAttribute="top" constant="70" id="VRd-ne-Rub"/>
                                     <constraint firstItem="nlU-th-Zgt" firstAttribute="centerX" secondItem="DhQ-sf-auF" secondAttribute="centerX" id="Z0N-Xw-Nsb"/>
                                     <constraint firstItem="nlU-th-Zgt" firstAttribute="top" secondItem="c03-Pr-WZz" secondAttribute="bottom" constant="70" id="cvx-ED-GcA"/>
-                                    <constraint firstItem="hz0-JT-K7B" firstAttribute="top" secondItem="c03-Pr-WZz" secondAttribute="bottom" constant="32" id="dMe-kq-rLV"/>
                                     <constraint firstItem="c03-Pr-WZz" firstAttribute="centerX" secondItem="DhQ-sf-auF" secondAttribute="centerX" id="pZh-WS-jZo"/>
+                                    <constraint firstItem="hz0-JT-K7B" firstAttribute="leading" secondItem="nlU-th-Zgt" secondAttribute="leading" id="peb-uK-Cg0"/>
+                                    <constraint firstItem="wfA-GO-sZT" firstAttribute="leading" secondItem="hz0-JT-K7B" secondAttribute="leading" id="tem-Qm-Io4"/>
                                     <constraint firstAttribute="bottom" secondItem="Pw5-8T-Mwo" secondAttribute="bottom" constant="32" id="uPd-uv-Oze"/>
                                 </constraints>
                             </view>
@@ -613,6 +624,7 @@
                         <constraints>
                             <constraint firstItem="DhQ-sf-auF" firstAttribute="top" secondItem="Ze8-nt-hEF" secondAttribute="top" id="05k-FD-gU8"/>
                             <constraint firstItem="Ze8-nt-hEF" firstAttribute="bottom" secondItem="xxM-e5-RNR" secondAttribute="bottom" id="1rg-8W-TcB"/>
+                            <constraint firstItem="hz0-JT-K7B" firstAttribute="top" secondItem="Ze8-nt-hEF" secondAttribute="top" constant="23" id="5hy-Tz-XEs"/>
                             <constraint firstItem="Ze8-nt-hEF" firstAttribute="bottom" secondItem="DhQ-sf-auF" secondAttribute="bottom" id="7rf-nA-vEa"/>
                             <constraint firstItem="xxM-e5-RNR" firstAttribute="leading" secondItem="Ze8-nt-hEF" secondAttribute="leading" id="gma-li-hbm"/>
                             <constraint firstItem="Ze8-nt-hEF" firstAttribute="trailing" secondItem="DhQ-sf-auF" secondAttribute="trailing" id="oh6-6g-ViD"/>
@@ -638,6 +650,7 @@
                         <outlet property="IncomingCallInitialsLabel" destination="vXR-dE-wNl" id="tFN-LP-ucW"/>
                         <outlet property="IncomingCallView" destination="xxM-e5-RNR" id="L1c-2G-Rvx"/>
                         <outlet property="IncomingCalluserNameLabel" destination="NA8-aQ-ngd" id="TBr-Ce-ez3"/>
+                        <outlet property="timerLabel" destination="wfA-GO-sZT" id="Puf-I7-wIT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbj-Ok-EkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
