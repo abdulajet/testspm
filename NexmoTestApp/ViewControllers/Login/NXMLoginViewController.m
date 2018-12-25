@@ -28,7 +28,7 @@
 @end
 
 @implementation NXMLoginViewController
-- (IBAction)loadDefaultUserToTextFields:(UIButton *)sender {
+- (IBAction)loadDefaultTestUserToTextFields:(UIButton *)sender {
     NTAUserInfo *randomUser = [NTAUserInfoProvider getRandomUser];
     self.username.text = randomUser.name;
     self.password.text = randomUser.password;

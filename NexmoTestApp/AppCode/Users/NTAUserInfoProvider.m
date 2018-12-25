@@ -29,6 +29,18 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                          @"testuser6":[[NTAUserInfo alloc] initWithName:@"testuser6" password:@"Vocal123!" displayName:@"Yonatan Rosenberg" csUserName:@"testuser6" csUserId:testUser6UserId csUserToken:testUser6Token],
                          @"testuser7":[[NTAUserInfo alloc] initWithName:@"testuser7" password:@"12345678" displayName:@"Sagi Cohen" csUserName:@"testuser7" csUserId:testUser7UserId csUserToken:testUser7Token],
                          @"testuser8":[[NTAUserInfo alloc] initWithName:@"testuser8" password:@"Vocal123!" displayName:@"Daniel Levi" csUserName:@"testuser8" csUserId:testUser8UserId csUserToken:testUser8Token],
+                         
+                         @"baby1":[[NTAUserInfo alloc] initWithName:@"baby1" password:@"Vocal123!" displayName:@"Ayelet Baby" csUserName:@"baby1" csUserId:baby1UserId csUserToken:baby1Token],
+                         @"baby2":[[NTAUserInfo alloc] initWithName:@"baby2" password:@"Vocal123!" displayName:@"Shay Naftali" csUserName:@"baby2" csUserId:baby2UserId csUserToken:baby2Token],
+                         @"baby3":[[NTAUserInfo alloc] initWithName:@"baby3" password:@"Vocal123!" displayName:@"Tomer Shmueli" csUserName:@"baby3" csUserId:baby3UserId csUserToken:baby3Token],
+                         @"baby4":[[NTAUserInfo alloc] initWithName:@"baby4" password:@"Vocal123!" displayName:@"Matan Morano" csUserName:@"baby4" csUserId:baby4UserId csUserToken:baby4Token],
+                         @"baby5":[[NTAUserInfo alloc] initWithName:@"baby5" password:@"Vocal123!" displayName:@"Edden Bitton" csUserName:@"baby5" csUserId:baby5UserId csUserToken:baby5Token],
+                         
+                         @"demo1":[[NTAUserInfo alloc] initWithName:@"demo1" password:@"Vocal123!" displayName:@"Brad Pitt" csUserName:@"demo1" csUserId:demo1UserId csUserToken:demo1Token],
+                         @"demo2":[[NTAUserInfo alloc] initWithName:@"demo2" password:@"Vocal123!" displayName:@"Ron Shofman" csUserName:@"demo2" csUserId:demo2UserId csUserToken:demo2Token],
+                         @"demo3":[[NTAUserInfo alloc] initWithName:@"demo3" password:@"Vocal123!" displayName:@"Doron Madali" csUserName:@"demo3" csUserId:demo3UserId csUserToken:demo3Token],
+                         @"demo4":[[NTAUserInfo alloc] initWithName:@"demo4" password:@"Vocal123!" displayName:@"Erez Tal" csUserName:@"demo4" csUserId:demo4UserId csUserToken:demo4Token],
+                         @"demo5":[[NTAUserInfo alloc] initWithName:@"demo5" password:@"Vocal123!" displayName:@"Asi Azar" csUserName:@"demo5" csUserId:demo5UserId csUserToken:demo5Token]
                          };
         
         csUserNameToTestAppUserName = @{
@@ -39,7 +51,17 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                                         @"testuser5":@"testuser5",
                                         @"testuser6":@"testuser6",
                                         @"testuser7":@"testuser7",
-                                        @"testuser8":@"testuser8"
+                                        @"testuser8":@"testuser8",
+                                        @"baby1":@"baby1",
+                                        @"baby2":@"baby2",
+                                        @"baby3":@"baby3",
+                                        @"baby4":@"baby4",
+                                        @"baby5":@"baby5",
+                                        @"demo1":@"demo1",
+                                        @"demo2":@"demo2",
+                                        @"demo3":@"demo3",
+                                        @"demo4":@"demo4",
+                                        @"demo5":@"demo5"
                                         };
         
         csUserNameToCSUserId = @{
@@ -50,7 +72,17 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                                  @"testuser5":testUser5UserId,
                                  @"testuser6":testUser6UserId,
                                  @"testuser7":testUser7UserId,
-                                 @"testuser8":testUser8UserId
+                                 @"testuser8":testUser8UserId,
+                                 @"baby1":baby1UserId,
+                                 @"baby2":baby2UserId,
+                                 @"baby3":baby3UserId,
+                                 @"baby4":baby4UserId,
+                                 @"baby5":baby5UserId,
+                                 @"demo1":demo1UserId,
+                                 @"demo2":demo2UserId,
+                                 @"demo3":demo3UserId,
+                                 @"demo4":demo4UserId,
+                                 @"demo5":demo5UserId
                                  };
         
         csUserIdToCSUserName = @{
@@ -61,7 +93,17 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                                  testUser5UserId:@"testuser5",
                                  testUser6UserId:@"testuser6",
                                  testUser7UserId:@"testuser7",
-                                 testUser8UserId:@"testuser8"
+                                 testUser8UserId:@"testuser8",
+                                 baby1UserId:@"baby1",
+                                 baby2UserId:@"baby2",
+                                 baby3UserId:@"baby3",
+                                 baby4UserId:@"baby4",
+                                 baby5UserId:@"baby5",
+                                 demo1UserId:@"demo1",
+                                 demo2UserId:@"demo2",
+                                 demo3UserId:@"demo3",
+                                 demo4UserId:@"demo4",
+                                 demo5UserId:@"demo5"
                                  };
     }
 }

@@ -24,6 +24,12 @@
                                     <constraint firstAttribute="height" constant="95" id="wZw-PC-9xL"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y43-CG-VeD" userLabel="randomUserButton">
+                                <rect key="frame" x="30" y="194" width="315" height="95"/>
+                                <connections>
+                                    <action selector="loadDefaultTestUserToTextFields:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gQr-Yw-vgo"/>
+                                </connections>
+                            </button>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fid-Nr-8E8" userLabel="feild View">
                                 <rect key="frame" x="30" y="389" width="315" height="164"/>
                                 <subviews>
@@ -63,7 +69,6 @@
                                             </attributedString>
                                         </state>
                                         <connections>
-                                            <action selector="loadDefaultUserToTextFields:" destination="BYZ-38-t0r" eventType="touchDragExit" id="M4P-Sr-qui"/>
                                             <action selector="onLoginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ddi-ow-dyI"/>
                                         </connections>
                                     </button>
@@ -96,13 +101,19 @@
                         </subviews>
                         <color key="backgroundColor" red="0.42745098039215684" green="0.72156862745098038" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="centerX" secondItem="Ml9-Ai-59c" secondAttribute="centerX" id="4La-6q-s8g"/>
                             <constraint firstItem="fid-Nr-8E8" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="8gt-fI-zcy"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="trailing" secondItem="fid-Nr-8E8" secondAttribute="trailing" id="Aae-iE-10I"/>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="centerY" secondItem="Ml9-Ai-59c" secondAttribute="centerY" id="C3m-H5-CUd"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="leading" secondItem="fid-Nr-8E8" secondAttribute="leading" id="KVX-ki-zc2"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="LF8-0s-K72"/>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="bottom" secondItem="Ml9-Ai-59c" secondAttribute="bottom" id="NgJ-mH-2bg"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="fid-Nr-8E8" secondAttribute="trailing" constant="30" id="Qsq-Fn-60F"/>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="trailing" secondItem="Ml9-Ai-59c" secondAttribute="trailing" id="Uad-r4-qmp"/>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="top" secondItem="Ml9-Ai-59c" secondAttribute="top" id="kiE-mM-aGm"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="fid-Nr-8E8" secondAttribute="bottom" constant="225" id="oWk-l3-FBU"/>
                             <constraint firstItem="Ml9-Ai-59c" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="150" id="pFP-Ez-g1R"/>
+                            <constraint firstItem="y43-CG-VeD" firstAttribute="leading" secondItem="Ml9-Ai-59c" secondAttribute="leading" id="rYz-eK-dT2"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <userDefinedRuntimeAttributes>
