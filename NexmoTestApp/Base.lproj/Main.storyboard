@@ -27,6 +27,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y43-CG-VeD" userLabel="randomUserButton">
                                 <rect key="frame" x="30" y="194" width="315" height="95"/>
                                 <connections>
+                                    <action selector="loadDefaultBabyUserToTextFields:" destination="BYZ-38-t0r" eventType="touchDragExit" id="OWd-dM-8Yb"/>
                                     <action selector="loadDefaultTestUserToTextFields:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gQr-Yw-vgo"/>
                                 </connections>
                             </button>

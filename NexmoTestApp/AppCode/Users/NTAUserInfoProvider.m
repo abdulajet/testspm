@@ -21,14 +21,14 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
 + (void)initialize {
     if(self == [NTAUserInfoProvider self]) {
         testAppUsers = @{
-                         @"testuser1":[[NTAUserInfo alloc] initWithName:@"testuser1" password:@"Vocal123!" displayName:@"Ayelet Levy" csUserName:@"testuser1" csUserId:testUser1UserId csUserToken:testUser1Token userGroup:@"testUser"],
-                         @"testuser2":[[NTAUserInfo alloc] initWithName:@"testuser2" password:@"11111111" displayName:@"Ilana Goldman" csUserName:@"testuser2" csUserId:testUser2UserId csUserToken:testUser2Token  userGroup:@"testUser"],
-                         @"testuser3":[[NTAUserInfo alloc] initWithName:@"testuser3" password:@"Aa123456" displayName:@"Tom Barkan" csUserName:@"testuser3" csUserId:testUser3UserId csUserToken:testUser3Token userGroup:@"testUser"],
-                         @"testuser4":[[NTAUserInfo alloc] initWithName:@"testuser4" password:@"@yeLet97" displayName:@"Chen Lev" csUserName:@"testuser4" csUserId:testUser4UserId csUserToken:testUser4Token userGroup:@"testUser"],
-                         @"testuser5":[[NTAUserInfo alloc] initWithName:@"testuser5" password:@"V0n@ge098" displayName:@"Guy Mini" csUserName:@"testuser5" csUserId:testUser5UserId csUserToken:testUser5Token userGroup:@"testUser"],
-                         @"testuser6":[[NTAUserInfo alloc] initWithName:@"testuser6" password:@"Vocal123!" displayName:@"Yonatan Rosenberg" csUserName:@"testuser6" csUserId:testUser6UserId csUserToken:testUser6Token userGroup:@"testUser"],
-                         @"testuser7":[[NTAUserInfo alloc] initWithName:@"testuser7" password:@"12345678" displayName:@"Sagi Cohen" csUserName:@"testuser7" csUserId:testUser7UserId csUserToken:testUser7Token userGroup:@"testUser"],
-                         @"testuser8":[[NTAUserInfo alloc] initWithName:@"testuser8" password:@"Vocal123!" displayName:@"Daniel Levi" csUserName:@"testuser8" csUserId:testUser8UserId csUserToken:testUser8Token userGroup:@"testUser"],
+                         @"testuser1":[[NTAUserInfo alloc] initWithName:@"testuser1" password:@"Vocal123!" displayName:@"Ayelet Levy" csUserName:@"testuser1" csUserId:testuser1UserId csUserToken:testuser1Token userGroup:@"testUser"],
+                         @"testuser2":[[NTAUserInfo alloc] initWithName:@"testuser2" password:@"11111111" displayName:@"Ilana Goldman" csUserName:@"testuser2" csUserId:testuser2UserId csUserToken:testuser2Token  userGroup:@"testUser"],
+                         @"testuser3":[[NTAUserInfo alloc] initWithName:@"testuser3" password:@"Aa123456" displayName:@"Tom Barkan" csUserName:@"testuser3" csUserId:testuser3UserId csUserToken:testuser3Token userGroup:@"testUser"],
+                         @"testuser4":[[NTAUserInfo alloc] initWithName:@"testuser4" password:@"@yeLet97" displayName:@"Chen Lev" csUserName:@"testuser4" csUserId:testuser4UserId csUserToken:testuser4Token userGroup:@"testUser"],
+                         @"testuser5":[[NTAUserInfo alloc] initWithName:@"testuser5" password:@"V0n@ge098" displayName:@"Guy Mini" csUserName:@"testuser5" csUserId:testuser5UserId csUserToken:testuser5Token userGroup:@"testUser"],
+                         @"testuser6":[[NTAUserInfo alloc] initWithName:@"testuser6" password:@"Vocal123!" displayName:@"Yonatan Rosenberg" csUserName:@"testuser6" csUserId:testuser6UserId csUserToken:testuser6Token userGroup:@"testUser"],
+                         @"testuser7":[[NTAUserInfo alloc] initWithName:@"testuser7" password:@"12345678" displayName:@"Sagi Cohen" csUserName:@"testuser7" csUserId:testuser7UserId csUserToken:testuser7Token userGroup:@"testUser"],
+                         @"testuser8":[[NTAUserInfo alloc] initWithName:@"testuser8" password:@"Vocal123!" displayName:@"Daniel Levi" csUserName:@"testuser8" csUserId:testuser8UserId csUserToken:testuser8Token userGroup:@"testUser"],
                          
                          @"baby1":[[NTAUserInfo alloc] initWithName:@"baby1" password:@"Vocal123!" displayName:@"Ayelet Baby" csUserName:@"baby1" csUserId:baby1UserId csUserToken:baby1Token userGroup:@"baby"],
                          @"baby2":[[NTAUserInfo alloc] initWithName:@"baby2" password:@"Vocal123!" displayName:@"Shay Naftali" csUserName:@"baby2" csUserId:baby2UserId csUserToken:baby2Token userGroup:@"baby"],
@@ -65,14 +65,14 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                                         };
         
         csUserNameToCSUserId = @{
-                                 @"testuser1":testUser1UserId,
-                                 @"testuser2":testUser2UserId,
-                                 @"testuser3":testUser3UserId,
-                                 @"testuser4":testUser4UserId,
-                                 @"testuser5":testUser5UserId,
-                                 @"testuser6":testUser6UserId,
-                                 @"testuser7":testUser7UserId,
-                                 @"testuser8":testUser8UserId,
+                                 @"testuser1":testuser1UserId,
+                                 @"testuser2":testuser2UserId,
+                                 @"testuser3":testuser3UserId,
+                                 @"testuser4":testuser4UserId,
+                                 @"testuser5":testuser5UserId,
+                                 @"testuser6":testuser6UserId,
+                                 @"testuser7":testuser7UserId,
+                                 @"testuser8":testuser8UserId,
                                  @"baby1":baby1UserId,
                                  @"baby2":baby2UserId,
                                  @"baby3":baby3UserId,
@@ -86,14 +86,14 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
                                  };
         
         csUserIdToCSUserName = @{
-                                 testUser1UserId:@"testuser1",
-                                 testUser2UserId:@"testuser2",
-                                 testUser3UserId:@"testuser3",
-                                 testUser4UserId:@"testuser4",
-                                 testUser5UserId:@"testuser5",
-                                 testUser6UserId:@"testuser6",
-                                 testUser7UserId:@"testuser7",
-                                 testUser8UserId:@"testuser8",
+                                 testuser1UserId:@"testuser1",
+                                 testuser2UserId:@"testuser2",
+                                 testuser3UserId:@"testuser3",
+                                 testuser4UserId:@"testuser4",
+                                 testuser5UserId:@"testuser5",
+                                 testuser6UserId:@"testuser6",
+                                 testuser7UserId:@"testuser7",
+                                 testuser8UserId:@"testuser8",
                                  baby1UserId:@"baby1",
                                  baby2UserId:@"baby2",
                                  baby3UserId:@"baby3",

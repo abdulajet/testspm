@@ -9,15 +9,15 @@
 #ifndef Tokens_h
 #define Tokens_h
 
-static NSString * const testUser1UserId = @"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2";
-static NSString * const testUser2UserId = @"USR-1628dc75-fa09-4746-9e29-681430cb6419";
-static NSString * const testUser3UserId = @"USR-0e364e72-d343-42bd-9a12-024518a88896";
-static NSString * const testUser4UserId = @"USR-effc7845-333c-4779-aeaf-fdbb4167f93c";
-static NSString * const testUser5UserId = @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205";
-static NSString * const testUser6UserId = @"USR-de6954dc-9a54-4a65-8cf4-8628d312a611";
-static NSString * const testUser7UserId = @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b";
-static NSString * const testUser8UserId = @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0";
-static NSString * const testUser9UserId = @"USR-0bff641c-9751-473b-84fc-350e8cf2d249";
+static NSString * const testuser1UserId = @"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2";
+static NSString * const testuser2UserId = @"USR-1628dc75-fa09-4746-9e29-681430cb6419";
+static NSString * const testuser3UserId = @"USR-0e364e72-d343-42bd-9a12-024518a88896";
+static NSString * const testuser4UserId = @"USR-effc7845-333c-4779-aeaf-fdbb4167f93c";
+static NSString * const testuser5UserId = @"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205";
+static NSString * const testuser6UserId = @"USR-de6954dc-9a54-4a65-8cf4-8628d312a611";
+static NSString * const testuser7UserId = @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b";
+static NSString * const testuser8UserId = @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0";
+static NSString * const testuser9UserId = @"USR-0bff641c-9751-473b-84fc-350e8cf2d249";
 
 static NSString * const baby1UserId = @"USR-2cf49ab9-e936-4442-ba8a-9179e60d016c";
 static NSString * const baby2UserId = @"USR-d02c652d-cf54-4fd1-958b-6cf140c9b3c0";
@@ -39,23 +39,23 @@ static NSString * const demo7UserId = @"USR-61724795-ea1b-4495-9843-8e72fc6998b5
 static NSString * const demo8UserId = @"USR-e5d6b341-ad11-43e7-88d4-fa96bd347bab";
 static NSString * const demo9UserId = @"USR-5ab89e08-8c2a-49be-8641-7fa4d6ac04e8";
 
-testUser1Token =
+testuser1Token =
 
-testUser2Token =
+testuser2Token =
 
-testUser3Token =
+testuser3Token =
 
-testUser4Token =
+testuser4Token =
 
-testUser5Token =
+testuser5Token =
 
-testUser6Token =
+testuser6Token =
 
-testUser7Token =
+testuser7Token =
 
-testUser8Token =
+testuser8Token =
 
-testUser9Token =
+testuser9Token =
 
 baby1Token =
 

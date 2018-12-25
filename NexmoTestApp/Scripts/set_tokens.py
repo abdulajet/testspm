@@ -5,7 +5,7 @@ import sys
 
 targetDir = sys.argv[1]
 print "TARGET_DIR: " + targetDir
-user_types = ["testUser", "baby", "demo"]
+user_types = ["testuser", "baby", "demo"]
 user_pattern = "%s%d"
 base_request = "http://capi-token.dev.il.vocal-dev.com:8889/token/f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e/%s%d"
 base_line = "static NSString * const %s%dToken = @\"%s\";"

@@ -34,6 +34,12 @@
     self.password.text = randomUser.password;
 }
 
+- (IBAction)loadDefaultBabyUserToTextFields:(UIButton *)sender {
+    NTAUserInfo *randomUser = [NTAUserInfoProvider getRandomUserForBabyGroup];
+    self.username.text = randomUser.name;
+    self.password.text = randomUser.password;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
