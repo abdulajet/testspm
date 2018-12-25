@@ -305,6 +305,7 @@
 		0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServerCallCreator.m; sourceTree = "<group>"; };
 		435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsQueue.h; sourceTree = "<group>"; };
 		435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueue.m; sourceTree = "<group>"; };
+		85C4B90521D25AEA00ED596B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		9214F61021AEF8810021CD05 /* NXMTestingUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtils.h; sourceTree = "<group>"; };
 		9214F61121AEF8810021CD05 /* NXMTestingUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMTestingUtils.m; sourceTree = "<group>"; };
 		9214F61321AEF8A80021CD05 /* NXMTestingUtils+Members.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NXMTestingUtils+Members.h"; sourceTree = "<group>"; };
@@ -1417,6 +1418,7 @@
 		F9C35DC3203078BD009FAE4F = {
 			isa = PBXGroup;
 			children = (
+				85C4B90521D25AEA00ED596B /* Makefile */,
 				F923DD8A21985BF600D29065 /* NexmoClient */,
 				F923DD9521985BF600D29065 /* NexmoClientTests */,
 				92BDBEB42177581C00C33D38 /* NexmoClientTestApp */,
