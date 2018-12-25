@@ -11,35 +11,52 @@
 #import "NTAUserInfoProvider.h"
 #import "NTALogger.h"
 #import "NTAErrors.h"
+#import "CommunicationsManager.h"
+#import "AppDelegate.h"
 
 static NTAUserInfo *_currentUser;
-static NSString * const kNTACurrentUserNamePreferencesKey = @"NTACurrentUserName";
-static NSString * const kNTACurrentUserPasswordPreferencesKey = @"NTACurrentUserPassword";
-
-NSString *const kNTAUserDidLoginNoticiationName = @"NTADidUserLogin";
-NSString *const kNTAUserDidLogoutNoticiationName = @"NTADidUserLogout";
-NSString *const kNTAUserLoginNoticiationKey = @"NTAUserName";
+static BOOL _registeredForNexmoPushNotifications;
 
 @implementation NTALoginHandler
-+ (NTAUserInfo *)currentUser {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-        
-        if([preferences objectForKey:kNTACurrentUserNamePreferencesKey] && [preferences objectForKey:kNTACurrentUserPasswordPreferencesKey]) {
-            NSString *userName = [preferences stringForKey:kNTACurrentUserNamePreferencesKey];
-            NSString *password = [preferences stringForKey:kNTACurrentUserPasswordPreferencesKey];
-            [NTAUserInfoProvider getUserInfoForUserName:userName password:password completion:^(NSError * _Nullable error, NTAUserInfo *userInfo) {
-                if(error) {
-                    [NTALogger errorWithFormat:@"User %@ with password %@ saved in preferences is invalid", userName, password];
-                    _currentUser = nil;
-                }
-                
-                _currentUser = userInfo;
-            }];
-        }
-    });
+#pragma mark - initialize
++(void)initialize {
+    if(self != [NTALoginHandler self]) {
+        return;
+    }
     
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self loadStateFromUserDefaults:defaults];
+    
+    //notifications
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(connectionStatusChangedWithNSNotification:) name:kNTACommunicationsManagerNotificationNameConnectionStatus object:nil];
+}
+
++ (void)loadStateFromUserDefaults:(NSUserDefaults *)userDefaults {
+    [self loadCurrentUserWithUserDefaults:userDefaults];
+    [self loadPushRegistrationWithUserDefaults:userDefaults];
+}
+
++ (void)loadCurrentUserWithUserDefaults:(NSUserDefaults *)defaults {
+    if([defaults objectForKey:kNTALoginHandlerCurrentUserNamePreferencesKey] && [defaults objectForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey]) {
+        NSString *userName = [defaults stringForKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
+        NSString *password = [defaults stringForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
+        [NTAUserInfoProvider getUserInfoForUserName:userName password:password completion:^(NSError * _Nullable error, NTAUserInfo *userInfo) {
+            if(error) {
+                [NTALogger errorWithFormat:@"User %@ with password %@ saved in preferences is invalid", userName, password];
+                _currentUser = nil;
+            }
+            
+            _currentUser = userInfo;
+        }];
+    }
+}
+
++ (void)loadPushRegistrationWithUserDefaults:(NSUserDefaults *)defaults {
+    _registeredForNexmoPushNotifications = [defaults objectForKey:kNTALoginHandlerDidRegisterForNexmoPushPreferencesKey] ? YES : NO;
+}
+
+
++ (NTAUserInfo *)currentUser {
     return _currentUser;
 }
 
@@ -72,67 +89,119 @@ NSString *const kNTAUserLoginNoticiationKey = @"NTAUserName";
             completion(nil, _currentUser);
         }
         
-        [NSNotificationCenter.defaultCenter postNotificationName:kNTAUserDidLoginNoticiationName object:nil];
+        NSDictionary *notificationUserInfo = @{kNTALoginHandlerNotificationKeyUser : [[self currentUser] copy]};
+        [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogin object:nil userInfo:notificationUserInfo];
     }];
 }
 
-+ (void)logout {
-    NSString *currentUserName = [[self currentUser].name copy];
++ (void)logoutWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    NTAUserInfo *currentUser = [[self currentUser] copy];
     [self removeCurrentUser];
-    [NSNotificationCenter.defaultCenter postNotificationName:kNTAUserDidLogoutNoticiationName object:nil userInfo:@{kNTAUserLoginNoticiationKey : currentUserName}];
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogout object:nil userInfo:@{kNTALoginHandlerNotificationKeyUser : currentUser}];
+    
+    if(_registeredForNexmoPushNotifications) {
+        [self setNexmoPushRegistrationState:FALSE];
+    }
+    
+    if(completion) {
+        completion(nil);
+    }
 }
 
 #pragma mark - Private
 + (void)removeCurrentUser {
     NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-    [preferences removeObjectForKey:kNTACurrentUserNamePreferencesKey];
-    [preferences removeObjectForKey:kNTACurrentUserPasswordPreferencesKey];
+    [preferences removeObjectForKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
+    [preferences removeObjectForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
     _currentUser = nil;
 }
 
 + (void)setCurrentUserWithUserName:(NSString *)userName password:(NSString *)password andUserInfo:(NTAUserInfo *)userInfo {
     _currentUser = userInfo;
-    NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
-    [preferences  setObject:userName forKey:kNTACurrentUserNamePreferencesKey];
-    [preferences setObject:password forKey:kNTACurrentUserPasswordPreferencesKey];
-    const BOOL didSave = [preferences synchronize];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults  setObject:userName forKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
+    [userDefaults setObject:password forKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
+    const BOOL didSave = [userDefaults synchronize];
     if(!didSave) {
-        [NTALogger errorWithFormat:@"Failed saving User %@ with password %@ in preferences", userName, password];
+        [NTALogger errorWithFormat:@"Failed saving User %@ with password %@ in userDefaults", userName, password];
     }
 }
 
-#pragma mark notifications
-+ (NSArray<id <NSObject>> *)subscribeToNotificationsWithObserver:(NSObject<NTALoginHandlerObserver> *)observer {
-    id <NSObject> loginObserver = [self subscribeToLoginWithObserver:observer];
-    id <NSObject> logoutObserver = [self subscribeToLogoutWithObserver:observer];
-    return @[loginObserver, logoutObserver];
+#pragma mark nexmo push
++ (void)setNexmoPushRegistrationState:(BOOL)state {
+    _registeredForNexmoPushNotifications = state;
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    if(state) {
+        [userDefaults setObject:@(_registeredForNexmoPushNotifications) forKey:kNTALoginHandlerDidRegisterForNexmoPushPreferencesKey];
+    } else {
+        [userDefaults removeObjectForKey:kNTALoginHandlerDidRegisterForNexmoPushPreferencesKey];
+    }
+    
+    const BOOL didSave = [userDefaults synchronize];
+    if(!didSave) {
+        [NTALogger errorWithFormat:@"Failed saving nexmo push state %@ in userDefaults", state];
+    }
 }
 
-+ (void)unsubscribeToNotificationsWithObserver:(NSArray<id <NSObject>> *)observers {
-    for (id <NSObject> observer in observers) {
-        if(observer) {
-            [NSNotificationCenter.defaultCenter removeObserver:observer];
++ (void)enableNexmoPushWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    NSData *deviceToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    if(!deviceToken) {
+        [NTALogger info:@"No pushkit device token. not registering for nexmo push"];
+        return;
+    }
+    
+    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:deviceToken isPushKit:YES isSandbox:YES completion:^(NSError * _Nullable error) {
+        if(error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed enabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            
+            if(completion) {
+                completion([NTAErrors errorWithErrorCode:NXMTestAppErrorCodeFailedEnablingPush andUserInfo:nil]);
+            }
+            
+            return;
         }
-    }
-}
-
-+ (id <NSObject>)subscribeToLoginWithObserver:(NSObject<NTALoginHandlerObserver> *)observer {
-    __weak NSObject<NTALoginHandlerObserver> *weakObserver = observer;
-    return [NSNotificationCenter.defaultCenter addObserverForName:kNTAUserDidLoginNoticiationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        NSString * userName = note.userInfo[kNTAUserLoginNoticiationKey];
-        if([weakObserver respondsToSelector:@selector(NTADidLoginWithUserName:)]) {
-            [weakObserver NTADidLoginWithUserName:userName];
+        
+        [self setNexmoPushRegistrationState:TRUE];
+        
+        if(completion) {
+            completion(nil);
         }
     }];
 }
 
-+ (id <NSObject>)subscribeToLogoutWithObserver:(NSObject<NTALoginHandlerObserver> *)observer {
-    __weak NSObject<NTALoginHandlerObserver> *weakObserver = observer;
-    return [NSNotificationCenter.defaultCenter addObserverForName:kNTAUserDidLogoutNoticiationName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        NSString * userName = note.userInfo[kNTAUserLoginNoticiationKey];
-        if([weakObserver respondsToSelector:@selector(NTADidLogoutWithUserName:)]) {
-            [weakObserver NTADidLogoutWithUserName:userName];
++ (void)disableNexmoPushWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [CommunicationsManager.sharedInstance disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+        if(error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed disabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            
+            if(completion) {
+                completion([NTAErrors errorWithErrorCode:NXMTestAppErrorCodeFailedDisablingPush andUserInfo:nil]);
+            }
+            
+            return;
+        }
+        
+        [self setNexmoPushRegistrationState:FALSE];
+        
+        if(completion) {
+            completion(nil);
         }
     }];
 }
+
++ (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {
+    CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
+    
+    if(connectionStatus != CommunicationsManagerConnectionStatusConnected) {
+        return;
+    }
+    
+    if(_currentUser && !_registeredForNexmoPushNotifications) {
+        [self enableNexmoPushWithCompletion:nil];
+    }
+}
+
 @end

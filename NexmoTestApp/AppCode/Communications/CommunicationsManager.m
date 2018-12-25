@@ -7,19 +7,10 @@
 
 
 #import "CommunicationsManager.h"
+#import "NTAUserInfo.h"
 #import "NTALoginHandler.h"
-#import "NTALoginHandlerObserver.h"
 
-NSString * const notificationConnectionStatusName = @"NTACommunicationsManagerConnectionStatus";
-NSString * const notificationConnectionStatusKey = @"connectionStatus";
-NSString * const notificationConnectionStatusReasonKey = @"connectionStatusReason";
-
-NSString * const notificationIncomingCallName = @"NTACommunicationsManagerIncomingCall";
-NSString * const notificationIncomingCallKey = @"call";
-
-
-
-@interface CommunicationsManager() <NTALoginHandlerObserver>
+@interface CommunicationsManager()
 @property (nonatomic, nonnull, readwrite) NXMClient *client;
 @end
 
@@ -30,7 +21,7 @@ NSString * const notificationIncomingCallKey = @"call";
     static CommunicationsManager *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[CommunicationsManager alloc] initWithNexmoClient:[NXMClient new]];
+        sharedInstance = [CommunicationsManager new];
     });
     
     return sharedInstance;
@@ -41,11 +32,14 @@ NSString * const notificationIncomingCallKey = @"call";
 }
 
 #pragma mark - init
-- (instancetype)initWithNexmoClient:(NXMClient *)client {
+- (instancetype)init {
     if(self = [super init]) {
-        self.client = client;
-        [client setDelegate:self];
-        [NTALoginHandler subscribeToNotificationsWithObserver:self];
+        [self setupClient];
+        
+        //notifications
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLoginWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogin object:nil];
+        [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLogoutWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogout object:nil];
+        
         if(NTALoginHandler.currentUser) {
             [self loginWithUserInfo:NTALoginHandler.currentUser];
         }
@@ -93,60 +87,42 @@ NSString * const notificationIncomingCallKey = @"call";
     return @"invalid reason";
 }
 
-#pragma mark - notifications
--(NSArray<id <NSObject>> *)subscribeToNotificationsWithObserver:(NSObject<CommunicationsManagerObserver> *)observer {
-    
-    id <NSObject> connectionObserver = [self subscribeToConnectionStatusWithObserver:observer];
-    id <NSObject> incomingCallObserver = [self subscribeToIncomingCallWithObserver:observer];
-    return @[connectionObserver, incomingCallObserver];
+- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
+                                     isPushKit:(BOOL)isPushKit
+                                     isSandbox:(BOOL)isSandbox
+                                    completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [self.client enablePushNotificationsWithDeviceToken:deviceToken isPushKit:isPushKit
+                                              isSandbox:isSandbox completion:completion];
 }
 
--(void)unsubscribeToNotificationsWithObserver:(NSArray<id <NSObject>> *)observers {
-    for (id <NSObject> observer in observers) {
-        if(observer) {
-            [NSNotificationCenter.defaultCenter removeObserver:observer];
-        }
-    }
+- (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [self.client disablePushNotificationsWithCompletion:completion];
 }
 
--(id <NSObject>)subscribeToConnectionStatusWithObserver:(NSObject<CommunicationsManagerObserver> *)observer {
-    __weak NSObject<CommunicationsManagerObserver> *weakObserver = observer;
-    return [NSNotificationCenter.defaultCenter addObserverForName:notificationConnectionStatusName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[notificationConnectionStatusKey] integerValue]);
-        CommunicationsManagerConnectionStatusReason connectionStatusReason = (CommunicationsManagerConnectionStatusReason)([note.userInfo[notificationConnectionStatusReasonKey] integerValue]);
-        
-        if([weakObserver respondsToSelector:@selector(connectionStatusChanged:withReason:)]) {
-            [weakObserver connectionStatusChanged:connectionStatus withReason:connectionStatusReason];
-        }
-    }];
+- (BOOL)isClientPushWithUserInfo:(nonnull NSDictionary *)userInfo {
+    return [self.client isNexmoPushWithUserInfo:userInfo];
 }
 
--(id <NSObject>)subscribeToIncomingCallWithObserver:(NSObject<CommunicationsManagerObserver> *)observer {
-    __weak NSObject<CommunicationsManagerObserver> *weakObserver = observer;
-
-    return [NSNotificationCenter.defaultCenter addObserverForName:notificationIncomingCallName object:nil queue:nil usingBlock:^(NSNotification * _Nonnull note) {
-        NXMCall *call = note.userInfo[notificationIncomingCallKey];
-        
-        if([weakObserver respondsToSelector:@selector(incomingCall:)]) {
-            [weakObserver incomingCall:call];
-        }
-    }];
+- (void)processClientPushWithUserInfo:(nonnull NSDictionary *)userInfo
+                           completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [self.client processNexmoPushWithUserInfo:userInfo completion:completion];
 }
 
+#pragma mark - post notifications
 
 - (void)didChangeConnectionStatus:(CommunicationsManagerConnectionStatus)connectionStatus WithReason:(CommunicationsManagerConnectionStatusReason)reason {
     NSDictionary *userInfo = @{
-                               notificationConnectionStatusKey:@(connectionStatus),
-                               notificationConnectionStatusReasonKey: @(reason)
+                               kNTACommunicationsManagerNotificationKeyConnectionStatus:@(connectionStatus),
+                               kNTACommunicationsManagerNotificationKeyConnectionStatusReason: @(reason)
                                };
-    [NSNotificationCenter.defaultCenter postNotificationName:notificationConnectionStatusName object:nil userInfo:userInfo];
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTACommunicationsManagerNotificationNameConnectionStatus object:nil userInfo:userInfo];
 }
 
 - (void)didgetIncomingCall:(NXMCall *)call {
     NSDictionary *userInfo = @{
-                               notificationIncomingCallKey:call
+                               kNTACommunicationsManagerNotificationKeyIncomingCall:call
                                };
-    [NSNotificationCenter.defaultCenter postNotificationName:notificationIncomingCallName object:nil userInfo:userInfo];
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTACommunicationsManagerNotificationNameIncomingCall object:nil userInfo:userInfo];
 }
 
 #pragma mark - stitchClientDelegate
@@ -155,6 +131,10 @@ NSString * const notificationIncomingCallKey = @"call";
 }
 
 - (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
+    if(!isLoggedIn) {
+        [self setupClient];
+    }
+    
     [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:isLoggedIn andError:error]];
 }
 
@@ -198,12 +178,13 @@ NSString * const notificationIncomingCallKey = @"call";
     
 }
 
-#pragma mark - LoginHandlerObserver
-- (void)NTADidLoginWithUserName:(NSString *)userName {
-    [self loginWithUserInfo:NTALoginHandler.currentUser];
+#pragma mark - LoginHandler notifications
+- (void)NTADidLoginWithNSNotification:(NSNotification *)note {
+    NTAUserInfo *user = note.userInfo[kNTALoginHandlerNotificationKeyUser];
+    [self loginWithUserInfo:user];
 }
 
-- (void)NTADidLogoutWithUserName:(NSString *)userName {
+- (void)NTADidLogoutWithNSNotification:(NSNotification *)note {
     [self logout];
 }
 
@@ -215,8 +196,12 @@ NSString * const notificationIncomingCallKey = @"call";
     [self.client logout];
 }
 
-- (void)setupNexmoClient {
-    self.client = [NXMClient new];
+- (void)setupClient {
+    [self setupWithNexmoClient:[NXMClient new]];
+}
+
+- (void)setupWithNexmoClient:(NXMClient *)client {
+    self.client = client;
     [self.client setDelegate:self];
 }
 

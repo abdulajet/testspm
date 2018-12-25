@@ -11,6 +11,7 @@
 #import "NTAUserInfo.h"
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
+#import "NTAAlertUtils.h"
 
 
 static NSString * const kNTAAvatarImageNameConnected = @"SettingsAvatarConnected";
@@ -19,14 +20,11 @@ static NSString * const kNTAAvatarImageNameReconnecting = @"SettingsAvatarReconn
 static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarConnectionOffline";
 
 
-@interface UserSettingsViewController () <CommunicationsManagerObserver>
+@interface UserSettingsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *AvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *AvatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusReasonLabel;
 @property (weak, nonatomic) IBOutlet UILabel *csUserNamelabel;
-
-
-@property (nonatomic, nullable) NSArray<id <NSObject>> *nexmoClientWrapperSubscribers;
 @end
 
 @implementation UserSettingsViewController
@@ -41,12 +39,11 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    self.nexmoClientWrapperSubscribers = [[CommunicationsManager sharedInstance] subscribeToNotificationsWithObserver:self];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(connectionStatusChangedWithNSNotification:) name:kNTACommunicationsManagerNotificationNameConnectionStatus object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[CommunicationsManager sharedInstance] unsubscribeToNotificationsWithObserver:self.nexmoClientWrapperSubscribers];
-    self.nexmoClientWrapperSubscribers = nil;
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 /*
@@ -65,12 +62,21 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 
 - (IBAction)LogoutPressed:(UIButton *)sender {
     [NTALogger info:@"Logout pressed"];
-    [[CommunicationsManager sharedInstance] logout];
-    [NTALoginHandler logout];
+    [NTALoginHandler logoutWithCompletion:^(NSError * _Nullable error) {
+        if(error) {
+            [NTAAlertUtils displayAlertForController:self WithTitle:@"Logout Failed" andMessage:@"An error occured while logging out of the system. please try again."];
+        }
+    }];
 }
 
 
-#pragma mark - ClientWrapperObserverDelegate
+#pragma mark - CommunicationsManagerNotifications
+- (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {
+    CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
+    CommunicationsManagerConnectionStatusReason connectionStatusReason = (CommunicationsManagerConnectionStatusReason)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatusReason] integerValue]);
+    [self connectionStatusChanged:connectionStatus withReason:connectionStatusReason];
+}
+
 - (void)connectionStatusChanged:(CommunicationsManagerConnectionStatus)connectionStatus withReason:(CommunicationsManagerConnectionStatusReason)reason {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.statusReasonLabel.text = [CommunicationsManager CommunicationsManagerConnectionStatusReasonToString:reason];

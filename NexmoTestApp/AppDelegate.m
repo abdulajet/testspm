@@ -12,9 +12,11 @@
 #import "MainFlow.h"
 
 #import <AVFoundation/AVAudioSession.h>
+#import <PushKit/PushKit.h>
 
-@interface AppDelegate ()
-
+@interface AppDelegate () <PKPushRegistryDelegate>
+@property (nonatomic) UNUserNotificationCenter *notificationCenter;
+@property (nonatomic) PKPushRegistry *pushKitRegister;
 @end
 
 @implementation AppDelegate
@@ -38,6 +40,28 @@
          }];
     }
     
+    //Regular Push Notification - (Local)
+    UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+    self.notificationCenter = center;
+    self.notificationCenter.delegate = self;
+    [self.notificationCenter requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert | UNAuthorizationOptionBadge) completionHandler:^(BOOL granted, NSError * _Nullable error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!error) {
+                [[UIApplication sharedApplication] registerForRemoteNotifications];
+                [NTALogger info:@"Push Authorization success"];
+            } else {
+                NSString *errorString = [NSString stringWithFormat:@"Push Authorization failed.\n"];
+                errorString = [errorString stringByAppendingString:[NSString stringWithFormat:@"ERROR: %@ - %@\n", error.localizedFailureReason, error.localizedDescription]];
+                errorString = [errorString stringByAppendingString:[NSString stringWithFormat:@"SUGGESTIONS: %@ - %@", error.localizedRecoveryOptions, error.localizedRecoverySuggestion]];
+
+                [NTALogger error:errorString];
+            }});
+    }];
+    
+    //Push Kit
+    self.pushKitRegister = [[PKPushRegistry alloc] initWithQueue:nil];
+    self.pushKitRegister.delegate = self;
+    self.pushKitRegister.desiredPushTypes = [NSSet setWithObject:PKPushTypeVoIP];
     
     return YES;
 }
@@ -57,6 +81,7 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+    [UIApplication.sharedApplication setApplicationIconBadgeNumber:0];
 }
 
 
@@ -69,5 +94,82 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - Push Notifications
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    self.deviceToken = deviceToken;
+    [NTALogger info:@"Push registration didRegisterForRemoteNotificationsWithDeviceToken"];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [NTALogger errorWithFormat:@"Push registration failed didFailToRegisterForRemoteNotificationsWithError with error %@", error];
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+       willPresentNotification:(UNNotification *)notification
+         withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+    NSDictionary *userInfo = notification.request.content.userInfo;
+    [NTALogger infoWithFormat:@"NTA Handle Push from foreground with userInfo: %@",userInfo];
+}
+
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center
+didReceiveNotificationResponse:(UNNotificationResponse *)response
+         withCompletionHandler:(void (^)(void))completionHandler
+{
+    NSDictionary *userInfo = response.notification.request.content.userInfo;
+    [NTALogger infoWithFormat:@"NTA Handle Push from background or closed with userInfo: %@",userInfo];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(nonnull NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
+    [NTALogger infoWithFormat:@"NTA Handle Push Silent with userInfo: %@",userInfo];
+}
+
+
+- (void)fireLocalNotificationWithUserInfo:(NSDictionary *)userInfo {
+    UNMutableNotificationContent *notificationContent = [[UNMutableNotificationContent alloc] init];
+
+    notificationContent.title = @"incoming call";
+    //  notificationContent.body = message;
+    //  notificationContent.sound = [UNNotificationSound defaultSound];
+    notificationContent.userInfo = userInfo;
+    notificationContent.badge = @(1);
+
+    UNNotificationTrigger *notificationTrigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+
+    NSString *notificationIdentifier = [[NSUUID UUID] UUIDString];
+    UNNotificationRequest *notificationRequest = [UNNotificationRequest requestWithIdentifier:notificationIdentifier content:notificationContent trigger:notificationTrigger];
+
+    [ [UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Failed firing local notification with error: %@", error];
+        }
+    }];
+}
+
+#pragma mark - Push Kit Notifications Delegate
+
+
+- (void)pushRegistry:(nonnull PKPushRegistry *)registry didUpdatePushCredentials:(nonnull PKPushCredentials *)pushCredentials forType:(nonnull PKPushType)type {
+    [NTALogger info:@"PushKit token updated"];
+    self.pushKitToken = pushCredentials.token;
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didInvalidatePushTokenForType:(PKPushType)type {
+    self.pushKitToken = nil;
+    [NTALogger info:@"PushKit token invalidated"];
+}
+
+- (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
+    [NTALogger infoWithFormat:@"PushKit push with payload: %@", payload.dictionaryPayload];
+    if([CommunicationsManager.sharedInstance isClientPushWithUserInfo: payload.dictionaryPayload]) {
+        [NTALogger info:@"Handeling nexmo voip push"];
+        [CommunicationsManager.sharedInstance processClientPushWithUserInfo:payload.dictionaryPayload completion:^(NSError * _Nullable error) {
+            if(error) {
+                [NTALogger errorWithFormat:@"Error processing nexmo push: %@", error];
+            }
+        }];
+    }
+}
 
 @end

@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-
 #import <NexmoClient/NexmoClient.h>
 
-#import "CommunicationsManagerObserver.h"
+#import "CommunicationsManagerDefine.h"
 
 @interface CommunicationsManager : NSObject <NXMClientDelegate>
 
@@ -22,25 +21,18 @@
 
 + (void)setLogger:(id<NXMLoggerDelegate>)delegate;
 
-
-
-/**
- subscribe to clientStatuses
-
- @param observer object confroming to NexmoClientStatusObserver protocol
- @return array of objects to supply when unsubscribing
- */
-- (NSArray<id <NSObject>> *)subscribeToNotificationsWithObserver:(NSObject<CommunicationsManagerObserver> *)observer;
-
-
-/**
- unsubscribe to clientStatuses
-
-
- @param observers array of objects returned from subscribing
- */
-- (void)unsubscribeToNotificationsWithObserver:(NSArray<id <NSObject>> *)observers;
-
 - (void)logout;
+
+- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
+                                     isPushKit:(BOOL)isPushKit
+                                     isSandbox:(BOOL)isSandbox
+                                    completion:(void(^_Nullable)(NSError * _Nullable error))completion;
+
+- (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion;
+
+- (BOOL)isClientPushWithUserInfo:(nonnull NSDictionary *)userInfo;
+
+- (void)processClientPushWithUserInfo:(nonnull NSDictionary *)userInfo
+                          completion:(void(^_Nullable)(NSError * _Nullable error))completion;
 @end
 

@@ -14,8 +14,9 @@
 
 @property (nonatomic, strong, nonnull) NSData *deviceToken;
 @property (nonatomic) BOOL isSandbox;
+@property (nonatomic) BOOL isPushKit;
 
-- (nullable instancetype)initWithDeviceToken:(nonnull NSData *)deviceToken isSandbox:(BOOL)isSandbox;
+- (nullable instancetype)initWithDeviceToken:(nonnull NSData *)deviceToken isSandbox:(BOOL)isSandbox isPushKit:(BOOL)isPushKit;
 
 @end
 

@@ -16,7 +16,7 @@
 #import "NTAAlertUtils.h"
 #import "NTALogger.h"
 
-@interface NXMLoginViewController () <NTALoginHandlerObserver>
+@interface NXMLoginViewController ()
 
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (weak, nonatomic) IBOutlet UITextField *username;
@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *inprogressView;
 
-@property(strong, nonatomic) NSArray<id <NSObject>> *loginSubscribers;
 @end
 
 @implementation NXMLoginViewController
@@ -50,8 +49,8 @@
     self.tapRecognizer.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:self.tapRecognizer];
     
-    //logout
-    self.loginSubscribers = [NTALoginHandler subscribeToNotificationsWithObserver:self];
+    //notifications
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLogoutWithNotification:) name:kNTALoginHandlerNotificationNameUserDidLogout object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -65,11 +64,11 @@
 
 - (void)dealloc
 {
-    [NTALoginHandler unsubscribeToNotificationsWithObserver:self.loginSubscribers];
+    [NSNotificationCenter.defaultCenter removeObserver:self];
 }
 
 #pragma mark - Login
-- (void)NTADidLogoutWithUserName:(NSString *)userName {
+- (void)NTADidLogoutWithNotification:(NSNotification *)note {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.username.text = @"";
         self.password.text = @"";

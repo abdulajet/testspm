@@ -315,7 +315,6 @@
 		9216303C21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCLStitchClientWrapper+CoreExpose.h"; sourceTree = "<group>"; };
 		9216303D21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCLStitchClientWrapper+CoreExpose.m"; sourceTree = "<group>"; };
 		922C801E21AC471F00AF2FA6 /* SCLNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLNSLogger.m; sourceTree = "<group>"; };
-		9242CD9821BED37300ED2B51 /* CommunicationsManagerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerObserver.h; sourceTree = "<group>"; };
 		9242CD9A21BFDB6700ED2B51 /* NTAErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAErrors.h; sourceTree = "<group>"; };
 		9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAErrors.m; sourceTree = "<group>"; };
 		9242CD9D21BFDD6800ED2B51 /* NTAUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAUserInfo.h; sourceTree = "<group>"; };
@@ -327,7 +326,6 @@
 		9242CDB221C2551100ED2B51 /* NTALoginHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandler.h; sourceTree = "<group>"; };
 		9242CDB321C2551100ED2B51 /* NTALoginHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTALoginHandler.m; sourceTree = "<group>"; };
 		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
-		9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandlerObserver.h; sourceTree = "<group>"; };
 		9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsListTableViewCell.h; sourceTree = "<group>"; };
 		9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListTableViewCell.m; sourceTree = "<group>"; };
 		92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationTests.m; sourceTree = "<group>"; };
@@ -402,6 +400,8 @@
 		92CF9A1921CA6523001C86F1 /* InAppCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InAppCallCreator.m; sourceTree = "<group>"; };
 		92CF9A1C21CA6632001C86F1 /* NTACallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTACallCreator.h; sourceTree = "<group>"; };
 		92CF9A3121CBCD66001C86F1 /* CallsDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallsDefine.h; sourceTree = "<group>"; };
+		92CF9A3221CFBE28001C86F1 /* NTALoginHandlerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTALoginHandlerDefine.h; sourceTree = "<group>"; };
+		92D7FBCC21CFF8F3002A2993 /* NexmoTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NexmoTestApp.entitlements; sourceTree = "<group>"; };
 		D32D425421CC05E00039A133 /* iOSFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iOSFramework.framework; path = Frameworks/MiniRTC/iOSFramework.framework; sourceTree = "<group>"; };
 		D32D425B21CC06B70039A133 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = "Frameworks/OCMock/iOS framework/OCMock.framework"; sourceTree = "<group>"; };
 		D32D426421CC173D0039A133 /* iOS framework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "iOS framework"; path = "Frameworks/OCMock/iOS framework"; sourceTree = "<group>"; };
@@ -722,7 +722,7 @@
 			children = (
 				9242CDB221C2551100ED2B51 /* NTALoginHandler.h */,
 				9242CDB321C2551100ED2B51 /* NTALoginHandler.m */,
-				9242CDB821C63C3F00ED2B51 /* NTALoginHandlerObserver.h */,
+				92CF9A3221CFBE28001C86F1 /* NTALoginHandlerDefine.h */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -732,7 +732,6 @@
 			children = (
 				F942920D21BD661400FA45A1 /* CommunicationsManager.h */,
 				F942920E21BD661400FA45A1 /* CommunicationsManager.m */,
-				9242CD9821BED37300ED2B51 /* CommunicationsManagerObserver.h */,
 				9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */,
 			);
 			path = Communications;
@@ -1346,6 +1345,7 @@
 		F94291E321BD46F900FA45A1 /* NexmoTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				92D7FBCC21CFF8F3002A2993 /* NexmoTestApp.entitlements */,
 				9242CDB021C17D5100ED2B51 /* ViewControllers */,
 				F94291FF21BD528F00FA45A1 /* AppCode */,
 				F94291E421BD46F900FA45A1 /* AppDelegate.h */,
@@ -1657,6 +1657,14 @@
 					F94291E121BD46F900FA45A1 = {
 						CreatedOnToolsVersion = 10.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -2132,6 +2140,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = NexmoTestApp/NexmoTestApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
@@ -2141,7 +2150,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.testApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2152,6 +2161,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_ENTITLEMENTS = NexmoTestApp/NexmoTestApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
@@ -2160,7 +2170,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.testApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

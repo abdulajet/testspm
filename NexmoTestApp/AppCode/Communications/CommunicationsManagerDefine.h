@@ -2,9 +2,10 @@
 //  NexmoClientWrapperDefine.h
 //  Stitch_iOS
 //
-//  Created by Doron Biaz on 12/13/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
+
+#pragma mark - enums
 
 typedef NS_ENUM(NSInteger, CommunicationsManagerConnectionStatus) {
     CommunicationsManagerConnectionStatusUnknown,
@@ -23,4 +24,13 @@ typedef NS_ENUM(NSInteger, CommunicationsManagerConnectionStatusReason) {
     CommunicationsManagerConnectionStatusReasonMaxSessions,
     CommunicationsManagerConnectionStatusReasonSessionTerminated
 };
+
+#pragma mark - notifications
+#define kNTACommunicationsManagerNotificationNameConnectionStatus @"NTACommunicationsManagerConnectionStatus"
+#define kNTACommunicationsManagerNotificationKeyConnectionStatus @"connectionStatus"
+#define kNTACommunicationsManagerNotificationKeyConnectionStatusReason @"connectionStatusReason"
+
+#define kNTACommunicationsManagerNotificationNameIncomingCall @"NTACommunicationsManagerIncomingCall"
+#define kNTACommunicationsManagerNotificationKeyIncomingCall @"call"
+
 

@@ -51,10 +51,10 @@ static const NSString *stitchPushIdentifier = @"nexmo";
 }
 
 -(nullable NXMEvent *)parseStitchPushEventWithUserInfo:(nonnull NSDictionary *)userInfo {
-    if([self isStitchPushWithUserInfo:userInfo]) {
+    if(![self isStitchPushWithUserInfo:userInfo]) {
         return nil;
     }
-    
-    return [self.parsers[userInfo[@"event_type"]] parseStitchPushEventWithStitchPushInfo:[self stitchPushInfoWithUserInfo:userInfo]];
+    NSDictionary *pushPayload = [self stitchPushInfoWithUserInfo:userInfo];
+    return [self.parsers[pushPayload[@"event_type"]] parseStitchPushEventWithStitchPushInfo:pushPayload];
 }
 @end
