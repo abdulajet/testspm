@@ -340,7 +340,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
             return;
         }
         
-        [NXMLogger infoWithFormat:@"getConversationPressed result %@",data];
+        [NXMLogger infoWithFormat:@"get conversation details %@",data];
         
         NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithConversationId:conversationId];
         details.name = data[@"name"];
@@ -353,7 +353,11 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
         for (NSDictionary* memberJson in data[@"members"]) {
-            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:conversationId userId:memberJson[@"user_id"] name:memberJson[@"name"] state:[self parseMemberState:memberJson[@"state"]]];
+            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"]
+                                                     conversationId:conversationId
+                                                             userId:memberJson[@"user_id"]
+                                                               name:memberJson[@"name"]
+                                                              state:[self parseMemberState:memberJson[@"state"]]];
             
             member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
             member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate

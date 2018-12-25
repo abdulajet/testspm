@@ -6,6 +6,8 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
+#import <AVFoundation/AVAudioSession.h>
+
 #import "CallViewController.h"
 #import "NTAUserInfo.h"
 #import "NTALogger.h"
@@ -38,6 +40,7 @@
 @property (nonatomic) BOOL isControllerInIncomingCallState;
 @property NSDate * startTime;
 @property NSTimer* timer;
+@property BOOL isSpeaker;
 @end
 
 @implementation CallViewController
@@ -175,6 +178,18 @@
 
 - (IBAction)mutePressed:(id)sender {
     [self.call.myParticipant mute:!self.call.myParticipant.isMuted];
+}
+
+- (IBAction)speakerPressed:(id)sender {
+    if (!self.isSpeaker) {
+        if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:nil]) {
+            self.isSpeaker = YES;
+        }
+    } else if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil]){
+        self.isSpeaker = NO;
+    }
+    
+    [self.InCallSpeakerButton setSelected:self.isSpeaker];
 }
 
 - (void)didConnectCall {
