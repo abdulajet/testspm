@@ -107,33 +107,31 @@
 }
 
 -(NXMMediaType)nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType {
-    return NXMMediaTypeAudio;
-//    switch (mediaType) {
-//        case MRTCMediaTypeAudio:
-//            return NXMMediaTypeAudio;
-//            break;
-//        case MRTCMediaTypeVideo:
-//            return NXMMediaTypeVideo;
-//            break;
-//        default:
-//            return NXMMediaTypeNone;
-//            break;
-//    }
+    switch (mediaType) {
+        case MRTCMediaTypeAudio:
+            return NXMMediaTypeAudio;
+            break;
+        case MRTCMediaTypeVideo:
+            return NXMMediaTypeVideo;
+            break;
+        default:
+            return NXMMediaTypeNone;
+            break;
+    }
 }
 
 -(MRTCMediaType)mrtcMediaTypeWithNXMMediaType:(NXMMediaType)mediaType {
-    return MRTCMediaTypeAudio;
-//    switch (mediaType) {
-//        case NXMMediaTypeAudio:
-//            return MRTCMediaTypeAudio;
-//            break;
-//        case NXMMediaTypeVideo:
-//            return MRTCMediaTypeVideo;
-//            break;
-//        default:
-//            return MRTCMediaTypeNone;
-//            break;
-//    }
+    switch (mediaType) {
+        case NXMMediaTypeAudio:
+            return MRTCMediaTypeAudio;
+            break;
+        case NXMMediaTypeVideo:
+            return MRTCMediaTypeVideo;
+            break;
+        default:
+            return MRTCMediaTypeNone;
+            break;
+    }
 }
 
 -(NXMMediaInfo *)nxmMediaInfoWithMRTCMediaInfo:(MRTCMediaInfo *)mrtcMediaInfo andRtcId:(NSString *)rtcId {
