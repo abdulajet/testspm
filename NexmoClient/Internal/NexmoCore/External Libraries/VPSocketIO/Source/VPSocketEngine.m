@@ -559,8 +559,8 @@
                 upgradeWs = [upgrades containsObject:@"websocket"];
             }
             
-            NSNumber *interval = json[@"pingInterval"];
-            NSNumber *timeout = json[@"pingTimeout"];
+            NSNumber *interval = @(2000);//json[@"pingInterval"];
+            NSNumber *timeout = @(10000);//json[@"pingTimeout"];
             if([interval isKindOfClass:[NSNumber class]] && interval.intValue > 0 &&
                [timeout isKindOfClass:[NSNumber class]] && timeout.intValue > 0) {
                 self.pingInterval = interval.intValue;

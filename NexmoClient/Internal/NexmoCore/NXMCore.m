@@ -74,9 +74,10 @@
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isSandbox:(BOOL)isSandbox
+                                     isPushKit:(BOOL)isPushKit
                                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                                        onError:(NXMErrorCallback _Nullable)onError {
-    NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithDeviceToken:deviceToken isSandbox:isSandbox];
+    NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit];
     [self.network enablePushNotifications:request onSuccess:onSuccess onError:onError];
 }
 

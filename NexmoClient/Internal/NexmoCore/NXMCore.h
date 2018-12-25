@@ -39,6 +39,7 @@
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isSandbox:(BOOL)isSandbox
+                                     isPushKit:(BOOL)isPushKit
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError;
 

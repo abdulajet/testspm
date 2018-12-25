@@ -77,7 +77,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
     
     //TODO: disableAudio
     
-    //TODO: decide if disable should be required before logout, or maybe it should be 
+    //TODO: decide if disable should be required before logout, or maybe it should be
     [self disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
         if(error) {
             [NXMLogger errorWithFormat:@"NXMClient: failed disabling push during logout with error: %@", error];
@@ -283,7 +283,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-        [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox onSuccess:^{
+    [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit onSuccess:^{
         [NXMBlocksHelper runWithError:nil completion:completion];
             
     } onError:^(NSError * _Nullable error) {

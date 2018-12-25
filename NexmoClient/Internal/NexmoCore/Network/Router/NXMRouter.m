@@ -67,7 +67,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[@"device_token"] = [self hexadecimalString:request.deviceToken];
     dict[@"device_type"] = @"ios";
-    dict[@"bundle_id"] = [NSBundle mainBundle].bundleIdentifier;
+    dict[@"bundle_id"] = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: request.isPushKit ? @".voip" : @""];
     dict[@"device_push_environment"] = request.isSandbox ? @"sandbox" : @"production";
     
     NSString *deviceId = [self getDeviceId];
@@ -88,7 +88,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     NSString *deviceId = [self getDeviceId];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@devices/%@", self.baseUrl, deviceId]];
     
-    [self requestToServer:@{} url:url httpMethod:@"DEL" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    [self requestToServer:@{} url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
             return;
@@ -924,13 +924,13 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         NSError *jsonError;
         if (((NSHTTPURLResponse *)response).statusCode != 200){
             // TODO: map code from error msg
-            NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+            NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
             NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:dataDict];
             responseBlock(resError, nil);
             return;
         }
         
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
         if (!jsonDict || jsonError) {
             // TODO: map code from error msg
             NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];

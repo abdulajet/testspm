@@ -8,12 +8,14 @@
 
 #import "MainFlow.h"
 #import "CallViewController.h"
-#import "CommunicationsManager.h"
+#import "CommunicationsManagerDefine.h"
 #import "NTAUserInfoProvider.h"
 #import "InAppCallCreator.h"
 #import "IncomingCallCreator.h"
 #import "CallsDefine.h"
+#import "NTALogger.h""
 
+#import <UserNotifications/UserNotifications.h>
 
 @interface CallsWindow : UIWindow
 
@@ -25,7 +27,7 @@
 
 @end
 
-@interface MainFlow() <CommunicationsManagerObserver>
+@interface MainFlow()
 
 @property (strong, nonatomic) CallsWindow *callWindow;
 @property (strong, nonatomic) UIWindow *appWindow;
@@ -51,14 +53,18 @@ static MainFlow *sharedInstance;
 
 - (void)startMainFlowWithAppWindow:(UIWindow *)appWindow {
     self.appWindow = appWindow;
-    [[CommunicationsManager sharedInstance] subscribeToNotificationsWithObserver:self]; // incomingCall
-    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(callEnded:) name:kNTACallsDefineNotificationNameEndCall object:nil]; //callEnd
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(incomingCallWithNotification:) name:kNTACommunicationsManagerNotificationNameIncomingCall object:nil];
+    [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(callEnded:) name:kNTACallsDefineNotificationNameEndCall object:nil];
     [self.appWindow makeKeyAndVisible];
+}
+
+- (void)incomingCallWithNotification:(NSNotification *)note {
+    NXMCall *call = note.userInfo[kNTACommunicationsManagerNotificationKeyIncomingCall];
+    [self incomingCall:call];
 }
 
 - (void)incomingCall:(NXMCall *)call {
     dispatch_async(dispatch_get_main_queue(), ^{
-
         if (self.callWindow.callVC != nil) {
             return;
         }
@@ -72,8 +78,39 @@ static MainFlow *sharedInstance;
         self.callWindow.rootViewController = self.callWindow.callVC;
         
         [self.callWindow makeKeyAndVisible];
+        
+        [self notifyUserWithCall:call];
     });
     
+}
+
+- (void)notifyUserWithCall:(NXMCall *)call {
+    if([UIApplication.sharedApplication applicationState] != UIApplicationStateActive) {
+        UNMutableNotificationContent *notificationContent = [[UNMutableNotificationContent alloc] init];
+        
+        notificationContent.title = @"Incoming Call";
+        NSString *message = @"From: \n";
+        for (NXMCallParticipant* participant in call.otherParticipants) {
+            NSString *displayName = participant.userName ? [NTAUserInfoProvider getUserInfoForCSUserName:participant.userName].displayName : nil;
+            displayName = [displayName stringByAppendingString:@"\n"];
+            message = [message stringByAppendingString:displayName ? displayName : @""];
+        }
+        
+        notificationContent.body = message;
+        notificationContent.sound = [UNNotificationSound defaultSound];
+        notificationContent.badge = @(1);
+        
+        UNNotificationTrigger *notificationTrigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+        
+        NSString *notificationIdentifier = [[NSUUID UUID] UUIDString];
+        UNNotificationRequest *notificationRequest = [UNNotificationRequest requestWithIdentifier:notificationIdentifier content:notificationContent trigger:notificationTrigger];
+        
+        [ [UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
+            if(error) {
+                [NTALogger errorWithFormat:@"Failed firing local notification with error: %@", error];
+            }
+        }];
+    }
 }
 
 - (void)callEnded:(NSNotification *)notification {

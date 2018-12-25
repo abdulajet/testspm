@@ -32,4 +32,9 @@
     }
     return initials;
 }
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[NTAUserInfo alloc] initWithName:self.name password:self.password displayName:self.displayName csUserName:self.csUserName csUserId:self.csUserId csUserToken:self.csUserToken];
+}
+
 @end

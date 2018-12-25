@@ -18,7 +18,9 @@ typedef NS_ENUM(NSInteger, NXMTestAppErrorCode) {
     NXMTestAppErrorCodeUnknown,
     NXMTestAppErrorCodeTestAppUserNotFound,
     NXMTestAppErrorCodeTestAppPasswordNotCorrect,
-    NXMTestAppErrorCodeTestAppCurrentUserNotFound
+    NXMTestAppErrorCodeTestAppCurrentUserNotFound,
+    NXMTestAppErrorCodeFailedEnablingPush,
+    NXMTestAppErrorCodeFailedDisablingPush
     
     
     
