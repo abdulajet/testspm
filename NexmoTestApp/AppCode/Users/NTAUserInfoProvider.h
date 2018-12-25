@@ -11,8 +11,11 @@
 
 @interface NTAUserInfoProvider : NSObject
 + (NTAUserInfo *)getDefaultUser;
-+ (NTAUserInfo *)getRandomUser;
-+ (NSArray<NTAUserInfo *> *)getAllUsers;
++ (NTAUserInfo *)getRandomUserForTestGroup;
++ (NTAUserInfo *)getRandomUserForBabyGroup;
++ (NTAUserInfo *)getRandomUserForDemoGroup;
+
++ (NSArray<NTAUserInfo *> *)getAllUsersWithRequestingUser:(NTAUserInfo *)requestingUser;
 + (NTAUserInfo *)getUserInfoForCSUserName:(nonnull NSString *)csUserName;
 
 + (void)getUserInfoForUserName:(nonnull NSString *)userName

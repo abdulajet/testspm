@@ -50,7 +50,7 @@
 }
 
 - (NSArray<NTAUserInfo *> *)sortedContactsArray {
-    NSArray<NTAUserInfo *> *users = [NTAUserInfoProvider getAllUsers];
+    NSArray<NTAUserInfo *> *users = [NTAUserInfoProvider getAllUsersWithRequestingUser:[NTALoginHandler currentUser]];
     NSMutableArray<NTAUserInfo *> *mutableUsers = [users mutableCopy];
     NSUInteger indexOfSelf = [mutableUsers indexOfObject:[NTALoginHandler currentUser]];
     if(indexOfSelf) {

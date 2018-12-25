@@ -18,7 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSString *csUserName;
 @property (nonatomic) NSString *csUserId;
 @property (nonatomic) NSString *csUserToken;
--(instancetype)initWithName:(NSString *)name password:(NSString *)password displayName:(NSString *)displayName csUserName:(NSString *)csUserName csUserId:(NSString *)csUserId csUserToken:(NSString *)csUserToken;
+@property (nonatomic) NSString *userGroup;
+-(instancetype)initWithName:(NSString *)name password:(NSString *)password displayName:(NSString *)displayName csUserName:(NSString *)csUserName csUserId:(NSString *)csUserId csUserToken:(NSString *)csUserToken userGroup:(NSString *)userGroup;
 @end
 
 NS_ASSUME_NONNULL_END

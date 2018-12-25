@@ -9,7 +9,7 @@
 #import "NTAUserInfo.h"
 
 @implementation NTAUserInfo
--(instancetype)initWithName:(NSString *)name password:(NSString *)password displayName:(NSString *)displayName csUserName:(NSString *)csUserName csUserId:(NSString *)csUserId csUserToken:(NSString *)csUserToken {
+-(instancetype)initWithName:(NSString *)name password:(NSString *)password displayName:(NSString *)displayName csUserName:(NSString *)csUserName csUserId:(NSString *)csUserId csUserToken:(NSString *)csUserToken userGroup:(nonnull NSString *)userGroup {
     if(self = [super init]) {
         self.name = name;
         self.password = password;
@@ -17,6 +17,7 @@
         self.csUserName = csUserName;
         self.csUserId = csUserId;
         self.csUserToken = csUserToken;
+        self.userGroup = userGroup;
         self.initials = [self initialsWithDisplayName:self.displayName];
     }
     return self;
