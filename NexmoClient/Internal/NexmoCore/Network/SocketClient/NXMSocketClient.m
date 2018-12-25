@@ -220,6 +220,9 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
                                    @"token": self.token,
                                    @"device_id": [[[UIDevice currentDevice] identifierForVendor] UUIDString],
                                    @"device_type": @"iphone",
+                                   @"SDK_version": [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
+                                   @"OS_family": @"iOS"
+                                   //TODO: check what the js sdk mean by OS_revision: (typeof navigator !== "undefined") ? navigator.userAgent : (typeof window !== "undefined") ? window.navigator.userAgent : "Generic JS navigator"
                                    }};
     
     [self.socket emit:kNXMSocketEventLogin items:@[msg]];

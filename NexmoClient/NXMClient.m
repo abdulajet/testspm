@@ -284,9 +284,10 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
     [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit onSuccess:^{
+        [NXMLogger info:@"Nexmo push notifications enabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];
-            
     } onError:^(NSError * _Nullable error) {
+        [NXMLogger errorWithFormat:@"Nexmo push notifications enabling failed with error: %@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
@@ -294,8 +295,10 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
     
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
+        [NXMLogger info:@"Nexmo push notifications disabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
+        [NXMLogger errorWithFormat:@"Nexmo push notifications disabling failed with error: %@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
