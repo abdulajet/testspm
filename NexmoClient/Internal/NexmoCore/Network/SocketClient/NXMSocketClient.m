@@ -491,7 +491,11 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (NXMMemberEvent *)parseMemberWithDict:(NSDictionary *)json state:(NXMMemberState)state{
-    NXMUser *user = [[NXMUser alloc] initWithId:json[@"body"][@"user"][@"user_id"] name:json[@"body"][@"user"][@"name"]];
+
+    NSString *userId = json[@"body"][@"user"][@"user_id"] ? json[@"body"][@"user"][@"user_id"] :json[@"body"][@"user"][@"id"];
+    NXMUser *user = [[NXMUser alloc] initWithId:userId
+                                           name:json[@"body"][@"user"][@"name"]];
+
     NXMMediaSettings *mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:(json[@"body"][@"media"] != nil ? YES : NO) suspend:NO];
     
     NSString *fromKey = state == NXMMemberStateInvited ? @"invited" : state == NXMMemberStateJoined ? @"joined" : @"left";

@@ -210,7 +210,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
-    [weakCore inviteToConversation:weakSelf.user.userId withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
+    [weakCore inviteToConversation:weakSelf.user.name withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
         if (value)
             [weakSelf addPendingKnockingId:value completion:completion];
     } onError:^(NSError * _Nullable error) {

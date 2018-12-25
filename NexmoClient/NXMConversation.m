@@ -97,7 +97,6 @@
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
-        case NXMEventTypeSip:
             if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
                 [self.delegate mediaEvent:(NXMMediaEvent *)event];
             }
@@ -106,6 +105,8 @@
             if([self.delegate respondsToSelector:@selector(memberEvent:)]) {
                 [self.delegate memberEvent:(NXMMemberEvent *)event];
             }
+            break;
+        case NXMEventTypeSip:
             break;
         default:
             break;

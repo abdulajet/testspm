@@ -959,13 +959,14 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     NXMMemberEvent* event = [[NXMMemberEvent alloc] init];
     
-    NXMUser *user = [[NXMUser alloc] initWithId:dict[@"body"][@"user"][@"user_id"] name:dict[@"body"][@"user"][@"name"]];
+    NSString *userId = dict[@"body"][@"user"][@"user_id"] ? dict[@"body"][@"user"][@"user_id"] : dict[@"body"][@"user"][@"id"];
+    NXMUser *user = [[NXMUser alloc] initWithId:userId name:dict[@"body"][@"user"][@"name"]];
 
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:conversationId
                                                                             type:NXMEventTypeMember
                                                                     fromMemberId:[self getFromMemberId:dict]
                                                                       sequenceId:[[self getSequenceId:dict] integerValue]
-                                                                        memberId:dict[@"body"][@"user"][@"member_id"]
+                                                                        memberId:dict[@"body"][@"user"][@"member_id"] ? dict[@"body"][@"user"][@"member_id"] : dict[@"from"]
                                                                             name:dict[@"body"][@"user"][@"name"]
                                                                            state:[self parseMemberState:state]
                                                                             user:user
