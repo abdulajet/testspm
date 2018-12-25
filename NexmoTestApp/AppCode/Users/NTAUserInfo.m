@@ -35,7 +35,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    return [[NTAUserInfo alloc] initWithName:self.name password:self.password displayName:self.displayName csUserName:self.csUserName csUserId:self.csUserId csUserToken:self.csUserToken];
+    return [[NTAUserInfo alloc] initWithName:self.name password:self.password displayName:self.displayName csUserName:self.csUserName csUserId:self.csUserId csUserToken:self.csUserToken userGroup:self.userGroup];
 }
 
 @end
