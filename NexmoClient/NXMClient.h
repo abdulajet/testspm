@@ -91,15 +91,15 @@ Logout
 ///**
 // Create a new call to users
 //
-// @param users           user ids to call
-// @param callType        type of the call (IP/SERVER)
+// @param callees         user ids/name or pstn number to call
+// @param callType        type of the call (InApp/SERVER)
 // @param delegate        call delegate
 // @param completion      completion block
 // */
-- (void)callToUsers:(nonnull NSArray<NSString *>*)users
-           callType:(NXMCallType)callType
-           delegate:(nullable id<NXMCallDelegate>)delegate
-         completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
+- (void)call:(nonnull NSArray<NSString *>*)callees
+    callType:(NXMCallType)callType
+    delegate:(nullable id<NXMCallDelegate>)delegate
+  completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
 
 - (void)onMemberEvent:(NSNotification* )notification;
 

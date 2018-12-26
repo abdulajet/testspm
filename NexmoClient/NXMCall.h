@@ -16,7 +16,7 @@
 @end
 
 typedef NS_ENUM(NSInteger, NXMCallType) {
-    NXMCallTypeIP,
+    NXMCallTypeInApp,
     NXMCallTypeServer
 };
 typedef NS_ENUM(NSInteger, NXMCallStatus) {
