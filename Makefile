@@ -8,7 +8,7 @@ SCHEME ?= NexmoClient
 TEST_SCHEME ?= NexmoClientTests
 
 
-MINIRTC_VERSION ?= 0.01.83
+MINIRTC_VERSION ?= 0.01.86
 OCMOCK_VERSION ?= 3.4
 
 OCMOCK_FOLDER ?= Frameworks/OCMock

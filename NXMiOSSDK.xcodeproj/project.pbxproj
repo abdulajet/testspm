@@ -33,7 +33,6 @@
 		D3F18F1921CFE76400DB3ED8 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */; };
 		F9024D5321C9469A00D58AD0 /* NXMBlocksHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */; };
 		F9024D5421C946A900D58AD0 /* NXMBlocksHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */; };
-		F9024E3721CA9AF000D58AD0 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9024D8E21CA9AF000D58AD0 /* LICENSE */; };
 		F9024E3821CA9AF000D58AD0 /* VPSocketOnAckCallback.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D9021CA9AF000D58AD0 /* VPSocketOnAckCallback.h */; };
 		F9024E3921CA9AF000D58AD0 /* VPSocketEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024D9121CA9AF000D58AD0 /* VPSocketEngine.m */; };
 		F9024E3A21CA9AF000D58AD0 /* VPSocketEngineProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024D9221CA9AF000D58AD0 /* VPSocketEngineProtocol.h */; };
@@ -70,7 +69,6 @@
 		F9024E5921CA9AF000D58AD0 /* JFRWebSocket.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024DB221CA9AF000D58AD0 /* JFRWebSocket.h */; };
 		F9024E5A21CA9AF000D58AD0 /* JFRSecurity.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024DB321CA9AF000D58AD0 /* JFRSecurity.m */; };
 		F9024E5B21CA9AF000D58AD0 /* JFRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024DB421CA9AF000D58AD0 /* JFRWebSocket.m */; };
-		F9024E5C21CA9AF000D58AD0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F9024DB521CA9AF000D58AD0 /* README.md */; };
 		F9024E5D21CA9AF000D58AD0 /* NXMEnums.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024DB621CA9AF000D58AD0 /* NXMEnums.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F9024E5E21CA9AF000D58AD0 /* NXMLoggerDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024DB721CA9AF000D58AD0 /* NXMLoggerDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F9024E5F21CA9AF000D58AD0 /* NXMBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = F9024DB821CA9AF000D58AD0 /* NXMBlocks.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -1714,8 +1712,6 @@
 			files = (
 				F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */,
 				F9E5E2F921D3AABE00FC7202 /* README.md in Resources */,
-				F9024E5C21CA9AF000D58AD0 /* README.md in Resources */,
-				F9024E3721CA9AF000D58AD0 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
