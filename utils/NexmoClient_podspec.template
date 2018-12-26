@@ -4,10 +4,8 @@ Pod::Spec.new do |s|
   s.version      = "###VERSION###"
   s.summary      = "NexmoClient SDK enables communications across multiple channels including in-app messaging and in-app voice over IP"
 
-
   s.homepage          = "https://developer.nexmo.com/"
-  s.license           = { :type => 'MIT' }
-  
+  s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.author            = { "Nexmo Dev" => "vonageci@vonage.com"}
   s.social_media_url  = "https://twitter.com/Nexmo"
   s.documentation_url = "https://developer.nexmo.com/"
