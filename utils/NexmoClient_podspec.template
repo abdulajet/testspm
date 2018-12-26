@@ -6,7 +6,7 @@ Pod::Spec.new do |s|
 
 
   s.homepage          = "https://developer.nexmo.com/"
-  s.license           = { :type => 'Apache' }
+  s.license           = { :type => 'MIT' }
   
   s.author            = { "Nexmo Dev" => "vonageci@vonage.com"}
   s.social_media_url  = "https://twitter.com/Nexmo"
