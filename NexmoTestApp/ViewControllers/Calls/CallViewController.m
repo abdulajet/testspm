@@ -266,6 +266,13 @@
     [self.call hangup:^(NSError * _Nullable error) {
         [NTALogger errorWithFormat:@"Failed hangup call with error: %@", error];
     }];
+    
+    if (self.isSpeaker) {
+        if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil]){
+            self.isSpeaker = NO;
+        }
+    }
+    
     [self dismiss];
     [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
 }
