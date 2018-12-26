@@ -237,6 +237,8 @@
 		F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsListViewController.m */; };
 		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
 		F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */; };
+		F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F621D3AA8900FC7202 /* LICENSE */; };
+		F9E5E2F921D3AABE00FC7202 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F821D3AABE00FC7202 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -607,6 +609,8 @@
 		F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallProxy.h; sourceTree = "<group>"; };
 		F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipantPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
+		F9E5E2F621D3AA8900FC7202 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		F9E5E2F821D3AABE00FC7202 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1418,6 +1422,8 @@
 		F9C35DC3203078BD009FAE4F = {
 			isa = PBXGroup;
 			children = (
+				F9E5E2F821D3AABE00FC7202 /* README.md */,
+				F9E5E2F621D3AA8900FC7202 /* LICENSE */,
 				85C4B90521D25AEA00ED596B /* Makefile */,
 				F923DD8A21985BF600D29065 /* NexmoClient */,
 				F923DD9521985BF600D29065 /* NexmoClientTests */,
@@ -1706,6 +1712,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */,
+				F9E5E2F921D3AABE00FC7202 /* README.md in Resources */,
 				F9024E5C21CA9AF000D58AD0 /* README.md in Resources */,
 				F9024E3721CA9AF000D58AD0 /* LICENSE in Resources */,
 			);
