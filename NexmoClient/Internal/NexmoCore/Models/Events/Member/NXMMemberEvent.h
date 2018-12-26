@@ -5,9 +5,6 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#ifndef NXMMemberEvent_h
-#define NXMMemberEvent_h
-
 #import "NXMEvent.h"
 #import "NXMUser.h"
 #import "NXMMediaSettings.h"
@@ -19,6 +16,7 @@ typedef NS_ENUM(NSInteger, NXMChannelType){
 };
 
 @interface NXMMemberEvent : NXMEvent
+
 @property (nonatomic, strong) NSString *memberId;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic) NXMMemberState state;
@@ -30,5 +28,3 @@ typedef NS_ENUM(NSInteger, NXMChannelType){
 @property(nonatomic, strong) NSString* knockingId;
 
 @end
-
-#endif /* NXMMemberEvent_h */

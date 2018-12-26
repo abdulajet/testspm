@@ -1,8 +1,7 @@
 //
 //  NXMSipEvent.h
-//  Stitch_iOS
+//  NexmoClient
 //
-//  Created by user on 19/06/2018.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 

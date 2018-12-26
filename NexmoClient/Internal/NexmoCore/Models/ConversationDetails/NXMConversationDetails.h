@@ -1,8 +1,7 @@
 //
 //  NXMConversation.h
-//  NexmoConversationObjC
+//  NexmoClient
 //
-//  Created by Chen Lev on 3/7/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 

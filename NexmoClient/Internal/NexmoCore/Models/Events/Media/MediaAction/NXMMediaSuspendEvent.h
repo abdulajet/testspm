@@ -1,6 +1,6 @@
 //
 //  NXMMediaSuspendEvent.h
-//  NexmoCore
+//  NexmoClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
