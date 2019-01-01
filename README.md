@@ -38,20 +38,34 @@ There are two ways to import the nexmo SDK for iOS into your project:
    ```
    where `Project Dir` is the path to the parent directory of the `PodFile`
 
-5. Open the xcworkspace with XCode and disable `bitcode` for your target.
+5. Open the `xcworkspace` with XCode and disable `bitcode` for your target.
 
 6. In your code, import the NexmoClient library:  
-    **Swift**: import NexmoClient  
-    **Objective-C**: #import <NexmoClient/NexmoClient.h>; 
+    **Swift** 
+    ```swift
+    import NexmoClient  
+    ```
+
+    **Objective-C**
+    ```objective-c
+    #import <NexmoClient/NexmoClient.h>;
+    ```
 
 ### Frameworks
 1. Download the Nexmo SDK and add it to your project
 
-2. Open the xcworkspace with XCode and disable `bitcode` for your target.
+2. Open the `xcworkspace` with XCode and disable `bitcode` for your target.
 
 3. In your code, import the NexmoClient library:  
-    **Swift**: import NexmoClient  
-    **Objective-C**: #import <NexmoClient/NexmoClient.h>; 
+    **Swift** 
+    ```swift
+    import NexmoClient  
+    ```
+
+    **Objective-C**
+    ```objective-c
+    #import <NexmoClient/NexmoClient.h>;
+    ```
 
 ### Permissions
 1. **Audio Permissions**  
