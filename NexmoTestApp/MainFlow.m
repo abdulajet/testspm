@@ -59,6 +59,7 @@ static MainFlow *sharedInstance;
 }
 
 - (void)incomingCallWithNotification:(NSNotification *)note {
+    [NTALogger info:@"MainFlow - incoming call"];
     NXMCall *call = note.userInfo[kNTACommunicationsManagerNotificationKeyIncomingCall];
     [self incomingCall:call];
 }
@@ -68,7 +69,8 @@ static MainFlow *sharedInstance;
         if (self.callWindow.callVC != nil) {
             return;
         }
-        
+        [NTALogger info:@"MainFlow - creating incoming call view controller"];
+
         NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherParticipants[0].userName];
         
         IncomingCallCreator *creator = [[IncomingCallCreator alloc] initWithCall:call];
@@ -105,7 +107,9 @@ static MainFlow *sharedInstance;
         NSString *notificationIdentifier = [[NSUUID UUID] UUIDString];
         UNNotificationRequest *notificationRequest = [UNNotificationRequest requestWithIdentifier:notificationIdentifier content:notificationContent trigger:notificationTrigger];
         
-        [ [UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
+        [NTALogger info:@"MainFlow - notifying user for incoming call"];
+
+        [[UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
             if(error) {
                 [NTALogger errorWithFormat:@"Failed firing local notification with error: %@", error];
             }

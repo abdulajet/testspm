@@ -308,9 +308,11 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 }
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    [NXMLogger debugWithFormat:@"Processing nexmo push with userInfo:%@", userInfo];
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
+        [NXMLogger debugWithFormat:@"Error processing nexmo push with error:%@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }

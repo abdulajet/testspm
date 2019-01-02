@@ -9,6 +9,7 @@
 #import "CommunicationsManager.h"
 #import "NTAUserInfo.h"
 #import "NTALoginHandler.h"
+#import "NTALogger.h"
 
 @interface CommunicationsManager()
 @property (nonatomic, nonnull, readwrite) NXMClient *client;
@@ -171,6 +172,7 @@
 }
 
 - (void)incomingCall:(nonnull NXMCall *)call {
+    [NTALogger info:@"Communications Manager - Nexmo Client incoming call"];
     [self didgetIncomingCall:call];
 }
 
