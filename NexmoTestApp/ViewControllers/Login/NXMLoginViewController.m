@@ -9,6 +9,7 @@
 #import "ContactsListViewController.h"
 #import "UserSettingsViewController.h"
 #import "MainTabViewController.h"
+#import "DialerViewController.h"
 
 #import "NTAUserInfoProvider.h"
 #import "NTALoginHandler.h"
@@ -110,8 +111,9 @@
     UINavigationController *contactsNavigationViewController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsListNavigation"];
     UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"UserSettings"];
     
+    DialerViewController *dialerVC = [storyboard instantiateViewControllerWithIdentifier:@"dialer"];
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[contactsNavigationViewController, userSettingsVC];
+    tabBarController.viewControllers = @[contactsNavigationViewController, dialerVC, userSettingsVC];
     
     [self presentViewController:tabBarController animated:NO completion:nil];
 }

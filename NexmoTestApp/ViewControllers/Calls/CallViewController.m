@@ -35,6 +35,7 @@
 
 
 @property (nonatomic) NTAUserInfo *contactUserInfo;
+@property (nonatomic) NSString *number;
 @property (nonatomic) id<CallCreator> callCreator;
 @property (nonatomic) NXMCall *call;
 @property (nonatomic) BOOL isControllerInIncomingCallState;
@@ -82,6 +83,12 @@
     self.isControllerInIncomingCallState = isIncomingCall;
 }
 
+- (void)updateWithNumber:(NSString *)number callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall {
+    self.number = number;
+    self.callCreator = callCreator;
+    self.isControllerInIncomingCallState = isIncomingCall;
+}
+
 - (void)updateContactUI {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -90,10 +97,10 @@
         return;
     }
     
-    self.IncomingCallInitialsLabel.text = self.contactUserInfo.initials;
-    self.IncomingCalluserNameLabel.text = self.contactUserInfo.displayName;
-    self.InCallAvatarInitialsLabel.text = self.contactUserInfo.initials;
-    self.InCallUserNameLabel.text = self.contactUserInfo.displayName;
+    self.IncomingCallInitialsLabel.text = self.number ? @"PSTN" : self.contactUserInfo.initials;
+    self.IncomingCalluserNameLabel.text = self.number ? self.number : self.contactUserInfo.displayName;
+    self.InCallAvatarInitialsLabel.text = self.number ? @"PSTN" : self.contactUserInfo.initials;
+    self.InCallUserNameLabel.text = self.number ? self.number : self.contactUserInfo.displayName;
 }
 
 - (void)activateInCallView {
@@ -107,6 +114,7 @@
     self.isControllerInIncomingCallState = NO;
     [self.InCallView setHidden:NO];
     [self.IncomingCallView setHidden:YES];
+    [self startTimer];
 
 }
 
@@ -194,7 +202,6 @@
 
 - (void)didConnectCall {
     [self updateInCallStatusLabelWithText:@"Connected"];
-    [self startTimer];
 }
 
 - (void)didDisconnectCall {

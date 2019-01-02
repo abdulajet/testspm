@@ -12,5 +12,6 @@
 @class NTAUserInfo;
 @interface CallViewController : UIViewController
 - (void)updateWithContactUserInfo:(NTAUserInfo *)contactUserInfo callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall;
+- (void)updateWithNumber:(NSString *)number callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall;
 @end
 

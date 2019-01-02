@@ -155,6 +155,220 @@
             </objects>
             <point key="canvasLocation" x="-47.200000000000003" y="115.27093596059113"/>
         </scene>
+        <!--dialer-->
+        <scene sceneID="Uo5-gF-ZfV">
+            <objects>
+                <viewController storyboardIdentifier="dialer" title="dialer" id="m5u-Fu-jFs" customClass="DialerViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aiE-JU-yaP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tGs-HC-bd2" userLabel="upperView">
+                                <rect key="frame" x="0.0" y="44" width="375" height="200"/>
+                                <subviews>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" textAlignment="center" adjustsFontForContentSizeCategory="YES" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="vvY-Wl-PB0" userLabel="input" customClass="DailerTextField">
+                                        <rect key="frame" x="20" y="20" width="277" height="160"/>
+                                        <nil key="textColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <textInputTraits key="textInputTraits" textContentType="tel"/>
+                                    </textField>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fDp-eV-Nj7" userLabel="delete">
+                                        <rect key="frame" x="317" y="77" width="46" height="46"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="46" id="Oww-dm-G4d"/>
+                                            <constraint firstAttribute="width" constant="46" id="dRy-Wt-QIC"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="DialerDelete"/>
+                                        <connections>
+                                            <action selector="onDeletePressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="qRC-fX-aEF"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="leading" secondItem="vvY-Wl-PB0" secondAttribute="leading" constant="-20" id="JOY-H9-dCp"/>
+                                    <constraint firstAttribute="trailing" secondItem="fDp-eV-Nj7" secondAttribute="trailing" constant="12" id="Wqz-82-nyX"/>
+                                    <constraint firstItem="fDp-eV-Nj7" firstAttribute="centerY" secondItem="tGs-HC-bd2" secondAttribute="centerY" id="cOh-3v-ful"/>
+                                    <constraint firstItem="vvY-Wl-PB0" firstAttribute="top" secondItem="tGs-HC-bd2" secondAttribute="top" constant="20" id="dNB-pX-Ibn"/>
+                                    <constraint firstItem="vvY-Wl-PB0" firstAttribute="trailing" secondItem="fDp-eV-Nj7" secondAttribute="leading" constant="-20" id="hjw-2g-PQH"/>
+                                    <constraint firstAttribute="bottom" secondItem="vvY-Wl-PB0" secondAttribute="bottom" constant="20" id="lSQ-e4-eCB"/>
+                                    <constraint firstAttribute="height" constant="200" id="rAB-Ya-s5g"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mqA-CQ-VVM" userLabel="lowerView">
+                                <rect key="frame" x="0.0" y="244" width="375" height="485"/>
+                                <subviews>
+                                    <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5D-2m-oLY" userLabel="Dailer1">
+                                        <rect key="frame" x="7" y="20" width="117" height="76.333333333333329"/>
+                                        <state key="normal" image="Dialer1"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="l2R-Fh-sER"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z3H-dw-ija" userLabel="Dailer2">
+                                        <rect key="frame" x="129" y="20" width="117" height="76.333333333333329"/>
+                                        <state key="normal" image="Dialer2"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="FDA-Ck-BsU"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ldn-Ob-G13" userLabel="Dailer3">
+                                        <rect key="frame" x="251" y="20" width="117" height="76.333333333333329"/>
+                                        <state key="normal" image="Dialer3"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="vj9-1R-6Rt"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rzk-PK-O1h" userLabel="Dailer4">
+                                        <rect key="frame" x="7" y="111.33333333333331" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer4"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="04O-Sg-vUj"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkg-4D-JxB" userLabel="Dailer5">
+                                        <rect key="frame" x="129" y="111.33333333333331" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer5"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="kOt-FT-hA5"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dgn-0M-wLO" userLabel="Dailer6">
+                                        <rect key="frame" x="251" y="111.33333333333331" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer6"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="SAE-MD-gI1"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGi-ZO-tRE" userLabel="Dailer7">
+                                        <rect key="frame" x="7" y="207.66666666666669" width="117" height="76"/>
+                                        <state key="normal" image="Dialer7"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="jvQ-6B-Tvi"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5bK-5C-UeH" userLabel="Dailer8">
+                                        <rect key="frame" x="129" y="207.66666666666669" width="117" height="76"/>
+                                        <state key="normal" image="Dialer8"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="tcn-g5-haK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="9" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HvA-iL-is3" userLabel="Dailer9">
+                                        <rect key="frame" x="251" y="207.66666666666669" width="117" height="76"/>
+                                        <state key="normal" image="Dialer9"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="mDU-fa-zVB"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iq8-fJ-Mw7" userLabel="Dailer*">
+                                        <rect key="frame" x="7" y="303.66666666666663" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer*"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="PdF-VK-I9s"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ug0-rn-MUF" userLabel="Dailer0">
+                                        <rect key="frame" x="129" y="303.66666666666663" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer0"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="kuS-Np-5Y7"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="11" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4r7-2Q-BYc" userLabel="Dailer#">
+                                        <rect key="frame" x="251" y="303.66666666666663" width="117" height="76.333333333333314"/>
+                                        <state key="normal" image="Dialer#"/>
+                                        <connections>
+                                            <action selector="onButtonPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="YPP-G6-ocQ"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wv8-1t-YM4" userLabel="callButton">
+                                        <rect key="frame" x="151.66666666666666" y="393" width="72" height="72"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="72" id="ThV-XD-yhs"/>
+                                            <constraint firstAttribute="width" constant="72" id="UIS-kL-GsN"/>
+                                        </constraints>
+                                        <state key="normal" image="DialerPhone"/>
+                                        <connections>
+                                            <action selector="onCallPressed:" destination="m5u-Fu-jFs" eventType="touchUpInside" id="12n-fO-L3K"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="z3H-dw-ija" firstAttribute="leading" secondItem="g5D-2m-oLY" secondAttribute="trailing" constant="5" id="0KP-JW-Fyd"/>
+                                    <constraint firstItem="4r7-2Q-BYc" firstAttribute="centerY" secondItem="Ug0-rn-MUF" secondAttribute="centerY" id="0dK-U3-VJj"/>
+                                    <constraint firstItem="dgn-0M-wLO" firstAttribute="centerY" secondItem="zkg-4D-JxB" secondAttribute="centerY" id="6Et-CH-Pmg"/>
+                                    <constraint firstItem="Ldn-Ob-G13" firstAttribute="leading" secondItem="z3H-dw-ija" secondAttribute="trailing" constant="5" id="6RW-Tc-lrs"/>
+                                    <constraint firstItem="5bK-5C-UeH" firstAttribute="width" secondItem="oGi-ZO-tRE" secondAttribute="width" id="6fT-jU-egU"/>
+                                    <constraint firstItem="rzk-PK-O1h" firstAttribute="top" secondItem="g5D-2m-oLY" secondAttribute="bottom" constant="15" id="7Dx-OP-pag"/>
+                                    <constraint firstAttribute="bottom" secondItem="wv8-1t-YM4" secondAttribute="bottom" constant="20" id="80G-MH-tSG"/>
+                                    <constraint firstItem="HvA-iL-is3" firstAttribute="height" secondItem="5bK-5C-UeH" secondAttribute="height" id="9on-Mc-jZk"/>
+                                    <constraint firstItem="z3H-dw-ija" firstAttribute="width" secondItem="g5D-2m-oLY" secondAttribute="width" id="Ant-sv-ugQ"/>
+                                    <constraint firstItem="oGi-ZO-tRE" firstAttribute="top" secondItem="rzk-PK-O1h" secondAttribute="bottom" constant="20" id="Awk-6H-0Kx"/>
+                                    <constraint firstItem="4r7-2Q-BYc" firstAttribute="centerX" secondItem="HvA-iL-is3" secondAttribute="centerX" id="BUc-NI-JWt"/>
+                                    <constraint firstItem="z3H-dw-ija" firstAttribute="height" secondItem="g5D-2m-oLY" secondAttribute="height" id="Bk4-4N-Ps6"/>
+                                    <constraint firstItem="Ug0-rn-MUF" firstAttribute="centerY" secondItem="iq8-fJ-Mw7" secondAttribute="centerY" id="E6c-fM-pet"/>
+                                    <constraint firstItem="5bK-5C-UeH" firstAttribute="centerY" secondItem="oGi-ZO-tRE" secondAttribute="centerY" id="F3e-9l-gcS"/>
+                                    <constraint firstAttribute="trailing" secondItem="Ldn-Ob-G13" secondAttribute="trailing" constant="7" id="G4J-MR-o6G"/>
+                                    <constraint firstItem="g5D-2m-oLY" firstAttribute="top" secondItem="mqA-CQ-VVM" secondAttribute="top" constant="20" id="GSs-PL-33V"/>
+                                    <constraint firstItem="iq8-fJ-Mw7" firstAttribute="width" secondItem="oGi-ZO-tRE" secondAttribute="width" id="HFW-cl-lNn"/>
+                                    <constraint firstItem="Ldn-Ob-G13" firstAttribute="centerY" secondItem="z3H-dw-ija" secondAttribute="centerY" id="Ivz-70-gc2"/>
+                                    <constraint firstItem="oGi-ZO-tRE" firstAttribute="centerX" secondItem="rzk-PK-O1h" secondAttribute="centerX" id="K1O-VN-smk"/>
+                                    <constraint firstItem="wv8-1t-YM4" firstAttribute="top" secondItem="iq8-fJ-Mw7" secondAttribute="bottom" constant="13" id="M8d-f0-E7A"/>
+                                    <constraint firstItem="5bK-5C-UeH" firstAttribute="centerX" secondItem="zkg-4D-JxB" secondAttribute="centerX" id="MI1-Ys-57D"/>
+                                    <constraint firstItem="Ldn-Ob-G13" firstAttribute="height" secondItem="z3H-dw-ija" secondAttribute="height" id="Ptc-Wd-RYp"/>
+                                    <constraint firstItem="rzk-PK-O1h" firstAttribute="height" secondItem="g5D-2m-oLY" secondAttribute="height" id="Q9z-Wq-xOn"/>
+                                    <constraint firstItem="z3H-dw-ija" firstAttribute="centerY" secondItem="g5D-2m-oLY" secondAttribute="centerY" id="QSK-6v-sYc"/>
+                                    <constraint firstItem="oGi-ZO-tRE" firstAttribute="height" secondItem="dgn-0M-wLO" secondAttribute="height" id="RDz-d9-DaH"/>
+                                    <constraint firstItem="4r7-2Q-BYc" firstAttribute="width" secondItem="Ug0-rn-MUF" secondAttribute="width" id="RNE-YE-xge"/>
+                                    <constraint firstItem="iq8-fJ-Mw7" firstAttribute="centerX" secondItem="oGi-ZO-tRE" secondAttribute="centerX" id="ScP-Kr-kv2"/>
+                                    <constraint firstItem="iq8-fJ-Mw7" firstAttribute="height" secondItem="oGi-ZO-tRE" secondAttribute="height" id="Udr-yg-Gxq"/>
+                                    <constraint firstItem="dgn-0M-wLO" firstAttribute="height" secondItem="zkg-4D-JxB" secondAttribute="height" id="Up2-8F-LBZ"/>
+                                    <constraint firstItem="Ug0-rn-MUF" firstAttribute="centerX" secondItem="5bK-5C-UeH" secondAttribute="centerX" id="WL3-bC-kRa"/>
+                                    <constraint firstItem="g5D-2m-oLY" firstAttribute="leading" secondItem="mqA-CQ-VVM" secondAttribute="leading" constant="7" id="Yz4-6m-bQS"/>
+                                    <constraint firstItem="rzk-PK-O1h" firstAttribute="centerX" secondItem="g5D-2m-oLY" secondAttribute="centerX" id="cBH-oP-tAh"/>
+                                    <constraint firstItem="5bK-5C-UeH" firstAttribute="height" secondItem="oGi-ZO-tRE" secondAttribute="height" id="eGn-93-rvl"/>
+                                    <constraint firstItem="zkg-4D-JxB" firstAttribute="centerX" secondItem="z3H-dw-ija" secondAttribute="centerX" id="ewG-ha-e4n"/>
+                                    <constraint firstItem="dgn-0M-wLO" firstAttribute="centerX" secondItem="Ldn-Ob-G13" secondAttribute="centerX" id="fjq-Om-5AR"/>
+                                    <constraint firstItem="oGi-ZO-tRE" firstAttribute="width" secondItem="dgn-0M-wLO" secondAttribute="width" id="fwq-vm-5sQ"/>
+                                    <constraint firstItem="rzk-PK-O1h" firstAttribute="width" secondItem="g5D-2m-oLY" secondAttribute="width" id="hC7-tG-7yN"/>
+                                    <constraint firstItem="HvA-iL-is3" firstAttribute="width" secondItem="5bK-5C-UeH" secondAttribute="width" id="jHW-rI-DFd"/>
+                                    <constraint firstItem="dgn-0M-wLO" firstAttribute="width" secondItem="zkg-4D-JxB" secondAttribute="width" id="kMv-kY-qKH"/>
+                                    <constraint firstItem="HvA-iL-is3" firstAttribute="centerX" secondItem="dgn-0M-wLO" secondAttribute="centerX" id="lgx-7R-DQ8"/>
+                                    <constraint firstItem="wv8-1t-YM4" firstAttribute="centerX" secondItem="mqA-CQ-VVM" secondAttribute="centerX" id="nvF-Qu-WH1"/>
+                                    <constraint firstItem="zkg-4D-JxB" firstAttribute="centerY" secondItem="rzk-PK-O1h" secondAttribute="centerY" id="opo-9S-1u2"/>
+                                    <constraint firstItem="Ldn-Ob-G13" firstAttribute="width" secondItem="z3H-dw-ija" secondAttribute="width" id="rfW-Td-aEt"/>
+                                    <constraint firstItem="zkg-4D-JxB" firstAttribute="height" secondItem="rzk-PK-O1h" secondAttribute="height" id="tdm-JQ-7jg"/>
+                                    <constraint firstItem="Ug0-rn-MUF" firstAttribute="height" secondItem="iq8-fJ-Mw7" secondAttribute="height" id="x9D-sK-YMr"/>
+                                    <constraint firstItem="4r7-2Q-BYc" firstAttribute="height" secondItem="Ug0-rn-MUF" secondAttribute="height" id="ydy-84-cYB"/>
+                                    <constraint firstItem="HvA-iL-is3" firstAttribute="centerY" secondItem="5bK-5C-UeH" secondAttribute="centerY" id="yow-qf-KLK"/>
+                                    <constraint firstItem="zkg-4D-JxB" firstAttribute="width" secondItem="rzk-PK-O1h" secondAttribute="width" id="zqX-LB-LKB"/>
+                                    <constraint firstItem="Ug0-rn-MUF" firstAttribute="width" secondItem="iq8-fJ-Mw7" secondAttribute="width" id="ztB-MZ-pzG"/>
+                                    <constraint firstItem="iq8-fJ-Mw7" firstAttribute="top" secondItem="oGi-ZO-tRE" secondAttribute="bottom" constant="20" id="ztw-2b-9cD"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="mqA-CQ-VVM" firstAttribute="top" secondItem="tGs-HC-bd2" secondAttribute="bottom" id="66I-z4-tDq"/>
+                            <constraint firstItem="4uT-ce-g92" firstAttribute="leading" secondItem="tGs-HC-bd2" secondAttribute="leading" id="NEf-6Y-K01"/>
+                            <constraint firstItem="mqA-CQ-VVM" firstAttribute="centerX" secondItem="tGs-HC-bd2" secondAttribute="centerX" id="Un2-jT-ECg"/>
+                            <constraint firstItem="tGs-HC-bd2" firstAttribute="top" secondItem="4uT-ce-g92" secondAttribute="top" id="gTN-I7-F9F"/>
+                            <constraint firstItem="mqA-CQ-VVM" firstAttribute="width" secondItem="tGs-HC-bd2" secondAttribute="width" id="iy1-i0-Cw6"/>
+                            <constraint firstItem="4uT-ce-g92" firstAttribute="bottom" secondItem="mqA-CQ-VVM" secondAttribute="bottom" id="uPt-P9-C1e"/>
+                            <constraint firstItem="tGs-HC-bd2" firstAttribute="width" secondItem="4uT-ce-g92" secondAttribute="width" id="v0f-h5-osa"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4uT-ce-g92"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="" image="Dialer" selectedImage="Dialer" id="fHh-cI-KhV"/>
+                    <connections>
+                        <outlet property="textField" destination="vvY-Wl-PB0" id="JBz-AF-LhZ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RpO-Mi-bqP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1784.8" y="403.44827586206901"/>
+        </scene>
         <!--ContactsListViewController-->
         <scene sceneID="h9R-gH-hLf">
             <objects>
@@ -228,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KbS-Ru-Dwt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2705" y="494"/>
+            <point key="canvasLocation" x="2850" y="-287"/>
         </scene>
         <!--ContactsListNavigationController-->
         <scene sceneID="ap7-7z-lRT">
@@ -245,7 +459,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dbF-CK-bTe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1665" y="460"/>
+            <point key="canvasLocation" x="1785" y="-286"/>
         </scene>
         <!--ContactViewController-->
         <scene sceneID="doW-Eh-3ov">
@@ -368,7 +582,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6uQ-Uh-c9I" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3614" y="494"/>
+            <point key="canvasLocation" x="3759" y="-287"/>
         </scene>
         <!--CallViewController-->
         <scene sceneID="t8d-jS-NWR">
@@ -492,7 +706,7 @@
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InCallAvatarBackground" translatesAutoresizingMaskIntoConstraints="NO" id="cii-9s-CEf" userLabel="InCallAvatarImage">
                                                         <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YK-NH-4Zv" userLabel="InCallAvaterInitialsLabel">
+                                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="center" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5YK-NH-4Zv" userLabel="InCallAvaterInitialsLabel">
                                                         <rect key="frame" x="0.0" y="0.0" width="140" height="140"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="70"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -671,7 +885,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbj-Ok-EkT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4521" y="494"/>
+            <point key="canvasLocation" x="4666" y="-287"/>
         </scene>
         <!--Conversation View Controller-->
         <scene sceneID="VwP-Ak-1nX">
@@ -1054,6 +1268,7 @@
                     <connections>
                         <segue destination="uPs-r8-PIO" kind="relationship" relationship="viewControllers" id="AKU-MD-azG"/>
                         <segue destination="ebo-pV-59y" kind="relationship" relationship="viewControllers" id="dvu-65-M38"/>
+                        <segue destination="m5u-Fu-jFs" kind="relationship" relationship="viewControllers" id="wjE-T0-GAJ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NyL-j7-ZcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1147,7 +1362,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XfD-Bz-DIQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1664.8" y="-233.49753694581281"/>
+            <point key="canvasLocation" x="1785" y="1136"/>
         </scene>
     </scenes>
     <resources>
@@ -1158,6 +1373,21 @@
         <image name="ContactsCallServerButton" width="34" height="34"/>
         <image name="ContactsListTab" width="24" height="24"/>
         <image name="ContactsMessageContactButton" width="36" height="36"/>
+        <image name="Dialer" width="31" height="31"/>
+        <image name="Dialer#" width="27" height="46"/>
+        <image name="Dialer*" width="27" height="46"/>
+        <image name="Dialer0" width="27" height="46"/>
+        <image name="Dialer1" width="27" height="46"/>
+        <image name="Dialer2" width="27" height="46"/>
+        <image name="Dialer3" width="27" height="46"/>
+        <image name="Dialer4" width="27" height="46"/>
+        <image name="Dialer5" width="27" height="46"/>
+        <image name="Dialer6" width="27" height="46"/>
+        <image name="Dialer7" width="27" height="46"/>
+        <image name="Dialer8" width="27" height="46"/>
+        <image name="Dialer9" width="27" height="46"/>
+        <image name="DialerDelete" width="23" height="20"/>
+        <image name="DialerPhone" width="72" height="72"/>
         <image name="InCallAvatarBackground" width="50" height="50"/>
         <image name="InCallControlButtonBackground" width="50" height="50"/>
         <image name="InCallControlButtonBackgroundSelected" width="50" height="50"/>
