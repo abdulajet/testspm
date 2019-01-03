@@ -93,7 +93,7 @@
 
     //Assert
     XCTAssertNotNil(conversation);
-    XCTAssertNil(conversation.myMember);
+    XCTAssertEqual(conversation.myMember.state, NXMMemberStateInvited);
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_CurrentUserLeftConversation {
@@ -114,7 +114,7 @@
 
     //Assert
     XCTAssertNotNil(conversation);
-    XCTAssertNil(conversation.myMember);
+    XCTAssertEqual(conversation.myMember.state, NXMMemberStateLeft);
 }
 
 - (void)testInitWithConversationDetailsAndStitchContext_CurrentUserNotInConversation {
