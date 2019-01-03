@@ -1,6 +1,6 @@
 //
 //  NXMSocketClient.m
-//  StitchObjC
+//  NexmoClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
@@ -178,7 +178,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 
 - (void)didSocketConnect {
     [NXMLogger debug:@"socket connected"];
-    [self.delegate connectionStatusChanged:YES];
+    [self.delegate connectionStatusChanged:self.isLoggedIn];
     //TODO: question - what happens if we try to log in while already logged in to the server for example after a reconnect?
     [self serverLogin];
 }
@@ -233,7 +233,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.socket emit:kNXMSocketEventLogout items:@[msg]];
 }
 //    NXMUser * user = self.user;
-//    self.token = nil;
+//    self.token = nil; 
 //    self.user = nil;
 //    [self.delegate didLogout:user];
 //}
