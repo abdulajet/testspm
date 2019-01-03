@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, NXMParticipantStatus) {
-    NXMParticipantStatusDailing,
+    NXMParticipantStatusDialing,
     NXMParticipantStatusCalling,
     NXMParticipantStatusStarted,
     NXMParticipantStatusAnswered,
@@ -26,6 +26,7 @@ typedef NS_ENUM(NSInteger, NXMParticipantStatus) {
 @property (nonatomic, readonly) NXMParticipantStatus status;
 @property (nonatomic, readonly) NSString *metaInfo;
 
+- (void)hangup;
 - (void)hold:(BOOL)isHold;
 - (void)mute:(BOOL)isMute;
 - (void)earmuff:(BOOL)isEarmuff;

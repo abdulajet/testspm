@@ -270,9 +270,7 @@
 
 #pragma mark - Private
 - (void)endCall {
-    [self.call hangup:^(NSError * _Nullable error) {
-        [NTALogger errorWithFormat:@"Failed hangup call with error: %@", error];
-    }];
+    [self.call.myParticipant hangup];
     
     if (self.isSpeaker) {
         if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil]){

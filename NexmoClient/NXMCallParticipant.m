@@ -29,7 +29,7 @@
     if (self = [super init]) {
         self.callProxy = callProxy;
         self.participantId = memberId;
-        self.status = NXMParticipantStatusDailing;
+        self.status = NXMParticipantStatusDialing;
     }
     
     return self;
@@ -41,6 +41,10 @@
     }
     
     return self;
+}
+
+- (void)hangup {
+    [self.callProxy hangup:self];
 }
 
 - (void)hold:(BOOL)isHold {
@@ -100,7 +104,7 @@
             newStatus = NXMParticipantStatusCalling;
             break;
         case NXMMemberStateLeft:
-            newStatus = self.status == NXMParticipantStatusStarted ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
+            newStatus = self.status == NXMParticipantStatusCalling ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
             break;
         case NXMMemberStateJoined:
             if (self.status != NXMParticipantStatusAnswered) {

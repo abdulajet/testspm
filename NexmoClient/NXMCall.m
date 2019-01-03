@@ -55,32 +55,39 @@
 }
 
 - (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (self.myParticipant.status == NXMParticipantStatusAnswered
-        || self.myParticipant.status == NXMParticipantStatusCompleted
-        || self.myParticipant.status == NXMParticipantStatusCancelled) {
-        
+    if (self.myParticipant.status != NXMParticipantStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
         return;
     }
     
     [self.conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
-        if (member) {
-            [self.conversation enableMedia:self.myParticipant.participantId];
+        if (error || !member) {
+            [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
             return;
         }
-    
-        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
-                           completion:completionHandler]; // TODO: error;
+        
+        [self.conversation enableMedia:self.myParticipant.participantId];
     }];
 }
 
-- (void)hangup:(NXMErrorCallback)completionHandler {
-    if (self.status == NXMCallStatusDisconnected) {
+- (void)decline:(NXMErrorCallback)completionHandler {
+    if (self.myParticipant.status != NXMParticipantStatusCalling) {
+        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                           completion:completionHandler]; // TODO: error;
         return;
     }
-    
-    [self.conversation disableMedia];
+
+    [self.conversation leaveWithCompletion:^(NSError * _Nullable error) {
+        if (error) {
+            [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
+                               completion:completionHandler]; // TODO: error;
+            return;
+        }
+        
+        [NXMBlocksHelper runWithError:nil completion:completionHandler];
+    }];
 }
 
 - (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
@@ -148,6 +155,15 @@
 
 #pragma mark - callProxy
 
+- (void)hangup:(NXMCallParticipant *)participant {
+    if (participant != self.myParticipant) {
+        // TODO: error
+        return;
+    }
+    
+    [self.conversation disableMedia];
+}
+
 - (void)hold:(NXMCallParticipant *)participant isHold:(BOOL)isHold {
     
 }
@@ -167,6 +183,14 @@
 }
 
 - (void)onChange:(NXMCallParticipant *)participant {
+    if (participant == self.myParticipant &&
+        participant.status == NXMParticipantStatusCompleted) {
+        
+        [self.conversation leaveWithCompletion:^(NSError * _Nullable error) {
+            // TODO:
+        }];
+    }
+    
     [self.delegate statusChanged:participant];
 }
 
