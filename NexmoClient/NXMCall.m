@@ -67,8 +67,9 @@
                            completion:completionHandler]; // TODO: error;
             return;
         }
-        
+        self.delegate = delegate;
         [self.conversation enableMedia:self.myParticipant.participantId];
+        [NXMBlocksHelper runWithError:nil completion:completionHandler];
     }];
 }
 
