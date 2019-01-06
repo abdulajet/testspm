@@ -18,8 +18,9 @@
 
 - (nullable instancetype)initWithHost:(nonnull NSString *)host;
 
+
 - (void)setDelegate:(_Nonnull id<NXMSocketClientDelegate>)delegate;
-- (BOOL)isSocketConnected;
+- (NXMConnectionStatus)connectionStatus;
 - (void)loginWithToken:(nonnull NSString *)token;
 - (void)refreshAuthToken:(nonnull NSString *)authToken;
 - (void)logout;

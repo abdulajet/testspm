@@ -33,11 +33,13 @@
 
 - (nullable instancetype)initWithHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost;
 
+- (NXMConnectionStatus)connectionStatus;
+
 - (void)setDelegate:(nonnull id<NXMNetworkDelegate>)delegate;
 
-- (void)loginWithToken:(NSString * _Nonnull)token;
+- (void)login;
 
-- (void)refreshAuthToken:(nonnull NSString *)authToken;
+- (void)refreshAuthToken;
 
 - (void)logout;
 

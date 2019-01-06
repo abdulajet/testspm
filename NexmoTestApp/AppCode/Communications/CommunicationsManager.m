@@ -34,15 +34,14 @@
 
 #pragma mark - init
 - (instancetype)init {
-    if(self = [super init]) {
-        [self setupClient];
-        
+    if(self = [super init]) {        
         //notifications
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLoginWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogin object:nil];
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLogoutWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogout object:nil];
         
-        if(NTALoginHandler.currentUser) {
-            [self loginWithUserInfo:NTALoginHandler.currentUser];
+        if (NTALoginHandler.currentUser) {
+            [self setupClientWithUser:NTALoginHandler.currentUser];
+            [self login];
         }
     }
     return self;
@@ -50,11 +49,11 @@
 
 #pragma mark - properties
 - (CommunicationsManagerConnectionStatus)connectionStatus {
-    if(!self.client.isLoggedIn) {
+    if(self.client.connectionStatus == NXMConnectionStatusDisconnected) {
         return CommunicationsManagerConnectionStatusNotConnected;
     }
     
-    if(!self.client.isConnected) {
+    if(self.client.connectionStatus == NXMConnectionStatusConnecting) {
         return CommunicationsManagerConnectionStatusReconnecting;
     }
         
@@ -127,40 +126,27 @@
 }
 
 #pragma mark - stitchClientDelegate
-- (void)connectionStatusChanged:(BOOL)isOnline {
-    [self didChangeConnectionStatus:self.connectionStatus WithReason:CommunicationsManagerConnectionStatusReasonUnknown];
+
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+    [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:reason]];
 }
 
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
-    if(!isLoggedIn) {
-        [self setupClient];
-    }
-    
-    [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:isLoggedIn andError:error]];
-}
-
-- (CommunicationsManagerConnectionStatusReason)connectionStatusReasonWithLoginStatus:(BOOL)loginStatus andError:(NSError *)error {
+- (CommunicationsManagerConnectionStatusReason)connectionStatusReasonWithLoginStatus:(NXMConnectionStatusReason)statusReason {
     CommunicationsManagerConnectionStatusReason reason = CommunicationsManagerConnectionStatusReasonUnknown;
     
-    if(!error) {
-        reason = loginStatus ? CommunicationsManagerConnectionStatusReasonLogin : CommunicationsManagerConnectionStatusReasonLogout;
-    } else {
-        switch (error.code) {
-            case NXMErrorCodeSessionInvalid:
-                reason = CommunicationsManagerConnectionStatusReasonSessionInvalid;
-                break;
-            case NXMErrorCodeMaxOpenedSessions:
-                reason = CommunicationsManagerConnectionStatusReasonMaxSessions;
-                break;
-            case NXMErrorCodeTokenInvalid:
-                reason = CommunicationsManagerConnectionStatusReasonTokenInvalid;
-                break;
-                case NXMErrorCodeTokenExpired:
-                reason = CommunicationsManagerConnectionStatusReasonTokenExpired;
-                break;
-            default:
-                break;
-        }
+
+    switch (statusReason) {
+        case NXMConnectionStatusReasonTerminated:
+            reason = CommunicationsManagerConnectionStatusReasonSessionInvalid;
+            break;
+        case NXMConnectionStatusReasonTokenInvalid:
+            reason = CommunicationsManagerConnectionStatusReasonTokenInvalid;
+            break;
+            case NXMConnectionStatusReasonTokenExpired:
+            reason = CommunicationsManagerConnectionStatusReasonTokenExpired;
+            break;
+        default:
+            break;
     }
     
     return reason;
@@ -180,30 +166,30 @@
     
 }
 
+
+
 #pragma mark - LoginHandler notifications
 - (void)NTADidLoginWithNSNotification:(NSNotification *)note {
     NTAUserInfo *user = note.userInfo[kNTALoginHandlerNotificationKeyUser];
-    [self loginWithUserInfo:user];
+    [self setupClientWithUser:user];
+    [self.client login];
+
 }
 
 - (void)NTADidLogoutWithNSNotification:(NSNotification *)note {
     [self logout];
 }
 
-- (void)loginWithUserInfo:(NTAUserInfo *)userInfo {
-    [self.client loginWithAuthToken:userInfo.csUserToken];
+- (void)login {
+    [self.client login];
 }
 
 - (void)logout {
     [self.client logout];
 }
 
-- (void)setupClient {
-    [self setupWithNexmoClient:[NXMClient new]];
-}
-
-- (void)setupWithNexmoClient:(NXMClient *)client {
-    self.client = client;
+- (void)setupClientWithUser:(NTAUserInfo *)userInfo {
+    self.client = [[NXMClient alloc] initWithToken:userInfo.csUserToken];
     [self.client setDelegate:self];
 }
 

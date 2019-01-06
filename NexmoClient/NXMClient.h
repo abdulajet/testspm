@@ -15,15 +15,9 @@
 @interface NXMClient : NSObject
 
 /*!
-Return true when user logged in.
+Return the connection status.
 */
-@property (nonatomic, assign, readonly, getter=isLoggedIn) BOOL loggedIn;
-
-/*!
- Return true when user is connected - loggedIn is true and network available.
- */
-@property (nonatomic, assign, readonly, getter=isConnected) BOOL connected;
-
+@property (nonatomic, assign, readonly, getter=getConnectionStatus) NXMConnectionStatus connectionStatus;
 
 /*!
  Return the current user
@@ -35,6 +29,11 @@ Return true when user logged in.
  */
 @property (nonatomic, strong, readonly, nullable, getter=getToken) NSString *token;
 
+/**
+ init nxmClient with authentication token
+ @param authToken user authentication token
+ */
+- (instancetype)initWithToken:(NSString *)authToken;
 
 /*!
  Set nexmo client logger delegate
@@ -51,13 +50,12 @@ Return true when user logged in.
 - (void)setDelegate:(nullable id <NXMClientDelegate>)delegate;
 
 /**
- Set authentication token and login
- @param authToken user authentication token
+ login and connect to nexmo sdk.
  */
-- (void)loginWithAuthToken:(nonnull NSString *)authToken;
+- (void)login;
 
 /**
- Update authentication token and login
+ Update authentication token when logged in
  @param authToken user authentication token
  */
 - (void)refreshAuthToken:(nonnull NSString *)authToken;

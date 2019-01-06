@@ -9,11 +9,11 @@
 
 @protocol NXMCoreDelegate
 
+
+
 #pragma mark - user status
 
-- (void)connectionStatusChanged:(BOOL)isOnline;
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
-- (void)tokenRefreshed;
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
 @optional
 #pragma mark - member events

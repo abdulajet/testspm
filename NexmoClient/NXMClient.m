@@ -23,9 +23,9 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 
 @implementation NXMClient
 
-- (instancetype)init {
+- (instancetype)initWithToken:(NSString *)authToken {
     if(self = [super init]) {
-        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[NXMCore new]];
+        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:authToken]];
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
@@ -40,12 +40,8 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 
 #pragma mark - login and connectivity
 
--(BOOL)isLoggedIn {
-    return self.stitchContext.coreClient.isLoggedIn;
-}
-
--(BOOL)isConnected {
-    return self.stitchContext.coreClient.isConnected;
+-(NXMConnectionStatus)getConnectionStatus {
+    return self.stitchContext.coreClient.connectionStatus;
 }
 
 // TODO: move to user defaults
@@ -58,11 +54,11 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
     return self.stitchContext.coreClient.token;
 }
 
--(void)loginWithAuthToken:(nonnull NSString *)authToken {
+-(void)login {
     if(!self.delegate) {
         [NXMLogger warning:@"NXMClient: login called without setting delegate"];
     }
-    [self.stitchContext.coreClient loginWithAuthToken:authToken];
+    [self.stitchContext.coreClient login];
 }
 
 -(void)refreshAuthToken:(nonnull NSString *)authToken {
@@ -70,8 +66,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 }
 
 -(void)logout {
-    
-    if(!self.isLoggedIn) {
+    if (self.connectionStatus == NXMConnectionStatusDisconnected) {
         return;
     }
     
@@ -93,31 +88,25 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 }
 
 
-
-
-- (void)connectionStatusChanged:(BOOL)isOnline {
-    [self.delegate connectionStatusChanged:isOnline];
-}
-
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
-    
-    //TODO: when deciding how to handle setup/cleanup maybe change this instead of setting up an error, to have a delegate method for setup/cleanup error
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
     NSError *setUpCleanUpError = nil;
-    if(isLoggedIn) {
-        if(![self setUpWithErrorPtr:&setUpCleanUpError]) {
-            //TODO: report/fail setup error
-        }
-    } else {
-        if(![self cleanUpWithErrorPtr:&setUpCleanUpError]) {
-            //TODO: report/fail cleanup error
-        }
+    switch (self.connectionStatus) {
+        case NXMConnectionStatusDisconnected:
+            if(![self cleanUpWithErrorPtr:&setUpCleanUpError]) {
+                //TODO: report/fail cleanup error
+            }
+            break;
+        case NXMConnectionStatusConnected:
+            if(![self setUpWithErrorPtr:&setUpCleanUpError]) {
+                //TODO: report/fail setup error
+            }
+            break;
+        case NXMConnectionStatusConnecting:
+        default:
+            break;
     }
     
-    [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
-}
-
-- (void)tokenRefreshed {
-    [self.delegate tokenRefreshed];
+    [self.delegate connectionStatusChanged:status reason:reason];
 }
 
 #pragma mark - conversation

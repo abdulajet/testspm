@@ -113,21 +113,11 @@
     //TODO: 🐶
 }
 
-- (void)connectionStatusChanged:(BOOL)isOnline {
-    NXMEventsDispatcherConnectionStatusModel *model = [[NXMEventsDispatcherConnectionStatusModel alloc] initWithIsConnected:isOnline];
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason { 
+    NXMEventsDispatcherConnectionStatusModel *model = [[NXMEventsDispatcherConnectionStatusModel alloc]
+                                                  initWithStatus:status andReason:reason];
     
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationConnectionStatus andUserInfo:[NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherConnectionStatusModel *> notificationUserInfoWithNotificationModel:model]];
-}
-
-
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
-    NXMEventsDispatcherLoginStatusModel *model = [[NXMEventsDispatcherLoginStatusModel alloc] initWithNXMuser:user isLoggedIn:isLoggedIn andError:error];
-    
-    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationLoginStatus andUserInfo:[NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherLoginStatusModel *> notificationUserInfoWithNotificationModel:model]];
-}
-
-- (void)tokenRefreshed {
-    // TODO:
 }
 
 

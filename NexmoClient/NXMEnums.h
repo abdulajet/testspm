@@ -7,6 +7,22 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, NXMConnectionStatus) {
+    NXMConnectionStatusDisconnected,
+    NXMConnectionStatusConnecting,
+    NXMConnectionStatusConnected
+};
+
+typedef NS_ENUM(NSInteger, NXMConnectionStatusReason) {
+    NXMConnectionStatusReasonUnknown,
+    NXMConnectionStatusReasonLogin,
+    NXMConnectionStatusReasonLogout,
+    NXMConnectionStatusReasonTokenRefreshed,
+    NXMConnectionStatusReasonTokenInvalid,
+    NXMConnectionStatusReasonTokenExpired,
+    NXMConnectionStatusReasonTerminated
+};
+
 typedef NS_ENUM(NSInteger, NXMMediaType) {
     NXMMediaTypeNone = (0),
     NXMMediaTypeAudio = (1 << 0),

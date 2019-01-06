@@ -9,6 +9,6 @@
 #import <NexmoClient/NexmoClient.h>
 
 @protocol CallCreator
-- (void)callWithDelegate:(id<NXMCallDelegate>)delegate completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
+- (void)callWithDelegate:(id<NXMCallDelegate>_Nullable)delegate completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
 @end
 

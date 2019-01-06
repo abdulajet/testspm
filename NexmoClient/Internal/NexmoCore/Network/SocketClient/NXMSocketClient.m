@@ -23,11 +23,10 @@
 
 @interface NXMSocketClient()
 
-@property BOOL isLoggedIn;
 @property id<NXMSocketClientDelegate> delegate;
 @property VPSocketIOClient *socket;
 @property NSString *token;
-@property NXMUser *user;
+@property NXMConnectionStatus status;
 
 @end
 
@@ -63,8 +62,8 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 #pragma mark login
 
-- (BOOL)isSocketConnected {
-    return self.socket.status == VPSocketIOClientStatusNotConnected;
+- (NXMConnectionStatus)connectionStatus {
+    return self.status;
 }
 
 - (void)loginWithToken:(NSString *)token {
@@ -73,8 +72,14 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken {
-    self.token = authToken;
     
+    if (self.status != NXMConnectionStatusConnected) {
+        [self loginWithToken:authToken];
+        return;
+    }
+    
+    self.token = authToken;
+
     NSDictionary * msg = @{ @"body" : @{
                                     @"token":authToken
                                     }};
@@ -83,7 +88,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (void)logout {
-    if(self.isLoggedIn) {
+    if (self.status == NXMConnectionStatusConnected) {
         [self serverLogout];
     }
 }
@@ -176,23 +181,22 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     }
 }
 
-- (void)didSocketConnect {
+- (void)socketDidConnect {
     [NXMLogger debug:@"socket connected"];
-    [self.delegate connectionStatusChanged:self.isLoggedIn];
+
     //TODO: question - what happens if we try to log in while already logged in to the server for example after a reconnect?
     [self serverLogin];
 }
 
 - (void)didSocketDisconnect {
-    [self.delegate connectionStatusChanged:NO];
-    //TODO: this might mean that a logout happend on the server side
+    [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:NXMConnectionStatusReasonTerminated];
 }
 
 - (void)socketDidChangeStatus {
     switch (self.socket.status) {
         case VPSocketIOClientStatusConnected:
             [NXMLogger debug:@"socket connected"];
-            [self didSocketConnect];
+            [self socketDidConnect];
             break;
         case VPSocketIOClientStatusNotConnected:
             [NXMLogger debug:@"socket not connected"];
@@ -204,11 +208,10 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
             break;
         case VPSocketIOClientStatusConnecting: //TODO: support reporting reconnect? or keep it boolean
             [NXMLogger debug:@"socket connecting"];
-            [self didSocketDisconnect];
+            [self updateConnetionStatus:NXMConnectionStatusConnecting reason:NXMConnectionStatusReasonUnknown];
             break;
         case VPSocketIOClientStatusOpened:
             [NXMLogger debug:@"socket opened"];
-            [self didSocketDisconnect];
             break;
     }
 }
@@ -232,39 +235,58 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString]};
     [self.socket emit:kNXMSocketEventLogout items:@[msg]];
 }
-//    NXMUser * user = self.user;
-//    self.token = nil; 
-//    self.user = nil;
-//    [self.delegate didLogout:user];
-//}
 
-- (void)didFailLoginWithError:(NSError *)error {
-    self.isLoggedIn = NO;
-    self.user = nil;
+- (void)didFailLoginWithError:(NXMErrorCode)error {
     self.token = nil;
     [self disconnectSocket];
-    [self.delegate loginStatusChangedWithUser:self.user sessionId:nil isLoggedIn:self.isLoggedIn error:error];
     
+    NXMConnectionStatusReason reason = NXMConnectionStatusReasonUnknown;
+    
+    switch (error) {
+        case NXMErrorCodeSessionInvalid:
+        case NXMErrorCodeMaxOpenedSessions:
+            reason = NXMConnectionStatusReasonTerminated;
+            break;
+        case NXMErrorCodeTokenInvalid:
+            reason = NXMConnectionStatusReasonTokenInvalid;
+            break;
+        case NXMErrorCodeTokenExpired:
+            reason = NXMConnectionStatusReasonTokenExpired;
+            break;
+        default:
+            break;
+    }
+    
+    [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:reason];
 }
 
 - (void)didServerLoginWithData:(NSArray *)data {
-    self.isLoggedIn = YES;
     NSDictionary *response = ((NSDictionary *)data[0])[@"body"];
     NXMUser *user = [[NXMUser alloc] initWithId:response[@"user_id"] name:response[@"name"]];
-    self.user = user;
     NSString * sessionid = response[@"id"];
-    [self.delegate loginStatusChangedWithUser:self.user sessionId:sessionid isLoggedIn:self.isLoggedIn error:nil];
+    
+    [self.delegate userChanged:user withSessionId:sessionid];
+    
+    [self updateConnetionStatus:NXMConnectionStatusConnected reason:NXMConnectionStatusReasonLogin];
 }
 
 - (void)didServerLogout {
     [NXMLogger debug:@"did server logout"];
-    self.isLoggedIn = NO;
-    NXMUser *byeByeUser = self.user;
-    self.user = nil;
     self.token = nil;
-    [self.delegate loginStatusChangedWithUser:byeByeUser sessionId:nil isLoggedIn:NO error:nil];
+    
+    [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:NXMConnectionStatusReasonLogout];
+
     [self disconnectSocket];
 }
+
+// TODO: thread safe
+- (void)updateConnetionStatus:(NXMConnectionStatus)newStatus reason:(NXMConnectionStatusReason)reason {
+    if (self.status != newStatus) {
+        self.status = newStatus;
+        [self.delegate connectionStatusChanged:newStatus reason:reason];
+    }
+}
+
 
 #pragma mark subscribe
 
@@ -322,39 +344,32 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionInvalid andUserInfo:nil];
-        [self didFailLoginWithError:error];
+        [self didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
-        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionInvalid andUserInfo:nil];
-        [self didFailLoginWithError:error];
+        [self didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
-        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMaxOpenedSessions andUserInfo:nil];
-        [self didFailLoginWithError:error];
+        [self didFailLoginWithError:NXMErrorCodeMaxOpenedSessions];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        NSDictionary * userInfo = @{@"token" : self.token};
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeTokenInvalid andUserInfo:userInfo];
-        [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
+        [self didFailLoginWithError:NXMErrorCodeTokenInvalid]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
-        NSDictionary * userInfo = @{@"token" : self.token};
-        NSError *error = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeTokenExpired andUserInfo:userInfo];
-        [self didFailLoginWithError:error]; //TODO: check if this might happen without meaning a logout
+        [self didFailLoginWithError:NXMErrorCodeTokenExpired]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
-        [self.delegate didRefreshToken];
+        [self.delegate connectionStatusChanged:NXMConnectionStatusConnected reason:NXMConnectionStatusReasonTokenRefreshed];
     }];
 }
 

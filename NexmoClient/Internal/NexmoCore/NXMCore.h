@@ -18,15 +18,14 @@
 
 @interface NXMCore : NSObject
 
-@property (readonly) BOOL isLoggedIn;
-@property (readonly) BOOL isConnected;
+@property (readonly) NXMConnectionStatus connectionStatus;
 @property (nonatomic, strong, readonly, nullable) NXMUser *user;
 @property (nonatomic, strong, readonly, nullable) NSString *token;
 
-- (instancetype _Nullable)init;
+- (instancetype)initWithToken:(nonnull NSString *)authToken;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 
-- (void)loginWithAuthToken:(nonnull NSString *)authToken;
+- (void)login;
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken;
 

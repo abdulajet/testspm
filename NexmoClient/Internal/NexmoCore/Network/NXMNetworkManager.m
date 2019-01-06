@@ -37,18 +37,22 @@
     return self;
 }
 
+- (NXMConnectionStatus)connectionStatus {
+    return self.socketClient.connectionStatus;
+}
+
 - (void)setDelegate:(id<NXMNetworkDelegate>)delegate {
     _delegate = delegate;
 }
 
-- (void)loginWithToken:(NSString * _Nonnull)token{
-    [self.socketClient loginWithToken:token];
-    [self.router setToken:token];
+- (void)login {
+    [self.socketClient loginWithToken:self.delegate.authToken];
+    [self.router setToken:self.delegate.authToken];
 }
 
-- (void)refreshAuthToken:(nonnull NSString *)authToken {
-    [self.socketClient refreshAuthToken:authToken];
-    [self.router setToken:authToken];
+- (void)refreshAuthToken {
+    [self.socketClient refreshAuthToken:self.delegate.authToken];
+    [self.router setToken:self.delegate.authToken];
 }
 
 - (void)logout {
@@ -284,19 +288,15 @@
     [self.delegate imageSeen:statusEvent];
 }
 
-- (void)connectionStatusChanged:(BOOL)isConnected {
-    [self.delegate connectionStatusChanged:isConnected];
+
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+    [self.delegate connectionStatusChanged:status reason:reason];
 }
 
-- (void)loginStatusChangedWithUser:(nullable NXMUser *)user sessionId:(nullable NSString *)sessionId isLoggedIn:(BOOL)isLoggedIn error:(NSError *)error {
+- (void)userChanged:(NXMUser *)user withSessionId:(NSString *)sessionId {
     [self.router setSessionId:sessionId];
-    [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
+    [self.delegate userChanged:user];
 }
-
-- (void)didRefreshToken {
-    [self.delegate didRefreshToken];
-}
-
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
     [self.delegate mediaEvent:mediaEvent];
@@ -309,5 +309,7 @@
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent {
     [self.delegate rtcAnswerEvent:rtcEvent];
 }
+
+
 
 @end

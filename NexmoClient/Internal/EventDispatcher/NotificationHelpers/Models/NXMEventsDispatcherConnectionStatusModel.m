@@ -9,10 +9,14 @@
 #import "NXMEventsDispatcherConnectionStatusModel.h"
 
 @implementation NXMEventsDispatcherConnectionStatusModel
--(instancetype)initWithIsConnected:(BOOL)isConnected {
+
+- (instancetype)initWithStatus:(NXMConnectionStatus)status andReason:(NXMConnectionStatusReason)reason {
     if(self = [super init]) {
-        self.isConnected = isConnected;
+        self.status = status;
+        self.reason = reason;
     }
+    
     return self;
 }
+
 @end

@@ -10,9 +10,8 @@
 
 @protocol NXMSocketClientDelegate
 
-- (void)connectionStatusChanged:(BOOL)isOpen;
-- (void)loginStatusChangedWithUser:(nullable NXMUser *)user sessionId:(nullable NSString *)sessionId isLoggedIn:(BOOL)isLoggedIn error:(NSError *)error;
-- (void)didRefreshToken;
+- (void)userChanged:(NXMUser *)user withSessionId:(NSString *)sessionId;
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;

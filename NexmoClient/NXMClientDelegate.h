@@ -7,15 +7,14 @@
 
 #import <Foundation/Foundation.h>
 #import "NXMUser.h"
+#import "NXMEnums.h"
 
 @class NXMCall;
 @class NXMConversation;
 
 @protocol NXMClientDelegate <NSObject>
 
-- (void)connectionStatusChanged:(BOOL)isOnline;
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error;
-- (void)tokenRefreshed;
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
 @optional
 - (void)incomingCall:(nonnull NXMCall *)call;

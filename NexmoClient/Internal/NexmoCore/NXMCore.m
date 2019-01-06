@@ -22,17 +22,15 @@
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
 @property NSString* token;
-@property (readwrite) BOOL isLoggedIn;
-@property (readwrite) BOOL isConnected;
 @property (readwrite, nonnull, nonatomic) NXMPushParserManager *pushParser;
 
 @end
 
 @implementation NXMCore
 
-- (instancetype _Nullable)init {
+- (instancetype)initWithToken:(NSString *)authToken {
     if (self = [super init]) {
-        //     NXMConversationClientConfig *config = [NXMConversationClientConfig new];
+        self.token = authToken;
         self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
@@ -45,17 +43,12 @@
     return self;
 }
 
-- (void)loginWithAuthToken:(nonnull NSString *)authToken {
-    [self.network loginWithToken:authToken];
+- (void)login {
+    [self.network login];
 }
 
 - (void)logout {
-    if(!self.isLoggedIn) {
-        return; //Q: maybe change to call loginStatusChanged with error AlreadyLoggedOut
-    }
-    
-    if (!self.isConnected) {
-        [self loginStatusChanged:self.user loginStatus:self.isLoggedIn withError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeSessionDisconnected andUserInfo:nil]];
+    if (self.connectionStatus != NXMConnectionStatusConnected) {
         return;
     }
     
@@ -63,11 +56,16 @@
 }
 
 - (void)refreshAuthToken:(nonnull NSString *)authToken {
-    [self.network refreshAuthToken:authToken];
+    self.token = authToken;
+    [self.network refreshAuthToken];
 }
 
 - (void)setDelgate:(nonnull id<NXMCoreDelegate>)delegate {
     self.delegate = delegate;
+}
+
+- (NXMConnectionStatus)connectionStatus {
+    return [self.network connectionStatus];
 }
 
 #pragma mark - Push
@@ -356,19 +354,17 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 #pragma mark - NXMNetworkDelegate
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
+
+- (NSString *)authToken {
+    return self.token;
+}
+
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+    [self.delegate connectionStatusChanged:status reason:reason];
+}
+
+- (void)userChanged:(NXMUser *)user {
     self.user = user;
-    self.isLoggedIn = isLoggedIn;
-    [self.delegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
-}
-
-- (void)connectionStatusChanged:(BOOL)isConnected {
-    self.isConnected = isConnected;
-    [self.delegate connectionStatusChanged:isConnected];
-}
-
-- (void)didRefreshToken {
-    [self.delegate tokenRefreshed];
 }
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member {
@@ -446,6 +442,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)sipStatus:(nonnull NXMSipEvent *)sipEvent{
     [self.delegate sipStatus:sipEvent];
 }
+
+
 
 #pragma mark - RTCMediaWrapperDelegate
 

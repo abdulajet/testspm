@@ -114,18 +114,9 @@
     [self.eventsDispatcher textTypingOn:textTypingEvent];
 }
 
-- (void)connectionStatusChanged:(BOOL)isOnline {
-    [self.eventsDispatcher connectionStatusChanged:isOnline];
-    [self.stitchContextDelegate connectionStatusChanged:isOnline];
-}
-
-- (void)loginStatusChanged:(nullable NXMUser *)user loginStatus:(BOOL)isLoggedIn withError:(nullable NSError *)error {
-    [self.eventsDispatcher loginStatusChanged:user loginStatus:isLoggedIn withError:error];
-    [self.stitchContextDelegate loginStatusChanged:user loginStatus:isLoggedIn withError:error];
-}
-
-- (void)tokenRefreshed {
-    [self.stitchContextDelegate tokenRefreshed];
+- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+    [self.eventsDispatcher connectionStatusChanged:status reason:reason];
+    [self.stitchContextDelegate connectionStatusChanged:status reason:reason];
 }
 
 
