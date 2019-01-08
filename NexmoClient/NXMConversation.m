@@ -136,12 +136,6 @@
 }
 
 - (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    NSError *validityError = [self validateMyMember];
-    if (validityError) {
-        [NXMBlocksHelper runWithError:validityError completion:completion];
-        return;
-    }
-    
     [self kickMemberWithMemberId:self.myMember.memberId completion:completion];
 }
 
@@ -161,7 +155,7 @@
 
 -(void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     
-    NSError *validityError = [self validateMyMember];
+    NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
 
@@ -180,7 +174,7 @@
 }
 
 -(void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    NSError *validityError = [self validateMyMember];
+    NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
 
@@ -203,7 +197,7 @@
 }
 
 - (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    NSError *validityError = [self validateMyMember];
+    NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
 
@@ -215,7 +209,7 @@
 }
 
 - (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    NSError *validityError = [self validateMyMember];
+    NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
 
@@ -291,7 +285,7 @@
     [self.conversationMembersController finishHandleEventsSequence];
 }
 
-- (NSError *)validateMyMember {
+- (NSError *)validateMyMemberJoined {
     if (self.myMember.state == NXMMemberStateJoined) {
         return nil;
     }

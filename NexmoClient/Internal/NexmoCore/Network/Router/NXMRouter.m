@@ -933,17 +933,18 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             responseBlock(resError, nil);
             return;
         }
-        
-        NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
-        if (!jsonDict || jsonError) {
-            // TODO: map code from error msg
-            NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
-            responseBlock(resError, nil);
-            return;
+        NSDictionary *jsonDict = @{};
+        if(data.length) {
+            jsonDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+            if (!jsonDict || jsonError) {
+                // TODO: map code from error msg
+                NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
+                responseBlock(resError, nil);
+                return;
+            }
         }
         
         responseBlock(nil, jsonDict);
-        
     }] resume];
 }
 

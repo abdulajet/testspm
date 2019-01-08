@@ -176,7 +176,15 @@
 #pragma mark Decline Call
 
 - (IBAction)declineCallButtonPressed:(UIButton *)sender {
-    [self endCall];
+    [self.call decline:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Error declining call: %@",error];
+            return;
+        }
+        //TODO: refactor when fixing the [endCall - should only be dismissed after hangup succeeds]
+        [self dismiss];
+        [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
+    }];
 }
 
 #pragma mark - InCall
