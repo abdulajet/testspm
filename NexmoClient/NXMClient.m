@@ -13,11 +13,19 @@
 #import "NXMBlocksHelper.h"
 #import "NXMLogger.h"
 
+typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
+
+@interface NXMKnockingObj : NSObject
+@property knockingComplition complition;
+@property id<NXMCallDelegate> delegate;
+@end
+@implementation NXMKnockingObj
+@end
+
 @interface NXMClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
-typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
-@property (nonatomic, nonnull) NSMutableDictionary<NSString*, knockingComplition> * knockingIdsToCompletion;
+@property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMKnockingObj*> * knockingIdsToCompletion;
 
 @end
 
@@ -149,8 +157,12 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 }
 
 - (void) addPendingKnockingId:(nonnull NSString*)knockingId
+                     delegate:(id<NXMCallDelegate>)delegate
                    completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion{
-    self.knockingIdsToCompletion[knockingId] = completion;
+    NXMKnockingObj *knockingObj = [NXMKnockingObj new];
+    knockingObj.complition = completion;
+    knockingObj.delegate = delegate;
+    self.knockingIdsToCompletion[knockingId] = knockingObj;
 }
 
 - (void) startIpCall:(nonnull NSArray<NSString *>*)users
@@ -201,7 +213,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore inviteToConversation:weakSelf.user.name withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
         if (value)
-            [weakSelf addPendingKnockingId:value completion:completion];
+            [weakSelf addPendingKnockingId:value delegate:delegate completion:completion];
     } onError:^(NSError * _Nullable error) {
         NSLog(@"startServerCall");
     }];
@@ -380,9 +392,11 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
             [conversation enableMedia:event.memberId];
             NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
             if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){
-                self.knockingIdsToCompletion[event.knockingId](nil,call);
+                NXMKnockingObj *obj = self.knockingIdsToCompletion[event.knockingId];
+                call.delegate = obj.delegate;
+                obj.complition(nil, call);
                 [self.knockingIdsToCompletion removeObjectForKey:event.knockingId];
-            }else{
+            } else {
                 //TODO: check if this is a valid state for a call
                 //this could happened if we get the member events before cs return the knocking id
                 //to prevent drop calls we use the Incoming IP call
