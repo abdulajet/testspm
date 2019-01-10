@@ -64,13 +64,15 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
     
+    NSString *deviceToken = [self hexadecimalString:request.deviceToken];
     NSMutableDictionary *dict = [NSMutableDictionary new];
-    dict[@"device_token"] = [self hexadecimalString:request.deviceToken];
+    dict[@"device_token"] = deviceToken;
     dict[@"device_type"] = @"ios";
     dict[@"bundle_id"] = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: request.isPushKit ? @".voip" : @""];
     dict[@"device_push_environment"] = request.isSandbox ? @"sandbox" : @"production";
     
-    NSString *deviceId = [self getDeviceId];
+    NSString *deviceId = deviceToken; // This is not a bug!!!! we use device/push token as device id.
+    
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@devices/%@", self.baseUrl, deviceId]];
     
     [self requestToServer:dict url:url httpMethod:@"PUT" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
