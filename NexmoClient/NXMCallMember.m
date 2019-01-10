@@ -15,8 +15,7 @@
 @property (nonatomic, readwrite) NSString *callId;
 @property (nonatomic, readwrite) NSString *memberId;
 @property (nonatomic, readwrite) NXMCallMemberStatus status;
-@property (nonatomic, readwrite) NSString *userId;
-@property (nonatomic, readwrite) NSString *userName;
+@property (nonatomic, readwrite) NXMUser *user;
 @property (nonatomic, readwrite) BOOL isMuted;
 
 @property (nonatomic, readwrite) id<NXMCallProxy> callProxy; // tmp
@@ -84,15 +83,13 @@
 
 
 - (void)updateWithMember:(NXMMember *)member {
-    self.userId = member.userId;
-    self.userName = member.name;
+    self.user = member.user;
     
     [self updateWithMemberStatus:member.state isMedia:NO];
 }
 
 - (void)updateWithMemberEvent:(NXMMemberEvent *)member {
-    self.userId = member.user.userId;
-    self.userName = member.user.name;
+    self.user = member.user;
     
     [self updateWithMemberStatus:member.state isMedia:member.media.isEnabled];
 }

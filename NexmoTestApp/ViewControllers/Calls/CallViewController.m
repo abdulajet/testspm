@@ -271,7 +271,7 @@
             break;
     }
     
-    if ([member.userId isEqualToString:self.call.myCallMember.userId]) {
+    if ([member.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
         [self.InCallMuteButton setSelected:member.isMuted];
     }
 }

@@ -92,7 +92,7 @@
 }
 
 - (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (userId == self.conversation.myMember.userId){
+    if (userId == self.conversation.myMember.user.userId){
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -172,7 +172,7 @@
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
     if (self.status == NXMCallStatusDisconnected) { return; }
     
-    if (![callMember.userId isEqualToString:self.myCallMember.userId]) {
+    if (![callMember.user.userId isEqualToString:self.myCallMember.user.userId]) {
         return;
     }
     

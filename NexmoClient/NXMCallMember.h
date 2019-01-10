@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NXMUser.h"
 
 typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
     NXMCallMemberStatusDialling,
@@ -20,8 +21,7 @@ typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
 
 @property (nonatomic, readonly) NSString *callId;
 @property (nonatomic, readonly) NSString *memberId;
-@property (nonatomic, readonly) NSString *userId;
-@property (nonatomic, readonly) NSString *userName;
+@property (nonatomic, readonly) NXMUser *user;
 @property (nonatomic, readonly) BOOL isMuted;
 @property (nonatomic, readonly) NXMCallMemberStatus status;
 @property (nonatomic, readonly) NSString *metaInfo;

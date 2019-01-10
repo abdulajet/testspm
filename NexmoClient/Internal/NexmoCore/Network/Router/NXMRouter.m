@@ -129,7 +129,12 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
         for (NSDictionary* memberJson in data[@"members"]) {
-            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"] conversationId:convId userId:memberJson[@"user_id"] name:memberJson[@"name"] state:[self parseMemberState:memberJson[@"state"]]];
+            NXMUser *user = [[NXMUser alloc] initWithId:memberJson[@"user_id"] name:memberJson[@"name"]];
+                             
+            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"]
+                                                     conversationId:convId
+                                                               user:user
+                                                              state:[self parseMemberState:memberJson[@"state"]]];
 
             member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
             member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
@@ -355,10 +360,11 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
         for (NSDictionary* memberJson in data[@"members"]) {
+            NXMUser *user = [[NXMUser alloc] initWithId:memberJson[@"user_id"] name:memberJson[@"name"]];
+
             NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"]
                                                      conversationId:conversationId
-                                                             userId:memberJson[@"user_id"]
-                                                               name:memberJson[@"name"]
+                                                               user:user
                                                               state:[self parseMemberState:memberJson[@"state"]]];
             
             member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
@@ -1129,8 +1135,14 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 //TODO: this should be incoroporated somehow in NSSecureCoding
 - (nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data {
+    
+    NXMUser *user = [[NXMUser alloc] initWithId:data[@"user_id"] name:data[@"name"]];
+
     NXMMember *member = nil;
-    if((member = [[NXMMember alloc] initWithMemberId:data[@"id"] conversationId:data[@"conv_id"] userId:data[@"user_id"] name:data[@"name"] state:[self parseMemberState:data[@"state"]]])) {
+    if((member = [[NXMMember alloc] initWithMemberId:data[@"id"]
+                                      conversationId:data[@"conv_id"]
+                                                user:user
+                                               state:[self parseMemberState:data[@"state"]]])) {
         member.inviteDate = data[@"timestamp"][@"invited"]; // TODO: NSDate
         member.joinDate = data[@"timestamp"][@"joined"]; // TODO: NSDate
         member.leftDate = data[@"timestamp"][@"left"]; // TODO: NSDate

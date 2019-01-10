@@ -71,7 +71,7 @@ static MainFlow *sharedInstance;
         }
         [NTALogger info:@"MainFlow - creating incoming call view controller"];
 
-        NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherCallMembers[0].userName];
+        NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherCallMembers[0].user.name];
         
         IncomingCallCreator *creator = [[IncomingCallCreator alloc] initWithCall:call];
         self.callWindow.callVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Call"];
@@ -93,7 +93,7 @@ static MainFlow *sharedInstance;
         notificationContent.title = @"Incoming Call";
         NSString *message = @"From: \n";
         for (NXMCallMember* member in call.otherCallMembers) {
-            NSString *displayName = member.userName ? [NTAUserInfoProvider getUserInfoForCSUserName:member.userName].displayName : nil;
+            NSString *displayName = member.user.name ? [NTAUserInfoProvider getUserInfoForCSUserName:member.user.name].displayName : nil;
             displayName = [displayName stringByAppendingString:@"\n"];
             message = [message stringByAppendingString:displayName ? displayName : @""];
         }

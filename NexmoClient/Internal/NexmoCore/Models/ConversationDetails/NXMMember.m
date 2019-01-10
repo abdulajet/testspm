@@ -8,15 +8,17 @@
 
 #import "NXMMember.h"
 #import "NXMMemberEvent.h"
+
 @implementation NXMMember
 
-- (instancetype)initWithMemberId:(NSString *)memberId conversationId:(NSString *)conversationId
-                            userId:(NSString *)userId name:(NSString *)name state:(NXMMemberState)state {
+- (instancetype)initWithMemberId:(NSString *)memberId
+                  conversationId:(NSString *)conversationId
+                            user:(NXMUser *)user
+                           state:(NXMMemberState)state {
     if (self = [super init]) {
         self.memberId = memberId;
         self.conversationId = conversationId;
-        self.userId = userId;
-        self.name = name;
+        self.user = user;
         self.state = state;
     }
     
@@ -28,10 +30,9 @@
     self = [super init];
     if (self) {
         self.memberId = memberEvent.memberId;
-        self.name = memberEvent.name;
         self.conversationId = memberEvent.conversationId;
         self.state = memberEvent.state;
-        self.userId = memberEvent.user.userId;
+        self.user = memberEvent.user;
     }
     return self;
 }

@@ -43,7 +43,7 @@
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
     for (NXMMember *member in conversationDetails.members) {
-        if([member.userId isEqualToString:self.currentUser.userId]) {
+        if([member.user.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
         } else {
             [self.mutableOtherMembers addObject:member];
@@ -155,7 +155,7 @@
 
 - (void)addMember:(nonnull NXMMember *)member {
     self.membersDictionary[[member.memberId copy]] = member;
-    if([member.userId isEqualToString:self.currentUser.userId]) {
+    if([member.user.userId isEqualToString:self.currentUser.userId]) {
         self.myMember = member;
     } else {
         [self.mutableOtherMembers addObject:member];
