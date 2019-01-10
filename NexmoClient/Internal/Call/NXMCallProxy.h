@@ -5,15 +5,15 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-@class NXMCallParticipant;
+@class NXMCallMember;
 
 @protocol NXMCallProxy
 
-- (void)hangup:(NXMCallParticipant *)participant;
-- (void)hold:(NXMCallParticipant *)participant isHold:(BOOL)isHold;
-- (void)mute:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted;
-- (void)earmuff:(NXMCallParticipant *)participant isEarmuff:(BOOL)isEarmuff;
+- (void)hangup:(NXMCallMember *)callMember;
+- (void)hold:(NXMCallMember *)callMember isHold:(BOOL)isHold;
+- (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted;
+- (void)earmuff:(NXMCallMember *)callMember isEarmuff:(BOOL)isEarmuff;
 
-- (void)onChange:(NXMCallParticipant *)participant;
+- (void)onChange:(NXMCallMember *)callMember;
 
 @end

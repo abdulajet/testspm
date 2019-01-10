@@ -9,7 +9,7 @@
 #import "NXMStitchContext.h"
 #import "NXMConversationPrivate.h"
 #import "NXMCallPrivate.h"
-#import "NXMCallParticipantPrivate.h"
+#import "NXMCallMemberPrivate.h"
 #import "NXMBlocksHelper.h"
 #import "NXMLogger.h"
 
@@ -177,14 +177,14 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
                                            [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
                                                if (member){
                                                    NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-                                                   NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
-                                                                                                                     andCallProxy:(id<NXMCallProxy>)call];
-                                                   [call setMyParticipant:participant];
+                                                   NXMCallMember *callMember = [[NXMCallMember alloc] initWithMemberId:member.memberId
+                                                                                                andCallProxy:(id<NXMCallProxy>)call];
+                                                   [call setMyCallMember:callMember];
                                                    
-                                                   [conversation enableMedia:member.memberId];
+                                                   [conversation enableMedia:callMember.memberId];
                                                    
                                                    for (NSString *userId in users) {
-                                                       [call addParticipantWithUserId:userId completionHandler:nil];
+                                                       [call addCallMemberWithUserId:userId completionHandler:nil];
                                                    }
                                                    
                                                    [call setDelegate:delegate];

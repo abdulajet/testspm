@@ -10,7 +10,7 @@
 #import "NXMErrors.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
-#import "NXMCallParticipantPrivate.h"
+#import "NXMCallMemberPrivate.h"
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
@@ -19,8 +19,8 @@
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
 
 @property (readwrite, nonatomic) NXMConversation *conversation;
-@property (readwrite, nonatomic) NSMutableArray<NXMCallParticipant *> *otherParticipants;
-@property (readwrite, nonatomic) NXMCallParticipant *myParticipant;
+@property (readwrite, nonatomic) NSMutableArray<NXMCallMember *> *otherCallMembers;
+@property (readwrite, nonatomic) NXMCallMember *myCallMember;
 
 @property (readwrite, nonatomic) id<NXMCallDelegate> delegate;
 @property (readwrite, nonatomic) NXMConversationEventsQueue *eventsQueue;
@@ -35,12 +35,12 @@
         self.lastEventId = conversation.lastEventId;
         self.conversation = conversation;
         if (self.conversation.myMember){
-            self.myParticipant = [[NXMCallParticipant alloc] initWithMember:self.conversation.myMember andCallProxy:self];
+            self.myCallMember = [[NXMCallMember alloc] initWithMember:self.conversation.myMember andCallProxy:self];
         }
-        self.otherParticipants = [[NSMutableArray<NXMCallParticipant*>  alloc] init];
+        self.otherCallMembers = [[NSMutableArray<NXMCallMember *>  alloc] init];
         if (self.conversation.otherMembers){
             for (id member in self.conversation.otherMembers){
-                [self.otherParticipants addObject: [[NXMCallParticipant alloc] initWithMember:member andCallProxy:self]];
+                [self.otherCallMembers addObject: [[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
             }
         }
         [conversation setDelegate:self];
@@ -55,7 +55,7 @@
 }
 
 - (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (self.myParticipant.status != NXMParticipantStatusCalling) {
+    if (self.myCallMember.status != NXMCallMemberStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
         return;
@@ -68,13 +68,13 @@
             return;
         }
         self.delegate = delegate;
-        [self.conversation enableMedia:self.myParticipant.participantId];
+        [self.conversation enableMedia:self.myCallMember.memberId];
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     }];
 }
 
 - (void)decline:(NXMErrorCallback)completionHandler {
-    if (self.myParticipant.status != NXMParticipantStatusCalling) {
+    if (self.myCallMember.status != NXMCallMemberStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
         return;
@@ -91,7 +91,7 @@
     }];
 }
 
-- (void)addParticipantWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+- (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (userId == self.conversation.myMember.userId){
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
@@ -108,9 +108,9 @@
     }
     [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (member) {
-            NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
+            NXMCallMember *callMember = [[NXMCallMember alloc] initWithMemberId:member.memberId
                                                                               andCallProxy:self];
-            [self.otherParticipants addObject:participant];
+            [self.otherCallMembers addObject:callMember];
             return;
         }
         
@@ -120,7 +120,7 @@
 
 }
 
-- (void)addParticipantWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+- (void)addCallMemberWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (self.status == NXMCallStatusDisconnected) {
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
@@ -141,12 +141,12 @@
 }
 
 - (NXMCallStatus)callStatus {
-    if (self.myParticipant.status == NXMParticipantStatusCompleted || self.myParticipant.status == NXMParticipantStatusCancelled) {
+    if (self.myCallMember.status == NXMCallMemberStatusCompleted || self.myCallMember.status == NXMCallMemberStatusCancelled) {
         return NXMCallStatusDisconnected;
     }
     
-    for (NXMCallParticipant *participant in self.otherParticipants) {
-        if (participant.status != NXMParticipantStatusCompleted && participant.status != NXMParticipantStatusCancelled) {
+    for (NXMCallMember *callMember in self.otherCallMembers) {
+        if (callMember.status != NXMCallMemberStatusCompleted && callMember.status != NXMCallMemberStatusCancelled) {
             return NXMCallStatusConnected;
         }
     }
@@ -156,8 +156,8 @@
 
 #pragma mark - callProxy
 
-- (void)hangup:(NXMCallParticipant *)participant {
-    if (participant != self.myParticipant) {
+- (void)hangup:(NXMCallMember *)callMember {
+    if (callMember != self.myCallMember) {
         // TODO: error
         return;
     }
@@ -165,34 +165,34 @@
     [self.conversation disableMedia];
 }
 
-- (void)hold:(NXMCallParticipant *)participant isHold:(BOOL)isHold {
+- (void)hold:(NXMCallMember *)callMember isHold:(BOOL)isHold {
     
 }
 
-- (void)mute:(NXMCallParticipant *)participant isMuted:(BOOL)isMuted {
+- (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
     if (self.status == NXMCallStatusDisconnected) { return; }
     
-    if (![participant.userId isEqualToString:self.myParticipant.userId]) {
+    if (![callMember.userId isEqualToString:self.myCallMember.userId]) {
         return;
     }
     
     [self.conversation mute:isMuted];
 }
 
-- (void)earmuff:(NXMCallParticipant *)participant isEarmuff:(BOOL)isEarmuff {
+- (void)earmuff:(NXMCallMember *)callMember isEarmuff:(BOOL)isEarmuff {
     
 }
 
-- (void)onChange:(NXMCallParticipant *)participant {
-    if (participant == self.myParticipant &&
-        participant.status == NXMParticipantStatusCompleted) {
+- (void)onChange:(NXMCallMember *)callMember {
+    if (callMember == self.myCallMember &&
+        callMember.status == NXMCallMemberStatusCompleted) {
         
         [self.conversation leaveWithCompletion:^(NSError * _Nullable error) {
             // TODO:
         }];
     }
     
-    [self.delegate statusChanged:participant];
+    [self.delegate statusChanged:callMember];
 }
 
 #pragma mark - NXMConversationDelegate
@@ -224,31 +224,31 @@
 
 #pragma mark - private
 
-- (void)setMyParticipant:(NXMCallParticipant *)participant {
-    _myParticipant = participant;
+- (void)setMyCallMember:(NXMCallMember *)callMember {
+    _myCallMember = callMember;
 }
 
-- (void)handleMemberEvent:(NXMMemberEvent *)member {
-    NXMCallParticipant *participant = [self findParticipant:member.memberId];
-    [participant updateWithMemberEvent:member];
+- (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
+    NXMCallMember *callMember = [self findCallMember:memberEvent.memberId];
+    [callMember updateWithMemberEvent:memberEvent];
 }
 
-- (void)handleMediaEvent:(NXMEvent *)media {
-    NXMCallParticipant *participant = [self findParticipant:media.fromMemberId];
-    [participant updateWithMedia:media];
+- (void)handleMediaEvent:(NXMEvent *)mediaEvent {
+    NXMCallMember *callMember = [self findCallMember:mediaEvent.fromMemberId];
+    [callMember updateWithMediaEvent:mediaEvent];
 }
 
-- (NXMCallParticipant *)findParticipant:(NSString *)memberId {
-    if ([memberId isEqual:self.myParticipant.participantId]) {
-        return self.myParticipant;
+- (NXMCallMember *)findCallMember:(NSString *)memberId {
+    if ([memberId isEqualToString:self.myCallMember.memberId]) {
+        return self.myCallMember;
     }
     
-    for (NXMCallParticipant *participant in self.otherParticipants) {
-        if (![participant.participantId isEqual:memberId]) {
+    for (NXMCallMember *callMember in self.otherCallMembers) {
+        if (![callMember.memberId isEqualToString:memberId]) {
             continue;
         }
         
-        return participant;
+        return callMember;
     }
     
     return nil;

@@ -1,21 +1,21 @@
 //
-//  NXMCallParticipantSubclass.h
+//  NXMCallMemberPrivate.h
 //  StitcClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMCallParticipant.h"
+#import "NXMCallMember.h"
 
 @protocol NXMCallProxy;
 
-@interface NXMCallParticipant (NXMCallParticipantPrivate)
+@interface NXMCallMember (NXMCallMemberPrivate)
 
 - (nullable instancetype)initWithMemberId:(NSString *)memberId andCallProxy:(id<NXMCallProxy>)callProxy;
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy;
 
 - (void)updateWithMember:(NXMMember *)member;
-- (void)updateWithMedia:(NXMEvent *)media;
+- (void)updateWithMediaEvent:(NXMEvent *)mediaEvent;
 - (void)updateWithMemberEvent:(NXMMemberEvent *)member;
 
 @end

@@ -199,8 +199,8 @@
 		F923DDA921985C9500D29065 /* NXMCall.h in Headers */ = {isa = PBXBuildFile; fileRef = F95830AC21342FB5002CA391 /* NXMCall.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDAA21985C9500D29065 /* NXMCall.m in Sources */ = {isa = PBXBuildFile; fileRef = F95830AD21342FB5002CA391 /* NXMCall.m */; };
 		F923DDAB21985C9500D29065 /* NXMCallProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */; };
-		F923DDAC21985C9500D29065 /* NXMCallParticipant.h in Headers */ = {isa = PBXBuildFile; fileRef = F988E49F214AB22B0083D9A7 /* NXMCallParticipant.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DDAD21985C9500D29065 /* NXMCallParticipant.m in Sources */ = {isa = PBXBuildFile; fileRef = F988E4A0214AB22B0083D9A7 /* NXMCallParticipant.m */; };
+		F923DDAC21985C9500D29065 /* NXMCallMember.h in Headers */ = {isa = PBXBuildFile; fileRef = F988E49F214AB22B0083D9A7 /* NXMCallMember.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F923DDAD21985C9500D29065 /* NXMCallMember.m in Sources */ = {isa = PBXBuildFile; fileRef = F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */; };
 		F923DDAE21985C9B00D29065 /* NXMConversation.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3F82164E35D00390258 /* NXMConversation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDAF21985C9B00D29065 /* NXMConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A3F72164E35D00390258 /* NXMConversation.m */; };
 		F923DDB021985C9B00D29065 /* NXMConversationDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -218,7 +218,7 @@
 		F923DDBC21985CAE00D29065 /* NXMStitchContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3B5214FF81400390258 /* NXMStitchContext.h */; };
 		F923DDBD21985CAE00D29065 /* NXMStitchContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A3B6214FF81400390258 /* NXMStitchContext.m */; };
 		F923DDBE21985CAE00D29065 /* NXMStitchContextDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A3DE2153A0FE00390258 /* NXMStitchContextDelegate.h */; };
-		F923DDC121985CB600D29065 /* NXMCallParticipantPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */; };
+		F923DDC121985CB600D29065 /* NXMCallMemberPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8A219342F500C6C36D /* NXMCallMemberPrivate.h */; };
 		F923DDC221985CB600D29065 /* NXMCallPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */; };
 		F923DDC321985CB600D29065 /* NXMConversationEventsQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */; };
 		F923DDC421985CB600D29065 /* NXMConversationEventsQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */; };
@@ -603,12 +603,12 @@
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
 		F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketIOClientStub.m; sourceTree = "<group>"; };
-		F988E49F214AB22B0083D9A7 /* NXMCallParticipant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipant.h; sourceTree = "<group>"; };
-		F988E4A0214AB22B0083D9A7 /* NXMCallParticipant.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallParticipant.m; sourceTree = "<group>"; };
+		F988E49F214AB22B0083D9A7 /* NXMCallMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallMember.h; sourceTree = "<group>"; };
+		F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallMember.m; sourceTree = "<group>"; };
 		F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
 		F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEventPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallProxy.h; sourceTree = "<group>"; };
-		F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallParticipantPrivate.h; sourceTree = "<group>"; };
+		F9B9CB8A219342F500C6C36D /* NXMCallMemberPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallMemberPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
 		F9E5E2F621D3AA8900FC7202 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F9E5E2F821D3AABE00FC7202 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -1332,8 +1332,8 @@
 				92B7A4012164E39200390258 /* NXMClientDelegate.h */,
 				F95830AC21342FB5002CA391 /* NXMCall.h */,
 				F95830AD21342FB5002CA391 /* NXMCall.m */,
-				F988E49F214AB22B0083D9A7 /* NXMCallParticipant.h */,
-				F988E4A0214AB22B0083D9A7 /* NXMCallParticipant.m */,
+				F988E49F214AB22B0083D9A7 /* NXMCallMember.h */,
+				F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */,
 				92B7A3F82164E35D00390258 /* NXMConversation.h */,
 				92B7A3F72164E35D00390258 /* NXMConversation.m */,
 				92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */,
@@ -1423,7 +1423,7 @@
 			isa = PBXGroup;
 			children = (
 				F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */,
-				F9B9CB8A219342F500C6C36D /* NXMCallParticipantPrivate.h */,
+				F9B9CB8A219342F500C6C36D /* NXMCallMemberPrivate.h */,
 				F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */,
 			);
 			path = Call;
@@ -1474,13 +1474,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F923DDAC21985C9500D29065 /* NXMCallParticipant.h in Headers */,
+				F923DDAC21985C9500D29065 /* NXMCallMember.h in Headers */,
 				F9024E7221CA9AF000D58AD0 /* NXMGetConversationsRequest.h in Headers */,
 				F9024EC721CA9AF000D58AD0 /* RTCMediaWrapperDelegate.h in Headers */,
 				F9024EAD21CA9AF000D58AD0 /* NXMSipEvent.h in Headers */,
 				F9024E8521CA9AF000D58AD0 /* NXMSendImageRequest.h in Headers */,
 				F9024EC221CA9AF000D58AD0 /* NXMLogger.h in Headers */,
-				F923DDC121985CB600D29065 /* NXMCallParticipantPrivate.h in Headers */,
+				F923DDC121985CB600D29065 /* NXMCallMemberPrivate.h in Headers */,
 				F9024E6221CA9AF000D58AD0 /* NXMNetworkDelegate.h in Headers */,
 				F9024E3E21CA9AF000D58AD0 /* VPSocketIOClient.h in Headers */,
 				F9024E9921CA9AF000D58AD0 /* NXMImageInfo.h in Headers */,
@@ -1805,7 +1805,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F923DDBD21985CAE00D29065 /* NXMStitchContext.m in Sources */,
-				F923DDAD21985C9500D29065 /* NXMCallParticipant.m in Sources */,
+				F923DDAD21985C9500D29065 /* NXMCallMember.m in Sources */,
 				F9024E7821CA9AF000D58AD0 /* NXMSendImageRequest.m in Sources */,
 				F923DDA121985C8000D29065 /* NXMConversationMembersController.m in Sources */,
 				F9024E7621CA9AF000D58AD0 /* NXMSuspendResumeMediaRequest.m in Sources */,

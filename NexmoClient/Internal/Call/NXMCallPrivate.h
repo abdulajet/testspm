@@ -11,6 +11,6 @@
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation;
 
-- (void)setMyParticipant:(NXMCallParticipant *)participant;
+- (void)setMyCallMember:(NXMCallMember *)callMember;
 
 @end

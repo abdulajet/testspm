@@ -1,20 +1,20 @@
 //
-//  CallParticipant.m
+//  NXMCallMember.m
 //  NexmoClient
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMCallParticipant.h"
+#import "NXMCallMember.h"
 #import "NXMCallProxy.h"
 #import "NXMMember.h"
 #import "NXMCoreEvents.h"
 
-@interface NXMCallParticipant()
+@interface NXMCallMember()
 
 @property (nonatomic, readwrite) NSString *callId;
-@property (nonatomic, readwrite) NSString *participantId;
-@property (nonatomic, readwrite) NXMParticipantStatus status;
+@property (nonatomic, readwrite) NSString *memberId;
+@property (nonatomic, readwrite) NXMCallMemberStatus status;
 @property (nonatomic, readwrite) NSString *userId;
 @property (nonatomic, readwrite) NSString *userName;
 @property (nonatomic, readwrite) BOOL isMuted;
@@ -23,13 +23,13 @@
 
 @end
 
-@implementation NXMCallParticipant
+@implementation NXMCallMember
 
 - (nullable instancetype)initWithMemberId:(NSString *)memberId andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [super init]) {
         self.callProxy = callProxy;
-        self.participantId = memberId;
-        self.status = NXMParticipantStatusDialing;
+        self.memberId = memberId;
+        self.status = NXMCallMemberStatusDialling;
     }
     
     return self;
@@ -59,17 +59,17 @@
     [self.callProxy earmuff:self isEarmuff:isEarmuff];
 }
 
-- (void)updateWithMedia:(NXMEvent *)media {
+- (void)updateWithMediaEvent:(NXMEvent *)mediaEvent {
     
-    NXMParticipantStatus newStatus = self.status;
+    NXMCallMemberStatus newStatus = self.status;
     BOOL isMuted = self.isMuted;
     
-    if (media.type == NXMEventTypeMedia) {
-        NXMMediaEvent *eventMedia = (NXMMediaEvent *)media;
-        newStatus = eventMedia.mediaSettings.isEnabled ? NXMParticipantStatusAnswered : NXMParticipantStatusCompleted;
-        isMuted = eventMedia.mediaSettings.isSuspended;
-    } else if ([media isKindOfClass:[NXMMediaSuspendEvent class]]){
-       isMuted = ((NXMMediaSuspendEvent *)media).isSuspended;
+    if (mediaEvent.type == NXMEventTypeMedia) {
+        NXMMediaEvent *mediaEventCast = (NXMMediaEvent *)mediaEvent;
+        newStatus = mediaEventCast.mediaSettings.isEnabled ? NXMCallMemberStatusAnswered : NXMCallMemberStatusCompleted;
+        isMuted = mediaEventCast.mediaSettings.isSuspended;
+    } else if ([mediaEvent isKindOfClass:[NXMMediaSuspendEvent class]]){
+       isMuted = ((NXMMediaSuspendEvent *)mediaEvent).isSuspended;
     }
     
     if (newStatus != self.status || isMuted != self.isMuted) {
@@ -98,17 +98,17 @@
 }
 
 - (void)updateWithMemberStatus:(NXMMemberState)state isMedia:(BOOL)isMedia {
-    NXMParticipantStatus newStatus = self.status;
+    NXMCallMemberStatus newStatus = self.status;
     switch (state) {
         case NXMMemberStateInvited:
-            newStatus = NXMParticipantStatusCalling;
+            newStatus = NXMCallMemberStatusCalling;
             break;
         case NXMMemberStateLeft:
-            newStatus = self.status == NXMParticipantStatusCalling ? NXMParticipantStatusCancelled : NXMParticipantStatusCompleted;
+            newStatus = self.status == NXMCallMemberStatusCalling ? NXMCallMemberStatusCancelled : NXMCallMemberStatusCompleted;
             break;
         case NXMMemberStateJoined:
-            if (self.status != NXMParticipantStatusAnswered) {
-                newStatus = isMedia ? NXMParticipantStatusAnswered : NXMParticipantStatusStarted;
+            if (self.status != NXMCallMemberStatusAnswered) {
+                newStatus = isMedia ? NXMCallMemberStatusAnswered : NXMCallMemberStatusStarted;
             }
             break;
         default:

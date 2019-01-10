@@ -143,7 +143,7 @@
 - (void)didCreateCall:(NXMCall *)call {
     self.call = call;
         if(!self.isControllerInIncomingCallState) {
-            [self updateInCallStatusLabelWithText:@"Dialing"];
+            [self updateInCallStatusLabelWithText:@"Dialling"];
     }
 }
 
@@ -193,7 +193,7 @@
 }
 
 - (IBAction)mutePressed:(id)sender {
-    [self.call.myParticipant mute:!self.call.myParticipant.isMuted];
+    [self.call.myCallMember mute:!self.call.myCallMember.isMuted];
 }
 
 - (IBAction)speakerPressed:(id)sender {
@@ -251,10 +251,10 @@
 
 
 #pragma mark - NXMCallDelegate
-- (void)statusChanged:(NXMCallParticipant *)participant {
+- (void)statusChanged:(NXMCallMember *)member {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self statusChanged:participant];
+            [self statusChanged:member];
         });
 
         return;
@@ -271,14 +271,14 @@
             break;
     }
     
-    if ([participant.userId isEqualToString:self.call.myParticipant.userId]) {
-        [self.InCallMuteButton setSelected:participant.isMuted];
+    if ([member.userId isEqualToString:self.call.myCallMember.userId]) {
+        [self.InCallMuteButton setSelected:member.isMuted];
     }
 }
 
 #pragma mark - Private
 - (void)endCall {
-    [self.call.myParticipant hangup];
+    [self.call.myCallMember hangup];
     
     if (self.isSpeaker) {
         if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil]){
