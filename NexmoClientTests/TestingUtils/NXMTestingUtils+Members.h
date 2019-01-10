@@ -11,8 +11,9 @@
 
 @interface NXMTestingUtils (Members)
 
+
 + (NXMMember *)memberWithConversationId:(NSString *)conversationId andUserId:(NSString *)userId state:(NXMMemberState)state;
-+ (NXMMember *)memberWithConversationId:(NSString *)conversationId userId:(NSString *)userId state:(NXMMemberState)state name:(NSString *)name;
-+ (NXMMember *)memberWithConversationId:(NSString *)conversationId userId:(NSString *)userId state:(NXMMemberState)state name:(NSString *)name memberId:(NSString *)memberId;
++ (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state;
++ (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state memberId:(NSString *)memberId;
 
 @end

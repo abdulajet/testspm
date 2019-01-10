@@ -12,16 +12,17 @@
 
 + (NXMMember *)memberWithConversationId:(NSString *)conversationId andUserId:(NSString *)userId state:(NXMMemberState)state {
     NSString *name = [@"name_" stringByAppendingString:userId];
-    return [self memberWithConversationId:conversationId userId:userId state:state name:name];
+    NXMUser *user = [[NXMUser alloc] initWithId:userId name:name];
+    return [self memberWithConversationId:conversationId user:user state:state];
 }
 
-+ (NXMMember *)memberWithConversationId:(NSString *)conversationId userId:(NSString *)userId state:(NXMMemberState)state name:(NSString *)name {
-    NSString *memberId = [@"member_" stringByAppendingString:userId];
-    return [self memberWithConversationId:conversationId userId:userId state:state name:name memberId:memberId];
++ (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state{
+    NSString *memberId = [@"member_" stringByAppendingString:user.userId];
+    return [self memberWithConversationId:conversationId user:user state:state memberId:memberId];
 }
 
-+ (NXMMember *)memberWithConversationId:(NSString *)conversationId userId:(NSString *)userId state:(NXMMemberState)state name:(NSString *)name memberId:(NSString *)memberId {
-    return [[NXMMember alloc] initWithMemberId:memberId conversationId:conversationId userId:userId name:name state:state];
++ (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state memberId:(NSString *)memberId {
+    return [[NXMMember alloc] initWithMemberId:memberId conversationId:conversationId user:user state:state];
 }
 
 @end

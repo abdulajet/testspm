@@ -15,6 +15,7 @@
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMCore.h"
+#import "NXMErrorsPrivate.h"
 
 @interface NXMConversationTests : XCTestCase
 @property (nonatomic) id stitchContextMock;
