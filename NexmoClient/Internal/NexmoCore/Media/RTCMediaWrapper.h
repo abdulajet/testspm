@@ -12,7 +12,7 @@
 #import "NXMEnums.h"
 #import "NXMNetworkCallbacks.h"
 #import "RTCMediaWrapperDelegate.h"
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 
 @interface RTCMediaWrapper : NSObject<MRTCMediaDelegate>
 

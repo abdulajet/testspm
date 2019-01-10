@@ -234,6 +234,7 @@
 		F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921121BD703200FA45A1 /* MainTabViewController.m */; };
 		F942921521BD720700FA45A1 /* ContactsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921421BD720700FA45A1 /* ContactsListViewController.m */; };
 		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
+		F94888C621E78D800075237E /* NXMErrorsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F94888C521E78D800075237E /* NXMErrorsPrivate.h */; };
 		F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */; };
 		F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F621D3AA8900FC7202 /* LICENSE */; };
 		F9E5E2F921D3AABE00FC7202 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F821D3AABE00FC7202 /* README.md */; };
@@ -599,6 +600,7 @@
 		F942921421BD720700FA45A1 /* ContactsListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListViewController.m; sourceTree = "<group>"; };
 		F942921621BD9B6C00FA45A1 /* UserSettingsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingsViewController.h; sourceTree = "<group>"; };
 		F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserSettingsViewController.m; sourceTree = "<group>"; };
+		F94888C521E78D800075237E /* NXMErrorsPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMErrorsPrivate.h; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
@@ -825,6 +827,7 @@
 				92B7A3F22163AEBC00390258 /* EventsQueue */,
 				92B7A3B4214FF7E000390258 /* StitchContext */,
 				92B7A393213FCD0700390258 /* EventDispatcher */,
+				F94888C521E78D800075237E /* NXMErrorsPrivate.h */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -1480,6 +1483,7 @@
 				F9024EAD21CA9AF000D58AD0 /* NXMSipEvent.h in Headers */,
 				F9024E8521CA9AF000D58AD0 /* NXMSendImageRequest.h in Headers */,
 				F9024EC221CA9AF000D58AD0 /* NXMLogger.h in Headers */,
+				F94888C621E78D800075237E /* NXMErrorsPrivate.h in Headers */,
 				F923DDC121985CB600D29065 /* NXMCallMemberPrivate.h in Headers */,
 				F9024E6221CA9AF000D58AD0 /* NXMNetworkDelegate.h in Headers */,
 				F9024E3E21CA9AF000D58AD0 /* VPSocketIOClient.h in Headers */,

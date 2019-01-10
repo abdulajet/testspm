@@ -6,7 +6,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 
 NSString *const NXMErrorDomain = @"com.nexmo.errorDomain";
 

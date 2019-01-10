@@ -7,7 +7,7 @@
 
 #import "NXMCall.h"
 #import "NXMCallProxy.h"
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMCallMemberPrivate.h"

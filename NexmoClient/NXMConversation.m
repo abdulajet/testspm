@@ -11,6 +11,8 @@
 #import "NXMConversationMembersController.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMBlocksHelper.h"
+#import "NXMErrorsPrivate.h"
+
 
 @interface NXMConversation () <NXMConversationEventsQueueDelegate>
 @property (readwrite, nonatomic) NXMStitchContext *stitchContext;

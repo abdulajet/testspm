@@ -12,6 +12,8 @@
 #import "NXMCallMemberPrivate.h"
 #import "NXMBlocksHelper.h"
 #import "NXMLogger.h"
+#import "NXMErrorsPrivate.h"
+
 
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 

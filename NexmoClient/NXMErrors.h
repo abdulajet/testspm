@@ -54,8 +54,3 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
 
     
 };
-
-
-@interface NXMErrors : NSObject
-+(NSError *)nxmErrorWithErrorCode:(NXMErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo;
-@end

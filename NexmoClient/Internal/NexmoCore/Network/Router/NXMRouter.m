@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 #import "NXMRouter.h"
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 #import "NXMErrorParser.h"
 #import "NXMAddUserRequest.h"
 #import "NXMSendTextEventRequest.h"

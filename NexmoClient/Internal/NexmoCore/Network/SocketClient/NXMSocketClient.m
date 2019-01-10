@@ -12,7 +12,7 @@
 #import "NXMSocketClientDefine.h"
 
 #import "NXMLogger.h"
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 
 #import "NXMCoreEvents.h"
 #import "NXMRtcAnswerEvent.h"

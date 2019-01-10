@@ -10,7 +10,7 @@
 #import "NXMNetworkDelegate.h"
 #import "NXMRouter.h"
 #import "NXMSocketClient.h"
-#import "NXMErrors.h"
+#import "NXMErrorsPrivate.h"
 #import "NXMLogger.h"
 
 @interface NXMNetworkManager()
