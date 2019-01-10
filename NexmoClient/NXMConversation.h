@@ -9,7 +9,7 @@
 
 #import "NXMConversationDelegate.h"
 #import "NXMConversationEventsController.h"
-#import "NXMConversationMembersController.h"
+#import "NXMMember.h"
 
 typedef NS_ENUM(NSInteger, NXMAttachmentType) {
     NXMAttachmentTypeImage

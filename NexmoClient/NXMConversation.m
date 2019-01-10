@@ -12,6 +12,7 @@
 #import "NXMConversationEventsQueue.h"
 #import "NXMBlocksHelper.h"
 #import "NXMErrorsPrivate.h"
+#import "NXMConversationMembersController.h"
 
 
 @interface NXMConversation () <NXMConversationEventsQueueDelegate>

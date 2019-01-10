@@ -188,7 +188,7 @@
 		F9024EF221CBB5BD00D58AD0 /* IncomingCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024EF121CBB5BD00D58AD0 /* IncomingCallCreator.m */; };
 		F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DD9621985BF600D29065 /* StitchClientTests.m */; };
 		F923DD9921985BF600D29065 /* NexmoClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DD8B21985BF600D29065 /* NexmoClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DDA021985C8000D29065 /* NXMConversationMembersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A40F216A639F00390258 /* NXMConversationMembersController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F923DDA021985C8000D29065 /* NXMConversationMembersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A40F216A639F00390258 /* NXMConversationMembersController.h */; };
 		F923DDA121985C8000D29065 /* NXMConversationMembersController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A410216A639F00390258 /* NXMConversationMembersController.m */; };
 		F923DDA321985C8700D29065 /* NXMConversationEventsController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A4072164E52200390258 /* NXMConversationEventsController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA421985C8700D29065 /* NXMConversationEventsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A4062164E52100390258 /* NXMConversationEventsController.m */; };
