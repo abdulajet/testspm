@@ -18,7 +18,7 @@
 @property (nonatomic, readwrite) NXMUser *user;
 @property (nonatomic, readwrite) BOOL isMuted;
 
-@property (nonatomic, readwrite) id<NXMCallProxy> callProxy; // tmp
+@property (nonatomic, readwrite, weak) id<NXMCallProxy> callProxy; // tmp
 
 @end
 
