@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
     NXMErrorCodePushParsingFailed,
     
     NXMErrorCodeNotImplemented,
+    NXMErrorCodeMissingDelegate,
     NXMErrorCodePayloadTooBig
-
     
 };

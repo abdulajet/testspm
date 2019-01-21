@@ -189,6 +189,10 @@
 }
 
 - (void)setupClientWithUser:(NTAUserInfo *)userInfo {
+    if(self.client) { //TODO: this is because creating two clients without holding reference to both creates crashes in miniRTC. change after it is fixed
+        return;
+    }
+    
     self.client = [[NXMClient alloc] initWithToken:userInfo.csUserToken];
     [self.client setDelegate:self];
 }

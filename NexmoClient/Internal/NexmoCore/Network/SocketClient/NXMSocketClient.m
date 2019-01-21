@@ -23,7 +23,7 @@
 
 @interface NXMSocketClient()
 
-@property id<NXMSocketClientDelegate> delegate;
+@property (weak) id<NXMSocketClientDelegate> delegate;
 @property VPSocketIOClient *socket;
 @property NSString *token;
 @property NXMConnectionStatus status;
@@ -301,9 +301,9 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (void)subscribeVPSocketEvents {
-
+    __weak NXMSocketClient *weakSelf = self;
     [self.socket on:kSocketEventStatusChange callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
-        [self socketDidChangeStatus];
+        [weakSelf socketDidChangeStatus];
     }];
 
     [self.socket on:kSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
@@ -327,162 +327,172 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
 }
 
 - (void)subscribeLoginEvents {
+    __weak NXMSocketClient *weakSelf = self;
+
     [self.socket on:kNXMSocketEventLoginSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketLoginSuccess"];
-        [self didServerLoginWithData:data];
+        [weakSelf didServerLoginWithData:data];
     }];
     
     [self.socket on:kNXMSocketEventSessionLogoutSuccess callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketLogoutSuccess"];
-        [self didServerLogout];
+        [weakSelf didServerLogout];
     }];
     
     [self.socket on:kNXMSocketEventSessionTerminated callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketSessionTerminated"];
-        [self didServerLogout];
+        [weakSelf didServerLogout];
     }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
-        [self didFailLoginWithError:NXMErrorCodeSessionInvalid];
+        [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
-        [self didFailLoginWithError:NXMErrorCodeSessionInvalid];
+        [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
-        [self didFailLoginWithError:NXMErrorCodeMaxOpenedSessions];
+        [weakSelf didFailLoginWithError:NXMErrorCodeMaxOpenedSessions];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
-        [self didFailLoginWithError:NXMErrorCodeTokenInvalid]; //TODO: check if this might happen without meaning a logout
+        [weakSelf didFailLoginWithError:NXMErrorCodeTokenInvalid]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
-        [self didFailLoginWithError:NXMErrorCodeTokenExpired]; //TODO: check if this might happen without meaning a logout
+        [weakSelf didFailLoginWithError:NXMErrorCodeTokenExpired]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
-        [self.delegate connectionStatusChanged:NXMConnectionStatusConnected reason:NXMConnectionStatusReasonTokenRefreshed];
+        [weakSelf.delegate connectionStatusChanged:NXMConnectionStatusConnected reason:NXMConnectionStatusReasonTokenRefreshed];
     }];
 }
 
 - (void)subscribeMemberEvents {
+    __weak NXMSocketClient *weakSelf = self;
+
     [self.socket on:kNXMSocketEventMemberJoined callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberJoined"];
-        [self onMemberJoined:data emitter:emitter];
+        [weakSelf onMemberJoined:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventMemberInvited callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberInvited"];
-        [self onMemberInvited:data emitter:emitter];
+        [weakSelf onMemberInvited:data emitter:emitter];
     }];
     
     
     [self.socket on:kNXMSocketEventMemberLeft callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberLeft"];
-        [self onMemberLeft:data emitter:emitter];
+        [weakSelf onMemberLeft:data emitter:emitter];
     }];
 }
 
 - (void)subscribeTextEvents {
+    __weak NXMSocketClient *weakSelf = self;
+
     [self.socket on:kNXMSocketEventText callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventText"];
-        [self onTextRecevied:data emitter:emitter];
+        [weakSelf onTextRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextSuccess"];
-     //   [self onTextRecevied:data emitter:emitter];
+     //   [weakSelf onTextRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventMessageDelete callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextDelete"];
-        [self onMessageDeleted:data emitter:emitter];
+        [weakSelf onMessageDeleted:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextSeen"];
-        [self onTextSeen:data emitter:emitter];
+        [weakSelf onTextSeen:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTextDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextDelivered"];
-        [self onTextDelivered:data emitter:emitter];
+        [weakSelf onTextDelivered:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImage callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImage"];
-        [self onImageRecevied:data emitter:emitter];
+        [weakSelf onImageRecevied:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImageSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImageSeen"];
-        [self onImageSeen:data emitter:emitter];
+        [weakSelf onImageSeen:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventImageDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImageDelivered"];
-        [self onImageDelivered:data emitter:emitter];
+        [weakSelf onImageDelivered:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTypingOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTypingOn"];
-        [self onTextTypingOn:data emitter:emitter];
+        [weakSelf onTextTypingOn:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventTypingOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTypingOff"];
-        [self onTextTypingOff:data emitter:emitter];
+        [weakSelf onTextTypingOff:data emitter:emitter];
     }];
 }
 
 - (void)subscribeRTCEvents {
+    __weak NXMSocketClient *weakSelf = self;
+
     [self.socket on:kNXMSocketEventRtcAnswer callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventRtcAnswer"];
-        [self onRTCAnswer:data emitter:emitter];
+        [weakSelf onRTCAnswer:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventMemebrMedia callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemebrMedia"];
-        [self onRTCMemberMedia:data emitter:emitter];
+        [weakSelf onRTCMemberMedia:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventAudioMuteOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioMuteOn"];
-        [self onRTCAudioMuteOn:data emitter:emitter];
+        [weakSelf onRTCAudioMuteOn:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventAudioMuteOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioMuteOff"];
-        [self onRTCAudioMuteOff:data emitter:emitter];
+        [weakSelf onRTCAudioMuteOff:data emitter:emitter];
     }];
 }
 - (void)subscribeSipEvents{
+    __weak NXMSocketClient *weakSelf = self;
+
     [self.socket on:kNXMSocketEventSipRinging callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipRinging"];
-        [self onSipRinging:data emitter:emitter];
+        [weakSelf onSipRinging:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventSipAnswered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipAnswered"];
-        [self onSipAnswered:data emitter:emitter];
+        [weakSelf onSipAnswered:data emitter:emitter];
     }];
 
     [self.socket on:kNXMSocketEventSipHangup callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipHangup"];
-        [self onSipHangup:data emitter:emitter];
+        [weakSelf onSipHangup:data emitter:emitter];
     }];
     
     [self.socket on:kNXMSocketEventSipStatus callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipStatus"];
-        [self onSipStatus:data emitter:emitter];
+        [weakSelf onSipStatus:data emitter:emitter];
     }];
 }
 

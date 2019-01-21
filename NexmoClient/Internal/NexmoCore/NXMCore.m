@@ -17,7 +17,7 @@
 
 @interface NXMCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
 
-@property id<NXMCoreDelegate> delegate;
+@property (weak) id<NXMCoreDelegate> delegate;
 @property NXMNetworkManager *network;
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;

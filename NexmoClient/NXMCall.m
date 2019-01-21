@@ -22,7 +22,7 @@
 @property (readwrite, nonatomic) NSMutableArray<NXMCallMember *> *otherCallMembers;
 @property (readwrite, nonatomic) NXMCallMember *myCallMember;
 
-@property (readwrite, nonatomic) id<NXMCallDelegate> delegate;
+@property (readwrite, nonatomic, weak) id<NXMCallDelegate> delegate;
 @property (readwrite, nonatomic) NXMConversationEventsQueue *eventsQueue;
 
 @property NSInteger lastEventId;

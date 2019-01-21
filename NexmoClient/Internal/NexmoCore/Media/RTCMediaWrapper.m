@@ -11,7 +11,7 @@
 
 @interface RTCMediaWrapper()
 @property MRTCMedia *mrtcMedia;
-@property (nonatomic) id<RTCMediaWrapperDelegate> delegate;
+@property (nonatomic, weak) id<RTCMediaWrapperDelegate> delegate;
 @property NSString* lastMemberId; // TODO: remove temporary for test
 @end
 
@@ -161,6 +161,11 @@
 
 
 - (void)sendSDP:(NSString*)sdp andMediaInfo:(MRTCMediaInfo *)mediaInfo andType:(MRTCMediaNetworkSdpType)type andUuid:(NSString *)uuid completionHandler:(void (^)(NSString *, NSError *, const NSString *))completionHandler {
+    if(!self.delegate) {
+        completionHandler(nil, [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMissingDelegate andUserInfo:nil], uuid);
+        return;
+    }
+    
     [self.delegate sendSDP:sdp andMediaInfo:mediaInfo onSuccess:^(NSString * _Nullable value) {
         completionHandler(value, nil,uuid);
     } onError:^(NSError * _Nullable error) {
@@ -169,18 +174,33 @@
 }
 
 - (void)terminateRtcIdWithMediaInfo:(MRTCMediaInfo *)mediaInfo rtcId:(NSString *)rtcId uuid:(NSString *)uuid completionHandler:(void (^)(NSError *, NSString *))completionHandler {
+    
+    if(!self.delegate) {
+        completionHandler([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMissingDelegate andUserInfo:nil], uuid);
+        return;
+    }
+    
     [self.delegate terminateRtc:mediaInfo rtcId:rtcId completionHandler:^(NSError * error) {
         completionHandler(error, uuid);
     }];
 }
 
 - (void)onMuteStateChanged: (NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType andUuid:(NSString *)uuid {
+    if(!self.delegate) {
+        return;
+    }
+    
     [self.delegate didMuteStateChangeWithMediaInfo:[self nxmMediaInfoWithMRTCMediaInfo:mediaInfo andRtcId:rtcId]
-                                         andIsMute:isMute
-                                      andMediaType:[self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType]];
+                                     andIsMute:isMute
+                                  andMediaType:[self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType]];
 }
 
 - (void)sendMuteState:(const NSString *)rtcId andMediaInfo:(MRTCMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(MRTCMediaType)mediaType andUuid:(NSString *)uuid completionHandler:(void (^)(bool, const NSString *))completionHandler {
+    if(!self.delegate) {
+        completionHandler(false, uuid);
+        return;
+    }
+    
     NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType];
     if(nxmMediaType == NXMMediaTypeNone) {
         [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType];

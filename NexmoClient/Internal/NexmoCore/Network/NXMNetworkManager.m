@@ -16,7 +16,7 @@
 @interface NXMNetworkManager()
 @property NXMSocketClient *socketClient;
 @property NXMRouter *router;
-@property (nonatomic) id<NXMNetworkDelegate> delegate;
+@property (nonatomic, weak) id<NXMNetworkDelegate> delegate;
 
 @property NXMSuccessCallbackWithObject loginSuccessCallback;
 @property NXMErrorCallback loginErrorCallback;
