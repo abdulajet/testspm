@@ -8,7 +8,6 @@ Pod::Spec.new do |s|
   s.license = { :type => 'MIT', :file => 'LICENSE' }
   s.author            = { "Nexmo Dev" => "vonageci@vonage.com"}
   s.social_media_url  = "https://twitter.com/Nexmo"
-  s.documentation_url = "https://developer.nexmo.com/"
 
   s.platform     =  :ios, "10.0"
 
