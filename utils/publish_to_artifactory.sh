@@ -24,7 +24,10 @@ if [ $? -ne 0 ]; then
 fi
 
 pushd $PWD/../Output/Debug
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework ../../CHANGELOG.md ../../LICENSE ../../README.md
+cp ../../CHANGELOG.md ../../LICENSE ../../README.md .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md
+rm CHANGELOG.md LICENSE README.md
+
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_DEBUG" -T NexmoClient.zip
 
 if [ $? -ne 0 ]; then
@@ -35,7 +38,11 @@ fi
 popd
 
 pushd $PWD/../Output/Release
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework ../../CHANGELOG.md ../../LICENSE ../../README.md
+
+cp ../../CHANGELOG.md ../../LICENSE ../../README.md .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md
+rm CHANGELOG.md LICENSE README.md
+
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_RELEASE" -T NexmoClient.zip
 
 if [ $? -ne 0 ]; then
