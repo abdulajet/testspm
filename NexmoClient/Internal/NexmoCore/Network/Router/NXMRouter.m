@@ -972,11 +972,10 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
-    NXMMemberEvent* event = [[NXMMemberEvent alloc] init];
     
     NSString *userId = dict[@"body"][@"user"][@"user_id"] ? dict[@"body"][@"user"][@"user_id"] : dict[@"body"][@"user"][@"id"];
     NXMUser *user = [[NXMUser alloc] initWithId:userId name:dict[@"body"][@"user"][@"name"]];
-
+    
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:conversationId
                                                                             type:NXMEventTypeMember
                                                                     fromMemberId:[self getFromMemberId:dict]
@@ -988,11 +987,13 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                                                      phoneNumber:dict[@"body"][@"channel"][@"to"][@"number"]
                                                                            media:nil
                                                                      channelType:dict[@"body"][@"channel"][@"type"]
-                                                                     channelData:(event.channelType == NXMChannelTypePhone ? dict[@"body"][@"channel"][@"to"][@"number"] : nil)
+                                                                     channelData:nil
                                                                       knockingId:dict[@"body"][@"channel"][@"knocking_id"]];
+    
+    memberEvent.channelData = memberEvent.channelType == NXMChannelTypePhone ? dict[@"body"][@"channel"][@"to"][@"number"] : nil;
     memberEvent.creationDate = [self getCreationDate:dict];
     
-    return event;
+    return memberEvent;
 }
 
 - (NXMMediaEvent* )parseMediaEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
