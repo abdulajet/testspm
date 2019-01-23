@@ -32,7 +32,7 @@ fi
 CONFIGURATIONS=(Debug Release)
 for CONFIG in ${CONFIGURATIONS[@]}; do
 
-	ARTIFACTORY_PATH=$(get_artifactory_cdn_path $CONFIG $PLIST_VERSION)
+	ARTIFACTORY_PATH=$(get_cdn_artifact_path $CONFIG $PLIST_VERSION)
 
 	if [ "$CONFIG" == "Debug" ]; then
 		NAME_WITH_CONFIGURATION="NexmoClient_Debug"
