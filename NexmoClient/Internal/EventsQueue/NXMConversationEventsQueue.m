@@ -8,17 +8,19 @@
 #import "NXMConversationEventsQueue.h"
 #import "NXMStitchContext.h"
 #import "NXMEventsDispatcherNotificationHelper.h"
-
-static NSInteger const sequenceIdNotDefine = -1;
+#import "NXMLogger.h"
 
 @interface NXMConversationEventsQueue()
 
 @property (strong,nonatomic)NSString *conversationId;
 @property (strong,nonatomic)NSMutableArray<NXMEvent*>*eventsQueue;
 @property (strong,nonatomic)NSOperationQueue *operationQueue;
-@property (nonatomic)NSInteger currentHandledSequenceId;
+@property (nonatomic, readwrite) NSInteger currentHandledSequenceId;
 @property (nonatomic, readwrite) NSInteger sequenceIdSyncingFrom;
-@property (nonatomic)BOOL isProcessingRequest;
+@property (nonatomic, readwrite) NSInteger highestQueriedSequenceId;
+@property (nonatomic) NSUInteger numOfProcessingRequests;
+@property (nonatomic, readonly, getter=getIsProcessingRequests) BOOL isProcessingRequests;
+
 @property (strong,nonatomic)NSMutableArray <id <NSObject>>*observers;
 @property (strong,nonatomic)NXMStitchContext *stitchContext;
 @property int sucsessNumber;
@@ -27,7 +29,7 @@ static NSInteger const sequenceIdNotDefine = -1;
 @end
 
 @implementation NXMConversationEventsQueue
-
+#pragma mark - Init
 - (nullable instancetype)initWithConversationDetails:(nonnull NXMConversationDetails*)ConversationDetails
                                        stitchContext:(nonnull NXMStitchContext*)stitchContext {
     return [self initWithConversationDetails:ConversationDetails stitchContext:stitchContext delegate:nil];
@@ -42,8 +44,9 @@ static NSInteger const sequenceIdNotDefine = -1;
         self.eventsQueue = [[NSMutableArray alloc] init];
         self.operationQueue = [[NSOperationQueue alloc] init];
         self.operationQueue.maxConcurrentOperationCount = 1;
-        self.currentHandledSequenceId = ConversationDetails.sequence_number - 1;
+        self.currentHandledSequenceId = ConversationDetails.sequence_number;
         self.sequenceIdSyncingFrom = ConversationDetails.sequence_number;
+        self.highestQueriedSequenceId = ConversationDetails.sequence_number;
         self.observers = [[NSMutableArray alloc] init];
         self.stitchContext = stitchContext;
         self.delegate = delegate;
@@ -56,6 +59,11 @@ static NSInteger const sequenceIdNotDefine = -1;
     [self deregisterFromDispatchedEvents];
 }
 
+- (BOOL)getIsProcessingRequests {
+    return self.numOfProcessingRequests != 0;
+}
+
+#pragma mark - Dispatcher Registration
 - (void)deregisterFromDispatchedEvents {
     for(id <NSObject> observer in self.observers){
         [self.stitchContext.eventsDispatcher.notificationCenter removeObserver:observer];
@@ -66,7 +74,17 @@ static NSInteger const sequenceIdNotDefine = -1;
     __weak NXMConversationEventsQueue *weakSelf = self;
     id <NSObject> observer = [self.stitchContext.eventsDispatcher.notificationCenter addObserverForName:eventName object:nil queue:self.operationQueue usingBlock:^(NSNotification * _Nonnull note) {
         NXMEvent *event = [NXMEventsDispatcherNotificationHelper<NXMEvent *> nxmNotificationModelWithNotification:note];
-        [weakSelf handleDisptchedEvent: event];
+        [weakSelf handleDispatchedEvent: event];
+    }];
+    [self.observers addObject:observer];
+}
+
+- (void)registerToDispatchedConnectionStatus:(NSString *)eventName {
+    __weak NXMConversationEventsQueue *weakSelf = self;
+    id <NSObject> observer = [self.stitchContext.eventsDispatcher.notificationCenter addObserverForName:eventName object:nil queue:self.operationQueue usingBlock:^(NSNotification * _Nonnull note) {
+        NXMEventsDispatcherConnectionStatusModel *connectionStatusModel = [NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherConnectionStatusModel *> nxmNotificationModelWithNotification:note];
+        
+        [weakSelf handleDispatchedConnectionStatusWithConnectionStatus:connectionStatusModel.status];
     }];
     [self.observers addObject:observer];
 }
@@ -76,22 +94,30 @@ static NSInteger const sequenceIdNotDefine = -1;
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMember];
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMessage];
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMessageStatus];
+    
+    [self registerToDispatchedConnectionStatus:kNXMEventsDispatcherNotificationConnectionStatus];
 }
 
-- (void)handleDisptchedEvent:(NXMEvent*)event{
+#pragma mark - Dispatch Handlers
+
+- (void)handleDispatchedConnectionStatusWithConnectionStatus:(NXMConnectionStatus)connectionStatus {
+    if(connectionStatus != NXMConnectionStatusConnected) {
+        return;
+    }
+    
+    [self queryEventsFromServerUpToLastEvent];
+}
+
+- (void)handleDispatchedEvent:(NXMEvent*)event{
     if(![event.conversationId isEqualToString:self.conversationId]){
         return;
     }
-    [self insertEvent:event];
+    [self startProcessingRequest];
+    [self.eventsQueue addObject:event];
+    [self endProcessingRequest];
 }
 
-- (void)insertEvent:(NXMEvent*)event{
-    [self.eventsQueue addObject:event];
-    if(self.isProcessingRequest){
-        return;
-    }
-    [self processNextEvent];
-}
+#pragma mark - Process Queued Events
 
 - (void)processNextEvent{
     NXMEvent *event = self.eventsQueue.firstObject;
@@ -99,50 +125,41 @@ static NSInteger const sequenceIdNotDefine = -1;
         [self finishHandleEventsSequence];
         return;
     }
+    
+    [NXMLogger infoWithFormat:@"### Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",event.sequenceId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
+    
     if(event.sequenceId < self.sequenceIdSyncingFrom) {
         [self doneProcessingEvent:event];
         return;
     }
     
-    if(self.currentHandledSequenceId == sequenceIdNotDefine || 
-       event.sequenceId == self.currentHandledSequenceId + 1){
-        self.currentHandledSequenceId = event.sequenceId;
-        [self handleEvent:event];
-        [self doneProcessingEvent:event];
-        return;
-    }
-    if(event.sequenceId <= self.currentHandledSequenceId){
-        [self handleEvent:event];
-        [self doneProcessingEvent:event];
+    if([self isMissingEventsWithNextEvent:event]) {
+        [self queryEventsFromServerUpToEndId:@(event.sequenceId - 1)];
         return;
     }
     
-
-    
-    //request events
-    self.isProcessingRequest = YES;
-    [self finishHandleEventsSequence];
-    __weak NXMConversationEventsQueue *weakSelf = self;
-    [self.stitchContext.coreClient getEventsInConversation:self.conversationId startId:@(self.currentHandledSequenceId + 1) endId:@(event.sequenceId - 1) onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
-        [weakSelf.operationQueue addOperationWithBlock:^{
-            [weakSelf handleGetEventResponse:events updatedSequenceId:(event.sequenceId - 1)];
-        }];
-    } onError:^(NSError * _Nullable error) {
-        [weakSelf.operationQueue addOperationWithBlock:^{
-            weakSelf.isProcessingRequest = NO;
-            //TODO handle spesific errors in case that we want handle next events
-        }];
-    }];
+    [self handleEvent:event];
 }
 
--(void)handleGetEventResponse:(NSArray<NXMEvent*>*)events updatedSequenceId:(NSInteger)updatedSequenceId{
-    self.currentHandledSequenceId = updatedSequenceId;
-    self.isProcessingRequest = NO;
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"sequenceId" ascending:YES];
-    NSArray *sortedEventsArray = [events sortedArrayUsingDescriptors:@[sort]];
-    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, sortedEventsArray.count)];
-    [self.eventsQueue insertObjects:sortedEventsArray atIndexes:indexes];
-    [self processNextEvent];
+- (BOOL)isMissingEventsWithNextEvent:(NXMEvent *)event {
+    return event.sequenceId > self.currentHandledSequenceId + 1 && event.sequenceId > self.highestQueriedSequenceId + 1;
+}
+
+- (void)handleEvent:(NXMEvent*)event {
+    BOOL shouldHandleEvent = event.sequenceId > self.currentHandledSequenceId ||
+                             event.type == NXMEventTypeMessageStatus;
+    
+    if(shouldHandleEvent &&
+       [self.delegate respondsToSelector:@selector(handleEvent:)]) {
+        [NXMLogger infoWithFormat:@"### Handeling #%li of type %li",event.sequenceId, event.type];
+        [self.delegate handleEvent:event];
+    }
+    
+    if(event.sequenceId > self.currentHandledSequenceId) {
+        self.currentHandledSequenceId = event.sequenceId;
+    }
+    
+    [self doneProcessingEvent:event];
 }
 
 -(void)doneProcessingEvent:(NXMEvent*)event{
@@ -150,16 +167,86 @@ static NSInteger const sequenceIdNotDefine = -1;
     [self processNextEvent];
 }
 
-- (void)handleEvent:(NXMEvent*)event{
-    if([self.delegate respondsToSelector:@selector(handleEvent:)]){
-        [self.delegate handleEvent:event];
-    }
-}
-
 - (void)finishHandleEventsSequence{
     if([self.delegate respondsToSelector:@selector(finishHandleEventsSequence)]){
         [self.delegate finishHandleEventsSequence];
     }
+}
+
+#pragma mark - Query Event Sequence
+
+- (void)queryEventsFromServerUpToLastEvent {
+    [NXMLogger info:@"Querying events up to last event"];
+    [self queryEventsFromServerUpToEndId:nil];
+}
+
+- (void)queryEventsFromServerUpToEndId:(NSNumber *)endId {
+    [self startProcessingRequest];
+    __weak NXMConversationEventsQueue *weakSelf = self;
+    [self.stitchContext.coreClient getEventsInConversation:self.conversationId startId:@(self.currentHandledSequenceId + 1) endId:endId onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        [weakSelf.operationQueue addOperationWithBlock:^{
+            NSNumber * highestQueriedWithResponse = [weakSelf handleGetEventResponse:events];
+            
+            NSNumber *highestQueriedUpdate = endId ?: highestQueriedWithResponse;
+            if(highestQueriedUpdate) {
+                [self updateHighestQueriedWithSequenceId:[highestQueriedUpdate integerValue]];
+            }
+            
+            [self endProcessingRequest];
+        }];
+    } onError:^(NSError * _Nullable error) {
+        [weakSelf.operationQueue addOperationWithBlock:^{
+            [NXMLogger warningWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+            [self endProcessingRequest];
+            return;
+            //TODO: handle specific errors in case that we want handle next events
+            //right now we stop handeling events until another event arrives or connection status changes to connected
+        }];
+    }];
+}
+
+- (void)startProcessingRequest {
+    self.numOfProcessingRequests++;
+}
+
+- (void)endProcessingRequest {
+    self.numOfProcessingRequests--;
+    if(self.numOfProcessingRequests == 0) {
+        [self processNextEvent];
+    }
+}
+
+- (void)updateHighestQueriedWithSequenceId:(NSInteger)sequenceId {
+    if(sequenceId > self.highestQueriedSequenceId) {
+        self.highestQueriedSequenceId = sequenceId;
+    }
+}
+
+- (NSNumber *)handleGetEventResponse:(NSArray<NXMEvent*>*)events {
+    NSArray<NXMEvent*> *sortedEventsArray = [self sortWithEvents:events];
+    [self insertToEventsQueueWithEvents:sortedEventsArray];
+    return [self highestEventIdWithSortedEvents:sortedEventsArray];
+}
+
+- (NSArray<NXMEvent*> *)sortWithEvents:(NSArray<NXMEvent*>*)events {
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"sequenceId" ascending:YES];
+    return [events sortedArrayUsingDescriptors:@[sort]];
+}
+
+- (void)insertToEventsQueueWithEvents:(NSArray<NXMEvent*> *)events {
+    NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, events.count)];
+    [self.eventsQueue insertObjects:events atIndexes:indexes];
+}
+
+- (nullable NSNumber *)highestEventIdWithSortedEvents:(NSArray<NXMEvent*> *)sortedEvents {
+    NSNumber *highestEventId = nil;
+    NXMEvent *highestEvent = sortedEvents.lastObject;
+    
+    if(highestEvent) {
+        highestEventId = [NSNumber numberWithInteger:highestEvent.sequenceId];
+    }
+    
+    return highestEventId;
 }
 
 @end

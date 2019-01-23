@@ -18,6 +18,8 @@
 
 #import "NXMNetworkCallbacks.h"
 #import "NXMMediaEvent.h"
+#import "NXMMediaActionEvent.h"
+#import "NXMMediaSuspendEvent.h"
 #import "NXMMemberEventPrivate.h"
 #import "NXMTextEvent.h"
 #import "NXMSipEvent.h"
@@ -552,7 +554,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 
 #pragma mark - media
-
+//TODO: change to createRTC/DestroyRTC
 - (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
             onError:(NXMErrorCallback _Nullable)onError {
@@ -653,16 +655,6 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         
         onSuccess();
     }];
-}
-
-- (void)suspendMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
-   completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler {
-    
-}
-
-- (void)resumeMedia:(NSString *)conversationId mediaType:(NSString *)mediaType // TODO: enum
-  completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler {
-    
 }
 
 #pragma mark - message
@@ -827,6 +819,16 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             
             if ([type isEqual:@"member:media"]){
                 [events addObject:[self parseMediaEvent:eventJson conversationId:getEventsRequest.conversationId]];
+                continue;
+            }
+            
+            if([type isEqual:@"audio:mute:on"]){
+                [events addObject:[self parseAudioMuteOnEvent:eventJson conversationId:getEventsRequest.conversationId]];
+                continue;
+            }
+            
+            if([type isEqual:@"audio:mute:off"]){
+                [events addObject:[self parseAudioMuteOffEvent:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
             
@@ -1008,6 +1010,36 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         event.mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:[dict[@"body"][@"media"][@"video_settings"][@"enabled"] boolValue]
                                                                 suspend:[dict[@"body"][@"media"][@"video_settings"][@"muted"] boolValue]];
     }
+    
+    return event;
+}
+
+- (NXMMediaActionEvent *)parseAudioMuteOnEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
+    NXMMediaSuspendEvent* event = [NXMMediaSuspendEvent new];
+    event.toMemberId = dict[@"to"];
+    event.conversationId = dict[@"cid"];
+    event.fromMemberId = dict[@"from"];
+    event.creationDate = [NXMUtils dateFromISOString:dict[@"timestamp"]];
+    event.sequenceId = [dict[@"id"] integerValue];
+    event.type = NXMEventTypeMediaAction;
+    event.actionType = NXMMediaActionTypeSuspend;
+    event.mediaType = NXMMediaTypeAudio;
+    event.isSuspended = true;
+        
+    return event;
+}
+
+- (NXMMediaActionEvent *)parseAudioMuteOffEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
+    NXMMediaSuspendEvent* event = [NXMMediaSuspendEvent new];
+    event.toMemberId = dict[@"to"];
+    event.conversationId = dict[@"cid"];
+    event.fromMemberId = dict[@"from"];
+    event.creationDate = [NXMUtils dateFromISOString:dict[@"timestamp"]];
+    event.sequenceId = [dict[@"id"] integerValue];
+    event.type = NXMEventTypeMediaAction;
+    event.actionType = NXMMediaActionTypeSuspend;
+    event.mediaType = NXMMediaTypeAudio;
+    event.isSuspended = false;
     
     return event;
 }

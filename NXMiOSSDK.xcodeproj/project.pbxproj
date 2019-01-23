@@ -11,6 +11,7 @@
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
 		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
+		9227302021F602270077D77D /* NXMConversationEventsQueueTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */; };
 		9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */; };
 		9242CD9F21BFDD6800ED2B51 /* NTAUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CD9E21BFDD6800ED2B51 /* NTAUserInfo.m */; };
 		9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA421BFEA1600ED2B51 /* NTAAlertUtils.m */; };
@@ -319,6 +320,7 @@
 		9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NXMTestingUtils+ConversationDetails.m"; sourceTree = "<group>"; };
 		9216303C21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCLStitchClientWrapper+CoreExpose.h"; sourceTree = "<group>"; };
 		9216303D21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCLStitchClientWrapper+CoreExpose.m"; sourceTree = "<group>"; };
+		9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueueTests.m; sourceTree = "<group>"; };
 		922C801E21AC471F00AF2FA6 /* SCLNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLNSLogger.m; sourceTree = "<group>"; };
 		9242CD9A21BFDB6700ED2B51 /* NTAErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAErrors.h; sourceTree = "<group>"; };
 		9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAErrors.m; sourceTree = "<group>"; };
@@ -686,6 +688,23 @@
 				9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */,
 			);
 			path = TestingUtils;
+			sourceTree = "<group>";
+		};
+		9227301D21F601980077D77D /* CoreTests */ = {
+			isa = PBXGroup;
+			children = (
+				F9998ACF2083A02200EAC286 /* Network */,
+			);
+			path = CoreTests;
+			sourceTree = "<group>";
+		};
+		9227301E21F601DD0077D77D /* ClientTests */ = {
+			isa = PBXGroup;
+			children = (
+				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
+				9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */,
+			);
+			path = ClientTests;
 			sourceTree = "<group>";
 		};
 		9242CDA021BFDD7A00ED2B51 /* Users */ = {
@@ -1350,12 +1369,12 @@
 		F923DD9521985BF600D29065 /* NexmoClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				9227301E21F601DD0077D77D /* ClientTests */,
+				9227301D21F601980077D77D /* CoreTests */,
 				F923DCEA2198528A00D29065 /* StitchCoreTests.m */,
-				F9998ACF2083A02200EAC286 /* Network */,
 				9214F60F21AEF8450021CD05 /* TestingUtils */,
 				F923DD9621985BF600D29065 /* StitchClientTests.m */,
 				F923DD9821985BF600D29065 /* Info.plist */,
-				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
 			);
 			path = NexmoClientTests;
 			sourceTree = "<group>";
@@ -1893,6 +1912,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9227302021F602270077D77D /* NXMConversationEventsQueueTests.m in Sources */,
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,

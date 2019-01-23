@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, NXMMediaType) {
     NXMMediaTypeVideo = (1 << 1)
 };
 
-typedef NS_ENUM(NSInteger, NXMMediaActionType){
+typedef NS_ENUM(NSInteger, NXMMediaActionType) {
     NXMMediaActionTypeSuspend
     //TODO:earmuffed?held?
 };
@@ -41,7 +41,7 @@ typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
     NXMMediaStreamTypeSendReceive
 };
 
-typedef NS_ENUM(NSInteger, NXMEventType){
+typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeGeneral,
     NXMEventTypeText,
     NXMEventTypeImage,
