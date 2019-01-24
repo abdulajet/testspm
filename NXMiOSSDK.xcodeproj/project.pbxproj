@@ -2141,8 +2141,9 @@
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Output/$(CONFIGURATION)",
+					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Frameworks/OCMock/iOS\\ framework",
 				);
 				HEADER_SEARCH_PATHS = (
@@ -2170,8 +2171,9 @@
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Output/$(CONFIGURATION)",
+					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Frameworks/OCMock/iOS\\ framework",
 				);
 				HEADER_SEARCH_PATHS = (
