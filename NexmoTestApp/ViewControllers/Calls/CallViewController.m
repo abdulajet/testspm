@@ -176,7 +176,7 @@
 #pragma mark Decline Call
 
 - (IBAction)declineCallButtonPressed:(UIButton *)sender {
-    [self.call decline:^(NSError * _Nullable error) {
+    [self.call reject:^(NSError * _Nullable error) {
         if(error) {
             [NTALogger errorWithFormat:@"Error declining call: %@",error];
             return;

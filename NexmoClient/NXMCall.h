@@ -35,7 +35,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 - (void)setDelegate:(id<NXMCallDelegate>)delegate;
 
 - (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler;
-- (void)decline:(NXMErrorCallback _Nullable)completionHandler;
+- (void)reject:(NXMErrorCallback _Nullable)completionHandler;
 
 - (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 - (void)addCallMemberWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler;
