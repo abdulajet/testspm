@@ -18,6 +18,7 @@
 		9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA721BFF07100ED2B51 /* NTALogger.m */; };
 		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
 		9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */; };
+		92B5B597220208D2004AD14C /* Sentences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B5B596220208D2004AD14C /* Sentences.plist */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
 		92CF9A0F21C91611001C86F1 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A0E21C91611001C86F1 /* ContactViewController.m */; };
 		92CF9A1321CA5FE6001C86F1 /* CallViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A1221CA5FE6001C86F1 /* CallViewController.m */; };
@@ -335,6 +336,7 @@
 		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
 		9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsListTableViewCell.h; sourceTree = "<group>"; };
 		9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListTableViewCell.m; sourceTree = "<group>"; };
+		92B5B596220208D2004AD14C /* Sentences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Sentences.plist; sourceTree = "<group>"; };
 		92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationTests.m; sourceTree = "<group>"; };
 		92B7A394213FCD2A00390258 /* NXMEventsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcher.h; sourceTree = "<group>"; };
 		92B7A395213FCD2A00390258 /* NXMEventsDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsDispatcher.m; sourceTree = "<group>"; };
@@ -780,6 +782,14 @@
 				9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */,
 			);
 			path = ContactsList;
+			sourceTree = "<group>";
+		};
+		92B5B59322020580004AD14C /* Sentences */ = {
+			isa = PBXGroup;
+			children = (
+				92B5B596220208D2004AD14C /* Sentences.plist */,
+			);
+			path = Sentences;
 			sourceTree = "<group>";
 		};
 		92B7A393213FCD0700390258 /* EventDispatcher */ = {
@@ -1382,6 +1392,7 @@
 		F94291E321BD46F900FA45A1 /* NexmoTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				92B5B59322020580004AD14C /* Sentences */,
 				92D7FBCC21CFF8F3002A2993 /* NexmoTestApp.entitlements */,
 				9242CDB021C17D5100ED2B51 /* ViewControllers */,
 				F94291FF21BD528F00FA45A1 /* AppCode */,
@@ -1772,6 +1783,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92B5B597220208D2004AD14C /* Sentences.plist in Resources */,
 				F94291F121BD46FB00FA45A1 /* LaunchScreen.storyboard in Resources */,
 				F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */,
 				F94291EC21BD46F900FA45A1 /* Main.storyboard in Resources */,

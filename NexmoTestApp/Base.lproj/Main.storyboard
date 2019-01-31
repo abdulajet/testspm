@@ -1321,6 +1321,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ygo-BO-n1W">
                                 <rect key="frame" x="153" y="399" width="69" height="30"/>
                                 <state key="normal" title="SendLogs"/>
+                                <connections>
+                                    <action selector="sendLogsPressed:" destination="uPs-r8-PIO" eventType="touchUpInside" id="lJG-3n-1GF"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
                                 <rect key="frame" x="163.66666666666666" y="582" width="48" height="30"/>

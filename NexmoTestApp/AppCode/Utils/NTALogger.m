@@ -8,7 +8,6 @@
 
 #import "NTALogger.h"
 
-static NSString * const kNTALogPrefix = @"NTALog ";
 static NSString * const kNTALogErrorPrefix = @"NTALog [Error]: ";
 static NSString * const kNTALogWarningPrefix = @"NTALog [Warning]: ";
 static NSString * const kNTALogInfoPrefix = @"NTALog [Info]: ";
@@ -16,16 +15,20 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
 
 
 @interface NTALogger ()
-- (void)error:(nonnull NSString *)message;
-- (void)warning:(nonnull NSString *)message;
-- (void)info:(nonnull NSString *)message;
-- (void)debug:(nonnull NSString *)message;
+@property NSMutableArray<NSString *> *savedLogs;
 @end
 
 
 @implementation NTALogger
 
-+(NTALogger *)sharedLogger {
+- (instancetype)init {
+    if(self = [super init]) {
+        self.savedLogs = [NSMutableArray new];
+    }
+    return self;
+}
+
++(nonnull instancetype)sharedLogger {
     static NTALogger *sharedLogger;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -35,20 +38,32 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
     return sharedLogger;
 }
 
-- (void)error:(nonnull NSString *)message {
-    NSLog(@"%@ %@", kNTALogErrorPrefix, message);
+- (void)error:(nullable NSString *)message {
+    [self logWithPrefix:kNTALogErrorPrefix andMessage:message];
 }
 
-- (void)warning:(nonnull NSString *)message {
-    NSLog(@"%@ %@", kNTALogWarningPrefix, message);
+- (void)warning:(nullable NSString *)message {
+    [self logWithPrefix:kNTALogWarningPrefix andMessage:message];
 }
 
-- (void)info:(nonnull NSString *)message {
-    NSLog(@"%@ %@", kNTALogInfoPrefix, message);
+- (void)info:(nullable NSString *)message {
+    [self logWithPrefix:kNTALogInfoPrefix andMessage:message];
 }
 
-- (void)debug:(nonnull NSString *)message {
-    NSLog(@"%@ %@", kNTALogDebugPrefix, message);
+- (void)debug:(nullable NSString *)message {
+    [self logWithPrefix:kNTALogDebugPrefix andMessage:message];
+}
+
+- (void)logWithPrefix:(NSString *)prefix andMessage:(nullable NSString *)message {
+    NSString *prefixedMessage = [prefix stringByAppendingString:message];
+    [self logWithMessage:prefixedMessage];
+}
+
+- (void)logWithMessage:(nullable NSString *)message {
+    NSDate *currDate = [NSDate date];
+    NSString *timedMessage = [NSString stringWithFormat:@"%@  %@", currDate, message];
+    NSLog(@"%@", timedMessage);
+    [self.savedLogs addObject:timedMessage];
 }
 
 #pragma mark - Class Methods
@@ -97,5 +112,12 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
     va_start(ap, format);
     [self debug:[[NSString alloc] initWithFormat:format arguments:ap]];
     va_end(ap);
+}
+
++ (NSString * _Nullable)getLog {
+    
+    NSMutableArray *savedLogsCopy = [[NSMutableArray alloc]
+                                initWithArray:[[self sharedLogger] savedLogs] copyItems:YES];
+    return [savedLogsCopy componentsJoinedByString:@"\n"];
 }
 @end

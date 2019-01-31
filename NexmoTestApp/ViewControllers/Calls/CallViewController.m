@@ -135,7 +135,7 @@
 - (void)didFailCreatingCallWithError:(NSError *)error {
     [self updateInCallStatusLabelWithText:@"Error"];
 
-    [NTAAlertUtils displayAlertForController:self WithTitle:@"Call Failed" andMessage:[NSString stringWithFormat:@"Call failed with error: %@", error] andActionBlock:^(UIAlertAction * _Nonnull action) {
+    [NTAAlertUtils displayAlertForController:self withTitle:@"Call Failed" andMessage:[NSString stringWithFormat:@"Call failed with error: %@", error] andActionBlock:^(UIAlertAction * _Nonnull action) {
             [self dismiss];
     }];
 }
@@ -300,5 +300,4 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 @end

@@ -88,7 +88,7 @@
         
         if(error) {
             [self hideInProgressView];
-            [NTAAlertUtils displayAlertForController:weakSelf WithTitle:@"Authentcation failed" andMessage:@"User name or password is incorrect"];
+            [NTAAlertUtils displayAlertForController:weakSelf withTitle:@"Authentcation failed" andMessage:@"User name or password is incorrect"];
             return;
         }
         

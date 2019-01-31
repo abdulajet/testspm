@@ -8,14 +8,14 @@
 #import "NTAAlertUtils.h"
 
 @implementation NTAAlertUtils
-+ (void)displayAlertForController:(nonnull UIViewController *)controller WithTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message {
-    [self displayAlertForController:controller WithTitle:title andMessage:message andActionBlock:nil];
++ (void)displayAlertForController:(nonnull UIViewController *)controller withTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message {
+    [self displayAlertForController:controller withTitle:title andMessage:message andActionBlock:nil];
 }
 
-+ (void)displayAlertForController:(UIViewController *)controller WithTitle:(NSString *)title andMessage:(NSString *)message andActionBlock:(void (^ __nullable)(UIAlertAction *action))actionBlock {
++ (void)displayAlertForController:(UIViewController *)controller withTitle:(NSString *)title andMessage:(NSString *)message andActionBlock:(void (^ __nullable)(UIAlertAction *action))actionBlock {
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayAlertForController:controller WithTitle:title andMessage:message andActionBlock:actionBlock];
+            [self displayAlertForController:controller withTitle:title andMessage:message andActionBlock:actionBlock];
         });
         return;
     }
@@ -31,10 +31,10 @@
         [controller presentViewController:alert animated:YES completion:nil];
 }
 
-+ (void)displayAlertForController:(nonnull UIViewController *)controller WithTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message andDismissAfterSeconds:(NSUInteger)seconds {
++ (void)displayAlertForController:(nonnull UIViewController *)controller withTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message andDismissAfterSeconds:(NSUInteger)seconds {
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self displayAlertForController:controller WithTitle:title andMessage:message andDismissAfterSeconds:seconds];
+            [self displayAlertForController:controller withTitle:title andMessage:message andDismissAfterSeconds:seconds];
         });
         return;
     }

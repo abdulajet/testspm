@@ -2,11 +2,13 @@
 //  UserSettingsVCViewController.m
 //  NexmoTestApp
 //
-//  Created by Chen Lev on 12/9/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
 #import "UserSettingsViewController.h"
+
+#import <MessageUI/MessageUI.h>
+
 #import "NTALoginHandler.h"
 #import "NTAUserInfo.h"
 #import "CommunicationsManager.h"
@@ -20,7 +22,7 @@ static NSString * const kNTAAvatarImageNameReconnecting = @"SettingsAvatarReconn
 static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarConnectionOffline";
 
 
-@interface UserSettingsViewController ()
+@interface UserSettingsViewController () <MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *AvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *AvatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *statusReasonLabel;
@@ -64,11 +66,59 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     [NTALogger info:@"Logout pressed"];
     [NTALoginHandler logoutWithCompletion:^(NSError * _Nullable error) {
         if(error) {
-            [NTAAlertUtils displayAlertForController:self WithTitle:@"Logout Failed" andMessage:@"An error occured while logging out of the system. please try again."];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Logout Failed" andMessage:@"An error occured while logging out of the system. please try again."];
         }
     }];
 }
 
+#pragma mark - Logs
+
+- (IBAction)sendLogsPressed:(UIButton *)sender {
+    
+    if(![MFMailComposeViewController canSendMail]) {
+        [NTAAlertUtils displayAlertForController:self withTitle:@"Send Logs" andMessage:@"Can't send mail. Please make sure sending mails is enabled for this device" andDismissAfterSeconds:1];
+        return;
+    }
+    
+    NSDate *currDate = [NSDate date];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSString *currDateString = [dateFormatter stringFromDate:currDate];
+    NSString *logName = [NSString stringWithFormat:@"NexmoTestApp iOS Logs [objective-c] %@", currDateString];
+    
+    MFMailComposeViewController *mailController = [[MFMailComposeViewController alloc] init];
+    mailController.mailComposeDelegate = self;
+    [mailController setSubject:logName];
+    [mailController setToRecipients:@[@"ayelet.levy@vonage.com"]];
+    
+    NSString *messageBody = [self randomSentence];
+    [mailController setMessageBody:messageBody isHTML:NO];
+    NSData *logData = [[NTALogger getLog] dataUsingEncoding:NSUTF8StringEncoding];
+    [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[logName stringByAppendingString:@".log"]];
+    
+    [self presentViewController:mailController animated:YES completion:nil];
+}
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:
+    (MFMailComposeResult)result error:(nullable NSError *)error {
+    __weak UserSettingsViewController *weakSelf = self;
+    [self dismissViewControllerAnimated:YES completion:^{
+        switch (result) {
+            case MFMailComposeResultFailed:
+                [NTAAlertUtils displayAlertForController:weakSelf withTitle:@"Send Mail" andMessage:@"failed sending mail" andDismissAfterSeconds:1];
+                break;
+            default:
+                break;
+        }
+    }];
+}
+
+- (NSString *)randomSentence {
+    NSString *sentencesPath = [NSBundle.mainBundle pathForResource:@"Sentences" ofType:@"plist"];
+    NSArray *sentences = [[NSDictionary alloc] initWithContentsOfFile:sentencesPath][@"sentences"];
+    NSUInteger rand = arc4random_uniform((uint)sentences.count);
+    return sentences[rand];
+}
 
 #pragma mark - CommunicationsManagerNotifications
 - (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {

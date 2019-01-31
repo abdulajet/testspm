@@ -11,11 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface NTAAlertUtils : NSObject
-+ (void)displayAlertForController:(UIViewController *)controller WithTitle:(NSString *)title andMessage:(NSString *)message;
++ (void)displayAlertForController:(UIViewController *)controller withTitle:(NSString *)title andMessage:(NSString *)message;
 
-+ (void)displayAlertForController:(UIViewController *)controller WithTitle:(NSString *)title andMessage:(NSString *)message andActionBlock:(void (^ __nullable)(UIAlertAction *action))actionBlock;
++ (void)displayAlertForController:(UIViewController *)controller withTitle:(NSString *)title andMessage:(NSString *)message andActionBlock:(void (^ __nullable)(UIAlertAction *action))actionBlock;
 
-+ (void)displayAlertForController:(nonnull UIViewController *)controller WithTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message andDismissAfterSeconds:(NSUInteger)seconds;
++ (void)displayAlertForController:(nonnull UIViewController *)controller withTitle:(nonnull NSString *)title andMessage:(nonnull NSString *)message andDismissAfterSeconds:(NSUInteger)seconds;
 @end
 
 NS_ASSUME_NONNULL_END

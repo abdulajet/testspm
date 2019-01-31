@@ -10,7 +10,7 @@
 
 @interface NTALogger : NSObject<NXMLoggerDelegate>
 
-+ (NTALogger *)sharedLogger;
++ (nonnull instancetype)sharedLogger;
 
 + (void)error:(nonnull NSString *)message;
 + (void)warning:(nonnull NSString *)message;
@@ -21,5 +21,7 @@
 + (void)warningWithFormat:(nonnull NSString *)format, ...;
 + (void)infoWithFormat:(nonnull NSString *)format, ...;
 + (void)debugWithFormat:(nonnull NSString *)format, ...;
+
++ (NSString * _Nullable)getLog;
 @end
 
