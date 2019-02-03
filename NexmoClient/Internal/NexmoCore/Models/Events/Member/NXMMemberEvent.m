@@ -68,7 +68,6 @@
     if (self = [super initWithConversationId:conversationId sequenceId:sequenceId fromMemberId:fromMemberId creationDate:nil type:type]) {
         self.type = type;
         self.memberId = memberId;
-        self.name = name;
         self.state = state;
         self.user = user;
         self.phoneNumber = phoneNumber;

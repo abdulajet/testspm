@@ -33,7 +33,7 @@ Return the connection status.
  init nxmClient with authentication token
  @param authToken user authentication token
  */
-- (instancetype)initWithToken:(NSString *)authToken;
+- (instancetype)initWithToken:(nonnull NSString *)authToken;
 
 /*!
  Set nexmo client logger delegate
@@ -47,7 +47,7 @@ Return the connection status.
  *  @param delegate a `NXMClientDelegate` object.
  *
  */
-- (void)setDelegate:(nullable id <NXMClientDelegate>)delegate;
+- (void)setDelegate:(nonnull id <NXMClientDelegate>)delegate;
 
 /**
  login and connect to nexmo sdk.

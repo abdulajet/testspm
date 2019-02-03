@@ -12,7 +12,7 @@
 #import "NXMBlocks.h"
 
 @protocol NXMCallDelegate
-- (void)statusChanged:(NXMCallMember *)callMember;
+- (void)statusChanged:(nonnull NXMCallMember *)callMember;
 @end
 
 typedef NS_ENUM(NSInteger, NXMCallType) {
@@ -27,14 +27,14 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 
 @interface NXMCall : NSObject
 
-@property (readonly, nonatomic) NSMutableArray<NXMCallMember *> *otherCallMembers;
-@property (nonatomic, readonly) NXMCallMember *myCallMember;
+@property (nonatomic, readonly, nonnull) NSMutableArray<NXMCallMember *> *otherCallMembers;
+@property (nonatomic, readonly, nonnull) NXMCallMember *myCallMember;
 @property (nonatomic, readonly) NXMCallStatus status;
-@property (nonatomic, readonly) NXMConversation* conversation;
+@property (nonatomic, readonly, nonnull) NXMConversation* conversation;
 
-- (void)setDelegate:(id<NXMCallDelegate>)delegate;
+- (void)setDelegate:(nonnull id<NXMCallDelegate>)delegate;
 
-- (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)answer:(nonnull id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 - (void)reject:(NXMErrorCallback _Nullable)completionHandler;
 
 - (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler;

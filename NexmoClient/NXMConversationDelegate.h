@@ -9,13 +9,12 @@
 
 #import "NXMCoreEvents.h"
 
-@protocol NXMConversationDelegate <NSObject> //TODO: devrel this delegate
+@protocol NXMConversationDelegate <NSObject>
 @optional
--(void)textEvent:(NXMMessageEvent *)textEvent;
--(void)attachmentEvent:(NXMMessageEvent *)attachmentEvent;
--(void)messageStatusEvent:(NXMMessageStatusEvent *)messageStatusEvent;
-//TODO: I think this should change to -(void)mediaEvent:(NXMMediaEvent *)mediaEvent;
--(void)mediaEvent:(NXMEvent *)mediaEvent;
--(void)typingEvent:(NXMTextTypingEvent *)typingEvent;
--(void)memberEvent:(NXMMemberEvent *)memberEvent;
+-(void)textEvent:(nonnull NXMMessageEvent *)textEvent;
+-(void)attachmentEvent:(nonnull NXMMessageEvent *)attachmentEvent;
+-(void)messageStatusEvent:(nonnull NXMMessageStatusEvent *)messageStatusEvent;
+-(void)mediaEvent:(nonnull NXMEvent *)mediaEvent;
+-(void)typingEvent:(nonnull NXMTextTypingEvent *)typingEvent;
+-(void)memberEvent:(nonnull NXMMemberEvent *)memberEvent;
 @end

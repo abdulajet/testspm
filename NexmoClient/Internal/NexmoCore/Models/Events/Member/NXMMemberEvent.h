@@ -17,14 +17,13 @@ typedef NS_ENUM(NSInteger, NXMChannelType){
 
 @interface NXMMemberEvent : NXMEvent
 
-@property (nonatomic, strong) NSString *memberId;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong, nonnull) NSString *memberId;
 @property (nonatomic) NXMMemberState state;
-@property (nonatomic, strong) NXMUser *user;
-@property (nonatomic, strong) NSString* phoneNumber;
-@property (nonatomic, strong) NXMMediaSettings *media;
+@property (nonatomic, strong, nonnull) NXMUser *user;
+@property (nonatomic, strong, nonnull) NSString *phoneNumber;
+@property (nonatomic, strong, nullable) NXMMediaSettings *media;
 @property (nonatomic) NXMChannelType channelType;
-@property (nonatomic, strong) NSString* channelData;
-@property(nonatomic, strong) NSString* knockingId;
+@property (nonatomic, strong, nullable) NSString *channelData;
+@property (nonatomic, strong, nullable) NSString *knockingId;
 
 @end
