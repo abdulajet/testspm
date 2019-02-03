@@ -23,10 +23,12 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+./create_docs.sh $PLIST_VERSION
+
 pushd $PWD/../Output/Debug
-cp ../../CHANGELOG.md ../../LICENSE ../../README.md .
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md
-rm CHANGELOG.md LICENSE README.md
+cp -R ../../CHANGELOG.md ../../LICENSE ../../README.md docs .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md docs
+rm -rf CHANGELOG.md LICENSE README.md docs
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_DEBUG" -T NexmoClient.zip
 
