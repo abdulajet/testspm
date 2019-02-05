@@ -47,7 +47,6 @@
         self.currentHandledSequenceId = ConversationDetails.sequence_number;
         self.sequenceIdSyncingFrom = ConversationDetails.sequence_number;
         self.highestQueriedSequenceId = ConversationDetails.sequence_number;
-        self.observers = [[NSMutableArray alloc] init];
         self.stitchContext = stitchContext;
         self.delegate = delegate;
         [self registerSocketEventsNotifications];
@@ -56,7 +55,7 @@
 }
 
 - (void)dealloc{
-    [self deregisterFromDispatchedEvents];
+    [self unregisterFromDispatchedEvents];
 }
 
 - (BOOL)getIsProcessingRequests {
@@ -64,29 +63,16 @@
 }
 
 #pragma mark - Dispatcher Registration
-- (void)deregisterFromDispatchedEvents {
-    for(id <NSObject> observer in self.observers){
-        [self.stitchContext.eventsDispatcher.notificationCenter removeObserver:observer];
-    }
+- (void)unregisterFromDispatchedEvents {
+    [self.stitchContext.eventsDispatcher.notificationCenter removeObserver:self];
 }
 
 - (void)registerToDispatchedEvent:(NSString *)eventName {
-    __weak NXMConversationEventsQueue *weakSelf = self;
-    id <NSObject> observer = [self.stitchContext.eventsDispatcher.notificationCenter addObserverForName:eventName object:nil queue:self.operationQueue usingBlock:^(NSNotification * _Nonnull note) {
-        NXMEvent *event = [NXMEventsDispatcherNotificationHelper<NXMEvent *> nxmNotificationModelWithNotification:note];
-        [weakSelf handleDispatchedEvent: event];
-    }];
-    [self.observers addObject:observer];
+    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(handleDispatchedEventWithNotification:) name:eventName object:nil];
 }
 
 - (void)registerToDispatchedConnectionStatus:(NSString *)eventName {
-    __weak NXMConversationEventsQueue *weakSelf = self;
-    id <NSObject> observer = [self.stitchContext.eventsDispatcher.notificationCenter addObserverForName:eventName object:nil queue:self.operationQueue usingBlock:^(NSNotification * _Nonnull note) {
-        NXMEventsDispatcherConnectionStatusModel *connectionStatusModel = [NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherConnectionStatusModel *> nxmNotificationModelWithNotification:note];
-        
-        [weakSelf handleDispatchedConnectionStatusWithConnectionStatus:connectionStatusModel.status];
-    }];
-    [self.observers addObject:observer];
+    [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(handleDispatchedConnectionStatusWithNotification:) name:eventName object:nil];
 }
 
 - (void)registerSocketEventsNotifications{
@@ -99,8 +85,24 @@
 }
 
 #pragma mark - Dispatch Handlers
+- (void)handleDispatchedConnectionStatusWithNotification:(NSNotification *)notification {
+    NXMEventsDispatcherConnectionStatusModel *connectionStatusModel = [NXMEventsDispatcherNotificationHelper<NXMEventsDispatcherConnectionStatusModel *> nxmNotificationModelWithNotification:notification];
+    
+    __weak NXMConversationEventsQueue *weakSelf = self;
+    [self.operationQueue addOperationWithBlock:^{
+        [weakSelf handleDispatchedConnectionStatus:connectionStatusModel.status];
+    }];
+}
 
-- (void)handleDispatchedConnectionStatusWithConnectionStatus:(NXMConnectionStatus)connectionStatus {
+- (void)handleDispatchedEventWithNotification:(NSNotification *)notification {
+    NXMEvent *event = [NXMEventsDispatcherNotificationHelper<NXMEvent *> nxmNotificationModelWithNotification:notification];
+    __weak NXMConversationEventsQueue *weakSelf = self;
+    [self.operationQueue addOperationWithBlock:^{
+        [weakSelf handleDispatchedEvent: event];
+    }];
+}
+
+- (void)handleDispatchedConnectionStatus:(NXMConnectionStatus)connectionStatus {
     if(connectionStatus != NXMConnectionStatusConnected) {
         return;
     }

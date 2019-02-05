@@ -18,6 +18,7 @@
 		9242CDA821BFF07100ED2B51 /* NTALogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDA721BFF07100ED2B51 /* NTALogger.m */; };
 		9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDB321C2551100ED2B51 /* NTALoginHandler.m */; };
 		9242CDC221C7C12600ED2B51 /* ContactsListTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */; };
+		92B5B57C21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B5B57B21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m */; };
 		92B5B597220208D2004AD14C /* Sentences.plist in Resources */ = {isa = PBXBuildFile; fileRef = 92B5B596220208D2004AD14C /* Sentences.plist */; };
 		92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */; };
 		92CF9A0F21C91611001C86F1 /* ContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92CF9A0E21C91611001C86F1 /* ContactViewController.m */; };
@@ -336,7 +337,9 @@
 		9242CDB621C29E1300ED2B51 /* CommunicationsManagerDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CommunicationsManagerDefine.h; sourceTree = "<group>"; };
 		9242CDC021C7C12600ED2B51 /* ContactsListTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactsListTableViewCell.h; sourceTree = "<group>"; };
 		9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListTableViewCell.m; sourceTree = "<group>"; };
-		92B5B596220208D2004AD14C /* Sentences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Sentences.plist; sourceTree = "<group>"; };
+		92B5B57A21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsQueueDelegateHelper.h; sourceTree = "<group>"; };
+		92B5B57B21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsQueueDelegateHelper.m; sourceTree = "<group>"; };
+        92B5B596220208D2004AD14C /* Sentences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Sentences.plist; sourceTree = "<group>"; };
 		92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationTests.m; sourceTree = "<group>"; };
 		92B7A394213FCD2A00390258 /* NXMEventsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcher.h; sourceTree = "<group>"; };
 		92B7A395213FCD2A00390258 /* NXMEventsDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsDispatcher.m; sourceTree = "<group>"; };
@@ -703,8 +706,8 @@
 		9227301E21F601DD0077D77D /* ClientTests */ = {
 			isa = PBXGroup;
 			children = (
+				92B5B57921FE2CD2004AD14C /* EventsQueueTests */,
 				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
-				9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */,
 			);
 			path = ClientTests;
 			sourceTree = "<group>";
@@ -784,7 +787,17 @@
 			path = ContactsList;
 			sourceTree = "<group>";
 		};
-		92B5B59322020580004AD14C /* Sentences */ = {
+		92B5B57921FE2CD2004AD14C /* EventsQueueTests */ = {
+			isa = PBXGroup;
+			children = (
+				9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */,
+				92B5B57A21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.h */,
+				92B5B57B21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m */,
+			);
+			path = EventsQueueTests;
+			sourceTree = "<group>";
+		};
+        92B5B59322020580004AD14C /* Sentences */ = {
 			isa = PBXGroup;
 			children = (
 				92B5B596220208D2004AD14C /* Sentences.plist */,
@@ -1660,10 +1673,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F923DD9D21985BF600D29065 /* Build configuration list for PBXNativeTarget "NexmoClientTests" */;
 			buildPhases = (
-				F923DD8D21985BF600D29065 /* Sources */,
-				F923DD8E21985BF600D29065 /* Frameworks */,
-				F923DD8F21985BF600D29065 /* Resources */,
 				D32D425721CC066A0039A133 /* CopyFiles */,
+				F923DD8E21985BF600D29065 /* Frameworks */,
+				F923DD8D21985BF600D29065 /* Sources */,
+				F923DD8F21985BF600D29065 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -1928,6 +1941,7 @@
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,
+				92B5B57C21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m in Sources */,
 				F9024EEC21CAB54600D58AD0 /* StitchCoreTests.m in Sources */,
 				F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */,
 				9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */,
