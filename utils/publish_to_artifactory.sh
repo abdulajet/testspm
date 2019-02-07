@@ -24,21 +24,18 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-./create_docs.sh $PLIST_VERSION
-
-pushd $PWD/../Output/Debug
-cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md docs .
-
-if [ ! -f $CHANGELOG_FILE ]; then
-	echo_red "upload failed. Aborting"
-	exit 1
-fi
+pushd ../
 echo changelog before:
 cat $CHANGELOG_FILE
 sed -i "" "s^###VERSION###^$PLIST_VERSION^g" $CHANGELOG_FILE
 echo changelog after:
 cat $CHANGELOG_FILE
+popd
 
+./create_docs.sh $PLIST_VERSION
+
+pushd $PWD/../Output/Debug
+cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md ../../docs .
 zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md docs
 rm -rf $CHANGELOG_FILE LICENSE README.md docs
 
@@ -53,9 +50,9 @@ popd
 
 pushd $PWD/../Output/Release
 
-cp ../../$CHANGELOG_FILE ../../LICENSE ../../README.md .
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md
-rm $CHANGELOG_FILE LICENSE README.md
+cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md ../../docs .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md docs
+rm -rf $CHANGELOG_FILE LICENSE README.md docs
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_RELEASE" -T NexmoClient.zip
 
