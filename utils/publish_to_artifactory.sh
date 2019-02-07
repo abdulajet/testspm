@@ -27,6 +27,7 @@ fi
 
 pushd $PWD/../Output/Debug
 cp -R ../../CHANGELOG.md ../../LICENSE ../../README.md docs .
+sed -i "" "s^###VERSION###^$PLIST_VERSION^g" CHANGELOG.md
 zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md docs
 rm -rf CHANGELOG.md LICENSE README.md docs
 
