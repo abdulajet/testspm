@@ -18,6 +18,7 @@ PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $I
 
 ARTIFACTORY_PATH_DEBUG=$(get_artifactory_artifact_path "Debug" $PLIST_VERSION)
 ARTIFACTORY_PATH_RELEASE=$(get_artifactory_artifact_path "Release" $PLIST_VERSION)
+CHANGELOG_FILE=CHANGELOG.md
 
 if [ $? -ne 0 ]; then
 	exit 1
@@ -26,10 +27,20 @@ fi
 ./create_docs.sh $PLIST_VERSION
 
 pushd $PWD/../Output/Debug
-cp -R ../../CHANGELOG.md ../../LICENSE ../../README.md docs .
-sed -i "" "s^###VERSION###^$PLIST_VERSION^g" CHANGELOG.md
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md docs
-rm -rf CHANGELOG.md LICENSE README.md docs
+cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md docs .
+
+if [ ! -f $CHANGELOG_FILE ]; then
+	echo_red "upload failed. Aborting"
+	exit 1
+fi
+echo changelog before:
+cat $CHANGELOG_FILE
+sed -i "" "s^###VERSION###^$PLIST_VERSION^g" $CHANGELOG_FILE
+echo changelog after:
+cat $CHANGELOG_FILE
+
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md docs
+rm -rf $CHANGELOG_FILE LICENSE README.md docs
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_DEBUG" -T NexmoClient.zip
 
@@ -42,9 +53,9 @@ popd
 
 pushd $PWD/../Output/Release
 
-cp ../../CHANGELOG.md ../../LICENSE ../../README.md .
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework CHANGELOG.md LICENSE README.md
-rm CHANGELOG.md LICENSE README.md
+cp ../../$CHANGELOG_FILE ../../LICENSE ../../README.md .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md
+rm $CHANGELOG_FILE LICENSE README.md
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_RELEASE" -T NexmoClient.zip
 
