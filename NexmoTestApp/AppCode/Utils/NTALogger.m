@@ -16,6 +16,7 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
 
 @interface NTALogger ()
 @property NSMutableArray<NSString *> *savedLogs;
+@property NSOperationQueue *opQueue;
 @end
 
 
@@ -24,6 +25,8 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
 - (instancetype)init {
     if(self = [super init]) {
         self.savedLogs = [NSMutableArray new];
+        self.opQueue = [NSOperationQueue new];
+        self.opQueue.maxConcurrentOperationCount = 1;
     }
     return self;
 }
@@ -62,8 +65,10 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
 - (void)logWithMessage:(nullable NSString *)message {
     NSDate *currDate = [NSDate date];
     NSString *timedMessage = [NSString stringWithFormat:@"%@  %@", currDate, message];
-    NSLog(@"%@", timedMessage);
-    [self.savedLogs addObject:timedMessage];
+    [self.opQueue addOperationWithBlock:^{
+        NSLog(@"%@", timedMessage);
+        [self.savedLogs addObject:timedMessage];
+    }];
 }
 
 #pragma mark - Class Methods
@@ -114,10 +119,18 @@ static NSString * const kNTALogDebugPrefix = @"NTALog [Debug]: ";
     va_end(ap);
 }
 
-+ (NSString * _Nullable)getLog {
+#pragma mark - GetLog
+
++ (void)getLogWithCompletion:(void (^ _Nullable)(NSString * _Nullable log))completion {
+    [[self sharedLogger] getLogWithCompletion:completion];
     
-    NSMutableArray *savedLogsCopy = [[NSMutableArray alloc]
-                                initWithArray:[[self sharedLogger] savedLogs] copyItems:YES];
-    return [savedLogsCopy componentsJoinedByString:@"\n"];
+}
+
+- (void)getLogWithCompletion:(void (^ _Nullable)(NSString * _Nullable log))completion {
+    [self.opQueue addOperationWithBlock:^{
+        if(completion) {
+            completion([self.savedLogs componentsJoinedByString:@"\n"]);
+        }
+    }];
 }
 @end

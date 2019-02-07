@@ -22,6 +22,6 @@
 + (void)infoWithFormat:(nonnull NSString *)format, ...;
 + (void)debugWithFormat:(nonnull NSString *)format, ...;
 
-+ (NSString * _Nullable)getLog;
++ (void)getLogWithCompletion:(void (^ _Nullable)(NSString * _Nullable log))completion;
 @end
 

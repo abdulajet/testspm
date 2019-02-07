@@ -93,10 +93,13 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     
     NSString *messageBody = [self randomSentence];
     [mailController setMessageBody:messageBody isHTML:NO];
-    NSData *logData = [[NTALogger getLog] dataUsingEncoding:NSUTF8StringEncoding];
-    [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[logName stringByAppendingString:@".log"]];
-    
-    [self presentViewController:mailController animated:YES completion:nil];
+    [NTALogger getLogWithCompletion:^(NSString * _Nullable log) {
+        NSData *logData = [log dataUsingEncoding:NSUTF8StringEncoding];
+        [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[logName stringByAppendingString:@".log"]];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:mailController animated:YES completion:nil];
+        });
+    }];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:
