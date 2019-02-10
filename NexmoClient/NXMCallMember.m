@@ -24,10 +24,11 @@
 
 @implementation NXMCallMember
 
-- (nullable instancetype)initWithMemberId:(NSString *)memberId andCallProxy:(id<NXMCallProxy>)callProxy {
+- (nullable instancetype)initWithMemberId:(NSString *)memberId user:(NXMUser *)user andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [super init]) {
-        self.callProxy = callProxy;
         self.memberId = memberId;
+        self.user = user;
+        self.callProxy = callProxy;
         self.status = NXMCallMemberStatusDialling;
     }
     
@@ -35,8 +36,16 @@
 }
 
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [self initWithMemberId:member.memberId andCallProxy:callProxy]) {
+    if (self = [self initWithMemberId:member.memberId user:member.user andCallProxy:callProxy]) {
         [self updateWithMember:member];
+    }
+    
+    return self;
+}
+
+- (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent andCallProxy:(id<NXMCallProxy>)callProxy {
+    if (self = [self initWithMemberId:memberEvent.memberId user:memberEvent.user andCallProxy:callProxy]) {
+        [self updateWithMemberEvent:memberEvent];
     }
     
     return self;
@@ -83,15 +92,11 @@
 
 
 - (void)updateWithMember:(NXMMember *)member {
-    self.user = member.user;
-    
     [self updateWithMemberStatus:member.state isMedia:NO];
 }
 
-- (void)updateWithMemberEvent:(NXMMemberEvent *)member {
-    self.user = member.user;
-    
-    [self updateWithMemberStatus:member.state isMedia:member.media.isEnabled];
+- (void)updateWithMemberEvent:(NXMMemberEvent *)memberEvent {
+    [self updateWithMemberStatus:memberEvent.state isMedia:memberEvent.media.isEnabled];
 }
 
 - (void)updateWithMemberStatus:(NXMMemberState)state isMedia:(BOOL)isMedia {

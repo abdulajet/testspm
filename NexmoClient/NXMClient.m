@@ -179,11 +179,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
                                            [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
                                                if (member){
                                                    NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-                                                   NXMCallMember *callMember = [[NXMCallMember alloc] initWithMemberId:member.memberId
-                                                                                                andCallProxy:(id<NXMCallProxy>)call];
-                                                   [call setMyCallMember:callMember];
-                                                   
-                                                   [conversation enableMedia:callMember.memberId];
+                                                   [call dialWithMember:member];
                                                    
                                                    for (NSString *userId in users) {
                                                        [call addCallMemberWithUserId:userId completionHandler:nil];

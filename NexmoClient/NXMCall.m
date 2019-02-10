@@ -26,12 +26,14 @@
 @property (readwrite, nonatomic) NXMConversationEventsQueue *eventsQueue;
 
 @property NSInteger lastEventId;
+@property NSObject *membersSyncToken;
 @end
 
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
     if (self = [super init]) {
+        self.membersSyncToken = [NSObject new];
         self.lastEventId = conversation.lastEventId;
         self.conversation = conversation;
         if (self.conversation.myMember){
@@ -106,11 +108,12 @@
 
         return;
     }
+    
     [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (member) {
-            NXMCallMember *callMember = [[NXMCallMember alloc] initWithMemberId:member.memberId
+            NXMCallMember *diallingCallMember = [[NXMCallMember alloc] initWithMemberId:member.memberId user:member.user
                                                                               andCallProxy:self];
-            [self.otherCallMembers addObject:callMember];
+            [self findOrAddCallMember:diallingCallMember];
             return;
         }
         
@@ -172,7 +175,7 @@
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
     if (self.status == NXMCallStatusDisconnected) { return; }
     
-    if (![callMember.user.userId isEqualToString:self.myCallMember.user.userId]) {
+    if (![callMember.memberId isEqualToString:self.myCallMember.memberId]) {
         return;
     }
     
@@ -224,12 +227,18 @@
 
 #pragma mark - private
 
-- (void)setMyCallMember:(NXMCallMember *)callMember {
-    _myCallMember = callMember;
+- (void)dialWithMember:(NXMMember *)member {
+    @synchronized (self.membersSyncToken) {
+        if (!self.myCallMember) {
+            self.myCallMember = [[NXMCallMember alloc] initWithMemberId:member.memberId user:member.user andCallProxy:self];
+        }
+    }
+    
+    [self.conversation enableMedia:self.myCallMember.memberId];
 }
 
 - (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    NXMCallMember *callMember = [self findCallMember:memberEvent.memberId];
+    NXMCallMember *callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMemberEvent:memberEvent andCallProxy:self]];
     [callMember updateWithMemberEvent:memberEvent];
 }
 
@@ -254,6 +263,24 @@
     return nil;
 }
 
+- (NXMCallMember *)findOrAddCallMember:(NXMCallMember *)callMember {
+    NXMCallMember *foundCallMember = nil;
+    
+    @synchronized (self.membersSyncToken) {
+        foundCallMember = [self findCallMember:callMember.memberId];
+        if(!foundCallMember) {
+            if([callMember.user.userId isEqualToString:self.conversation.currentUser.userId]) {
+                self.myCallMember = callMember;
+            } else {
+                [self.otherCallMembers addObject:callMember];
+            }
+            
+            foundCallMember = callMember;
+        }
+    }
+    
+    return foundCallMember;
+}
 
 - (BOOL)isEventTypeSupported:(NXMEvent *)event {
     return !(event.type == NXMEventTypeMember ||

@@ -24,4 +24,5 @@
 - (void)mute:(BOOL)isMuted;
 - (void)earmuff:(BOOL)isEarmuff;
 
+- (NXMUser *)currentUser; //TODO: remove after some refactoring - exposed for now to fix bug CSI-1009
 @end

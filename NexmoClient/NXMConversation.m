@@ -66,7 +66,7 @@
 }
 
 #pragma mark Private Properties
--(NXMUser *)currentUser {
+- (NXMUser *)currentUser {
     return self.stitchContext.currentUser;
 }
 
