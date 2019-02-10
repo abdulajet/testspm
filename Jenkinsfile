@@ -1,5 +1,5 @@
 pipeline {
-    agent {label "slave-F"}
+    agent {label "slave-G"}
 
     options {
         disableConcurrentBuilds()
