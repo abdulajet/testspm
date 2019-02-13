@@ -39,7 +39,7 @@
                                                object:nil];
     self.testUserIDs = @{@"testuser1":@"USR-727537eb-c68a-42f3-96a8-8a0947dd1da2",
                          @"testuser2":@"USR-1628dc75-fa09-4746-9e29-681430cb6419",
-                         @"testuser3":@"USR-0e364e72-d343-42bd-9a12-024518a88896",
+                         @"testuser3":@"USR-a6106969-be7a-4d4c-8bad-9ef4ba5c81d7",
                          @"testuser4":@"USR-effc7845-333c-4779-aeaf-fdbb4167f93c",
                          @"testuser5":@"USR-b0ffcfd1-332b-4074-9aeb-63c0c2fed205",
                          @"testuser6":@"USR-de6954dc-9a54-4a65-8cf4-8628d312a611",
