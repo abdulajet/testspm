@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 import NexmoClient
 
 @UIApplicationMain
@@ -17,8 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        var client = NXMClient()
-
+        AVAudioSession.sharedInstance().requestRecordPermission({(granted: Bool)-> Void in
+            if !granted {
+                NSLog("Audio presmission denied");
+            }
+        })
+        
         // Override point for customization after application launch.
         return true
         
