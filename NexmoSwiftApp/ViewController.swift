@@ -58,7 +58,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
    //     self.callButton.isEnabled = false
         
      //   let number = self.numberInput.text!
-        ViewController.nexmoClient.call(["972505597827"], callType: NXMCallType.server, delegate: self) {
+        ViewController.nexmoClient.call(["972505597817"], callHandler: .server, delegate: self) {
             (error, call) in
             self.currentCall = call // update currentCall with the new call
             

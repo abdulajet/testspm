@@ -28,7 +28,7 @@
               completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
 
     [CommunicationsManager.sharedInstance.client call:@[self.number]
-                                             callType:NXMCallTypeServer
+                                             callHandler:NXMCallHandlerServer
                                              delegate:delegate completion:completion];
 }
 @end

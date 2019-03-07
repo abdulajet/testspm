@@ -15,9 +15,9 @@
 - (void)statusChanged:(nonnull NXMCallMember *)callMember;
 @end
 
-typedef NS_ENUM(NSInteger, NXMCallType) {
-    NXMCallTypeInApp,
-    NXMCallTypeServer
+typedef NS_ENUM(NSInteger, NXMCallHandler) {
+    NXMCallHandlerInApp,
+    NXMCallHandlerServer
 };
 
 @interface NXMCall : NSObject

@@ -218,14 +218,14 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 }
 
 - (void)call:(nonnull NSArray<NSString *>*)callees
-           callType:(NXMCallType)callType
+           callHandler:(NXMCallHandler)callHandler
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    switch (callType) {
-        case NXMCallTypeInApp:
+    switch (callHandler) {
+        case NXMCallHandlerInApp:
             [self startIpCall:callees delegate:delegate completion:completion];
             break;
-        case NXMCallTypeServer:
+        case NXMCallHandlerServer:
             [self startServerCall:callees delegate:delegate completion:completion];
             break;
         default:
