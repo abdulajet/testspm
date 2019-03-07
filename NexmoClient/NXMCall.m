@@ -15,6 +15,10 @@
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
 
+typedef NS_ENUM(NSInteger, NXMCallStatus) {
+    NXMCallStatusConnected,
+    NXMCallStatusDisconnected
+};
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
 
@@ -102,7 +106,7 @@
         return;
     }
     
-    if (self.status == NXMCallStatusDisconnected) {
+    if (![self isCallConnected]) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
 
@@ -124,7 +128,7 @@
 }
 
 - (void)addCallMemberWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (self.status == NXMCallStatusDisconnected) {
+    if (![self isCallConnected]) {
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -143,18 +147,18 @@
     }];
 }
 
-- (NXMCallStatus)callStatus {
+- (BOOL)isCallConnected {
     if (self.myCallMember.status == NXMCallMemberStatusCompleted || self.myCallMember.status == NXMCallMemberStatusCancelled) {
-        return NXMCallStatusDisconnected;
+        return NO;
     }
     
     for (NXMCallMember *callMember in self.otherCallMembers) {
         if (callMember.status != NXMCallMemberStatusCompleted && callMember.status != NXMCallMemberStatusCancelled) {
-            return NXMCallStatusConnected;
+            return YES;
         }
     }
     
-    return NXMCallStatusDisconnected;
+    return NO;
 }
 
 #pragma mark - callProxy
@@ -173,7 +177,7 @@
 }
 
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
-    if (self.status == NXMCallStatusDisconnected) { return; }
+    if (![self isCallConnected]) { return; }
     
     if (![callMember.memberId isEqualToString:self.myCallMember.memberId]) {
         return;

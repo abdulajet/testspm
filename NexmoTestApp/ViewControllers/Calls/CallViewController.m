@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *InCallAvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *InCallAvatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *InCallUserNameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *InCallUserStatusLabel;
 @property (weak, nonatomic) IBOutlet UIButton *InCallMuteButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallSpeakerButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallEarmuffButton;
@@ -50,7 +51,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self updateContactUI];
-    [self updateInCallStatusLabelWithText:@"Connecting"];
     [self.callCreator callWithDelegate:self completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
         if(error) {
             [self didFailCreatingCallWithError:error];
@@ -68,7 +68,7 @@
         [self activateInCallView];
     }
     
-    
+    [self updateInCallStatusLabels];
 }
 
 
@@ -133,7 +133,7 @@
 }
 
 - (void)didFailCreatingCallWithError:(NSError *)error {
-    [self updateInCallStatusLabelWithText:@"Error"];
+    [self.InCallStatusLabel setText:@"Error"];
 
     [NTAAlertUtils displayAlertForController:self withTitle:@"Call Failed" andMessage:[NSString stringWithFormat:@"Call failed with error: %@", error] andActionBlock:^(UIAlertAction * _Nonnull action) {
             [self dismiss];
@@ -142,20 +142,25 @@
 
 - (void)didCreateCall:(NXMCall *)call {
     self.call = call;
-        if(!self.isControllerInIncomingCallState) {
-            [self updateInCallStatusLabelWithText:@"Dialling"];
-    }
+    
+    [self updateInCallStatusLabels];
 }
 
-- (void)updateInCallStatusLabelWithText:(NSString *)text {
+- (void)updateInCallStatusLabels {
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self updateInCallStatusLabelWithText:text];
+            [self updateInCallStatusLabels];
         });
+        
         return;
     }
     
-    self.InCallStatusLabel.text = text;
+    [self.InCallStatusLabel setText:self.call.myCallMember.statusDescription];
+    if (self.call.otherCallMembers.count > 0) {
+        NSLog(@"status %@", self.call.otherCallMembers[0].statusDescription);
+
+        [self.InCallUserStatusLabel setText:self.call.otherCallMembers[0].statusDescription];
+    }
 }
 
 #pragma Mark IncomingCall
@@ -208,10 +213,6 @@
     [self.InCallSpeakerButton setSelected:self.isSpeaker];
 }
 
-- (void)didConnectCall {
-    [self updateInCallStatusLabelWithText:@"Connected"];
-}
-
 - (void)didDisconnectCall {
     [self endCall];
 }
@@ -260,20 +261,17 @@
         return;
     }
     
-    switch (self.call.status) {
-        case NXMCallStatusConnected:
-            [self didConnectCall];
-            break;
-        case NXMCallStatusDisconnected:
+    if (self.call.myCallMember.status == NXMCallMemberStatusCompleted ||
+        self.call.myCallMember.status == NXMCallMemberStatusCancelled) {
             [self didDisconnectCall];
-            break;
-        default:
-            break;
+        return;
     }
     
     if ([member.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
         [self.InCallMuteButton setSelected:member.isMuted];
     }
+    
+    [self updateInCallStatusLabels];
 }
 
 #pragma mark - Private

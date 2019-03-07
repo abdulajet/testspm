@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
 @property (nonatomic, readonly, nonnull) NXMUser *user;
 @property (nonatomic, readonly) BOOL isMuted;
 @property (nonatomic, readonly) NXMCallMemberStatus status;
+@property (nonatomic, readonly) NSString *statusDescription;
 @property (nonatomic, readonly, nullable) NSString *metaInfo;
 
 - (void)hangup;

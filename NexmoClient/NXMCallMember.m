@@ -51,6 +51,25 @@
     return self;
 }
 
+- (NSString *)statusDescription {
+    switch (self.status) {
+        case NXMCallMemberStatusDialling:
+            return @"Dialling";
+        case NXMCallMemberStatusCalling:
+            return @"Calling";
+        case NXMCallMemberStatusStarted:
+            return @"Started";
+        case NXMCallMemberStatusAnswered:
+            return @"Answered";
+        case NXMCallMemberStatusCancelled:
+            return @"Cancelled";
+        case NXMCallMemberStatusCompleted:
+            return @"Completed";
+        default:
+            return @"Unknown";
+    }
+}
+
 - (void)hangup {
     [self.callProxy hangup:self];
 }

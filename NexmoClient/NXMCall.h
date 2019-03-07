@@ -19,17 +19,11 @@ typedef NS_ENUM(NSInteger, NXMCallType) {
     NXMCallTypeInApp,
     NXMCallTypeServer
 };
-typedef NS_ENUM(NSInteger, NXMCallStatus) {
-    NXMCallStatusConnected,
-    NXMCallStatusDisconnected
-};
-
 
 @interface NXMCall : NSObject
 
 @property (nonatomic, readonly, nonnull) NSMutableArray<NXMCallMember *> *otherCallMembers;
 @property (nonatomic, readonly, nonnull) NXMCallMember *myCallMember;
-@property (nonatomic, readonly) NXMCallStatus status;
 @property (nonatomic, readonly, nonnull) NXMConversation* conversation;
 
 - (void)setDelegate:(nonnull id<NXMCallDelegate>)delegate;
