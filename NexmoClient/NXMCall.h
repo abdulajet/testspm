@@ -11,8 +11,10 @@
 #import "NXMConversation.h"
 #import "NXMBlocks.h"
 
-@protocol NXMCallDelegate
+@protocol NXMCallDelegate <NSObject>
 - (void)statusChanged:(nonnull NXMCallMember *)callMember;
+@optional
+- (void)DTMFReceived:(nonnull NSString *)dtmf callMember:(nonnull NXMCallMember *)callMember;
 @end
 
 typedef NS_ENUM(NSInteger, NXMCallHandler) {
@@ -24,7 +26,6 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 @property (nonatomic, readonly, nonnull) NSMutableArray<NXMCallMember *> *otherCallMembers;
 @property (nonatomic, readonly, nonnull) NXMCallMember *myCallMember;
-@property (nonatomic, readonly, nonnull) NXMConversation* conversation;
 
 - (void)setDelegate:(nonnull id<NXMCallDelegate>)delegate;
 
@@ -33,6 +34,8 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 - (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 - (void)addCallMemberWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+
+- (void)sendDTMF:(NSString *)dtmf;
 
 @end
 

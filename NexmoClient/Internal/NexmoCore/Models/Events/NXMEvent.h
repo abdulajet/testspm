@@ -17,15 +17,4 @@
 @property NXMEventType type;
 @property NSInteger sequenceId;
 
-- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId
-                                           type:(NXMEventType)type
-                                   fromMemberId:(nullable)memberId
-                                     sequenceId:(NSInteger)sequenceId;
-
-- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId
-                            sequenceId:(NSInteger)sequenceId
-                          fromMemberId:(nullable NSString *)fromMemberId
-                          creationDate:(nullable NSDate *)creationDate
-                                  type:(NXMEventType)type;
-
 @end

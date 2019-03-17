@@ -239,6 +239,8 @@
 		F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F942921721BD9B6C00FA45A1 /* UserSettingsViewController.m */; };
 		F94888C621E78D800075237E /* NXMErrorsPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F94888C521E78D800075237E /* NXMErrorsPrivate.h */; };
 		F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */; };
+		F9B1A30B223904C600D72286 /* NXMDTMFEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B1A309223904C600D72286 /* NXMDTMFEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F9B1A30C223904C600D72286 /* NXMDTMFEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B1A30A223904C600D72286 /* NXMDTMFEvent.m */; };
 		F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F621D3AA8900FC7202 /* LICENSE */; };
 		F9E5E2F921D3AABE00FC7202 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F821D3AABE00FC7202 /* README.md */; };
 		F9E5E33521D4F3F100FC7202 /* DialerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E5E33421D4F3F100FC7202 /* DialerViewController.m */; };
@@ -339,7 +341,7 @@
 		9242CDC121C7C12600ED2B51 /* ContactsListTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactsListTableViewCell.m; sourceTree = "<group>"; };
 		92B5B57A21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsQueueDelegateHelper.h; sourceTree = "<group>"; };
 		92B5B57B21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsQueueDelegateHelper.m; sourceTree = "<group>"; };
-        92B5B596220208D2004AD14C /* Sentences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Sentences.plist; sourceTree = "<group>"; };
+		92B5B596220208D2004AD14C /* Sentences.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Sentences.plist; sourceTree = "<group>"; };
 		92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationTests.m; sourceTree = "<group>"; };
 		92B7A394213FCD2A00390258 /* NXMEventsDispatcher.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventsDispatcher.h; sourceTree = "<group>"; };
 		92B7A395213FCD2A00390258 /* NXMEventsDispatcher.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMEventsDispatcher.m; sourceTree = "<group>"; };
@@ -616,6 +618,9 @@
 		F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallMember.m; sourceTree = "<group>"; };
 		F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
 		F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMemberEventPrivate.h; sourceTree = "<group>"; };
+		F9B1A309223904C600D72286 /* NXMDTMFEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMDTMFEvent.h; sourceTree = "<group>"; };
+		F9B1A30A223904C600D72286 /* NXMDTMFEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMDTMFEvent.m; sourceTree = "<group>"; };
+		F9B1A30D22392B2800D72286 /* NXMCoreEventsPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCoreEventsPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8921931CC800C6C36D /* NXMCallProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallProxy.h; sourceTree = "<group>"; };
 		F9B9CB8A219342F500C6C36D /* NXMCallMemberPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallMemberPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
@@ -797,7 +802,7 @@
 			path = EventsQueueTests;
 			sourceTree = "<group>";
 		};
-        92B5B59322020580004AD14C /* Sentences */ = {
+		92B5B59322020580004AD14C /* Sentences */ = {
 			isa = PBXGroup;
 			children = (
 				92B5B596220208D2004AD14C /* Sentences.plist */,
@@ -1220,6 +1225,7 @@
 			isa = PBXGroup;
 			children = (
 				F9024DF621CA9AF000D58AD0 /* NXMEvent.m */,
+				F9B1A30D22392B2800D72286 /* NXMCoreEventsPrivate.h */,
 				F9024DF721CA9AF000D58AD0 /* Member */,
 				F9024DFA21CA9AF000D58AD0 /* Message */,
 				F9024E0921CA9AF000D58AD0 /* NXMEvent.h */,
@@ -1276,6 +1282,8 @@
 		F9024E0A21CA9AF000D58AD0 /* Media */ = {
 			isa = PBXGroup;
 			children = (
+				F9B1A309223904C600D72286 /* NXMDTMFEvent.h */,
+				F9B1A30A223904C600D72286 /* NXMDTMFEvent.m */,
 				F9024E0B21CA9AF000D58AD0 /* NXMMediaSettings.h */,
 				F9024E1421CA9AF000D58AD0 /* NXMMediaSettings.m */,
 				F9024E1621CA9AF000D58AD0 /* NXMMediaEvent.h */,
@@ -1608,6 +1616,7 @@
 				F9024E8921CA9AF000D58AD0 /* NXMRouter.h in Headers */,
 				F9024E7B21CA9AF000D58AD0 /* NXMRemoveMemberRequest.h in Headers */,
 				F9024E5E21CA9AF000D58AD0 /* NXMLoggerDelegate.h in Headers */,
+				F9B1A30B223904C600D72286 /* NXMDTMFEvent.h in Headers */,
 				F9024EC121CA9AF000D58AD0 /* NXMErrorParser.h in Headers */,
 				F923DDBC21985CAE00D29065 /* NXMStitchContext.h in Headers */,
 				F9024ECA21CA9AF000D58AD0 /* RTCMediaWrapper.h in Headers */,
@@ -1890,6 +1899,7 @@
 				F9024E3F21CA9AF000D58AD0 /* VPSocketAckManager.m in Sources */,
 				F923DDC421985CB600D29065 /* NXMConversationEventsQueue.m in Sources */,
 				F923DDA421985C8700D29065 /* NXMConversationEventsController.m in Sources */,
+				F9B1A30C223904C600D72286 /* NXMDTMFEvent.m in Sources */,
 				F9024EB721CA9AF000D58AD0 /* NXMPushParserInviteEvent.m in Sources */,
 				F9024EB321CA9AF000D58AD0 /* NXMPushParserImageEvent.m in Sources */,
 				F9024E8C21CA9AF000D58AD0 /* NXMUser.m in Sources */,

@@ -106,7 +106,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
         return;
     }
     
-    if (![self isCallConnected]) {
+    if ([self isCallDone]) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
 
@@ -128,7 +128,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 }
 
 - (void)addCallMemberWithNumber:(NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (![self isCallConnected]) {
+    if ([self isCallDone]) {
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -147,18 +147,13 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
     }];
 }
 
-- (BOOL)isCallConnected {
-    if (self.myCallMember.status == NXMCallMemberStatusCompleted || self.myCallMember.status == NXMCallMemberStatusCancelled) {
-        return NO;
+- (void)sendDTMF:(NSString *)dtmf {
+    if ([self isCallDone]) {
+        return;
     }
     
-    for (NXMCallMember *callMember in self.otherCallMembers) {
-        if (callMember.status != NXMCallMemberStatusCompleted && callMember.status != NXMCallMemberStatusCancelled) {
-            return YES;
-        }
-    }
-    
-    return NO;
+    NSLog(@"DTMF");
+    [self.conversation sendDTMF:dtmf];
 }
 
 #pragma mark - callProxy
@@ -177,7 +172,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 }
 
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
-    if (![self isCallConnected]) { return; }
+    if ([self isCallDone]) { return; }
     
     if (![callMember.memberId isEqualToString:self.myCallMember.memberId]) {
         return;
@@ -205,31 +200,24 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 #pragma mark - NXMConversationDelegate
 
 
-- (void)textEvent:(NXMMessageEvent *)textEvent {
-    
-}
-
-- (void)attachmentEvent:(NXMMessageEvent *)attachmentEvent {
-    
-}
-
-- (void)messageStatusEvent:(NXMMessageStatusEvent *)messageStatusEvent {
-    
-}
-
 - (void)mediaEvent:(NXMEvent *)mediaEvent {
     [self handleMediaEvent:mediaEvent];
-}
-
-- (void)typingEvent:(NXMTextTypingEvent *)typingEvent{
-    
 }
 
 - (void)memberEvent:(NXMMemberEvent *)memberEvent{
     [self handleMemberEvent:memberEvent];
 }
 
-#pragma mark - private
+#pragma mark - Private Methods
+
+- (BOOL)isCallDone {
+    if (self.myCallMember.status == NXMCallMemberStatusCompleted ||
+        self.myCallMember.status == NXMCallMemberStatusCancelled) {
+        return YES;
+    }
+    
+    return NO;
+}
 
 - (void)dialWithMember:(NXMMember *)member {
     @synchronized (self.membersSyncToken) {
@@ -248,6 +236,13 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 
 - (void)handleMediaEvent:(NXMEvent *)mediaEvent {
     NXMCallMember *callMember = [self findCallMember:mediaEvent.fromMemberId];
+    
+    if (mediaEvent.type == NXMEventDTMF) {
+        if ([self.delegate respondsToSelector:@selector(DTMFReceived:callMember:)]) {
+            [self.delegate DTMFReceived:((NXMDTMFEvent *)mediaEvent).digit callMember:callMember];
+        }
+    }
+    
     [callMember updateWithMediaEvent:mediaEvent];
 }
 

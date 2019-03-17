@@ -13,6 +13,7 @@
 #import "NXMConversationEventsQueue.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationDetails.h"
+#import "NXMCoreEventsPrivate.h"
 
 #pragma mark - Test Category
 @interface NXMConversationEventsQueue (Test)

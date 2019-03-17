@@ -14,12 +14,10 @@
 #import "NXMLogger.h"
 #import "NXMErrorsPrivate.h"
 
-#import "NXMCoreEvents.h"
-#import "NXMRtcAnswerEvent.h"
+#import "NXMCoreEventsPrivate.h"
 
 #import "NXMUtils.h"
 
-#import "NXMMemberEventPrivate.h"
 
 @interface NXMSocketClient()
 
@@ -471,6 +469,11 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioMuteOff"];
         [weakSelf onRTCAudioMuteOff:data emitter:emitter];
     }];
+    
+    [self.socket on:kNXMSocketEventAudioDtmf callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioDtmf"];
+        [weakSelf onAudioDTMF:data emitter:emitter];
+    }];
 }
 - (void)subscribeSipEvents{
     __weak NXMSocketClient *weakSelf = self;
@@ -834,6 +837,21 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     mediaEvent.isSuspended = false;
     
     [self.delegate mediaActionEvent:mediaEvent];
+}
+
+- (void)onAudioDTMF:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+
+    NSDictionary *json = data[0];
+    
+    NXMDTMFEvent *event = [[NXMDTMFEvent alloc] initWithDigit:json[@"body"][@"digit"]
+                                                   andDuration:[NSNumber numberWithInteger:[json[@"body"][@"duration"] integerValue]]];
+    event.conversationId = json[@"cid"];
+    event.fromMemberId = json[@"from"];
+    event.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
+    event.sequenceId = [json[@"id"] integerValue];
+    event.type = NXMEventDTMF;
+    
+    [self.delegate DTMFEvent:event];
 }
 
 @end

@@ -429,6 +429,10 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.rtcMedia answerWithMediaId:rtcEvent.rtcId convId:rtcEvent.conversationId andSDP:rtcEvent.sdp];
 }
 
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent {
+    [self.delegate DTMFEvent:dtmfEvent];
+}
+
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent{
     [self.delegate sipRinging:sipEvent];
 }

@@ -310,6 +310,10 @@
     [self.delegate rtcAnswerEvent:rtcEvent];
 }
 
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent {
+    [self.delegate DTMFEvent:dtmfEvent];
+}
+
 
 
 @end

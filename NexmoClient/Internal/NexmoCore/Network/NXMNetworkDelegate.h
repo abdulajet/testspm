@@ -41,6 +41,7 @@
 - (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaActionEvent;
 
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent;
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent;
 
 
 @end

@@ -43,6 +43,7 @@
 
 - (void)informOnMedia:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)actionOnMedia:(nonnull NXMMediaActionEvent *)mediaActionEvent;
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent;
 
 - (void)localInformOnMedia:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)localActionOnMedia:(nonnull NXMMediaActionEvent *)mediaActionEvent;

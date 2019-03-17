@@ -17,15 +17,7 @@
 #import "NXMLogger.h"
 
 #import "NXMNetworkCallbacks.h"
-#import "NXMMediaEvent.h"
-#import "NXMMediaActionEvent.h"
-#import "NXMMediaSuspendEvent.h"
-#import "NXMMemberEventPrivate.h"
-#import "NXMTextEvent.h"
-#import "NXMSipEvent.h"
-#import "NXMTextTypingEvent.h"
-#import "NXMImageEvent.h"
-#import "NXMMessageStatusEvent.h"
+#import "NXMCoreEventsPrivate.h"
 #import "NXMUtils.h"
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";

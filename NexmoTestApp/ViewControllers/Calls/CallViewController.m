@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *InCallStatusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *timerLabel;
 
+@property (weak, nonatomic) IBOutlet UIView *InCallKeyboard;
 @property (weak, nonatomic) IBOutlet UIView *IncomingCallView;
 @property (weak, nonatomic) IBOutlet UIImageView *IncomingCallAvatarImage;
 @property (weak, nonatomic) IBOutlet UILabel *IncomingCallInitialsLabel;
@@ -192,7 +193,7 @@
     }];
 }
 
-#pragma mark - InCall
+#pragma mark - InCall Controls
 - (IBAction)endCallButtonPressed:(UIButton *)sender {
     [self endCall];
 }
@@ -212,7 +213,46 @@
     
     [self.InCallSpeakerButton setSelected:self.isSpeaker];
 }
+- (IBAction)dailerPressed:(id)sender {
+    self.InCallKeyboard.hidden = NO;
+}
 
+#pragma mark - InCall Keyboard
+
+- (IBAction)hideKeyboardPressed:(id)sender {
+    [self.InCallKeyboard setHidden:YES];
+    
+}
+
+- (IBAction)dailerDigitPressed:(id)sender {
+    [self.call sendDTMF: [NSString stringWithFormat:@"%ld", (long)((UIButton *)sender).tag]];
+}
+
+
+#pragma mark - NXMCallDelegate
+- (void)statusChanged:(NXMCallMember *)member {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self statusChanged:member];
+        });
+
+        return;
+    }
+    
+    if (self.call.myCallMember.status == NXMCallMemberStatusCompleted ||
+        self.call.myCallMember.status == NXMCallMemberStatusCancelled) {
+            [self didDisconnectCall];
+        return;
+    }
+    
+    if ([member.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
+        [self.InCallMuteButton setSelected:member.isMuted];
+    }
+    
+    [self updateInCallStatusLabels];
+}
+
+#pragma mark - Private
 - (void)didDisconnectCall {
     [self endCall];
 }
@@ -220,7 +260,7 @@
 - (void)refreshTimeLabel
 {
     dispatch_async(dispatch_get_main_queue(), ^{
-
+        
         NSInteger   connectedTime = [[NSDate date] timeIntervalSinceDate:self.startTime];
         NSString    *timeString;
         
@@ -248,33 +288,6 @@
     [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
 }
 
-
-
-
-#pragma mark - NXMCallDelegate
-- (void)statusChanged:(NXMCallMember *)member {
-    if (![NSThread isMainThread]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self statusChanged:member];
-        });
-
-        return;
-    }
-    
-    if (self.call.myCallMember.status == NXMCallMemberStatusCompleted ||
-        self.call.myCallMember.status == NXMCallMemberStatusCancelled) {
-            [self didDisconnectCall];
-        return;
-    }
-    
-    if ([member.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
-        [self.InCallMuteButton setSelected:member.isMuted];
-    }
-    
-    [self updateInCallStatusLabels];
-}
-
-#pragma mark - Private
 - (void)endCall {
     [self.call.myCallMember hangup];
     

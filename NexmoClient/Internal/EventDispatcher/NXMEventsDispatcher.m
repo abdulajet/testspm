@@ -53,6 +53,10 @@
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:mediaActionEvent];
 }
 
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent {
+    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:dtmfEvent];
+}
+
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent {
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:sipEvent];
 }

@@ -33,6 +33,7 @@
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent;
 - (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaActionEvent;
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent;
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

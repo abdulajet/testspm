@@ -114,6 +114,10 @@
     [self.eventsDispatcher textTypingOn:textTypingEvent];
 }
 
+- (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent {
+    [self.eventsDispatcher DTMFEvent:dtmfEvent];
+}
+
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
     [self.eventsDispatcher connectionStatusChanged:status reason:reason];
     [self.stitchContextDelegate connectionStatusChanged:status reason:reason];

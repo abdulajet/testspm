@@ -7,7 +7,7 @@
 //
 
 #import "NXMPushParserImageEvent.h"
-#import "NXMCoreEvents.h"
+#import "NXMCoreEventsPrivate.h"
 #import "NXMUtils.h"
 
 // image

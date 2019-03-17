@@ -7,6 +7,7 @@
 //
 
 #import "NXMMemberEvent.h"
+#import "NXMCoreEventsPrivate.h"
 
 @implementation NXMMemberEvent
 

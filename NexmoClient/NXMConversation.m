@@ -100,8 +100,9 @@
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
+        case NXMEventDTMF:
             if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
-                [self.delegate mediaEvent:(NXMMediaEvent *)event];
+                [self.delegate mediaEvent:event];
             }
             break;
         case NXMEventTypeMember:
@@ -270,6 +271,10 @@
 
 - (void)earmuff:(BOOL)isEarmuff {
     
+}
+
+- (void)sendDTMF:(NSString *)dtmf {
+    [self.stitchContext.coreClient sendDTMFWithDigits:dtmf andConversationId:self.conversationId andMemberId:self.myMember.memberId andDuration:50 andGap:100];
 }
 
 #pragma mark events
