@@ -37,5 +37,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 - (void)sendDTMF:(NSString *)dtmf;
 
+- (void)hangup;
+
 @end
 

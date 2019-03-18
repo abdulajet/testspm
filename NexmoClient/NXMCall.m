@@ -185,6 +185,14 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
     
 }
 
+- (void)hangup {
+    if ([self isCallDone]) { return; }
+
+    [self.myCallMember hangup];
+}
+
+#pragma mark - callProxy
+
 - (void)onChange:(NXMCallMember *)callMember {
     if (callMember == self.myCallMember &&
         callMember.status == NXMCallMemberStatusCompleted) {
