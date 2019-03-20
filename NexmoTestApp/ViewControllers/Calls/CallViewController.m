@@ -225,7 +225,14 @@
 }
 
 - (IBAction)dailerDigitPressed:(id)sender {
-    [self.call sendDTMF: [NSString stringWithFormat:@"%ld", (long)((UIButton *)sender).tag]];
+    NSInteger digit = (long)((UIButton *)sender).tag;
+    if (digit <= 9) {
+        [self.call sendDTMF: [NSString stringWithFormat:@"%ld", (long)((UIButton *)sender).tag]];
+    } else if (digit == 10) {
+        [self.call sendDTMF:"*"];
+    } else {
+        [self.call sendDTMF:"#"]
+    }
 }
 
 
