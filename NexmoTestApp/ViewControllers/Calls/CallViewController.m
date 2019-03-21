@@ -229,9 +229,9 @@
     if (digit <= 9) {
         [self.call sendDTMF: [NSString stringWithFormat:@"%ld", (long)((UIButton *)sender).tag]];
     } else if (digit == 10) {
-        [self.call sendDTMF:"*"];
+        [self.call sendDTMF:@"*"];
     } else {
-        [self.call sendDTMF:"#"]
+        [self.call sendDTMF:@"#"];
     }
 }
 
