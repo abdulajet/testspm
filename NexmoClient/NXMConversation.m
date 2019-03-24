@@ -117,6 +117,12 @@
     }
 }
 
+- (void)conversationExpired {
+    if([self.delegate respondsToSelector:@selector(conversationExpired)]) {
+        [self.delegate conversationExpired];
+    }
+}
+
 #pragma mark - Public Methods
 
 #pragma mark members

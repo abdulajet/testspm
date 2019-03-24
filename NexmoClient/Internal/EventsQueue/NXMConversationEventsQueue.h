@@ -10,8 +10,8 @@
 
 @protocol NXMConversationEventsQueueDelegate <NSObject>
 
-@optional
 - (void)handleEvent:(NXMEvent*_Nonnull)event;
+- (void)conversationExpired;
 @optional
 - (void)finishHandleEventsSequence;
 

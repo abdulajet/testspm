@@ -197,6 +197,15 @@
             [self endProcessingRequest];
         }];
     } onError:^(NSError * _Nullable error) {
+        // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
+        // when we will add retry mechanism this code will be moved.
+        if (error.code == NXMErrorCodeConversationNotFound) {
+            [NXMLogger warningWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            [self.delegate conversationExpired];
+
+            return;
+        }
+        
         [weakSelf.operationQueue addOperationWithBlock:^{
             [NXMLogger warningWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
             [self endProcessingRequest];

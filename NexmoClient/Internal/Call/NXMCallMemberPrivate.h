@@ -19,4 +19,6 @@
 - (void)updateWithMediaEvent:(NXMEvent *)mediaEvent;
 - (void)updateWithMemberEvent:(NXMMemberEvent *)memberEvent;
 
+- (void)callEnded;
+
 @end

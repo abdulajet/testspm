@@ -86,6 +86,13 @@
     [self.callProxy earmuff:self isEarmuff:isEarmuff];
 }
 
+- (void)callEnded {
+    [self hangup];
+    
+    self.status = NXMCallMemberStatusCompleted;
+    [self.callProxy onChange:self];
+}
+
 - (void)updateWithMediaEvent:(NXMEvent *)mediaEvent {
     
     NXMCallMemberStatus newStatus = self.status;

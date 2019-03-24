@@ -216,6 +216,14 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
     [self handleMemberEvent:memberEvent];
 }
 
+- (void)conversationExpired {
+    if ([self isCallDone]) {
+        return;
+    }
+    
+    [self.myCallMember callEnded];
+}
+
 #pragma mark - Private Methods
 
 - (BOOL)isCallDone {
