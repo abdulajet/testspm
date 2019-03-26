@@ -11,7 +11,6 @@
 
 @interface NXMCallMember (NXMCallMemberPrivate)
 
-- (nullable instancetype)initWithMemberId:(NSString *)memberId user:(NXMUser *)user andCallProxy:(id<NXMCallProxy>)callProxy;
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy;
 - (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent andCallProxy:(id<NXMCallProxy>)callProxy;
 

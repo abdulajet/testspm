@@ -19,6 +19,7 @@
 #import "NXMNetworkCallbacks.h"
 #import "NXMCoreEventsPrivate.h"
 #import "NXMUtils.h"
+#import "NXMMemberPrivate.h"
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
@@ -101,47 +102,6 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
 #pragma mark - conversation
 
-- (BOOL)getConversationWithId:(NSString*)convId  completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMConversationDetails * _Nullable conversation))completionBlock {
-
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@", self.baseUrl, convId]];
-    
-    NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [self addHeader:request];
-    
-    [self executeRequest:request responseBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
-        if (error) {
-            completionBlock(error, nil);
-            return;
-        }
-        
-        NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithConversationId:convId];
-        details.name = data[@"name"];
-        details.created = data[@"timestamp"][@"created"];
-        details.sequence_number = [data[@"sequence_number"] intValue];
-        details.properties = data[@"properties"];
-        
-        NSMutableArray *members = [[NSMutableArray alloc] init];
-        
-        for (NSDictionary* memberJson in data[@"members"]) {
-            NXMUser *user = [[NXMUser alloc] initWithId:memberJson[@"user_id"] name:memberJson[@"name"]];
-                             
-            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"]
-                                                     conversationId:convId
-                                                               user:user
-                                                              state:[self parseMemberState:memberJson[@"state"]]];
-
-            member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
-            member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
-            member.leftDate = memberJson[@"timestamp"][@"left"]; // TODO: NSDate
-            
-            [members addObject:member];
-        }
-
-        completionBlock(nil, details);
-    }];
-    
-    return YES;
-}
 
 
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
@@ -354,18 +314,9 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         NSMutableArray *members = [[NSMutableArray alloc] init];
         
         for (NSDictionary* memberJson in data[@"members"]) {
-            NXMUser *user = [[NXMUser alloc] initWithId:memberJson[@"user_id"] name:memberJson[@"name"]];
-
-            NXMMember *member = [[NXMMember alloc] initWithMemberId:memberJson[@"member_id"]
-                                                     conversationId:conversationId
-                                                               user:user
-                                                              state:[self parseMemberState:memberJson[@"state"]]];
-            
-            member.inviteDate = memberJson[@"timestamp"][@"invited"]; // TODO: NSDate
-            member.joinDate = memberJson[@"timestamp"][@"joined"]; // TODO: NSDate
-            member.leftDate = memberJson[@"timestamp"][@"left"]; // TODO: NSDate
-            
-            [members addObject:member];
+            [members addObject:[[NXMMember alloc] initWithData:memberJson
+                                          andMemberIdFieldName:@"member_id"
+                                             andConversationId:data[@"uuid"]]];
         }
         
         details.members = members;
@@ -421,7 +372,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             return;
         }
         
-        onSuccess([self parseMemberWithHttpResponseData:data andConversationId:inviteUserRequest.conversationID]); // TODO: change to parse without conversation when we have this field from the CS response
+        onSuccess([[NXMMember alloc] initWithData:data
+                             andMemberIdFieldName:@"id"
+                                andConversationId:inviteUserRequest.conversationID]);
     }];
 }
 
@@ -444,7 +397,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             return;
         }
         
-        onSuccess([self parseMemberWithHttpResponseData:data andConversationId:addUserRequest.conversationID]);  // TODO: change to parse without conversation when we have this field from the CS response
+        onSuccess([[NXMMember alloc] initWithData:data
+                             andMemberIdFieldName:@"id"
+                                andConversationId:addUserRequest.conversationID]);
     }];
 }
 
@@ -1149,33 +1104,6 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return [NSString stringWithString:hexString];
 }
 
-//TODO: this weird method is what we add because CS don't have this field in the payload
-- (nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data andConversationId:(NSString *)conv_id {
-    NXMMember *member = nil;
-    if((member = [self parseMemberWithHttpResponseData:data])) {
-        member.conversationId = conv_id;
-    }
-    return member;
-}
-
-//TODO: this should be incoroporated somehow in NSSecureCoding
-- (nullable NXMMember *)parseMemberWithHttpResponseData:(NSDictionary *)data {
-    
-    NXMUser *user = [[NXMUser alloc] initWithId:data[@"user_id"] name:data[@"name"]];
-
-    NXMMember *member = nil;
-    if((member = [[NXMMember alloc] initWithMemberId:data[@"id"]
-                                      conversationId:data[@"conv_id"]
-                                                user:user
-                                               state:[self parseMemberState:data[@"state"]]])) {
-        member.inviteDate = data[@"timestamp"][@"invited"]; // TODO: NSDate
-        member.joinDate = data[@"timestamp"][@"joined"]; // TODO: NSDate
-        member.leftDate = data[@"timestamp"][@"left"]; // TODO: NSDate
-    }
-
-    return member;
-}
-
 - (NXMMemberState)parseMemberState:(NSString *)state {
     static NSDictionary *memberStateValues = nil;
     static dispatch_once_t onceToken;
@@ -1187,32 +1115,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return [memberStateValues[[state uppercaseString]] integerValue];
 }
 
-/*
- {
- channel =     {
- "leg_ids" =         (
- );
- "leg_settings" =         {
- };
- type = app;
- };
- href = "https://api.nexmo.com/beta/conversations/CON-e342a2a1-2f22-4d59-a0e5-95a02f80604c/members/MEM-4bbf2ae6-69fb-4de9-a5bd-df3abbe3c892";
- id = "MEM-4bbf2ae6-69fb-4de9-a5bd-df3abbe3c892";
- initiator =     {
- joined =         {
- isSystem = 0;
- "member_id" = "MEM-4bbf2ae6-69fb-4de9-a5bd-df3abbe3c892";
- "user_id" = "USR-1628dc75-fa09-4746-9e29-681430cb6419";
- };
- };
- name = testuser2;
- state = JOINED;
- timestamp =     {
- joined = "2018-10-29T08:39:15.076Z";
- };
- "user_id" = "USR-1628dc75-fa09-4746-9e29-681430cb6419";
- }
- */
+
+
+
 
 
 @end

@@ -19,13 +19,15 @@ typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
 
 @interface NXMCallMember : NSObject
 
-@property (nonatomic, readonly, nonnull) NSString *callId;
-@property (nonatomic, readonly, nonnull) NSString *memberId;
+@property (nonatomic, copy, nonnull) NSString *callId;
+@property (nonatomic, copy, nonnull) NSString *memberId;
 @property (nonatomic, readonly, nonnull) NXMUser *user;
+@property (nonatomic, copy, nullable) NSString *phoneNumber;
+@property (nonatomic, copy, nonnull) NSString *channelType;
 @property (nonatomic, readonly) BOOL isMuted;
 @property (nonatomic, readonly) NXMCallMemberStatus status;
-@property (nonatomic, readonly) NSString *statusDescription;
-@property (nonatomic, readonly, nullable) NSString *metaInfo;
+@property (nonatomic, copy, nonnull) NSString *statusDescription;
+@property (nonatomic, copy, nullable) NSString *metaInfo;
 
 - (void)hangup;
 - (void)hold:(BOOL)isHold;

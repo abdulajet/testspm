@@ -115,8 +115,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
     
     [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (member) {
-            NXMCallMember *diallingCallMember = [[NXMCallMember alloc] initWithMemberId:member.memberId user:member.user
-                                                                              andCallProxy:self];
+            NXMCallMember *diallingCallMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
             [self findOrAddCallMember:diallingCallMember];
             return;
         }
@@ -238,7 +237,7 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 - (void)dialWithMember:(NXMMember *)member {
     @synchronized (self.membersSyncToken) {
         if (!self.myCallMember) {
-            self.myCallMember = [[NXMCallMember alloc] initWithMemberId:member.memberId user:member.user andCallProxy:self];
+            self.myCallMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
         }
     }
     

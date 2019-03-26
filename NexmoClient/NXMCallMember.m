@@ -12,8 +12,6 @@
 
 @interface NXMCallMember()
 
-@property (nonatomic, readwrite) NSString *callId;
-@property (nonatomic, readwrite) NSString *memberId;
 @property (nonatomic, readwrite) NXMCallMemberStatus status;
 @property (nonatomic, readwrite) NXMUser *user;
 @property (nonatomic, readwrite) BOOL isMuted;
@@ -24,19 +22,29 @@
 
 @implementation NXMCallMember
 
-- (nullable instancetype)initWithMemberId:(NSString *)memberId user:(NXMUser *)user andCallProxy:(id<NXMCallProxy>)callProxy {
+- (nullable instancetype)initWithMemberId:(NSString *)memberId
+                                     user:(NXMUser *)user
+                               phoneNumer:(NSString *)phoneNumer
+                              channelType:(NSString *)channelType
+                             andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [super init]) {
         self.memberId = memberId;
         self.user = user;
         self.callProxy = callProxy;
         self.status = NXMCallMemberStatusDialling;
+        self.phoneNumber = phoneNumer;
+        self.channelType = channelType;
     }
     
     return self;
 }
 
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [self initWithMemberId:member.memberId user:member.user andCallProxy:callProxy]) {
+    if (self = [self initWithMemberId:member.memberId
+                                 user:member.user
+                           phoneNumer:member.phoneNumber
+                          channelType:member.channelType
+                         andCallProxy:callProxy]) {
         [self updateWithMember:member];
     }
     
@@ -44,7 +52,11 @@
 }
 
 - (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [self initWithMemberId:memberEvent.memberId user:memberEvent.user andCallProxy:callProxy]) {
+    if (self = [self initWithMemberId:memberEvent.memberId
+                                 user:memberEvent.user
+                           phoneNumer:memberEvent.phoneNumber
+                          channelType:memberEvent.channelType == NXMChannelTypeApp ? @"app" : @"phone"
+                         andCallProxy:callProxy]) {
         [self updateWithMemberEvent:memberEvent];
     }
     

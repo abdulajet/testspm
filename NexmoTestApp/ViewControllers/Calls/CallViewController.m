@@ -51,7 +51,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self updateContactUI];
     [self.callCreator callWithDelegate:self completion:^(NSError * _Nullable error, NXMCall * _Nullable call) {
         if(error) {
             [self didFailCreatingCallWithError:error];
@@ -65,10 +64,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     if(self.isControllerInIncomingCallState) {
         [self activateIncomingCallView];
-    } else {
-        [self activateInCallView];
+        [self updateContactUI];
+        return;
     }
     
+    [self activateInCallView];
     [self updateInCallStatusLabels];
 }
 
@@ -98,10 +98,11 @@
         return;
     }
     
-    self.IncomingCallInitialsLabel.text = self.number ? @"PSTN" : self.contactUserInfo.initials;
-    self.IncomingCalluserNameLabel.text = self.number ? self.number : self.contactUserInfo.displayName;
-    self.InCallAvatarInitialsLabel.text = self.number ? @"PSTN" : self.contactUserInfo.initials;
-    self.InCallUserNameLabel.text = self.number ? self.number : self.contactUserInfo.displayName;
+    NSString *num = self.call.otherCallMembers[0].phoneNumber;
+    self.IncomingCallInitialsLabel.text = [num length] > 0 ? @"PSTN" : self.contactUserInfo.initials;
+    self.IncomingCalluserNameLabel.text = [num length] > 0 ? num : self.contactUserInfo.displayName;
+    self.InCallAvatarInitialsLabel.text = [num length] > 0 ? @"PSTN" : self.contactUserInfo.initials;
+    self.InCallUserNameLabel.text = [num length] > 0 ? num : self.contactUserInfo.displayName;
 }
 
 - (void)activateInCallView {

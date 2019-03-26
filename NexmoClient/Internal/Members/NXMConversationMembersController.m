@@ -10,6 +10,7 @@
 #import "NXMConversation.h"
 #import "NXMStitchContext.h"
 #import "NXMCoreEvents.h"
+#import "NXMMemberPrivate.h"
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
