@@ -68,7 +68,7 @@
                                                                suspend:[data[@"media"][@"audio_settings"][@"muted"] boolValue]];
         
         self.channelType = data[@"channel"][@"type"];
-        self.phoneNumber = data[@"channel"][@"to"][@"number"];
+        self.phoneNumber = data[@"channel"][@"from"][@"number"];
     }
     return self;
 }
