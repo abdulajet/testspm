@@ -71,11 +71,16 @@ static MainFlow *sharedInstance;
         }
         [NTALogger info:@"MainFlow - creating incoming call view controller"];
 
-        NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherCallMembers[0].user.name];
         
         IncomingCallCreator *creator = [[IncomingCallCreator alloc] initWithCall:call];
         self.callWindow.callVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Call"];
-        [self.callWindow.callVC  updateWithContactUserInfo:userInfo callCreator:creator andIsIncomingCall:YES];
+        
+        if ([call.otherCallMembers[0].channelType  isEqualToString:@"app"]) {
+            NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherCallMembers[0].user.name];
+            [self.callWindow.callVC updateWithContactUserInfo:userInfo callCreator:creator andIsIncomingCall:YES];
+        } else {
+            [self.callWindow.callVC updateWithNumber:call.otherCallMembers[0].phoneNumber callCreator:creator andIsIncomingCall:YES];
+        }
 
         self.callWindow.rootViewController = self.callWindow.callVC;
         
