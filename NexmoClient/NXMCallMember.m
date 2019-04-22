@@ -14,9 +14,10 @@
 
 @property (nonatomic, readwrite) NXMCallMemberStatus status;
 @property (nonatomic, readwrite) NXMUser *user;
+@property (nonatomic, readwrite) NXMChannel *channel;
 @property (nonatomic, readwrite) BOOL isMuted;
 
-@property (nonatomic, readwrite, weak) id<NXMCallProxy> callProxy; // tmp
+@property (nonatomic, readwrite, weak) id<NXMCallProxy> callProxy;
 
 @end
 
@@ -24,16 +25,14 @@
 
 - (nullable instancetype)initWithMemberId:(NSString *)memberId
                                      user:(NXMUser *)user
-                               phoneNumer:(NSString *)phoneNumer
-                              channelType:(NSString *)channelType
+                                  channel:(NXMChannel *)channel
                              andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [super init]) {
         self.memberId = memberId;
         self.user = user;
         self.callProxy = callProxy;
         self.status = NXMCallMemberStatusDialling;
-        self.phoneNumber = phoneNumer;
-        self.channelType = channelType;
+        self.channel = channel;
     }
     
     return self;
@@ -42,8 +41,7 @@
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [self initWithMemberId:member.memberId
                                  user:member.user
-                           phoneNumer:member.phoneNumber
-                          channelType:member.channelType
+                              channel:member.channel
                          andCallProxy:callProxy]) {
         [self updateWithMember:member];
     }
@@ -54,8 +52,7 @@
 - (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent andCallProxy:(id<NXMCallProxy>)callProxy {
     if (self = [self initWithMemberId:memberEvent.memberId
                                  user:memberEvent.user
-                           phoneNumer:memberEvent.phoneNumber
-                          channelType:memberEvent.channelType == NXMChannelTypeApp ? @"app" : @"phone"
+                              channel:memberEvent.channel
                          andCallProxy:callProxy]) {
         [self updateWithMemberEvent:memberEvent];
     }

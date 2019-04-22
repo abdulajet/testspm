@@ -20,6 +20,7 @@
 #import "NXMCoreEventsPrivate.h"
 #import "NXMUtils.h"
 #import "NXMMemberPrivate.h"
+#import "NXMUserPrivate.h"
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
@@ -337,7 +338,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         if (data != nil){
             [NXMLogger infoWithFormat:@"getUser result %@",data];
             
-            NXMUser *user = [[NXMUser alloc] initWithId:data[@"id"] name:data[@"name"] displayName:data[@"display_name"]];
+            NXMUser *user = [[NXMUser alloc] initWithData:data];
             
             completionBlock(nil, user);
         }
@@ -750,17 +751,17 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         for (NSDictionary* eventJson in data) {
             NSString* type = eventJson[@"type"];
             if ([type isEqual:@"member:joined"]) {
-                [events addObject:[self parseMemberEvent:@"joined" dict:eventJson conversationId:getEventsRequest.conversationId]];
+                [events addObject:[self parseMemberEvent:NXMMemberStateJoined dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
-            
+
             if ([type isEqual:@"member:invited"]){
-                [events addObject:[self parseMemberEvent:@"invited" dict:eventJson conversationId:getEventsRequest.conversationId]];
+                [events addObject:[self parseMemberEvent:NXMMemberStateInvited dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
-            
+
             if ([type isEqual:@"member:left"]){
-                [events addObject:[self parseMemberEvent:@"left" dict:eventJson conversationId:getEventsRequest.conversationId]];
+                [events addObject:[self parseMemberEvent:NXMMemberStateLeft dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
             
@@ -918,27 +919,16 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return [NXMUtils dateFromISOString:dict[@"timestamp"]];
 }
 
-- (NXMMemberEvent* )parseMemberEvent:(nonnull NSString*)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
+- (NXMMemberEvent* )parseMemberEvent:(NXMMemberState)state dict:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     
-    NSString *userId = dict[@"body"][@"user"][@"user_id"] ? dict[@"body"][@"user"][@"user_id"] : dict[@"body"][@"user"][@"id"];
-    NXMUser *user = [[NXMUser alloc] initWithId:userId name:dict[@"body"][@"user"][@"name"]];
+    NSString *memberId = dict[@"body"][@"user"][@"member_id"] ?: dict[@"from"];
     
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:conversationId
-                                                                            type:NXMEventTypeMember
-                                                                    fromMemberId:[self getFromMemberId:dict]
                                                                       sequenceId:[[self getSequenceId:dict] integerValue]
-                                                                        memberId:dict[@"body"][@"user"][@"member_id"] ? dict[@"body"][@"user"][@"member_id"] : dict[@"from"]
-                                                                            name:dict[@"body"][@"user"][@"name"]
-                                                                           state:[self parseMemberState:state]
-                                                                            user:user
-                                                                     phoneNumber:dict[@"body"][@"channel"][@"to"][@"number"]
-                                                                           media:nil
-                                                                     channelType:dict[@"body"][@"channel"][@"type"]
-                                                                     channelData:nil
-                                                                      knockingId:dict[@"body"][@"channel"][@"knocking_id"]];
-    
-    memberEvent.channelData = memberEvent.channelType == NXMChannelTypePhone ? dict[@"body"][@"channel"][@"to"][@"number"] : nil;
-    memberEvent.creationDate = [self getCreationDate:dict];
+                                                                        andState:state
+                                                                         andData:dict[@"body"]
+                                                                    creationDate:[self getCreationDate:dict]
+                                                                        memberId:memberId];
     
     return memberEvent;
 }
@@ -1104,16 +1094,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return [NSString stringWithString:hexString];
 }
 
-- (NXMMemberState)parseMemberState:(NSString *)state {
-    static NSDictionary *memberStateValues = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        memberStateValues = @{@"INVITED":@(NXMMemberStateInvited),
-                              @"JOINED":@(NXMMemberStateJoined),
-                              @"LEFT":@(NXMMemberStateLeft)};
-    });
-    return [memberStateValues[[state uppercaseString]] integerValue];
-}
+
 
 
 

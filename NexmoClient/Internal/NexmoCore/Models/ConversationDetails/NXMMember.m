@@ -7,10 +7,14 @@
 
 #import "NXMMemberPrivate.h"
 
+#import "NXMUserPrivate.h"
+#import "NXMChannelPrivate.h"
+
 @interface NXMMember()
 @property (nonatomic, readwrite) NXMUser *user;
 @property (nonatomic, readwrite) NXMMediaSettings *mediaSettings;
 @property (nonatomic, readwrite) NXMMemberState state;
+@property (nonatomic, readwrite) NXMChannel *channel;
 @end
 
 @implementation NXMMember
@@ -54,7 +58,7 @@
                     andConversationId:(NSString *)convertaionId {
     self = [super init];
     if (self) {
-        NXMUser *user = [[NXMUser alloc] initWithId:data[@"user_id"] name:data[@"name"]];
+        NXMUser *user = [[NXMUser alloc] initWithData:data];
         
         self.memberId = data[memberIdFieldName];
         self.conversationId = convertaionId;
@@ -67,8 +71,10 @@
         self.mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:[data[@"media"][@"audio_settings"][@"enabled"] boolValue]
                                                                suspend:[data[@"media"][@"audio_settings"][@"muted"] boolValue]];
         
-        self.channelType = data[@"channel"][@"type"];
-        self.phoneNumber = data[@"channel"][@"from"][@"number"];
+        self.channel = [[NXMChannel alloc] initWithData:data[@"channel"]];
+
+        
+       
     }
     return self;
 }

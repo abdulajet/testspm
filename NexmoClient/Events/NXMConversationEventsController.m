@@ -121,6 +121,11 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
     }
 }
 
+- (void)conversationExpired {
+    
+}
+
+
 #pragma mark - private methods
 
 -(void)handleEventsFromRequest:(NSArray<NXMEvent *> *)events withStartId:(NSNumber *)startId andEndId:(NSNumber *)endId{

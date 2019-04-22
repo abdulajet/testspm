@@ -11,54 +11,11 @@
 @interface NXMMemberEvent (private)
 
 - (instancetype)initWithConversationId:(NSString *)conversationId
-    type:(NXMEventType)type
-    fromMemberId:(NSString *)fromMemberId
-    sequenceId:(NSInteger)sequenceId
-    memberId:(NSString *)memberId
-    name:(NSString *)name
-    state:(NXMMemberState)state
-    user:(NXMUser *)user
-    media:(NXMMediaSettings *)isMediaEnabled;
-
-- (instancetype)initWithConversationId:(NSString *)conversationId
-    type:(NXMEventType)type
-    fromMemberId:(NSString *)fromMemberId
-    sequenceId:(NSInteger)sequenceId
-    memberId:(NSString *)memberId
-    name:(NSString *)name
-    state:(NXMMemberState)state
-    user:(NXMUser *)user
-    phoneNumber:(NSString *)phoneNumber
-    media:(NXMMediaSettings *)isMediaEnabled;
-
-//- (instancetype)initWithConversationId:(NSString *)conversationId
-//    type:(NXMEventType)type
-//    fromMemberId:(NSString *)fromMemberId
-//    sequenceId:(NSInteger)sequenceId
-//    memberId:(NSString *)memberId
-//    name:(NSString *)name
-//    state:(NXMMemberState)state
-//    user:(NXMUser *)user
-//    phoneNumber:(NSString *)phoneNumber
-//    media:(NXMMediaSettings *)media
-//    channelType:(NXMChannelType)channelType
-//    channelData:(NSString*)channelData;
-
-- (instancetype)initWithConversationId:(NSString *)conversationId
-                            type:(NXMEventType)type
-                            fromMemberId:(NSString *)fromMemberId
-                            sequenceId:(NSInteger)sequenceId
-                            memberId:(NSString *)memberId
-                            name:(NSString *)name
-                            state:(NXMMemberState)state
-                            user:(NXMUser *)user
-                            phoneNumber:(NSString *)phoneNumber
-                            media:(NXMMediaSettings *)media
-                            channelType:(NSString *)channelType
-                            channelData:(NSString *)channelData
-                            knockingId:(NSString *)knockingId;
-
-+ (NXMChannelType)getTypeFromString:(nullable NSString*)typeString;
+                            sequenceId:(NSUInteger)sequenceId
+                                andState:(NXMMemberState)state
+                                andData:(NSDictionary *)data
+                            creationDate:(NSDate *)creationDate
+                                memberId:(NSString *)memberId;
 
 @end
 

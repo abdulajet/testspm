@@ -9,9 +9,6 @@
 #import "NXMUser.h"
 
 @implementation NXMUser
-- (instancetype)initWithId:(NSString *)uuid name:(NSString *)name {
-    return [self initWithId:uuid name:name displayName:nil];
-}
 
 - (instancetype)initWithId:(NSString *)uuid name:(NSString *)name displayName:(NSString * _Nullable)displayName{
     if(self = [super init]) {
@@ -21,6 +18,12 @@
     }
     
     return self;
+}
+
+- (nullable instancetype)initWithData:(nonnull NSDictionary *)data {
+    NSString *userId = data[@"user_id"] ? data[@"user_id"] : data[@"id"];
+    
+    return [self initWithId:userId name:data[@"name"] displayName:data[@"display_name"]];
 }
 
 @end
