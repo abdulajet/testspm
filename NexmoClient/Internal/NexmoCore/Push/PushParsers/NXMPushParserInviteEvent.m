@@ -44,7 +44,7 @@
                                                                       sequenceId:[stitchPushInfo[@"id"] integerValue]
                                                                         andState:NXMMemberStateInvited
                                                                          andData:stitchPushInfo[@"body"]
-                                                                    creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"][@"invited"]]
+                                                                    creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"]]
                                                                         memberId:stitchPushInfo[@"from"]];
     return memberEvent;
 }
