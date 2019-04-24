@@ -16,6 +16,8 @@
 
 
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
+NSString *const NXMCallPerfix = @"CALL_";
+
 
 @interface NXMKnockingObj : NSObject
 @property knockingComplition complition;
@@ -172,7 +174,7 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
-    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString]
+    [weakCore createConversationWithName:[NSString stringWithFormat:@"%@%@", NXMCallPerfix, [[NSUUID UUID] UUIDString]]
                                onSuccess:^(NSString * _Nullable convId) {
                                    [weakSelf getConversationWithId:convId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                                        if (conversation){
@@ -365,6 +367,12 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 
                 if (!conversation){
                     [NXMLogger error:[NSString stringWithFormat:@"got empty conversation without error conversation id %@:", event.conversationId]];
+                }
+                
+                if (!([conversation.displayName hasPrefix:NXMCallPerfix] || // IP-IP CS
+                      !event.fromMemberId)) { // IP-IP VAPI
+                    [NXMLogger warning:@"member invited event with media enabled without call perfix"];
+                    return;
                 }
                 
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
