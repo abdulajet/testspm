@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *InCallAvatarInitialsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *InCallUserNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *InCallUserStatusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *InCallUserSecondName;
+@property (weak, nonatomic) IBOutlet UILabel *InCallUserStatusName;
 @property (weak, nonatomic) IBOutlet UIButton *InCallMuteButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallSpeakerButton;
 @property (weak, nonatomic) IBOutlet UIButton *InCallEarmuffButton;
@@ -163,7 +165,18 @@
     if (self.call.otherCallMembers.count > 0) {
         NSLog(@"status %@", self.call.otherCallMembers[0].statusDescription);
 
+        [self.InCallUserNameLabel setText:[self memberName:self.call.otherCallMembers[0]]];
         [self.InCallUserStatusLabel setText:self.call.otherCallMembers[0].statusDescription];
+    }
+    
+    if (self.call.otherCallMembers.count > 1) {
+        NSLog(@"status %@", self.call.otherCallMembers[1].statusDescription);
+        
+        [self.InCallUserStatusName setText:[self memberName:self.call.otherCallMembers[1]]];
+        [self.InCallUserSecondName setText:self.call.otherCallMembers[1].statusDescription];
+    } else {
+        [self.InCallUserStatusName setText:@""];
+        [self.InCallUserSecondName setText:@""];
     }
 }
 
@@ -218,6 +231,38 @@
 }
 - (IBAction)dailerPressed:(id)sender {
     self.InCallKeyboard.hidden = NO;
+}
+
+- (IBAction)addPreseed:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Add User" message:@"Add user to call" preferredStyle:UIAlertControllerStyleAlert];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"User name";
+        textField.secureTextEntry = YES;
+    }];
+    
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        __weak id weakSelf = self;
+        [self.call addCallMemberWithUserId:@"USR-1628dc75-fa09-4746-9e29-681430cb6419" completionHandler:^(NSError * _Nullable error) {
+            if (error) {
+                UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Failed"
+                                                                                    message:error.description
+                                                                             preferredStyle:UIAlertControllerStyleAlert];
+                
+                [errorAlert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil]];
+                
+                [weakSelf presentViewController:errorAlert animated:YES completion:nil];
+            }
+        }];
+    }];
+    [alert addAction:confirmAction];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        NSLog(@"Canelled");
+    }];
+    [alert addAction:cancelAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - InCall Keyboard
@@ -321,4 +366,13 @@
     
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (NSString *)memberName:(NXMCallMember *)member {
+    if (member.channel.from.data) {
+        return member.channel.from.data;
+    }
+    
+    return member.user.name;
+}
+
 @end
