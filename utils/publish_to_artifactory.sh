@@ -35,9 +35,9 @@ popd
 ./create_docs.sh $PLIST_VERSION
 
 pushd $PWD/../Output/Debug
-cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md ../../docs .
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md docs
-rm -rf $CHANGELOG_FILE LICENSE README.md docs
+cp -R ../../LICENSE ../../README.md ../../docs .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework LICENSE README.md docs
+rm -rf LICENSE README.md docs
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_DEBUG" -T NexmoClient.zip
 
@@ -50,9 +50,9 @@ popd
 
 pushd $PWD/../Output/Release
 
-cp -R ../../$CHANGELOG_FILE ../../LICENSE ../../README.md ../../docs .
-zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework $CHANGELOG_FILE LICENSE README.md docs
-rm -rf $CHANGELOG_FILE LICENSE README.md docs
+cp -R ../../LICENSE ../../README.md ../../docs .
+zip --symlinks -r -9 NexmoClient.zip NexmoClient.framework LICENSE README.md docs
+rm -rf LICENSE README.md docs
 
 curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_RELEASE" -T NexmoClient.zip
 
