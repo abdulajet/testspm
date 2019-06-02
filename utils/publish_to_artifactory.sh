@@ -24,14 +24,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-pushd ../
-echo changelog before:
-cat $CHANGELOG_FILE
-sed -i "" "s^###VERSION###^$PLIST_VERSION^g" $CHANGELOG_FILE
-echo changelog after:
-cat $CHANGELOG_FILE
-popd
-
 ./create_docs.sh $PLIST_VERSION
 
 pushd $PWD/../Output/Debug

@@ -15,3 +15,15 @@ TAG_NAME="public/${MAJOR_VERSION}.${MINOR_VERSION}/v$SDK_VERSION"
 echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME
 git push origin $TAG_NAME
+
+pushd ../
+echo changelog before:
+cat $CHANGELOG_FILE
+sed -i "" "s^###VERSION###^$SDK_VERSION^g" $CHANGELOG_FILE
+echo changelog after:
+cat $CHANGELOG_FILE
+popd
+
+git add .
+git commit -m "no var - update changelog file version $SDK_VERSION"
+git push
