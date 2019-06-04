@@ -19,9 +19,9 @@ MINOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f2)
 echo "Xcode bundle version: $PLIST_VERSION"
 echo "Major: $MAJOR_VERSION"
 echo "Minor: $MINOR_VERSION"
-echo "Build: 0"
+echo "Build: $BUILD_NUMBER"
 
-FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.0"
+FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$BUILD_NUMBER"
 
 echo "Version: $FINAL_VERSION"
 
