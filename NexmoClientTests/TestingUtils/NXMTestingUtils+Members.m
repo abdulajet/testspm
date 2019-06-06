@@ -7,12 +7,14 @@
 //
 
 #import "NXMTestingUtils+Members.h"
+#import "NXMUserPrivate.h"
+#import "NXMMemberPrivate.h"
 
 @implementation NXMTestingUtils (Members)
 
 + (NXMMember *)memberWithConversationId:(NSString *)conversationId andUserId:(NSString *)userId state:(NXMMemberState)state {
     NSString *name = [@"name_" stringByAppendingString:userId];
-    NXMUser *user = [[NXMUser alloc] initWithId:userId name:name];
+    NXMUser *user = [[NXMUser alloc] initWithData:@{@"id":userId, @"name":name}];
     return [self memberWithConversationId:conversationId user:user state:state];
 }
 

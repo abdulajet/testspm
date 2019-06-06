@@ -52,7 +52,7 @@
     NSInteger startingSequenceId = 1;
     NSInteger nextEventId = startingSequenceId + 1;
     NSString *convId = @"convId";
-    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:nextEventId];
+    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
 
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
@@ -74,7 +74,7 @@
     NSString *convId = @"convId";
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId;
-    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:nextEventId];
+    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
 
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
@@ -95,7 +95,7 @@
     NSString *convId = @"convId";
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId;
-    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:nextEventId];
+    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
 
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
@@ -116,7 +116,7 @@
     NSString *convId = @"convId";
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId - 1;
-    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:nextEventId];
+    NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
 
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
@@ -148,11 +148,12 @@
     NSInteger eventId5 = 5;
     NSInteger startingSequenceId = eventId2;
     
-    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId1];
-    NXMEvent *event2 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeText fromMemberId:@"memberId" sequenceId:eventId2];
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId5];
+    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId1 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+  
+    NXMEvent *event2 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId2 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeText];
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId5 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
     
     NSUInteger expectedNumberOfHandledEvents = 4;
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
@@ -193,10 +194,11 @@
 
     NSInteger startingSequenceId = eventId2;
     
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId5];
-    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
+    
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId5 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
+    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     
     NSArray<NXMEvent *> *queriedEvents = @[event3, event4, event5];
 
@@ -236,9 +238,9 @@
     
     NSInteger startingSequenceId = eventId2;
     
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId5];
-    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId7];
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId5 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
+    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     
     NSArray<NXMEvent *> *queriedEvents = @[event3, event5];
     
@@ -279,9 +281,10 @@
     
     NSInteger startingSequenceId = eventId2;
     
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId5];
-    NXMEvent *event8 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId8];
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId5 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
+    NXMEvent *event8 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+
     
     NSArray<NXMEvent *> *queriedEvents = @[event3, event5, event8];
     
@@ -325,19 +328,21 @@
     NSInteger eventId8 = 8;
     
     NSInteger startingSequenceId = eventId2;
-    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId1];
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeText fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId7];
+    
+    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId1 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeText];
+    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
+
     
     //TODO: change to eventCopy when we have NSCopy on events
-    NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6Gap = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event4Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId7];
-    NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId8];
+    NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event4Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
+    NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
 
     NSMutableArray<NXMEvent *> *queriedGapEvents = [@[event4Gap, event6Gap] mutableCopy];
     NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network, event8Network] mutableCopy];
@@ -403,19 +408,20 @@
     NSInteger eventId8 = 8;
     
     NSInteger startingSequenceId = eventId2;
-    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId1];
-    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeText fromMemberId:@"memberId" sequenceId:eventId3];
-    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId7];
+    
+    NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId1 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeText];
+    NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
     
     //TODO: change to eventCopy when we have NSCopy on events
-    NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6Gap = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event4Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId4];
-    NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMessageStatus fromMemberId:@"memberId" sequenceId:eventId6];
-    NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeImage fromMemberId:@"memberId" sequenceId:eventId7];
-    NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId type:NXMEventTypeMember fromMemberId:@"memberId" sequenceId:eventId8];
+    NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event4Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
+    NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
     
     NSMutableArray<NXMEvent *> *queriedGapEvents = [@[event4Gap, event6Gap] mutableCopy];
     NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network, event8Network] mutableCopy];

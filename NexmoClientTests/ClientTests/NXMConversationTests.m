@@ -16,6 +16,7 @@
 #import "NXMConversationEventsQueue.h"
 #import "NXMCore.h"
 #import "NXMErrorsPrivate.h"
+#import "NXMUserPrivate.h"
 
 @interface NXMConversationTests : XCTestCase
 @property (nonatomic) id stitchContextMock;
@@ -51,7 +52,7 @@
 #pragma mark - helper methods
 - (void)setContextWithUserId:(NSString *)userId {
     NSString *userName = [@"name_" stringByAppendingString:userId];
-    NXMUser *user = [[NXMUser alloc] initWithId:userId name:userName displayName:userName];
+    NXMUser *user = [[NXMUser alloc] initWithData:@{@"id":userId, @"name":userName}];
     OCMStub([self.stitchContextMock currentUser]).andReturn(user);
 }
 
