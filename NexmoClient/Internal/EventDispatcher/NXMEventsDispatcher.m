@@ -57,6 +57,10 @@
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:dtmfEvent];
 }
 
+- (void)legStatus:(NXMLegStatusEvent *)legEvent {
+    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationLoginStatus andEvent:legEvent];
+}
+
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent {
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:sipEvent];
 }

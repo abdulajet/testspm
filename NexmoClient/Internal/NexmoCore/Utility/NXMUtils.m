@@ -15,6 +15,8 @@
 //@end
 
 @implementation NXMUtils : NSObject
+static NSMutableDictionary<NSString*, NSNumber*>* statusMap = nil;
+static NSMutableDictionary<NSString*, NSNumber*>* typeMap = nil;
 
 + (NSDate *)dateFromISOString:(NSString *)isoString {
     NSDateFormatter *isoDateFomatter = [[NSDateFormatter alloc] init];

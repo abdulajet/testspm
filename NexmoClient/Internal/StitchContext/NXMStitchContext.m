@@ -118,6 +118,10 @@
     [self.eventsDispatcher DTMFEvent:dtmfEvent];
 }
 
+- (void)legStatus:(NXMLegStatusEvent *)legEvent {
+    [self.eventsDispatcher legStatus:legEvent];
+}
+
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
     [self.eventsDispatcher connectionStatusChanged:status reason:reason];
     [self.stitchContextDelegate connectionStatusChanged:status reason:reason];

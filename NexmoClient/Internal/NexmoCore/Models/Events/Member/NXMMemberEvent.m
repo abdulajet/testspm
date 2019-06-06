@@ -40,7 +40,7 @@
         self.state = state;
         self.media = [[NXMMediaSettings alloc] initWithEnabled:(data[@"media"] != nil ? YES : NO) suspend:NO];
         self.knockingId = data[@"channel"][@"knocking_id"];
-        self.channel = [[NXMChannel alloc] initWithData:data[@"channel"]];
+        self.channel = [[NXMChannel alloc] initWithData:data[@"channel"] andConversationId:conversationId andMemberId:memberId];
     }
 
     return self;

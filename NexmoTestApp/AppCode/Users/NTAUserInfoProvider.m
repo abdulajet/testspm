@@ -151,8 +151,8 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
 }
 
 + (void)getUserInfoForUserName:(nonnull NSString *)userName
-               password:(nonnull NSString *)password
-             completion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion {
+                      password:(nonnull NSString *)password
+                    completion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion {
     
     if(!completion) {
         [NTALogger errorWithFormat: @"%@ - missing parameter: completion", NSStringFromSelector(_cmd)];
@@ -183,3 +183,4 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
     return testAppUsers[userName].displayName;
 }
 @end
+

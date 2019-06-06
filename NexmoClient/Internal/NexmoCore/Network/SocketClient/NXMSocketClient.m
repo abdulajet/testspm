@@ -12,12 +12,14 @@
 #import "NXMSocketClientDefine.h"
 
 #import "NXMLogger.h"
-#import "NXMErrorsPrivate.h"
 
+#import "NXMErrorsPrivate.h"
 #import "NXMCoreEventsPrivate.h"
 #import "NXMUserPrivate.h"
+#import "NXMLegPrivate.h"
 
 #import "NXMUtils.h"
+
 
 
 @interface NXMSocketClient()
@@ -31,7 +33,7 @@
 
 @implementation NXMSocketClient
 
-static NSString *const nxmURL = @"https://api.nexmo.com/beta";
+static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 
 #pragma mark - Public
 - (instancetype)initWithHost:(NSString *)host {
@@ -297,6 +299,7 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self subscribeTextEvents];
     [self subscribeRTCEvents];
     [self subscribeSipEvents];
+    [self subscribeLegStatusEvents];
 }
 
 - (void)subscribeVPSocketEvents {
@@ -499,6 +502,17 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
         [weakSelf onSipStatus:data emitter:emitter];
     }];
 }
+
+- (void)subscribeLegStatusEvents{
+    __weak NXMSocketClient *weakSelf = self;
+    
+    [self.socket on:kNXMSocketEventLegStatus callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"!!!!socket kNXMSocketEventSipRinging"];
+        [weakSelf onLegStatus:data emitter:emitter];
+    }];
+}
+
+
 
 #pragma mark - Socket Events
 
@@ -736,6 +750,30 @@ static NSString *const nxmURL = @"https://api.nexmo.com/beta";
     [self.delegate sipStatus:sipEvent];
 }
 
+- (void)onLegStatus:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    NXMLegStatusEvent * legStatusEvent = [self fillLegStatusEventFromJson:json];
+    //legStatusEvent.sipType = NXMSipEventStatus;
+    
+    [self.delegate legStatus:legStatusEvent];
+}
+
+- (NXMLegStatusEvent*) fillLegStatusEventFromJson:(NSDictionary*) json{
+    
+    NSMutableArray<NXMLeg*> *legs = [[NSMutableArray<NXMLeg*> alloc] init];
+    for (NSDictionary* currLeg in [json[@"body"] objectForKey:@"statusHistory"]){
+        NXMLeg* leg = [[NXMLeg alloc] initWithData:json[@"body"] andLegData:currLeg];
+        [legs addObject:leg];
+    }
+    NXMLegStatusEvent * legStatusEvent= [[NXMLegStatusEvent alloc]
+                                         initWithConversationId:json[@"cid"]
+                                         type:NXMEventTypeLegStatus
+                                         fromMemberId:json[@"from"]
+                                         sequenceId:[json[@"id"] integerValue]
+                                         legHistory:legs];
+    return legStatusEvent;
+}
+                                                  
 - (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
     NXMSipEvent * sipEvent= [NXMSipEvent new];
     sipEvent.fromMemberId = json[@"from"];

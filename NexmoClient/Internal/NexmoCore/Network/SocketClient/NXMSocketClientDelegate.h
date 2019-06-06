@@ -39,5 +39,6 @@
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipHangup:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipStatus:(nonnull NXMSipEvent *)sipEvent;
+- (void)legStatus:(nonnull NXMLegStatusEvent *)legEvent;
 
 @end

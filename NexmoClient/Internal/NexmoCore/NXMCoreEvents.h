@@ -16,3 +16,4 @@
 #import "NXMMediaSuspendEvent.h"
 #import "NXMRtcAnswerEvent.h"
 #import "NXMDTMFEvent.h"
+#import "NXMLegStatusEvent.h"

@@ -139,8 +139,6 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 }
 
 - (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
-    NSDictionary *dict = @{
-                           };
     //TODO:for now we get the first 100 conversations
     //we need to have support in the server to get all the conversations
     NSString* vars = @"";
@@ -165,7 +163,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
             NSMutableArray *conversations = [[NSMutableArray alloc] init];
             for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
@@ -186,7 +184,6 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
                onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(NXMErrorCallback _Nullable)onError {
-    NSDictionary *dict = @{ };
     //TODO:for now we get the first 100 conversations
     //we need to have support in the server to get all the conversations
     NSString* vars = @"";
@@ -217,7 +214,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (error) {
             onError(error);
             return;
@@ -247,13 +244,11 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getConversationsForUser:(NSString *)userId
                       onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    NSDictionary *dict = @{
-                           };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
     [NXMLogger infoWithFormat:@"%@",url];
     
     NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         
         if (error) {
             onError(error);
@@ -285,12 +280,11 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
-    NSDictionary *dict = @{
-                           };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@", self.baseUrl, conversationId]];
     
     NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+    
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         
         if (error) {
             onError(error);
@@ -329,12 +323,10 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
 - (void)getUser:(nonnull NSString*)userId
 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
-    NSDictionary *dict = @{
-                           };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@", self.baseUrl, userId]];
     
     NSString* requestType = @"GET";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
             [NXMLogger infoWithFormat:@"getUser result %@",data];
             
@@ -429,11 +421,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                              onError:(NXMErrorCallback _Nullable)onError{
-    NSDictionary *dict = @{
-                           };
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
-    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    [self requestToServer:nil url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             onError(error);
             return;
@@ -846,15 +836,20 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (void)requestToServer:(nonnull NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSError *jsonErr;
+    NSData* jsonData = nil;
     
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
+    if (dict){
+        jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error: &jsonErr];
+    }
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url];
     
     [self addHeader:request];
     
     [request setHTTPMethod:httpMethod];
-    [request setHTTPBody:jsonData];
+    if (jsonData) {
+        [request setHTTPBody:jsonData];
+    }
     
     [self executeRequest:request responseBlock:completionBlock];
 }

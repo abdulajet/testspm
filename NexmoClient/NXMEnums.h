@@ -44,7 +44,15 @@ typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeMediaAction,
     NXMEventTypeMember,
     NXMEventTypeSip,
-    NXMEventDTMF
+    NXMEventDTMF,
+    NXMEventTypeLegStatus
+};
+
+typedef NS_ENUM(NSInteger, NXMSipEventType){
+    NXMSipEventRinging,
+    NXMSipEventAnswered,
+    NXMSipEventStatus,
+    NXMSipEventHangup
 };
 
 typedef NS_ENUM(NSInteger, NXMMessageStatusType) {
@@ -74,18 +82,26 @@ typedef NS_ENUM(NSInteger, NXMDirectionType){
     NXMDirectionTypeUnknown
 };
 
-typedef NS_ENUM(NSInteger, NXMSipEventType){
-    NXMSipEventRinging,
-    NXMSipEventAnswered,
-    NXMSipEventStatus,
-    NXMSipEventHangup
-};
 
 typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
     NXMMediaStreamTypeNone,
     NXMMediaStreamTypeSend,
     NXMMediaStreamTypeReceive,
     NXMMediaStreamTypeSendReceive
+};
+typedef NS_ENUM(NSInteger, NXMLegStatus) {
+    NXMLegStatusCompleted,
+    NXMLegStatusStarted,
+    NXMLegStatusAnswered,
+    NXMLegStatusRinging,
+    
+    NXMLegStatusUnknown
+};
+
+typedef NS_ENUM(NSInteger, NXMLegType) {
+    NXMLegTypeApp,
+    NXMLegTypePhone,
+    NXMLegTypeUnknown
 };
 
 

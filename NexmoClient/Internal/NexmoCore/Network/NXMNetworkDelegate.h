@@ -42,6 +42,7 @@
 
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent;
 - (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent;
+- (void)legStatus:(nonnull NXMLegStatusEvent *)legEvent;
 
 
 @end

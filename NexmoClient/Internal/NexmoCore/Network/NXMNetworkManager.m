@@ -314,6 +314,10 @@
     [self.delegate DTMFEvent:dtmfEvent];
 }
 
+- (void)legStatus:(NXMLegStatusEvent *)legEvent {
+    [self.delegate legStatus:legEvent];
+}
+
 
 
 @end

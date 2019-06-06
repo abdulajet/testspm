@@ -71,7 +71,7 @@
         self.mediaSettings = [[NXMMediaSettings alloc] initWithEnabled:[data[@"media"][@"audio_settings"][@"enabled"] boolValue]
                                                                suspend:[data[@"media"][@"audio_settings"][@"muted"] boolValue]];
         
-        self.channel = [[NXMChannel alloc] initWithData:data[@"channel"]];
+        self.channel = [[NXMChannel alloc] initWithData:data[@"channel"] andConversationId:self.conversationId andMemberId:self.memberId];
 
         
        

@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NXMEnums.h"
 
 @interface NXMUtils : NSObject
-+ (NSDate *)dateFromISOString:(NSString *)isoString;
-
++ (nullable NSDate *)dateFromISOString:(NSString *)isoString;
 @end

@@ -83,3 +83,6 @@ static NSString *const kNXMSocketEventSipRinging = @"sip:ringing";
 static NSString *const kNXMSocketEventSipAnswered = @"sip:answered";
 static NSString *const kNXMSocketEventSipHangup = @"sip:hangup";
 static NSString *const kNXMSocketEventSipStatus = @"sip:status";
+
+#pragma mark leg status
+static NSString *const kNXMSocketEventLegStatus = @"leg:status:update";

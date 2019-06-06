@@ -31,7 +31,9 @@
 - (instancetype)initWithToken:(NSString *)authToken {
     if (self = [super init]) {
         self.token = authToken;
-        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/beta/" andWsHost:@"https://ws.nexmo.com/"];
+        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/beta/"
+                                                     andWsHost:@"https://ws.nexmo.com/"];
+
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
         self.rtcMedia = [[RTCMediaWrapper alloc] init];
@@ -431,6 +433,10 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 - (void)DTMFEvent:(nonnull NXMDTMFEvent *)dtmfEvent {
     [self.delegate DTMFEvent:dtmfEvent];
+}
+
+- (void)legStatus:(NXMLegStatusEvent *)legEvent {
+    [self.delegate legStatus:legEvent];
 }
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent{
