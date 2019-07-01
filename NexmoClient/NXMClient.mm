@@ -13,6 +13,7 @@
 #import "NXMBlocksHelper.h"
 #import "NXMLogger.h"
 #import "NXMErrorsPrivate.h"
+#import <ClientInfrastructures/ClientInfrastructures.h>
 
 
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
@@ -36,6 +37,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 @implementation NXMClient
 
 - (instancetype)initWithToken:(NSString *)authToken {
+    LOG_SCOPE();
     if(self = [super init]) {
         self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:authToken]];
         [self.stitchContext setDelegate:self];
@@ -67,6 +69,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 }
 
 -(void)login {
+    LOG_SCOPE();
     if(!self.delegate) {
         [NXMLogger warning:@"NXMClient: login called without setting delegate"];
     }
@@ -74,10 +77,12 @@ NSString *const NXMCallPerfix = @"CALL_";
 }
 
 -(void)refreshAuthToken:(nonnull NSString *)authToken {
+    LOG_SCOPE(authToken);
     [self.stitchContext.coreClient refreshAuthToken:authToken];
 }
 
 -(void)logout {
+    LOG_SCOPE();
     if (self.connectionStatus == NXMConnectionStatusDisconnected) {
         return;
     }
@@ -101,6 +106,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+    LOG_SCOPE((int)status, (int)reason);
     NSError *setUpCleanUpError = nil;
     switch (self.connectionStatus) {
         case NXMConnectionStatusDisconnected:
@@ -125,6 +131,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 
 -(void)getConversationWithId:(nonnull NSString *)converesationId
                   completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
+    LOG_SCOPE(converesationId);
     [self.stitchContext.coreClient getConversationDetails:converesationId
                                                 onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
                                                     if(completion) {
@@ -138,6 +145,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 }
 
 -(void)createConversationWithName:(nonnull NSString *)name completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
+    LOG_SCOPE(name);
     __weak NXMClient *weakSelf = self;
     [self.stitchContext.coreClient createConversationWithName:name
                                                     onSuccess:^(NSString * _Nullable value) {
@@ -163,6 +171,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 - (void) addPendingKnockingId:(nonnull NSString*)knockingId
                      delegate:(id<NXMCallDelegate>)delegate
                    completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion{
+    LOG_SCOPE(knockingId);
     NXMKnockingObj *knockingObj = [NXMKnockingObj new];
     knockingObj.complition = completion;
     knockingObj.delegate = delegate;
@@ -172,6 +181,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 - (void) startIpCall:(nonnull NSArray<NSString *>*)users
             delegate:(id<NXMCallDelegate>)delegate
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+    LOG_SCOPE([users description]);
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore createConversationWithName:[NSString stringWithFormat:@"%@%@", NXMCallPerfix, [[NSUUID UUID] UUIDString]]
@@ -209,6 +219,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 - (void) startServerCall:(nonnull NSArray<NSString *>*)users
             delegate:(id<NXMCallDelegate>)delegate
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+    LOG_SCOPE([users description]);
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore inviteToConversation:weakSelf.user.name withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
@@ -223,6 +234,7 @@ NSString *const NXMCallPerfix = @"CALL_";
            callHandler:(NXMCallHandler)callHandler
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
+    LOG_SCOPE([callees description], (int)callHandler);
     switch (callHandler) {
         case NXMCallHandlerInApp:
             [self startIpCall:callees delegate:delegate completion:completion];
@@ -284,6 +296,7 @@ NSString *const NXMCallPerfix = @"CALL_";
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    LOG_SCOPE([[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
     [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit onSuccess:^{
         [NXMLogger info:@"Nexmo push notifications enabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];
@@ -294,7 +307,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 }
 
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    
+    LOG_SCOPE();
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
         [NXMLogger info:@"Nexmo push notifications disabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];
@@ -305,10 +318,12 @@ NSString *const NXMCallPerfix = @"CALL_";
 }
 
 - (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo {
+    LOG_SCOPE([NSString stringWithFormat:@"userInfo %@", userInfo]);
     return [self.stitchContext.coreClient isNexmoPushWithUserInfo:userInfo];
 }
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
+    LOG_SCOPE([NSString stringWithFormat:@"userInfo %@", userInfo]);
     [NXMLogger debugWithFormat:@"Processing nexmo push with userInfo:%@", userInfo];
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completion];
@@ -322,6 +337,7 @@ NSString *const NXMCallPerfix = @"CALL_";
 #pragma mark - notification center
 
 - (void)onMemberEvent:(NSNotification* )notification {
+    LOG_SCOPE(notification.name);
     NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
     
     if (![event.user.userId isEqualToString:self.user.userId]) { return; }
@@ -415,13 +431,19 @@ NSString *const NXMCallPerfix = @"CALL_";
 #pragma mark - private
 
 - (BOOL)setUpWithErrorPtr:(NSError **)errorPtr {
+    LOG_SCOPE((*errorPtr).localizedDescription);
     //TODO: set up, set error and return false if problematic
     return YES;
 }
 
 - (BOOL)cleanUpWithErrorPtr:(NSError **)errorPtr {
+    LOG_SCOPE((*errorPtr).localizedDescription);
     //TODO: clean up, set error and return false if problematic
     return YES;
+}
+
+- (nonnull NSMutableArray*)getLogFileNames{
+    return [NXMLog getLogFilesPathes];
 }
 
 @end

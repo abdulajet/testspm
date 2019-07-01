@@ -1,5 +1,5 @@
 XCODEBUILD := xcodebuild
-BUILD_FLAGS_IOS = -scheme $(SCHEME) -sdk iphoneos 
+BUILD_FLAGS_IOS = -scheme $(SCHEME) -sdk iphoneos
 BUILD_FLAGS_SIM = -scheme $(SCHEME) -sdk iphonesimulator
 
 TEST_FLAGS = -scheme $(TEST_SCHEME) -destination 'platform=iOS Simulator,name=iPhone 7'
@@ -8,8 +8,10 @@ SCHEME ?= NexmoClient
 TEST_SCHEME ?= NexmoClientTests
 
 
-MINIRTC_VERSION ?= 0.01.86
+MINIRTC_VERSION ?= 0.01.103
 OCMOCK_VERSION ?= 3.4
+CLIENT_INFRASTRUCTURES_VERSION ?= 0.0.10
+COCOA_LUMBERJACK_VERSION ?= 3.5.0.3
 
 OCMOCK_FOLDER ?= Frameworks/OCMock
 OCMOCK_VERSION_FILE = $(OCMOCK_FOLDER)/version
@@ -19,11 +21,59 @@ MINIRTC_FOLDER ?= Frameworks/MiniRTC
 MINIRTC_VERSION_FILE = $(MINIRTC_FOLDER)/version
 CURRENT_MINIRTC_VERSION = $(shell cat $(MINIRTC_VERSION_FILE))
 
+CLIENT_INFRASTRUCTURES_FOLDER ?= Frameworks/ClientInfrastructures
+CLIENT_INFRASTRUCTURES_VERSION_FILE = $(CLIENT_INFRASTRUCTURES_FOLDER)/version
+CURRENT_CLIENT_INFRASTRUCTURES_VERSION = $(shell cat $(CLIENT_INFRASTRUCTURES_VERSION_FILE))
+
+COCOA_LUMBERJACK_FOLDER ?= Frameworks/CocoaNXMLumebrjack
+COCOA_LUMBERJACK_VERSION_FILE = $(COCOA_LUMBERJACK_FOLDER)/version
+CURRENT_COCOA_LUMBERJACK_VERSION = $(shell cat $(COCOA_LUMBERJACK_VERSION_FILE))
+
 build: build_debug build_release
 
-deps: minirtc ocmock
+deps: minirtc ocmock clientinfrastructures cocoalumberjack
 	@echo
 	@echo "Done syncing dependencies."
+
+
+cocoalumberjack:
+	@echo
+	@echo "-----------------------------------"
+	@echo "Syncing CocoaNXMLumebrjack v$(COCOA_LUMBERJACK_VERSION)"
+	@echo "-----------------------------------"
+
+ifneq ($(COCOA_LUMBERJACK_VERSION),$(CURRENT_COCOA_LUMBERJACK_VERSION))
+	@echo "Wrong or non-existing CocoaLumebrjack version. Downloading v$(COCOA_LUMBERJACK_VERSION) from Artifactory"
+	@rm -rf $(COCOA_LUMBERJACK_FOLDER)
+	@mkdir -p $(COCOA_LUMBERJACK_FOLDER)
+	@curl -N -L -f -s --show-error https://artifactory.ess-dev.com/artifactory/gradle-dev-local/com/nexmo/ios/CocoaNXMLumberjack/$(COCOA_LUMBERJACK_VERSION)/CocoaNXMLumberjack-$(COCOA_LUMBERJACK_VERSION)-iOS-Release.zip -o cocoanxmlumberjack.zip
+	@unzip cocoanxmlumberjack.zip -d $(COCOA_LUMBERJACK_FOLDER)
+	@echo "$(COCOA_LUMBERJACK_VERSION)" > $(COCOA_LUMBERJACK_VERSION_FILE)
+	@rm cocoanxmlumberjack.zip
+else
+	@echo "Already have current CocoaNXMLumebrjack version"
+endif
+
+
+clientinfrastructures:
+	@echo
+	@echo "-----------------------------------"
+	@echo "Syncing ClientInfrastructures v$(CLIENT_INFRASTRUCTURES_VERSION)"
+	@echo "-----------------------------------"
+
+ifneq ($(CLIENT_INFRASTRUCTURES_VERSION),$(CURRENT_CLIENT_INFRASTRUCTURES_VERSION))
+	@echo "Wrong or non-existing MiniRTC version. Downloading v$(CLIENT_INFRASTRUCTURES_VERSION) from Artifactory"
+	@rm -rf $(CLIENT_INFRASTRUCTURES_FOLDER)
+	@mkdir -p $(CLIENT_INFRASTRUCTURES_FOLDER)
+
+	@curl -N -L -f -s --show-error https://artifactory.ess-dev.com/artifactory/gradle-dev-local/com/nexmo/ios/ClientInfrastructures/$(CLIENT_INFRASTRUCTURES_VERSION)/ClientInfrastructures-$(CLIENT_INFRASTRUCTURES_VERSION)-iOS-Release.zip -o clientinfrastructures.zip
+	@unzip clientinfrastructures.zip -d $(CLIENT_INFRASTRUCTURES_FOLDER)
+	@echo "$(CLIENT_INFRASTRUCTURES_VERSION)" > $(CLIENT_INFRASTRUCTURES_VERSION_FILE)
+	@rm clientinfrastructures.zip
+else
+	@echo "Already have current ClientInfrastructures version"
+endif
+
 
 minirtc:
 	@echo

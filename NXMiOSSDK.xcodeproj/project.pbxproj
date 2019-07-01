@@ -9,10 +9,15 @@
 /* Begin PBXBuildFile section */
 		0B24A81321CFD3A300FEE109 /* ServerCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */; };
 		0BA6D9252267324F0076334A /* NXMLegStatusEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA6D9242267324F0076334A /* NXMLegStatusEvent.m */; };
+		0BAE012521F8BBE500EA2E56 /* ClientInfrastructures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
 		0BBC27062268B05B00ABC62A /* NXMLegStatusEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BA6D923226732290076334A /* NXMLegStatusEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0BBC27A622781DAC00ABC62A /* CocoaNXMLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */; };
+		0BBC27AD2278568500ABC62A /* CocoaNXMLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0BBC27AF2278568A00ABC62A /* ClientInfrastructures.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BF180F422A00EE500053DCB /* NXMLeg.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF180F322A00EE500053DCB /* NXMLeg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0BF180F622A00EFB00053DCB /* NXMLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF180F522A00EFB00053DCB /* NXMLeg.m */; };
 		0BF180F822A00F7900053DCB /* NXMLegPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF180F722A00F7900053DCB /* NXMLegPrivate.h */; };
+		0BFBED74222D1C7E00131B95 /* ClientInfrastructures.framework in Headers */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
 		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
@@ -202,7 +207,7 @@
 		F923DDA421985C8700D29065 /* NXMConversationEventsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A4062164E52100390258 /* NXMConversationEventsController.m */; };
 		F923DDA521985C8700D29065 /* NXMConversationEventsControllerPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */; };
 		F923DDA621985C8D00D29065 /* NXMClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A4002164E39200390258 /* NXMClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F923DDA721985C8D00D29065 /* NXMClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A3FF2164E39200390258 /* NXMClient.m */; };
+		F923DDA721985C8D00D29065 /* NXMClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 92B7A3FF2164E39200390258 /* NXMClient.mm */; };
 		F923DDA821985C8D00D29065 /* NXMClientDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A4012164E39200390258 /* NXMClientDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA921985C9500D29065 /* NXMCall.h in Headers */ = {isa = PBXBuildFile; fileRef = F95830AC21342FB5002CA391 /* NXMCall.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDAA21985C9500D29065 /* NXMCall.m in Sources */ = {isa = PBXBuildFile; fileRef = F95830AD21342FB5002CA391 /* NXMCall.m */; };
@@ -311,7 +316,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0BBC27AD2278568500ABC62A /* CocoaNXMLumberjack.framework in Embed Frameworks */,
 				F942920921BD65D000FA45A1 /* NexmoClient.framework in Embed Frameworks */,
+				0BBC27AF2278568A00ABC62A /* ClientInfrastructures.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +330,8 @@
 		0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServerCallCreator.m; sourceTree = "<group>"; };
 		0BA6D923226732290076334A /* NXMLegStatusEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLegStatusEvent.h; sourceTree = "<group>"; };
 		0BA6D9242267324F0076334A /* NXMLegStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLegStatusEvent.m; sourceTree = "<group>"; };
+		0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ClientInfrastructures.framework; path = Frameworks/ClientInfrastructures/ClientInfrastructures.framework; sourceTree = "<group>"; };
+		0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaNXMLumberjack.framework; path = Frameworks/CocoaNXMLumebrjack/CocoaNXMLumberjack.framework; sourceTree = "<group>"; };
 		0BF180F322A00EE500053DCB /* NXMLeg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLeg.h; sourceTree = "<group>"; };
 		0BF180F522A00EFB00053DCB /* NXMLeg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLeg.m; sourceTree = "<group>"; };
 		0BF180F722A00F7900053DCB /* NXMLegPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLegPrivate.h; sourceTree = "<group>"; };
@@ -374,7 +383,7 @@
 		92B7A3F72164E35D00390258 /* NXMConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMConversation.m; sourceTree = "<group>"; };
 		92B7A3F82164E35D00390258 /* NXMConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMConversation.h; sourceTree = "<group>"; };
 		92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMConversationDelegate.h; sourceTree = "<group>"; };
-		92B7A3FF2164E39200390258 /* NXMClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMClient.m; sourceTree = "<group>"; };
+		92B7A3FF2164E39200390258 /* NXMClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NXMClient.mm; sourceTree = "<group>"; };
 		92B7A4002164E39200390258 /* NXMClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMClient.h; sourceTree = "<group>"; };
 		92B7A4012164E39200390258 /* NXMClientDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXMClientDelegate.h; sourceTree = "<group>"; };
 		92B7A4062164E52100390258 /* NXMConversationEventsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsController.m; sourceTree = "<group>"; };
@@ -433,7 +442,6 @@
 		D32D425421CC05E00039A133 /* iOSFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iOSFramework.framework; path = Frameworks/MiniRTC/iOSFramework.framework; sourceTree = "<group>"; };
 		D32D425B21CC06B70039A133 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = "Frameworks/OCMock/iOS framework/OCMock.framework"; sourceTree = "<group>"; };
 		D32D426421CC173D0039A133 /* iOS framework */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "iOS framework"; path = "Frameworks/OCMock/iOS framework"; sourceTree = "<group>"; };
-		D32D426821CC176C0039A133 /* OCMock.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OCMock.framework; path = Frameworks/OCMock/iOSframework/OCMock.framework; sourceTree = "<group>"; };
 		D3F18F1621CFE75B00DB3ED8 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMBlocksHelper.h; sourceTree = "<group>"; };
@@ -666,6 +674,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0BBC27A622781DAC00ABC62A /* CocoaNXMLumberjack.framework in Frameworks */,
+				0BAE012521F8BBE500EA2E56 /* ClientInfrastructures.framework in Frameworks */,
 				D3F18F1921CFE76400DB3ED8 /* VideoToolbox.framework in Frameworks */,
 				D3F18F1721CFE75B00DB3ED8 /* GLKit.framework in Frameworks */,
 				D32D425521CC05E00039A133 /* iOSFramework.framework in Frameworks */,
@@ -695,9 +705,10 @@
 		0C77F825E1C5CD9646B440FA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */,
+				0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */,
 				D3F18F1821CFE76400DB3ED8 /* VideoToolbox.framework */,
 				D3F18F1621CFE75B00DB3ED8 /* GLKit.framework */,
-				D32D426821CC176C0039A133 /* OCMock.framework */,
 				D32D426421CC173D0039A133 /* iOS framework */,
 				D32D425B21CC06B70039A133 /* OCMock.framework */,
 				D32D425421CC05E00039A133 /* iOSFramework.framework */,
@@ -1409,7 +1420,7 @@
 				F988E49F214AB22B0083D9A7 /* NXMCallMember.h */,
 				F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */,
 				92B7A4002164E39200390258 /* NXMClient.h */,
-				92B7A3FF2164E39200390258 /* NXMClient.m */,
+				92B7A3FF2164E39200390258 /* NXMClient.mm */,
 				92B7A4012164E39200390258 /* NXMClientDelegate.h */,
 				F950D12622686AE500021395 /* NXMChannel.h */,
 				F950D12722686AE500021395 /* NXMChannel.m */,
@@ -1599,6 +1610,7 @@
 				F9024EC921CA9AF000D58AD0 /* NXMMediaInfo.h in Headers */,
 				F9024EB121CA9AF000D58AD0 /* NXMPushParsing.h in Headers */,
 				F923DDBE21985CAE00D29065 /* NXMStitchContextDelegate.h in Headers */,
+				0BFBED74222D1C7E00131B95 /* ClientInfrastructures.framework in Headers */,
 				F923DDB221985CA900D29065 /* NXMEventsDispatcherConnectionStatusModel.h in Headers */,
 				F9024E4021CA9AF000D58AD0 /* NSString+VPSocketIO.h in Headers */,
 				F9024E3C21CA9AF000D58AD0 /* VPSocketIOClientProtocol.h in Headers */,
@@ -1937,7 +1949,7 @@
 				F9024EB821CA9AF000D58AD0 /* NXMPushParserManager.m in Sources */,
 				F9024E8421CA9AF000D58AD0 /* NXMSendTextEventRequest.m in Sources */,
 				F9024E3921CA9AF000D58AD0 /* VPSocketEngine.m in Sources */,
-				F923DDA721985C8D00D29065 /* NXMClient.m in Sources */,
+				F923DDA721985C8D00D29065 /* NXMClient.mm in Sources */,
 				F9024EB221CA9AF000D58AD0 /* NXMPushParserTextEvent.m in Sources */,
 				F9024E3F21CA9AF000D58AD0 /* VPSocketAckManager.m in Sources */,
 				F923DDC421985CB600D29065 /* NXMConversationEventsQueue.m in Sources */,
@@ -2166,20 +2178,25 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/MiniRTC",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
 				);
 				INFOPLIST_FILE = NexmoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"-ObjC",
+					"-v",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 arm64e";
 			};
 			name = Debug;
 		};
@@ -2199,19 +2216,25 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/MiniRTC",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
 				);
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE_LOGS=1";
 				INFOPLIST_FILE = NexmoClient/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
 				OTHER_LDFLAGS = (
 					"-lc++",
 					"-ObjC",
+					"-v",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VALID_ARCHS = "arm64 arm64e";
 			};
 			name = Release;
 		};
@@ -2227,6 +2250,8 @@
 					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Frameworks/OCMock/iOS\\ framework",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/NexmoClient/**",
@@ -2257,6 +2282,8 @@
 					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
 					"$(PROJECT_DIR)/Frameworks/MiniRTC",
 					"$(PROJECT_DIR)/Frameworks/OCMock/iOS\\ framework",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/NexmoClient/**",
@@ -2284,10 +2311,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+				);
 				INFOPLIST_FILE = NexmoTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack/CocoaLumberjack.framework",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
@@ -2305,10 +2340,18 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/Output/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack",
+					"$(PROJECT_DIR)/Frameworks/ClientInfrastructures",
+				);
 				INFOPLIST_FILE = NexmoTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Frameworks/CocoaNXMLumebrjack/CocoaLumberjack.framework",
+				);
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2370,6 +2413,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -2423,6 +2467,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

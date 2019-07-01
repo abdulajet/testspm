@@ -14,11 +14,7 @@
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
-
-typedef NS_ENUM(NSInteger, NXMCallStatus) {
-    NXMCallStatusConnected,
-    NXMCallStatusDisconnected
-};
+#import <ClientInfrastructures/ClientInfrastructures.h>
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
 
@@ -36,6 +32,8 @@ typedef NS_ENUM(NSInteger, NXMCallStatus) {
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
+    [NXMLog info:@"NXMCall::initWithConversation start"];
+    [NXMLog info:[[NSString alloc] initWithFormat:@"NXMCall::initWithConversation::conversationId @%", conversation.conversationId]];
     if (self = [super init]) {
         self.membersSyncToken = [NSObject new];
         self.lastEventId = conversation.lastEventId;

@@ -14,6 +14,7 @@
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
+#import <ClientInfrastructures/ClientInfrastructures.h>
 
 
 static NSString * const kNTAAvatarImageNameConnected = @"SettingsAvatarConnected";
@@ -92,10 +93,16 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     [mailController setToRecipients:@[@"ayelet.levy@vonage.com"]];
     
     NSString *messageBody = [self randomSentence];
+    NSMutableArray* lognames = [[CommunicationsManager sharedInstance].client getLogFileNames];
     [mailController setMessageBody:messageBody isHTML:NO];
+    NSMutableArray* files = [NXMLog getLogFilesPathes];
+    
     [NTALogger getLogWithCompletion:^(NSString * _Nullable log) {
         NSData *logData = [log dataUsingEncoding:NSUTF8StringEncoding];
         [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[logName stringByAppendingString:@".log"]];
+        [files enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[obj stringByAppendingString:@".log"]];
+        }];
         dispatch_async(dispatch_get_main_queue(), ^{
             [self presentViewController:mailController animated:YES completion:nil];
         });

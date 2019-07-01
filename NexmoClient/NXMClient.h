@@ -90,7 +90,7 @@ Logout
 // Create a new call to users
 //
 // @param callees         user ids/name or pstn number to call
-// @param callHandler        type of the call (InApp/SERVER)
+// @param callHandler     type of the call (InApp/SERVER)
 // @param delegate        call delegate
 // @param completion      completion block
 // */
@@ -141,4 +141,5 @@ Logout
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo
                            completion:(void(^_Nullable)(NSError * _Nullable error))completion;
 
+- (nonnull NSMutableArray*)getLogFileNames;
 @end
