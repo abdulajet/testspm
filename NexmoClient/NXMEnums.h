@@ -49,7 +49,7 @@ typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeMediaAction,
     NXMEventTypeMember,
     NXMEventTypeSip,
-    NXMEventDTMF,
+    NXMEventTypeDTMF,
     NXMEventTypeLegStatus
 };
 

@@ -105,7 +105,7 @@
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
-        case NXMEventDTMF:
+        case NXMEventTypeDTMF:
             if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
                 [self.delegate mediaEvent:event];
             }

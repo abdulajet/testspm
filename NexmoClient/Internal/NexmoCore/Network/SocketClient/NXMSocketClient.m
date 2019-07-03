@@ -878,7 +878,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     event.fromMemberId = json[@"from"];
     event.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
     event.sequenceId = [json[@"id"] integerValue];
-    event.type = NXMEventDTMF;
+    event.type = NXMEventTypeDTMF;
     
     [self.delegate DTMFEvent:event];
 }

@@ -69,10 +69,10 @@ Logout
 
 /**
  Get a conversation object by id
- @param converesationId     conversation id
+ @param conversationId     conversation id
  @param completion          completion block
  */
-- (void)getConversationWithId:(nonnull NSString *)converesationId
+- (void)getConversationWithId:(nonnull NSString *)conversationId
                    completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion;
 
 
