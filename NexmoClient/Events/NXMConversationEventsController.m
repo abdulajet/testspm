@@ -38,7 +38,7 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
     return [self initWithSubscribedEventsType:eventsType andConversationDetails:conversationDetails andStitchContext:stitchContext delegate:nil];
 }
 
-- (instancetype _Nonnull)initWithSubscribedEventsType:(NSSet<NSNumber*>*_Nonnull)eventsType andConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails andStitchContext:(NXMStitchContext * _Nonnull)stitchContext delegate:(id <NXMConversationEventsControllerDelegate> _Nullable)delegate {
+- (instancetype _Nonnull)initWithSubscribedEventsType:(NSSet* _Nonnull)eventsType andConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails andStitchContext:(NXMStitchContext * _Nonnull)stitchContext delegate:(id <NXMConversationEventsControllerDelegate> _Nullable)delegate {
     self = [super init];
     if(self){
         self.subscribedEventsType = eventsType;

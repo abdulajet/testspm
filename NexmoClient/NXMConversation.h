@@ -15,44 +15,80 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
     NXMAttachmentTypeImage
 };
 
+/*!
+ @interface NXMConversation
+ @brief The NXMConversation object represent a conversation.
+ @discussion NXMConversation can be used for messaging and media.
+ */
 @interface NXMConversation : NSObject
 
+/// Conversation unique identifier.
 @property (readonly, nonatomic, nonnull) NSString *conversationId;
+
+/// Conversation unique name.
 @property (readonly, nonatomic, nonnull) NSString *name;
+
+/// Conversation display name.
 @property (readonly, nonatomic, nullable) NSString *displayName;
 @property (readonly, nonatomic) NSInteger lastEventId;
+
+/// Conversation creation date
 @property (readonly, nonatomic, nonnull) NSDate *creationDate;
+
+/// The current user member
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
+
+/// Conversation members except the current user member
 @property (readonly, nonatomic, nullable) NSArray<NXMMember *> *otherMembers;
+
+/// Conversation events delegate
 @property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;
+
+/// Conversation updates delegate
 @property (nonatomic, weak, nullable) id <NXMConversationUpdatesDelegate> updatesDelegate;
 
-/**
- Join the current logged user as a member of the conversation
-
- @param completion
- A completion block with the new member of the conversation or an error object if an error occured
+/*!
+ * @brief Join the current user as a member of the conversation
+ * @param completion A block with two params an NSError if one occured and NXMMember
+ * @code [conversation joinWithCompletion:^(NSError error, NXMMember member){
+ if (!error) {
+ NSLog(@"join the conversation failed");
+ return;
+ }
+ 
+ NSLog(@"joined the conversation");
+ }];
  */
 - (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
 
-/**
- Joins a user as a member of the conversation
-
- @param userId
- The id of the user to join
+/*!
+ * @brief Join a specific user as a member of the conversation
+ * @param userId the user identifier
+ * @param completion A block with two params NSError if one occured and NXMMember
+ * @code [conversation joinMemberWithUserId:theUserId :^(NSError error, NXMMember member){
+     if (!error) {
+     NSLog(@"join the conversation failed");
+     return;
+     }
  
- @param completion
- A completion block with an error object if one occured, or the new member object if user joined
- */
+     NSLog(@"theUserId joined the conversation");
+     }];
+*/
 - (void)joinMemberWithUserId:(nonnull NSString *)userId
                 completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
 
 
-/**
- Current user's member leaves the conversation
+/*!
+ * @brief Current user's member leaves the conversation
+ * @param completion A completion block with an error object if one occured
+ * @code [conversation leaveWithCompletion:theUserId :^(NSError error, NXMMember member){
+ if (!error) {
+ NSLog(@"leave the conversation failed");
+ return;
+ }
  
- @param completion
- A completion block with an error object if one occured
+ NSLog(@"Current user's member left the conversation");
+ }];
  */
 - (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
@@ -132,6 +168,6 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  
  @return a new instance of NXMConversationEventsController
  */
-- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet<NSNumber *> *)eventTypes
+- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet *)eventTypes
                                                           andDelegate:(id <NXMConversationEventsControllerDelegate>_Nullable)delegate;
 @end

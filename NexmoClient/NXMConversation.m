@@ -296,13 +296,13 @@
 
 #pragma mark events
 
-- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet<NSNumber *> *)eventTypes andDelegate:(id   <NXMConversationEventsControllerDelegate>_Nullable)delegate{
+- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet *)eventTypes andDelegate:(id<NXMConversationEventsControllerDelegate>_Nullable)delegate{
     return [self createEventsControllerWithTypes:eventTypes andDelegate:delegate];
 }
 
 #pragma mark - Private Methods
 
-- (nonnull NXMConversationEventsController *)createEventsControllerWithTypes:(nonnull NSSet<NSNumber *> *)eventTypes andDelegate:(id   <NXMConversationEventsControllerDelegate>_Nullable)delegate{
+- (nonnull NXMConversationEventsController *)createEventsControllerWithTypes:(nonnull NSSet *)eventTypes andDelegate:(id   <NXMConversationEventsControllerDelegate>_Nullable)delegate{
     return [[NXMConversationEventsController alloc] initWithSubscribedEventsType:eventTypes andConversationDetails:self.conversationDetails andStitchContext:self.stitchContext delegate:delegate];
 }
 
