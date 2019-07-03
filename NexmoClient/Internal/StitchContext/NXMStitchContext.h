@@ -19,6 +19,6 @@
 @property (readonly, nonatomic, nullable) NXMUser *currentUser;
 
 -(void)setDelegate:(NSObject<NXMStitchContextDelegate> * _Nonnull)stitchContextDelegate;
--(instancetype)initWithCoreClient:(nonnull NXMCore *)coreClient;
+-(nullable instancetype)initWithCoreClient:(nonnull NXMCore *)coreClient;
 @end
  

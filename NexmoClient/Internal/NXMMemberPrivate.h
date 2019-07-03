@@ -21,10 +21,9 @@
 
 - (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent;
 
-- (instancetype)initWithMemberId:(NSString *)memberId
-                  conversationId:(NSString *)conversationId
-                            user:(NXMUser *)user
-                           state:(NXMMemberState)state;
-
+- (void)updateChannelWithLeg:(NXMLeg *)leg;
+- (void)updateMedia:(NXMMediaSettings *)media;
+- (void)updateState:(NXMMemberState)state time:(NSDate *)time initiator:(NSString *)initiator;
+- (void)updateExpired;
 @end
 

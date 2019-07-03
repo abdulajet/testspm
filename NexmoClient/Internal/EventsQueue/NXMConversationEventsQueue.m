@@ -201,7 +201,7 @@
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
             [NXMLogger warningWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
-            [self.delegate conversationExpired];
+            [self conversationExpired];
 
             return;
         }
@@ -214,6 +214,23 @@
             //right now we stop handeling events until another event arrives or connection status changes to connected
         }];
     }];
+}
+
+- (void)conversationExpired {
+    NSArray *sortedEvents = [self.eventsQueue sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return ((NXMEvent *)obj1).sequenceId < ((NXMEvent *)obj2).sequenceId ?
+                (NSComparisonResult)NSOrderedAscending :
+                (NSComparisonResult)NSOrderedDescending;
+    }];
+    
+    [NXMLogger debugWithFormat:@"NXMConversationEventsQueue flush events %d", sortedEvents.count];
+    
+    for (NXMEvent *event in sortedEvents) {
+        [self.delegate handleEvent:event];
+    }
+    
+    [self.delegate conversationExpired];
+
 }
 
 - (void)startProcessingRequest {

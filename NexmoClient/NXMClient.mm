@@ -226,7 +226,7 @@ NSString *const NXMCallPerfix = @"CALL_";
         if (value)
             [weakSelf addPendingKnockingId:value delegate:delegate completion:completion];
     } onError:^(NSError * _Nullable error) {
-        NSLog(@"startServerCall");
+        [NXMLogger debugWithFormat:@"startServerCall falied %@", error.description];
     }];
 }
 

@@ -11,6 +11,7 @@
 #import "NXMStitchContext.h"
 #import "NXMCoreEvents.h"
 #import "NXMMemberPrivate.h"
+#import "NXMLogger.h"
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
@@ -19,17 +20,15 @@
 @property (nonatomic, readwrite, nullable, weak) id <NXMConversationMembersControllerDelegate> delegate;
 @property (nonatomic, readwrite, nonnull) NXMConversationDetails *conversationDetails;
 @property (nonatomic, readwrite, nullable) NXMUser *currentUser;
-@property (nonatomic, readwrite) BOOL contentChanging;
 @end
 
 @implementation NXMConversationMembersController
 
 #pragma mark - init
-- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andCurrentUser:(nonnull NXMUser *)currentUser {
-    return [self initWithConversationDetails:conversationDetails andCurrentUser:currentUser delegate:nil];
-}
 
-- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails  andCurrentUser:(nonnull NXMUser *)currentUser delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte
+- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails
+                             andCurrentUser:(nonnull NXMUser *)currentUser
+                                   delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte
 {
     self = [super init];
     if (self) {
@@ -37,12 +36,17 @@
         self.currentUser = currentUser;
         self.mutableOtherMembers = [NSMutableArray<NXMMember *> new];
         self.membersDictionary = [NSMutableDictionary new];
+        self.delegate = deleagte;
         [self initMembersWithConversationDetails:conversationDetails];
     }
     return self;
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationDetails %@ %d",
+     conversationDetails.conversationId,
+     conversationDetails.members.count];
+
     for (NXMMember *member in conversationDetails.members) {
         if([member.user.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
@@ -50,7 +54,7 @@
             [self.mutableOtherMembers addObject:member];
         }
         
-        self.membersDictionary[[member.memberId copy]] = member;
+        self.membersDictionary[member.memberId] = member;
     }
 }
 
@@ -60,102 +64,108 @@
 }
 
 #pragma mark - public
--(nullable NXMMember *)memberForMemberId:(nonnull NSString *)memberId {
+-(NXMMember *)memberForMemberId:(NSString *)memberId {
     return self.membersDictionary[memberId];
 }
 
 
 #pragma mark - Private Updating Methods
-- (void)handleEvent:(NXMEvent*_Nonnull)event {
-    if(event.type != NXMEventTypeMember) {
-        return;
+- (void)conversationExpired {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationExpired"];
+
+    for (NXMMember *member in self.membersDictionary.allValues) {
+        [member updateExpired];
+        
+        [self member:member changedWithType:NXMMemberUpdateTypeLeg];
     }
-    
+}
+
+- (void)handleEvent:(NXMEvent *)event {
     if(self.conversationDetails.sequence_number >= event.sequenceId) {
+        [NXMLogger debugWithFormat:@"NXMConversationMembersController sequenceId is lower %d %d memberId %d %@",
+         self.conversationDetails.sequence_number,
+         event.sequenceId,
+         event.fromMemberId,
+         event];
+
         return;
     }
     
-    [self handleMemberEvent:(NXMMemberEvent *)event];
-}
-
-- (void)finishHandleEventsSequence {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController handleEvent %@",event];
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self finishHandleEventsSequence];
+            [self handleEvent:event];
         });
         return;
     }
-    self.contentChanging = NO;
-    [self contentDidChange];
-}
+   
+    switch (event.type) {
+        case NXMEventTypeMedia:
+        case NXMEventTypeMediaAction:
+            [self handleMediaEvent:(NXMMediaEvent *)event];
+            break;
+        case NXMEventTypeMember:
+            [self handleMemberEvent:(NXMMemberEvent *)event];
 
--(void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    if(![NSThread isMainThread]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self handleMemberEvent:memberEvent];
-        });
-        return;
-    }
-    if(!self.contentChanging) {
-        self.contentChanging = YES;
-        [self contentWillChange];
-    }
-    NXMMember *member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
-    switch (member.state) {
-        case NXMMemberStateInvited:
-            [self handleInvitedMember:member];
-        case NXMMemberStateJoined:
-            [self handleJoinedMember:member];
             break;
-        case NXMMemberStateLeft:
-            [self handleLeftMember:member];
+        case NXMEventTypeLegStatus:
+            [self handleLegEvent:(NXMLegStatusEvent *)event];
             break;
+            
         default:
             break;
     }
+
+    
 }
 
-//TODO: for now assuming memebr has the following flow invited->joined->removed -> if it's a different flow we'll need to do conflict resolution with sequenceId, if not we'll need to remove this comment 🧔🏻
-
-- (void)handleInvitedMember:(NXMMember *)member {
-    if(self.membersDictionary[member.memberId]) {
+-(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController legEvent %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus];
+    
+    NXMMember *member = self.membersDictionary[legEvent.current.memberId];
+    if (!member) {
+        [NXMLogger errorWithFormat:@"NXMConversationMembersController legEvent member not found %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus];
         return;
     }
     
+    [member updateChannelWithLeg:(NXMLeg *)legEvent.current];
+    
+    [self member:member changedWithType:NXMMemberUpdateTypeLeg];
+}
+
+-(void)handleMediaEvent:(NXMMediaEvent *)mediaEvent {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController mediaEvent %@", mediaEvent.fromMemberId];
+    NXMMember *member = self.membersDictionary[mediaEvent.fromMemberId];
+    if (!member) {
+        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@ %@ %ld", mediaEvent.fromMemberId];
+        return;
+    }
+    
+    [member updateMedia:mediaEvent.mediaSettings];
+    
+    [self member:member changedWithType:NXMMemberUpdateTypeMedia];
+}
+
+- (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController memberEvent %@ %ld", memberEvent.memberId, (long)memberEvent.state];
+    
+    NXMMember *member = self.membersDictionary[memberEvent.memberId];
+    if(member) {
+        [member updateState:memberEvent.state time:memberEvent.creationDate initiator:memberEvent.fromMemberId];
+        
+        [self member:member changedWithType:NXMMemberUpdateTypeState];
+        return;
+    }
+    
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController member added %@ %ld", memberEvent.memberId, (long)memberEvent.state];
+    
+    member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
     [self addMember:member];
-    [self member:member changedWithType:NXMMembersControllerChangeTypeInvited];
-}
-
-- (void)handleJoinedMember:(NXMMember *)member {
-    if(self.membersDictionary[member.memberId].state == NXMMemberStateJoined || self.membersDictionary[member.memberId].state == NXMMemberStateLeft) {
-        return;
-    }
-    
-    if(self.membersDictionary[member.memberId]) {
-        [self updateMember:member];
-    } else {
-        [self addMember:member];
-    }
-    
-    [self member:member changedWithType:NXMMembersControllerChangeTypeJoined];
-}
-
-- (void)handleLeftMember:(NXMMember *)member {
-    if(self.membersDictionary[member.memberId].state == NXMMemberStateLeft) {
-        return;
-    }
-    
-    if(self.membersDictionary[member.memberId]) {
-        [self updateMember:member];
-    } else {
-        [self addMember:member];
-    }
-    
-    [self member:member changedWithType:NXMMembersControllerChangeTypeLeft];
+    [self member:member changedWithType:NXMMemberUpdateTypeState];
 }
 
 - (void)addMember:(nonnull NXMMember *)member {
-    self.membersDictionary[[member.memberId copy]] = member;
+    self.membersDictionary[member.memberId] = member;
     if([member.user.userId isEqualToString:self.currentUser.userId]) {
         self.myMember = member;
     } else {
@@ -163,71 +173,9 @@
     }
 }
 
-- (void)updateMember:(nonnull NXMMember *)member {
-    NSUInteger indexOfMember = [self.mutableOtherMembers indexOfObject:self.membersDictionary[member.memberId]];
-    if(indexOfMember == NSNotFound) {
-        return;
-    }
-    
-    self.membersDictionary[member.memberId] = member;
-    [self.mutableOtherMembers replaceObjectAtIndex:indexOfMember withObject:member];
-}
-
-//-(void)addMember:(NXMMember *)member {
-//    if(!self.membersDictionary[member.memberId]) {
-//        self.membersDictionary[member.memberId] = member;
-//        if([member.userId isEqualToString:self.currentUser.userId]) {
-//            self.myMember = member;
-//        } else {
-//            [self.mutableOtherMembers addObject:member];
-//        }
-//        [self member:member changedWithType:NXMMembersControllerChangeTypeJoined];
-//    }
-//}
-//
-//-(void)removeMember:(NXMMember *)member {
-//    [self removeMemberWithMemberId:member.memberId];
-//}
-//
-//-(void)removeMemberWithMemberId:(NSString *)memberId {
-//    if(self.membersDictionary[memberId]) {
-//        NXMMember *memberToRemove = self.membersDictionary[memberId];
-//        [self.membersDictionary removeObjectForKey:memberId];
-//        if([memberToRemove.userId isEqualToString:self.currentUser.userId]) {
-//            self.myMember = nil;
-//        } else {
-//            [self.mutableOtherMembers removeObject:memberToRemove];
-//        }
-//        [self member:memberToRemove changedWithType:NXMMembersControllerChangeTypeLeft];
-//    }
-//}
-
 #pragma mark - delegate
--(void)contentWillChange {
-    if(![NSThread isMainThread]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self contentWillChange];
-        });
-        return;
-    }
-    if([self.delegate respondsToSelector:@selector(nxmConversationMembersControllerWillChangeContent:)]) {
-        [self.delegate nxmConversationMembersControllerWillChangeContent:self];
-    }
-}
 
--(void)contentDidChange {
-    if(![NSThread isMainThread]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self contentDidChange];
-        });
-        return;
-    }
-    if([self.delegate respondsToSelector:@selector(nxmConversationMembersControllerDidChangeContent:)]) {
-        [self.delegate nxmConversationMembersControllerDidChangeContent:self];
-    }
-}
-
--(void)member:(nonnull NXMMember *)member changedWithType:(NXMMembersControllerChangeType)type {
+-(void)member:(nonnull NXMMember *)member changedWithType:(NXMMemberUpdateType)type {
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self member:member changedWithType:type];

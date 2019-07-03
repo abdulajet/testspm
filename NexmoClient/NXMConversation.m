@@ -13,9 +13,10 @@
 #import "NXMBlocksHelper.h"
 #import "NXMErrorsPrivate.h"
 #import "NXMConversationMembersController.h"
+#import "NXMLogger.h"
 
 
-@interface NXMConversation () <NXMConversationEventsQueueDelegate>
+@interface NXMConversation () <NXMConversationEventsQueueDelegate,NXMConversationMembersControllerDelegate>
 @property (readwrite, nonatomic) NXMStitchContext *stitchContext;
 
 @property (readwrite, nonatomic, nonnull) NXMConversationDetails *conversationDetails;
@@ -34,7 +35,11 @@
         self.stitchContext = stitchContext;
         self.conversationDetails = conversationDetails;
         self.eventsQueue = [[NXMConversationEventsQueue alloc] initWithConversationDetails:self.conversationDetails stitchContext:self.stitchContext delegate:self];
-        self.conversationMembersController = [[NXMConversationMembersController alloc] initWithConversationDetails:self.conversationDetails andCurrentUser:self.currentUser];
+        self.conversationMembersController = [[NXMConversationMembersController alloc]
+                                              initWithConversationDetails:self.conversationDetails
+                                              andCurrentUser:self.currentUser
+                                              delegate:self];
+        
     }
     return self;
 }
@@ -110,6 +115,10 @@
                 [self.delegate memberEvent:(NXMMemberEvent *)event];
             }
             break;
+        case NXMEventTypeLegStatus:
+            if([self.delegate respondsToSelector:@selector(legStatusEvent:)]) {
+                [self.delegate legStatusEvent:(NXMLegStatusEvent *)event];
+            }
         case NXMEventTypeSip:
             break;
         default:
@@ -118,6 +127,7 @@
 }
 
 - (void)conversationExpired {
+    [self.conversationMembersController conversationExpired];
     if([self.delegate respondsToSelector:@selector(conversationExpired)]) {
         [self.delegate conversationExpired];
     }
@@ -258,6 +268,7 @@
 }
 
 - (NXMErrorCode)disableMedia {
+    [NXMLogger debugWithFormat:@"NXMConversation disableMedia %@", self.conversationId];
     [self.stitchContext.coreClient disableMedia:self.conversationId];
     return NXMErrorCodeNone;
 }
@@ -296,7 +307,7 @@
 }
 
 - (void)finishHandleEventsSequence {
-    [self.conversationMembersController finishHandleEventsSequence];
+//    [self.conversationMembersController finishHandleEventsSequence];
 }
 
 - (NSError *)validateMyMemberJoined {
@@ -305,5 +316,13 @@
     }
     
     return [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotAMemberOfTheConversation andUserInfo:nil];
+}
+
+#pragma member controller delegate
+
+- (void)nxmConversationMembersController:(NXMConversationMembersController * _Nonnull)controller didChangeMember:(nonnull NXMMember *)member forChangeType:(NXMMemberUpdateType)type {
+    if([self.updatesDelegate respondsToSelector:@selector(memberUpdated:forUpdateType:)]) {
+        [self.updatesDelegate memberUpdated:member forUpdateType:type];
+    }
 }
 @end

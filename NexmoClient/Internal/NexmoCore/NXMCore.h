@@ -22,7 +22,7 @@
 @property (nonatomic, strong, readonly, nullable) NXMUser *user;
 @property (nonatomic, strong, readonly, nullable) NSString *token;
 
-- (instancetype)initWithToken:(nonnull NSString *)authToken;
+- (nullable instancetype)initWithToken:(nonnull NSString *)authToken;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?
 
 - (void)login;

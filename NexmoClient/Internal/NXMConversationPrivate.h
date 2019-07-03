@@ -9,14 +9,14 @@
 #import "NXMStitchContext.h"
 
 @interface NXMConversation (Private)
--(instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andStitchContext:(nonnull NXMStitchContext *)stitchContext;
-@property (readwrite, nonatomic, nonnull) NXMConversationDetails *conversationDetails;
+-(instancetype)initWithConversationDetails:(NXMConversationDetails *)conversationDetails andStitchContext:(NXMStitchContext *)stitchContext;
+@property (readwrite, nonatomic) NXMConversationDetails *conversationDetails;
 
-- (void)inviteMemberWithUserId:(nonnull NSString *)userId withMedia:(bool)withMedia
-                    completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
+- (void)inviteMemberWithUserId:(NSString *)userId withMedia:(bool)withMedia
+                    completion:(void (^)(NSError * error, NXMMember * member))completion;
 
 - (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber
-                    completion:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable knockingId))completion;
+                    completion:(void (^)(NSError *  error, NSString *  knockingId))completion;
 
 - (NXMErrorCode)enableMedia:(NSString *)memberId;
 - (NXMErrorCode)disableMedia;

@@ -15,17 +15,11 @@
 @class NXMConversation;
 @class NXMConversationMembersController;
 
-typedef NS_ENUM(NSInteger, NXMMembersControllerChangeType){
-    NXMMembersControllerChangeTypeInvited,
-    NXMMembersControllerChangeTypeJoined,
-    NXMMembersControllerChangeTypeLeft
-};
-
 @protocol NXMConversationMembersControllerDelegate <NSObject>
 @optional
 - (void)nxmConversationMembersControllerWillChangeContent:(NXMConversationMembersController * _Nonnull)controller;
 - (void)nxmConversationMembersControllerDidChangeContent:(NXMConversationMembersController * _Nonnull)controller;
-- (void)nxmConversationMembersController:(NXMConversationMembersController * _Nonnull)controller didChangeMember:(nonnull NXMMember *)member forChangeType:(NXMMembersControllerChangeType)type;
+- (void)nxmConversationMembersController:(NXMConversationMembersController * _Nonnull)controller didChangeMember:(nonnull NXMMember *)member forChangeType:(NXMMemberUpdateType)type;
 @end
 
 @interface NXMConversationMembersController : NSObject
@@ -34,10 +28,11 @@ typedef NS_ENUM(NSInteger, NXMMembersControllerChangeType){
 @property (nonatomic, readonly, nullable) NSArray<NXMMember *> *otherMembers;
 @property (nonatomic, readonly, nullable, weak) id <NXMConversationMembersControllerDelegate> delegate;
 
-- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andCurrentUser:(nonnull NXMUser *)currentUser;
-- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails  andCurrentUser:(nonnull NXMUser *)currentUser delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte;
+- (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails
+                             andCurrentUser:(nonnull NXMUser *)currentUser
+                                   delegate:(id <NXMConversationMembersControllerDelegate> _Nullable)deleagte;
 
 - (void)handleEvent:(NXMEvent*_Nonnull)event;
-- (void)finishHandleEventsSequence;
+- (void)conversationExpired;
 - (nullable NXMMember *)memberForMemberId:(nonnull NSString *)memberId;
 @end

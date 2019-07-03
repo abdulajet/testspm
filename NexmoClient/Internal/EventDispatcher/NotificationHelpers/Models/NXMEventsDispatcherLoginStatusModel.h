@@ -10,8 +10,8 @@
 #import "NXMUser.h"
 
 @interface NXMEventsDispatcherLoginStatusModel : NSObject
-@property (nonatomic, nullable) NXMUser *user;
+@property (nonatomic) NXMUser *user;
 @property (nonatomic) BOOL isLoggedIn;
-@property (nonatomic, nullable) NSError *error;
+@property (nonatomic) NSError *error;
 -(instancetype)initWithNXMuser:(NXMUser *)user isLoggedIn:(BOOL)isLoggedIn andError:(NSError *)error;
 @end

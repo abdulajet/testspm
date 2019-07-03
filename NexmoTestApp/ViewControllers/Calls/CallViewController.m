@@ -46,6 +46,7 @@
 @property NSDate * startTime;
 @property NSTimer* timer;
 @property BOOL isSpeaker;
+@property BOOL isIncoming;
 @end
 
 @implementation CallViewController
@@ -69,6 +70,7 @@
         [self activateIncomingCallView];
     } else {
         [self activateInCallView];
+        self.isIncoming = NO;
 
     }
     
@@ -125,6 +127,7 @@
 }
 
 - (void)activateIncomingCallView {
+    self.isIncoming = YES;
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self activateIncomingCallView];
@@ -198,7 +201,7 @@
 #pragma mark Decline Call
 
 - (IBAction)declineCallButtonPressed:(UIButton *)sender {
-    [self.call reject:^(NSError * _Nullable error) {
+    [self.call rejectWithCompletionHandler:^(NSError * _Nullable error) {
         if(error) {
             [NTALogger errorWithFormat:@"Error declining call: %@",error];
             return;
@@ -286,6 +289,7 @@
 
 #pragma mark - NXMCallDelegate
 - (void)statusChanged:(NXMCallMember *)member {
+   NSLog(@"CallViewController statusChanged %@ %@ %ld", member.memberId, member.user.name, member.status);
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self statusChanged:member];
@@ -294,8 +298,7 @@
         return;
     }
     
-    if (self.call.myCallMember.status == NXMCallMemberStatusCompleted ||
-        self.call.myCallMember.status == NXMCallMemberStatusCancelled) {
+    if (self.call.myCallMember.status == NXMCallMemberStatusCompleted) {
             [self didDisconnectCall];
         return;
     }
@@ -344,7 +347,9 @@
 }
 
 - (void)endCall {
-    [self.call.myCallMember hangup];
+    if (self.call.myCallMember.status != NXMLegStatusCompleted) {
+        [self.call.myCallMember hangup];
+    }
     
     if (self.isSpeaker) {
         if ([[AVAudioSession sharedInstance] overrideOutputAudioPort:AVAudioSessionPortOverrideNone error:nil]){
@@ -368,8 +373,14 @@
 }
 
 - (NSString *)memberName:(NXMCallMember *)member {
-    if (member.channel.from.data) {
-        return member.channel.from.data;
+    if (self.isIncoming) {
+        if (member.channel.from.data) {
+            return member.channel.from.data;
+        }
+    } else {
+        if (member.channel.to.data) {
+            return member.channel.to.data;
+        }
     }
     
     return member.user.name;

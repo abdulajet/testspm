@@ -33,7 +33,7 @@ Return the connection status.
  init nxmClient with authentication token
  @param authToken user authentication token
  */
-- (instancetype)initWithToken:(nonnull NSString *)authToken;
+- (nullable instancetype)initWithToken:(nonnull NSString *)authToken;
 
 /*!
  Set nexmo client logger delegate
@@ -98,8 +98,6 @@ Logout
     callHandler:(NXMCallHandler)callHandler
     delegate:(nullable id<NXMCallDelegate>)delegate
   completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
-
-- (void)onMemberEvent:(NSNotification* )notification;
 
 #pragma mark - Push Notifications
 

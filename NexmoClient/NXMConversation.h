@@ -25,6 +25,8 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
 @property (readonly, nonatomic, nullable) NSArray<NXMMember *> *otherMembers;
 @property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;
+@property (nonatomic, weak, nullable) id <NXMConversationUpdatesDelegate> updatesDelegate;
+
 /**
  Join the current logged user as a member of the conversation
 

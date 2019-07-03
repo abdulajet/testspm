@@ -24,7 +24,16 @@
 }
 
 + (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state memberId:(NSString *)memberId {
-    return [[NXMMember alloc] initWithMemberId:memberId conversationId:conversationId user:user state:state];
+    
+    NSDictionary *dict = @{@"media":@{@"audio_settings": @{ @"enabled":@"false", @"muted":@"false"}},
+                           @"timestamp":@{},
+                          @"id":user.userId,
+                          @"name":user.name,
+                          @"state":state == NXMMemberStateLeft ? @"left" : state == NXMMemberStateInvited ? @"invited" : @"joined",
+                          @"memberId":memberId
+                           };
+    
+    return [[NXMMember alloc] initWithData:dict andMemberIdFieldName:@"memberId" andConversationId:conversationId];
 }
 
 @end

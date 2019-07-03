@@ -39,7 +39,7 @@
     return self;
 }
 
-- (NXMLeg *)getLeg {
+- (NXMLeg *)leg {
     return [self.legs lastObject];
 }
 

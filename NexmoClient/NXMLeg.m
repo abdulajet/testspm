@@ -15,61 +15,68 @@
 - (nullable instancetype) initWithConversationId:(nullable NSString *)conversationId
                                      andMemberId:(nullable NSString *)memberId
                                         andLegId:(nullable NSString *)legId
-                                      andlegType:(nullable NSString *)legType
-                                    andLegStatus:(nullable NSString *)legStatus
+                                     andlegTypeE:(NXMLegType)legType
+                                   andLegStatusE:(NXMLegStatus)legStatus
                                          andDate:(nullable NSString *)date {
     if (self = [super init]){
         self.legId = legId;
-        self.legType = [NXMLeg getLegTypeFromString:legType];
-        self.legStatus = [NXMLeg getLegStatusFromString:legStatus];
+        self.legType = legType;
+        self.legStatus = legStatus;
         self.conversationId = conversationId;
         self.memberId = memberId;
-        self.date = [NXMUtils dateFromISOString:date];
+        self.date = [date length] > 0 ? [NXMUtils dateFromISOString:date] : nil;
     }
     
     return self;
+}
+
+- (nullable instancetype) initWithConversationId:(nullable NSString *)conversationId
+                                     andMemberId:(nullable NSString *)memberId
+                                        andLegId:(nullable NSString *)legId
+                                      andlegType:(nullable NSString *)legType
+                                    andLegStatus:(nullable NSString *)legStatus
+                                         andDate:(nullable NSString *)date {
+    return [self initWithConversationId:conversationId
+                            andMemberId:memberId
+                               andLegId:legId
+                            andlegTypeE:[NXMLeg getLegTypeFromString:legType]
+                          andLegStatusE:[NXMLeg getLegStatusFromString:legStatus]
+                                andDate:date];
+
 }
 
 - (nullable instancetype) initWithConversationId:(nullable NSString *) conversationId
                                      andMemberId:(nullable NSString *) memberId
                                       andLegData:(nullable NSDictionary *)legData
                                          andData:(nullable NSDictionary *)data {
-    if (self = [super init]){
-        self.legId          = legData[@"leg_id"];
-        self.legType        = [NXMLeg getLegTypeFromString:data[@"type"]];
-        self.legStatus      = [NXMLeg getLegStatusFromString:legData[@"status"]];
-        
-        self.conversationId = conversationId;
-        self.memberId       = memberId;
-    }
     
-    return self;
+    return [self initWithConversationId:conversationId
+                            andMemberId:memberId
+                               andLegId:legData[@"leg_id"]
+                            andlegTypeE:[NXMLeg getLegTypeFromString:data[@"type"]]
+                          andLegStatusE:[NXMLeg getLegStatusFromString:legData[@"status"]]
+                                andDate:nil];
     
 }
 
 - (nullable instancetype)initWithData:(nullable NSDictionary *)data
                             andLegData:(nullable NSDictionary *)legData {
-    if (self = [super init]) {
-        self.legId          = data[@"leg_id"];
-        self.legType        = [NXMLeg getLegTypeFromString:data[@"type"]];
-        self.legStatus      = [NXMLeg getLegStatusFromString:legData[@"status"]];
-        
-        self.conversationId = legData[@"convertsation_id"];
-        self.memberId       = legData[@"member_id"];
-        
-        self.date           = [NXMUtils dateFromISOString:legData[@"date"]];
-    }
     
-    return self;
+    return [self initWithConversationId:legData[@"convertsation_id"]
+                            andMemberId:legData[@"member_id"]
+                               andLegId:data[@"leg_id"]
+                            andlegTypeE:[NXMLeg getLegTypeFromString:data[@"type"]]
+                          andLegStatusE:[NXMLeg getLegStatusFromString:legData[@"status"]]
+                                andDate:@"date"];
 }
 
 
 + (NXMLegStatus)getLegStatusFromString:(nullable NSString*)statusString {
-    return [statusString isEqualToString:@"riniging"] ? NXMLegStatusRinging :
+    return [statusString isEqualToString:@"riniging"] ? NXMLegStatusCalling :
             [statusString isEqualToString:@"answered"] ? NXMLegStatusAnswered :
             [statusString isEqualToString:@"started"] ? NXMLegStatusStarted :
             [statusString isEqualToString:@"completed"] ? NXMLegStatusCompleted :
-            NXMLegStatusUnknown;
+            NXMLegStatusStarted;
 }
 
 + (NXMLegType)getLegTypeFromString:(nullable NSString*)typeString {

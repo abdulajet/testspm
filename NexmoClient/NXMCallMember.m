@@ -9,12 +9,14 @@
 #import "NXMCallProxy.h"
 #import "NXMMember.h"
 #import "NXMCoreEvents.h"
+#import "NXMLegPrivate.h"
+#import "NXMChannelPrivate.h"
+#import "NXMLogger.h"
 
 @interface NXMCallMember()
 
-@property (nonatomic, readwrite) NXMCallMemberStatus status;
-@property (nonatomic, readwrite) NXMUser *user;
-@property (nonatomic, readwrite) NXMChannel *channel;
+@property (nonatomic, readwrite) NXMMember *member;
+@property (nonatomic, readwrite) NXMCallMemberStatus currentStatus;
 @property (nonatomic, readwrite) BOOL isMuted;
 
 @property (nonatomic, readwrite, weak) id<NXMCallProxy> callProxy;
@@ -23,55 +25,58 @@
 
 @implementation NXMCallMember
 
-- (nullable instancetype)initWithMemberId:(NSString *)memberId
-                                     user:(NXMUser *)user
-                                  channel:(NXMChannel *)channel
-                             andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [super init]) {
-        self.memberId = memberId;
-        self.user = user;
-        self.callProxy = callProxy;
-        self.status = NXMCallMemberStatusDialling;
-        self.channel = channel;
-    }
-    
-    return self;
-}
-
 - (nullable instancetype)initWithMember:(NXMMember *)member andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [self initWithMemberId:member.memberId
-                                 user:member.user
-                              channel:member.channel
-                         andCallProxy:callProxy]) {
-        [self updateWithMember:member];
+    if (self = [self init]) {
+        self.member = member;
+        self.callProxy = callProxy;
+        self.currentStatus = [self status];
+        self.isMuted = member.media.isSuspended;
     }
     
     return self;
 }
 
-- (nullable instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent andCallProxy:(id<NXMCallProxy>)callProxy {
-    if (self = [self initWithMemberId:memberEvent.memberId
-                                 user:memberEvent.user
-                              channel:memberEvent.channel
-                         andCallProxy:callProxy]) {
-        [self updateWithMemberEvent:memberEvent];
+#pragma public
+
+- (NSString *)memberId {
+    return self.member.memberId;
+}
+
+- (NXMUser *)user {
+    return self.member.user;
+}
+
+- (NXMChannel *)channel {
+    return self.member.channel;
+}
+
+
+- (NXMCallMemberStatus)status {
+    switch (self.channel.leg.legStatus) {
+        case NXMLegStatusCalling:
+            return NXMCallMemberStatusCalling;
+        case NXMLegStatusStarted:
+            return NXMCallMemberStatusStarted;
+        case NXMLegStatusAnswered:
+            return NXMCallMemberStatusAnswered;
+        case NXMLegStatusCompleted:
+            return NXMCallMemberStatusCompleted;
+        default:
+            break;
     }
     
-    return self;
+    return NXMCallMemberStatusCalling;
 }
 
 - (NSString *)statusDescription {
     switch (self.status) {
-        case NXMCallMemberStatusDialling:
-            return @"Dialling";
+
         case NXMCallMemberStatusCalling:
             return @"Calling";
         case NXMCallMemberStatusStarted:
             return @"Started";
         case NXMCallMemberStatusAnswered:
             return @"Answered";
-        case NXMCallMemberStatusCancelled:
-            return @"Cancelled";
         case NXMCallMemberStatusCompleted:
             return @"Completed";
         default:
@@ -95,68 +100,33 @@
     [self.callProxy earmuff:self isEarmuff:isEarmuff];
 }
 
-- (void)callEnded {
-    [self hangup];
+#pragma private
+
+- (void)memberUpdated {
+    [NXMLogger debugWithFormat:@"NXMCallMember Updated %@", self.memberId];
+
+    BOOL isChanged = NO;
     
-    self.status = NXMCallMemberStatusCompleted;
+    if (self.isMuted != self.member.media.isSuspended) {
+        self.isMuted = self.member.media.isSuspended;
+        isChanged = YES;
+    }
+    
+    [NXMLogger debugWithFormat:@"NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status];
+
+    if (self.currentStatus != self.status) {
+        self.currentStatus = self.status;
+        isChanged = YES;
+    }
+    
+    if (!isChanged) {
+        [NXMLogger debugWithFormat:@"NXMCallMember member not updated"];
+        return;
+    }
+    
     [self.callProxy onChange:self];
 }
 
-- (void)updateWithMediaEvent:(NXMEvent *)mediaEvent {
-    
-    NXMCallMemberStatus newStatus = self.status;
-    BOOL isMuted = self.isMuted;
-    
-    if (mediaEvent.type == NXMEventTypeMedia) {
-        NXMMediaEvent *mediaEventCast = (NXMMediaEvent *)mediaEvent;
-        newStatus = mediaEventCast.mediaSettings.isEnabled ? NXMCallMemberStatusAnswered : NXMCallMemberStatusCompleted;
-        isMuted = mediaEventCast.mediaSettings.isSuspended;
-    } else if ([mediaEvent isKindOfClass:[NXMMediaSuspendEvent class]]){
-       isMuted = ((NXMMediaSuspendEvent *)mediaEvent).isSuspended;
-    }
-    
-    if (newStatus != self.status || isMuted != self.isMuted) {
-        self.status = newStatus;
-        self.isMuted = isMuted;
-        
-        [self.callProxy onChange:self];
-        return;
-    }
 
-}
-
-
-- (void)updateWithMember:(NXMMember *)member {
-    [self updateWithMemberStatus:member.state isMedia:NO];
-}
-
-- (void)updateWithMemberEvent:(NXMMemberEvent *)memberEvent {
-    [self updateWithMemberStatus:memberEvent.state isMedia:memberEvent.media.isEnabled];
-}
-
-- (void)updateWithMemberStatus:(NXMMemberState)state isMedia:(BOOL)isMedia {
-    NXMCallMemberStatus newStatus = self.status;
-    switch (state) {
-        case NXMMemberStateInvited:
-            newStatus = NXMCallMemberStatusCalling;
-            break;
-        case NXMMemberStateLeft:
-            newStatus = self.status == NXMCallMemberStatusCalling ? NXMCallMemberStatusCancelled : NXMCallMemberStatusCompleted;
-            break;
-        case NXMMemberStateJoined:
-            if (self.status != NXMCallMemberStatusAnswered) {
-                newStatus = isMedia ? NXMCallMemberStatusAnswered : NXMCallMemberStatusStarted;
-            }
-            break;
-        default:
-            break;
-    }
-    
-
-    if (newStatus != self.status) {
-        self.status = newStatus;
-        [self.callProxy onChange:self];
-    }
-}
 
 @end

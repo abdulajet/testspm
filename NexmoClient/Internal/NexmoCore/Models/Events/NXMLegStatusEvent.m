@@ -29,12 +29,8 @@
     return self;
 }
 
-- (nullable NXMLeg *) getCurrent {
+- (nonnull NXMLeg *)current {
     return [self.history lastObject];
-}
-
-- (nullable NSMutableArray<NXMLeg*> *) getHistory {
-    return self.history;
 }
 
 @end

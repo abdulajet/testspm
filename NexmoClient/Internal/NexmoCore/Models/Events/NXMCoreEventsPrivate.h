@@ -7,7 +7,7 @@
 
 #import "NXMCoreEvents.h"
 #import "NXMMemberEventPrivate.h"
-
+#import "NXMLegStatusEventPrivate.h"
 
 @interface NXMEvent (NXNEventPrivate)
 

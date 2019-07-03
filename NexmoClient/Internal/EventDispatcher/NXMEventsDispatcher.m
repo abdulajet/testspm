@@ -58,7 +58,7 @@
 }
 
 - (void)legStatus:(NXMLegStatusEvent *)legEvent {
-    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationLoginStatus andEvent:legEvent];
+    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMedia andEvent:legEvent];
 }
 
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent {

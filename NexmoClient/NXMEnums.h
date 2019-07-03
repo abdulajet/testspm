@@ -23,6 +23,12 @@ typedef NS_ENUM(NSInteger, NXMConnectionStatusReason) {
     NXMConnectionStatusReasonTerminated
 };
 
+typedef NS_ENUM(NSInteger, NXMMemberUpdateType) {
+    NXMMemberUpdateTypeState,
+    NXMMemberUpdateTypeMedia,
+    NXMMemberUpdateTypeLeg
+};
+
 typedef NS_ENUM(NSInteger, NXMMediaType) {
     NXMMediaTypeNone = (0),
     NXMMediaTypeAudio = (1 << 0),
@@ -31,7 +37,6 @@ typedef NS_ENUM(NSInteger, NXMMediaType) {
 
 typedef NS_ENUM(NSInteger, NXMMediaActionType) {
     NXMMediaActionTypeSuspend
-    //TODO:earmuffed?held?
 };
 
 typedef NS_ENUM(NSInteger, NXMEventType) {
@@ -89,13 +94,12 @@ typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
     NXMMediaStreamTypeReceive,
     NXMMediaStreamTypeSendReceive
 };
+
 typedef NS_ENUM(NSInteger, NXMLegStatus) {
-    NXMLegStatusCompleted,
+    NXMLegStatusCalling,
     NXMLegStatusStarted,
     NXMLegStatusAnswered,
-    NXMLegStatusRinging,
-    
-    NXMLegStatusUnknown
+    NXMLegStatusCompleted
 };
 
 typedef NS_ENUM(NSInteger, NXMLegType) {

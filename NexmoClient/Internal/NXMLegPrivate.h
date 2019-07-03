@@ -9,6 +9,14 @@
 #import "NXMLeg.h"
 
 @interface NXMLeg (private)
+
+- (nullable instancetype) initWithConversationId:(nullable NSString *)conversationId
+                                     andMemberId:(nullable NSString *)memberId
+                                        andLegId:(nullable NSString *)legId
+                                     andlegTypeE:(NXMLegType)legType
+                                   andLegStatusE:(NXMLegStatus)legStatus
+                                         andDate:(nullable NSString *)date;
+
 - (nullable instancetype) initWithConversationId:(nullable NSString *) conversationId
                                       andMemberId:(nullable NSString *) memberId
                                          andLegId:(nullable NSString *) legId

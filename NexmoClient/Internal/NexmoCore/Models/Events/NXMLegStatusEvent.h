@@ -13,12 +13,6 @@
 
 @interface NXMLegStatusEvent : NXMEvent
 
-- (instancetype) initWithConversationId:(NSString*) conversationId
-                                   type:(NXMEventType)type
-                           fromMemberId:(NSString *)fromMemberId
-                             sequenceId:(NSInteger)sequenceId
-                             legHistory:(NSMutableArray<NXMLeg*>*) legs;
-
 @property (nonatomic, readonly, nonnull) NSMutableArray<NXMLeg *> *history;
 @property (nonatomic, readonly, nonnull) NXMLeg *current;
 

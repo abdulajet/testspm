@@ -4,6 +4,7 @@
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
+#import <ClientInfrastructures/ClientInfrastructures.h>
 
 #import "NXMCall.h"
 #import "NXMCallProxy.h"
@@ -14,9 +15,9 @@
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
-#import <ClientInfrastructures/ClientInfrastructures.h>
 
-@interface NXMCall() <NXMCallProxy,NXMConversationDelegate>
+
+@interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdatesDelegate>
 
 @property (readwrite, nonatomic) NXMConversation *conversation;
 @property (readwrite, nonatomic) NSMutableArray<NXMCallMember *> *otherCallMembers;
@@ -32,8 +33,9 @@
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
-    [NXMLog info:@"NXMCall::initWithConversation start"];
-    [NXMLog info:[[NSString alloc] initWithFormat:@"NXMCall::initWithConversation::conversationId @%", conversation.conversationId]];
+    [NXMLog debug:@"start"];
+    [NXMLog debugWithFromat:@"conversationId %@", conversation.conversationId];
+    
     if (self = [super init]) {
         self.membersSyncToken = [NSObject new];
         self.lastEventId = conversation.lastEventId;
@@ -48,6 +50,7 @@
             }
         }
         [conversation setDelegate:self];
+        conversation.updatesDelegate = self;
     }
     return self;
 }
@@ -149,7 +152,6 @@
         return;
     }
     
-    NSLog(@"DTMF");
     [self.conversation sendDTMF:dtmf];
 }
 
@@ -204,32 +206,34 @@
 
 #pragma mark - NXMConversationDelegate
 
+- (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
+    NXMCallMember *callMember = [self findCallMember:member.memberId];
+    [NXMLog debugWithFromat:@"memberUpdated %@", member.memberId];
 
-- (void)mediaEvent:(NXMEvent *)mediaEvent {
-    [self handleMediaEvent:mediaEvent];
-}
-
-- (void)memberEvent:(NXMMemberEvent *)memberEvent{
-    [self handleMemberEvent:memberEvent];
-}
-
-- (void)conversationExpired {
-    if ([self isCallDone]) {
+    if (!member.memberId) {
         return;
     }
     
-    [self.myCallMember callEnded];
+    if (!callMember) {
+        [NXMLog debugWithFromat:@"memberUpdated member created"];
+        callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
+        [self.delegate statusChanged:callMember];
+        return;
+    }
+    
+    [callMember memberUpdated];
 }
+
+
+- (void)conversationExpired {
+    [self.myCallMember hangup];
+}
+
 
 #pragma mark - Private Methods
 
 - (BOOL)isCallDone {
-    if (self.myCallMember.status == NXMCallMemberStatusCompleted ||
-        self.myCallMember.status == NXMCallMemberStatusCancelled) {
-        return YES;
-    }
-    
-    return NO;
+    return self.myCallMember.status == NXMCallMemberStatusCompleted;
 }
 
 - (void)dialWithMember:(NXMMember *)member {
@@ -240,23 +244,6 @@
     }
     
     [self.conversation enableMedia:self.myCallMember.memberId];
-}
-
-- (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    NXMCallMember *callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMemberEvent:memberEvent andCallProxy:self]];
-    [callMember updateWithMemberEvent:memberEvent];
-}
-
-- (void)handleMediaEvent:(NXMEvent *)mediaEvent {
-    NXMCallMember *callMember = [self findCallMember:mediaEvent.fromMemberId];
-    
-    if (mediaEvent.type == NXMEventDTMF) {
-        if ([self.delegate respondsToSelector:@selector(DTMFReceived:callMember:)]) {
-            [self.delegate DTMFReceived:((NXMDTMFEvent *)mediaEvent).digit callMember:callMember];
-        }
-    }
-    
-    [callMember updateWithMediaEvent:mediaEvent];
 }
 
 - (NXMCallMember *)findCallMember:(NSString *)memberId {
@@ -298,6 +285,5 @@
     return !(event.type == NXMEventTypeMember ||
              event.type == NXMEventTypeMedia);
 }
-
 
 @end
