@@ -54,6 +54,10 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 #pragma mark - login and connectivity
 
+-(bool) isConnected {
+    return [self getConnectionStatus] == NXMConnectionStatusConnected;
+}
+
 -(NXMConnectionStatus)getConnectionStatus {
     return self.stitchContext.coreClient.connectionStatus;
 }
@@ -132,6 +136,13 @@ NSString *const NXMCallPrefix = @"CALL_";
 -(void)getConversationWithId:(nonnull NSString *)converesationId
                   completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
     LOG_SCOPE(converesationId);
+    if (![self isConnected]){
+        [NXMLogger warning:@"NXMClient:getConversationWithId:SDK disconnected"];
+        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
+        completion(resError, nil);
+        return;
+    }
+    
     [self.stitchContext.coreClient getConversationDetails:converesationId
                                                 onSuccess:^(NXMConversationDetails * _Nullable conversationDetails) {
                                                     if(completion) {
@@ -146,6 +157,12 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 -(void)createConversationWithName:(nonnull NSString *)name completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
     LOG_SCOPE(name);
+    if (![self isConnected]){
+        [NXMLogger warning:@"NXMClient:createConversationWithName:SDK disconnected"];
+        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
+        completion(resError, nil);
+        return;
+    }
     __weak NXMClient *weakSelf = self;
     [self.stitchContext.coreClient createConversationWithName:name
                                                     onSuccess:^(NSString * _Nullable value) {
@@ -235,6 +252,12 @@ NSString *const NXMCallPrefix = @"CALL_";
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     LOG_SCOPE([callees description], (int)callHandler);
+    if (![self isConnected]){
+        [NXMLogger warning:@"NXMClient:call:SDK disconnected"];
+        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
+        completion(resError, nil);
+        return;
+    }
     switch (callHandler) {
         case NXMCallHandlerInApp:
             [self startIpCall:callees delegate:delegate completion:completion];
@@ -297,6 +320,12 @@ NSString *const NXMCallPrefix = @"CALL_";
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
     LOG_SCOPE([[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
+    if (![self isConnected]){
+        [NXMLogger warning:@"NXMClient:enablePushNotificationsWithDeviceToken:SDK disconnected"];
+        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
+        completion(resError);
+        return;
+    }
     [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit onSuccess:^{
         [NXMLogger info:@"Nexmo push notifications enabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];
@@ -308,6 +337,12 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
     LOG_SCOPE();
+    if (![self isConnected]){
+        [NXMLogger warning:@"NXMClient:disablePushNotificationsWithCompletion:SDK disconnected"];
+        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
+        completion(resError);
+        return;
+    }
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
         [NXMLogger info:@"Nexmo push notifications disabled"];
         [NXMBlocksHelper runWithError:nil completion:completion];

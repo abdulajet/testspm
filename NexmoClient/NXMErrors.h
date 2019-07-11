@@ -51,6 +51,7 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
     
     NXMErrorCodeNotImplemented,
     NXMErrorCodeMissingDelegate,
-    NXMErrorCodePayloadTooBig
+    NXMErrorCodePayloadTooBig,
     
+    NXMErrorCodeSDKDisconnected
 };
