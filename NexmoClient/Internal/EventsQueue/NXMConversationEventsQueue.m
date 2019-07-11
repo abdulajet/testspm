@@ -29,6 +29,9 @@
 @end
 
 @implementation NXMConversationEventsQueue
+
+const unsigned int MAX_PAGE_EVENTS=60;
+
 #pragma mark - Init
 - (nullable instancetype)initWithConversationDetails:(nonnull NXMConversationDetails*)ConversationDetails
                                        stitchContext:(nonnull NXMStitchContext*)stitchContext {
@@ -179,12 +182,37 @@
 
 - (void)queryEventsFromServerUpToLastEvent {
     [NXMLogger info:@"Querying events up to last event"];
-    [self queryEventsFromServerUpToEndId:nil];
+    __weak NXMConversationEventsQueue *weakSelf = self;
+    [self.stitchContext.coreClient getLatestEventInConversation:self.conversationId onSuccess:^(NXMEvent * _Nullable event) {
+        [self.operationQueue addOperationWithBlock:^{
+            [weakSelf handleDispatchedEvent: event];
+        }];
+    } onError:^(NSError * _Nullable error) {
+        // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
+        // when we will add retry mechanism this code will be moved.
+        if (error.code == NXMErrorCodeConversationNotFound) {
+            [NXMLogger warningWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            [self.delegate conversationExpired];
+            
+            return;
+        }
+        
+        [weakSelf.operationQueue addOperationWithBlock:^{
+            [NXMLogger warningWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+            [self endProcessingRequest];
+            return;
+            //TODO: handle specific errors in case that we want handle next events
+            //right now we stop handeling events until another event arrives or connection status changes to connected
+        }];
+    }];
 }
 
 - (void)queryEventsFromServerUpToEndId:(NSNumber *)endId {
     [self startProcessingRequest];
     __weak NXMConversationEventsQueue *weakSelf = self;
+    //Check that the request dosn't ask for more then MAX_PAGE_EVENTS
+    NSNumber *maxAllowedEndId = @(self.currentHandledSequenceId + MAX_PAGE_EVENTS);
+    endId = endId ? @(MIN([endId integerValue], [maxAllowedEndId integerValue])) : maxAllowedEndId;
     [self.stitchContext.coreClient getEventsInConversation:self.conversationId startId:@(self.currentHandledSequenceId + 1) endId:endId onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         [weakSelf.operationQueue addOperationWithBlock:^{
             NSNumber * highestQueriedWithResponse = [weakSelf handleGetEventResponse:events];

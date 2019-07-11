@@ -165,6 +165,12 @@
     [self.router getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
 
+- (void)getLatestEvent:(nonnull NXMGetEventsRequest*)getEventsRequest
+        onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError{
+    [self.router getLatestEvent:getEventsRequest onSuccess:onSuccess onError:onError];
+}
+
 - (void)getEvents:(nonnull NXMGetEventsRequest*)getEventsRequest
         onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
           onError:(NXMErrorCallback _Nullable)onError{

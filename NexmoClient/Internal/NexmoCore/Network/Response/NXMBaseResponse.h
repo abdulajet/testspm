@@ -8,6 +8,7 @@
 
 #ifndef NXMBaseResponse_h
 #define NXMBaseResponse_h
+#import <Foundation/Foundation.h>
 
 @interface NXMBaseResponse : NSObject
 

@@ -204,6 +204,14 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
 
+- (void)getLatestEventInConversation:(nonnull NSString *)conversationId
+                      onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError{
+    NXMGetEventsRequest *request = [NXMGetEventsRequest new];
+    request.conversationId = conversationId;
+    [self.network getLatestEvent:request onSuccess:onSuccess onError:onError];
+}
+
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
         onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
           onError:(NXMErrorCallback _Nullable)onError{

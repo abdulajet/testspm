@@ -92,6 +92,10 @@ fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
              onError:(NXMErrorCallback _Nullable)onError;
 
+- (void)getLatestEventInConversation:(nonnull NSString *)conversationId
+                      onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
+                        onError:(NXMErrorCallback _Nullable)onError;
+
 - (void)getEventsInConversation:(nonnull NSString *)conversationId
         onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
           onError:(NXMErrorCallback _Nullable)onError;

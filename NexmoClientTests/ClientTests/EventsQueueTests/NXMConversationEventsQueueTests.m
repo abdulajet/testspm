@@ -277,6 +277,7 @@
     NSInteger eventId2 = 2;
     NSInteger eventId3 = 3;
     NSInteger eventId5 = 5;
+    NSInteger eventId7 = 7;
     NSInteger eventId8 = 8;
     
     NSInteger startingSequenceId = eventId2;
@@ -286,9 +287,12 @@
     NXMEvent *event8 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
 
     
-    NSArray<NXMEvent *> *queriedEvents = @[event3, event5, event8];
+    NSArray<NXMEvent *> *queriedEvents = @[event3, event5];
+    //LatestEvent
+    OCMStub([self.stitchCoreMock getLatestEventInConversation:convId onSuccess:([OCMArg invokeBlockWithArgs:event8, nil]) onError:[OCMArg any]]);
     
-    OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId3) endId:nil onSuccess:([OCMArg invokeBlockWithArgs:queriedEvents, nil]) onError:[OCMArg any]]);
+    //Gap
+    OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId3) endId:@(eventId7) onSuccess:([OCMArg invokeBlockWithArgs:queriedEvents, nil]) onError:[OCMArg any]]);
     
     NSUInteger expectedNumberOfHandledEvents = 3;
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
@@ -345,16 +349,19 @@
     NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
 
     NSMutableArray<NXMEvent *> *queriedGapEvents = [@[event4Gap, event6Gap] mutableCopy];
-    NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network, event8Network] mutableCopy];
+    NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network] mutableCopy];
     
     XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"queryEventsExpectation"];
     
-    OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId4) endId:nil onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-        NXMSuccessCallbackWithEvents successBlock;
-        [invocation getArgument:&successBlock atIndex:5];
-        successBlock(queriedNetworkEvents);
-        [queryEventsExpectation fulfill];
-    });
+    
+    //LatestEvent
+    OCMStub([self.stitchCoreMock getLatestEventInConversation:convId onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+                NXMSuccessCallbackWithEvent successBlock;
+                [invocation getArgument:&successBlock atIndex:3];
+                successBlock(event8Network);
+                [queryEventsExpectation fulfill];
+                NSLog(@"I getLatestEventInConversation success");
+            });
 
     OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId4) endId:@(eventId6) onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
         __block NXMSuccessCallbackWithEvents successBlock;
@@ -362,10 +369,11 @@
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
             [XCTWaiter waitForExpectations:@[queryEventsExpectation] timeout:10];
             successBlock(queriedGapEvents);
+            NSLog(@"I eventId4 to eventId6 success");
         });
     });
     
-    NSUInteger expectedNumberOfHandledEvents = 7;
+    NSUInteger expectedNumberOfHandledEvents = 5;
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
                                                                                                          andExpectationDescription:NSStringFromSelector(_cmd)];
     
@@ -378,12 +386,11 @@
     [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
     [eventsQueue handleDispatchedEvent:event4];
     [eventsQueue handleDispatchedEvent:event1];
-    [eventsQueue handleDispatchedEvent:event6];
     
     
     
     //Assert
-    NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId6), @(eventId6), @(eventId7), @(eventId8), @(eventId6)];
+    NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId6), @(eventId7), @(eventId8)];
     XCTWaiterResult waiterResult = [XCTWaiter waitForExpectations:delegateHelper.expectations timeout:10];
     XCTAssertEqual(waiterResult, XCTWaiterResultCompleted);
     XCTAssertEqualObjects(expectedHandledIds, delegateHelper.handledEventsIds);
@@ -428,15 +435,14 @@
     
     XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"queryEventsExpectation"];
     
-    OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId4) endId:nil onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-        NXMSuccessCallbackWithEvents successBlock;
-        [invocation getArgument:&successBlock atIndex:5];
+    //LatestEvent
+    OCMStub([self.stitchCoreMock getLatestEventInConversation:convId onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
+        NXMSuccessCallbackWithEvent successBlock;
+        [invocation getArgument:&successBlock atIndex:3];
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0), ^{
             [XCTWaiter waitForExpectations:@[queryEventsExpectation] timeout:10];
-            successBlock(queriedNetworkEvents);
+            successBlock(event8Network);
         });
-
-        
     });
     
     OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId4) endId:@(eventId6) onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
@@ -446,7 +452,7 @@
         [queryEventsExpectation fulfill];
     });
     
-    NSUInteger expectedNumberOfHandledEvents = 7;
+    NSUInteger expectedNumberOfHandledEvents = 5;
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
                                                                                                          andExpectationDescription:NSStringFromSelector(_cmd)];
     
@@ -459,12 +465,11 @@
     [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
     [eventsQueue handleDispatchedEvent:event4];
     [eventsQueue handleDispatchedEvent:event1];
-    [eventsQueue handleDispatchedEvent:event6];
     
     
     
     //Assert
-    NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId6), @(eventId7), @(eventId8), @(eventId6), @(eventId6)];
+    NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId6), @(eventId7), @(eventId8)];
     XCTWaiterResult waiterResult = [XCTWaiter waitForExpectations:delegateHelper.expectations timeout:10];
     XCTAssertEqual(waiterResult, XCTWaiterResultCompleted);
     XCTAssertEqualObjects(expectedHandledIds, delegateHelper.handledEventsIds);

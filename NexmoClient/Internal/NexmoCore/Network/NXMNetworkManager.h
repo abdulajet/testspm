@@ -109,6 +109,10 @@
                onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                  onError:(NXMErrorCallback _Nullable)onError;
 
+- (void)getLatestEvent:(nonnull NXMGetEventsRequest *)getEventsRequest
+        onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
+          onError:(NXMErrorCallback _Nullable)onError;
+
 - (void)getEvents:(nonnull NXMGetEventsRequest *)getEventsRequest
         onSuccess:(NXMSuccessCallbackWithEvents _Nullable)onSuccess
           onError:(NXMErrorCallback _Nullable)onError;

@@ -21,6 +21,8 @@
 #import "NXMUtils.h"
 #import "NXMMemberPrivate.h"
 #import "NXMUserPrivate.h"
+#import "NXMPageRequest.h"
+#import "NXMPageResponse.h"
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
@@ -709,10 +711,22 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     }];
 }
 
+- (void)getLatestEvent:(NXMGetEventsRequest *) getEventsRequest onSuccess:(NXMSuccessCallbackWithEvent)onSuccess onError:(NXMErrorCallback)onError{
+    [self getEvents:getEventsRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+        if (events && [events count] > 0){
+            onSuccess:[events firstObject];
+        }
+        else{
+            [NXMLogger debugWithFormat:@"getLatestEvent converationId:%@ no events",getEventsRequest.conversationId ];
+        }
+    } onError:^(NSError * _Nullable error) {
+        onError(error);
+    }];
+}
 
 - (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(NXMSuccessCallbackWithEvents)onSuccess onError:(NXMErrorCallback)onError{
     
-    NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, getEventsRequest.conversationId]];
+    NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, @"https://api.nexmo.com/beta2/", getEventsRequest.conversationId]];
     NSMutableArray<NSURLQueryItem *> *queryParams = [NSMutableArray new];
     if(getEventsRequest.startId) {
         [queryParams addObject:[[NSURLQueryItem alloc] initWithName:@"start_id" value:[getEventsRequest.startId stringValue]]];
@@ -725,8 +739,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     NSURL *url = urlComponents.URL;
     NSString* requestType = @"GET";
     
-    
-    [self requestToServer:@{} url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    NXMPageRequest* pageRequest = [[NXMPageRequest alloc] initWithPageSize:100 withUrl:url withCursor:nil withOrder:nil];
+    [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
             return;
@@ -736,20 +750,20 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
             return;
         }
-        
+        NXMPageResponse * pageResponse = [[NXMPageResponse alloc] initWithData:data];
         NSMutableArray *events = [[NSMutableArray alloc] init];
-        for (NSDictionary* eventJson in data) {
+        for (NSDictionary* eventJson in pageResponse.data) {
             NSString* type = eventJson[@"type"];
             if ([type isEqual:@"member:joined"]) {
                 [events addObject:[self parseMemberEvent:NXMMemberStateJoined dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
-
+            
             if ([type isEqual:@"member:invited"]){
                 [events addObject:[self parseMemberEvent:NXMMemberStateInvited dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
             }
-
+            
             if ([type isEqual:@"member:left"]){
                 [events addObject:[self parseMemberEvent:NXMMemberStateLeft dict:eventJson conversationId:getEventsRequest.conversationId]];
                 continue;
@@ -777,7 +791,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             
             if ([type isEqual:@"text:delivered"]){
                 [events addObject:[self parseMessageStatusEvent:eventJson conversationId:getEventsRequest.conversationId
-                                                       state:NXMMessageStatusTypeDelivered]];
+                                                          state:NXMMessageStatusTypeDelivered]];
                 continue;
             }
             
@@ -825,14 +839,31 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                 [events addObject:[self parseSipEvent:eventJson conversationId:getEventsRequest.conversationId state:NXMSipEventStatus]];
                 continue;
             }
-
+            
         }
         
         onSuccess(events);
     }];
+    
+    
 }
 
 #pragma mark - private
+
+- (void)requestWithPageRequest:(NXMPageRequest*)pageRequets completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+    NSURLComponents *components = [[NSURLComponents alloc] initWithURL:pageRequets.url resolvingAgainstBaseURL:NO];
+    NSMutableArray * newQueryItems = [NSMutableArray arrayWithCapacity:[components.queryItems count] + 1 + (pageRequets.cursor ? 1:0) + (pageRequets.order ? 1:0)];
+    [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"page_size" value:[[NSString alloc] initWithFormat:@"%d",pageRequets.pageSize]]];
+    if (pageRequets.cursor && [pageRequets.cursor length] > 0){
+        [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"cursor" value:pageRequets.cursor]];
+    }
+    if (pageRequets.order && [pageRequets.order length] > 0){
+        [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"order" value:pageRequets.order]];
+    }
+
+    [components setQueryItems:newQueryItems];
+    [self requestToServer:nil url:[components URL] httpMethod:@"GET" completionBlock:completionBlock];
+}
 
 - (void)requestToServer:(nullable NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSError *jsonErr;
@@ -1088,12 +1119,5 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     
     return [NSString stringWithString:hexString];
 }
-
-
-
-
-
-
-
 
 @end

@@ -16,7 +16,7 @@
 typedef void(^NXMSuccessCallbackWithConversationDetails)(NXMConversationDetails * _Nullable conversationDetails);
 typedef void(^NXMSuccessCallbackWithConversations)(NSArray<NXMConversationDetails *> * _Nullable conversationsDetails, NXMPageInfo * _Nullable pageInfo);
 typedef void(^NXMSuccessCallbackWithEvents)(NSMutableArray<NXMEvent *> * _Nullable events);
-typedef void(^NXMSuccessCallbackWithEvent)(NXMEvent * _Nullable events);
+typedef void(^NXMSuccessCallbackWithEvent)(NXMEvent * _Nullable event);
 
 
 
