@@ -357,10 +357,7 @@
 		9214F61621AEF8E40021CD05 /* NXMTestingUtilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMTestingUtilities.h; sourceTree = "<group>"; };
 		9214F61721AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NXMTestingUtils+ConversationDetails.h"; sourceTree = "<group>"; };
 		9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NXMTestingUtils+ConversationDetails.m"; sourceTree = "<group>"; };
-		9216303C21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SCLStitchClientWrapper+CoreExpose.h"; sourceTree = "<group>"; };
-		9216303D21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "SCLStitchClientWrapper+CoreExpose.m"; sourceTree = "<group>"; };
 		9227301F21F602270077D77D /* NXMConversationEventsQueueTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueueTests.m; sourceTree = "<group>"; };
-		922C801E21AC471F00AF2FA6 /* SCLNSLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLNSLogger.m; sourceTree = "<group>"; };
 		9242CD9A21BFDB6700ED2B51 /* NTAErrors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAErrors.h; sourceTree = "<group>"; };
 		9242CD9B21BFDB6700ED2B51 /* NTAErrors.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NTAErrors.m; sourceTree = "<group>"; };
 		9242CD9D21BFDD6800ED2B51 /* NTAUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NTAUserInfo.h; sourceTree = "<group>"; };
@@ -403,44 +400,6 @@
 		92B7A40F216A639F00390258 /* NXMConversationMembersController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationMembersController.h; sourceTree = "<group>"; };
 		92B7A410216A639F00390258 /* NXMConversationMembersController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationMembersController.m; sourceTree = "<group>"; };
 		92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsControllerPrivate.h; sourceTree = "<group>"; };
-		92BDBEBC2177581C00C33D38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		92BDBEC12177581C00C33D38 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		92BDBEC32177581C00C33D38 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		92BDBECE2177589300C33D38 /* SCLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLLoginViewController.h; sourceTree = "<group>"; };
-		92BDBECF2177589300C33D38 /* SCLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLLoginViewController.m; sourceTree = "<group>"; };
-		92BDBED62177589400C33D38 /* SCLNSLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLNSLogger.h; sourceTree = "<group>"; };
-		92BDBED72177589400C33D38 /* Tokens.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tokens.h; sourceTree = "<group>"; };
-		92BDBEDA2177589400C33D38 /* UIViewWithGradientBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIViewWithGradientBackground.h; sourceTree = "<group>"; };
-		92BDBEDB2177589400C33D38 /* UIViewWithGradientBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIViewWithGradientBackground.m; sourceTree = "<group>"; };
-		92BDBEEC217758E600C33D38 /* SCLAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLAppDelegate.m; sourceTree = "<group>"; };
-		92BDBEED217758E600C33D38 /* SCLAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLAppDelegate.h; sourceTree = "<group>"; };
-		92BDBEF621775A9100C33D38 /* SCLOngoingMedia.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLOngoingMedia.m; sourceTree = "<group>"; };
-		92BDBEF721775A9100C33D38 /* SCLOngoingMedia.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLOngoingMedia.h; sourceTree = "<group>"; };
-		92BDBEF821775A9100C33D38 /* SCLOngoingMediaCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLOngoingMediaCollection.m; sourceTree = "<group>"; };
-		92BDBEF921775A9100C33D38 /* SCLConversationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationManager.m; sourceTree = "<group>"; };
-		92BDBEFA21775A9100C33D38 /* SCLOngoingMediaCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLOngoingMediaCollection.h; sourceTree = "<group>"; };
-		92BDBEFB21775A9100C33D38 /* SCLConversationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationManager.h; sourceTree = "<group>"; };
-		92BDBF0021775AE400C33D38 /* SCLConversationListTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationListTableCellView.h; sourceTree = "<group>"; };
-		92BDBF0121775AE400C33D38 /* SCLConversationListTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationListTableCellView.m; sourceTree = "<group>"; };
-		92BDBF0221775AE400C33D38 /* SCLConversationListViewContoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationListViewContoller.m; sourceTree = "<group>"; };
-		92BDBF0321775AE400C33D38 /* SCLConversationListViewContoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationListViewContoller.h; sourceTree = "<group>"; };
-		92BDBF0721775B0500C33D38 /* SCLConversationTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationTextTableViewCell.m; sourceTree = "<group>"; };
-		92BDBF0821775B0500C33D38 /* SCLConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationViewController.m; sourceTree = "<group>"; };
-		92BDBF0921775B0500C33D38 /* SCLConversationEventTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationEventTableViewCell.h; sourceTree = "<group>"; };
-		92BDBF0A21775B0600C33D38 /* SCLConversationEventTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLConversationEventTableViewCell.m; sourceTree = "<group>"; };
-		92BDBF0B21775B0600C33D38 /* SCLConversationTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationTextTableViewCell.h; sourceTree = "<group>"; };
-		92BDBF0C21775B0600C33D38 /* SCLConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLConversationViewController.h; sourceTree = "<group>"; };
-		92BDBF1221775B4100C33D38 /* SCLOnGoingCallsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLOnGoingCallsCollectionViewCell.h; sourceTree = "<group>"; };
-		92BDBF1321775B4100C33D38 /* SCLOngoingCallsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLOngoingCallsViewController.m; sourceTree = "<group>"; };
-		92BDBF1421775B4100C33D38 /* SCLOngoingCallsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCLOngoingCallsViewController.h; sourceTree = "<group>"; };
-		92BDBF1521775B4100C33D38 /* SCLOnGoingCallsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCLOnGoingCallsCollectionViewCell.m; sourceTree = "<group>"; };
-		92BDBF1A21775C1000C33D38 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		92BDBF1F2177772900C33D38 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		92BDBF2121777F1A00C33D38 /* SCLStitchClients.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCLStitchClients.h; sourceTree = "<group>"; };
-		92BDBF2221777F1A00C33D38 /* SCLStitchClients.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCLStitchClients.m; sourceTree = "<group>"; };
-		92C558582178E41D006D4063 /* SCLStitchClientWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SCLStitchClientWrapper.h; sourceTree = "<group>"; };
-		92C558592178E41D006D4063 /* SCLStitchClientWrapper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SCLStitchClientWrapper.m; sourceTree = "<group>"; };
-		92C5585B21871852006D4063 /* StitchClientTestApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = StitchClientTestApp.entitlements; sourceTree = "<group>"; };
 		92CF9A0D21C91611001C86F1 /* ContactViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ContactViewController.h; sourceTree = "<group>"; };
 		92CF9A0E21C91611001C86F1 /* ContactViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContactViewController.m; sourceTree = "<group>"; };
 		92CF9A1121CA5FE6001C86F1 /* CallViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallViewController.h; sourceTree = "<group>"; };
@@ -946,86 +905,6 @@
 				92B7A410216A639F00390258 /* NXMConversationMembersController.m */,
 			);
 			path = Members;
-			sourceTree = "<group>";
-		};
-		92BDBEB42177581C00C33D38 /* NexmoClientTestApp */ = {
-			isa = PBXGroup;
-			children = (
-				92C5585B21871852006D4063 /* StitchClientTestApp.entitlements */,
-				92BDBF1F2177772900C33D38 /* main.m */,
-				92BDBF1A21775C1000C33D38 /* Assets.xcassets */,
-				92BDBF0621775AF100C33D38 /* ConversationView */,
-				92BDBEFF21775ACA00C33D38 /* ConversationList */,
-				92BDBEF521775A4C00C33D38 /* ConversationManager */,
-				92BDBEED217758E600C33D38 /* SCLAppDelegate.h */,
-				92BDBEEC217758E600C33D38 /* SCLAppDelegate.m */,
-				92BDBECE2177589300C33D38 /* SCLLoginViewController.h */,
-				92BDBECF2177589300C33D38 /* SCLLoginViewController.m */,
-				92BDBED62177589400C33D38 /* SCLNSLogger.h */,
-				922C801E21AC471F00AF2FA6 /* SCLNSLogger.m */,
-				92BDBED72177589400C33D38 /* Tokens.h */,
-				92BDBEDA2177589400C33D38 /* UIViewWithGradientBackground.h */,
-				92BDBEDB2177589400C33D38 /* UIViewWithGradientBackground.m */,
-				92BDBEBB2177581C00C33D38 /* Main.storyboard */,
-				92BDBEC02177581C00C33D38 /* LaunchScreen.storyboard */,
-				92BDBEC32177581C00C33D38 /* Info.plist */,
-			);
-			path = NexmoClientTestApp;
-			sourceTree = "<group>";
-		};
-		92BDBEF521775A4C00C33D38 /* ConversationManager */ = {
-			isa = PBXGroup;
-			children = (
-				92BDBEFB21775A9100C33D38 /* SCLConversationManager.h */,
-				92BDBEF921775A9100C33D38 /* SCLConversationManager.m */,
-				92BDBEF721775A9100C33D38 /* SCLOngoingMedia.h */,
-				92BDBEF621775A9100C33D38 /* SCLOngoingMedia.m */,
-				92BDBEFA21775A9100C33D38 /* SCLOngoingMediaCollection.h */,
-				92BDBEF821775A9100C33D38 /* SCLOngoingMediaCollection.m */,
-				92BDBF2121777F1A00C33D38 /* SCLStitchClients.h */,
-				92BDBF2221777F1A00C33D38 /* SCLStitchClients.m */,
-				92C558582178E41D006D4063 /* SCLStitchClientWrapper.h */,
-				92C558592178E41D006D4063 /* SCLStitchClientWrapper.m */,
-				9216303C21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.h */,
-				9216303D21AAEEB5008D9550 /* SCLStitchClientWrapper+CoreExpose.m */,
-			);
-			path = ConversationManager;
-			sourceTree = "<group>";
-		};
-		92BDBEFF21775ACA00C33D38 /* ConversationList */ = {
-			isa = PBXGroup;
-			children = (
-				92BDBF0021775AE400C33D38 /* SCLConversationListTableCellView.h */,
-				92BDBF0121775AE400C33D38 /* SCLConversationListTableCellView.m */,
-				92BDBF0321775AE400C33D38 /* SCLConversationListViewContoller.h */,
-				92BDBF0221775AE400C33D38 /* SCLConversationListViewContoller.m */,
-			);
-			path = ConversationList;
-			sourceTree = "<group>";
-		};
-		92BDBF0621775AF100C33D38 /* ConversationView */ = {
-			isa = PBXGroup;
-			children = (
-				92BDBF1121775B3500C33D38 /* OngoingCallsView */,
-				92BDBF0921775B0500C33D38 /* SCLConversationEventTableViewCell.h */,
-				92BDBF0A21775B0600C33D38 /* SCLConversationEventTableViewCell.m */,
-				92BDBF0B21775B0600C33D38 /* SCLConversationTextTableViewCell.h */,
-				92BDBF0721775B0500C33D38 /* SCLConversationTextTableViewCell.m */,
-				92BDBF0C21775B0600C33D38 /* SCLConversationViewController.h */,
-				92BDBF0821775B0500C33D38 /* SCLConversationViewController.m */,
-			);
-			path = ConversationView;
-			sourceTree = "<group>";
-		};
-		92BDBF1121775B3500C33D38 /* OngoingCallsView */ = {
-			isa = PBXGroup;
-			children = (
-				92BDBF1221775B4100C33D38 /* SCLOnGoingCallsCollectionViewCell.h */,
-				92BDBF1521775B4100C33D38 /* SCLOnGoingCallsCollectionViewCell.m */,
-				92BDBF1421775B4100C33D38 /* SCLOngoingCallsViewController.h */,
-				92BDBF1321775B4100C33D38 /* SCLOngoingCallsViewController.m */,
-			);
-			path = OngoingCallsView;
 			sourceTree = "<group>";
 		};
 		92CF9A0B21C915E1001C86F1 /* Contacts */ = {
@@ -1562,7 +1441,6 @@
 				F9E5E2F621D3AA8900FC7202 /* LICENSE */,
 				85C4B90521D25AEA00ED596B /* Makefile */,
 				F923DD8A21985BF600D29065 /* NexmoClient */,
-				92BDBEB42177581C00C33D38 /* NexmoClientTestApp */,
 				F923DD9521985BF600D29065 /* NexmoClientTests */,
 				F9024ED021CAA4F300D58AD0 /* NexmoSwiftApp */,
 				F94291E321BD46F900FA45A1 /* NexmoTestApp */,
@@ -2099,22 +1977,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		92BDBEBB2177581C00C33D38 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				92BDBEBC2177581C00C33D38 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		92BDBEC02177581C00C33D38 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				92BDBEC12177581C00C33D38 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		F9024ED521CAA4F300D58AD0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
