@@ -45,7 +45,8 @@
         }
         self.otherCallMembers = [[NSMutableArray<NXMCallMember *>  alloc] init];
         if (self.conversation.allMembers){
-            for (id member in self.conversation.allMembers){
+            for (NXMMember *member in self.conversation.allMembers){
+                if (![member.memberId isEqualToString:self.myCallMember.memberId])
                 [self.otherCallMembers addObject: [[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
             }
         }
