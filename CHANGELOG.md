@@ -50,6 +50,13 @@ Example
 ```
 
 ### Changed
+
+NXMConversation otherMembers property renamed to allMembers.
+```
+NXMConversation myConversation = someConversation;
+NSArray<NXMMember *> * allMembers = myConversation.allMembers // return the all conversation members
+```
+
 Renamed
 ```
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler;
