@@ -63,7 +63,7 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
 
 -(void)loadEarlierEventsWithMaxAmount:(NSUInteger)maxAmount completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSNumber *startId = self.earliestRequestedEventId-(NSInteger)maxAmount > 0 ? @(self.earliestRequestedEventId-maxAmount) : @(0);
-    NSNumber *endId = self.earliestRequestedEventId-1 > 0 ? @(self.earliestRequestedEventId-1) : @(0);
+    NSNumber *endId = self.earliestRequestedEventId > 0 ? @(self.earliestRequestedEventId) : @(0);
     [self.stitchContext.coreClient getEventsInConversation:self.conversationDetails.conversationId startId:startId endId:endId onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         [self handleEventsFromRequest:events withStartId:startId andEndId:endId];
         if(completion) {

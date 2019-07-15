@@ -193,6 +193,7 @@
                                     }];
 }
 
+
 -(void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
@@ -214,6 +215,27 @@
         [NXMBlocksHelper runWithError:error completion:completion];
 
     }];
+}
+
+- (void)sendMarkAsSeen:(NSInteger)messageId
+            completion:(void (^_Nullable)(NSError * _Nullable error))completion{
+    
+    NSError *validityError = [self validateMyMemberJoined];
+    if (validityError) {
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+        
+        return;
+    }
+    
+    [self.stitchContext.coreClient markAsSeen:messageId
+                               conversationId:self.conversationId
+                             fromMemberWithId:self.myMember.memberId
+                                    onSuccess:^{
+                                        [NXMBlocksHelper runWithError:nil completion:completion];
+                                    }
+                                      onError:^(NSError * _Nullable error) {
+                                          [NXMBlocksHelper runWithError:error completion:completion];
+                                      }];
 }
 
 - (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {

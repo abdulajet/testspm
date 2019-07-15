@@ -140,12 +140,28 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
                   completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 /**
+  Sends an indication that the current user's member has seen a message
+ 
+ @param messageId
+ The message identifier of the message that has been seen by the current user
+ 
+ @param completion
+ A completion block with an error object if one occured
+ */
+
+- (void)sendMarkAsSeen:(NSInteger)messageId
+            completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
+/**
  Sends an indication that the current user's member started typing
  
  @param completion
  A completion block with an error object if one occured
  */
 - (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
+
+
 
 /**
  Sends an indication that the current user's member stopped typing
