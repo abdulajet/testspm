@@ -4,45 +4,49 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [###VERSION###] - 2019-07-03
+## 1.0.0 - 2019-07-15
 ### Fixed
-- NXMConversationEventsController returns the last event
+- NexmoClient when disconnected returns error callback for all function.
+- NXMConversationEventsController returns the last event.
 - CallMember status calculated by the current leg status.
 
 ### Added
-Added initiators property to NXMMember 
+Added the member state initiator.
 ```
-@property (nonatomic, readonly, nonnull) NSDictionary<NSValue *, NXMInitiator *> *initiators;
+NXMMember *member = someMember;
+NSDictionary<NSValue *, NXMInitiator *> *initiators = member.initiators; 
 
-@interface NXMInitiator : NSObject
-@property (nonatomic, readonly) BOOL isSystem;
-@property (nonatomic, copy, nullable) NSString *userId;
-@property (nonatomic, copy, nullable) NSString *memberId;
-@property (nonatomic, copy, nonnull) NSDate *time;
-@end
-```
-
-Added NXMConversationUpdatesDelegate to notify on member updates like media,leg,state
-```
-@protocol NXMConversationUpdatesDelegate <NSObject>
-@optional
-- (void)memberUpdated:(nonnull NXMMember *)member forUpdateType:(NXMMemberUpdateType)type;
-@end
+NXMInitiator leftStateInitiator = initiators[NXMMemberStateLeft];
+leftStateInitiator.isSystem; 
+leftStateInitiator.userId; 
+leftStateInitiator.memberId;
+leftStateInitiator.time;
 ```
 
-Example:
-```
-
-- (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
-	NSLog("member updated")
-	// do something with the member and the type 
-}
-
-```
-
-Added updatesDelegate property to NXMConversation 
+Added NXMConversationUpdatesDelegate to notify on member updates like media,leg,state.
+Added updatesDelegate property to NXMConversation.
 ```
 @property (nonatomic, weak, nullable) id <NXMConversationUpdatesDelegate> updatesDelegate;
+```
+Example
+```
+@interface MyClass() <NXMConversationUpdatesDelegate>
+@implementation MyClass
+
+- (void)setConversation:(NXMConversation *conversation) {
+	conversation.updatesDelegate(self); // register to conversation updatesDelegate
+}
+
+- (void)memberUpdated:(nonnull NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
+	if (type == NXMMemberUpdateTypeState) {
+		// the member state changed
+	}
+
+	if (type == NXMMemberUpdateTypeMedia) {
+		// the member media changed
+	}
+}
+@end
 ```
 
 ### Changed
@@ -51,7 +55,7 @@ Renamed
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler;
 ```
 
-Removed on NXMCallMemberStatus enum the statuses:
+Removed on NXMCallMemberStatus the statuses:
 ```
 NXMCallMemberStatusDialling
 NXMCallMemberStatusCancelled
