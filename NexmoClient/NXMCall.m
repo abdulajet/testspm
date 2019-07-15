@@ -80,7 +80,7 @@
     }];
 }
 
-- (void)reject:(NXMErrorCallback)completionHandler {
+- (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler {
     if (self.myCallMember.status != NXMCallMemberStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;

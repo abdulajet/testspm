@@ -737,7 +737,6 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     urlComponents.queryItems = queryParams;
     
     NSURL *url = urlComponents.URL;
-    NSString* requestType = @"GET";
     
     NXMPageRequest* pageRequest = [[NXMPageRequest alloc] initWithPageSize:100 withUrl:url withCursor:nil withOrder:nil];
     [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {

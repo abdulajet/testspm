@@ -11,5 +11,5 @@
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation;
 
-- (void)dialWithMember:(NXMMember *)member;
+- (void)dialWithMember:(nonnull NXMMember *)member;
 @end
