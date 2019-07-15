@@ -15,7 +15,6 @@
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
-@property (nonatomic, readwrite, nullable) NSMutableArray<NXMMember *> *mutableOtherMembers;
 @property (nonatomic, readwrite, nullable) NSMutableDictionary<NSString *, NXMMember *> *membersDictionary;
 @property (nonatomic, readwrite, nullable, weak) id <NXMConversationMembersControllerDelegate> delegate;
 @property (nonatomic, readwrite, nonnull) NXMConversationDetails *conversationDetails;
@@ -34,7 +33,6 @@
     if (self) {
         self.conversationDetails = conversationDetails;
         self.currentUser = currentUser;
-        self.mutableOtherMembers = [NSMutableArray<NXMMember *> new];
         self.membersDictionary = [NSMutableDictionary new];
         self.delegate = deleagte;
         [self initMembersWithConversationDetails:conversationDetails];
@@ -50,8 +48,6 @@
     for (NXMMember *member in conversationDetails.members) {
         if([member.user.userId isEqualToString:self.currentUser.userId]) {
             self.myMember = member;
-        } else {
-            [self.mutableOtherMembers addObject:member];
         }
         
         self.membersDictionary[member.memberId] = member;
@@ -59,8 +55,8 @@
 }
 
 #pragma mark - unsynthesized properties
--(NSArray<NXMMember *> *)otherMembers {
-    return self.mutableOtherMembers;
+-(NSArray<NXMMember *> *)allMembers {
+    return self.membersDictionary.allValues;
 }
 
 #pragma mark - public
@@ -168,8 +164,6 @@
     self.membersDictionary[member.memberId] = member;
     if([member.user.userId isEqualToString:self.currentUser.userId]) {
         self.myMember = member;
-    } else {
-        [self.mutableOtherMembers addObject:member];
     }
 }
 

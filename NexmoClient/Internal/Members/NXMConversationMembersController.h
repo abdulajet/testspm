@@ -25,7 +25,7 @@
 @interface NXMConversationMembersController : NSObject
 
 @property (nonatomic, readonly, nullable) NXMMember *myMember;
-@property (nonatomic, readonly, nullable) NSArray<NXMMember *> *otherMembers;
+@property (nonatomic, readonly, nullable) NSArray<NXMMember *> *allMembers;
 @property (nonatomic, readonly, nullable, weak) id <NXMConversationMembersControllerDelegate> delegate;
 
 - (instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails

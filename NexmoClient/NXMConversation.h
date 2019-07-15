@@ -38,8 +38,8 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 /// The current user member
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
 
-/// Conversation members except the current user member
-@property (readonly, nonatomic, nullable) NSArray<NXMMember *> *otherMembers;
+/// Conversation all members
+@property (readonly, nonatomic, nullable) NSArray<NXMMember *> *allMembers;
 
 /// Conversation events delegate
 @property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;

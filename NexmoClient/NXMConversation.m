@@ -66,8 +66,8 @@
     return self.conversationMembersController.myMember;
 }
 
-- (NSArray<NXMMember *> *)otherMembers {
-    return self.conversationMembersController.otherMembers;
+- (NSArray<NXMMember *> *)allMembers {
+    return self.conversationMembersController.allMembers;
 }
 
 #pragma mark Private Properties
