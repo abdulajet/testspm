@@ -11,6 +11,7 @@
 #import "NXMChannelPrivate.h"
 #import "NXMLegPrivate.h"
 #import "NXMInitiatorPrivate.h"
+#import "NXMMediaSettingsInternal.h"
 #import "NXMLogger.h"
 
 @interface NXMMember()
@@ -89,7 +90,7 @@
 }
 
 - (void)updateMedia:(NXMMediaSettings *)media {
-    self.media = media;
+    [self.media updateWithEnabled:media.isEnabled suspend:media.isSuspended];
 }
 
 - (void)updateState:(NXMMemberState)state time:(NSDate *)time initiator:(NSString *)initiator {

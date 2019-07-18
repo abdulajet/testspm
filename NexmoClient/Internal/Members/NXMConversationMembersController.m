@@ -12,6 +12,7 @@
 #import "NXMCoreEvents.h"
 #import "NXMMemberPrivate.h"
 #import "NXMLogger.h"
+#import "NXMMediaSettingsInternal.h"
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
@@ -129,15 +130,21 @@
     [self member:member changedWithType:NXMMemberUpdateTypeLeg];
 }
 
--(void)handleMediaEvent:(NXMMediaEvent *)mediaEvent {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController mediaEvent %@", mediaEvent.fromMemberId];
-    NXMMember *member = self.membersDictionary[mediaEvent.fromMemberId];
+-(void)handleMediaEvent:(NXMEvent *)event {
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController mediaEvent %@", event.fromMemberId];
+    NXMMember *member = self.membersDictionary[event.fromMemberId];
     if (!member) {
-        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@ %@ %ld", mediaEvent.fromMemberId];
+        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@ %@ %ld", event.fromMemberId];
         return;
     }
     
-    [member updateMedia:mediaEvent.mediaSettings];
+    if (event.type == NXMEventTypeMedia) {
+        [member updateMedia:((NXMMediaEvent *)event).mediaSettings];
+    } else if (event.type == NXMEventTypeMediaAction) {
+        NXMMediaSettings *settings = [[NXMMediaSettings alloc] initWithEnabled:member.media.isEnabled
+                                                                       suspend:((NXMMediaSuspendEvent *)event).isSuspended];
+        [member updateMedia:settings];
+    }
     
     [self member:member changedWithType:NXMMemberUpdateTypeMedia];
 }

@@ -239,6 +239,7 @@
 		F923DDC221985CB600D29065 /* NXMCallPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */; };
 		F923DDC321985CB600D29065 /* NXMConversationEventsQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */; };
 		F923DDC421985CB600D29065 /* NXMConversationEventsQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */; };
+		F939B31422E0667300AE881C /* NXMMediaSettingsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */; };
 		F94291E621BD46F900FA45A1 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F94291E521BD46F900FA45A1 /* AppDelegate.m */; };
 		F94291EC21BD46F900FA45A1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F94291EA21BD46F900FA45A1 /* Main.storyboard */; };
 		F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F94291ED21BD46FB00FA45A1 /* Assets.xcassets */; };
@@ -581,6 +582,7 @@
 		F923DD9121985BF600D29065 /* NexmoClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DD9621985BF600D29065 /* StitchClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchClientTests.m; sourceTree = "<group>"; };
 		F923DD9821985BF600D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSettingsInternal.h; sourceTree = "<group>"; };
 		F94291E221BD46F900FA45A1 /* NexmoTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NexmoTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F94291E421BD46F900FA45A1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F94291E521BD46F900FA45A1 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -884,6 +886,7 @@
 				F955168122BA6E6C002A7E87 /* NXMInitiatorPrivate.h */,
 				92B7A3F62164E35D00390258 /* NXMConversationPrivate.h */,
 				F9B1A3142248C74800D72286 /* NXMMemberPrivate.h */,
+				F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -1522,6 +1525,7 @@
 				F9024E3C21CA9AF000D58AD0 /* VPSocketIOClientProtocol.h in Headers */,
 				F9024E8821CA9AF000D58AD0 /* NXMSuspendResumeMediaRequest.h in Headers */,
 				F9024EB521CA9AF000D58AD0 /* NXMPushParserTextEvent.h in Headers */,
+				F939B31422E0667300AE881C /* NXMMediaSettingsInternal.h in Headers */,
 				F9024E4621CA9AF000D58AD0 /* VPStringReader.h in Headers */,
 				F9024E9521CA9AF000D58AD0 /* NXMMemberEvent.h in Headers */,
 				F9024E9B21CA9AF000D58AD0 /* NXMImageEvent.h in Headers */,

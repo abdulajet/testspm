@@ -17,4 +17,10 @@
     
     return self;
 }
+
+
+- (void)updateWithEnabled:(BOOL)enabled suspend:(BOOL)suspend {
+    self.isEnabled = enabled;
+    self.isSuspended = suspend;
+}
 @end
