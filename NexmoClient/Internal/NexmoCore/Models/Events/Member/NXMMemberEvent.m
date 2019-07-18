@@ -10,6 +10,7 @@
 #import "NXMCoreEventsPrivate.h"
 #import "NXMUserPrivate.h"
 #import "NXMChannelPrivate.h"
+#import "NXMMediaSettingsInternal.h"
 
 @interface NXMMemberEvent()
 @property (nonatomic, readwrite, nonnull) NXMUser *user;

@@ -23,6 +23,8 @@
 #import "NXMUserPrivate.h"
 #import "NXMPageRequest.h"
 #import "NXMPageResponse.h"
+#import "NXMMediaSettingsInternal.h"
+
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
