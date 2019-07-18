@@ -301,7 +301,15 @@
 
 - (void)userChanged:(NXMUser *)user withSessionId:(NSString *)sessionId {
     [self.router setSessionId:sessionId];
-    [self.delegate userChanged:user];
+    
+    [self.router getUser:user.userId completionBlock:^(NSError * _Nullable error, NXMUser * _Nullable data) {
+        if (error) {
+            [self.delegate userChanged:user];
+            return;
+        }
+        
+        [self.delegate userChanged:data];
+    }];
 }
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
