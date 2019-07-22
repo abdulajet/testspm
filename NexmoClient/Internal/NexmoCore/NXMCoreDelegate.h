@@ -13,6 +13,7 @@
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
+@optional
 #pragma mark - member events
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;

@@ -14,11 +14,11 @@
 @property (nonatomic, strong, nonnull) NSString *conversationId;
 @property (nonatomic, strong, nonnull) NSString *memberId;
 @property (nonatomic, strong, nonnull) NSString *customType;
-@property (nonatomic, strong, nonnull) NSDictionary *body;
+@property (nonatomic, strong, nonnull) NSString *body;
 
 - (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId
                                        memberId:(nonnull NSString *)memberId
                                       customType:(nonnull NSString *)type
-                                           body:(nonnull NSDictionary *)body;
+                                           body:(nonnull NSString *)body;
 @end
 

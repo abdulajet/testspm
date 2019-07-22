@@ -179,7 +179,7 @@
 }
 
 - (void)sendCustomEvent:(nonnull NSString *)customType
-                   data:(nonnull NSDictionary *)data
+                   data:(nonnull NSString *)data
              completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
