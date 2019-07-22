@@ -79,8 +79,9 @@ const unsigned int MAX_PAGE_EVENTS=60;
 }
 
 - (void)registerSocketEventsNotifications{
-    [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMedia];
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMember];
+    [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMedia];
+    [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationCustom];
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMessage];
     [self registerToDispatchedEvent:kNXMEventsDispatcherNotificationMessageStatus];
     
@@ -131,15 +132,15 @@ const unsigned int MAX_PAGE_EVENTS=60;
         return;
     }
     
-    [NXMLogger infoWithFormat:@"### Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",event.sequenceId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
+    [NXMLogger infoWithFormat:@"### Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
     
-    if(event.sequenceId < self.sequenceIdSyncingFrom) {
+    if(event.eventId < self.sequenceIdSyncingFrom) {
         [self doneProcessingEvent:event];
         return;
     }
     
     if([self isMissingEventsWithNextEvent:event]) {
-        [self queryEventsFromServerUpToEndId:@(event.sequenceId - 1)];
+        [self queryEventsFromServerUpToEndId:@(event.eventId - 1)];
         return;
     }
     
@@ -147,21 +148,21 @@ const unsigned int MAX_PAGE_EVENTS=60;
 }
 
 - (BOOL)isMissingEventsWithNextEvent:(NXMEvent *)event {
-    return event.sequenceId > self.currentHandledSequenceId + 1 && event.sequenceId > self.highestQueriedSequenceId + 1;
+    return event.eventId > self.currentHandledSequenceId + 1 && event.eventId > self.highestQueriedSequenceId + 1;
 }
 
 - (void)handleEvent:(NXMEvent*)event {
-    BOOL shouldHandleEvent = event.sequenceId > self.currentHandledSequenceId ||
+    BOOL shouldHandleEvent = event.eventId > self.currentHandledSequenceId ||
                              event.type == NXMEventTypeMessageStatus;
     
     if(shouldHandleEvent &&
        [self.delegate respondsToSelector:@selector(handleEvent:)]) {
-        [NXMLogger infoWithFormat:@"### Handeling #%li of type %li",event.sequenceId, event.type];
+        [NXMLogger infoWithFormat:@"### Handeling #%li of type %li",event.eventId, event.type];
         [self.delegate handleEvent:event];
     }
     
-    if(event.sequenceId > self.currentHandledSequenceId) {
-        self.currentHandledSequenceId = event.sequenceId;
+    if(event.eventId > self.currentHandledSequenceId) {
+        self.currentHandledSequenceId = event.eventId;
     }
     
     [self doneProcessingEvent:event];
@@ -246,7 +247,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 
 - (void)conversationExpired {
     NSArray *sortedEvents = [self.eventsQueue sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        return ((NXMEvent *)obj1).sequenceId < ((NXMEvent *)obj2).sequenceId ?
+        return ((NXMEvent *)obj1).eventId < ((NXMEvent *)obj2).eventId ?
                 (NSComparisonResult)NSOrderedAscending :
                 (NSComparisonResult)NSOrderedDescending;
     }];
@@ -285,7 +286,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 }
 
 - (NSArray<NXMEvent*> *)sortWithEvents:(NSArray<NXMEvent*>*)events {
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"sequenceId" ascending:YES];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"eventId" ascending:YES];
     return [events sortedArrayUsingDescriptors:@[sort]];
 }
 
@@ -299,7 +300,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
     NXMEvent *highestEvent = sortedEvents.lastObject;
     
     if(highestEvent) {
-        highestEventId = [NSNumber numberWithInteger:highestEvent.sequenceId];
+        highestEventId = [NSNumber numberWithInteger:highestEvent.eventId];
     }
     
     return highestEventId;

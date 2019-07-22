@@ -9,7 +9,7 @@
 #import "VPSocketIO.h"
 
 #import "NXMSocketClient.h"
-#import "NXMSocketClientDefine.h"
+#import "NXMClientDefine.h"
 
 #import "NXMLogger.h"
 
@@ -304,25 +304,25 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 
 - (void)subscribeVPSocketEvents {
     __weak NXMSocketClient *weakSelf = self;
-    [self.socket on:kSocketEventStatusChange callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kSocketEventStatusChange callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [weakSelf socketDidChangeStatus];
     }];
 
-    [self.socket on:kSocketEventError callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kSocketEventError callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger error:@"socket error"];
     }];
 }
 
 - (void)subscribeGeneralEvents {
-    [self.socket on:kNXMSocketEventBadPermission callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventBadPermission callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket BadPermission"];
     }];
 
-    [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidEvent"];
     }];
     
-    [self.socket on:kNXMSocketEventUserNotFound callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventUserNotFound callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventUserNotFound"];
         //TODO: check if this means anything about login/logout and also regard the invaliduser sessioninternalerror
     }];
@@ -331,47 +331,47 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (void)subscribeLoginEvents {
     __weak NXMSocketClient *weakSelf = self;
 
-    [self.socket on:kNXMSocketEventLoginSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventLoginSuccess callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketLoginSuccess"];
         [weakSelf didServerLoginWithData:data];
     }];
     
-    [self.socket on:kNXMSocketEventSessionLogoutSuccess callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSessionLogoutSuccess callback:^(NSString *event, NSArray *array, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketLogoutSuccess"];
         [weakSelf didServerLogout];
     }];
     
-    [self.socket on:kNXMSocketEventSessionTerminated callback:^(NSArray *array, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSessionTerminated callback:^(NSString *event, NSArray *array, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"socketSessionTerminated"];
         [weakSelf didServerLogout];
     }];
     
-    [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
         [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
-    [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
         [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
-    [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
         [weakSelf didFailLoginWithError:NXMErrorCodeMaxOpenedSessions];
     }];
     
-    [self.socket on:kNXMSocketEventInvalidToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventInvalidToken callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
         [weakSelf didFailLoginWithError:NXMErrorCodeTokenInvalid]; //TODO: check if this might happen without meaning a logout
     }];
     
-    [self.socket on:kNXMSocketEventExpiredToken callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventExpiredToken callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
         [weakSelf didFailLoginWithError:NXMErrorCodeTokenExpired]; //TODO: check if this might happen without meaning a logout
     }];
     
-    [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventRefreshTokenDone callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventRefreshTokenDone"];
         [weakSelf.delegate connectionStatusChanged:NXMConnectionStatusConnected reason:NXMConnectionStatusReasonTokenRefreshed];
     }];
@@ -380,18 +380,18 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (void)subscribeMemberEvents {
     __weak NXMSocketClient *weakSelf = self;
 
-    [self.socket on:kNXMSocketEventMemberJoined callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMemberJoined callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberJoined"];
         [weakSelf onMemberJoined:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventMemberInvited callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMemberInvited callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberInvited"];
         [weakSelf onMemberInvited:data emitter:emitter];
     }];
     
     
-    [self.socket on:kNXMSocketEventMemberLeft callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMemberLeft callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemberLeft"];
         [weakSelf onMemberLeft:data emitter:emitter];
     }];
@@ -400,52 +400,52 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (void)subscribeTextEvents {
     __weak NXMSocketClient *weakSelf = self;
 
-    [self.socket on:kNXMSocketEventText callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventText callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventText"];
         [weakSelf onTextRecevied:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventTextSuccess callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventTextSuccess callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextSuccess"];
      //   [weakSelf onTextRecevied:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventMessageDelete callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMessageDelete callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextDelete"];
         [weakSelf onMessageDeleted:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventTextSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventTextSeen callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextSeen"];
         [weakSelf onTextSeen:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventTextDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventTextDelivered callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTextDelivered"];
         [weakSelf onTextDelivered:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventImage callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventImage callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImage"];
         [weakSelf onImageRecevied:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventImageSeen callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventImageSeen callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImageSeen"];
         [weakSelf onImageSeen:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventImageDelivered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventImageDelivered callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventImageDelivered"];
         [weakSelf onImageDelivered:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventTypingOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventTypingOn callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTypingOn"];
         [weakSelf onTextTypingOn:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventTypingOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventTypingOff callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventTypingOff"];
         [weakSelf onTextTypingOff:data emitter:emitter];
     }];
@@ -454,50 +454,56 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (void)subscribeRTCEvents {
     __weak NXMSocketClient *weakSelf = self;
 
-    [self.socket on:kNXMSocketEventRtcAnswer callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventRtcAnswer callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventRtcAnswer"];
         [weakSelf onRTCAnswer:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventMemebrMedia callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventMemebrMedia callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventMemebrMedia"];
         [weakSelf onRTCMemberMedia:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventAudioMuteOn callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventAudioMuteOn callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioMuteOn"];
         [weakSelf onRTCAudioMuteOn:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventAudioMuteOff callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventAudioMuteOff callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioMuteOff"];
         [weakSelf onRTCAudioMuteOff:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventAudioDtmf callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventAudioDtmf callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventAudioDtmf"];
         [weakSelf onAudioDTMF:data emitter:emitter];
+    }];
+    
+    // TODO: customEvent
+    [self.socket onPrefix:kNXMEventCustom callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
+        [NXMLogger debug:@"!!!!socket kNXMEventCustom"];
+        [weakSelf onCustomEvent:event data:data emitter:emitter];
     }];
 }
 - (void)subscribeSipEvents{
     __weak NXMSocketClient *weakSelf = self;
 
-    [self.socket on:kNXMSocketEventSipRinging callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSipRinging callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipRinging"];
         [weakSelf onSipRinging:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventSipAnswered callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSipAnswered callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipAnswered"];
         [weakSelf onSipAnswered:data emitter:emitter];
     }];
 
-    [self.socket on:kNXMSocketEventSipHangup callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSipHangup callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipHangup"];
         [weakSelf onSipHangup:data emitter:emitter];
     }];
     
-    [self.socket on:kNXMSocketEventSipStatus callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventSipStatus callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipStatus"];
         [weakSelf onSipStatus:data emitter:emitter];
     }];
@@ -506,7 +512,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (void)subscribeLegStatusEvents{
     __weak NXMSocketClient *weakSelf = self;
     
-    [self.socket on:kNXMSocketEventLegStatus callback:^(NSArray *data, VPSocketAckEmitter *emitter) {
+    [self.socket on:kNXMSocketEventLegStatus callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         [NXMLogger debug:@"!!!!socket kNXMSocketEventSipRinging"];
         [weakSelf onLegStatus:data emitter:emitter];
     }];
@@ -557,6 +563,16 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 
 #pragma mark messages
 
+- (void)onCustomEvent:(NSString *)event data:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
+    NSDictionary *json = data[0];
+    
+    NXMCustomEvent *customEvent = [[NXMCustomEvent alloc] initWithCustomType:[event substringFromIndex:[kNXMEventCustom length] + 1]
+                                                                     andData:json];
+    
+    [self.delegate customEvent:customEvent];
+    
+}
+
 - (void)onTextRecevied:(NSArray *)data emitter:(VPSocketAckEmitter *)emitter {
     
     NSDictionary *json = data[0];
@@ -566,7 +582,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     textEvent.conversationId = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textEvent.sequenceId = [json[@"id"] integerValue];
+    textEvent.eventId = [json[@"id"] integerValue];
     textEvent.type = NXMEventTypeText;
     
     [self.delegate textRecieved:textEvent];
@@ -617,7 +633,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     messageEvent.conversationId = json[@"cid"];
     messageEvent.fromMemberId = json[@"from"];
     messageEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    messageEvent.sequenceId = [json[@"id"] integerValue];
+    messageEvent.eventId = [json[@"id"] integerValue];
     messageEvent.status = NXMMessageStatusTypeDeleted;
     messageEvent.type = NXMEventTypeMessageStatus;
     
@@ -633,7 +649,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.sequenceId = [json[@"id"] integerValue];
+    statusEvent.eventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -649,7 +665,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.sequenceId = [json[@"id"] integerValue];
+    statusEvent.eventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -666,7 +682,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.sequenceId = [json[@"id"] integerValue];
+    statusEvent.eventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -682,7 +698,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.sequenceId = [json[@"id"] integerValue];
+    statusEvent.eventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -698,7 +714,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     textTypingEvent.conversationId = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
     textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textTypingEvent.sequenceId = [json[@"id"] integerValue];
+    textTypingEvent.eventId = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOn;
     textTypingEvent.type = NXMEventTypeTextTyping;
     
@@ -713,7 +729,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     textTypingEvent.conversationId = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
     textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textTypingEvent.sequenceId = [json[@"id"] integerValue];
+    textTypingEvent.eventId = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOff;
     textTypingEvent.type = NXMEventTypeTextTyping;
     
@@ -777,7 +793,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
     NXMSipEvent * sipEvent= [NXMSipEvent new];
     sipEvent.fromMemberId = json[@"from"];
-    sipEvent.sequenceId = [json[@"id"] integerValue];
+    sipEvent.eventId = [json[@"id"] integerValue];
     sipEvent.conversationId = json[@"cid"];
     sipEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
     sipEvent.applicationId = json[@"application_id"];
@@ -825,7 +841,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.sequenceId = [json[@"id"] integerValue];
+    mediaEvent.eventId = [json[@"id"] integerValue];
     mediaEvent.mediaSettings = [NXMMediaSettings new];
     mediaEvent.mediaSettings.isEnabled = [json[@"body"][@"media"][@"audio_settings"][@"enabled"] boolValue];
     mediaEvent.mediaSettings.isSuspended = [json[@"body"][@"media"][@"audio_settings"][@"muted"] boolValue];
@@ -842,7 +858,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.sequenceId = [json[@"id"] integerValue];
+    mediaEvent.eventId = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
     mediaEvent.mediaType = NXMMediaTypeAudio;
@@ -859,7 +875,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     mediaEvent.conversationId = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.sequenceId = [json[@"id"] integerValue];
+    mediaEvent.eventId = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
     mediaEvent.mediaType = NXMMediaTypeAudio;
@@ -877,7 +893,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     event.conversationId = json[@"cid"];
     event.fromMemberId = json[@"from"];
     event.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    event.sequenceId = [json[@"id"] integerValue];
+    event.eventId = [json[@"id"] integerValue];
     event.type = NXMEventTypeDTMF;
     
     [self.delegate DTMFEvent:event];

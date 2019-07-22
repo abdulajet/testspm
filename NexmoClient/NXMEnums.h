@@ -41,6 +41,7 @@ typedef NS_ENUM(NSInteger, NXMMediaActionType) {
 
 typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeGeneral,
+    NXMEventTypeCustom,
     NXMEventTypeText,
     NXMEventTypeImage,
     NXMEventTypeMessageStatus,

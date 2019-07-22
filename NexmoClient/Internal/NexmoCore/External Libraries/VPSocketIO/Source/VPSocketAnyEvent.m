@@ -39,7 +39,18 @@
     return self;
 }
 
--(void)executeCallbackWith:(NSArray*)items withAck:(int)ack withSocket:(id<VPSocketIOClientProtocol>)socket{
-    self.callback(items, [[VPSocketAckEmitter alloc] initWithSocket:socket ackNum:ack]);
+-(instancetype)initWithPrefixEvent:(NSString*)event uuid:(NSUUID*)uuid andCallback:(VPSocketOnEventCallback)callback {
+    self = [super init];
+    if(self) {
+        _event = event;
+        _uuid = uuid;
+        _callback = callback;
+        _prefix = YES;
+    }
+    return self;
+}
+
+-(void)executeCallbackWith:(NSString *)event items:(NSArray*)items withAck:(int)ack withSocket:(id<VPSocketIOClientProtocol>)socket {
+    self.callback(event, items, [[VPSocketAckEmitter alloc] initWithSocket:socket ackNum:ack]);
 }
 @end

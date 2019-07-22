@@ -26,7 +26,10 @@
 @end
 @implementation NXMPageResponse
 
--(nullable instancetype)initWithPageSize:(unsigned int)pageSize andWithCursor:(nonnull NSString*)cursor andWithData:(nonnull NSDictionary*)data andWithPageLinks:(NXMPageLinks*)pageLink{
+-(nullable instancetype)initWithPageSize:(unsigned int)pageSize
+                           andWithCursor:(nonnull NSString *)cursor
+                             andWithData:(nonnull NSArray *)data
+                        andWithPageLinks:(NXMPageLinks *)pageLink{
     if (self = [super init]){
         self.pageSize = pageSize;
         self.cursor = cursor;
@@ -36,7 +39,10 @@
     return self;
 }
 -(nullable instancetype)initWithData:(nonnull NSDictionary*)data{
-    return [self initWithPageSize:[data[@"page_size"] intValue] andWithCursor:data[@"cursor"] andWithData:[[data[@"_embedded"] allValues] firstObject][@"data"] andWithPageLinks:[[NXMPageLinks alloc] initWithData:data[@"_links"]]];
+    return [self initWithPageSize:[data[@"page_size"] intValue]
+                    andWithCursor:data[@"cursor"]
+                      andWithData:[[data[@"_embedded"][@"data"] allValues] firstObject]
+                 andWithPageLinks:[[NXMPageLinks alloc] initWithData:data[@"_links"]]];
 }
 
 @end

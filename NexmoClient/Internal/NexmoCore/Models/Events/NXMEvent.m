@@ -23,7 +23,7 @@
                                            type:(NXMEventType)type {
     if (self = [super init]) {
         self.conversationId = conversationId;
-        self.sequenceId = sequenceId;
+        self.eventId = sequenceId;
         self.fromMemberId = fromMemberId;
         self.creationDate = creationDate;
         self.type = type;

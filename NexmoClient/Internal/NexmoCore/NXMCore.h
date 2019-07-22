@@ -118,6 +118,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
                    onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError;
 
+#pragma mark - Custom events Methods
+
+- (void)sendCustomEvent:(nonnull NSString *)eventType
+                   body:(nonnull NSDictionary *)body
+         conversationId:(nonnull NSString *)conversationId
+           fromMemberId:(nonnull NSString *)fromMemberId
+              onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError;
+
 #pragma mark - Messages Methods
 
 - (void)sendText:(nonnull NSString *)text

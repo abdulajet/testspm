@@ -15,6 +15,6 @@
 @property (nonatomic, copy, nonnull) NSDate *creationDate;
 @property (nonatomic, copy, nullable) NSDate *deletionDate;
 @property NXMEventType type;
-@property NSInteger sequenceId;
+@property NSInteger eventId;
 
 @end

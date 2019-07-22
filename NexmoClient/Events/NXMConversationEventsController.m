@@ -136,7 +136,7 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
         return;
     }
     
-    NSSortDescriptor *sortLatestFirst = [NSSortDescriptor sortDescriptorWithKey:@"sequenceId" ascending:NO];
+    NSSortDescriptor *sortLatestFirst = [NSSortDescriptor sortDescriptorWithKey:@"eventId" ascending:NO];
     NSArray<NXMEvent *> *sortedEventsArray = [events sortedArrayUsingDescriptors:@[sortLatestFirst]];
     for (int i =0; i<sortedEventsArray.count; i++) {
         if(![self.subscribedEventsType containsObject:@(sortedEventsArray[i].type)]){
@@ -190,7 +190,7 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
 }
 
 - (void)handleInsertEvent:(NXMEvent*)event withInsertionSide:(NXMConversationEventsControllerInsertionSide)insertionSide andContentChanger:(NSString *)contentChanger{
-    if(self.eventsDict[@(event.sequenceId)]){
+    if(self.eventsDict[@(event.eventId)]){
         return;
     }
     
@@ -198,7 +198,7 @@ typedef NS_ENUM(NSUInteger, NXMConversationEventsControllerInsertionSide) {
         [self setContentChangingStatus:TRUE WithContentChanger:contentChanger];
     }
     
-    self.eventsDict[@(event.sequenceId)] = event;
+    self.eventsDict[@(event.eventId)] = event;
     NSUInteger insertedIndex;
     switch (insertionSide) {
         case NXMEventsControllerInsertionSideStart:

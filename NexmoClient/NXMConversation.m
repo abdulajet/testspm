@@ -83,6 +83,11 @@
     switch (event.type) {
         case NXMEventTypeGeneral:
             break;
+        case NXMEventTypeCustom:
+            if([self.delegate respondsToSelector:@selector(customEvent:)]) {
+                [self.delegate customEvent:(NXMCustomEvent *)event];
+            }
+            break;
         case NXMEventTypeText:
             if([self.delegate respondsToSelector:@selector(textEvent:)]) {
                 [self.delegate textEvent:(NXMMessageEvent *)event];
@@ -171,6 +176,29 @@
                                             [NXMBlocksHelper runWithError:error completion:completion];
 
                                         }];
+}
+
+- (void)sendCustomEvent:(nonnull NSString *)customType
+                   data:(nonnull NSDictionary *)data
+             completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    NSError *validityError = [self validateMyMemberJoined];
+    if (validityError) {
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+        
+        return;
+    }
+    
+    [self.stitchContext.coreClient sendCustomEvent:customType
+                                              body:data
+                                    conversationId:self.conversationId
+                                      fromMemberId:self.myMember.memberId
+                                         onSuccess:^(NSString * _Nullable value) {
+                                             [NXMBlocksHelper runWithError:nil completion:completion];
+                                         }
+                                           onError:^(NSError * _Nullable error) {
+                                               [NXMBlocksHelper runWithError:error completion:completion];
+                                           }];
+    
 }
 
 -(void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {

@@ -26,10 +26,9 @@
 
 @property (nonatomic ) unsigned int pageSize;
 @property (nonatomic, strong, nonnull) NSString *cursor;
-@property (nonatomic, strong, nonnull) NSDictionary *data;
+@property (nonatomic, strong, nonnull) NSArray *data;
 @property (nonatomic, strong, nonnull) NXMPageLinks* links;
 
--(nullable instancetype)initWithPageSize:(unsigned int)pageSize andWithCursor:(nonnull NSString*)cursor andWithData:(nonnull NSDictionary*)data andWithPageLinks:(nonnull NXMPageLinks*)pageLink;
 -(nullable instancetype)initWithData:(nonnull NSDictionary*)data;
 @end
 #endif /* Header_h */

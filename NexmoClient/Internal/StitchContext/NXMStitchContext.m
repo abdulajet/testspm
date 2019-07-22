@@ -127,5 +127,10 @@
     [self.stitchContextDelegate connectionStatusChanged:status reason:reason];
 }
 
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent {
+    [self.eventsDispatcher customEvent:customEvent];
+}
+
+
 
 @end

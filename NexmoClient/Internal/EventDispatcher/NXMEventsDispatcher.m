@@ -89,6 +89,10 @@
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMember andEvent:memberEvent];
 }
 
+- (void)customEvent:(NXMCustomEvent *)customEvent {
+    [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationCustom andEvent:customEvent];
+}
+
 - (void)textDelivered:(nonnull NXMMessageStatusEvent *)statusEvent {
     [self dispatchWithNotificationName:kNXMEventsDispatcherNotificationMessage andEvent:statusEvent];
 }

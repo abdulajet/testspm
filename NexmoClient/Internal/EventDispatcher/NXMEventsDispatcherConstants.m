@@ -7,14 +7,15 @@
 
 #import "NXMEventsDispatcherConstants.h"
 
-NSString *const kNXMEventsDispatcherNotificationMedia = @"mediaNotification";
-NSString *const kNXMEventsDispatcherNotificationMember = @"memberNotification";
-NSString *const kNXMEventsDispatcherNotificationMessage = @"messageNotification";
-NSString *const kNXMEventsDispatcherNotificationMessageStatus = @"messageStatusNotification";
-NSString *const kNXMEventsDispatcherNotificationTyping = @"typingNotification";
+NSString *const kNXMEventsDispatcherNotificationMedia = @"nxmMediaNotification";
+NSString *const kNXMEventsDispatcherNotificationMember = @"nxmMemberNotification";
+NSString *const kNXMEventsDispatcherNotificationCustom = @"nxmCustomEventNotification";
+NSString *const kNXMEventsDispatcherNotificationMessage = @"nxmMessageNotification";
+NSString *const kNXMEventsDispatcherNotificationMessageStatus = @"nxmMessageStatusNotification";
+NSString *const kNXMEventsDispatcherNotificationTyping = @"nxmTypingNotification";
 
-NSString *const kNXMEventsDispatcherNotificationConnectionStatus = @"connectionStatusNotification";
-NSString *const kNXMEventsDispatcherNotificationLoginStatus = @"loginStatusNotification";
+NSString *const kNXMEventsDispatcherNotificationConnectionStatus = @"nxmConnectionStatusNotification";
+NSString *const kNXMEventsDispatcherNotificationLoginStatus = @"nxmLoginStatusNotification";
 
 NSString *const kNXMDispatchUserInfoEventKey = @"NXMDispatchUserInfoEventKey";
 

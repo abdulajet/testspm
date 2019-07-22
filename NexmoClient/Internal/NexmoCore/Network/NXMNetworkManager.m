@@ -113,6 +113,11 @@
     [self.router removeMemberFromConversation:removeMemberRequest onSuccess:onSuccess onError:onError];
 }
 
+- (void)sendCustomEvent:(nonnull NXMSendCustomEventRequest *)sendCustomEventRequest
+              onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError {
+    [self.router sendCustomEvent:sendCustomEventRequest onSuccess:onSuccess onError:onError];
+}
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
@@ -331,6 +336,11 @@
 - (void)legStatus:(NXMLegStatusEvent *)legEvent {
     [self.delegate legStatus:legEvent];
 }
+
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent {
+    [self.delegate customEvent:customEvent];
+}
+
 
 
 

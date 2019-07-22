@@ -7,6 +7,7 @@
 //
 
 #import "ContactViewController.h"
+#import "CommunicationsManager.h"
 
 #import "NTAUserInfo.h"
 #import "InAppcallCreator.h"
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *messageButton;
 
 @property (nonatomic) NTAUserInfo *contactUserInfo;
+//@property NXMConversation *conv;
 @end
 
 @implementation ContactViewController
@@ -61,6 +63,18 @@
     //create an NTA Call Object and initialize with inApp parameters it so that when we move to the next screen the next screen just calls start.
     ServerCallCreator *callCreator = [[ServerCallCreator alloc] initWithUsers:@[self.contactUserInfo]];
     [self showInCallViewControllerWithCallCreator:callCreator];
+    
+
+    // comment out to test conversation
+//    [CommunicationsManager.sharedInstance.client getConversationWithId:@"CON-1922470e-6182-442a-91e7-f0519a38c01a" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+//        self.conv = conversation;
+//
+//        NXMConversationEventsController *cntrl = [self.conv eventsControllerWithTypes:[[NSSet alloc] initWithArray:@[@(NXMEventTypeText), @(NXMEventTypeCustom)]] andDelegate:self];
+//
+//        [cntrl loadEarlierEventsWithMaxAmount:100 completion:^(NSError * _Nullable error) {
+//            //
+//        }];
+//    }];
     
 }
 

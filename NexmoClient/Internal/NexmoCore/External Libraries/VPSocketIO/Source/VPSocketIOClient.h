@@ -54,6 +54,7 @@ typedef void (^VPSocketAnyEventHandler)(VPSocketAnyEvent*event);
 -(VPSocketOnAckCallback*) emitWithAck:(NSString*)event items:(NSArray*)items;
 
 -(NSUUID*) on:(NSString*)event callback:(VPSocketOnEventCallback) callback;
+-(NSUUID*) onPrefix:(NSString*)event callback:(VPSocketOnEventCallback) callback;
 -(NSUUID*) once:(NSString*)event callback:(VPSocketOnEventCallback) callback;
 -(void) onAny:(VPSocketAnyEventHandler)handler;
 -(void) off:(NSString*) event;

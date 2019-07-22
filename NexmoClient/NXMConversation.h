@@ -105,6 +105,21 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 - (void)kickMemberWithMemberId:(nonnull NSString *)memberId
                      completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
+/**
+ Send a custom event in the conversation
+ 
+ @param customType
+ The customType name
+ 
+ @param data
+ The custom event data
+ 
+ @param completion
+ A completion block with an error object if one occured
+ */
+- (void)sendCustomEvent:(nonnull NSString *)customType
+                   data:(nonnull NSDictionary *)data
+             completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 /**
  Sends a text message to the members of the conversation
@@ -161,8 +176,6 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 - (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 
-
-
 /**
  Sends an indication that the current user's member stopped typing
  
@@ -174,7 +187,6 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 
 /**
  Get an instance of NXMConversationEventsController.
- 
  
  @param eventTypes
  A NSSet of the types of events the controller should handle

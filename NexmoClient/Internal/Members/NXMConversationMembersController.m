@@ -78,10 +78,10 @@
 }
 
 - (void)handleEvent:(NXMEvent *)event {
-    if(self.conversationDetails.sequence_number >= event.sequenceId) {
+    if(self.conversationDetails.sequence_number >= event.eventId) {
         [NXMLogger debugWithFormat:@"NXMConversationMembersController sequenceId is lower %d %d memberId %d %@",
          self.conversationDetails.sequence_number,
-         event.sequenceId,
+         event.eventId,
          event.fromMemberId,
          event];
 

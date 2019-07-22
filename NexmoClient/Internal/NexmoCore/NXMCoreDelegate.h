@@ -9,17 +9,17 @@
 
 @protocol NXMCoreDelegate
 
-
-
 #pragma mark - user status
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
-@optional
 #pragma mark - member events
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
+
+#pragma mark - custom events
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
 
 #pragma mark - messages events
 

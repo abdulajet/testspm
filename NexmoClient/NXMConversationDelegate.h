@@ -34,6 +34,7 @@
 @protocol NXMConversationDelegate <NSObject>
 @optional
 #pragma events
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
 - (void)textEvent:(nonnull NXMMessageEvent *)textEvent;
 - (void)attachmentEvent:(nonnull NXMMessageEvent *)attachmentEvent;
 - (void)messageStatusEvent:(nonnull NXMMessageStatusEvent *)messageStatusEvent;

@@ -34,6 +34,9 @@ static NSString *const kNXMSocketEventInvalidEvent = @"system:error:invalid-even
 #pragma mark user
 static NSString *const kNXMSocketEventUserNotFound = @"user:error:not-found";
 
+#pragma mark custom event
+static NSString *const kNXMEventCustom = @"custom";
+
 #pragma mark member
 static NSString *const kNXMSocketEventMemebrMedia = @"member:media";
 static NSString *const kNXMSocketEventMemberJoined = @"member:joined";

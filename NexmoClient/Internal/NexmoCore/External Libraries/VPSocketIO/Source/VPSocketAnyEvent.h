@@ -24,8 +24,10 @@
 @property (nonatomic, strong, readonly) NSString* event;
 @property (nonatomic, strong, readonly) NSUUID *uuid;
 @property (nonatomic, strong, readonly) VPSocketOnEventCallback callback;
+@property (nonatomic, readonly) BOOL prefix;
 
 -(instancetype)initWithEvent:(NSString*)event uuid:(NSUUID*)uuid andCallback:(VPSocketOnEventCallback)callback;
+-(instancetype)initWithPrefixEvent:(NSString*)event uuid:(NSUUID*)uuid andCallback:(VPSocketOnEventCallback)callback;
 
--(void)executeCallbackWith:(NSArray*)items withAck:(int)ack withSocket:(id<VPSocketIOClientProtocol>)socket;
+-(void)executeCallbackWith:(NSString *)event items:(NSArray*)items withAck:(int)ack withSocket:(id<VPSocketIOClientProtocol>)socket;
 @end

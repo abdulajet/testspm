@@ -243,6 +243,20 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 #pragma mark - Messages Methods
 
+- (void)sendCustomEvent:(nonnull NSString *)customType
+                   body:(nonnull NSDictionary *)body
+         conversationId:(nonnull NSString *)conversationId
+           fromMemberId:(nonnull NSString *)fromMemberId
+              onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError {
+    
+    NXMSendCustomEventRequest *request = [[NXMSendCustomEventRequest alloc] initWithConversationId:conversationId
+                                                                                          memberId:fromMemberId
+                                                                                         customType:customType
+                                                                                              body:body];
+    [self.network sendCustomEvent:request onSuccess:onSuccess onError:onError];
+}
+
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
@@ -460,6 +474,11 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)sipStatus:(nonnull NXMSipEvent *)sipEvent{
     [self.delegate sipStatus:sipEvent];
 }
+
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent {
+    [self.delegate customEvent:customEvent];
+}
+
 
 
 

@@ -10,7 +10,7 @@
 
 @interface NXMBaseRequest : NSObject
 
-@property (nonatomic, strong, nonnull) NSString *requrstUUID;
+@property (nonatomic, strong, nonnull) NSString *requestUUID;
 
 @end
 

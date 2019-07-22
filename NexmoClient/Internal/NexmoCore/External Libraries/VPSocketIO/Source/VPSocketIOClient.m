@@ -374,6 +374,16 @@ NSString *const kSocketEventStatusChange       = @"statusChange";
 #pragma mark - on
 
 /// Adds a handler for an event.
+-(NSUUID*) onPrefix:(NSString*)event callback:(VPSocketOnEventCallback) callback
+{
+    [DefaultSocketLogger.logger log:[NSString stringWithFormat:@"Adding handler for event: %@", event] type:self.logType];
+    VPSocketEventHandler *handler = [[VPSocketEventHandler alloc] initWithPrefixEvent:event
+                                                                           uuid:[NSUUID UUID]
+                                                                    andCallback:callback];
+    [_handlers addObject:handler];
+    return handler.uuid;
+}
+
 -(NSUUID*) on:(NSString*)event callback:(VPSocketOnEventCallback) callback
 {
     [DefaultSocketLogger.logger log:[NSString stringWithFormat:@"Adding handler for event: %@", event] type:self.logType];
@@ -394,11 +404,11 @@ NSString *const kSocketEventStatusChange       = @"statusChange";
     __weak typeof(self) weakSelf = self;
     VPSocketEventHandler *handler = [[VPSocketEventHandler alloc] initWithEvent:event
                                                                            uuid:uuid
-                                                                    andCallback:^(NSArray *data, VPSocketAckEmitter *emiter) {
+                                                                    andCallback:^(NSString * event, NSArray *data, VPSocketAckEmitter *emiter) {
         __strong typeof(self) strongSelf = weakSelf;
         if(strongSelf) {
             [strongSelf offWithID:uuid];
-            callback(data, emiter);
+            callback(event, data, emiter);
         }
     }];
     [_handlers addObject:handler];
@@ -517,9 +527,10 @@ NSString *const kSocketEventStatusChange       = @"statusChange";
         
         for (VPSocketEventHandler *hdl in _handlers)
         {
-            if([hdl.event isEqualToString: event])
+            if ([event isEqualToString:hdl.event] ||
+                (hdl.prefix && [event hasPrefix:hdl.event]))
             {
-                [hdl executeCallbackWith:data withAck:ack withSocket:self];
+                [hdl executeCallbackWith:event items:data withAck:ack withSocket:self];
             }
         }
     }

@@ -17,3 +17,4 @@
 #import "NXMRtcAnswerEvent.h"
 #import "NXMDTMFEvent.h"
 #import "NXMLegStatusEvent.h"
+#import "NXMCustomEvent.h"

@@ -7,14 +7,15 @@
 
 #import <Foundation/Foundation.h>
 
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationMedia;
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationMember;
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationMessage;
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationMessageStatus;
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationTyping;
+extern NSString *const kNXMEventsDispatcherNotificationMedia;
+extern NSString *const kNXMEventsDispatcherNotificationMember;
+extern NSString *const kNXMEventsDispatcherNotificationCustom;
+extern NSString *const kNXMEventsDispatcherNotificationMessage;
+extern NSString *const kNXMEventsDispatcherNotificationMessageStatus;
+extern NSString *const kNXMEventsDispatcherNotificationTyping;
 
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationConnectionStatus;
-FOUNDATION_EXPORT NSString *const kNXMEventsDispatcherNotificationLoginStatus;
+extern NSString *const kNXMEventsDispatcherNotificationConnectionStatus;
+extern NSString *const kNXMEventsDispatcherNotificationLoginStatus;
 
-FOUNDATION_EXPORT NSString *const kNXMDispatchUserInfoEventKey;
+extern NSString *const kNXMDispatchUserInfoEventKey;
 

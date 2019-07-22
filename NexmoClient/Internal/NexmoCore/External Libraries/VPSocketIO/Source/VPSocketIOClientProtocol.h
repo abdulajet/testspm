@@ -14,7 +14,7 @@
 @class VPSocketAckEmitter;
 
 typedef void (^VPScoketAckArrayCallback)(NSArray*array);
-typedef void (^VPSocketOnEventCallback)(NSArray*array, VPSocketAckEmitter*emitter);
+typedef void (^VPSocketOnEventCallback)(NSString *event, NSArray *array, VPSocketAckEmitter *emitter);
 
 @protocol VPSocketIOClientProtocol <NSObject>
 

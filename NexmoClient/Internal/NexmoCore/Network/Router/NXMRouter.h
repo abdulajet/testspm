@@ -22,6 +22,7 @@
 #import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
 #import "NXMEnablePushRequest.h"
+#import "NXMSendCustomEventRequest.h"
 
 @class NXMUser;
 
@@ -67,6 +68,10 @@
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                              onError:(NXMErrorCallback _Nullable)onError;
+
+- (void)sendCustomEvent:(nonnull NXMSendCustomEventRequest *)sendCustomEventRequest
+              onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess

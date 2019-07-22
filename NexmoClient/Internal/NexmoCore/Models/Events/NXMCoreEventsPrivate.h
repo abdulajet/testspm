@@ -8,6 +8,7 @@
 #import "NXMCoreEvents.h"
 #import "NXMMemberEventPrivate.h"
 #import "NXMLegStatusEventPrivate.h"
+#import "NXMCustomEventInternal.h"
 
 @interface NXMEvent (NXNEventPrivate)
 

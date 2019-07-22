@@ -38,7 +38,7 @@
 }
 
 - (NSArray<NSNumber *> *)handledEventsIds {
-    return [self.handledEvents valueForKey:NSStringFromSelector(@selector(sequenceId))];
+    return [self.handledEvents valueForKey:NSStringFromSelector(@selector(eventId))];
 }
 
 - (NSArray<XCTestExpectation *> *)expectations {

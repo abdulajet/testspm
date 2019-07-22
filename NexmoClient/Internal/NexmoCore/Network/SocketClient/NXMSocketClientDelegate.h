@@ -17,6 +17,8 @@
 - (void)memberRemoved:(nonnull NXMMemberEvent *)memberEvent;
 - (void)memberInvited:(nonnull NXMMemberEvent *)memberEvent;
 
+- (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
+
 - (void)textRecieved:(nonnull NXMTextEvent *)textEvent;
 - (void)textDelivered:(nonnull NXMMessageStatusEvent *)statusEvent;
 - (void)textSeen:(nonnull NXMMessageStatusEvent *)statusEvent;
