@@ -244,7 +244,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
 #pragma mark - Messages Methods
 
 - (void)sendCustomEvent:(nonnull NSString *)customType
-                   body:(nonnull NSString *)body
+                   body:(nonnull NSDictionary *)body
          conversationId:(nonnull NSString *)conversationId
            fromMemberId:(nonnull NSString *)fromMemberId
               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess

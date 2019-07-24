@@ -12,7 +12,7 @@
 - (nullable instancetype)initWithConversationId:(NSString *)conversationId
                                        memberId:(nonnull NSString *)memberId
                                       customType:(nonnull NSString *)type
-                                           body:(nonnull NSString *)body {
+                                           body:(nonnull NSDictionary *)body {
     if (self = [super init]) {
         self.conversationId = conversationId;
         self.memberId = memberId;
