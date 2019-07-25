@@ -22,7 +22,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
 //    @IBOutlet weak var numberInput: UITextField!
 //    @IBOutlet weak var statusLabel: UILabel!
     
-    public static var nexmoClient:NXMClient  = NXMClient(token: "") // NXMClient is the SDK entry with token
+    public static var nexmoClient:NXMClient  = NXMClient(token: "")! // NXMClient is the SDK entry with token
     var currentCall:NXMCall?    // NXMCall is the SDK call object
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
     @IBAction func onLoginPressed(_ sender: Any) {
      //   self.loginButton.isEnabled = false
         
-        ViewController.nexmoClient = NXMClient(token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTU1MDA1OTYwNCwibmJmIjoxNTUwMDU5NjA0LCJleHAiOjE1NTAwODk2MzQsImp0aSI6MTU1MDA1OTYzNDI2MSwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e319fSwic3ViIjoidGVzdHVzZXIzIn0.Eyn4ymERCwahRz_pMeNjFwmNqr_BpBSI9nQo9YdG1kQlb1JBICkq_g94g1xow4oxod7-HFkQfJrRJYOr3A9dAGliMR3JThLM3wPq-VC1l0KiNjB5d2Y24iTeQoQCW8KSwZOJ-aEQGOtaOQ8BtCF70hkly9Oq0ANE3bojJQKxRHf9RBd9_HMohOUGYEdvsc_vXS6wgnX5EjYyLC8RGKO5luXm8GbeXLpRVkm871jt4jwRnt0yNDKGNofcygtuCqTQJI8HIZQpKSsfvwr_dR2tOjDLL3LtFEBeF4j1uEAkdCYHz8W3c8Ya2cOODARD9D6qTXkFpx0ROD-vzIyMJWuF6g")
+        ViewController.nexmoClient = NXMClient(token: "")!
         ViewController.nexmoClient.setLoggerDelegate(self)
         ViewController.nexmoClient.setDelegate(self)
         ViewController.nexmoClient.login()
@@ -113,7 +113,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
             alert.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: { action in
                 
                 // decline call
-                self.currentCall?.reject({ (error) in
+                self.currentCall?.reject(completionHandler: { (error) in
                     
                 })
             }))
