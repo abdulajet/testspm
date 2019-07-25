@@ -98,7 +98,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
  */
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler;
 
-- (void)addCallMemberWithUserId:(nonnull NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)addCallMemberWithUsername:(nonnull NSString *)username completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 
 - (void)addCallMemberWithNumber:(nonnull NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 

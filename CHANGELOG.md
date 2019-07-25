@@ -57,21 +57,28 @@ NXMConversation myConversation = someConversation;
 NSArray<NXMMember *> * allMembers = myConversation.allMembers // return the all conversation members
 ```
 
+Use username instead of userId
 Renamed
+NXMCall
 ```
+- (void)addCallMemberWithUsername:(nonnull NSString *)username completionHandler:(NXMErrorCallback _Nullable)completionHandler;
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler;
 ```
-
+Removed callId property:
+```
+@property (nonatomic, copy, nonnull) NSString *callId;
+```
 Removed on NXMCallMemberStatus the statuses:
 ```
 NXMCallMemberStatusDialling
 NXMCallMemberStatusCancelled
 ```
 
-Removed on NXMCall object the callId property:
+NXMConversation Renamed:
 ```
-@property (nonatomic, copy, nonnull) NSString *callId;
+- (void)joinMemberWithUsername:(nonnull NSString *)username
 ```
+
 
 ## [0.3.0] - 2019-06-02
 ### Added

@@ -247,7 +247,7 @@
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         __weak id weakSelf = self;
-        [self.call addCallMemberWithUserId:@"USR-1628dc75-fa09-4746-9e29-681430cb6419" completionHandler:^(NSError * _Nullable error) {
+        [self.call addCallMemberWithUsername:@"testuser3" completionHandler:^(NSError * _Nullable error) {
             if (error) {
                 UIAlertController *errorAlert = [UIAlertController alertControllerWithTitle:@"Failed"
                                                                                     message:error.description

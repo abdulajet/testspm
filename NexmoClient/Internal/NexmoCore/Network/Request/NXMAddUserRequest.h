@@ -11,9 +11,9 @@
 @interface NXMAddUserRequest : NXMBaseRequest
 
 @property (nonatomic, strong, nonnull) NSString *conversationID;
-@property (nonatomic, strong, nonnull) NSString *userID;
+@property (nonatomic, strong, nonnull) NSString *username;
 
-- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationID andUserID:(nonnull NSString *)userID;
+- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationID andUsername:(nonnull NSString *)username;
 
 @end
 

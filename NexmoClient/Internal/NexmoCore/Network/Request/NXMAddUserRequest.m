@@ -11,10 +11,10 @@
 
 @implementation NXMAddUserRequest
 
-- (instancetype)initWithConversationId:(NSString *)conversationID andUserID:(NSString *)userID {
+- (instancetype)initWithConversationId:(NSString *)conversationID andUsername:(NSString *)username {
     if (self = [super init]) {
         self.conversationID = conversationID;
-        self.userID = userID;
+        self.username = username;
     }
     
     return self;

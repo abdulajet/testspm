@@ -142,15 +142,15 @@
 
 #pragma mark members
 - (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self joinMemberWithUserId:self.currentUser.userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [self joinMemberWithUsername:self.currentUser.userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         [NXMBlocksHelper runWithError:error value:member completion:completion];
     }];
 }
 
-- (void)joinMemberWithUserId:(nonnull NSString *)userId
+- (void)joinMemberWithUsername:(nonnull NSString *)username
                   completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
     [self.stitchContext.coreClient joinToConversation:self.conversationId
-                                           withUserId:userId
+                                           withUsername:username
                                             onSuccess:^(NSObject * _Nullable object) {
                                                 [NXMBlocksHelper runWithError:nil value:object completion:completion];
                                             }
@@ -291,9 +291,9 @@
 }
 #pragma mark internal
 
-- (void)inviteMemberWithUserId:(nonnull NSString *)userId withMedia:(bool)withMedia
+- (void)inviteMemberWithUsername:(nonnull NSString *)username withMedia:(bool)withMedia
                     completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUserId:userId withMedia:withMedia
+    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUsername:username withMedia:withMedia
                                               onSuccess:^(NSObject * _Nullable object) {
                                                     [NXMBlocksHelper runWithError:nil value:object completion:completion];
 

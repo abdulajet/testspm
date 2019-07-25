@@ -135,10 +135,10 @@
 }
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
-  withUserId:(nonnull NSString *)userId
+  withUsername:(nonnull NSString *)username
    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
      onError:(NXMErrorCallback _Nullable)onError {
-    NXMAddUserRequest *request = [[NXMAddUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
+    NXMAddUserRequest *request = [[NXMAddUserRequest alloc] initWithConversationId:conversationId andUsername:username];
     [self.network addUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
@@ -151,19 +151,19 @@ withMemberId:(nonnull NSString *)memberId
 }
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
-    withUserId:(nonnull NSString *)userId
+    withUsername:(nonnull NSString *)username
      onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
        onError:(NXMErrorCallback _Nullable)onError {
-    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId];
+    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId username:username];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
-                  withUserId:(nonnull NSString *)userId
+                  withUsername:(nonnull NSString *)username
                    withMedia:(BOOL)mediaEnabled
                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError {
-    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId andUserID:userId mediaEnabled:mediaEnabled];
+    NXMInviteUserRequest *request = [[NXMInviteUserRequest alloc] initWithConversationId:conversationId username:username mediaEnabled:mediaEnabled];
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 

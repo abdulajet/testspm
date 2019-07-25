@@ -99,8 +99,8 @@
     }];
 }
 
-- (void)addCallMemberWithUserId:(NSString *)userId completionHandler:(NXMErrorCallback _Nullable)completionHandler {
-    if (userId == self.conversation.myMember.user.userId){
+- (void)addCallMemberWithUsername:(NSString *)username completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+    if (username == self.conversation.myMember.user.name){
         
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -115,7 +115,7 @@
         return;
     }
     
-    [self.conversation inviteMemberWithUserId:userId withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [self.conversation inviteMemberWithUsername:username withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (member) {
             NXMCallMember *diallingCallMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
             [self findOrAddCallMember:diallingCallMember];

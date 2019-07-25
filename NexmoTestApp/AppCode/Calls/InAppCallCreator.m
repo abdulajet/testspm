@@ -24,7 +24,7 @@
 - (void)callWithDelegate:(id<NXMCallDelegate>)delegate completion:(void (^ _Nullable)(NSError * _Nullable, NXMCall * _Nullable))completion { 
     NSMutableArray <NSString *> *csUserNames = [NSMutableArray new];
     for (NTAUserInfo *userInfo in self.users) {
-        [csUserNames addObject: [userInfo.csUserId copy]];
+        [csUserNames addObject: [userInfo.csUserName copy]];
     }
     [CommunicationsManager.sharedInstance.client call:csUserNames callHandler:NXMCallHandlerInApp delegate:delegate completion:completion];
 }

@@ -63,9 +63,9 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 
 /*!
  * @brief Join a specific user as a member of the conversation
- * @param userId the user identifier
+ * @param username the user identifier
  * @param completion A block with two params NSError if one occured and NXMMember
- * @code [conversation joinMemberWithUserId:theUserId :^(NSError error, NXMMember member){
+ * @code [conversation joinMemberWithUsername:theUsername :^(NSError error, NXMMember member){
      if (!error) {
      NSLog(@"join the conversation failed");
      return;
@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
      NSLog(@"theUserId joined the conversation");
      }];
 */
-- (void)joinMemberWithUserId:(nonnull NSString *)userId
+- (void)joinMemberWithUsername:(nonnull NSString *)username
                 completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
 
 

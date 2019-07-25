@@ -11,14 +11,14 @@
 
 @implementation NXMInviteUserRequest
 
-- (instancetype)initWithConversationId:(NSString *)conversationID andUserID:(NSString *)userID {
-    return [self initWithConversationId:conversationID andUserID:userID mediaEnabled:false];
+- (instancetype)initWithConversationId:(NSString *)conversationID username:(NSString *)username {
+    return [self initWithConversationId:conversationID username:username mediaEnabled:false];
 }
 
-- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationID andUserID:(nonnull NSString *)userID mediaEnabled:(BOOL)mediaEnabled {
+- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationID username:(nonnull NSString *)username mediaEnabled:(BOOL)mediaEnabled {
     if (self = [super init]) {
         self.conversationID = conversationID;
-        self.userID = userID;
+        self.username = username;
         self.mediaEnabled = mediaEnabled;
     }
     

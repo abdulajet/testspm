@@ -12,7 +12,7 @@
 -(instancetype)initWithConversationDetails:(NXMConversationDetails *)conversationDetails andStitchContext:(NXMStitchContext *)stitchContext;
 @property (readwrite, nonatomic) NXMConversationDetails *conversationDetails;
 
-- (void)inviteMemberWithUserId:(NSString *)userId withMedia:(bool)withMedia
+- (void)inviteMemberWithUsername:(NSString *)userId withMedia:(bool)withMedia
                     completion:(void (^)(NSError * error, NXMMember * member))completion;
 
 - (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber

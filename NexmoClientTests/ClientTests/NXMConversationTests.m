@@ -163,7 +163,7 @@
     NSString *anotherUserId = @"anotherUser";
     
     NXMMember *returnedMember = [NXMTestingUtils memberWithConversationId:convId andUserId:anotherUserId state:NXMMemberStateJoined];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:anotherUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:anotherUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]);
     
     [self setContextWithUserId:currentUserId];
     NXMConversation *conversation = [self createDefaultConversationWithConvId:convId members:@[returnedMember]];
@@ -172,7 +172,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(error);
         XCTAssertNotNil(member);
@@ -191,7 +191,7 @@
     NSString *currentUserId = @"currentUser";
     
     NXMMember *returnedMember = [NXMTestingUtils memberWithConversationId:convId andUserId:currentUserId state:NXMMemberStateJoined];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]);
     
     [self setContextWithUserId:currentUserId];
 
@@ -201,7 +201,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(error);
         XCTAssertNotNil(member);
@@ -224,7 +224,7 @@
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     NXMMember *returnedMember = [NXMTestingUtils memberWithConversationId:convId andUserId:anotherUserId state:NXMMemberStateJoined];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:anotherUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]).andDo(^(NSInvocation *invocation){
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:anotherUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]).andDo(^(NSInvocation *invocation){
         [expectation fulfill];
     });
     
@@ -233,7 +233,7 @@
     NXMConversation *conversation = [self createDefaultConversationWithConvId:convId members:@[returnedMember]];
     
     //Act
-    [conversation joinMemberWithUserId:anotherUserId completion:nil];
+    [conversation joinMemberWithUsername:anotherUserId completion:nil];
     
     //Assert
     [self waitForExpectationsWithTimeout:10 handler:^(NSError * _Nullable error) {
@@ -251,7 +251,7 @@
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
     NXMMember *returnedMember = [NXMTestingUtils memberWithConversationId:convId andUserId:currentUserId state:NXMMemberStateJoined];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]).andDo(^(NSInvocation *invocation){
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:([OCMArg invokeBlockWithArgs:returnedMember, nil]) onError:[OCMArg any]]).andDo(^(NSInvocation *invocation){
         [expectation fulfill];
     });
     
@@ -260,7 +260,7 @@
     NXMConversation *conversation = [self createDefaultConversationWithConvId:convId members:@[returnedMember]];
     
     //Act
-    [conversation joinMemberWithUserId:currentUserId completion:nil];
+    [conversation joinMemberWithUsername:currentUserId completion:nil];
     
     //Assert
     [self waitForExpectationsWithTimeout:10 handler:^(NSError * _Nullable error) {
@@ -276,7 +276,7 @@
     NSString *anotherUserId = @"anotherUser";
     
     NSError *returnedError = [NSError new];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:anotherUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:anotherUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
 
@@ -286,7 +286,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);
@@ -305,7 +305,7 @@
     NSString *currentUserId = @"currentUser";
     
     NSError *returnedError = [NSError new];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
     NXMConversation *conversation = [self createDefaultConversationWithConvId:convId members:nil];
@@ -314,7 +314,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);
@@ -334,7 +334,7 @@
     NSString *anotherUserId = @"anotherUser";
     
     NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:anotherUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:anotherUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
 
@@ -344,7 +344,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:anotherUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);
@@ -363,7 +363,7 @@
     NSString *currentUserId = @"currentUser";
     
     NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
     NXMMember *currentMember = [NXMTestingUtils memberWithConversationId:convId andUserId:currentUserId state:NXMMemberStateJoined];
@@ -374,7 +374,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);
@@ -393,7 +393,7 @@
     NSString *currentUserId = @"currentUser";
     
     NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
     NXMMember *currentMember = [NXMTestingUtils memberWithConversationId:convId andUserId:currentUserId state:NXMMemberStateInvited];
@@ -404,7 +404,7 @@
     XCTestExpectation *expectation =
     [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);
@@ -423,7 +423,7 @@
     NSString *currentUserId = @"currentUser";
     
     NSError *returnedError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeEventUserAlreadyJoined andUserInfo:nil];
-    OCMStub([self.stitchCoreMock joinToConversation:convId withUserId:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
+    OCMStub([self.stitchCoreMock joinToConversation:convId withUsername:currentUserId onSuccess:[OCMArg any] onError:([OCMArg invokeBlockWithArgs:returnedError, nil])]);
     
     [self setContextWithUserId:currentUserId];
     NXMMember *currentMember = [NXMTestingUtils memberWithConversationId:convId andUserId:currentUserId state:NXMMemberStateLeft];
@@ -432,7 +432,7 @@
     //Act
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation joinMemberWithUserId:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [conversation joinMemberWithUsername:currentUserId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         //Assert
         XCTAssertNil(member);
         XCTAssertNotNil(error);

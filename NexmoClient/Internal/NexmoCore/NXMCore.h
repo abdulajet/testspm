@@ -56,7 +56,7 @@
                onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)joinToConversation:(nonnull NSString *)conversationId
-  withUserId:(nonnull NSString *)userId
+  withUsername:(nonnull NSString *)username
    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
      onError:(NXMErrorCallback _Nullable)onError;
 
@@ -66,12 +66,12 @@ withMemberId:(nonnull NSString *)memberId
      onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
-    withUserId:(nonnull NSString *)userId
+    withUsername:(nonnull NSString *)userId
      onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
        onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
-                  withUserId:(nonnull NSString *)userId
+                  withUsername:(nonnull NSString *)userId
                   withMedia:(BOOL)mediaEnabled
                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError;

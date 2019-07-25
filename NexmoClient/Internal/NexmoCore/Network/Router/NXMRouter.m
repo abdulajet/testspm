@@ -346,7 +346,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                        onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                          onError:(NXMErrorCallback _Nullable)onError {
     NSMutableDictionary *dict = [@{
-                           @"user_id": inviteUserRequest.userID,
+                           @"user_name": inviteUserRequest.username,
                            @"action": @"invite",
                            @"channel": @{
                                    @"type": @"app"
@@ -378,7 +378,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                       onError:(NXMErrorCallback _Nullable)onError {
 
     NSDictionary *dict = @{
-                           @"user_id": addUserRequest.userID,
+                           @"user_name": addUserRequest.username,
                            @"action": @"join",
                            @"channel": @{
                                    @"type": @"app"

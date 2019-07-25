@@ -210,8 +210,8 @@ NSString *const NXMCallPrefix = @"CALL_";
                                                    NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
                                                    [call dialWithMember:member];
                                                    
-                                                   for (NSString *userId in users) {
-                                                       [call addCallMemberWithUserId:userId completionHandler:nil];
+                                                   for (NSString *username in users) {
+                                                       [call addCallMemberWithUsername:username completionHandler:nil];
                                                    }
                                                    
                                                    [call setDelegate:delegate];
