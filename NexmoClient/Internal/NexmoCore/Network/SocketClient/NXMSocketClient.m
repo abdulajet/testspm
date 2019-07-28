@@ -315,15 +315,15 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 
 - (void)subscribeGeneralEvents {
     [self.socket on:kNXMSocketEventBadPermission callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket BadPermission"];
+        [NXMLogger error:@"!!!!socket BadPermission"];
     }];
 
     [self.socket on:kNXMSocketEventInvalidEvent callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidEvent"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventInvalidEvent"];
     }];
     
     [self.socket on:kNXMSocketEventUserNotFound callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventUserNotFound"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventUserNotFound"];
         //TODO: check if this means anything about login/logout and also regard the invaliduser sessioninternalerror
     }];
 }
@@ -347,27 +347,27 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     }];
     
     [self.socket on:kNXMSocketEventSessionInvalid callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionInvalid"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventSessionInvalid"];
         [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventSessionErrorInvalid callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventSessionErrorInvalid"];
         [weakSelf didFailLoginWithError:NXMErrorCodeSessionInvalid];
     }];
     
     [self.socket on:kNXMSocketEventMaxOpenedSessions callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventMaxOpenedSessions"];
         [weakSelf didFailLoginWithError:NXMErrorCodeMaxOpenedSessions];
     }];
     
     [self.socket on:kNXMSocketEventInvalidToken callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventInvalidToken"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventInvalidToken"];
         [weakSelf didFailLoginWithError:NXMErrorCodeTokenInvalid]; //TODO: check if this might happen without meaning a logout
     }];
     
     [self.socket on:kNXMSocketEventExpiredToken callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [NXMLogger warning:@"!!!!socket kNXMSocketEventExpiredToken"];
+        [NXMLogger error:@"!!!!socket kNXMSocketEventExpiredToken"];
         [weakSelf didFailLoginWithError:NXMErrorCodeTokenExpired]; //TODO: check if this might happen without meaning a logout
     }];
     

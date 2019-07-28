@@ -4,7 +4,6 @@
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
-#import <ClientInfrastructures/ClientInfrastructures.h>
 
 #import "NXMCall.h"
 #import "NXMCallProxy.h"
@@ -15,6 +14,7 @@
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
+#import "NXMLogger.h"
 
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdatesDelegate>
@@ -33,8 +33,8 @@
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
-    [NXMLog debug:@"start"];
-    [NXMLog debugWithFromat:@"conversationId %@", conversation.conversationId];
+    [NXMLogger debug:@"start"];
+    [NXMLogger debugWithFormat:@"conversationId %@", conversation.conversationId];
     
     if (self = [super init]) {
         self.membersSyncToken = [NSObject new];
@@ -209,14 +209,14 @@
 
 - (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
     NXMCallMember *callMember = [self findCallMember:member.memberId];
-    [NXMLog debugWithFromat:@"memberUpdated %@", member.memberId];
+    [NXMLogger debugWithFormat:@"memberUpdated %@", member.memberId];
 
     if (!member.memberId) {
         return;
     }
     
     if (!callMember) {
-        [NXMLog debugWithFromat:@"memberUpdated member created"];
+        [NXMLogger debugWithFormat:@"memberUpdated member created"];
         callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
         [self.delegate statusChanged:callMember];
         return;

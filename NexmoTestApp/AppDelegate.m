@@ -30,7 +30,7 @@
     // Override point for customization after application launch.
     [[MainFlow sharedInstance] startMainFlowWithAppWindow:self.window];
     [NTALogger info:@"launch done"];
-    [CommunicationsManager setLogger:[NTALogger sharedLogger]];
+    [CommunicationsManager setLogger];
     
     if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)])
     {

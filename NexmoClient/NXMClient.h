@@ -10,7 +10,6 @@
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
-#import "NXMLoggerDelegate.h"
 
 /*!
  * @brief You use a <i>NXMClient</i> instance to utilise the services provided by NexmoConversation API in your app.
@@ -81,14 +80,6 @@
  * @param authToken user authentication token
  */
 - (nullable instancetype)initWithToken:(nonnull NSString *)authToken;
-
-
-/*!
- * @brief Set logger delegate
- * @code [myNXNClient setLoggerDelegate:loggerDelegate];
- *  @param delegate a `NXMLoggerDelegate` object.
- */
-- (void)setLoggerDelegate:(nullable id <NXMLoggerDelegate>)delegate;
 
 
 /*!
@@ -215,10 +206,5 @@
  */
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo
                            completion:(void(^_Nullable)(NSError * _Nullable error))completion;
-/**
- @brief get the log files name, while using NXMLog
- @return NSMutableArray<NSString*>>
- @code NSMutableArray<NSString*>> filesPathes = [myNXMClient getLogFileNames];
- */
-- (nonnull NSMutableArray*)getLogFileNames;
+
 @end

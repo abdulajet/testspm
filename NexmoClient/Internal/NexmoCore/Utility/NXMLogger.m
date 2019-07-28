@@ -7,72 +7,74 @@
 //
 
 #import "NXMLogger.h"
+#define NXMDD_LEGACY_MACROS 0 // Logger
+#import <ClientInfrastructures/ClientInfrastructures.h>
 
 @interface NXMLogger()
 
-@property id<NXMLoggerDelegate> delegate;
 @property NXMLogger *sharedInstance;
 
 @end
 
 @implementation NXMLogger
 
-+ (NXMLogger *)sharedInstance {
-    static NXMLogger *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [NXMLogger new];
-    });
++ (void)setLogLevel:(NXMLoggerLevel)logLevel {
+    nexmoLogLevel_t level;
     
-    return sharedInstance;
+    switch (logLevel) {
+        case NXMLoggerLevelNone:
+            level = NEXMO_LOG_LEVEL_NONE;
+            break;
+        case NXMLoggerLevelError:
+            level = NEXMO_LOG_LEVEL_ERROR;
+            break;
+        case NXMLoggerLevelDebug:
+            level = NEXMO_LOG_LEVEL_DEBUG;
+            break;
+        case NXMLoggerLevelInfo:
+            level = NEXMO_LOG_LEVEL_INFO;
+            break;
+        default:
+            break;
+    }
+    
+    [NXMLog setLogLevel:level];
 }
 
-+ (void)setDelegate:(nonnull id<NXMLoggerDelegate>)delegate {
-    [self sharedInstance].delegate = delegate;
++ (void)error:(nonnull NSString *)str {
+    [NXMLog critical:str];
 }
 
-+ (void)error:(nonnull NSString *)message {
-    [[self sharedInstance].delegate error:message];
-}
-
-+ (void)warning:(nonnull NSString *)message {
-    [[self sharedInstance].delegate warning:message];
-}
-
-+ (void)info:(nonnull NSString *)message {
-    [[self sharedInstance].delegate info:message];
-}
-
-+ (void)debug:(nonnull NSString *)message {
-    [[self sharedInstance].delegate debug:message];
-}
-
-+ (void)errorWithFormat:(NSString *)format, ... {
++ (void)errorWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2) {
     va_list ap;
-    va_start(ap, format);
-    [self error:[[NSString alloc] initWithFormat:format arguments:ap]];
+    va_start(ap, fmt);
+    [NXMLog critical:[[NSString alloc] initWithFormat:fmt arguments:ap]];
     va_end(ap);
 }
 
-+ (void)warningWithFormat:(NSString *)format, ... {
++ (void)debug:(nonnull NSString *)str {
+    [NXMLog debug:str];
+}
+
++ (void)debugWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2) {
     va_list ap;
-    va_start(ap, format);
-    [self warning:[[NSString alloc] initWithFormat:format arguments:ap]];
+    va_start(ap, fmt);
+    [NXMLog debug:[[NSString alloc] initWithFormat:fmt arguments:ap]];
+    va_end(ap);}
+
++ (void)info:(nonnull NSString *)str {
+    [NXMLog info:str];
+}
+
++ (void)infoWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2) {
+    va_list ap;
+    va_start(ap, fmt);
+    [NXMLog info:[[NSString alloc] initWithFormat:fmt arguments:ap]];
     va_end(ap);
 }
 
-+ (void)infoWithFormat:(NSString *)format, ... {
-    va_list ap;
-    va_start(ap, format);
-    [self info:[[NSString alloc] initWithFormat:format arguments:ap]];
-    va_end(ap);
-}
-
-+ (void)debugWithFormat:(NSString *)format, ... {
-    va_list ap;
-    va_start(ap, format);
-    [self debug:[[NSString alloc] initWithFormat:format arguments:ap]];
-    va_end(ap);
++ (nonnull NSMutableArray *)getLogFileNames {
+    return [NXMLog getLogFilesPathes];
 }
 
 @end

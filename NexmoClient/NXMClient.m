@@ -13,7 +13,6 @@
 #import "NXMBlocksHelper.h"
 #import "NXMLogger.h"
 #import "NXMErrorsPrivate.h"
-#import <ClientInfrastructures/ClientInfrastructures.h>
 
 
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
@@ -37,7 +36,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 @implementation NXMClient
 
 - (instancetype)initWithToken:(NSString *)authToken {
-    LOG_SCOPE();
+    [NXMLogger debugWithFormat:@"authToken %@",authToken];
     if(self = [super init]) {
         self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:authToken]];
         [self.stitchContext setDelegate:self];
@@ -45,6 +44,8 @@ NSString *const NXMCallPrefix = @"CALL_";
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
         self.knockingIdsToCompletion = [[NSMutableDictionary alloc] init];
     }
+    
+    [NXMLogger debug:@""];
     return self;
 }
 
@@ -73,20 +74,23 @@ NSString *const NXMCallPrefix = @"CALL_";
 }
 
 -(void)login {
-    LOG_SCOPE();
+    [NXMLogger debug:@"entry"];
     if(!self.delegate) {
-        [NXMLogger warning:@"NXMClient: login called without setting delegate"];
+        [NXMLogger error:@"NXMClient: login called without setting delegate"];
     }
     [self.stitchContext.coreClient login];
+    [NXMLogger debug:@"exit"];
+
 }
 
 -(void)refreshAuthToken:(nonnull NSString *)authToken {
-    LOG_SCOPE(authToken);
+    [NXMLogger debug:@"entry"];
     [self.stitchContext.coreClient refreshAuthToken:authToken];
+    [NXMLogger debug:@"exit"];
 }
 
 -(void)logout {
-    LOG_SCOPE();
+    [NXMLogger debug:@"entry"];
     if (self.connectionStatus == NXMConnectionStatusDisconnected) {
         return;
     }
@@ -102,15 +106,11 @@ NSString *const NXMCallPrefix = @"CALL_";
     }];
     
     [self.stitchContext.coreClient logout];
+    [NXMLogger debug:@"exit"];
 }
-
-- (void)setLoggerDelegate:(nullable id <NXMLoggerDelegate>)delegate {
-    [NXMLogger setDelegate:delegate];
-}
-
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
-    LOG_SCOPE((int)status, (int)reason);
+    [NXMLogger debugWithFormat:@"%ld %ld entry", status, reason];
     NSError *setUpCleanUpError = nil;
     switch (self.connectionStatus) {
         case NXMConnectionStatusDisconnected:
@@ -129,15 +129,16 @@ NSString *const NXMCallPrefix = @"CALL_";
     }
     
     [self.delegate connectionStatusChanged:status reason:reason];
+    [NXMLogger debug:@"exit"];
 }
 
 #pragma mark - conversation
 
 -(void)getConversationWithId:(nonnull NSString *)converesationId
                   completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
-    LOG_SCOPE(converesationId);
+    [NXMLogger debugWithFormat:@"%@ entry", converesationId];
     if (![self isConnected]){
-        [NXMLogger warning:@"NXMClient:getConversationWithId:SDK disconnected"];
+        [NXMLogger info:@"NXMClient:getConversationWithId:SDK disconnected"];
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completion(resError, nil);
         return;
@@ -153,12 +154,14 @@ NSString *const NXMCallPrefix = @"CALL_";
                                                   onError:^(NSError * _Nullable error) {
                                                       [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                                   }];
+    
+    [NXMLogger debug:@"exit"];
 }
 
 -(void)createConversationWithName:(nonnull NSString *)name completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
-    LOG_SCOPE(name);
+    [NXMLogger debugWithFormat:@"%@ entry", name];
     if (![self isConnected]){
-        [NXMLogger warning:@"NXMClient:createConversationWithName:SDK disconnected"];
+        [NXMLogger info:@"NXMClient:createConversationWithName:SDK disconnected"];
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completion(resError, nil);
         return;
@@ -183,12 +186,14 @@ NSString *const NXMCallPrefix = @"CALL_";
                                                         [NXMBlocksHelper runWithError:error value:nil completion:completion];
 
                                                     }];
+    [NXMLogger debug:@"exit"];
+
 }
 
 - (void) addPendingKnockingId:(nonnull NSString*)knockingId
                      delegate:(id<NXMCallDelegate>)delegate
                    completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion{
-    LOG_SCOPE(knockingId);
+    [NXMLogger debugWithFormat:@"%@ entry", knockingId];
     NXMKnockingObj *knockingObj = [NXMKnockingObj new];
     knockingObj.complition = completion;
     knockingObj.delegate = delegate;
@@ -198,7 +203,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 - (void) startIpCall:(nonnull NSArray<NSString *>*)users
             delegate:(id<NXMCallDelegate>)delegate
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    LOG_SCOPE([users description]);
+    [NXMLogger debugWithFormat:@"%@ entry", [users description]];
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore createConversationWithName:[NSString stringWithFormat:@"%@%@", NXMCallPrefix, [[NSUUID UUID] UUIDString]]
@@ -231,12 +236,14 @@ NSString *const NXMCallPrefix = @"CALL_";
                                      [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                  }
      ];
+    [NXMLogger debug:@"exit"];
+
 }
 
 - (void) startServerCall:(nonnull NSArray<NSString *>*)users
             delegate:(id<NXMCallDelegate>)delegate
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    LOG_SCOPE([users description]);
+    [NXMLogger debugWithFormat:@"%@ entry", [users description]];
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore inviteToConversation:weakSelf.user.name withPhoneNumber:users[0] onSuccess:^(NSString * _Nullable value) {
@@ -245,15 +252,16 @@ NSString *const NXMCallPrefix = @"CALL_";
     } onError:^(NSError * _Nullable error) {
         [NXMLogger debugWithFormat:@"startServerCall falied %@", error.description];
     }];
+    [NXMLogger debug:@"exit"];
 }
 
 - (void)call:(nonnull NSArray<NSString *>*)callees
            callHandler:(NXMCallHandler)callHandler
            delegate:(id<NXMCallDelegate>)delegate
          completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    LOG_SCOPE([callees description], (int)callHandler);
+    [NXMLogger debugWithFormat:@"%@ %ld entry", [callees description], callHandler];
     if (![self isConnected]){
-        [NXMLogger warning:@"NXMClient:call:SDK disconnected"];
+        [NXMLogger info:@"NXMClient:call:SDK disconnected"];
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completion(resError, nil);
         return;
@@ -268,50 +276,8 @@ NSString *const NXMCallPrefix = @"CALL_";
         default:
             break;
     }
-    
+    [NXMLogger debug:@"exit"];
 }
-
-- (void)callToNumber:(nonnull NSString *)number
-           delegate:(id<NXMCallDelegate>)delegate
-         completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    //TODO: the flow for PSTN is diffrent:
-    //1. create a knocking request [conversation.inviteToConversationWithPhoneNumber]
-    //2. wait for knocking event and get the conversation
-    //3. add the current user to the conversation
-    //4. return the call object
-//    __weak NXMStitchClient *weakSelf = self;
-//    __weak NXMStitchCore *weakCore = self.stitchContext.coreClient;
-//    
-//    [weakCore createConversationWithName:[[NSUUID UUID] UUIDString]
-//                               onSuccess:^(NSString * _Nullable convId) {
-//                                   [weakSelf getConversationWithId:convId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
-//                                       if (conversation){
-//                                           [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
-//                                               if (member){
-//                                                   NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-//                                                   NXMCallParticipant *participant = [[NXMCallParticipant alloc] initWithMemberId:member.memberId
-//                                                                                                                     andCallProxy:(id<NXMCallProxy>)call];
-//                                                   [call setMyParticipant:participant];
-//                                                   
-//                                                   [conversation enableMedia];
-//                                                   [call addParticipantWithNumber:number completionHandler:nil];
-//                                                   
-//                                                   [call setDelegate:delegate];
-//                                                   
-//                                                   completion(nil, call);
-//                                               }
-//                                           }];
-//                                       }else{
-//                                           completion(error, nil);
-//                                       }
-//                                   }];
-//                               }
-//                                 onError:^(NSError * _Nullable error) {
-//                                     completion(error, nil); // TODO: Error handling
-//                                 }
-//     ];
-}
-
 
 #pragma mark - push
 
@@ -319,9 +285,9 @@ NSString *const NXMCallPrefix = @"CALL_";
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    LOG_SCOPE([[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
+    [NXMLogger debugWithFormat:@"%@ %d %d entry", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox];
     if (![self isConnected]){
-        [NXMLogger warning:@"NXMClient:enablePushNotificationsWithDeviceToken:SDK disconnected"];
+        [NXMLogger info:@"NXMClient:enablePushNotificationsWithDeviceToken:SDK disconnected"];
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completion(resError);
         return;
@@ -333,12 +299,14 @@ NSString *const NXMCallPrefix = @"CALL_";
         [NXMLogger errorWithFormat:@"Nexmo push notifications enabling failed with error: %@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
+    [NXMLogger debug:@"exit"];
 }
 
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    LOG_SCOPE();
+    [NXMLogger debugWithFormat:@"entry"];
+
     if (![self isConnected]){
-        [NXMLogger warning:@"NXMClient:disablePushNotificationsWithCompletion:SDK disconnected"];
+        [NXMLogger info:@"NXMClient:disablePushNotificationsWithCompletion:SDK disconnected"];
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completion(resError);
         return;
@@ -350,15 +318,19 @@ NSString *const NXMCallPrefix = @"CALL_";
         [NXMLogger errorWithFormat:@"Nexmo push notifications disabling failed with error: %@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
+    [NXMLogger debug:@"exit"];
+
 }
 
 - (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo {
-    LOG_SCOPE([NSString stringWithFormat:@"userInfo %@", userInfo]);
+    [NXMLogger debugWithFormat:@"%@", userInfo];
     return [self.stitchContext.coreClient isNexmoPushWithUserInfo:userInfo];
+    
 }
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    LOG_SCOPE([NSString stringWithFormat:@"userInfo %@", userInfo]);
+    [NXMLogger debugWithFormat:@"%@ entry", userInfo];
+
     [NXMLogger debugWithFormat:@"Processing nexmo push with userInfo:%@", userInfo];
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completion];
@@ -366,13 +338,14 @@ NSString *const NXMCallPrefix = @"CALL_";
         [NXMLogger debugWithFormat:@"Error processing nexmo push with error:%@", error];
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
+    [NXMLogger debug:@"exit"];
 }
 
 
 #pragma mark - notification center
 
 - (void)onMemberEvent:(NSNotification* )notification {
-    LOG_SCOPE(notification.name);
+    [NXMLogger debugWithFormat:@"%@ entry", notification.name];
     NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
     
     if (![event.user.userId isEqualToString:self.user.userId]) { return; }
@@ -422,7 +395,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                 
                 if (!([conversation.displayName hasPrefix:NXMCallPrefix] || // IP-IP CS
                       !event.fromMemberId)) { // IP-IP VAPI
-                    [NXMLogger warning:@"member invited event with media enabled without call perfix"];
+                    [NXMLogger error:@"member invited event with media enabled without call perfix"];
                     return;
                 }
                 
@@ -461,24 +434,22 @@ NSString *const NXMCallPrefix = @"CALL_";
             }
         }];
     }
+    [NXMLogger debug:@"exit"];
+
 }
 
 #pragma mark - private
 
 - (BOOL)setUpWithErrorPtr:(NSError **)errorPtr {
-    LOG_SCOPE((*errorPtr).localizedDescription);
+    [NXMLogger debug:@""];
     //TODO: set up, set error and return false if problematic
     return YES;
 }
 
 - (BOOL)cleanUpWithErrorPtr:(NSError **)errorPtr {
-    LOG_SCOPE((*errorPtr).localizedDescription);
+    [NXMLogger debug:@""];
     //TODO: clean up, set error and return false if problematic
     return YES;
-}
-
-- (nonnull NSMutableArray*)getLogFileNames{
-    return [NXMLog getLogFilesPathes];
 }
 
 @end

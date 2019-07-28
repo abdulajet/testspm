@@ -6,11 +6,9 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <NexmoClient/NexmoClient.h>
+#import <Foundation/Foundation.h>
 
-@interface NTALogger : NSObject<NXMLoggerDelegate>
-
-+ (nonnull instancetype)sharedLogger;
+@interface NTALogger : NSObject
 
 + (void)error:(nonnull NSString *)message;
 + (void)warning:(nonnull NSString *)message;
@@ -22,6 +20,6 @@
 + (void)infoWithFormat:(nonnull NSString *)format, ...;
 + (void)debugWithFormat:(nonnull NSString *)format, ...;
 
-+ (void)getLogWithCompletion:(void (^ _Nullable)(NSString * _Nullable log))completion;
++ (nullable NSArray<NSString *> *)getLogs;
 @end
 

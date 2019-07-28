@@ -112,7 +112,7 @@
     NXMLeg *leg = self.channel.leg;
     if (!leg ||
         leg.legStatus == NXMLegStatusCompleted) {
-        [NXMLogger debugWithFormat:@"NXMMember updateExpired no relevant leg %@", self.memberId, leg.legId];
+        [NXMLogger debugWithFormat:@"NXMMember %@ updateExpired no relevant leg %@", self.memberId, leg.legId];
 
         return;
     }

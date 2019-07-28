@@ -19,9 +19,9 @@
 
 + (NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status;
 
-+ (void)setLogger:(id<NXMLoggerDelegate>)delegate;
-
 - (void)logout;
+
++ (void)setLogger;
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isPushKit:(BOOL)isPushKit

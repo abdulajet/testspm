@@ -14,8 +14,6 @@
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
-#import <ClientInfrastructures/ClientInfrastructures.h>
-
 
 static NSString * const kNTAAvatarImageNameConnected = @"SettingsAvatarConnected";
 static NSString * const kNTAAvatarImageNameNotConnected = @"SettingsAvatarNotConnected";
@@ -76,10 +74,10 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 
 - (IBAction)sendLogsPressed:(UIButton *)sender {
     
-    if(![MFMailComposeViewController canSendMail]) {
-        [NTAAlertUtils displayAlertForController:self withTitle:@"Send Logs" andMessage:@"Can't send mail. Please make sure sending mails is enabled for this device" andDismissAfterSeconds:1];
-        return;
-    }
+//    if(![MFMailComposeViewController canSendMail]) {
+//        [NTAAlertUtils displayAlertForController:self withTitle:@"Send Logs" andMessage:@"Can't send mail. Please make sure sending mails is enabled for this device" andDismissAfterSeconds:1];
+//        return;
+//    }
     
     NSDate *currDate = [NSDate date];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -93,20 +91,25 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     [mailController setToRecipients:@[@"ayelet.levy@vonage.com"]];
     
     NSString *messageBody = [self randomSentence];
-    NSMutableArray* lognames = [[CommunicationsManager sharedInstance].client getLogFileNames];
+    NSArray* files = [NTALogger getLogs];
     [mailController setMessageBody:messageBody isHTML:NO];
-    NSMutableArray* files = [NXMLog getLogFilesPathes];
     
-    [NTALogger getLogWithCompletion:^(NSString * _Nullable log) {
-        NSData *logData = [log dataUsingEncoding:NSUTF8StringEncoding];
-        [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[logName stringByAppendingString:@".log"]];
-        [files enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [mailController addAttachmentData:logData mimeType:@"text/plain" fileName:[obj stringByAppendingString:@".log"]];
-        }];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self presentViewController:mailController animated:YES completion:nil];
-        });
+    NSString *name = [files count] > 0 ? files[0] : @"noLog";
+    NSMutableData *mergedData = [NSMutableData data];
+    [files enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSData *logData = [[NSFileManager defaultManager] contentsAtPath:obj];
+        if ([logData length] > 0) {
+            [mergedData appendData:logData];
+        }
     }];
+    
+    [mailController addAttachmentData:mergedData
+                             mimeType:@"text/plain"
+                             fileName:[name stringByAppendingString:@".log"]];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+            [self presentViewController:mailController animated:YES completion:nil];
+    });
 }
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:

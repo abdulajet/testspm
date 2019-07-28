@@ -42,9 +42,9 @@
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationDetails %@ %d",
+    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationDetails %@ %lu",
      conversationDetails.conversationId,
-     conversationDetails.members.count];
+     (unsigned long)conversationDetails.members.count];
 
     for (NXMMember *member in conversationDetails.members) {
         if([member.user.userId isEqualToString:self.currentUser.userId]) {
@@ -79,7 +79,7 @@
 
 - (void)handleEvent:(NXMEvent *)event {
     if(self.conversationDetails.sequence_number >= event.eventId) {
-        [NXMLogger debugWithFormat:@"NXMConversationMembersController sequenceId is lower %d %d memberId %d %@",
+        [NXMLogger debugWithFormat:@"NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
          self.conversationDetails.sequence_number,
          event.eventId,
          event.fromMemberId,
@@ -134,7 +134,7 @@
     [NXMLogger debugWithFormat:@"NXMConversationMembersController mediaEvent %@", event.fromMemberId];
     NXMMember *member = self.membersDictionary[event.fromMemberId];
     if (!member) {
-        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@ %@ %ld", event.fromMemberId];
+        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@", event.fromMemberId];
         return;
     }
     

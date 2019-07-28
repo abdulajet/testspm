@@ -28,8 +28,8 @@
     return sharedInstance;
 }
 
-+ (void)setLogger:(id<NXMLoggerDelegate>)delegate {
-    [[CommunicationsManager sharedInstance].client setLoggerDelegate:delegate];
++ (void)setLogger {
+    [NXMLogger setLogLevel:NXMLoggerLevelDebug];
 }
 
 #pragma mark - init

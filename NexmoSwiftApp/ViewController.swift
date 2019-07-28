@@ -9,7 +9,7 @@ import UIKit
 import AVFoundation
 import NexmoClient
 
-class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, NXMCallDelegate, NXMLoggerDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, NXMCallDelegate {
     
     @IBOutlet weak var aaa: UIButton!
     
@@ -44,7 +44,6 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
      //   self.loginButton.isEnabled = false
         
         ViewController.nexmoClient = NXMClient(token: "")!
-        ViewController.nexmoClient.setLoggerDelegate(self)
         ViewController.nexmoClient.setDelegate(self)
         ViewController.nexmoClient.login()
     }

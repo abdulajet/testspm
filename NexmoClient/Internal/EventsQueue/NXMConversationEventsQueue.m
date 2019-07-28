@@ -192,14 +192,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            [NXMLogger warningWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            [NXMLogger infoWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
             [self.delegate conversationExpired];
             
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-            [NXMLogger warningWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+            [NXMLogger errorWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events
@@ -229,14 +229,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            [NXMLogger warningWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            [NXMLogger infoWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
             [self conversationExpired];
 
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-            [NXMLogger warningWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+            [NXMLogger errorWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events
@@ -252,7 +252,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
                 (NSComparisonResult)NSOrderedDescending;
     }];
     
-    [NXMLogger debugWithFormat:@"NXMConversationEventsQueue flush events %d", sortedEvents.count];
+    [NXMLogger debugWithFormat:@"NXMConversationEventsQueue flush events %lu", (unsigned long)sortedEvents.count];
     
     for (NXMEvent *event in sortedEvents) {
         [self.delegate handleEvent:event];

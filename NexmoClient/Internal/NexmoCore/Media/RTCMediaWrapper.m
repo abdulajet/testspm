@@ -58,7 +58,7 @@
 - (NXMErrorCode)suspendMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
-        [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        [NXMLogger errorWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
         return NXMErrorCodeMediaNotSupported;
     }
     
@@ -69,7 +69,7 @@
 - (NXMErrorCode)resumeMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
-        [NXMLogger warningWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        [NXMLogger errorWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
         return NXMErrorCodeMediaNotSupported;
     }
     
@@ -203,7 +203,7 @@
     
     NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType];
     if(nxmMediaType == NXMMediaTypeNone) {
-        [NXMLogger warningWithFormat:@"MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType];
+        [NXMLogger errorWithFormat:@"MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType];
         completionHandler(false, uuid);
         return;
     }
