@@ -633,7 +633,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     messageEvent.conversationId = json[@"cid"];
     messageEvent.fromMemberId = json[@"from"];
     messageEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    messageEvent.eventId = [json[@"id"] integerValue];
+    messageEvent.refEventId = [json[@"id"] integerValue];
     messageEvent.status = NXMMessageStatusTypeDeleted;
     messageEvent.type = NXMEventTypeMessageStatus;
     
@@ -649,7 +649,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.eventId = [json[@"id"] integerValue];
+    statusEvent.refEventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -665,7 +665,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.eventId = [json[@"id"] integerValue];
+    statusEvent.refEventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -682,7 +682,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.eventId = [json[@"id"] integerValue];
+    statusEvent.refEventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -698,7 +698,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     statusEvent.conversationId = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.eventId = [json[@"id"] integerValue];
+    statusEvent.refEventId = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
