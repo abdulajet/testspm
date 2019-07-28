@@ -79,6 +79,16 @@ NXMConversation Renamed:
 - (void)joinMemberWithUsername:(nonnull NSString *)username
 ```
 
+NexmoClient logger exposed - NXMLogger object
+```
+[NXMLogger setLogLevel:NXMLoggerLevelDebug];
+NSArray *logNames = [NXMLogger getLogFileNames];
+```
+Removed NXMLoggerDelegate
+```
+NXMClient myClient
+[myClient setLoggerDelegate:LoggerDelegate];
+```
 
 ## [0.3.0] - 2019-06-02
 ### Added
