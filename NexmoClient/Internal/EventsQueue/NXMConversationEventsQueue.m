@@ -193,14 +193,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error);
+            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %s", [error.description UTF8String]);
             [self.delegate conversationExpired];
             
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %@" , error);
+             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %s" , [error.description UTF8String]);
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events
@@ -230,14 +230,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %@" , error);
+            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %s" , [error.description UTF8String]);
             [self conversationExpired];
 
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %@" , error);
+             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %s" , [error.description UTF8String]);
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events

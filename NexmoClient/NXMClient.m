@@ -99,7 +99,7 @@ NSString *const NXMCallPrefix = @"CALL_";
     //TODO: decide if disable should be required before logout, or maybe it should be
     [self disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
         if(error) {
-            LOG_ERROR("failed disabling push during logout with error: %@", error.description);
+            LOG_ERROR("failed disabling push during logout with error: %s", [error.description UTF8String]);
             return;
         }
     }];
@@ -244,7 +244,7 @@ NSString *const NXMCallPrefix = @"CALL_";
         if (value)
             [weakSelf addPendingKnockingId:value delegate:delegate completion:completion];
     } onError:^(NSError * _Nullable error) {
-        LOG_ERROR("startServerCall falied %@", error.description);
+        LOG_ERROR("startServerCall falied %s", [error.description UTF8String]);
     }];
 }
 
@@ -288,7 +288,7 @@ NSString *const NXMCallPrefix = @"CALL_";
         LOG_DEBUG("Nexmo push notifications enabled" );
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
-        LOG_ERROR("Nexmo push notifications enabling failed with error: %@", error);
+        LOG_ERROR("Nexmo push notifications enabling failed with error: %s", [error.description UTF8String]);
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
@@ -306,7 +306,7 @@ NSString *const NXMCallPrefix = @"CALL_";
         LOG_DEBUG("Nexmo push notifications disabled" );
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
-        LOG_ERROR("Nexmo push notifications disabling failed with error: %@", error);
+        LOG_ERROR("Nexmo push notifications disabling failed with error: %s", [error.description UTF8String]);
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 
@@ -325,7 +325,7 @@ NSString *const NXMCallPrefix = @"CALL_";
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
-        LOG_ERROR("Error processing nexmo push with error:%@", error);
+        LOG_ERROR("Error processing nexmo push with error:%s", [error.description UTF8String]);
         [NXMBlocksHelper runWithError:error completion:completion];
     }];
 }
@@ -351,12 +351,12 @@ NSString *const NXMCallPrefix = @"CALL_";
             
             [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
-                    LOG_ERROR("get conversation failed %@", error);
+                    LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
                 }
                 
                 if (!conversation) {
-                    LOG_ERROR("got empty conversation without error conversation id %@:", event.conversationId);
+                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
                 }
                 
                 [self.delegate addedToConversation:conversation];
@@ -374,12 +374,12 @@ NSString *const NXMCallPrefix = @"CALL_";
             
             [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
-                    LOG_ERROR("get conversation failed %@", error);
+                    LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
                 }
 
                 if (!conversation){
-                    LOG_ERROR("got empty conversation without error conversation id %@:", event.conversationId);
+                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
                 }
                 
                 if (!([conversation.displayName hasPrefix:NXMCallPrefix]) || // IP-IP CS
@@ -401,12 +401,12 @@ NSString *const NXMCallPrefix = @"CALL_";
         
         [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if (error) {
-                 LOG_ERROR("got empty conversation without error conversation id %@:", event.conversationId);
+                 LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
                 return;
             }
             
             if (!conversation){
-                LOG_ERROR("got empty conversation without error conversation id %@:", event.conversationId);
+                LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
             }
             [conversation enableMedia:event.memberId];
             NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];

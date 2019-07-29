@@ -42,8 +42,8 @@
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
-    LOG_DEBUG("%@ %ld",
-                conversationDetails.conversationId,
+    LOG_DEBUG("%s %ld",
+                [conversationDetails.conversationId UTF8String],
                 (unsigned long)[conversationDetails.members count]);
 
     for (NXMMember *member in conversationDetails.members) {
@@ -82,13 +82,13 @@
         LOG_ERROR("NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
                     self.conversationDetails.sequence_number,
                     event.eventId,
-                    event.fromMemberId,
-                    event);
+                    [event.fromMemberId UTF8String],
+                    [event.description UTF8String]);
 
         return;
     }
     
-    LOG_ERROR("NXMConversationMembersController handleEvent %@",event);
+    LOG_ERROR("NXMConversationMembersController handleEvent %s",[event.description UTF8String]);
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self handleEvent:event];
@@ -117,11 +117,11 @@
 }
 
 -(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {
-    LOG_DEBUG("%@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus);
+    LOG_DEBUG("%s %s %ld", [legEvent.current.memberId UTF8String], [legEvent.current.legId UTF8String], (long)legEvent.current.legStatus);
     
     NXMMember *member = self.membersDictionary[legEvent.current.memberId];
     if (!member) {
-        LOG_ERROR("NXMConversationMembersController legEvent member not found %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus);
+        LOG_ERROR("NXMConversationMembersController legEvent member not found %s %s %ld", [legEvent.current.memberId UTF8String], [legEvent.current.legId UTF8String], (long)legEvent.current.legStatus);
         return;
     }
     
@@ -134,7 +134,7 @@
     LOG_DEBUG([event.fromMemberId UTF8String]);
     NXMMember *member = self.membersDictionary[event.fromMemberId];
     if (!member) {
-        LOG_ERROR("member not found %@", event.fromMemberId);
+        LOG_ERROR("member not found %s", [event.fromMemberId UTF8String]);
         return;
     }
     
@@ -150,7 +150,7 @@
 }
 
 - (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    LOG_DEBUG("%@ %ld", memberEvent.memberId, (long)memberEvent.state);
+    LOG_DEBUG("%s %ld", [memberEvent.memberId UTF8String], (long)memberEvent.state);
     
     NXMMember *member = self.membersDictionary[memberEvent.memberId];
     if(member) {
@@ -160,7 +160,7 @@
         return;
     }
     
-    LOG_DEBUG("member added %@ %ld", memberEvent.memberId, (long)memberEvent.state);
+    LOG_DEBUG("member added %s %ld", [memberEvent.memberId UTF8String], (long)memberEvent.state);
     
     member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
     [self addMember:member];
