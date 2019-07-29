@@ -11,7 +11,7 @@
 #import "NXMRouter.h"
 #import "NXMSocketClient.h"
 #import "NXMErrorsPrivate.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 
 @interface NXMNetworkManager()
 @property NXMSocketClient *socketClient;
@@ -211,7 +211,7 @@
             break;
         case NXMMediaTypeVideo:
         default:{
-            [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
+            LOG_ERROR("mediaType %ld is not supported",(long)mediaRequest.mediaType);
             onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
         }
     }
@@ -226,7 +226,7 @@
             break;
         case NXMMediaTypeVideo:
         default:{
-            [NXMLogger error:[NSString stringWithFormat:@"mediaType %ld is not supported",(long)mediaRequest.mediaType]];
+            LOG_ERROR("mediaType %ld is not supported", (long)mediaRequest.mediaType);
             onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
         }
     }

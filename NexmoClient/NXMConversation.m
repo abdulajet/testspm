@@ -13,7 +13,7 @@
 #import "NXMBlocksHelper.h"
 #import "NXMErrorsPrivate.h"
 #import "NXMConversationMembersController.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 
 
 @interface NXMConversation () <NXMConversationEventsQueueDelegate,NXMConversationMembersControllerDelegate>
@@ -318,7 +318,8 @@
 }
 
 - (NXMErrorCode)disableMedia {
-    [NXMLogger debugWithFormat:@"NXMConversation disableMedia %@", self.conversationId];
+    LOG_DEBUG([self.conversationId UTF8String]);
+
     [self.stitchContext.coreClient disableMedia:self.conversationId];
     return NXMErrorCodeNone;
 }

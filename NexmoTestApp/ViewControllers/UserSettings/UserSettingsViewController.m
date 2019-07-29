@@ -101,11 +101,15 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
         if ([logData length] > 0) {
             [mergedData appendData:logData];
         }
+        
+        [mailController addAttachmentData:logData
+                                 mimeType:@"text/plain"
+                                 fileName:[obj stringByAppendingString:@".log"]];
     }];
     
     [mailController addAttachmentData:mergedData
                              mimeType:@"text/plain"
-                             fileName:[name stringByAppendingString:@".log"]];
+                             fileName:[name stringByAppendingString:@"merged.log"]];
     
     dispatch_async(dispatch_get_main_queue(), ^{
             [self presentViewController:mailController animated:YES completion:nil];

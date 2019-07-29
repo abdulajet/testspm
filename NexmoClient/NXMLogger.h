@@ -17,15 +17,6 @@ typedef NS_ENUM(NSInteger, NXMLoggerLevel) {
 @interface NXMLogger : NSObject
 + (void)setLogLevel:(NXMLoggerLevel)logLevel;
 
-+ (void)error:(nonnull NSString *)str;
-+ (void)errorWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2);
-
-+ (void)debug:(nonnull NSString *)str;
-+ (void)debugWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2);
-
-+ (void)info:(nonnull NSString *)str;
-+ (void)infoWithFormat:(nonnull NSString *)fmt, ... NS_FORMAT_FUNCTION(1,2);
-
 /**
  @brief get the log files name, while using NXMLogger
  @return NSMutableArray<NSString*>>

@@ -8,7 +8,8 @@
 #import "NXMConversationEventsQueue.h"
 #import "NXMStitchContext.h"
 #import "NXMEventsDispatcherNotificationHelper.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
+
 
 @interface NXMConversationEventsQueue()
 
@@ -132,7 +133,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
         return;
     }
     
-    [NXMLogger infoWithFormat:@"### %@, Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",self , event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
+    LOG_DEBUG("Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li", event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId);
     
     if(event.eventId < self.sequenceIdSyncingFrom) {
         [self doneProcessingEvent:event];
@@ -157,7 +158,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
     
     if(shouldHandleEvent &&
        [self.delegate respondsToSelector:@selector(handleEvent:)]) {
-        [NXMLogger infoWithFormat:@"### %@, Handeling #%li of type %li",self, event.eventId, event.type];
+        LOG_DEBUG("Handeling #%li of type %li", event.eventId, event.type);
         [self.delegate handleEvent:event];
     }
     
@@ -182,7 +183,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 #pragma mark - Query Event Sequence
 
 - (void)queryEventsFromServerUpToLastEvent {
-    [NXMLogger info:@"Querying events up to last event"];
+    LOG_DEBUG("Querying events up to last event" );
     __weak NXMConversationEventsQueue *weakSelf = self;
     [self.stitchContext.coreClient getLatestEventInConversation:self.conversationId onSuccess:^(NXMEvent * _Nullable event) {
         [self.operationQueue addOperationWithBlock:^{
@@ -192,14 +193,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            [NXMLogger infoWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error);
             [self.delegate conversationExpired];
             
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-            [NXMLogger errorWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %@" , error);
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events
@@ -229,14 +230,14 @@ const unsigned int MAX_PAGE_EVENTS=60;
         // PATCH!! FIX on conversation deleted. this code stops the events queue FOREVER.
         // when we will add retry mechanism this code will be moved.
         if (error.code == NXMErrorCodeConversationNotFound) {
-            [NXMLogger infoWithFormat:@"ConversationEventsQueue NXMErrorCodeConversationNotFound %@", error];
+            LOG_DEBUG("ConversationEventsQueue NXMErrorCodeConversationNotFound %@" , error);
             [self conversationExpired];
 
             return;
         }
         
         [weakSelf.operationQueue addOperationWithBlock:^{
-            [NXMLogger errorWithFormat:@"ConversationEventsQueue failed querying events from server with error: %@", error];
+             LOG_ERROR("ConversationEventsQueue failed querying events from server with error: %@" , error);
             [self endProcessingRequest];
             return;
             //TODO: handle specific errors in case that we want handle next events
@@ -252,7 +253,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
                 (NSComparisonResult)NSOrderedDescending;
     }];
     
-    [NXMLogger debugWithFormat:@"NXMConversationEventsQueue flush events %lu", (unsigned long)sortedEvents.count];
+    LOG_DEBUG("NXMConversationEventsQueue flush events %lu", (unsigned long)sortedEvents.count);
     
     for (NXMEvent *event in sortedEvents) {
         [self.delegate handleEvent:event];

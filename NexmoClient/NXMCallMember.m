@@ -11,7 +11,7 @@
 #import "NXMCoreEvents.h"
 #import "NXMLegPrivate.h"
 #import "NXMChannelPrivate.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 
 @interface NXMCallMember()
 
@@ -103,7 +103,7 @@
 #pragma private
 
 - (void)memberUpdated {
-    [NXMLogger debugWithFormat:@"NXMCallMember Updated %@", self.memberId];
+    LOG_DEBUG([self.memberId UTF8String]);
 
     BOOL isChanged = NO;
     
@@ -112,7 +112,7 @@
         isChanged = YES;
     }
     
-    [NXMLogger debugWithFormat:@"NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status];
+    LOG_DEBUG("NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status);
 
     if (self.currentStatus != self.status) {
         self.currentStatus = self.status;
@@ -120,7 +120,7 @@
     }
     
     if (!isChanged) {
-        [NXMLogger debugWithFormat:@"NXMCallMember member not updated"];
+        LOG_DEBUG("NXMCallMember member not updated");
         return;
     }
     

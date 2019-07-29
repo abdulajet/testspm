@@ -11,7 +11,7 @@
 #import "NXMStitchContext.h"
 #import "NXMCoreEvents.h"
 #import "NXMMemberPrivate.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 #import "NXMMediaSettingsInternal.h"
 
 @interface NXMConversationMembersController ()
@@ -42,9 +42,9 @@
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationDetails %@ %lu",
-     conversationDetails.conversationId,
-     (unsigned long)conversationDetails.members.count];
+    LOG_DEBUG("%@ %ld",
+                conversationDetails.conversationId,
+                (unsigned long)[conversationDetails.members count]);
 
     for (NXMMember *member in conversationDetails.members) {
         if([member.user.userId isEqualToString:self.currentUser.userId]) {
@@ -68,7 +68,7 @@
 
 #pragma mark - Private Updating Methods
 - (void)conversationExpired {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController conversationExpired"];
+    LOG_DEBUG("");
 
     for (NXMMember *member in self.membersDictionary.allValues) {
         [member updateExpired];
@@ -79,16 +79,16 @@
 
 - (void)handleEvent:(NXMEvent *)event {
     if(self.conversationDetails.sequence_number >= event.eventId) {
-        [NXMLogger debugWithFormat:@"NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
-         self.conversationDetails.sequence_number,
-         event.eventId,
-         event.fromMemberId,
-         event];
+        LOG_ERROR("NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
+                    self.conversationDetails.sequence_number,
+                    event.eventId,
+                    event.fromMemberId,
+                    event);
 
         return;
     }
     
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController handleEvent %@",event];
+    LOG_ERROR("NXMConversationMembersController handleEvent %@",event);
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self handleEvent:event];
@@ -117,11 +117,11 @@
 }
 
 -(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController legEvent %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus];
+    LOG_DEBUG("%@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus);
     
     NXMMember *member = self.membersDictionary[legEvent.current.memberId];
     if (!member) {
-        [NXMLogger errorWithFormat:@"NXMConversationMembersController legEvent member not found %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus];
+        LOG_ERROR("NXMConversationMembersController legEvent member not found %@ %@ %ld", legEvent.current.memberId, legEvent.current.legId, (long)legEvent.current.legStatus);
         return;
     }
     
@@ -131,10 +131,10 @@
 }
 
 -(void)handleMediaEvent:(NXMEvent *)event {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController mediaEvent %@", event.fromMemberId];
+    LOG_DEBUG([event.fromMemberId UTF8String]);
     NXMMember *member = self.membersDictionary[event.fromMemberId];
     if (!member) {
-        [NXMLogger errorWithFormat:@"NXMConversationMembersController mediaEvent member not found %@", event.fromMemberId];
+        LOG_ERROR("member not found %@", event.fromMemberId);
         return;
     }
     
@@ -150,7 +150,7 @@
 }
 
 - (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController memberEvent %@ %ld", memberEvent.memberId, (long)memberEvent.state];
+    LOG_DEBUG("%@ %ld", memberEvent.memberId, (long)memberEvent.state);
     
     NXMMember *member = self.membersDictionary[memberEvent.memberId];
     if(member) {
@@ -160,7 +160,7 @@
         return;
     }
     
-    [NXMLogger debugWithFormat:@"NXMConversationMembersController member added %@ %ld", memberEvent.memberId, (long)memberEvent.state];
+    LOG_DEBUG("member added %@ %ld", memberEvent.memberId, (long)memberEvent.state);
     
     member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
     [self addMember:member];

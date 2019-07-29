@@ -11,7 +11,7 @@
 #import "NXMRouter.h"
 #import "NXMErrorsPrivate.h"
 #import "NXMErrorParser.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 #import "NXMClientDefine.h"
 
 #import "NXMPageRequest.h"
@@ -61,7 +61,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    
+    LOG_DEBUG("");
     NSString *deviceToken = [self hexadecimalString:request.deviceToken];
     NSMutableDictionary *dict = [NSMutableDictionary new];
     dict[@"device_token"] = deviceToken;
@@ -110,6 +110,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)createConversation:(nonnull NXMCreateConversationRequest*)createConversationRequest
                  onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                    onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG([createConversationRequest.displayName UTF8String]);
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
@@ -141,6 +142,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 }
 
 - (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
+    
+    LOG_DEBUG("name %@", name);
     //TODO:for now we get the first 100 conversations
     //we need to have support in the server to get all the conversations
     NSString* vars = @"";
@@ -247,7 +250,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
                       onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
-    [NXMLogger infoWithFormat:@"%@",url];
+    LOG_DEBUG([[url description] UTF8String]);
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -282,6 +285,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG([conversationId UTF8String]);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@", self.baseUrl, conversationId]];
     
     NSString* requestType = @"GET";
@@ -298,7 +302,8 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
             return;
         }
         
-        [NXMLogger infoWithFormat:@"get conversation details %@",data];
+        LOG_DEBUG("get conversation details %@",data);
+        
         
         NXMConversationDetails *details = [[NXMConversationDetails alloc] initWithConversationId:conversationId];
         details.name = data[@"name"];
@@ -325,12 +330,13 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
 - (void)getUser:(nonnull NSString*)userId
 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
+    LOG_DEBUG([userId UTF8String]);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@", self.baseUrl, userId]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
         if (data != nil){
-            [NXMLogger infoWithFormat:@"getUser result %@",data];
+            LOG_DEBUG("getUser result %@",data);
             
             NXMUser *user = [[NXMUser alloc] initWithData:data];
             
@@ -376,7 +382,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
                     onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                       onError:(NXMErrorCallback _Nullable)onError {
-
+    LOG_DEBUG([addUserRequest.username UTF8String]);
     NSDictionary *dict = @{
                            @"user_name": addUserRequest.username,
                            @"action": @"join",
@@ -401,6 +407,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
                        onSuccess:(NXMSuccessCallbackWithId)onSuccess
                          onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG([joinMembetRequest.memberID UTF8String]);
     NSDictionary *dict = @{
                            @"member_id": joinMembetRequest.memberID,
                            @"action": @"join",
@@ -423,6 +430,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                              onError:(NXMErrorCallback _Nullable)onError{
+    LOG_DEBUG([removeMemberRequest.memberID UTF8String]);
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
     [self requestToServer:nil url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
@@ -467,6 +475,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
                                onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                                  onError:(NXMErrorCallback _Nullable)onError{
+    LOG_DEBUG("user %@ phone %@ %@", invitePstnRequest.userName, invitePstnRequest.phoneNumber);
     NSDictionary *dict = @{
                       @"channel": @{
                               @"type": @"app",
@@ -498,6 +507,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)enableMedia:(NSString *)conversationId memberId:(NSString *)memberId sdp:(NSString *)sdp mediaType:(NSString *)mediaType // TODO: enum
           onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
             onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG("convId %@ : memberId %@", conversationId, memberId);
     NSDictionary *dict = @{ @"from": memberId,
                             @"body": @{
                                     @"offer": @{
@@ -525,7 +535,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             memberId:(NSString *)memberId
            onSuccess:(NXMSuccessCallback _Nullable)onSuccess
              onError:(NXMErrorCallback _Nullable)onError {
-    
+    LOG_DEBUG("convId %@ : memberId %@ : rtcId %@", conversationId, memberId, rtcId);
+
     NSDictionary *dict = @{ @"from": memberId, @"originating_session": self.sessionId};
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/rtc/%@", self.baseUrl, conversationId, rtcId]];
@@ -549,7 +560,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                       withRtcId:(nullable NSString *)rtcId
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    
+    LOG_DEBUG("convId %@ : memberId %@ : rtcId %@", conversationId, fromMemberId, rtcId);
+
     NSDictionary *dict = @{ @"type": @"audio:mute:on",
                             @"from": fromMemberId,
                             @"to": toMemberId,
@@ -576,7 +588,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                         withRtcId:(nullable NSString *)rtcId
                         onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                           onError:(NXMErrorCallback _Nullable)onError {
-    
+    LOG_DEBUG("convId %@ : memberId %@ : rtcId %@", conversationId, fromMemberId, rtcId);
+
     NSDictionary *dict = @{ @"type": @"audio:mute:off",
                             @"from": fromMemberId,
                             @"to": toMemberId,
@@ -602,6 +615,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)sendCustomEvent:(nonnull NXMSendCustomEventRequest *)sendCustomEventRequest
               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                 onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG("convId %@", sendCustomEventRequest.conversationId);
+
     NSDictionary *dict = @{
                            @"from": sendCustomEventRequest.memberId,
                            @"type": [NSString stringWithFormat:@"custom:%@", sendCustomEventRequest.customType],
@@ -630,6 +645,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG("convId %@", sendTextEventRequest.conversationID);
+
     NSDictionary *dict = @{
                            @"from": sendTextEventRequest.memberID,
                            @"type": @"text",
@@ -740,12 +757,13 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)getLatestEvent:(NXMGetEventsRequest *) getEventsRequest onSuccess:(NXMSuccessCallbackWithEvent)onSuccess onError:(NXMErrorCallback)onError{
+    LOG_DEBUG("convId %@", getEventsRequest.conversationId);
     [self getEvents:getEventsRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         if (events && [events count] > 0){
             onSuccess:[events firstObject];
         }
         else{
-            [NXMLogger debugWithFormat:@"getLatestEvent converationId:%@ no events",getEventsRequest.conversationId ];
+            LOG_DEBUG("getLatestEvent converationId:%@ no events",getEventsRequest.conversationId);
         }
     } onError:^(NSError * _Nullable error) {
         onError(error);
@@ -753,7 +771,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(NXMSuccessCallbackWithEvents)onSuccess onError:(NXMErrorCallback)onError{
-    
+    LOG_DEBUG("convId %@", getEventsRequest.conversationId);
+
     NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, @"https://api.nexmo.com/beta2/", getEventsRequest.conversationId]];
     NSMutableArray<NSURLQueryItem *> *queryParams = [NSMutableArray new];
     if(getEventsRequest.startId) {
@@ -929,12 +948,15 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 - (void)executeRequest:(NSURLRequest *)request  responseBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary *      _Nullable data))responseBlock {
+    LOG_DEBUG("request ", request.description);
+
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
     [[session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        LOG_DEBUG("response %@ %@ %@", response.description, data.description, error.description);
         if (error) {
             // TODO: network error
             responseBlock(error, nil);
-            [NXMLogger infoWithFormat:@"Got response %@ with error %@.\n", response, error];
+            LOG_DEBUG("Got response %@ with error %@.\n", response, error);
 
             return;
         }
@@ -950,6 +972,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             // TODO: map code from error msg
             NSDictionary* dataDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
             NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:dataDict];
+            LOG_ERROR("response error %@", resError.description);
             responseBlock(resError, nil);
             return;
         }
@@ -959,6 +982,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
             if (!jsonDict || jsonError) {
                 // TODO: map code from error msg
                 NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:[NXMErrorParser parseErrorWithData:data] userInfo:nil];
+                LOG_ERROR("response error %@", resError.description);
                 responseBlock(resError, nil);
                 return;
             }

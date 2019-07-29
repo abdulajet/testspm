@@ -8,23 +8,24 @@
 
 #import "NTALogger.h"
 #import <NexmoClient/NexmoClient.h>
+#import "NXMLoggerInternal.h"
 
 @implementation NTALogger
 
 + (void)error:(nonnull NSString *)message {
-    [NXMLogger errorWithFormat:@"TestApp %@", message];
+    LOG_ERROR([message UTF8String]);
 }
 
 + (void)warning:(nonnull NSString *)message {
-    [NXMLogger errorWithFormat:@"TestApp %@", message];
+    LOG_ERROR([message UTF8String]);
 }
 
 + (void)info:(nonnull NSString *)message {
-    [NXMLogger infoWithFormat:@"TestApp %@", message];
+    LOG_INFO([message UTF8String]);
 }
 
 + (void)debug:(nonnull NSString *)message {
-    [NXMLogger debugWithFormat:@"TestApp %@", message];
+    LOG_DEBUG([message UTF8String]);
 }
 
 

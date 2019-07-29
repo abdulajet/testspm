@@ -14,7 +14,7 @@
 #import "NXMConversation.h"
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdatesDelegate>
@@ -33,8 +33,7 @@
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
-    [NXMLogger debug:@"start"];
-    [NXMLogger debugWithFormat:@"conversationId %@", conversation.conversationId];
+    LOG_DEBUG([conversation.conversationId UTF8String]);
     
     if (self = [super init]) {
         self.membersSyncToken = [NSObject new];
@@ -209,14 +208,14 @@
 
 - (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
     NXMCallMember *callMember = [self findCallMember:member.memberId];
-    [NXMLogger debugWithFormat:@"memberUpdated %@", member.memberId];
+    LOG_DEBUG([member.memberId UTF8String]);
 
     if (!member.memberId) {
         return;
     }
     
     if (!callMember) {
-        [NXMLogger debugWithFormat:@"memberUpdated member created"];
+        LOG_DEBUG("memberUpdated member created");
         callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
         [self.delegate statusChanged:callMember];
         return;

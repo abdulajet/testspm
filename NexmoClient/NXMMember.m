@@ -12,7 +12,8 @@
 #import "NXMLegPrivate.h"
 #import "NXMInitiatorPrivate.h"
 #import "NXMMediaSettingsInternal.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
+
 
 @interface NXMMember()
 @property (nonatomic, readwrite) NXMUser *user;
@@ -106,13 +107,13 @@
 }
 
 - (void)updateExpired {
-    [NXMLogger debugWithFormat:@"NXMMember updateExpired %@", self.memberId];
+    LOG_DEBUG([self.memberId UTF8String]);
     self.state = NXMMemberStateLeft;
     
     NXMLeg *leg = self.channel.leg;
     if (!leg ||
         leg.legStatus == NXMLegStatusCompleted) {
-        [NXMLogger debugWithFormat:@"NXMMember %@ updateExpired no relevant leg %@", self.memberId, leg.legId];
+        LOG_ERROR("NXMMember %@ updateExpired no relevant leg %@", self.memberId, leg.legId);
 
         return;
     }

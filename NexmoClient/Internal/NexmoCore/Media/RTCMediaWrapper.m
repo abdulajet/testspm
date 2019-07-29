@@ -7,7 +7,7 @@
 //
 
 #import "RTCMediaWrapper.h"
-#import "NXMLogger.h"
+#import "NXMLoggerInternal.h"
 
 @interface RTCMediaWrapper()
 @property MRTCMedia *mrtcMedia;
@@ -58,7 +58,7 @@
 - (NXMErrorCode)suspendMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
-        [NXMLogger errorWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        LOG_ERROR("NXMMediaType [%li] is not supported",(long)type);
         return NXMErrorCodeMediaNotSupported;
     }
     
@@ -69,7 +69,7 @@
 - (NXMErrorCode)resumeMediaWithMediaId:(nonnull NSString *)conversationId andMediaType:(NXMMediaType)type {
     MRTCMediaType mrtcMediaType = [self mrtcMediaTypeWithNXMMediaType:type];
     if(mrtcMediaType == MRTCMediaTypeNone) {
-        [NXMLogger errorWithFormat:@"NXMMediaType [%li] is not supported", (long)type];
+        LOG_ERROR("NXMMediaType [%li] is not supported", (long)type);
         return NXMErrorCodeMediaNotSupported;
     }
     
@@ -203,7 +203,7 @@
     
     NXMMediaType nxmMediaType = [self nxmMediaTypeWithMRTCMediaType:(MRTCMediaType)mediaType];
     if(nxmMediaType == NXMMediaTypeNone) {
-        [NXMLogger errorWithFormat:@"MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType];
+        LOG_ERROR("MRTCMediaType [%li] is not supported", (long)(MRTCMediaType)mediaType);
         completionHandler(false, uuid);
         return;
     }
@@ -215,7 +215,7 @@
                                                                         onSuccess:^(void) {
                                                                             completionHandler(true, uuid);
                                                                         } onError:^(NSError * _Nullable error) {
-                                                                            [NXMLogger errorWithFormat:@"Error sending mute with error:  %@",error];
+                                                                            LOG_ERROR("Error sending mute with error:  %@",error.description);
                                                                             completionHandler(false,uuid);
                                                                         }];
 }
