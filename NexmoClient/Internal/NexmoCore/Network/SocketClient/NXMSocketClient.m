@@ -333,17 +333,17 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     __weak NXMSocketClient *weakSelf = self;
 
     [self.socket on:kNXMSocketEventLoginSuccess callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-         LOG_DEBUG("socketLoginSuccess"  );
+         LOG_DEBUG("$$--------Socket Login Success-------------$$");
         [weakSelf didServerLoginWithData:data];
     }];
     
     [self.socket on:kNXMSocketEventSessionLogoutSuccess callback:^(NSString *event, NSArray *array, VPSocketAckEmitter *emitter) {
-         LOG_DEBUG("socketLogoutSuccess"  );
+        LOG_DEBUG("$$--------Socket Session Logout--------$$");
         [weakSelf didServerLogout];
     }];
     
     [self.socket on:kNXMSocketEventSessionTerminated callback:^(NSString *event, NSArray *array, VPSocketAckEmitter *emitter) {
-         LOG_DEBUG("socketSessionTerminated"  );
+         LOG_DEBUG("$$--------Socket Session Terminated--------$$");
         [weakSelf didServerLogout];
     }];
     

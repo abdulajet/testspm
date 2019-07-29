@@ -36,6 +36,16 @@ NSString *const NXMCallPrefix = @"CALL_";
 @implementation NXMClient
 
 - (instancetype)initWithToken:(NSString *)authToken {
+    LOG_DEBUG("--------------------- Nexmo Client-----------------------");
+    LOG_DEBUG("::::    :::  ::::::::::  :::    :::  ::::    ::::    ::::::::");
+    LOG_DEBUG(":+:+:   :+:  :+:         :+:    :+:  +:+:+: :+:+:+  :+:    :+:");
+    LOG_DEBUG(":+:+:+  +:+  +:+          +:+  +:+   +:+ +:+:+ +:+  +:+    +:+");
+    LOG_DEBUG("+#+ +:+ +#+  +#++:++#      +#++:+    +#+  +:+  +#+  +#+    +:+");
+    LOG_DEBUG("+#+  +#+#+#  +#+          +#+  +#+   +#+       +#+  +#+    +#+");
+    LOG_DEBUG("#+#   #+#+#  #+#         #+#    #+#  #+#       #+#  #+#    #+#");
+    LOG_DEBUG("###    ####  ##########  ###    ###  ###       ###   ########");
+    LOG_DEBUG("--------------------- Nexmo Client-----------------------");
+    
     LOG_DEBUG([authToken UTF8String]);
     if(self = [super init]) {
         self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:authToken]];
