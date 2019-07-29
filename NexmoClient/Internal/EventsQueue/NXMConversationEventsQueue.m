@@ -132,7 +132,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
         return;
     }
     
-    [NXMLogger infoWithFormat:@"### Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
+    [NXMLogger infoWithFormat:@"### %@, Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li",self , event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId];
     
     if(event.eventId < self.sequenceIdSyncingFrom) {
         [self doneProcessingEvent:event];
@@ -157,7 +157,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
     
     if(shouldHandleEvent &&
        [self.delegate respondsToSelector:@selector(handleEvent:)]) {
-        [NXMLogger infoWithFormat:@"### Handeling #%li of type %li",event.eventId, event.type];
+        [NXMLogger infoWithFormat:@"### %@, Handeling #%li of type %li",self, event.eventId, event.type];
         [self.delegate handleEvent:event];
     }
     

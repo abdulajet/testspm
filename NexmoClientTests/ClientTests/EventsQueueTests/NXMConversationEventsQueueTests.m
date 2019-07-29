@@ -17,6 +17,7 @@
 
 #pragma mark - Test Category
 @interface NXMConversationEventsQueue (Test)
+@property (strong,nonatomic)NSOperationQueue *operationQueue;
 - (void)handleDispatchedEvent:(NXMEvent*)event;
 - (void)handleDispatchedConnectionStatus:(NXMConnectionStatus)connectionStatus;
 @end
@@ -53,13 +54,15 @@
     NSInteger nextEventId = startingSequenceId + 1;
     NSString *convId = @"convId";
     NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
-
+    
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     
     //Act
-    [eventsQueue handleDispatchedEvent:nextEvent];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:nextEvent];
+    }];
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[@(nextEventId)];
@@ -75,13 +78,16 @@
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId;
     NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
-
+    
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
-
+    
     //Act
-    [eventsQueue handleDispatchedEvent:nextEvent];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:nextEvent];
+    }];
+    
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[];
@@ -96,13 +102,16 @@
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId;
     NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-
+    
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     
     //Act
-    [eventsQueue handleDispatchedEvent:nextEvent];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:nextEvent];
+    }];
+    
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[@(nextEventId)];
@@ -117,12 +126,15 @@
     NSInteger startingSequenceId = 4;
     NSInteger nextEventId = startingSequenceId - 1;
     NXMEvent *nextEvent = [[NXMEvent alloc] initWithConversationId:convId sequenceId:nextEventId fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-
+    
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper SingleEventHelperWithExpectationDescription:NSStringFromSelector(_cmd)];
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:nextEvent];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:nextEvent];
+    }];
+    
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[];
@@ -135,9 +147,9 @@
 
 - (void)testDispatchMultiEventsNoGap_NeededEventsHandled {
     /* Start Id: 2,
-    // Dispatch: {3(messageStatus), 4(member), 2(text), 3(messageStatus), 5(image), 1(messageStatus)}
-    // Handle: {3, 4, 3, 5}
-    */
+     // Dispatch: {3(messageStatus), 4(member), 2(text), 3(messageStatus), 5(image), 1(messageStatus)}
+     // Handle: {3, 4, 3, 5}
+     */
     
     //Arrange
     NSString *convId = @"convId";
@@ -149,7 +161,7 @@
     NSInteger startingSequenceId = eventId2;
     
     NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId1 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-  
+    
     NXMEvent *event2 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId2 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeText];
     NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
@@ -157,17 +169,29 @@
     
     NSUInteger expectedNumberOfHandledEvents = 4;
     NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
-                                andExpectationDescription:NSStringFromSelector(_cmd)];
+                                                                                                         andExpectationDescription:NSStringFromSelector(_cmd)];
     
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:event3];
-    [eventsQueue handleDispatchedEvent:event4];
-    [eventsQueue handleDispatchedEvent:event2];
-    [eventsQueue handleDispatchedEvent:event3];
-    [eventsQueue handleDispatchedEvent:event5];
-    [eventsQueue handleDispatchedEvent:event1];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event3];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event4];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event2];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event3];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event5];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event1];
+    }];
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId3), @(eventId5)];
@@ -191,7 +215,7 @@
     NSInteger eventId4 = 4;
     NSInteger eventId5 = 5;
     NSInteger eventId6 = 6;
-
+    
     NSInteger startingSequenceId = eventId2;
     
     
@@ -201,7 +225,7 @@
     NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     
     NSArray<NXMEvent *> *queriedEvents = @[event3, event4, event5];
-
+    
     OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId3) endId:@(eventId5) onSuccess:([OCMArg invokeBlockWithArgs:queriedEvents, nil]) onError:[OCMArg any]]);
     
     NSUInteger expectedNumberOfHandledEvents = 4;
@@ -211,8 +235,9 @@
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:event6];
-    
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event6];
+    }];
     
     //Assert
     NSArray<NSNumber *> *expectedHandledIds = @[@(eventId3), @(eventId4), @(eventId5), @(eventId6)];
@@ -253,7 +278,10 @@
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:event7];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event7];
+    }];
+    
     
     
     //Assert
@@ -285,7 +313,7 @@
     NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     NXMEvent *event5 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId5 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
     NXMEvent *event8 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-
+    
     
     NSArray<NXMEvent *> *queriedEvents = @[event3, event5];
     //LatestEvent
@@ -338,7 +366,7 @@
     NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
     NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
-
+    
     
     //TODO: change to eventCopy when we have NSCopy on events
     NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
@@ -347,22 +375,22 @@
     NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
     NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
-
+    
     NSMutableArray<NXMEvent *> *queriedGapEvents = [@[event4Gap, event6Gap] mutableCopy];
     NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network] mutableCopy];
     
-    XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"queryEventsExpectation"];
+    XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"testDispatchAndQeuryGapAndNetworkConcurrently_NetworkQueryReturnsFirst_queryEventsExpectation"];
     
     
     //LatestEvent
     OCMStub([self.stitchCoreMock getLatestEventInConversation:convId onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
-                NXMSuccessCallbackWithEvent successBlock;
-                [invocation getArgument:&successBlock atIndex:3];
-                successBlock(event8Network);
-                [queryEventsExpectation fulfill];
-                NSLog(@"I getLatestEventInConversation success");
-            });
-
+        NXMSuccessCallbackWithEvent successBlock;
+        [invocation getArgument:&successBlock atIndex:3];
+        successBlock(event8Network);
+        [queryEventsExpectation fulfill];
+        NSLog(@"I getLatestEventInConversation success");
+    });
+    
     OCMStub([self.stitchCoreMock getEventsInConversation:convId startId:@(eventId4) endId:@(eventId6) onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
         __block NXMSuccessCallbackWithEvents successBlock;
         [invocation getArgument:&successBlock atIndex:5];
@@ -380,12 +408,24 @@
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:event3];
-    [eventsQueue handleDispatchedEvent:event7];
-    [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnecting];
-    [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
-    [eventsQueue handleDispatchedEvent:event4];
-    [eventsQueue handleDispatchedEvent:event1];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event3];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event7];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnecting];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event4];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event1];
+    }];
     
     
     
@@ -419,21 +459,17 @@
     NXMEvent *event1 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId1 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
     NXMEvent *event3 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId3 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeText];
     NXMEvent *event4 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
-    NXMEvent *event6 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
     NXMEvent *event7 = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeImage];
     
     //TODO: change to eventCopy when we have NSCopy on events
     NXMEvent *event4Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
     NXMEvent *event6Gap = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-    NXMEvent *event4Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId4 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
-    NXMEvent *event6Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId6 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMessageStatus];
-    NXMEvent *event7Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId7 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
+    
     NXMEvent *event8Network = [[NXMEvent alloc] initWithConversationId:convId sequenceId:eventId8 fromMemberId:@"memberId" creationDate:nil type:NXMEventTypeMember];
     
     NSMutableArray<NXMEvent *> *queriedGapEvents = [@[event4Gap, event6Gap] mutableCopy];
-    NSMutableArray<NXMEvent *> *queriedNetworkEvents = [@[event4Network, event6Network, event7Network, event8Network] mutableCopy];
     
-    XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"queryEventsExpectation"];
+    XCTestExpectation *queryEventsExpectation = [[XCTestExpectation alloc] initWithDescription:@"testDispatchAndQeuryGapAndNetworkConcurrently_NetworkQueryReturnsSecond_queryEventsExpectation"];
     
     //LatestEvent
     OCMStub([self.stitchCoreMock getLatestEventInConversation:convId onSuccess:[OCMArg any] onError:[OCMArg any]]).andDo(^(NSInvocation *invocation) {
@@ -453,19 +489,32 @@
     });
     
     NSUInteger expectedNumberOfHandledEvents = 5;
-    NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
-                                                                                                         andExpectationDescription:NSStringFromSelector(_cmd)];
+
+    NXMEventsQueueDelegateHelper *delegateHelper = [NXMEventsQueueDelegateHelper
+                                                    multiEventHelperWithExpectedNumberOfHandledEvents:expectedNumberOfHandledEvents
+                                                    andExpectationDescription:NSStringFromSelector(_cmd)];
     
     NXMConversationEventsQueue *eventsQueue = [self eventsQueueWithConverstaionId:convId startingSequenceId:startingSequenceId delegate:delegateHelper];
     
     //Act
-    [eventsQueue handleDispatchedEvent:event3];
-    [eventsQueue handleDispatchedEvent:event7];
-    [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnecting];
-    [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
-    [eventsQueue handleDispatchedEvent:event4];
-    [eventsQueue handleDispatchedEvent:event1];
-    
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event3];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event7];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnecting];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedConnectionStatus:NXMConnectionStatusConnected];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event4];
+    }];
+    [eventsQueue.operationQueue addOperationWithBlock:^{
+        [eventsQueue handleDispatchedEvent:event1];
+    }];
     
     
     //Assert
@@ -483,3 +532,4 @@
     return [[NXMConversationEventsQueue alloc] initWithConversationDetails:convDetails stitchContext:self.stitchContextMock delegate:delegate];
 }
 @end
+

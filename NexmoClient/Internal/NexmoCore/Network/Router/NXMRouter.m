@@ -1071,7 +1071,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeMessageStatus;
     event.status = state;
-    event.eventId = [dict[@"body"][@"event_id"] integerValue];
+    event.refEventId = [dict[@"body"][@"event_id"] integerValue];
     
     return event;
 }
