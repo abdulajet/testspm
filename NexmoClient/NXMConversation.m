@@ -142,7 +142,7 @@
 
 #pragma mark members
 - (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self joinMemberWithUsername:self.currentUser.userId completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [self joinMemberWithUsername:self.currentUser.name completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         [NXMBlocksHelper runWithError:error value:member completion:completion];
     }];
 }
