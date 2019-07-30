@@ -26,4 +26,15 @@
     return [self initWithId:userId name:data[@"name"] displayName:data[@"display_name"]];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> displayName=%@ name=%@ userId=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.displayName,
+            self.name,
+            self.userId];
+}
+
+
+
 @end

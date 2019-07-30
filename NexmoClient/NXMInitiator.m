@@ -37,4 +37,16 @@
     return [self initWithtime:time memberId:memberId userId:nil isSystem:memberId ? NO : YES];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> isSystem=%i memberId=%@ userId=%@ time=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.isSystem,
+            self.memberId,
+            self.userId,
+            self.time];
+}
+
+
+
 @end

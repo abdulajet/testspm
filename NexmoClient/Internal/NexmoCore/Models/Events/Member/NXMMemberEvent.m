@@ -47,5 +47,18 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> %@ memberId=%@ state=%ld user=%@ media=%@ channel=%@ knockingId=%@",
+            NSStringFromClass([self class]),
+            self,
+            super.description,
+            self.memberId,
+            (long)self.state,
+            self.user,
+            self.media,
+            self.channel,
+            self.knockingId];
+}
+
 
 @end

@@ -33,4 +33,15 @@
     return [self.history lastObject];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> %@ history=%@ current=%@",
+            NSStringFromClass([self class]),
+            self,
+            super.description,
+            self.history,
+            self.current];
+}
+
+
+
 @end

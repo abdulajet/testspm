@@ -103,7 +103,7 @@
 #pragma private
 
 - (void)memberUpdated {
-    LOG_DEBUG([self.memberId UTF8String]);
+    LOG_DEBUG([self.description UTF8String]);
 
     BOOL isChanged = NO;
     
@@ -125,6 +125,18 @@
     }
     
     [self.callProxy onChange:self];
+}
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> memberId=%@ user=%@ channel=%@ isMuted=%i statusDescription=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.memberId,
+            self.user,
+            self.channel,
+            self.isMuted,
+            self.statusDescription];
 }
 
 

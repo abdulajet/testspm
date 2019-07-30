@@ -42,9 +42,7 @@
 }
 
 - (void)initMembersWithConversationDetails:(NXMConversationDetails * _Nonnull)conversationDetails {
-    LOG_DEBUG("%s %ld",
-                [conversationDetails.conversationId UTF8String],
-                (unsigned long)[conversationDetails.members count]);
+    LOG_DEBUG([conversationDetails.description UTF8String]);
 
     for (NXMMember *member in conversationDetails.members) {
         if([member.user.userId isEqualToString:self.currentUser.userId]) {
@@ -78,6 +76,8 @@
 }
 
 - (void)handleEvent:(NXMEvent *)event {
+    LOG_DEBUG([event.description UTF8String]);
+    
     if(self.conversationDetails.sequence_number >= event.eventId) {
         LOG_ERROR("NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
                     self.conversationDetails.sequence_number,
@@ -117,29 +117,35 @@
 }
 
 -(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {
-    LOG_DEBUG("%s %s %ld", [legEvent.current.memberId UTF8String], [legEvent.current.legId UTF8String], (long)legEvent.current.legStatus);
+    LOG_DEBUG([legEvent.description UTF8String]);
     
     NXMMember *member = self.membersDictionary[legEvent.current.memberId];
     if (!member) {
-        LOG_ERROR("NXMConversationMembersController legEvent member not found %s %s %ld", [legEvent.current.memberId UTF8String], [legEvent.current.legId UTF8String], (long)legEvent.current.legStatus);
+        LOG_ERROR("NXMConversationMembersController legEvent member not found %s", [legEvent.description UTF8String]);
         return;
     }
     
+    LOG_DEBUG("member before leg updates %s", [member.description UTF8String]);
     [member updateChannelWithLeg:(NXMLeg *)legEvent.current];
-    
+    LOG_DEBUG("member after leg updates %s", [member.description UTF8String]);
+
     [self member:member changedWithType:NXMMemberUpdateTypeLeg];
 }
 
 -(void)handleMediaEvent:(NXMEvent *)event {
-    LOG_DEBUG([event.fromMemberId UTF8String]);
+    LOG_DEBUG([event.description UTF8String]);
     NXMMember *member = self.membersDictionary[event.fromMemberId];
     if (!member) {
-        LOG_ERROR("member not found %s", [event.fromMemberId UTF8String]);
+        LOG_ERROR("member not found %s", [event.description UTF8String]);
         return;
     }
     
     if (event.type == NXMEventTypeMedia) {
+        LOG_DEBUG("member before media updates %s", [member.description UTF8String]);
+
         [member updateMedia:((NXMMediaEvent *)event).mediaSettings];
+        LOG_DEBUG("member after media updates %s", [member.description UTF8String]);
+
     } else if (event.type == NXMEventTypeMediaAction) {
         NXMMediaSettings *settings = [[NXMMediaSettings alloc] initWithEnabled:member.media.isEnabled
                                                                        suspend:((NXMMediaSuspendEvent *)event).isSuspended];
@@ -150,19 +156,20 @@
 }
 
 - (void)handleMemberEvent:(NXMMemberEvent *)memberEvent {
-    LOG_DEBUG("%s %ld", [memberEvent.memberId UTF8String], (long)memberEvent.state);
+    LOG_DEBUG([memberEvent.description UTF8String]);
     
     NXMMember *member = self.membersDictionary[memberEvent.memberId];
     if(member) {
+        LOG_DEBUG("member before updates %s", [member.description UTF8String]);
         [member updateState:memberEvent.state time:memberEvent.creationDate initiator:memberEvent.fromMemberId];
-        
+        LOG_DEBUG("member after updates %s", [member.description UTF8String]);
+
         [self member:member changedWithType:NXMMemberUpdateTypeState];
         return;
     }
     
-    LOG_DEBUG("member added %s %ld", [memberEvent.memberId UTF8String], (long)memberEvent.state);
-    
     member = [[NXMMember alloc] initWithMemberEvent:memberEvent];
+    LOG_DEBUG("member created %s", [member.description UTF8String]);
     [self addMember:member];
     [self member:member changedWithType:NXMMemberUpdateTypeState];
 }

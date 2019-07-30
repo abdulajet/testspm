@@ -32,4 +32,18 @@
     return self;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ fromMemberId=%@ creationDate=%@ deletionDate=%@ type=%ld eventId=%ld",
+            NSStringFromClass([self class]),
+            self,
+            self.conversationId,
+            self.fromMemberId,
+            self.creationDate,
+            self.deletionDate,
+            (long)self.type,
+            (long)self.eventId];
+}
+
+
+
 @end

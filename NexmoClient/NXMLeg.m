@@ -85,4 +85,16 @@
            NXMLegTypeUnknown;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> legId=%@ legType=%ld legStatus=%ld convId=%@ memberId=%@ date=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.legId,
+            (long)self.legType,
+            (long)self.legStatus,
+            self.conversationId,
+            self.memberId,
+            self.date];
+}
+
 @end

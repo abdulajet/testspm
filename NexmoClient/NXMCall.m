@@ -62,6 +62,7 @@
 }
 
 - (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+    LOG_DEBUG("");
     if (self.myCallMember.status != NXMCallMemberStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -81,6 +82,8 @@
 }
 
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler {
+    LOG_DEBUG("");
+    
     if (self.myCallMember.status != NXMCallMemberStatusCalling) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -148,6 +151,8 @@
 }
 
 - (void)sendDTMF:(NSString *)dtmf {
+    LOG_DEBUG([dtmf UTF8String]);
+
     if ([self isCallDone]) {
         return;
     }
@@ -158,6 +163,7 @@
 #pragma mark - callProxy
 
 - (void)hangup:(NXMCallMember *)callMember {
+    LOG_DEBUG([callMember.description UTF8String]);
     if (callMember != self.myCallMember) {
         // TODO: error
         return;
@@ -171,6 +177,7 @@
 }
 
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted {
+    LOG_DEBUG("%s %i", [callMember.description UTF8String], isMuted);
     if ([self isCallDone]) { return; }
     
     if (![callMember.memberId isEqualToString:self.myCallMember.memberId]) {
@@ -208,7 +215,7 @@
 
 - (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
     NXMCallMember *callMember = [self findCallMember:member.memberId];
-    LOG_DEBUG([member.memberId UTF8String]);
+    LOG_DEBUG("member=%s callMember=%s", [member.description UTF8String], [callMember.description UTF8String]);
 
     if (!member.memberId) {
         return;
@@ -284,6 +291,15 @@
 - (BOOL)isEventTypeSupported:(NXMEvent *)event {
     return !(event.type == NXMEventTypeMember ||
              event.type == NXMEventTypeMedia);
+}
+
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> otherCallMembers=%@ myCallMember=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.otherCallMembers,
+            self.myCallMember];
 }
 
 @end

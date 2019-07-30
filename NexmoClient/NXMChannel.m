@@ -7,6 +7,7 @@
 
 #import "NXMChannelPrivate.h"
 #import "NXMLegPrivate.h"
+#import "NXMLoggerInternal.h"
 
 @interface NXMDirection()
 @end
@@ -44,6 +45,7 @@
 }
 
 - (void)addLeg:(NXMLeg *)leg{
+    LOG_DEBUG([leg.description UTF8String]);
     [self.legs addObject:leg];
 }
 
@@ -99,5 +101,14 @@
         default:
             return @"";
     }
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> from: %@ to: %@ legs: %@",
+            NSStringFromClass([self class]),
+            self,
+            self.from,
+            self.to,
+            self.legs.description];
 }
 @end

@@ -87,7 +87,9 @@
 
 
 - (void)updateChannelWithLeg:(NXMLeg *)leg {
+    LOG_DEBUG([leg.description UTF8String]);
     [self.channel addLeg:leg];
+
 }
 
 - (void)updateMedia:(NXMMediaSettings *)media {
@@ -155,5 +157,17 @@
     return [memberStateValues[[state uppercaseString]] integerValue];
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ memberId=%@ user=%@ state=%ld media=%@ channel=%@ initiators=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.conversationId,
+            self.memberId,
+            self.user,
+            (long)self.state,
+            self.media,
+            self.channel,
+            self.initiators];
+}
 
 @end

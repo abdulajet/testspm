@@ -376,4 +376,20 @@
         [self.updatesDelegate memberUpdated:member forUpdateType:type];
     }
 }
+
+#pragma description
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"<%@: %p> convId=%@ name=%@ displayName=%@ lastEventId=%ld creationDate=%@ myMember=%@ otherMembers=%@",
+            NSStringFromClass([self class]),
+            self,
+            self.conversationId,
+            self.name,
+            self.displayName,
+            self.lastEventId,
+            self.creationDate,
+            self.myMember,
+            self.allMembers];
+}
+
 @end

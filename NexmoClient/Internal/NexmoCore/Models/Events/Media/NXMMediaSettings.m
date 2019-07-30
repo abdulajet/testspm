@@ -18,9 +18,14 @@
     return self;
 }
 
-
 - (void)updateWithEnabled:(BOOL)enabled suspend:(BOOL)suspend {
     self.isEnabled = enabled;
     self.isSuspended = suspend;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"isEnabled=%i isSuspended=%i",
+            self.isEnabled,
+            self.isSuspended];
 }
 @end

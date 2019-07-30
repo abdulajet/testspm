@@ -166,14 +166,14 @@
     
     [self.InCallStatusLabel setText:self.call.myCallMember.statusDescription];
     if (self.call.otherCallMembers.count > 0) {
-        NSLog(@"status %@", self.call.otherCallMembers[0].statusDescription);
+        [NTALogger debug:[NSString stringWithFormat:@"status %@", self.call.otherCallMembers[0].statusDescription]];
 
         [self.InCallUserNameLabel setText:[self memberName:self.call.otherCallMembers[0]]];
         [self.InCallUserStatusLabel setText:self.call.otherCallMembers[0].statusDescription];
     }
     
     if (self.call.otherCallMembers.count > 1) {
-        NSLog(@"status %@", self.call.otherCallMembers[1].statusDescription);
+        [NTALogger debug:[NSString stringWithFormat:@"status %@", self.call.otherCallMembers[1].statusDescription]];
         
         [self.InCallUserStatusName setText:[self memberName:self.call.otherCallMembers[1]]];
         [self.InCallUserSecondName setText:self.call.otherCallMembers[1].statusDescription];
@@ -289,7 +289,7 @@
 
 #pragma mark - NXMCallDelegate
 - (void)statusChanged:(NXMCallMember *)member {
-   NSLog(@"CallViewController statusChanged %@ %@ %ld", member.memberId, member.user.name, member.status);
+    [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", member.memberId, member.user.name, member.status]];
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self statusChanged:member];

@@ -287,7 +287,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    LOG_DEBUG("%@ %d %d", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
+    LOG_DEBUG("%s %d %d", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
