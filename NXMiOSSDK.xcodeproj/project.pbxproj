@@ -890,26 +890,17 @@
 				F9024D4F21C9463800D58AD0 /* NXMBlocksHelper.h */,
 				F9024D5021C9463800D58AD0 /* NXMBlocksHelper.m */,
 				F950D12A226C797600021395 /* NXMChannelPrivate.h */,
+				92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */,
 				92B7A3F62164E35D00390258 /* NXMConversationPrivate.h */,
 				F94888C521E78D800075237E /* NXMErrorsPrivate.h */,
 				F955168122BA6E6C002A7E87 /* NXMInitiatorPrivate.h */,
 				0BF180F722A00F7900053DCB /* NXMLegPrivate.h */,
+				F9C61C0D22EF12D200AEC484 /* NXMLoggerInternal.h */,
 				F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */,
 				F9B1A3142248C74800D72286 /* NXMMemberPrivate.h */,
 				92B7A3B4214FF7E000390258 /* StitchContext */,
-				F9C61C0D22EF12D200AEC484 /* NXMLoggerInternal.h */,
 			);
 			path = Internal;
-			sourceTree = "<group>";
-		};
-		92B7A4052164E4F800390258 /* Events */ = {
-			isa = PBXGroup;
-			children = (
-				92B7A4072164E52200390258 /* NXMConversationEventsController.h */,
-				92B7A4062164E52100390258 /* NXMConversationEventsController.m */,
-				92BDBE5B216FA3F100C33D38 /* NXMConversationEventsControllerPrivate.h */,
-			);
-			path = Events;
 			sourceTree = "<group>";
 		};
 		92B7A40E216A638300390258 /* Members */ = {
@@ -1141,9 +1132,7 @@
 			isa = PBXGroup;
 			children = (
 				F9024DEE21CA9AF000D58AD0 /* ConversationDetails */,
-				F9024DF521CA9AF000D58AD0 /* Events */,
 				F9024DEA21CA9AF000D58AD0 /* NXMConversationClientConfig.m */,
-				F9024DEB21CA9AF000D58AD0 /* User */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1185,7 +1174,8 @@
 				F939B31A22E4990C00AE881C /* NXMCustomEvent.m */,
 				F939B31D22E49BB800AE881C /* NXMCustomEventInternal.h */,
 			);
-			path = Events;
+			name = Events;
+			path = Internal/NexmoCore/Models/Events;
 			sourceTree = "<group>";
 		};
 		F9024DF721CA9AF000D58AD0 /* Member */ = {
@@ -1327,7 +1317,7 @@
 		F923DD8A21985BF600D29065 /* NexmoClient */ = {
 			isa = PBXGroup;
 			children = (
-				92B7A4052164E4F800390258 /* Events */,
+				F9024DF521CA9AF000D58AD0 /* Events */,
 				F923DD8C21985BF600D29065 /* Info.plist */,
 				92B7A3F32164E31600390258 /* Internal */,
 				F923DD8B21985BF600D29065 /* NexmoClient.h */,
@@ -1344,6 +1334,8 @@
 				92B7A3F82164E35D00390258 /* NXMConversation.h */,
 				92B7A3F72164E35D00390258 /* NXMConversation.m */,
 				92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */,
+				92B7A4072164E52200390258 /* NXMConversationEventsController.h */,
+				92B7A4062164E52100390258 /* NXMConversationEventsController.m */,
 				F9024DB621CA9AF000D58AD0 /* NXMEnums.h */,
 				F9024E2721CA9AF000D58AD0 /* NXMErrors.h */,
 				F9024DB921CA9AF000D58AD0 /* NXMErrors.m */,
@@ -1354,6 +1346,7 @@
 				F9024E2D21CA9AF000D58AD0 /* NXMLogger.h */,
 				F9024DEF21CA9AF000D58AD0 /* NXMMember.h */,
 				F9024DF321CA9AF000D58AD0 /* NXMMember.m */,
+				F9024DEB21CA9AF000D58AD0 /* User */,
 			);
 			path = NexmoClient;
 			sourceTree = "<group>";
