@@ -96,16 +96,20 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     
     NSString *name = [files count] > 0 ? files[0] : @"noLog";
     NSMutableData *mergedData = [NSMutableData data];
-    [files enumerateObjectsUsingBlock:^(NSString*  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSData *logData = [[NSFileManager defaultManager] contentsAtPath:obj];
+    
+    // we start from the last one
+    for (NSInteger index = files.count - 1; index >= 0; index--) {
+        NSString *currPath = [files objectAtIndex:index];
+
+        NSData *logData = [[NSFileManager defaultManager] contentsAtPath:currPath];
         if ([logData length] > 0) {
             [mergedData appendData:logData];
+            
+            [mailController addAttachmentData:logData
+                                     mimeType:@"text/plain"
+                                     fileName:currPath];
         }
-        
-        [mailController addAttachmentData:logData
-                                 mimeType:@"text/plain"
-                                 fileName:[obj stringByAppendingString:@".log"]];
-    }];
+    };
     
     [mailController addAttachmentData:mergedData
                              mimeType:@"text/plain"
