@@ -774,6 +774,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     LOG_DEBUG([getEventsRequest.conversationId UTF8String]);
 
     NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, @"https://api.nexmo.com/beta2/", getEventsRequest.conversationId]];
+    
     NSMutableArray<NSURLQueryItem *> *queryParams = [NSMutableArray new];
     if(getEventsRequest.startId) {
         [queryParams addObject:[[NSURLQueryItem alloc] initWithName:@"start_id" value:[getEventsRequest.startId stringValue]]];
@@ -785,7 +786,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     
     NSURL *url = urlComponents.URL;
     
-    NXMPageRequest * pageRequest = [[NXMPageRequest alloc] initWithPageSize:100 withUrl:url withCursor:nil withOrder:nil];
+    NXMPageRequest * pageRequest = [[NXMPageRequest alloc] initWithPageSize:60 withUrl:url withCursor:nil withOrder:nil];
     [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
@@ -895,6 +896,12 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                 continue;
             }
             
+            
+            if ([type isEqualToString:kNXMSocketEventLegStatus]) {
+                [events addObject:[[NXMLegStatusEvent alloc] initWithConversationId:getEventsRequest.conversationId
+                       andData:eventJson]];
+                continue;
+            }
         }
         
         onSuccess(events);
@@ -907,7 +914,10 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (void)requestWithPageRequest:(NXMPageRequest*)pageRequets completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:pageRequets.url resolvingAgainstBaseURL:NO];
-    NSMutableArray * newQueryItems = [NSMutableArray arrayWithCapacity:[components.queryItems count] + 1 + (pageRequets.cursor ? 1:0) + (pageRequets.order ? 1:0)];
+
+    NSMutableArray *newQueryItems = [[NSMutableArray alloc] init];
+    [newQueryItems addObjectsFromArray:components.queryItems];
+
     [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"page_size" value:[[NSString alloc] initWithFormat:@"%d",pageRequets.pageSize]]];
     if (pageRequets.cursor && [pageRequets.cursor length] > 0){
         [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"cursor" value:pageRequets.cursor]];

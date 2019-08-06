@@ -175,6 +175,7 @@
 }
 
 - (void)addMember:(nonnull NXMMember *)member {
+    LOG_DEBUG([member.description UTF8String]);
     self.membersDictionary[member.memberId] = member;
     if([member.user.userId isEqualToString:self.currentUser.userId]) {
         self.myMember = member;

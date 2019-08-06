@@ -12,6 +12,8 @@ import NexmoClient
 class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, NXMCallDelegate {
     
     @IBOutlet weak var aaa: UIButton!
+    @IBOutlet weak var first: UILabel!
+    @IBOutlet weak var second: UILabel!
     
 //    @IBOutlet weak var loginButton: UIButton!
 //    @IBOutlet weak var logoutButton: UIButton!
@@ -43,9 +45,11 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
     @IBAction func onLoginPressed(_ sender: Any) {
      //   self.loginButton.isEnabled = false
         
-        ViewController.nexmoClient = NXMClient(token: "")!
+        ViewController.nexmoClient = NXMClient(token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTU2NTAwNzYyMywibmJmIjoxNTY1MDA3NjIzLCJleHAiOjE1NjUwMzc2NTMsImp0aSI6MTU2NTAwNzY1MzUxMiwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e30sIi9iZXRhMi8qKiI6e30sIi8qKiI6e319fSwic3ViIjoidGVzdHVzZXI0In0.aQ--bpA5ibts9uubqhlcAyJUEf1BvN4h6jktFTcTfTacuTsBOJJV_bho-d1sVyYIDtMhrXgJ8YkY6DeOJZcJu5cm1wDOmgFaS60hN3UyCvokXBqqD5IMME8fgncpTVidrzv8dVynvOKxLyQDi3Jxzp9PthaMGLE86vqCofZasLDXZ_RRKwdkiysXSfPEASyhJ1kmWCrwVhNuGXSpkJBAl9YQgXAuFxIao1K7Yn_kyiTPRtxGWR8jrQz4S6JpJ6qjIvidzJslQN55fHZe0WijItoHU3aK61e-7Av9rAb1pQ_aSav2Yd0L_Wq70CoFbTq2KB7SlLRTQQVSwk4ga3fWqw")!
         ViewController.nexmoClient.setDelegate(self)
         ViewController.nexmoClient.login()
+        
+        NXMLogger.setLogLevel(NXMLoggerLevel.verbose)
     }
     
     @IBAction func onLogoutPressed(_ sender: Any) {
@@ -57,7 +61,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
    //     self.callButton.isEnabled = false
         
      //   let number = self.numberInput.text!
-        ViewController.nexmoClient.call(["972505597817"], callHandler: .server, delegate: self) {
+        ViewController.nexmoClient.call(["testuser5"], callHandler: .inApp, delegate: self) {
             (error, call) in
             self.currentCall = call // update currentCall with the new call
             
@@ -131,6 +135,13 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
         
       //  self.muteButton.isSelected = self.currentCall!.myCallMember.isMuted
         self.updateCallButtons(self.currentCall?.myCallMember.status != NXMCallMemberStatus.completed)
+        
+        self.first.text = String.init(format: "%@ %@", self.currentCall?.myCallMember.user.name ?? "", self.currentCall?.myCallMember.statusDescription ?? "");
+        
+        if (self.currentCall?.otherCallMembers.count ?? 0 > 0) {
+            self.second.text = String.init(format: "%@ %@", (self.currentCall?.otherCallMembers[0] as! NXMCallMember).user.name , self.currentCall?.myCallMember.statusDescription ?? "");
+        }
+        
     }
     
     // This method is being called when there is a connectivity change

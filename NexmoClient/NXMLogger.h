@@ -11,7 +11,8 @@ typedef NS_ENUM(NSInteger, NXMLoggerLevel) {
     NXMLoggerLevelNone,
     NXMLoggerLevelError,
     NXMLoggerLevelDebug,
-    NXMLoggerLevelInfo
+    NXMLoggerLevelInfo,
+    NXMLoggerLevelVerbose
 };
 
 @interface NXMLogger : NSObject

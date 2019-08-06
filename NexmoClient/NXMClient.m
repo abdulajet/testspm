@@ -218,7 +218,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                                            [conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
                                                if (member){
                                                    NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-                                                   [call dialWithMember:member];
+                                                 //  [call dialWithMember:member];
                                                    
                                                    for (NSString *username in users) {
                                                        [call addCallMemberWithUsername:username completionHandler:nil];
@@ -347,6 +347,8 @@ NSString *const NXMCallPrefix = @"CALL_";
     LOG_DEBUG([notification.name UTF8String]);
     NXMMemberEvent* event = [NXMEventsDispatcherNotificationHelper<NXMMemberEvent *> nxmNotificationModelWithNotification:notification];
     
+    LOG_DEBUG([[event description] UTF8String]);
+    
     if (![event.user.userId isEqualToString:self.user.userId]) { return; }
     /*
      Three types of events
@@ -391,18 +393,18 @@ NSString *const NXMCallPrefix = @"CALL_";
                 if (!conversation){
                     LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
                 }
-                
-                if (!([conversation.displayName hasPrefix:NXMCallPrefix]) || // IP-IP CS
-                      !event.fromMemberId) { // IP-IP VAPI
+
+                if (![conversation.displayName hasPrefix:NXMCallPrefix] && // IP-IP CS
+                        event.fromMemberId) { // IP-IP VAPI
                     LOG_ERROR("member invited event with media enabled without call perfix" );
                     return;
                 }
-                
+
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
                 [self.delegate incomingCall:call];
-                
+
             }];
-            
+
         }
     }
     //Out going server call

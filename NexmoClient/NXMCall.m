@@ -28,6 +28,7 @@
 
 @property NSInteger lastEventId;
 @property NSObject *membersSyncToken;
+@property BOOL pendingToAnswer;
 @end
 
 @implementation NXMCall
@@ -39,16 +40,15 @@
         self.membersSyncToken = [NSObject new];
         self.lastEventId = conversation.lastEventId;
         self.conversation = conversation;
-        if (self.conversation.myMember){
-            self.myCallMember = [[NXMCallMember alloc] initWithMember:self.conversation.myMember andCallProxy:self];
-        }
+        self.pendingToAnswer = NO;
         self.otherCallMembers = [[NSMutableArray<NXMCallMember *>  alloc] init];
+        
         if (self.conversation.allMembers){
-            for (NXMMember *member in self.conversation.allMembers){
-                if (![member.memberId isEqualToString:self.myCallMember.memberId])
-                [self.otherCallMembers addObject: [[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
+            for (NXMMember *member in self.conversation.allMembers) {
+                [self findOrAddCallMember:member];
             }
         }
+        
         [conversation setDelegate:self];
         conversation.updatesDelegate = self;
     }
@@ -76,7 +76,6 @@
             return;
         }
         self.delegate = delegate;
-        [self.conversation enableMedia:self.myCallMember.memberId];
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     }];
 }
@@ -119,8 +118,7 @@
     
     [self.conversation inviteMemberWithUsername:username withMedia:YES completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (member) {
-            NXMCallMember *diallingCallMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
-            [self findOrAddCallMember:diallingCallMember];
+            [NXMBlocksHelper runWithError:nil completion:completionHandler];
             return;
         }
         
@@ -214,20 +212,15 @@
 #pragma mark - NXMConversationDelegate
 
 - (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
-    NXMCallMember *callMember = [self findCallMember:member.memberId];
-    LOG_DEBUG("member=%s callMember=%s", [member.description UTF8String], [callMember.description UTF8String]);
+    LOG_DEBUG([member.description UTF8String]);
+    NXMCallMember *callMember = [self findOrAddCallMember:member];
+    
+    if (type == NXMMemberUpdateTypeState &&
+        member.state == NXMMemberStateJoined &&
+        [callMember isEqual:self.myCallMember]) {
+        [self.conversation enableMedia:callMember.memberId];
+    }
 
-    if (!member.memberId) {
-        return;
-    }
-    
-    if (!callMember) {
-        LOG_DEBUG("memberUpdated member created");
-        callMember = [self findOrAddCallMember:[[NXMCallMember alloc] initWithMember:member andCallProxy:self]];
-        [self.delegate statusChanged:callMember];
-        return;
-    }
-    
     [callMember memberUpdated];
 }
 
@@ -243,49 +236,37 @@
     return self.myCallMember.status == NXMCallMemberStatusCompleted;
 }
 
-- (void)dialWithMember:(NXMMember *)member {
-    @synchronized (self.membersSyncToken) {
-        if (!self.myCallMember) {
-            self.myCallMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
-        }
-    }
-    
-    [self.conversation enableMedia:self.myCallMember.memberId];
-}
-
 - (NXMCallMember *)findCallMember:(NSString *)memberId {
     if ([memberId isEqualToString:self.myCallMember.memberId]) {
         return self.myCallMember;
     }
     
     for (NXMCallMember *callMember in self.otherCallMembers) {
-        if (![callMember.memberId isEqualToString:memberId]) {
-            continue;
+        if ([callMember.memberId isEqualToString:memberId]) {
+            return callMember;
         }
-        
-        return callMember;
     }
     
     return nil;
 }
 
-- (NXMCallMember *)findOrAddCallMember:(NXMCallMember *)callMember {
-    NXMCallMember *foundCallMember = nil;
-    
+- (NXMCallMember *)findOrAddCallMember:(NXMMember *)member {
+    NXMCallMember *callMember = nil;
+
     @synchronized (self.membersSyncToken) {
-        foundCallMember = [self findCallMember:callMember.memberId];
-        if(!foundCallMember) {
+        callMember = [self findCallMember:member.memberId];
+        if(!callMember) {
+
+            callMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
             if([callMember.user.userId isEqualToString:self.conversation.currentUser.userId]) {
                 self.myCallMember = callMember;
             } else {
                 [self.otherCallMembers addObject:callMember];
             }
-            
-            foundCallMember = callMember;
         }
     }
-    
-    return foundCallMember;
+
+    return callMember;
 }
 
 - (BOOL)isEventTypeSupported:(NXMEvent *)event {

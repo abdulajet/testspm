@@ -29,7 +29,7 @@
 }
 
 + (void)setLogger {
-    [NXMLogger setLogLevel:NXMLoggerLevelInfo];
+    [NXMLogger setLogLevel:NXMLoggerLevelVerbose];
 }
 
 #pragma mark - init

@@ -32,6 +32,9 @@
         case NXMLoggerLevelInfo:
             level = NEXMO_LOG_LEVEL_INFO;
             break;
+        case NXMLoggerLevelVerbose:
+            level = NEXMO_LOG_LEVEL_VERBOSE;
+            break;
         default:
             break;
     }

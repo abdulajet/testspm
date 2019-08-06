@@ -104,26 +104,19 @@
 
 - (void)memberUpdated {
     LOG_DEBUG([self.description UTF8String]);
-
-    BOOL isChanged = NO;
     
     if (self.isMuted != self.member.media.isSuspended) {
         self.isMuted = self.member.media.isSuspended;
-        isChanged = YES;
     }
     
     LOG_DEBUG("NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status);
 
+
     if (self.currentStatus != self.status) {
         self.currentStatus = self.status;
-        isChanged = YES;
     }
     
-    if (!isChanged) {
-        LOG_DEBUG("NXMCallMember member not updated");
-        return;
-    }
-    
+    // TODO: notify on change
     [self.callProxy onChange:self];
 }
 

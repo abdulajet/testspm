@@ -11,9 +11,5 @@
 @interface NXMLegStatusEvent (Private)
 
 - (instancetype) initWithConversationId:(NSString*) conversationId
-                                   type:(NXMEventType)type
-                           fromMemberId:(NSString *)fromMemberId
-                             sequenceId:(NSInteger)sequenceId
-                             legHistory:(NSMutableArray<NXMLeg*>*) legs;
-
+                                andData:(NSDictionary *)data;
 @end
