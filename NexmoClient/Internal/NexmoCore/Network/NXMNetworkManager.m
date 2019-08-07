@@ -124,6 +124,13 @@
     [self.router sendTextToConversation:sendTextEventRequest onSuccess:onSuccess onError:onError];
 }
 
+- (void)sendDTMFToConversation:(nonnull NXMSendDTMFRequest*)sendDTMFRequest
+                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
+    [self.router sendDTMFToConversation:sendDTMFRequest onSuccess:onSuccess onError:onError];
+}
+
+
 - (void)sendImage:(nonnull NXMSendImageRequest *)sendImageRequest
         onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
           onError:(NXMErrorCallback _Nullable)onError {

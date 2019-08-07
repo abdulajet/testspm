@@ -257,6 +257,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network sendCustomEvent:request onSuccess:onSuccess onError:onError];
 }
 
+- (void)sendDTMF:(nonnull NSString *)digit
+  conversationId:(nonnull NSString *)conversationId
+    fromMemberId:(nonnull NSString *)fromMemberId
+       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+         onError:(NXMErrorCallback _Nullable)onError {
+    NXMSendDTMFRequest *request = [[NXMSendDTMFRequest alloc] initWithConversationId:conversationId  memberId:fromMemberId digit:digit];
+    [self.network sendDTMFToConversation:request onSuccess:onSuccess onError:onError];
+}
+
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
@@ -343,13 +352,15 @@ fromConversationWithId:(nonnull NSString *)conversationId
     return [self.rtcMedia resumeMediaWithMediaId:conversationId andMediaType:mediaType];
 }
 
-- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
-                      andConversationId:(nonnull NSString*)conversationId
-                            andMemberId:(nonnull NSString*)memberId
-                            andDuration:(int) duration
-                                 andGap:(int) gap{
-    return [self.rtcMedia sendDTMFWithDigits:digits andConversationId:conversationId andMemberId:memberId andDuration:duration andGap:gap];
-}
+//- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+//                      andConversationId:(nonnull NSString*)conversationId
+//                            andMemberId:(nonnull NSString*)memberId
+//                            andDuration:(int) duration
+//                                 andGap:(int) gap{
+//    return [self.network sendDTMFWithDigit:digit andConversartionId:conversationId andMemberId:memberId];
+//
+//    return [self.rtcMedia sendDTMFWithDigits:digits andConversationId:conversationId andMemberId:memberId andDuration:duration andGap:gap];
+//}
 
 - (void)suspendMedia:(NXMMediaType)mediaType
             ofMember:(NSString *)memberId

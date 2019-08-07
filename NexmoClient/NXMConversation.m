@@ -201,6 +201,26 @@
     
 }
 
+- (void)sendDTMF:(NSString *)dtmf  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    NSError *validityError = [self validateMyMemberJoined];
+    if (validityError) {
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+        
+        return;
+    }
+    validityError = [self validateDTMF:dtmf];
+    if (validityError) {
+        [NXMBlocksHelper runWithError:validityError completion:completion];
+        
+        return;
+    }
+    [self.stitchContext.coreClient sendDTMF:dtmf conversationId:self.conversationId fromMemberId:self.myMember.memberId onSuccess:^(NSString * _Nullable value) {
+        [NXMBlocksHelper runWithError:nil completion:completion];
+    } onError:^(NSError * _Nullable error) {
+        [NXMBlocksHelper runWithError:error completion:completion];
+    }];
+}
+
 -(void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     
     NSError *validityError = [self validateMyMemberJoined];
@@ -341,10 +361,6 @@
     
 }
 
-- (void)sendDTMF:(NSString *)dtmf {
-    [self.stitchContext.coreClient sendDTMFWithDigits:dtmf andConversationId:self.conversationId andMemberId:self.myMember.memberId andDuration:50 andGap:100];
-}
-
 #pragma mark events
 
 - (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet *)eventTypes andDelegate:(id<NXMConversationEventsControllerDelegate>_Nullable)delegate{
@@ -367,6 +383,20 @@
     }
     
     return [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeNotAMemberOfTheConversation andUserInfo:nil];
+}
+
+- (NSError *)validateDTMF:dtmf {
+    NSError *error = NULL;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"^[\\da-dA-D#*pP]{1,45}$$"
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    NSUInteger numberOfMatches = [regex numberOfMatchesInString:dtmf
+                                                        options:0
+                                                          range:NSMakeRange(0, [dtmf length])];
+    if (numberOfMatches > 0){
+        return nil;
+    }
+    return [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeDTMFIllegal andUserInfo:nil];
 }
 
 #pragma member controller delegate

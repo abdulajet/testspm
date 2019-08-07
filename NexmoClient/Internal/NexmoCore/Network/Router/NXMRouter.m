@@ -642,6 +642,31 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 #pragma mark - message
 
+- (void)sendDTMFToConversation:(nonnull NXMSendDTMFRequest*) sendDTMFRequest
+                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError {
+    LOG_DEBUG([sendDTMFRequest.conversationId UTF8String]);
+    
+    NSDictionary *dict = @{
+                           @"from": sendDTMFRequest.memberId,
+                           @"type": @"audio:dtmf",
+                           @"body": @{
+                                   @"digit": sendDTMFRequest.digit
+                                   }
+                           };
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, self.baseUrl, sendDTMFRequest.conversationId]];
+    
+    [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        NSString *textId = [data[@"id"]stringValue];
+        if (error) {
+            onError(error);
+            return;
+        }
+        
+        onSuccess(textId); // TODO: eventId;
+    }];
+}
+
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {

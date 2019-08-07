@@ -155,7 +155,9 @@
         return;
     }
     
-    [self.conversation sendDTMF:dtmf];
+    [self.conversation sendDTMF:dtmf completion:^(NSError * _Nullable error) {
+        
+    }];
 }
 
 #pragma mark - callProxy

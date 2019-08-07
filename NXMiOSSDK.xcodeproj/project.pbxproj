@@ -14,6 +14,7 @@
 		0BBC27A622781DAC00ABC62A /* CocoaNXMLumberjack.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */; };
 		0BBC27AD2278568500ABC62A /* CocoaNXMLumberjack.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0BBC27AF2278568A00ABC62A /* ClientInfrastructures.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0BCC867422FABE2A003228E3 /* NXMSendDTMFRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BCC867322FABE2A003228E3 /* NXMSendDTMFRequest.m */; };
 		0BF180F422A00EE500053DCB /* NXMLeg.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF180F322A00EE500053DCB /* NXMLeg.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0BF180F622A00EFB00053DCB /* NXMLeg.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF180F522A00EFB00053DCB /* NXMLeg.m */; };
 		0BF180F822A00F7900053DCB /* NXMLegPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF180F722A00F7900053DCB /* NXMLegPrivate.h */; };
@@ -346,6 +347,8 @@
 		0BA6D9242267324F0076334A /* NXMLegStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLegStatusEvent.m; sourceTree = "<group>"; };
 		0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ClientInfrastructures.framework; path = Frameworks/ClientInfrastructures/ClientInfrastructures.framework; sourceTree = "<group>"; };
 		0BBC27A522781DAC00ABC62A /* CocoaNXMLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaNXMLumberjack.framework; path = Frameworks/CocoaNXMLumebrjack/CocoaNXMLumberjack.framework; sourceTree = "<group>"; };
+		0BCC867222FABE12003228E3 /* NXMSendDTMFRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSendDTMFRequest.h; sourceTree = "<group>"; };
+		0BCC867322FABE2A003228E3 /* NXMSendDTMFRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSendDTMFRequest.m; sourceTree = "<group>"; };
 		0BF180F322A00EE500053DCB /* NXMLeg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLeg.h; sourceTree = "<group>"; };
 		0BF180F522A00EFB00053DCB /* NXMLeg.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLeg.m; sourceTree = "<group>"; };
 		0BF180F722A00F7900053DCB /* NXMLegPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLegPrivate.h; sourceTree = "<group>"; };
@@ -1115,6 +1118,8 @@
 				0BF892EC22CB874500773026 /* NXMPageRequest.m */,
 				F939B31522E47DD300AE881C /* NXMSendCustomEventRequest.h */,
 				F939B31622E47DD300AE881C /* NXMSendCustomEventRequest.m */,
+				0BCC867222FABE12003228E3 /* NXMSendDTMFRequest.h */,
+				0BCC867322FABE2A003228E3 /* NXMSendDTMFRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1894,6 +1899,7 @@
 				F9024EC621CA9AF000D58AD0 /* NXMMediaInfo.m in Sources */,
 				F9024EA121CA9AF000D58AD0 /* NXMTextTypingEvent.m in Sources */,
 				F9024EA521CA9AF000D58AD0 /* NXMMediaEvent.m in Sources */,
+				0BCC867422FABE2A003228E3 /* NXMSendDTMFRequest.m in Sources */,
 				F9024E7C21CA9AF000D58AD0 /* NXMInviteUserRequest.m in Sources */,
 				F9024E4821CA9AF000D58AD0 /* VPSocketAck.m in Sources */,
 				F9024E4D21CA9AF000D58AD0 /* VPSocketPacket.m in Sources */,

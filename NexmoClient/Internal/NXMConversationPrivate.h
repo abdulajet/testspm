@@ -23,7 +23,7 @@
 - (void)hold:(BOOL)isHold;
 - (void)mute:(BOOL)isMuted;
 - (void)earmuff:(BOOL)isEarmuff;
-- (void)sendDTMF:(NSString *)dtmf;
+- (void)sendDTMF:(NSString *)dtmf completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 - (NXMUser *)currentUser; //TODO: remove after some refactoring - exposed for now to fix bug CSI-1009
 @end

@@ -129,6 +129,12 @@ fromConversationWithId:(nonnull NSString *)conversationId
 
 #pragma mark - Messages Methods
 
+- (void)sendDTMF:(nonnull NSString *)digit
+  conversationId:(nonnull NSString *)conversationId
+    fromMemberId:(nonnull NSString *)fromMemberId
+       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+         onError:(NXMErrorCallback _Nullable)onError;
+
 - (void)sendText:(nonnull NSString *)text
   conversationId:(nonnull NSString *)conversationId
     fromMemberId:(nonnull NSString *)fromMemberId
@@ -186,12 +192,12 @@ fromConversationWithId:(nonnull NSString *)conversationId
 //                         onSuccess:(SuccessCallback _Nullable)onSuccess
 //                           onError:(ErrorCallback _Nullable)onError;
 
-
-- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
-                       andConversationId:(nonnull NSString*)conversationId
-                             andMemberId:(nonnull NSString*)memberId
-                             andDuration:(int) duration
-                                  andGap:(int) gap;
+//
+//- (NXMErrorCode)sendDTMFWithDigits:(nonnull NSString*)digits
+//                       andConversationId:(nonnull NSString*)conversationId
+//                             andMemberId:(nonnull NSString*)memberId
+//                             andDuration:(int) duration
+//                                  andGap:(int) gap;
 
 //TODO: integrate properly with miniRTC - today this only works with CS
 - (void)suspendMedia:(NXMMediaType)mediaType

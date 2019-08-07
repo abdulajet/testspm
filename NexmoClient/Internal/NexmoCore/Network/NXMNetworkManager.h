@@ -28,6 +28,7 @@
 #import "NXMEnablePushRequest.h"
 #import "NXMSuspendResumeMediaRequest.h"
 #import "NXMSendCustomEventRequest.h"
+#import "NXMSendDTMFRequest.h"
 
 
 @interface NXMNetworkManager : NSObject <NXMSocketClientDelegate>
@@ -82,6 +83,10 @@
 - (void)sendCustomEvent:(nonnull NXMSendCustomEventRequest *)sendCustomEventRequest
               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                 onError:(NXMErrorCallback _Nullable)onError;
+
+- (void)sendDTMFToConversation:(nonnull NXMSendDTMFRequest*)sendDTMFRequest
+                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)sendTextToConversation:(nonnull NXMSendTextEventRequest*)sendTextEventRequest
                      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
