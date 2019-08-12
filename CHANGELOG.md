@@ -9,8 +9,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NexmoClient when disconnected returns error callback for all function.
 - NXMConversationEventsController returns the last event.
 - CallMember status calculated by the current leg status.
+- Supports member invited.
 
 ### Added
+Added invite member
+```
+NXMConversation myConversation;
+[myConversation inviteMemberWithUsername:@"someUsername"
+                      completion:myCompletionBlock];
+```
+
 Added the member state initiator.
 ```
 NXMMember *member = someMember;
@@ -50,6 +58,12 @@ Example
 ```
 
 ### Changed
+NXMClientDelegate renamed addedToConversation to incomingConversation.
+```
+- (void)incomingConversation:(nonnull NXMConversation *)conversation {
+	// handle incoming conversation
+}
+```
 
 NXMConversation otherMembers property renamed to allMembers.
 ```

@@ -10,5 +10,5 @@
 #import "NXMEnums.h"
 
 @interface NXMUtils : NSObject
-+ (nullable NSDate *)dateFromISOString:(NSString *)isoString;
++ (NSDate *)dateFromISOString:(NSString *)isoString;
 @end

@@ -74,7 +74,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 // TODO: move to user defaults
 -(NXMUser *)getUser {
-    return self.stitchContext.coreClient.user;
+    return [self.stitchContext currentUser];
 }
 
 // TODO: move to user defaults
@@ -331,7 +331,13 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo completion:(void(^_Nullable)(NSError * _Nullable error))completion {
     LOG_DEBUG([[userInfo description] UTF8String]);
-
+    
+    if (![self isConnected]){
+        LOG_DEBUG("SDK disconnected");
+        completion([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil]);
+        return;
+    }
+    
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
@@ -357,9 +363,12 @@ NSString *const NXMCallPrefix = @"CALL_";
      3. out going server call (Joined + knocking Id exist)
     */
     //Incoming conversation
-    if (event.state == NXMMemberStateJoined && ![event.fromMemberId isEqualToString:event.memberId] && !event.knockingId) {
-        if ([self.delegate respondsToSelector:@selector(addedToConversation:)]) {            
-            LOG_DEBUG("got member joined event" );
+    if (![event.fromMemberId isEqualToString:event.memberId] &&
+        event.state != NXMMemberStateLeft  &&
+        !event.knockingId &&
+        !event.media.isEnabled) {
+        if ([self.delegate respondsToSelector:@selector(incomingConversation:)]) {
+            LOG_DEBUG("got newConversation event" );
             
             [self getConversationWithId:event.conversationId completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
@@ -371,13 +380,13 @@ NSString *const NXMCallPrefix = @"CALL_";
                     LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
                 }
                 
-                [self.delegate addedToConversation:conversation];
+                [self.delegate incomingConversation:conversation];
             }];
-            
         }
         
         return;
     }
+    
     //Incoming IP call
     if (event.state == NXMMemberStateInvited && event.media.isEnabled) {
         if ([self.delegate respondsToSelector:@selector(incomingCall:)]) { // optimization

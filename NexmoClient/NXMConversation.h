@@ -48,6 +48,21 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 @property (nonatomic, weak, nullable) id <NXMConversationUpdatesDelegate> updatesDelegate;
 
 /*!
+ * @brief invite the user as a member of the conversation
+ * @param completion A block with param NSError if one occured
+ * @code [conversation inviteMemberWithUsername:username completion:^(NSError error){
+ if (!error) {
+ NSLog(@"invited username to the conversation failed");
+ return;
+ }
+ 
+ NSLog(@"invited username the conversation");
+ }];
+ */
+- (void)inviteMemberWithUsername:(nonnull NSString *)username
+                      completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+
+/*!
  * @brief Join the current user as a member of the conversation
  * @param completion A block with two params an NSError if one occured and NXMMember
  * @code [conversation joinWithCompletion:^(NSError error, NXMMember member){

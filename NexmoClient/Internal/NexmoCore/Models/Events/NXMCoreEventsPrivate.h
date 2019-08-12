@@ -12,10 +12,10 @@
 
 @interface NXMEvent (NXNEventPrivate)
 
-- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId
+- (instancetype)initWithConversationId:(NSString *)conversationId
                                      sequenceId:(NSInteger)sequenceId
-                                   fromMemberId:(nullable NSString *)fromMemberId
-                                   creationDate:(nullable NSDate *)creationDate
+                                   fromMemberId:(NSString *)fromMemberId
+                                   creationDate:(NSDate *)creationDate
                                            type:(NXMEventType)type;
 
 @end

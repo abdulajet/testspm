@@ -162,8 +162,7 @@
     [self didgetIncomingCall:call];
 }
 
-- (void)addedToConversation:(nonnull NXMConversation *)conversation {
-    
+- (void)incomingConversation:(nonnull NXMConversation *)conversation {
 }
 
 

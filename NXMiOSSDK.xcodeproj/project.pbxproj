@@ -270,6 +270,7 @@
 		F9B1A30C223904C600D72286 /* NXMDTMFEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B1A30A223904C600D72286 /* NXMDTMFEvent.m */; };
 		F9B1A3162248C74800D72286 /* NXMMemberPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B1A3142248C74800D72286 /* NXMMemberPrivate.h */; };
 		F9C61C0E22EF12D700AEC484 /* NXMLoggerInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F9C61C0D22EF12D200AEC484 /* NXMLoggerInternal.h */; };
+		F9C6AE7D23003DF100B7F8E5 /* NXMClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F9C6AE7C22FB2A9D00B7F8E5 /* NXMClientTests.m */; };
 		F9E5E2F721D3AA8A00FC7202 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F621D3AA8900FC7202 /* LICENSE */; };
 		F9E5E2F921D3AABE00FC7202 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F9E5E2F821D3AABE00FC7202 /* README.md */; };
 		F9E5E33521D4F3F100FC7202 /* DialerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9E5E33421D4F3F100FC7202 /* DialerViewController.m */; };
@@ -641,6 +642,7 @@
 		F9B9CB8A219342F500C6C36D /* NXMCallMemberPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallMemberPrivate.h; sourceTree = "<group>"; };
 		F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallPrivate.h; sourceTree = "<group>"; };
 		F9C61C0D22EF12D200AEC484 /* NXMLoggerInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLoggerInternal.h; sourceTree = "<group>"; };
+		F9C6AE7C22FB2A9D00B7F8E5 /* NXMClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMClientTests.m; sourceTree = "<group>"; };
 		F9E5E2F621D3AA8900FC7202 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		F9E5E2F821D3AABE00FC7202 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F9E5E33321D4F3F100FC7202 /* DialerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DialerViewController.h; sourceTree = "<group>"; };
@@ -733,6 +735,7 @@
 			children = (
 				92B5B57921FE2CD2004AD14C /* EventsQueueTests */,
 				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
+				F9C6AE7C22FB2A9D00B7F8E5 /* NXMClientTests.m */,
 			);
 			path = ClientTests;
 			sourceTree = "<group>";
@@ -1931,6 +1934,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9227302021F602270077D77D /* NXMConversationEventsQueueTests.m in Sources */,
+				F9C6AE7D23003DF100B7F8E5 /* NXMClientTests.m in Sources */,
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,

@@ -311,6 +311,20 @@
 }
 #pragma mark internal
 
+- (void)inviteMemberWithUsername:(nonnull NSString *)username
+                      completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+    [self.stitchContext.coreClient inviteToConversation:self.conversationId
+                                           withUsername:username
+                                              withMedia:NO
+                                              onSuccess:^(NSObject * _Nullable object) {
+                                                  [NXMBlocksHelper runWithError:nil completion:completion];
+                                                  
+                                              } onError:^(NSError * _Nullable error) {
+                                                  [NXMBlocksHelper runWithError:error completion:completion];
+                                                  
+                                              }];
+}
+
 - (void)inviteMemberWithUsername:(nonnull NSString *)username withMedia:(bool)withMedia
                     completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
     [self.stitchContext.coreClient inviteToConversation:self.conversationId withUsername:username withMedia:withMedia
