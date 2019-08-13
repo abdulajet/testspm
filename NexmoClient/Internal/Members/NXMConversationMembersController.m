@@ -79,7 +79,7 @@
     LOG_DEBUG([event.description UTF8String]);
     
     if(self.conversationDetails.sequence_number >= event.eventId) {
-        LOG_ERROR("NXMConversationMembersController sequenceId is lower %ld %ld memberId %@ %@",
+        LOG_ERROR("sequenceId is lower %ld %ld memberId %s %s",
                     self.conversationDetails.sequence_number,
                     event.eventId,
                     [event.fromMemberId UTF8String],
@@ -88,7 +88,7 @@
         return;
     }
     
-    LOG_ERROR("NXMConversationMembersController handleEvent %s",[event.description UTF8String]);
+    LOG_DEBUG("%s",[event.description UTF8String]);
     if(![NSThread isMainThread]){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self handleEvent:event];

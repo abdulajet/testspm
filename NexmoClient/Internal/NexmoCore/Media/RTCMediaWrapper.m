@@ -243,7 +243,7 @@
 }
 
 - (void)onErrorWithType:(NSString *)type andUuid:(NSString *)uuid andErrorDescription:(NSString *)description andData:(NSDictionary *)data {
-    
+    LOG_DEBUG("%s", description);
 }
 
 @end

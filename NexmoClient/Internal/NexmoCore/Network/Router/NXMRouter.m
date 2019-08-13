@@ -536,15 +536,13 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
            onSuccess:(NXMSuccessCallback _Nullable)onSuccess
              onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG("convId %s : memberId %s : rtcId %s", [conversationId UTF8String] , [memberId UTF8String], [rtcId UTF8String]);
-
-    NSDictionary *dict = @{ @"from": memberId, @"originating_session": self.sessionId};
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/rtc/%@", self.baseUrl, conversationId, rtcId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/rtc/%@?from=%@&originating_session=%@", self.baseUrl, conversationId, rtcId, memberId, self.sessionId]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
     [self addHeader:request];
     
-    [self requestToServer:dict url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    [self requestToServer:nil url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
             onError(error);
             return;
@@ -765,13 +763,11 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)deleteEventFromConversation:(nonnull NXMDeleteEventRequest*)deleteEventRequest
                          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                            onError:(NXMErrorCallback _Nullable)onError {
-    NSDictionary *dict = @{
-                           @"from": deleteEventRequest.memberID,
-                           };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/events/%ld", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID]];
+
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/events/%ld?from=%@", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID, deleteEventRequest.memberID]];
     
     NSString* requestType = @"DELETE";
-    [self requestToServer:dict url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
             onError(error);
             return;
