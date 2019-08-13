@@ -39,7 +39,11 @@
         self.memberId = memberId;
         self.user =  [[NXMUser alloc] initWithData:data[@"user"]];
         self.state = state;
-        self.media = [[NXMMediaSettings alloc] initWithEnabled:(data[@"media"] != nil ? [data[@"media"][@"audio"] boolValue] : NO) suspend:NO];
+        
+        BOOL isEnabled = [[[data[@"media"] objectForKey:@"audio_settings"] objectForKey:@"enabled"] boolValue];
+        BOOL isMuted = [[[data[@"media"] objectForKey:@"audio_settings"] objectForKey:@"muted"] boolValue];
+        self.media = [[NXMMediaSettings alloc] initWithEnabled:isEnabled suspend:isMuted];
+
         self.knockingId = data[@"channel"][@"knocking_id"];
         self.channel = [[NXMChannel alloc] initWithData:data[@"channel"] andConversationId:conversationId andMemberId:memberId];
     }
