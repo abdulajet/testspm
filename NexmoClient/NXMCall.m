@@ -208,7 +208,9 @@
         }];
     }
     
-    [self.delegate statusChanged:callMember];
+    if ([self.delegate respondsToSelector:@selector(statusChanged:)]) {
+        [self.delegate statusChanged:callMember];
+    }
 }
 
 #pragma mark - NXMConversationDelegate
