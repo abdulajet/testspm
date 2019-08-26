@@ -429,13 +429,15 @@ NSString *const NXMCallPrefix = @"CALL_";
             if (!conversation){
                 LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
             }
-            [conversation enableMedia:event.memberId];
+            
             NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
             if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){
                 NXMKnockingObj *obj = self.knockingIdsToCompletion[event.knockingId];
                 call.delegate = obj.delegate;
-                obj.complition(nil, call);
+                [conversation enableMedia:event.memberId];
                 [self.knockingIdsToCompletion removeObjectForKey:event.knockingId];
+                
+                obj.complition(nil, call);
             } else {
                 //TODO: check if this is a valid state for a call
                 //this could happened if we get the member events before cs return the knocking id
