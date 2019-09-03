@@ -63,7 +63,7 @@
 
 - (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
-    if (self.myCallMember.status != NXMCallMemberStatusCalling) {
+    if (self.myCallMember.status != NXMCallMemberStatusRinging) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
         return;
@@ -83,7 +83,7 @@
 - (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
     
-    if (self.myCallMember.status != NXMCallMemberStatusCalling) {
+    if (self.myCallMember.status != NXMCallMemberStatusRinging) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
         return;

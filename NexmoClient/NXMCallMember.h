@@ -10,7 +10,7 @@
 #import "NXMChannel.h"
 
 typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
-    NXMCallMemberStatusCalling,
+    NXMCallMemberStatusRinging,
     NXMCallMemberStatusStarted,
     NXMCallMemberStatusAnswered,
     NXMCallMemberStatusCompleted

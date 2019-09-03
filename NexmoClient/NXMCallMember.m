@@ -54,7 +54,7 @@
 - (NXMCallMemberStatus)status {
     switch (self.channel.leg.legStatus) {
         case NXMLegStatusCalling:
-            return NXMCallMemberStatusCalling;
+            return NXMCallMemberStatusRinging;
         case NXMLegStatusStarted:
             return NXMCallMemberStatusStarted;
         case NXMLegStatusAnswered:
@@ -65,13 +65,13 @@
             break;
     }
     
-    return NXMCallMemberStatusCalling;
+    return NXMCallMemberStatusRinging;
 }
 
 - (NSString *)statusDescription {
     switch (self.status) {
 
-        case NXMCallMemberStatusCalling:
+        case NXMCallMemberStatusRinging:
             return @"Calling";
         case NXMCallMemberStatusStarted:
             return @"Started";
