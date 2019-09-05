@@ -121,7 +121,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 
 - (void)handleDispatchedEvent:(NXMEvent*)event{
     LOG_DEBUG("<%p> %s", self, [event.description UTF8String]);
-    if(![event.conversationId isEqualToString:self.conversationId]){
+    if(![event.conversationUuid isEqualToString:self.conversationId]){
         return;
     }
     [self startProcessingRequest];
@@ -139,15 +139,15 @@ const unsigned int MAX_PAGE_EVENTS=60;
         return;
     }
     
-    LOG_DEBUG("<%p> Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li", self, event.eventId, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId);
+    LOG_DEBUG("<%p> Processing #%li of type %li, syncingFrom: %li, currentHandled: %li, maxQueried: %li", self, event.uuid, event.type, self.sequenceIdSyncingFrom, self.currentHandledSequenceId, self.highestQueriedSequenceId);
     
-    if(event.eventId < self.sequenceIdSyncingFrom) {
+    if(event.uuid < self.sequenceIdSyncingFrom) {
         [self doneProcessingEvent:event];
         return;
     }
     
     if([self isMissingEventsWithNextEvent:event]) {
-        [self queryEventsFromServerUpToEndId:@(event.eventId - 1)];
+        [self queryEventsFromServerUpToEndId:@(event.uuid - 1)];
         return;
     }
     
@@ -155,23 +155,23 @@ const unsigned int MAX_PAGE_EVENTS=60;
 }
 
 - (BOOL)isMissingEventsWithNextEvent:(NXMEvent *)event {
-    LOG_DEBUG("<%p> %i", self, event.eventId);
-    return event.eventId > self.currentHandledSequenceId + 1 && event.eventId > self.highestQueriedSequenceId + 1;
+    LOG_DEBUG("<%p> %i", self, event.uuid);
+    return event.uuid > self.currentHandledSequenceId + 1 && event.uuid > self.highestQueriedSequenceId + 1;
 }
 
 - (void)handleEvent:(NXMEvent*)event {
     LOG_DEBUG([event.description UTF8String]);
-    BOOL shouldHandleEvent = event.eventId > self.currentHandledSequenceId ||
+    BOOL shouldHandleEvent = event.uuid > self.currentHandledSequenceId ||
                              event.type == NXMEventTypeMessageStatus;
     
     if(shouldHandleEvent &&
        [self.delegate respondsToSelector:@selector(handleEvent:)]) {
-        LOG_DEBUG("<%p> Handeling #%li of type %li", self, event.eventId, event.type);
+        LOG_DEBUG("<%p> Handeling #%li of type %li", self, event.uuid, event.type);
         [self.delegate handleEvent:event];
     }
     
-    if(event.eventId > self.currentHandledSequenceId) {
-        self.currentHandledSequenceId = event.eventId;
+    if(event.uuid > self.currentHandledSequenceId) {
+        self.currentHandledSequenceId = event.uuid;
     }
     
     [self doneProcessingEvent:event];
@@ -261,7 +261,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 - (void)conversationExpired {
     LOG_DEBUG("<%p>", self);
     NSArray *sortedEvents = [self.eventsQueue sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        return ((NXMEvent *)obj1).eventId < ((NXMEvent *)obj2).eventId ?
+        return ((NXMEvent *)obj1).uuid < ((NXMEvent *)obj2).uuid ?
                 (NSComparisonResult)NSOrderedAscending :
                 (NSComparisonResult)NSOrderedDescending;
     }];
@@ -305,7 +305,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
 
 - (NSArray<NXMEvent*> *)sortWithEvents:(NSArray<NXMEvent*>*)events {
     LOG_DEBUG([events.description UTF8String]);
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"eventId" ascending:YES];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"uuid" ascending:YES];
     return [events sortedArrayUsingDescriptors:@[sort]];
 }
 
@@ -321,7 +321,7 @@ const unsigned int MAX_PAGE_EVENTS=60;
     NXMEvent *highestEvent = sortedEvents.lastObject;
     
     if(highestEvent) {
-        highestEventId = [NSNumber numberWithInteger:highestEvent.eventId];
+        highestEventId = [NSNumber numberWithInteger:highestEvent.uuid];
     }
     
     return highestEventId;

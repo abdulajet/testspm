@@ -518,8 +518,8 @@ fromConversationWithId:(nonnull NSString *)conversationId
 - (void)didMuteStateChangeWithMediaInfo:(NXMMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(NXMMediaType)mediaType {
     NXMMediaSuspendEvent *mediaEvent = [NXMMediaSuspendEvent new];
     mediaEvent.fromMemberId = mediaInfo.memberId;
-    mediaEvent.toMemberId = mediaInfo.memberId;
-    mediaEvent.conversationId = mediaInfo.conversationId;
+    mediaEvent.toMemberUuid = mediaInfo.memberId;
+    mediaEvent.conversationUuid = mediaInfo.conversationId;
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.creationDate = [NSDate date];
     mediaEvent.actionType = NXMMediaActionTypeSuspend;

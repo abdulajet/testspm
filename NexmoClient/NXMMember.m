@@ -36,8 +36,8 @@
                            media:(NXMMediaSettings *)media
                            channel:(NXMChannel *)channel {
     if (self = [super init]) {
-        self.memberId = memberId;
-        self.conversationId = conversationId;
+        self.memberUuid = memberId;
+        self.conversationUuid = conversationId;
         self.user = user;
         self.state = state;
         self.channel = channel;
@@ -52,7 +52,7 @@
 - (instancetype)initWithMemberEvent:(NXMMemberEvent *)memberEvent
 {
     return [self initWithMemberId:memberEvent.memberId
-                   conversationId:memberEvent.conversationId
+                   conversationId:memberEvent.conversationUuid
                              user:memberEvent.user
                             state:memberEvent.state
                        initiators:@{@(memberEvent.state): [[NXMInitiator alloc] initWithTime:memberEvent.creationDate
@@ -82,7 +82,7 @@
                                        initWithEnabled:[data[@"media"][@"audio_settings"][@"enabled"] boolValue]
                                                 suspend:[data[@"media"][@"audio_settings"][@"muted"] boolValue]]
                               channel:[[NXMChannel alloc] initWithData:data[@"channel"]
-                                                     andConversationId:self.conversationId andMemberId:self.memberId]];
+                                                     andConversationId:self.conversationUuid andMemberId:self.memberUuid]];
 
 }
 
@@ -111,19 +111,19 @@
 }
 
 - (void)updateExpired {
-    LOG_DEBUG([self.memberId UTF8String]);
+    LOG_DEBUG([self.memberUuid UTF8String]);
     self.state = NXMMemberStateLeft;
     
     NXMLeg *leg = self.channel.leg;
     if (!leg ||
         leg.status == NXMLegStatusCompleted) {
-        LOG_ERROR("NXMMember %s updateExpired no relevant leg %s", [self.memberId UTF8String], [leg.uuid UTF8String]);
+        LOG_ERROR("NXMMember %s updateExpired no relevant leg %s", [self.memberUuid UTF8String], [leg.uuid UTF8String]);
 
         return;
     }
     
-    [self.channel addLeg:[[NXMLeg alloc] initWithConversationId:self.conversationId
-             andMemberId:self.memberId
+    [self.channel addLeg:[[NXMLeg alloc] initWithConversationId:self.conversationUuid
+             andMemberId:self.memberUuid
                 andLegId:leg.uuid
               andlegTypeE:leg.type
             andLegStatusE:NXMLegStatusCompleted
@@ -166,8 +166,8 @@
     return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ memberId=%@ user=%@ state=%ld media=%@ channel=%@ initiators=%@",
             NSStringFromClass([self class]),
             self,
-            self.conversationId,
-            self.memberId,
+            self.conversationUuid,
+            self.memberUuid,
             self.user,
             (long)self.state,
             self.media,

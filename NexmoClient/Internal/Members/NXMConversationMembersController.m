@@ -48,11 +48,11 @@
     LOG_DEBUG([conversationDetails.description UTF8String]);
 
     for (NXMMember *member in conversationDetails.members) {
-        if([member.user.userId isEqualToString:self.currentUser.userId]) {
+        if([member.user.uuid isEqualToString:self.currentUser.uuid]) {
             self.myMember = member;
         }
         
-        self.membersDictionary[member.memberId] = member;
+        self.membersDictionary[member.memberUuid] = member;
     }
 }
 
@@ -81,10 +81,10 @@
 - (void)handleEvent:(NXMEvent *)event {
     LOG_DEBUG([event.description UTF8String]);
     
-    if(self.conversationDetails.sequence_number >= event.eventId) {
+    if(self.conversationDetails.sequence_number >= event.uuid) {
         LOG_ERROR("sequenceId is lower %ld %ld memberId %s %s",
                     self.conversationDetails.sequence_number,
-                    event.eventId,
+                    event.uuid,
                     [event.fromMemberId UTF8String],
                     [event.description UTF8String]);
 
@@ -127,7 +127,7 @@
 -(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {
     LOG_DEBUG([legEvent.description UTF8String]);
     
-    NXMMember *member = self.membersDictionary[legEvent.current.memberId];
+    NXMMember *member = self.membersDictionary[legEvent.current.memberUUid];
     if (!member) {
         LOG_ERROR("NXMConversationMembersController legEvent member not found %s", [legEvent.description UTF8String]);
         return;
@@ -184,8 +184,8 @@
 
 - (void)addMember:(nonnull NXMMember *)member {
     LOG_DEBUG([member.description UTF8String]);
-    self.membersDictionary[member.memberId] = member;
-    if([member.user.userId isEqualToString:self.currentUser.userId]) {
+    self.membersDictionary[member.memberUuid] = member;
+    if([member.user.uuid isEqualToString:self.currentUser.uuid]) {
         self.myMember = member;
     }
 }

@@ -97,7 +97,7 @@ typedef NS_ENUM(NSInteger, NXMMediaStreamType) {
 };
 
 typedef NS_ENUM(NSInteger, NXMLegStatus) {
-    NXMLegStatusCalling,
+    NXMLegStatusRinging,
     NXMLegStatusStarted,
     NXMLegStatusAnswered,
     NXMLegStatusCanceled,

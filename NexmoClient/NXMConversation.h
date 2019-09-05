@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 @interface NXMConversation : NSObject
 
 /// Conversation unique identifier.
-@property (readonly, nonatomic, nonnull) NSString *conversationId;
+@property (readonly, nonatomic, nonnull) NSString *uuid;
 
 /// Conversation unique name.
 @property (readonly, nonatomic, nonnull) NSString *name;
@@ -211,5 +211,5 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 /*!
  * @brief get all conversation events
  */
-- (void)getEvents:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMEvent *> *))completionHandler;
+- (void)getEvents:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMEvent *> * _Nonnull))completionHandler;
 @end

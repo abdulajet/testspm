@@ -20,7 +20,7 @@
 }
 
 + (NXMMember *)memberWithConversationId:(NSString *)conversationId user:(NXMUser *)user state:(NXMMemberState)state{
-    NSString *memberId = [@"member_" stringByAppendingString:user.userId];
+    NSString *memberId = [@"member_" stringByAppendingString:user.uuid];
     return [self memberWithConversationId:conversationId user:user state:state memberId:memberId];
 }
 
@@ -28,7 +28,7 @@
     
     NSDictionary *dict = @{@"media":@{@"audio_settings": @{ @"enabled":@"false", @"muted":@"false"}},
                            @"timestamp":@{},
-                          @"id":user.userId,
+                          @"id":user.uuid,
                           @"name":user.name,
                           @"state":state == NXMMemberStateLeft ? @"left" : state == NXMMemberStateInvited ? @"invited" : @"joined",
                           @"memberId":memberId

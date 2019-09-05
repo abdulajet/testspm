@@ -14,11 +14,9 @@ typedef NS_ENUM(NSInteger, NXMImageSize) {
 };
 
 @interface NXMImageInfo : NSObject
-@property (nonatomic, strong, nonnull) NSString *imageId;
+@property (nonatomic, strong, nonnull) NSString *imageUuid;
 @property (nonatomic, strong, nonnull) NSURL *url;
 @property NSInteger sizeInBytes;
 @property NXMImageSize size;
-
-- (nullable instancetype)initWithId:(nonnull NSString *)imageId size:(NSInteger)size url:(nonnull NSURL *)url type:(NXMImageSize)type;
 
 @end

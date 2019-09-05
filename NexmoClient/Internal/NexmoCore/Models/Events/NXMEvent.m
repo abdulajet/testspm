@@ -28,8 +28,8 @@
                                    creationDate:(nullable NSDate *)creationDate
                                            type:(NXMEventType)type {
     if (self = [super init]) {
-        self.conversationId = conversationId;
-        self.eventId = sequenceId;
+        self.conversationUuid = conversationId;
+        self.uuid = sequenceId;
         self.fromMemberId = fromMemberId;
         self.creationDate = creationDate;
         self.type = type;
@@ -42,12 +42,12 @@
     return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ fromMemberId=%@ creationDate=%@ deletionDate=%@ type=%ld eventId=%ld",
             NSStringFromClass([self class]),
             self,
-            self.conversationId,
+            self.conversationUuid,
             self.fromMemberId,
             self.creationDate,
             self.deletionDate,
             (long)self.type,
-            (long)self.eventId];
+            (long)self.uuid];
 }
 
 

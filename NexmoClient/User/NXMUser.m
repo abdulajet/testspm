@@ -12,7 +12,7 @@
 
 - (instancetype)initWithId:(NSString *)uuid name:(NSString *)name displayName:(NSString * _Nullable)displayName{
     if(self = [super init]) {
-        self.userId = uuid;
+        self.uuid = uuid;
         self.name = name;
         self.displayName = displayName;
     }
@@ -32,7 +32,7 @@
             self,
             self.displayName,
             self.name,
-            self.userId];
+            self.uuid];
 }
 
 

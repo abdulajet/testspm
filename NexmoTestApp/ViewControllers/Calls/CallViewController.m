@@ -290,27 +290,31 @@
 #pragma mark - NXMCallDelegate
 
 
-- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted {
+- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSError *)error {
+    
+}
+
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember isMuted:(BOOL)muted {
     [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", callMember.memberId, callMember.user.name, callMember.status]];
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self didUpdate:callMember muted:muted];
+            [self call:call didUpdate:callMember isMuted:muted];
         });
         
         return;
     }
-    if ([callMember.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
+    if ([callMember.user.uuid isEqualToString:self.call.myCallMember.user.uuid]) {
         [self.InCallMuteButton setSelected:callMember.isMuted];
     }
     
     [self updateInCallStatusLabels];
 }
 
-- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status {
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember withStatus:(NXMCallMemberStatus)status {
     [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", callMember.memberId, callMember.user.name, callMember.status]];
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self didUpdate:callMember status:status];
+            [self call:call didUpdate:callMember withStatus:status];
         });
         
         return;
@@ -323,6 +327,7 @@
     
     [self updateInCallStatusLabels];
 }
+
 
 #pragma mark - Private
 - (void)didDisconnectCall {

@@ -56,7 +56,7 @@ Example
 	conversation.updatesDelegate(self); // register to conversation updatesDelegate
 }
 
-- (void)memberUpdated:(nonnull NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
+- (void)conversation:(nonnull NXMConversation *)conversation didUpdateMember:(nonnull NXMMember *)member withType:(NXMMemberUpdateType)type {
 	if (type == NXMMemberUpdateTypeState) {
 		// the member state changed
 	}
@@ -98,15 +98,13 @@ NXMClientDelegate renamed:
 @protocol NXMClientDelegate <NSObject>
 
 // was - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
-- (void)didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
+- (void)client:(nonnull NXMClient *)client didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
-@optional
 // was - (void)incomingCall:(nonnull NXMCall *)call;
-- (void)didReceiveCall:(nonnull NXMCall *)call;
+- (void)client:(nonnull NXMClient *)client didReceiveCall:(nonnull NXMCall *)call;
 
 // was - (void)incomingConversation:(nonnull NXMConversation *)conversation;
-- (void)didReceiveConversation:(nonnull NXMConversation *)conversation;
-
+- (void)client:(nonnull NXMClient *)client didReceiveConversation:(nonnull NXMConversation *)conversation;
 @end
 ```
 
@@ -121,28 +119,28 @@ NSArray<NXMMember *> * allMembers = myConversation.allMembers // return the all 
 NXMConversationDelegate renamed methods:
 ```
 // was - (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
-- (void)didReceiveCustomEvent:(nonnull NXMCustomEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveCustomEvent:(nonnull NXMCustomEvent *)event;
 
 // was - (void)textEvent:(nonnull NXMMessageEvent *)textEvent;
-- (void)didReceiveTextEvent:(nonnull NXMTextEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveTextEvent:(nonnull NXMTextEvent *)event;
 
 // was - (void)attachmentEvent:(nonnull NXMMessageEvent *)attachmentEvent;
-- (void)didReceiveImageEvent:(nonnull NXMImageEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveImageEvent:(nonnull NXMImageEvent *)event;
 
 // - (void)messageStatusEvent:(nonnull NXMMessageStatusEvent *)messageStatusEvent;
-- (void)didReceiveMessageStatusEvent:(nonnull NXMMessageStatusEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveMessageStatusEvent:(nonnull NXMMessageStatusEvent *)event;
 
 // was - (void)typingEvent:(nonnull NXMTextTypingEvent *)typingEvent;
-- (void)didReceiveTypingEvent:(nonnull NXMTextTypingEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveTypingEvent:(nonnull NXMTextTypingEvent *)event;
 
 // was - (void)memberEvent:(nonnull NXMMemberEvent *)memberEvent;
-- (void)didReceiveMemberEvent:(nonnull NXMMemberEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveMemberEvent:(nonnull NXMMemberEvent *)event;
 
 // was - (void)legStatusEvent:(nonnull NXMLegStatusEvent *)legStatusEvent;
-- (void)didReceiveLegStatusEvent:(nonnull NXMLegStatusEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveLegStatusEvent:(nonnull NXMLegStatusEvent *)event;
 
 // was - (void)mediaEvent:(nonnull NXMEvent *)mediaEvent;
-- (void)didReceiveMediaEvent:(nonnull NXMMediaEvent *)event;
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveMediaEvent:(nonnull NXMMediaEvent *)event;
 ```
 
 Use username instead of userId

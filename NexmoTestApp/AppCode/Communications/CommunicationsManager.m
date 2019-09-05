@@ -130,7 +130,7 @@
 
 #pragma mark - stitchClientDelegate
 
-- (void)didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+- (void)client:(nonnull NXMClient *)client didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
     [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:reason]];
 }
 
@@ -160,13 +160,19 @@
     //TODO: add to observer
 }
 
-- (void)didReceiveCall:(nonnull NXMCall *)call {
+- (void)client:(nonnull NXMClient *)client didReceiveCall:(nonnull NXMCall *)call {
     [NTALogger info:@"Communications Manager - Nexmo Client incoming call"];
     [self didgetIncomingCall:call];
 }
 
-- (void)didReceiveConversation:(nonnull NXMConversation *)conversation {
+- (void)client:(nonnull NXMClient *)client didReceiveConversation:(nonnull NXMConversation *)conversation {
+    
 }
+
+- (void)client:(nonnull NXMClient *)client didReceiveError:(nonnull NSError *)error {
+    
+}
+
 
 
 

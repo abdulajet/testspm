@@ -12,7 +12,7 @@
 
 - (nullable instancetype)initWithId:(nonnull NSString *)imageId size:(NSInteger)size url:(nonnull NSURL *)url type:(NXMImageSize)type {
     if (self = [super init]) {
-        self.imageId = imageId;
+        self.imageUuid = imageId;
         self.sizeInBytes = size;
         self.url = url;
         self.size = type;

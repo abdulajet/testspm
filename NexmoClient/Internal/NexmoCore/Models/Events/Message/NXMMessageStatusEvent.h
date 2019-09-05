@@ -8,7 +8,7 @@
 #import "NXMEvent.h"
 
 @interface NXMMessageStatusEvent : NXMEvent
-@property NSInteger referenceEventId;
+@property NSInteger referenceEventUuid;
 @property (nonatomic) NXMMessageStatusType status;
 @end
 

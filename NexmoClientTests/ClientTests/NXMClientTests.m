@@ -108,7 +108,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMExpect([clientDelegateMock didReceiveCall:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    OCMExpect([clientDelegateMock client:OCMOCK_ANY didReceiveCall:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
         [expectation fulfill];
     });
     
@@ -147,7 +147,7 @@
     [self setContextWithUserId:userId];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMReject([clientDelegateMock didReceiveCall:OCMOCK_ANY]);
+    OCMReject([clientDelegateMock client:OCMOCK_ANY didReceiveCall:OCMOCK_ANY]);
     
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
 
@@ -188,7 +188,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMExpect([clientDelegateMock didReceiveConversation:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    OCMExpect([clientDelegateMock client:OCMOCK_ANY didReceiveConversation:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
         [expectation fulfill];
     });
     
@@ -227,7 +227,7 @@
     [self setContextWithUserId:userId];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMReject([clientDelegateMock didReceiveConversation:OCMOCK_ANY]);
+    OCMReject([clientDelegateMock client:OCMOCK_ANY didReceiveCall:OCMOCK_ANY]);
     
     OCMStub([self.stitchCoreMock connectionStatus]).andReturn(NXMConnectionStatusConnected);
     OCMReject([self.stitchCoreMock getConversationDetails:convId

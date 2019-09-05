@@ -24,10 +24,10 @@
 @property (nonatomic, assign) NXMLegStatus status;
 
 /// Indicates the leg conversation id.
-@property (nonatomic, copy, nullable) NSString *conversationId;
+@property (nonatomic, copy, nullable) NSString *conversationUuid;
 
 /// Indicates the leg member id.
-@property (nonatomic, copy, nullable) NSString *memberId;
+@property (nonatomic, copy, nullable) NSString *memberUUid;
 
 /// Indicates the started time of the current status of the leg.
 @property (nonatomic, copy, nullable) NSDate *date;

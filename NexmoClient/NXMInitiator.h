@@ -12,7 +12,7 @@
  
  @brief The NXMInitiator object represent the member state initiator
  
- @discussion In case that the initiator is not part of the conversation the memberId proprety has null value and the userId proprety has the user id value. In case that the initiator is part of the conversation the memberId has the initiator member id value. In case that the initiator is done by webhook the isSystem has the value true, the memberId and the user id has the value null.
+ @discussion In case that the initiator is not part of the conversation the memberUuid proprety has null value and the userId proprety has the user id value. In case that the initiator is part of the conversation the memberUuid has the initiator member id value. In case that the initiator is done by webhook the isSystem has the value true, the memberUuid and the user id has the value null.
  */
 @interface NXMInitiator : NSObject
 

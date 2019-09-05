@@ -25,6 +25,7 @@
 
 #import "NXMSipEvent.h"
 #import "NXMRtcAnswerEvent.h"
+#import "NXMImageInfoInternal.h"
 
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
@@ -1055,8 +1056,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (NXMMediaEvent* )parseMediaEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     NXMMediaEvent* event = [[NXMMediaEvent alloc] init];
-    event.eventId = [[self getSequenceId:dict] integerValue];
-    event.conversationId = conversationId;
+    event.uuid = [[self getSequenceId:dict] integerValue];
+    event.conversationUuid = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeMedia;
@@ -1080,11 +1081,11 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 - (NXMMediaActionEvent *)parseAudioMuteOnEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     NXMMediaSuspendEvent* event = [NXMMediaSuspendEvent new];
-    event.toMemberId = dict[@"to"];
-    event.conversationId = dict[@"cid"];
+    event.toMemberUuid = dict[@"to"];
+    event.conversationUuid = dict[@"cid"];
     event.fromMemberId = dict[@"from"];
     event.creationDate = [NXMUtils dateFromISOString:dict[@"timestamp"]];
-    event.eventId = [dict[@"id"] integerValue];
+    event.uuid = [dict[@"id"] integerValue];
     event.type = NXMEventTypeMediaAction;
     event.actionType = NXMMediaActionTypeSuspend;
     event.mediaType = NXMMediaTypeAudio;
@@ -1095,11 +1096,11 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (NXMMediaActionEvent *)parseAudioMuteOffEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId{
     NXMMediaSuspendEvent* event = [NXMMediaSuspendEvent new];
-    event.toMemberId = dict[@"to"];
-    event.conversationId = dict[@"cid"];
+    event.toMemberUuid = dict[@"to"];
+    event.conversationUuid = dict[@"cid"];
     event.fromMemberId = dict[@"from"];
     event.creationDate = [NXMUtils dateFromISOString:dict[@"timestamp"]];
-    event.eventId = [dict[@"id"] integerValue];
+    event.uuid = [dict[@"id"] integerValue];
     event.type = NXMEventTypeMediaAction;
     event.actionType = NXMMediaActionTypeSuspend;
     event.mediaType = NXMMediaTypeAudio;
@@ -1110,8 +1111,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 - (NXMSipEvent* )parseSipEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMSipStatus )state{
     NXMSipEvent * event = [[NXMSipEvent alloc] init];
-    event.eventId = [[self getSequenceId:dict] integerValue];
-    event.conversationId = conversationId;
+    event.uuid = [[self getSequenceId:dict] integerValue];
+    event.conversationUuid = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeSip;
@@ -1123,21 +1124,21 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 - (NXMMessageStatusEvent* )parseMessageStatusEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMMessageStatusType )state{
     NXMMessageStatusEvent * event = [[NXMMessageStatusEvent alloc] init];
-    event.eventId = [[self getSequenceId:dict] integerValue];
-    event.conversationId = conversationId;
+    event.uuid = [[self getSequenceId:dict] integerValue];
+    event.conversationUuid = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeMessageStatus;
     event.status = state;
-    event.referenceEventId = [dict[@"body"][@"event_id"] integerValue];
+    event.referenceEventUuid = [dict[@"body"][@"event_id"] integerValue];
     
     return event;
 }
 
 - (NXMTextEvent *)parseTextEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId {
     NXMTextEvent* event = [[NXMTextEvent alloc] init];
-    event.eventId = [[self getSequenceId:dict] integerValue];
-    event.conversationId = conversationId;
+    event.uuid = [[self getSequenceId:dict] integerValue];
+    event.conversationUuid = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeText;
@@ -1154,7 +1155,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                                                  creationDate:[self getCreationDate:json]
                                                                          type:NXMEventTypeImage];
     NSDictionary *body = json[@"body"][@"representations"];
-    imageEvent.imageId = body[@"id"];
+    imageEvent.imageUuid = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]

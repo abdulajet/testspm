@@ -626,6 +626,7 @@
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
 		F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketIOClientStub.m; sourceTree = "<group>"; };
 		F9821D482320306100371FAC /* NXMEventInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventInternal.h; sourceTree = "<group>"; };
+		F9821D4A2321611C00371FAC /* NXMImageInfoInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMImageInfoInternal.h; sourceTree = "<group>"; };
 		F988E49F214AB22B0083D9A7 /* NXMCallMember.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCallMember.h; sourceTree = "<group>"; };
 		F988E4A0214AB22B0083D9A7 /* NXMCallMember.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallMember.m; sourceTree = "<group>"; };
 		F9998AD12083A04400EAC286 /* NXMSocketClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSocketClientTests.m; sourceTree = "<group>"; };
@@ -1212,6 +1213,7 @@
 				F9024E0121CA9AF000D58AD0 /* NXMImageInfo.m */,
 				F9024DFF21CA9AF000D58AD0 /* NXMImageEvent.m */,
 				F9024E0021CA9AF000D58AD0 /* NXMImageEvent.h */,
+				F9821D4A2321611C00371FAC /* NXMImageInfoInternal.h */,
 			);
 			path = Image;
 			sourceTree = "<group>";

@@ -9,6 +9,8 @@
 #import "NXMCallMember.h"
 #import "NXMBlocks.h"
 
+@class NXMCall;
+
 /*!
  * @typedef NXMCallHandler
  * @brief A list of the call handlers.
@@ -31,25 +33,36 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 /*!
  * @brief Notify on call member updates
+ * @param call A NXMCall object - the call that updated
  * @param callMember A NXMCallMember object - the call member that updated
  * @param status A NXMCallMemberStatus status
  */
-- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status;
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember withStatus:(NXMCallMemberStatus)status;
 
 /*!
  * @brief Notify on call member updates
+ * @param call A NXMCall object - the call that updated
  * @param callMember A NXMCallMember object - the call member that updated
  * @param muted A NXMCallMember object - the call member that updated
  */
-- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted;
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember isMuted:(BOOL)muted;
+
+/*!
+ * @brief Notify on call error
+ * @param call A NXMCall object - the call that updated
+ * @param error - call error
+ */
+- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSError *)error;
+
 @optional
 
 /*!
  * @brief Notify on DTMF received
+ * @param call A NXMCall object - the call that updated
  * @param dtmf A NSString which represent the dtmf value.
  * @param callMember A NXMCallMember which the dtmf received from.
  */
-- (void)didReceive:(nonnull NSString *)dtmf fromCallMember:(nonnull NXMCallMember *)callMember;
+- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSString *)dtmf fromCallMember:(nonnull NXMCallMember *)callMember;
 @end
 
 
@@ -76,7 +89,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 /*!
  * @brief answer incoming call.
- * @warning can answer the call only when the call member status is calling.
+ * @warning can answer the call only when the call member status is ringing.
  * @param completionHandler A NXMErrorCallback block.
  * @code [call answer:delegate completionHandler:^(NSError error){
          if (!error) {
@@ -92,7 +105,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 
 /*!
  * @brief reject incoming call.
- * @warning can reject the call only when the call member status is calling.
+ * @warning can reject the call only when the call member status is ringing.
  * @param completionHandler A NXMErrorCallback block.
  * @code [call rejectWithCompletionHandler:delegate completionHandler:^(NSError error){
          if (!error) {

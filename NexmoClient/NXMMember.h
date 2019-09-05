@@ -15,8 +15,8 @@
 
 @interface NXMMember : NSObject
 
-@property (nonatomic, copy, nonnull) NSString *conversationId;
-@property (nonatomic, copy, nonnull) NSString *memberId;
+@property (nonatomic, copy, nonnull) NSString *conversationUuid;
+@property (nonatomic, copy, nonnull) NSString *memberUuid;
 @property (nonatomic, readonly, nonnull) NXMUser *user;
 @property (nonatomic, readonly) NXMMemberState state;
 @property (nonatomic, readonly, nullable) NXMMediaSettings *media;

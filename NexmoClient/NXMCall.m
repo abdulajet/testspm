@@ -34,7 +34,7 @@
 @implementation NXMCall
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation {
-    LOG_DEBUG([conversation.conversationId UTF8String]);
+    LOG_DEBUG([conversation.uuid UTF8String]);
     
     if (self = [super init]) {
         self.membersSyncToken = [NSObject new];
@@ -209,15 +209,18 @@
     }
     
     
-    [self.delegate didUpdate:callMember muted:status];
+    [self.delegate call:self didUpdate:callMember withStatus:status];
 }
+
 - (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted {
-    [self.delegate didUpdate:callMember muted:muted];
+    [self.delegate call:self didUpdate:callMember isMuted:muted];
 }
 
 #pragma mark - NXMConversationDelegate
 
-- (void)memberUpdated:(NXMMember *)member forUpdateType:(NXMMemberUpdateType)type {
+- (void)conversation:(nonnull NXMConversation *)conversation
+     didUpdateMember:(nonnull NXMMember *)member
+            withType:(NXMMemberUpdateType)type {
     LOG_DEBUG([member.description UTF8String]);
     NXMCallMember *callMember = [self findOrAddCallMember:member];
     
@@ -260,11 +263,11 @@
     NXMCallMember *callMember = nil;
 
     @synchronized (self.membersSyncToken) {
-        callMember = [self findCallMember:member.memberId];
+        callMember = [self findCallMember:member.memberUuid];
         if(!callMember) {
 
             callMember = [[NXMCallMember alloc] initWithMember:member andCallProxy:self];
-            if([callMember.user.userId isEqualToString:self.conversation.currentUser.userId]) {
+            if([callMember.user.uuid isEqualToString:self.conversation.currentUser.uuid]) {
                 self.myCallMember = callMember;
             } else {
                 [self.otherCallMembers addObject:callMember];
@@ -287,6 +290,12 @@
             self,
             self.otherCallMembers,
             self.myCallMember];
+}
+
+- (void)conversation:(nonnull NXMConversation *)conversation didReceive:(nonnull NSError *)error {
+    if (error.code == NXMErrorCodeConversationExpired) {
+        [self conversationExpired];
+    }
 }
 
 @end

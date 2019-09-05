@@ -22,8 +22,8 @@
         self.uuid = legId;
         self.type = legType;
         self.status = legStatus;
-        self.conversationId = conversationId;
-        self.memberId = memberId;
+        self.conversationUuid = conversationId;
+        self.memberUUid = memberId;
         self.date = [date length] > 0 ? [NXMUtils dateFromISOString:date] : nil;
     }
     
@@ -72,7 +72,7 @@
 
 
 + (NXMLegStatus)getLegStatusFromString:(nullable NSString*)statusString {
-    return [statusString isEqualToString:@"riniging"] ? NXMLegStatusCalling :
+    return [statusString isEqualToString:@"ringing"] ? NXMLegStatusRinging :
             [statusString isEqualToString:@"answered"] ? NXMLegStatusAnswered :
             [statusString isEqualToString:@"started"] ? NXMLegStatusStarted :
             [statusString isEqualToString:@"canceled"] ? NXMLegStatusCanceled :
@@ -97,8 +97,8 @@
             self.uuid,
             (long)self.type,
             (long)self.status,
-            self.conversationId,
-            self.memberId,
+            self.conversationUuid,
+            self.memberUUid,
             self.date];
 }
 

@@ -10,17 +10,26 @@ import AVFoundation
 import NexmoClient
 
 class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, NXMCallDelegate {
-    func didChange(_ status: NXMConnectionStatus, reason: NXMConnectionStatusReason) {
+    func client(_ client: NXMClient, didChange status: NXMConnectionStatus, reason: NXMConnectionStatusReason) {
         
     }
     
-    func didUpdate(_ callMember: NXMCallMember, status: NXMCallMemberStatus) {
+    func client(_ client: NXMClient, didReceiveError error: Error) {
         
     }
     
-    func didUpdate(_ callMember: NXMCallMember, muted: Bool) {
+    func call(_ call: NXMCall, didUpdate callMember: NXMCallMember, with status: NXMCallMemberStatus) {
         
     }
+    
+    func call(_ call: NXMCall, didUpdate callMember: NXMCallMember, isMuted muted: Bool) {
+        
+    }
+    
+    func call(_ call: NXMCall, didReceive error: Error) {
+        
+    }
+    
     
     
     @IBOutlet weak var aaa: UIButton!

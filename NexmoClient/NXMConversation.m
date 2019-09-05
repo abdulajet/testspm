@@ -51,7 +51,7 @@
 - (NSString *)displayName {
     return self.conversationDetails.displayName;
 }
-- (NSString *)conversationId {
+- (NSString *)uuid {
     return self.conversationDetails.conversationId;
 }
 - (NSInteger)lastEventId {
@@ -83,45 +83,45 @@
         case NXMEventTypeGeneral:
             break;
         case NXMEventTypeCustom:
-            if([self.delegate respondsToSelector:@selector(didReceiveCustomEvent:)]) {
-                [self.delegate didReceiveCustomEvent:(NXMCustomEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveCustomEvent:)]) {
+                [self.delegate conversation:self didReceiveCustomEvent:(NXMCustomEvent *)event];
             }
             break;
         case NXMEventTypeText:
-            if([self.delegate respondsToSelector:@selector(didReceiveTextEvent:)]) {
-                [self.delegate didReceiveTextEvent:(NXMTextEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveTextEvent:)]) {
+                [self.delegate conversation:self didReceiveTextEvent:(NXMTextEvent *)event];
             }
             break;
         case NXMEventTypeImage:
-            if([self.delegate respondsToSelector:@selector(didReceiveImageEvent:)]) {
-                [self.delegate didReceiveImageEvent:(NXMImageEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveImageEvent:)]) {
+                [self.delegate conversation:self didReceiveImageEvent:(NXMImageEvent *)event];
             }
             break;
         case NXMEventTypeMessageStatus:
-            if([self.delegate respondsToSelector:@selector(didReceiveMessageStatusEvent:)]) {
-                [self.delegate didReceiveMessageStatusEvent:(NXMMessageStatusEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveMessageStatusEvent:)]) {
+                [self.delegate conversation:self didReceiveMessageStatusEvent:(NXMMessageStatusEvent *)event];
             }
             break;
         case NXMEventTypeTextTyping:
-            if([self.delegate respondsToSelector:@selector(didReceiveTypingEvent:)]) {
-                [self.delegate didReceiveTypingEvent:(NXMTextTypingEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveTypingEvent:)]) {
+                [self.delegate conversation:self didReceiveTypingEvent:(NXMTextTypingEvent *)event];
             }
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
         case NXMEventTypeDTMF:
-            if([self.delegate respondsToSelector:@selector(didReceiveMediaEvent:)]) {
-                [self.delegate didReceiveMediaEvent:event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveMediaEvent:)]) {
+                [self.delegate conversation:self didReceiveMediaEvent:(NXMMediaEvent *)event];
             }
             break;
         case NXMEventTypeMember:
-            if([self.delegate respondsToSelector:@selector(didReceiveMemberEvent:)]) {
-                [self.delegate didReceiveMemberEvent:(NXMMemberEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveMemberEvent:)]) {
+                [self.delegate conversation:self didReceiveMemberEvent:(NXMMemberEvent *)event];
             }
             break;
         case NXMEventTypeLegStatus:
-            if([self.delegate respondsToSelector:@selector(didReceiveLegStatusEvent:)]) {
-                [self.delegate didReceiveLegStatusEvent:(NXMLegStatusEvent *)event];
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveLegStatusEvent:)]) {
+                [self.delegate conversation:self didReceiveLegStatusEvent:(NXMLegStatusEvent *)event];
             }
         case NXMEventTypeSip:
             break;
@@ -133,7 +133,7 @@
 - (void)conversationExpired {
     [self.conversationMembersController conversationExpired];
     if([self.delegate respondsToSelector:@selector(conversationExpired)]) {
-        [self.delegate conversationExpired];
+        [self.delegate conversation:self didReceive:[[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeConversationExpired userInfo:nil]];
     }
 }
 
@@ -148,7 +148,7 @@
 
 - (void)joinMemberWithUsername:(nonnull NSString *)username
                   completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self.stitchContext.coreClient joinToConversation:self.conversationId
+    [self.stitchContext.coreClient joinToConversation:self.uuid
                                            withUsername:username
                                             onSuccess:^(NSObject * _Nullable object) {
                                                 [NXMBlocksHelper runWithError:nil value:object completion:completion];
@@ -160,13 +160,13 @@
 }
 
 - (void)leave:(void (^_Nullable)(NSError * _Nullable error))completion {
-    [self kickMemberWithMemberId:self.myMember.memberId completion:completion];
+    [self kickMemberWithMemberId:self.myMember.memberUuid completion:completion];
 }
 
 
 - (void)kickMemberWithMemberId:(nonnull NSString *)memberId completion:(void (^_Nullable)(NSError * _Nullable error))completion {
     [self.stitchContext.coreClient deleteMember:memberId
-                         fromConversationWithId:self.conversationId
+                         fromConversationWithId:self.uuid
                                       onSuccess:^(NSString * _Nullable value) {
                                           [NXMBlocksHelper runWithError:nil completion:completion];
 
@@ -189,8 +189,8 @@
     
     [self.stitchContext.coreClient sendCustomEvent:customType
                                               body:data
-                                    conversationId:self.conversationId
-                                      fromMemberId:self.myMember.memberId
+                                    conversationId:self.uuid
+                                      fromMemberId:self.myMember.memberUuid
                                          onSuccess:^(NSString * _Nullable value) {
                                              [NXMBlocksHelper runWithError:nil completion:completion];
                                          }
@@ -213,7 +213,7 @@
         
         return;
     }
-    [self.stitchContext.coreClient sendDTMF:dtmf conversationId:self.conversationId fromMemberId:self.myMember.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.stitchContext.coreClient sendDTMF:dtmf conversationId:self.uuid fromMemberId:self.myMember.memberUuid onSuccess:^(NSString * _Nullable value) {
         [NXMBlocksHelper runWithError:nil completion:completion];
     } onError:^(NSError * _Nullable error) {
         [NXMBlocksHelper runWithError:error completion:completion];
@@ -230,8 +230,8 @@
     }
     
     [self.stitchContext.coreClient sendText:text
-                             conversationId:self.conversationId
-                               fromMemberId:self.myMember.memberId
+                             conversationId:self.uuid
+                               fromMemberId:self.myMember.memberUuid
                                   onSuccess:^(NSString * _Nullable value) {
                                       [NXMBlocksHelper runWithError:nil completion:completion];
                                   }
@@ -255,7 +255,7 @@
         return;
     }
     
-    [self.stitchContext.coreClient sendImageWithName:name image:data conversationId:self.conversationId fromMemberId:self.myMember.memberId onSuccess:^(NSString * _Nullable value) {
+    [self.stitchContext.coreClient sendImageWithName:name image:data conversationId:self.uuid fromMemberId:self.myMember.memberUuid onSuccess:^(NSString * _Nullable value) {
         [NXMBlocksHelper runWithError:nil completion:completion];
 
     } onError:^(NSError * _Nullable error) {
@@ -275,8 +275,8 @@
     }
     
     [self.stitchContext.coreClient markAsSeen:messageId
-                               conversationId:self.conversationId
-                             fromMemberWithId:self.myMember.memberId
+                               conversationId:self.uuid
+                             fromMemberWithId:self.myMember.memberUuid
                                     onSuccess:^{
                                         [NXMBlocksHelper runWithError:nil completion:completion];
                                     }
@@ -293,7 +293,7 @@
         return;
     }
     
-    [self.stitchContext.coreClient startTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
+    [self.stitchContext.coreClient startTypingWithConversationId:self.uuid memberId:self.myMember.memberUuid];
     [NXMBlocksHelper runWithError:nil completion:completion];
 }
 
@@ -305,14 +305,14 @@
         return;
     }
     
-    [self.stitchContext.coreClient stopTypingWithConversationId:self.conversationId memberId:self.myMember.memberId];
+    [self.stitchContext.coreClient stopTypingWithConversationId:self.uuid memberId:self.myMember.memberUuid];
     [NXMBlocksHelper runWithError:nil completion:completion];
 }
 #pragma mark internal
 
 - (void)inviteMemberWithUsername:(nonnull NSString *)username
                       completion:(void (^_Nullable)(NSError * _Nullable error))completion {
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId
+    [self.stitchContext.coreClient inviteToConversation:self.uuid
                                            withUsername:username
                                               withMedia:NO
                                               onSuccess:^(NSObject * _Nullable object) {
@@ -326,7 +326,7 @@
 
 - (void)inviteMemberWithUsername:(nonnull NSString *)username withMedia:(bool)withMedia
                     completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
-    [self.stitchContext.coreClient inviteToConversation:self.conversationId withUsername:username withMedia:withMedia
+    [self.stitchContext.coreClient inviteToConversation:self.uuid withUsername:username withMedia:withMedia
                                               onSuccess:^(NSObject * _Nullable object) {
                                                     [NXMBlocksHelper runWithError:nil value:object completion:completion];
 
@@ -347,13 +347,13 @@
 }
 
 - (void)enableMedia {
-    [self.stitchContext.coreClient enableMedia:self.conversationId memberId:self.myMember.memberId];
+    [self.stitchContext.coreClient enableMedia:self.uuid memberId:self.myMember.memberUuid];
 }
 
 - (void)disableMedia {
-    LOG_DEBUG([self.conversationId UTF8String]);
+    LOG_DEBUG([self.uuid UTF8String]);
 
-    [self.stitchContext.coreClient disableMedia:self.conversationId];
+    [self.stitchContext.coreClient disableMedia:self.uuid];
 }
 
 - (void)hold:(BOOL)isHold {
@@ -362,11 +362,11 @@
 
 - (void)mute:(BOOL)isMuted {
     if (isMuted) {
-        [self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.conversationId];
+        [self.stitchContext.coreClient suspendMyMedia:NXMMediaTypeAudio inConversation:self.uuid];
         return;
     }
     
-    [self.stitchContext.coreClient resumeMyMedia:NXMMediaTypeAudio inConversation:self.conversationId];
+    [self.stitchContext.coreClient resumeMyMedia:NXMMediaTypeAudio inConversation:self.uuid];
 }
 
 - (void)earmuff:(BOOL)isEarmuff {
@@ -374,7 +374,7 @@
 }
 
 - (void)getEvents:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMEvent *> *))completionHandler; {
-    [self.stitchContext.coreClient getEventsInConversation:self.conversationId
+    [self.stitchContext.coreClient getEventsInConversation:self.uuid
                                                  onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
                                                      completionHandler(nil, events);
                                                  } onError:^(NSError * _Nullable error) {
@@ -413,8 +413,8 @@
 #pragma member controller delegate
 
 - (void)nxmConversationMembersController:(NXMConversationMembersController * _Nonnull)controller didChangeMember:(nonnull NXMMember *)member forChangeType:(NXMMemberUpdateType)type {
-    if([self.updatesDelegate respondsToSelector:@selector(memberUpdated:forUpdateType:)]) {
-        [self.updatesDelegate memberUpdated:member forUpdateType:type];
+    if([self.updatesDelegate respondsToSelector:@selector(conversation:didUpdateMember:withType:)]) {
+        [self.updatesDelegate conversation:self didUpdateMember:member withType:type];
     }
 }
 
@@ -424,7 +424,7 @@
     return [NSString stringWithFormat:@"<%@: %p> convId=%@ name=%@ displayName=%@ lastEventId=%ld creationDate=%@ myMember=%@ otherMembers=%@",
             NSStringFromClass([self class]),
             self,
-            self.conversationId,
+            self.uuid,
             self.name,
             self.displayName,
             self.lastEventId,

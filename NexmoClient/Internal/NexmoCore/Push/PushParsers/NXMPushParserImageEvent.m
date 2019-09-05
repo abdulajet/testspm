@@ -9,6 +9,7 @@
 #import "NXMPushParserImageEvent.h"
 #import "NXMCoreEventsPrivate.h"
 #import "NXMUtils.h"
+#import "NXMImageInfoInternal.h"
 
 // image
 
@@ -65,7 +66,7 @@
     NXMImageEvent *imageEvent = [[NXMImageEvent alloc] initWithConversationId:stitchPushInfo[@"conversation_id"] sequenceId:[stitchPushInfo[@"id"] integerValue] fromMemberId:stitchPushInfo[@"from"] creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"]] type:NXMEventTypeImage];
     
     NSDictionary *body = stitchPushInfo[@"body"];
-    imageEvent.imageId = body[@"id"];
+    imageEvent.imageUuid = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]

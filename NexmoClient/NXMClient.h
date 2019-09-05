@@ -55,10 +55,10 @@
 @interface NXMClient : NSObject
 
 /*!
- * @brief Shared instance of the NXMCkient object
+ * @brief Shared instance of the NXMClient object
  * @code NXMClient.shared
  */
-@property (class, nonatomic, assign, readonly) NXMClient *shared;
+@property (class, nonatomic, readonly, nonnull) NXMClient *shared;
 
 /*!
  * @brief Get the current connection state
@@ -93,7 +93,7 @@
  * @param authToken user authentication authToken
  * @code [myNXNClient loginWithAuthToken:(NSString *)authToken];
  */
-- (void)loginWithAuthToken:(NSString *)authToken;
+- (void)loginWithAuthToken:(nonnull NSString *)authToken;
 
 /*!
  * @brief Refresh the current user authToken

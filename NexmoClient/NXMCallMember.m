@@ -39,7 +39,7 @@
 #pragma public
 
 - (NSString *)memberId {
-    return self.member.memberId;
+    return self.member.memberUuid;
 }
 
 - (NXMUser *)user {
@@ -52,7 +52,7 @@
 
 - (NXMCallMemberStatus)status {
     switch (self.channel.leg.status) {
-        case NXMLegStatusCalling:
+        case NXMLegStatusRinging:
             return NXMCallMemberStatusRinging;
         case NXMLegStatusStarted:
             return NXMCallMemberStatusStarted;
@@ -81,7 +81,7 @@
     switch (self.status) {
 
         case NXMCallMemberStatusRinging:
-            return @"Calling";
+            return @"Ringing";
         case NXMCallMemberStatusStarted:
             return @"Started";
         case NXMCallMemberStatusAnswered:

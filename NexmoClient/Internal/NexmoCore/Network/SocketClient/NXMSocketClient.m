@@ -19,6 +19,8 @@
 #import "NXMLegPrivate.h"
 
 #import "NXMUtils.h"
+#import "NXMImageInfoInternal.h"
+
 
 
 
@@ -589,10 +591,10 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NXMTextEvent *textEvent = [NXMTextEvent new];
     textEvent.text = json[@"body"][@"text"];
-    textEvent.conversationId = json[@"cid"];
+    textEvent.conversationUuid = json[@"cid"];
     textEvent.fromMemberId = json[@"from"];
     textEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textEvent.eventId = [json[@"id"] integerValue];
+    textEvent.uuid = [json[@"id"] integerValue];
     textEvent.type = NXMEventTypeText;
     
     [self.delegate textRecieved:textEvent];
@@ -610,7 +612,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
                                                                  creationDate:[NXMUtils dateFromISOString:json[@"timestamp"]]
                                                                          type:NXMEventTypeImage];
     NSDictionary *body = json[@"body"];
-    imageEvent.imageId = body[@"id"];
+    imageEvent.imageUuid = body[@"id"];
     NSDictionary *originalJSON = body[@"original"];
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]
@@ -641,11 +643,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMMessageStatusEvent *messageEvent = [NXMMessageStatusEvent new];
-    messageEvent.eventId = [json[@"body"][@"event_id"] integerValue];
-    messageEvent.conversationId = json[@"cid"];
+    messageEvent.uuid = [json[@"body"][@"event_id"] integerValue];
+    messageEvent.conversationUuid = json[@"cid"];
     messageEvent.fromMemberId = json[@"from"];
     messageEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    messageEvent.referenceEventId = [json[@"id"] integerValue];
+    messageEvent.referenceEventUuid = [json[@"id"] integerValue];
     messageEvent.status = NXMMessageStatusTypeDeleted;
     messageEvent.type = NXMEventTypeMessageStatus;
     
@@ -657,11 +659,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NSDictionary *json = data[0];
     NXMMessageStatusEvent *statusEvent = [NXMMessageStatusEvent new];
-    statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
-    statusEvent.conversationId = json[@"cid"];
+    statusEvent.uuid = [json[@"body"][@"event_id"] integerValue];
+    statusEvent.conversationUuid = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.referenceEventId = [json[@"id"] integerValue];
+    statusEvent.referenceEventUuid = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -673,11 +675,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NSDictionary *json = data[0];
     NXMMessageStatusEvent *statusEvent = [NXMMessageStatusEvent new];
-    statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
-    statusEvent.conversationId = json[@"cid"];
+    statusEvent.uuid = [json[@"body"][@"event_id"] integerValue];
+    statusEvent.conversationUuid = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.referenceEventId = [json[@"id"] integerValue];
+    statusEvent.referenceEventUuid = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -690,11 +692,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NSDictionary *json = data[0];
     NXMMessageStatusEvent *statusEvent = [NXMMessageStatusEvent new];
-    statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
-    statusEvent.conversationId = json[@"cid"];
+    statusEvent.uuid = [json[@"body"][@"event_id"] integerValue];
+    statusEvent.conversationUuid = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.referenceEventId = [json[@"id"] integerValue];
+    statusEvent.referenceEventUuid = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeSeen;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -706,11 +708,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NSDictionary *json = data[0];
     NXMMessageStatusEvent *statusEvent = [NXMMessageStatusEvent new];
-    statusEvent.eventId = [json[@"body"][@"event_id"] integerValue];
-    statusEvent.conversationId = json[@"cid"];
+    statusEvent.uuid = [json[@"body"][@"event_id"] integerValue];
+    statusEvent.conversationUuid = json[@"cid"];
     statusEvent.fromMemberId = json[@"from"];
     statusEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    statusEvent.referenceEventId = [json[@"id"] integerValue];
+    statusEvent.referenceEventUuid = [json[@"id"] integerValue];
     statusEvent.status = NXMMessageStatusTypeDelivered;
     statusEvent.type = NXMEventTypeMessageStatus;
     
@@ -723,10 +725,10 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMTextTypingEvent *textTypingEvent = [NXMTextTypingEvent new];
-    textTypingEvent.conversationId = json[@"cid"];
+    textTypingEvent.conversationUuid = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
     textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textTypingEvent.eventId = [json[@"id"] integerValue];
+    textTypingEvent.uuid = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOn;
     textTypingEvent.type = NXMEventTypeTextTyping;
     
@@ -738,10 +740,10 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMTextTypingEvent *textTypingEvent = [NXMTextTypingEvent new];
-    textTypingEvent.conversationId = json[@"cid"];
+    textTypingEvent.conversationUuid = json[@"cid"];
     textTypingEvent.fromMemberId = json[@"from"];
     textTypingEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    textTypingEvent.eventId = [json[@"id"] integerValue];
+    textTypingEvent.uuid = [json[@"id"] integerValue];
     textTypingEvent.status = NXMTextTypingEventStatusOff;
     textTypingEvent.type = NXMEventTypeTextTyping;
     
@@ -796,8 +798,8 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 - (NXMSipEvent*) fillSipEventFromJson:(NSDictionary*) json{
     NXMSipEvent * sipEvent= [NXMSipEvent new];
     sipEvent.fromMemberId = json[@"from"];
-    sipEvent.eventId = [json[@"id"] integerValue];
-    sipEvent.conversationId = json[@"cid"];
+    sipEvent.uuid = [json[@"id"] integerValue];
+    sipEvent.conversationUuid = json[@"cid"];
     sipEvent.phoneNumber = json[@"body"][@"channel"][@"to"][@"number"];
     sipEvent.applicationId = json[@"application_id"];
     sipEvent.type = NXMEventTypeSip;
@@ -842,10 +844,10 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMMediaEvent *mediaEvent = [NXMMediaEvent new];
-    mediaEvent.conversationId = json[@"cid"];
+    mediaEvent.conversationUuid = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.eventId = [json[@"id"] integerValue];
+    mediaEvent.uuid = [json[@"id"] integerValue];
     mediaEvent.mediaSettings = [NXMMediaSettings new];
     mediaEvent.mediaSettings.isEnabled = [json[@"body"][@"media"][@"audio_settings"][@"enabled"] boolValue];
     mediaEvent.mediaSettings.isSuspended = [json[@"body"][@"media"][@"audio_settings"][@"muted"] boolValue];
@@ -859,11 +861,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMMediaSuspendEvent *mediaEvent = [NXMMediaSuspendEvent new];
-    mediaEvent.toMemberId = json[@"to"];
-    mediaEvent.conversationId = json[@"cid"];
+    mediaEvent.toMemberUuid = json[@"to"];
+    mediaEvent.conversationUuid = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.eventId = [json[@"id"] integerValue];
+    mediaEvent.uuid = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
     mediaEvent.mediaType = NXMMediaTypeAudio;
@@ -877,11 +879,11 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary *json = data[0];
     
     NXMMediaSuspendEvent *mediaEvent = [NXMMediaSuspendEvent new];
-    mediaEvent.toMemberId = json[@"to"];
-    mediaEvent.conversationId = json[@"cid"];
+    mediaEvent.toMemberUuid = json[@"to"];
+    mediaEvent.conversationUuid = json[@"cid"];
     mediaEvent.fromMemberId = json[@"from"];
     mediaEvent.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    mediaEvent.eventId = [json[@"id"] integerValue];
+    mediaEvent.uuid = [json[@"id"] integerValue];
     mediaEvent.type = NXMEventTypeMediaAction;
     mediaEvent.actionType = NXMMediaActionTypeSuspend;
     mediaEvent.mediaType = NXMMediaTypeAudio;
@@ -896,10 +898,10 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     NXMDTMFEvent *event = [[NXMDTMFEvent alloc] initWithDigit:json[@"body"][@"digit"]
                                                    andDuration:[NSNumber numberWithInteger:[json[@"body"][@"duration"] integerValue]]];
-    event.conversationId = json[@"cid"];
+    event.conversationUuid = json[@"cid"];
     event.fromMemberId = json[@"from"];
     event.creationDate = [NXMUtils dateFromISOString:json[@"timestamp"]];
-    event.eventId = [json[@"id"] integerValue];
+    event.uuid = [json[@"id"] integerValue];
     event.type = NXMEventTypeDTMF;
     
     [self.delegate DTMFEvent:event];

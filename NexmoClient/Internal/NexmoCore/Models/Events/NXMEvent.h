@@ -12,11 +12,11 @@
 
 @interface NXMEvent : NSObject
 
-@property (nonatomic, copy, nonnull) NSString *conversationId;
+@property (nonatomic, copy, nonnull) NSString *conversationUuid;
 @property (nonatomic, readonly, nullable) NXMMember *fromMember;
 @property (nonatomic, copy, nonnull) NSDate *creationDate;
 @property (nonatomic, copy, nullable) NSDate *deletionDate;
 @property NXMEventType type;
-@property NSInteger eventId;
+@property NSInteger uuid;
 
 @end

@@ -149,7 +149,7 @@ NSString *const NXMCallPrefix = @"CALL_";
             break;
     }
     
-    [self.delegate didChangeConnectionStatus:status reason:reason];
+    [self.delegate client:self didChangeConnectionStatus:status reason:reason];
 }
 
 #pragma mark - conversation
@@ -370,7 +370,7 @@ NSString *const NXMCallPrefix = @"CALL_";
     
     LOG_DEBUG([[event description] UTF8String]);
     
-    if (![event.user.userId isEqualToString:self.user.userId]) { return; }
+    if (![event.user.uuid isEqualToString:self.user.uuid]) { return; }
     /*
      Three types of events
      1. incoming conversation (Joined + Someone else invite you + no knocking id)
@@ -382,20 +382,21 @@ NSString *const NXMCallPrefix = @"CALL_";
         event.state != NXMMemberStateLeft  &&
         !event.knockingId &&
         !event.media.isEnabled) {
-        if ([self.delegate respondsToSelector:@selector(didReceiveConversation:)]) {
+        if ([self.delegate respondsToSelector:@selector(client:didReceiveCall:)]) {
             LOG_DEBUG("got newConversation event" );
             
-            [self getConversationWithUUid:event.conversationId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
                     LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
                 }
                 
                 if (!conversation) {
-                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
+                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
                 }
                 
-                [self.delegate didReceiveConversation:conversation];
+                
+                [self.delegate client:self didReceiveConversation:conversation];
             }];
         }
         
@@ -404,18 +405,18 @@ NSString *const NXMCallPrefix = @"CALL_";
     
     //Incoming IP call
     if (event.state == NXMMemberStateInvited && event.media.isEnabled) {
-        if ([self.delegate respondsToSelector:@selector(didReceiveCall:)]) { // optimization
+        if ([self.delegate respondsToSelector:@selector(client:didReceiveCall:)]) { // optimization
             
             LOG_DEBUG("got member invited event with enable media" );
             
-            [self getConversationWithUUid:event.conversationId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
                     LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
                 }
 
                 if (!conversation){
-                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
+                    LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
                 }
 
                 if (![conversation.displayName hasPrefix:NXMCallPrefix] && // IP-IP CS
@@ -425,7 +426,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                 }
 
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
-                [self.delegate didReceiveCall:call];
+                [self.delegate client:self didReceiveCall:call];
 
             }];
 
@@ -435,14 +436,14 @@ NSString *const NXMCallPrefix = @"CALL_";
     if (event.state == NXMMemberStateJoined && event.knockingId){
         LOG_DEBUG("got member JOINED event with knockingId" );
         
-        [self getConversationWithUUid:event.conversationId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+        [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if (error) {
-                 LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
+                 LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
                 return;
             }
             
             if (!conversation){
-                LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationId UTF8String]);
+                LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
             }
             
             if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){

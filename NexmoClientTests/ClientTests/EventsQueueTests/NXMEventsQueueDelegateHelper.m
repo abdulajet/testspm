@@ -38,7 +38,7 @@
 }
 
 - (NSArray<NSNumber *> *)handledEventsIds {
-    return [self.handledEvents valueForKey:NSStringFromSelector(@selector(eventId))];
+    return [self.handledEvents valueForKey:NSStringFromSelector(@selector(uuid))];
 }
 
 - (NSArray<XCTestExpectation *> *)expectations {
