@@ -14,6 +14,7 @@
 - (void)mute:(NXMCallMember *)callMember isMuted:(BOOL)isMuted;
 - (void)earmuff:(NXMCallMember *)callMember isEarmuff:(BOOL)isEarmuff;
 
-- (void)onChange:(NXMCallMember *)callMember;
+- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status;
+- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted;
 
 @end

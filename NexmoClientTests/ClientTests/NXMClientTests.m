@@ -108,7 +108,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMExpect([clientDelegateMock incomingCall:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    OCMExpect([clientDelegateMock didReceiveCall:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
         [expectation fulfill];
     });
     
@@ -117,7 +117,7 @@
                                               onSuccess:([OCMArg invokeBlockWithArgs:conversationDetailes, nil])
                                                 onError:[OCMArg any]]);
     
-    NXMClient *client = [[NXMClient alloc] initWithToken:@"3"];
+    NXMClient *client = [[NXMClient alloc] init];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"
@@ -147,7 +147,7 @@
     [self setContextWithUserId:userId];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMReject([clientDelegateMock incomingCall:OCMOCK_ANY]);
+    OCMReject([clientDelegateMock didReceiveCall:OCMOCK_ANY]);
     
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
 
@@ -158,7 +158,7 @@
         [expectation fulfill];
     });;
     
-    NXMClient *client = [[NXMClient alloc] initWithToken:@"3"];
+    NXMClient *client = [[NXMClient alloc] init];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"
@@ -188,7 +188,7 @@
     XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testOnMemberJoinedEventWithoutAudio"];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMExpect([clientDelegateMock incomingConversation:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
+    OCMExpect([clientDelegateMock didReceiveConversation:OCMOCK_ANY]).andDo(^(NSInvocation *invocation) {
         [expectation fulfill];
     });
     
@@ -198,7 +198,7 @@
                                                 onError:[OCMArg any]]);
     
     
-    NXMClient *client = [[NXMClient alloc] initWithToken:@"3"];
+    NXMClient *client = [[NXMClient alloc] init];
     [client setDelegate:clientDelegateMock];
     
     
@@ -227,7 +227,7 @@
     [self setContextWithUserId:userId];
     
     id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
-    OCMReject([clientDelegateMock incomingConversation:OCMOCK_ANY]);
+    OCMReject([clientDelegateMock didReceiveConversation:OCMOCK_ANY]);
     
     OCMStub([self.stitchCoreMock connectionStatus]).andReturn(NXMConnectionStatusConnected);
     OCMReject([self.stitchCoreMock getConversationDetails:convId
@@ -235,7 +235,7 @@
                                                   onError:[OCMArg any]]);
     
     
-    NXMClient *client = [[NXMClient alloc] initWithToken:@"3"];
+    NXMClient *client = [[NXMClient alloc] init];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"

@@ -91,12 +91,14 @@
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    [self.client enablePushNotificationsWithDeviceToken:deviceToken isPushKit:isPushKit
-                                              isSandbox:isSandbox completion:completion];
+    [self.client enablePushNotificationsWithDeviceToken:deviceToken
+                                              isPushKit:isPushKit
+                                              isSandbox:isSandbox
+                                      completionHandler:completion];
 }
 
 - (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    [self.client disablePushNotificationsWithCompletion:completion];
+    [self.client disablePushNotifications:completion];
 }
 
 - (BOOL)isClientPushWithUserInfo:(nonnull NSDictionary *)userInfo {
@@ -105,7 +107,8 @@
 
 - (void)processClientPushWithUserInfo:(nonnull NSDictionary *)userInfo
                            completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    [self.client processNexmoPushWithUserInfo:userInfo completion:completion];
+    [self.client processNexmoPushWithUserInfo:userInfo
+                            completionHandler:completion];
 }
 
 #pragma mark - post notifications
@@ -127,7 +130,7 @@
 
 #pragma mark - stitchClientDelegate
 
-- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
+- (void)didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
     [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:reason]];
 }
 
@@ -157,12 +160,12 @@
     //TODO: add to observer
 }
 
-- (void)incomingCall:(nonnull NXMCall *)call {
+- (void)didReceiveCall:(nonnull NXMCall *)call {
     [NTALogger info:@"Communications Manager - Nexmo Client incoming call"];
     [self didgetIncomingCall:call];
 }
 
-- (void)incomingConversation:(nonnull NXMConversation *)conversation {
+- (void)didReceiveConversation:(nonnull NXMConversation *)conversation {
 }
 
 
@@ -171,8 +174,6 @@
 - (void)NTADidLoginWithNSNotification:(NSNotification *)note {
     NTAUserInfo *user = note.userInfo[kNTALoginHandlerNotificationKeyUser];
     [self setupClientWithUser:user];
-    [self.client login];
-
 }
 
 - (void)NTADidLogoutWithNSNotification:(NSNotification *)note {
@@ -180,7 +181,7 @@
 }
 
 - (void)login {
-    [self.client login];
+    //[self.client loginWithAuthToken:(NSString *)authToken];
 }
 
 - (void)logout {
@@ -192,8 +193,9 @@
         return;
     }
     
-    self.client = [[NXMClient alloc] initWithToken:userInfo.csUserToken];
+    self.client = NXMClient.shared;
     [self.client setDelegate:self];
+    [self.client loginWithAuthToken:userInfo.csUserToken];
 }
 
 @end

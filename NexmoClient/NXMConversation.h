@@ -8,7 +8,6 @@
 #import <Foundation/Foundation.h>
 
 #import "NXMConversationDelegate.h"
-#import "NXMConversationEventsController.h"
 #import "NXMMember.h"
 
 typedef NS_ENUM(NSInteger, NXMAttachmentType) {
@@ -39,13 +38,13 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
 
 /// Conversation all members
-@property (readonly, nonatomic, nullable) NSArray<NXMMember *> *allMembers;
+@property (readonly, nonatomic, nonnull) NSArray<NXMMember *> *allMembers;
 
 /// Conversation events delegate
 @property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;
 
 /// Conversation updates delegate
-@property (nonatomic, weak, nullable) id <NXMConversationUpdatesDelegate> updatesDelegate;
+@property (nonatomic, weak, nullable) id <NXMConversationUpdateDelegate> updatesDelegate;
 
 /*!
  * @brief invite the user as a member of the conversation
@@ -64,7 +63,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 
 /*!
  * @brief Join the current user as a member of the conversation
- * @param completion A block with two params an NSError if one occured and NXMMember
+ * @param completionHandler A block with two params an NSError if one occured and NXMMember
  * @code [conversation joinWithCompletion:^(NSError error, NXMMember member){
  if (!error) {
  NSLog(@"join the conversation failed");
@@ -74,7 +73,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  NSLog(@"joined the conversation");
  }];
  */
-- (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
+- (void)join:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completionHandler;
 
 /*!
  * @brief Join a specific user as a member of the conversation
@@ -95,8 +94,8 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 
 /*!
  * @brief Current user's member leaves the conversation
- * @param completion A completion block with an error object if one occured
- * @code [conversation leaveWithCompletion:theUserId :^(NSError error, NXMMember member){
+ * @param completionHandler A completion block with an error object if one occured
+ * @code [conversation leave:theUserId :^(NSError error, NXMMember member){
  if (!error) {
  NSLog(@"leave the conversation failed");
  return;
@@ -105,7 +104,7 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  NSLog(@"Current user's member left the conversation");
  }];
  */
-- (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)leave:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 
 /**
@@ -121,6 +120,16 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
                      completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 /**
+ Enable media for the current user member
+ */
+- (void)enableMedia;
+
+/**
+ Disable media for the current user member
+ */
+- (void)disableMedia;
+
+/**
  Send a custom event in the conversation
  
  @param customType
@@ -129,12 +138,12 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  @param data
  The custom event data
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
-- (void)sendCustomEvent:(nonnull NSString *)customType
-                   data:(nonnull NSDictionary *)data
-             completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendCustomWithEvent:(nonnull NSString *)customType
+                       data:(nonnull NSDictionary *)data
+          completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
  Sends a text message to the members of the conversation
@@ -142,17 +151,17 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  @param text
  The text to send
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
 - (void)sendText:(nonnull NSString *)text
-     completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+     completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 
 /**
  Sends an attachment message to the members of the conversation
  
- @param attachmentType
+ @param type
  The type of the attachment following NXMAttachmentType enum
  
  @param name
@@ -161,56 +170,46 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  @param data
  The data of the attachment in a NSData representation
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
-- (void)sendAttachmentOfType:(NXMAttachmentType)attachmentType
-                   WithName:(nonnull NSString *)name
-                        data:(nonnull NSData *)data
-                  completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendAttachmentWithType:(NXMAttachmentType)type
+                          name:(nonnull NSString *)name
+                          data:(nonnull NSData *)data
+             completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
   Sends an indication that the current user's member has seen a message
  
- @param messageId
+ @param message
  The message identifier of the message that has been seen by the current user
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
 
-- (void)sendMarkAsSeen:(NSInteger)messageId
-            completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendMarkSeenMessage:(NSInteger)message
+          completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
  Sends an indication that the current user's member started typing
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
-- (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendStartTyping:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 
 /**
  Sends an indication that the current user's member stopped typing
  
- @param completion
+ @param completionHandler
  A completion block with an error object if one occured
  */
-- (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendStopTyping:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
-
-/**
- Get an instance of NXMConversationEventsController.
- 
- @param eventTypes
- A NSSet of the types of events the controller should handle
-
- @param delegate
- An instance conforming to the NXMConversationEventsControllerDelegate protocol, used to get notifications about changes in the controller.
- 
- @return a new instance of NXMConversationEventsController
+/*!
+ * @brief get all conversation events
  */
-- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet *)eventTypes
-                                                          andDelegate:(id <NXMConversationEventsControllerDelegate>_Nullable)delegate;
+- (void)getEvents:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMEvent *> *))completionHandler;
 @end

@@ -70,20 +70,20 @@
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]
                                                               url:originalJSON[@"url"]
-                                                             type:NXMImageTypeOriginal];
+                                                             type:NXMImageSizeOriginal];
     
     NSDictionary *mediumJSON = body[@"medium"];
     imageEvent.mediumImage = [[NXMImageInfo alloc] initWithId:mediumJSON[@"id"]
                                                            size:[mediumJSON[@"size"] integerValue]
                                                             url:mediumJSON[@"url"]
-                                                           type:NXMImageTypeMedium];
+                                                            type:NXMImageSizeMedium];
     
     
     NSDictionary *thumbnailJSON = body[@"thumbnail"];
     imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithId:thumbnailJSON[@"id"]
                                                               size:[thumbnailJSON[@"size"] integerValue]
                                                                url:thumbnailJSON[@"url"]
-                                                              type:NXMImageTypeThumbnail];
+                                                              type:NXMImageSizeThumbnail];
     return imageEvent;
 }
 

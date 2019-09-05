@@ -7,6 +7,8 @@
 //
 
 #import "NXMCoreEvents.h"
+#import "NXMSipEvent.h"
+#import "NXMRtcAnswerEvent.h"
 
 @protocol NXMSocketClientDelegate
 

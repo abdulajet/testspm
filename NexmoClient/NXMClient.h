@@ -34,7 +34,7 @@
  * First step is to acquire a {@link NXMClient} instance based on user credentials.
  * <p>To construct a {@link NXMClient} the required parameters are:</p>
  * <ul>
- * <li>Token:  The user specific token.</li>
+ * <li>Token:  The user specific authToken.</li>
  * </ul>
  * <p>
  * Im oreder to get the answer you must call {@link NXMClient#setDelegate}
@@ -55,6 +55,12 @@
 @interface NXMClient : NSObject
 
 /*!
+ * @brief Shared instance of the NXMCkient object
+ * @code NXMClient.shared
+ */
+@property (class, nonatomic, assign, readonly) NXMClient *shared;
+
+/*!
  * @brief Get the current connection state
  * @code NXMConnectionStatus currentConnectionStatus = [myNXNClient  getConnectionStatus];
 */
@@ -68,18 +74,10 @@
 
 
 /*!
- * @brief Get the current user token
+ * @brief Get the current user authToken
  * @code NSString currentToken = [myNXNClient  getToken];
  */
-@property (nonatomic, readonly, nullable, getter=getToken) NSString *token;
-
-
-/*!
- * @brief Set the current user token
- * @code [myNXNClient initWithToken:authToken];
- * @param authToken user authentication token
- */
-- (nullable instancetype)initWithToken:(nonnull NSString *)authToken;
+@property (nonatomic, readonly, nullable, getter=getToken) NSString *authToken;
 
 
 /*!
@@ -91,21 +89,22 @@
 
 
 /*!
- * @brief login with current token the response in NXMClientDelegate:connectionStatusChanged
- * @code [myNXNClient login];
+ * @brief login with current authToken the response in NXMClientDelegate:didChangeConnectionStatus
+ * @param authToken user authentication authToken
+ * @code [myNXNClient loginWithAuthToken:(NSString *)authToken];
  */
-- (void)login;
+- (void)loginWithAuthToken:(NSString *)authToken;
 
 /*!
- * @brief Refresh the current user token
+ * @brief Refresh the current user authToken
  * @code [myNXNClient refreshAuthToken:authToken];
- * @param authToken user authentication token
+ * @param authToken user authentication authToken
  */
-- (void)refreshAuthToken:(nonnull NSString *)authToken;
+- (void)updateAuthToken:(nonnull NSString *)authToken;
 
 
 /*!
- * @brief logout the current user, the response in NXMClientDelegate:connectionStatusChanged
+ * @brief logout the current user, the response in NXMClientDelegate:didChangeConnectionStatus
  * @code [myNXNClient logout];
  */
 - (void)logout;
@@ -115,46 +114,45 @@
 /**
  Get a conversation object by id
  @brief getConversation With a specific Id
- @param conversationId     conversation id
- @param completion         completion block
- @code [myNXNClient getConversationWithId:conversationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion{
+ @param uuid     conversation id
+ @param completionHandler         completion block
+ @code [myNXNClient getConversationWithUUid:conversationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion{
  if (!error){
         NXMConversation myConversation = conversation;
     }
  }];
  */
-- (void)getConversationWithId:(nonnull NSString *)conversationId
-                   completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion;
+- (void)getConversationWithUUid:(nonnull NSString *)uuid
+              completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completionHandler;
 
 
 /**
  @brief Create a new conversation with specific name: it is a unique per nexmo application
  @param name                conversation name
- @param completion          completion block
+ @param completionHandler          completion block
  @code [myNXNClient createConversationWithName:uniqueName completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation)){
  if (!error)
  NXMConvertion myNamedConversation = convetsation;
  }];
  */
-- (void)createConversationWithName:(nonnull NSString *)name completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion;
+- (void)createConversationWithName:(nonnull NSString *)name
+                 completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completionHandler;
 
 #pragma mark - Call
 
 /**
  @brief  Create a new call to users
- @param callees         user ids/name or pstn number to call
+ @param callee         user ids/name or pstn number to call
  @param callHandler     type of the call (InApp/SERVER)
- @param delegate        call delegate
- @param completion      completion block
+ @param completionHandler      completion block
  @code [myNXNClient call:usernames callHandler:NXMCallHandlerInApp delegate:callDelegate completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call)){
  if (!error){
  NXMCall myCall = call;
  }];
  */
-- (void)call:(nonnull NSArray<NSString *>*)callees
+- (void)call:(nonnull NSString *)callee
     callHandler:(NXMCallHandler)callHandler
-    delegate:(nullable id<NXMCallDelegate>)delegate
-  completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion;
+completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
 
 #pragma mark - Push Notifications
 
@@ -163,22 +161,22 @@
  @param deviceToken     the device token
  @param isPushKit       is the app using PushKit
  @param isSandbox       is apple sandbox enviroment
- @param completion      completion block
+ @param completionHandler      completion block
  @code [myNXNClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:isPushKit isSandbox:isSandbox completion:(void(^_Nullable)(NSError * _Nullable error))completion{
  }];
  */
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
                                      isPushKit:(BOOL)isPushKit
                                      isSandbox:(BOOL)isSandbox
-                                    completion:(void(^_Nullable)(NSError * _Nullable error))completion;
+                             completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
  @brief  Disable push notification for current device
- @param completion      completion block
+ @param completionHandler      completion block
  @code [myNXNClient disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion{
  }];
  */
-- (void)disablePushNotificationsWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion;
+- (void)disablePushNotifications:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
  @brief  Check if a push notification is a NexmoPush, Call this method on incoming push
@@ -196,7 +194,7 @@
 /**
  @brief process Nexmo push, Call this method when isNexmoPushWithUserInfo:userInfo return true
  @param userInfo    pushInfo
- @param completion  completion block
+ @param completionHandler  completion block
  @code BOOL isNexmoPush = [myNXNClient isNexmoPushWithUserInfo:userInfo];
  if (isNexmoPush){
  [myNXNClient processNexmoPushWithUserInfo:userInfo completion:(void(^_Nullable)(NSError * _Nullable error)){
@@ -205,6 +203,6 @@
  }];
  */
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo
-                           completion:(void(^_Nullable)(NSError * _Nullable error))completion;
+                   completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
 
 @end

@@ -17,5 +17,10 @@
                             creationDate:(NSDate *)creationDate
                                 memberId:(NSString *)memberId;
 
+@property (nonatomic, readonly) NXMUser *user;
+
+@property NSString *memberId;
+
+- (void)updateMember:(NXMMember *)member;
 @end
 

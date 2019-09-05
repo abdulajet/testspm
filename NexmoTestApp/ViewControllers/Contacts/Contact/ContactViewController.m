@@ -66,7 +66,7 @@
     
 
     // comment out to test conversation
-//    [CommunicationsManager.sharedInstance.client getConversationWithId:@"CON-1922470e-6182-442a-91e7-f0519a38c01a" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+//    [CommunicationsManager.sharedInstance.client getConversationWithUUid:@"CON-1922470e-6182-442a-91e7-f0519a38c01a" completion:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
 //        self.conv = conversation;
 //
 //        NXMConversationEventsController *cntrl = [self.conv eventsControllerWithTypes:[[NSSet alloc] initWithArray:@[@(NXMEventTypeText), @(NXMEventTypeCustom)]] andDelegate:self];

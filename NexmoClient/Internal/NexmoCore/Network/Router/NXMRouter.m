@@ -23,6 +23,9 @@
 #import "NXMPageResponse.h"
 #import "NXMMediaSettingsInternal.h"
 
+#import "NXMSipEvent.h"
+#import "NXMRtcAnswerEvent.h"
+
 
 static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
@@ -1105,14 +1108,14 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     return event;
 }
 
-- (NXMSipEvent* )parseSipEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMSipEventType )state{
+- (NXMSipEvent* )parseSipEvent:(nonnull NSDictionary*)dict conversationId:(nonnull NSString*)conversationId state:(NXMSipStatus )state{
     NXMSipEvent * event = [[NXMSipEvent alloc] init];
     event.eventId = [[self getSequenceId:dict] integerValue];
     event.conversationId = conversationId;
     event.fromMemberId = [self getFromMemberId:dict];
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeSip;
-    event.sipType = state;
+    event.status = state;
     event.phoneNumber = dict[@"body"][@"channel"][@"to"][@"number"];
     event.applicationId = dict[@"application_id"];
     
@@ -1126,7 +1129,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     event.creationDate = [self getCreationDate:dict];
     event.type = NXMEventTypeMessageStatus;
     event.status = state;
-    event.refEventId = [dict[@"body"][@"event_id"] integerValue];
+    event.referenceEventId = [dict[@"body"][@"event_id"] integerValue];
     
     return event;
 }
@@ -1156,20 +1159,20 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     imageEvent.originalImage = [[NXMImageInfo alloc] initWithId:originalJSON[@"id"]
                                                              size:[originalJSON[@"size"] integerValue]
                                                               url:originalJSON[@"url"]
-                                                             type:NXMImageTypeOriginal];
+                                                             type:NXMImageSizeOriginal];
     
     NSDictionary *mediumJSON = body[@"medium"];
     imageEvent.mediumImage = [[NXMImageInfo alloc] initWithId:mediumJSON[@"id"]
                                                            size:[mediumJSON[@"size"] integerValue]
                                                             url:mediumJSON[@"url"]
-                                                           type:NXMImageTypeMedium];
+                                                           type:NXMImageSizeMedium];
     
     
     NSDictionary *thumbnailJSON = body[@"thumbnail"];
     imageEvent.thumbnailImage = [[NXMImageInfo alloc] initWithId:thumbnailJSON[@"id"]
                                                               size:[thumbnailJSON[@"size"] integerValue]
                                                                url:thumbnailJSON[@"url"]
-                                                              type:NXMImageTypeThumbnail];
+                                                              type:NXMImageSizeThumbnail];
     imageEvent.type = NXMEventTypeImage;
     
     imageEvent.state = [self parseStateFromDictionary:json[@"state"]];

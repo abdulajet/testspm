@@ -11,11 +11,11 @@
 #import "NXMMember.h"
 
 /*!
- @protocol NXMConversationUpdatesDelegate
+ @protocol NXMConversationUpdateDelegate
  
- @brief The NXMConversationUpdatesDelegate protocol notify on member updates
+ @brief The NXMConversationUpdateDelegate protocol notify on member updates
  */
-@protocol NXMConversationUpdatesDelegate <NSObject>
+@protocol NXMConversationUpdateDelegate <NSObject>
 @optional
 /*!
  * @brief member properties updated.
@@ -34,14 +34,14 @@
 @protocol NXMConversationDelegate <NSObject>
 @optional
 #pragma events
-- (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
-- (void)textEvent:(nonnull NXMMessageEvent *)textEvent;
-- (void)attachmentEvent:(nonnull NXMMessageEvent *)attachmentEvent;
-- (void)messageStatusEvent:(nonnull NXMMessageStatusEvent *)messageStatusEvent;
-- (void)typingEvent:(nonnull NXMTextTypingEvent *)typingEvent;
-- (void)memberEvent:(nonnull NXMMemberEvent *)memberEvent;
-- (void)legStatusEvent:(nonnull NXMLegStatusEvent *)legStatusEvent;
-- (void)mediaEvent:(nonnull NXMEvent *)mediaEvent;
+- (void)didReceiveCustomEvent:(nonnull NXMCustomEvent *)event;
+- (void)didReceiveTextEvent:(nonnull NXMTextEvent *)event;
+- (void)didReceiveImageEvent:(nonnull NXMImageEvent *)event;
+- (void)didReceiveMessageStatusEvent:(nonnull NXMMessageStatusEvent *)event;
+- (void)didReceiveTypingEvent:(nonnull NXMTextTypingEvent *)event;
+- (void)didReceiveMemberEvent:(nonnull NXMMemberEvent *)event;
+- (void)didReceiveLegStatusEvent:(nonnull NXMLegStatusEvent *)event;
+- (void)didReceiveMediaEvent:(nonnull NXMMediaEvent *)event;
 
 #pragma conversation status
 - (void)conversationExpired;

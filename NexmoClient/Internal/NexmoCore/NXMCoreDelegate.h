@@ -6,6 +6,7 @@
 //
 
 #import "NXMCoreEvents.h"
+#import "NXMSipEvent.h"
 
 @protocol NXMCoreDelegate
 

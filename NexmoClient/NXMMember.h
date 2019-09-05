@@ -21,6 +21,6 @@
 @property (nonatomic, readonly) NXMMemberState state;
 @property (nonatomic, readonly, nullable) NXMMediaSettings *media;
 @property (nonatomic, readonly, nullable) NXMChannel *channel;
-@property (nonatomic, readonly, nonnull) NSDictionary<NSValue *, NXMInitiator *> *initiators;
+
 
 @end

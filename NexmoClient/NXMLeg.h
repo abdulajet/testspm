@@ -15,13 +15,13 @@
 @interface NXMLeg : NSObject
 
 /// Indicates the unique identifier of the leg.
-@property (nonatomic, copy, nonnull) NSString *legId;
+@property (nonatomic, copy, nonnull) NSString *uuid;
 
 /// Indicates the leg type.
-@property (nonatomic, assign) NXMLegType legType;
+@property (nonatomic, assign) NXMLegType type;
 
 /// Indicates the leg status.
-@property (nonatomic, assign) NXMLegStatus legStatus;
+@property (nonatomic, assign) NXMLegStatus status;
 
 /// Indicates the leg conversation id.
 @property (nonatomic, copy, nullable) NSString *conversationId;

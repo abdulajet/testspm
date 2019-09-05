@@ -14,10 +14,10 @@
 
 @protocol NXMClientDelegate <NSObject>
 
-- (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
+- (void)didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
 @optional
-- (void)incomingCall:(nonnull NXMCall *)call;
-- (void)incomingConversation:(nonnull NXMConversation *)conversation;
+- (void)didReceiveCall:(nonnull NXMCall *)call;
+- (void)didReceiveConversation:(nonnull NXMConversation *)conversation;
 
 @end

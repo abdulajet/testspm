@@ -50,15 +50,24 @@
     return self.member.channel;
 }
 
-
 - (NXMCallMemberStatus)status {
-    switch (self.channel.leg.legStatus) {
+    switch (self.channel.leg.status) {
         case NXMLegStatusCalling:
             return NXMCallMemberStatusRinging;
         case NXMLegStatusStarted:
             return NXMCallMemberStatusStarted;
         case NXMLegStatusAnswered:
             return NXMCallMemberStatusAnswered;
+        case NXMLegStatusCanceled:
+            return NXMCallMemberStatusCanceled;
+        case NXMLegStatusFailed:
+            return NXMCallMemberStatusFailed;
+        case NXMLegStatusBusy:
+            return NXMCallMemberStatusBusy;
+        case NXMLegStatusTimeout:
+            return NXMCallMemberStatusTimeout;
+        case NXMLegStatusRejected:
+            return NXMCallMemberStatusRejected;
         case NXMLegStatusCompleted:
             return NXMCallMemberStatusCompleted;
         default:
@@ -79,6 +88,14 @@
             return @"Answered";
         case NXMCallMemberStatusCompleted:
             return @"Completed";
+        case NXMCallMemberStatusCanceled:
+            return @"Canceled";
+        case NXMCallMemberStatusBusy:
+            return @"Busy";
+        case NXMCallMemberStatusTimeout:
+            return @"Timeout";
+        case NXMCallMemberStatusRejected:
+            return @"Rejected";
         default:
             return @"Unknown";
     }
@@ -105,8 +122,10 @@
 - (void)memberUpdated {
     LOG_DEBUG([self.description UTF8String]);
     
+    BOOL isMuteChanged = false;
     if (self.isMuted != self.member.media.isSuspended) {
         self.isMuted = self.member.media.isSuspended;
+        isMuteChanged = true;
     }
     
     LOG_DEBUG("NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status);
@@ -116,8 +135,12 @@
         self.currentStatus = self.status;
     }
     
-    // TODO: notify on change
-    [self.callProxy onChange:self];
+    if (isMuteChanged) {
+        [self.callProxy didUpdate:self muted:self.isMuted];
+        return;
+    }
+    
+    [self.callProxy didUpdate:self status:self.currentStatus];
 }
 
 

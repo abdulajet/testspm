@@ -6,7 +6,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMEvent.h"
+#import "NXMEventInternal.h"
+
+@interface NXMEvent()
+@property (nonatomic, readwrite, nullable) NXMMember *fromMember;
+@property (nonatomic, readwrite, nonnull) NSString *fromMemberId;
+
+@end
 
 @implementation NXMEvent
 
@@ -45,5 +51,7 @@
 }
 
 
-
+- (void)updateFromMember:(NXMMember *)member {
+    self.fromMember = member;
+}
 @end

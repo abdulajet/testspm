@@ -10,12 +10,12 @@
 
 @implementation NXMImageInfo
 
-- (nullable instancetype)initWithId:(nonnull NSString *)imageId size:(NSInteger)size url:(nonnull NSURL *)url type:(NXMImageType)type {
+- (nullable instancetype)initWithId:(nonnull NSString *)imageId size:(NSInteger)size url:(nonnull NSURL *)url type:(NXMImageSize)type {
     if (self = [super init]) {
         self.imageId = imageId;
-        self.size = size;
+        self.sizeInBytes = size;
         self.url = url;
-        self.type = type;
+        self.size = type;
     }
     
     return self;

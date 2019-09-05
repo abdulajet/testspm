@@ -32,8 +32,16 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 /*!
  * @brief Notify on call member updates
  * @param callMember A NXMCallMember object - the call member that updated
+ * @param status A NXMCallMemberStatus status
  */
-- (void)statusChanged:(nonnull NXMCallMember *)callMember;
+- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status;
+
+/*!
+ * @brief Notify on call member updates
+ * @param callMember A NXMCallMember object - the call member that updated
+ * @param muted A NXMCallMember object - the call member that updated
+ */
+- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted;
 @optional
 
 /*!
@@ -41,7 +49,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
  * @param dtmf A NSString which represent the dtmf value.
  * @param callMember A NXMCallMember which the dtmf received from.
  */
-- (void)DTMFReceived:(nonnull NSString *)dtmf callMember:(nonnull NXMCallMember *)callMember;
+- (void)didReceive:(nonnull NSString *)dtmf fromCallMember:(nonnull NXMCallMember *)callMember;
 @end
 
 
@@ -69,7 +77,6 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 /*!
  * @brief answer incoming call.
  * @warning can answer the call only when the call member status is calling.
- * @param delegate A NXMCallDelegate object.
  * @param completionHandler A NXMErrorCallback block.
  * @code [call answer:delegate completionHandler:^(NSError error){
          if (!error) {
@@ -80,7 +87,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
         NSLog(@"joined the call");
      }];
  */
-- (void)answer:(nonnull id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)answer:(NXMCompletionCallback _Nullable)completionHandler;
 
 
 /*!
@@ -96,11 +103,13 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
         NSLog(@"call rejected");
  }];
  */
-- (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)reject:(NXMCompletionCallback _Nullable)completionHandler;
 
-- (void)addCallMemberWithUsername:(nonnull NSString *)username completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)addCallMemberWithUsername:(nonnull NSString *)username
+                completionHandler:(NXMCompletionCallback _Nullable)completionHandler;
 
-- (void)addCallMemberWithNumber:(nonnull NSString *)number completionHandler:(NXMErrorCallback _Nullable)completionHandler;
+- (void)addCallMemberWithNumber:(nonnull NSString *)number
+              completionHandler:(NXMCompletionCallback _Nullable)completionHandler;
 
 - (void)sendDTMF:(nonnull NSString *)dtmf;
 

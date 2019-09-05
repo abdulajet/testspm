@@ -13,14 +13,17 @@
 #import "NXMNetworkCallbacks.h"
 #import "NXMBlocks.h"
 #import "NXMErrors.h"
+#import "NXMSipEvent.h"
+#import "NXMRtcAnswerEvent.h"
 
 #import "NXMGetConversationsRequest.h" // remove
+
 
 @interface NXMCore : NSObject
 
 @property (readonly) NXMConnectionStatus connectionStatus;
 @property (nonatomic, strong, readonly, nullable) NXMUser *user;
-@property (nonatomic, strong, readonly, nullable) NSString *token;
+@property (nonatomic, strong, readwrite, nullable) NSString *token;
 
 - (nullable instancetype)initWithToken:(nonnull NSString *)authToken;
 //- (instancetype _Nullable)initWithConfig:(nonnull NXMConversationClientConfig *)config; // TODO: can update config?

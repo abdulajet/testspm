@@ -13,6 +13,9 @@
 #import "NXMMemberPrivate.h"
 #import "NXMLoggerInternal.h"
 #import "NXMMediaSettingsInternal.h"
+#import "NXMEventInternal.h"
+#import "NXMMemberEventPrivate.h"
+
 
 @interface NXMConversationMembersController ()
 @property (nonatomic, readwrite, nullable) NXMMember *myMember;
@@ -101,10 +104,12 @@
         case NXMEventTypeMediaAction:
             [self handleMediaEvent:(NXMMediaEvent *)event];
             break;
-        case NXMEventTypeMember:
-            [self handleMemberEvent:(NXMMemberEvent *)event];
-
+        case NXMEventTypeMember: {
+            NXMMemberEvent *memberEvent = (NXMMemberEvent *)event;
+            [self handleMemberEvent:memberEvent];
+            [memberEvent updateMember:self.membersDictionary[memberEvent.memberId]];
             break;
+        }
         case NXMEventTypeLegStatus:
             [self handleLegEvent:(NXMLegStatusEvent *)event];
             break;
@@ -112,8 +117,11 @@
         default:
             break;
     }
-
     
+    NXMMember *member = self.membersDictionary[event.fromMemberId];
+    if (member) {
+        [event updateFromMember:member];
+    }
 }
 
 -(void)handleLegEvent:(NXMLegStatusEvent *)legEvent {

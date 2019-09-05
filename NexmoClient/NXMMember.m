@@ -13,6 +13,8 @@
 #import "NXMInitiatorPrivate.h"
 #import "NXMMediaSettingsInternal.h"
 #import "NXMLoggerInternal.h"
+#import "NXMEventInternal.h"
+#import "NXMMemberEventPrivate.h"
 
 
 @interface NXMMember()
@@ -114,20 +116,23 @@
     
     NXMLeg *leg = self.channel.leg;
     if (!leg ||
-        leg.legStatus == NXMLegStatusCompleted) {
-        LOG_ERROR("NXMMember %s updateExpired no relevant leg %s", [self.memberId UTF8String], [leg.legId UTF8String]);
+        leg.status == NXMLegStatusCompleted) {
+        LOG_ERROR("NXMMember %s updateExpired no relevant leg %s", [self.memberId UTF8String], [leg.uuid UTF8String]);
 
         return;
     }
     
     [self.channel addLeg:[[NXMLeg alloc] initWithConversationId:self.conversationId
              andMemberId:self.memberId
-                andLegId:leg.legId
-              andlegTypeE:leg.legType
+                andLegId:leg.uuid
+              andlegTypeE:leg.type
             andLegStatusE:NXMLegStatusCompleted
                  andDate:NULL]];    
 }
 
+- (void)setMember:(NXMMember *)member {
+    self.member = member;
+}
 
 #pragma Parser
 

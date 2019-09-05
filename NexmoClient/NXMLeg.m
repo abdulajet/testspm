@@ -19,9 +19,9 @@
                                    andLegStatusE:(NXMLegStatus)legStatus
                                          andDate:(nullable NSString *)date {
     if (self = [super init]){
-        self.legId = legId;
-        self.legType = legType;
-        self.legStatus = legStatus;
+        self.uuid = legId;
+        self.type = legType;
+        self.status = legStatus;
         self.conversationId = conversationId;
         self.memberId = memberId;
         self.date = [date length] > 0 ? [NXMUtils dateFromISOString:date] : nil;
@@ -75,6 +75,11 @@
     return [statusString isEqualToString:@"riniging"] ? NXMLegStatusCalling :
             [statusString isEqualToString:@"answered"] ? NXMLegStatusAnswered :
             [statusString isEqualToString:@"started"] ? NXMLegStatusStarted :
+            [statusString isEqualToString:@"canceled"] ? NXMLegStatusCanceled :
+            [statusString isEqualToString:@"failed"] ? NXMLegStatusFailed :
+            [statusString isEqualToString:@"busy"] ? NXMLegStatusBusy :
+            [statusString isEqualToString:@"timeout"] ? NXMLegStatusTimeout :
+            [statusString isEqualToString:@"rejected"] ? NXMLegStatusRejected :
             [statusString isEqualToString:@"completed"] ? NXMLegStatusCompleted :
             NXMLegStatusStarted;
 }
@@ -89,9 +94,9 @@
     return [NSString stringWithFormat:@"<%@: %p> legId=%@ legType=%ld legStatus=%ld convId=%@ memberId=%@ date=%@",
             NSStringFromClass([self class]),
             self,
-            self.legId,
-            (long)self.legType,
-            (long)self.legStatus,
+            self.uuid,
+            (long)self.type,
+            (long)self.status,
             self.conversationId,
             self.memberId,
             self.date];

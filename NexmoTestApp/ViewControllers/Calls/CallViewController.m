@@ -151,7 +151,7 @@
 
 - (void)didCreateCall:(NXMCall *)call {
     self.call = call;
-    
+    [self.call setDelegate:self];
     [self updateInCallStatusLabels];
 }
 
@@ -188,7 +188,7 @@
 #pragma mark AnswerCall
 
 - (IBAction)answerCallButtonPressed:(id)sender {
-    [self.call answer:self completionHandler:^(NSError * _Nullable error) {
+    [self.call answer:^(NSError * _Nullable error) {
         if(error) {
             [NTALogger errorWithFormat:@"Failed answering incoming call with error: %@", error];
             [self endCall];
@@ -201,7 +201,7 @@
 #pragma mark Decline Call
 
 - (IBAction)declineCallButtonPressed:(UIButton *)sender {
-    [self.call rejectWithCompletionHandler:^(NSError * _Nullable error) {
+    [self.call reject:^(NSError * _Nullable error) {
         if(error) {
             [NTALogger errorWithFormat:@"Error declining call: %@",error];
             return;
@@ -288,23 +288,37 @@
 
 
 #pragma mark - NXMCallDelegate
-- (void)statusChanged:(NXMCallMember *)member {
-    [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", member.memberId, member.user.name, member.status]];
+
+
+- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted {
+    [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", callMember.memberId, callMember.user.name, callMember.status]];
     if (![NSThread isMainThread]) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self statusChanged:member];
+            [self didUpdate:callMember muted:muted];
         });
+        
+        return;
+    }
+    if ([callMember.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
+        [self.InCallMuteButton setSelected:callMember.isMuted];
+    }
+    
+    [self updateInCallStatusLabels];
+}
 
+- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status {
+    [NTALogger debug:[NSString stringWithFormat:@"CallViewController statusChanged %@ %@ %ld", callMember.memberId, callMember.user.name, callMember.status]];
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self didUpdate:callMember status:status];
+        });
+        
         return;
     }
     
     if (self.call.myCallMember.status == NXMCallMemberStatusCompleted) {
-            [self didDisconnectCall];
+        [self didDisconnectCall];
         return;
-    }
-    
-    if ([member.user.userId isEqualToString:self.call.myCallMember.user.userId]) {
-        [self.InCallMuteButton setSelected:member.isMuted];
     }
     
     [self updateInCallStatusLabels];

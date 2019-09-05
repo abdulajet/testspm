@@ -10,6 +10,18 @@ import AVFoundation
 import NexmoClient
 
 class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, NXMCallDelegate {
+    func didChange(_ status: NXMConnectionStatus, reason: NXMConnectionStatusReason) {
+        
+    }
+    
+    func didUpdate(_ callMember: NXMCallMember, status: NXMCallMemberStatus) {
+        
+    }
+    
+    func didUpdate(_ callMember: NXMCallMember, muted: Bool) {
+        
+    }
+    
     
     @IBOutlet weak var aaa: UIButton!
     @IBOutlet weak var first: UILabel!
@@ -24,7 +36,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
 //    @IBOutlet weak var numberInput: UITextField!
 //    @IBOutlet weak var statusLabel: UILabel!
     
-    public static var nexmoClient:NXMClient  = NXMClient(token: "")! // NXMClient is the SDK entry with token
+  //  public static var nexmoClient:NXMClient// NXMClient is the SDK entry with token
     var currentCall:NXMCall?    // NXMCall is the SDK call object
     
     override func viewDidLoad() {
@@ -44,10 +56,9 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
     
     @IBAction func onLoginPressed(_ sender: Any) {
      //   self.loginButton.isEnabled = false
-        
-        ViewController.nexmoClient = NXMClient(token: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJJbHR1cyIsImlhdCI6MTU2NTAwNzYyMywibmJmIjoxNTY1MDA3NjIzLCJleHAiOjE1NjUwMzc2NTMsImp0aSI6MTU2NTAwNzY1MzUxMiwiYXBwbGljYXRpb25faWQiOiJmMWE1ZjZmYS03ZDc0LTRiOTctYmRmNC00ZWNhYWU4ZTg1MWUiLCJhY2wiOnsicGF0aHMiOnsiL3YxL3VzZXJzLyoqIjp7fSwiL3YxL2NvbnZlcnNhdGlvbnMvKioiOnt9LCIvdjEvc2Vzc2lvbnMvKioiOnt9LCIvdjEvZGV2aWNlcy8qKiI6e30sIi92MS9pbWFnZS8qKiI6e30sIi92My9tZWRpYS8qKiI6e30sIi92MS9hcHBsaWNhdGlvbnMvKioiOnt9LCIvdjEvcHVzaC8qKiI6e30sIi92MS9rbm9ja2luZy8qKiI6e30sIi92MS9jYWxscy8qKiI6e30sIi9iZXRhMi8qKiI6e30sIi8qKiI6e319fSwic3ViIjoidGVzdHVzZXI0In0.aQ--bpA5ibts9uubqhlcAyJUEf1BvN4h6jktFTcTfTacuTsBOJJV_bho-d1sVyYIDtMhrXgJ8YkY6DeOJZcJu5cm1wDOmgFaS60hN3UyCvokXBqqD5IMME8fgncpTVidrzv8dVynvOKxLyQDi3Jxzp9PthaMGLE86vqCofZasLDXZ_RRKwdkiysXSfPEASyhJ1kmWCrwVhNuGXSpkJBAl9YQgXAuFxIao1K7Yn_kyiTPRtxGWR8jrQz4S6JpJ6qjIvidzJslQN55fHZe0WijItoHU3aK61e-7Av9rAb1pQ_aSav2Yd0L_Wq70CoFbTq2KB7SlLRTQQVSwk4ga3fWqw")!
-        ViewController.nexmoClient.setDelegate(self)
-        ViewController.nexmoClient.login()
+
+        NXMClient.shared.setDelegate(self)
+        NXMClient.shared.login(withAuthToken: "")
         
         NXMLogger.setLogLevel(NXMLoggerLevel.verbose)
     }
@@ -61,7 +72,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
    //     self.callButton.isEnabled = false
         
      //   let number = self.numberInput.text!
-        ViewController.nexmoClient.call(["testuser5"], callHandler: .inApp, delegate: self) {
+        NXMClient.shared.call("testuser5", callHandler: .inApp) {
             (error, call) in
             self.currentCall = call // update currentCall with the new call
             
@@ -104,8 +115,10 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
             
             alert.addAction(UIAlertAction(title: "Answer", style: .`default`, handler: { action in
                 
+                
+                self.currentCall?.setDelegate(self);
                 // answer call
-                self.currentCall?.answer(self, completionHandler: { (error) in
+                self.currentCall?.answer({ (error) in
                     DispatchQueue.main.async {
                         self.updateCallButtons(true);
                //         self.numberInput.text = (call.otherCallMembers[0] as! NXMCallMember).user.name
@@ -116,7 +129,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
             alert.addAction(UIAlertAction(title: "Decline", style: .cancel, handler: { action in
                 
                 // decline call
-                self.currentCall?.reject(completionHandler: { (error) in
+                self.currentCall?.reject({ (error) in
                     
                 })
             }))
@@ -157,7 +170,7 @@ class ViewController: UIViewController, UITextFieldDelegate, NXMClientDelegate, 
        //     self.statusLabel.text = "connected"
             self.updateLoginButtons(false)
             
-            let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
+        //    let appDelegate = (UIApplication.shared.delegate as! AppDelegate)
             
 //            // Enable push notifications
 //            ViewController.nexmoClient.enablePushNotifications(withDeviceToken: appDelegate.pushKitToken!,

@@ -26,7 +26,7 @@
     for (NTAUserInfo *userInfo in self.users) {
         [csUserNames addObject: [userInfo.csUserName copy]];
     }
-    [CommunicationsManager.sharedInstance.client call:csUserNames callHandler:NXMCallHandlerInApp delegate:delegate completion:completion];
+    [CommunicationsManager.sharedInstance.client call:csUserNames[0] callHandler:NXMCallHandlerInApp completionHandler:completion];
 }
 
 @end

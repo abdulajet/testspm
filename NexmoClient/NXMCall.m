@@ -17,7 +17,7 @@
 #import "NXMLoggerInternal.h"
 
 
-@interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdatesDelegate>
+@interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdateDelegate>
 
 @property (readwrite, nonatomic) NXMConversation *conversation;
 @property (readwrite, nonatomic) NSMutableArray<NXMCallMember *> *otherCallMembers;
@@ -61,7 +61,7 @@
     _delegate = delegate;
 }
 
-- (void)answer:(id<NXMCallDelegate>)delegate completionHandler:(NXMErrorCallback _Nullable)completionHandler {
+- (void)answer:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
     if (self.myCallMember.status != NXMCallMemberStatusRinging) {
         [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
@@ -69,18 +69,18 @@
         return;
     }
     
-    [self.conversation joinWithCompletion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    [self.conversation join:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (error || !member) {
             [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
             return;
         }
-        self.delegate = delegate;
+        
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     }];
 }
 
-- (void)rejectWithCompletionHandler:(NXMErrorCallback _Nullable)completionHandler {
+- (void)reject:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
     
     if (self.myCallMember.status != NXMCallMemberStatusRinging) {
@@ -89,7 +89,7 @@
         return;
     }
 
-    [self.conversation leaveWithCompletion:^(NSError * _Nullable error) {
+    [self.conversation leave:^(NSError * _Nullable error) {
         if (error) {
             [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                                completion:completionHandler]; // TODO: error;
@@ -199,18 +199,20 @@
 
 #pragma mark - callProxy
 
-- (void)onChange:(NXMCallMember *)callMember {
+- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status {
     if (callMember == self.myCallMember &&
         callMember.status == NXMCallMemberStatusCompleted) {
         
-        [self.conversation leaveWithCompletion:^(NSError * _Nullable error) {
+        [self.conversation leave:^(NSError * _Nullable error) {
             // TODO:
         }];
     }
     
-    if ([self.delegate respondsToSelector:@selector(statusChanged:)]) {
-        [self.delegate statusChanged:callMember];
-    }
+    
+    [self.delegate didUpdate:callMember muted:status];
+}
+- (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted {
+    [self.delegate didUpdate:callMember muted:muted];
 }
 
 #pragma mark - NXMConversationDelegate
@@ -222,7 +224,7 @@
     if (type == NXMMemberUpdateTypeState &&
         member.state == NXMMemberStateJoined &&
         [callMember isEqual:self.myCallMember]) {
-        [self.conversation enableMedia:callMember.memberId];
+        [self.conversation enableMedia];
     }
 
     [callMember memberUpdated];

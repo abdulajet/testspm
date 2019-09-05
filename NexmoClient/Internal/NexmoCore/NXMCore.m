@@ -14,6 +14,8 @@
 #import "RTCMediaWrapperDelegate.h"
 #import "NXMNetworkDelegate.h"
 #import "NXMNetworkCallbacks.h"
+#import "NXMEventInternal.h"
+
 
 @interface NXMCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
 
@@ -21,7 +23,6 @@
 @property NXMNetworkManager *network;
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
-@property NSString* token;
 @property (readwrite, nonnull, nonatomic) NXMPushParserManager *pushParser;
 
 @end

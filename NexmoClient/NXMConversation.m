@@ -7,7 +7,6 @@
 
 #import "NXMConversationPrivate.h"
 #import "NXMStitchContext.h"
-#import "NXMConversationEventsControllerPrivate.h"
 #import "NXMConversationMembersController.h"
 #import "NXMConversationEventsQueue.h"
 #import "NXMBlocksHelper.h"
@@ -84,45 +83,45 @@
         case NXMEventTypeGeneral:
             break;
         case NXMEventTypeCustom:
-            if([self.delegate respondsToSelector:@selector(customEvent:)]) {
-                [self.delegate customEvent:(NXMCustomEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveCustomEvent:)]) {
+                [self.delegate didReceiveCustomEvent:(NXMCustomEvent *)event];
             }
             break;
         case NXMEventTypeText:
-            if([self.delegate respondsToSelector:@selector(textEvent:)]) {
-                [self.delegate textEvent:(NXMMessageEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveTextEvent:)]) {
+                [self.delegate didReceiveTextEvent:(NXMTextEvent *)event];
             }
             break;
         case NXMEventTypeImage:
-            if([self.delegate respondsToSelector:@selector(attachmentEvent:)]) {
-                [self.delegate attachmentEvent:(NXMMessageEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveImageEvent:)]) {
+                [self.delegate didReceiveImageEvent:(NXMImageEvent *)event];
             }
             break;
         case NXMEventTypeMessageStatus:
-            if([self.delegate respondsToSelector:@selector(messageStatusEvent:)]) {
-                [self.delegate messageStatusEvent:(NXMMessageStatusEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveMessageStatusEvent:)]) {
+                [self.delegate didReceiveMessageStatusEvent:(NXMMessageStatusEvent *)event];
             }
             break;
         case NXMEventTypeTextTyping:
-            if([self.delegate respondsToSelector:@selector(typingEvent:)]) {
-                [self.delegate typingEvent:(NXMTextTypingEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveTypingEvent:)]) {
+                [self.delegate didReceiveTypingEvent:(NXMTextTypingEvent *)event];
             }
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
         case NXMEventTypeDTMF:
-            if([self.delegate respondsToSelector:@selector(mediaEvent:)]) {
-                [self.delegate mediaEvent:event];
+            if([self.delegate respondsToSelector:@selector(didReceiveMediaEvent:)]) {
+                [self.delegate didReceiveMediaEvent:event];
             }
             break;
         case NXMEventTypeMember:
-            if([self.delegate respondsToSelector:@selector(memberEvent:)]) {
-                [self.delegate memberEvent:(NXMMemberEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveMemberEvent:)]) {
+                [self.delegate didReceiveMemberEvent:(NXMMemberEvent *)event];
             }
             break;
         case NXMEventTypeLegStatus:
-            if([self.delegate respondsToSelector:@selector(legStatusEvent:)]) {
-                [self.delegate legStatusEvent:(NXMLegStatusEvent *)event];
+            if([self.delegate respondsToSelector:@selector(didReceiveLegStatusEvent:)]) {
+                [self.delegate didReceiveLegStatusEvent:(NXMLegStatusEvent *)event];
             }
         case NXMEventTypeSip:
             break;
@@ -141,7 +140,7 @@
 #pragma mark - Public Methods
 
 #pragma mark members
-- (void)joinWithCompletion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
+- (void)join:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion {
     [self joinMemberWithUsername:self.currentUser.name completion:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         [NXMBlocksHelper runWithError:error value:member completion:completion];
     }];
@@ -160,7 +159,7 @@
                                               }];
 }
 
-- (void)leaveWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
+- (void)leave:(void (^_Nullable)(NSError * _Nullable error))completion {
     [self kickMemberWithMemberId:self.myMember.memberId completion:completion];
 }
 
@@ -178,9 +177,9 @@
                                         }];
 }
 
-- (void)sendCustomEvent:(nonnull NSString *)customType
+- (void)sendCustomWithEvent:(nonnull NSString *)customType
                    data:(nonnull NSDictionary *)data
-             completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+             completionHandler:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
@@ -221,7 +220,7 @@
     }];
 }
 
--(void)sendText:(nonnull NSString *)text completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+-(void)sendText:(nonnull NSString *)text completionHandler:(void (^_Nullable)(NSError * _Nullable error))completion {
     
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
@@ -242,7 +241,7 @@
 }
 
 
--(void)sendAttachmentOfType:(NXMAttachmentType)attachmentType WithName:(nonnull NSString *)name data:(nonnull NSData *)data  completion:(void (^_Nullable)(NSError * _Nullable error))completion {
+-(void)sendAttachmentWithType:(NXMAttachmentType)attachmentType name:(nonnull NSString *)name data:(nonnull NSData *)data  completionHandler:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
@@ -265,8 +264,8 @@
     }];
 }
 
-- (void)sendMarkAsSeen:(NSInteger)messageId
-            completion:(void (^_Nullable)(NSError * _Nullable error))completion{
+- (void)sendMarkSeenMessage:(NSInteger)messageId
+            completionHandler:(void (^_Nullable)(NSError * _Nullable error))completion{
     
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
@@ -286,7 +285,7 @@
                                       }];
 }
 
-- (void)sendStartTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
+- (void)sendStartTyping:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
@@ -298,7 +297,7 @@
     [NXMBlocksHelper runWithError:nil completion:completion];
 }
 
-- (void)sendStopTypingWithCompletion:(void (^_Nullable)(NSError * _Nullable error))completion {
+- (void)sendStopTyping:(void (^_Nullable)(NSError * _Nullable error))completion {
     NSError *validityError = [self validateMyMemberJoined];
     if (validityError) {
         [NXMBlocksHelper runWithError:validityError completion:completion];
@@ -346,16 +345,15 @@
                                                     [NXMBlocksHelper runWithError:error value:nil completion:completion];
                                                 }];
 }
-- (NXMErrorCode)enableMedia:(NSString *)memberId {
-    [self.stitchContext.coreClient enableMedia:self.conversationId memberId:memberId];
-    return NXMErrorCodeNone;
+
+- (void)enableMedia {
+    [self.stitchContext.coreClient enableMedia:self.conversationId memberId:self.myMember.memberId];
 }
 
-- (NXMErrorCode)disableMedia {
+- (void)disableMedia {
     LOG_DEBUG([self.conversationId UTF8String]);
 
     [self.stitchContext.coreClient disableMedia:self.conversationId];
-    return NXMErrorCodeNone;
 }
 
 - (void)hold:(BOOL)isHold {
@@ -375,17 +373,16 @@
     
 }
 
-#pragma mark events
-
-- (nonnull NXMConversationEventsController *)eventsControllerWithTypes:(nonnull NSSet *)eventTypes andDelegate:(id<NXMConversationEventsControllerDelegate>_Nullable)delegate{
-    return [self createEventsControllerWithTypes:eventTypes andDelegate:delegate];
+- (void)getEvents:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMEvent *> *))completionHandler; {
+    [self.stitchContext.coreClient getEventsInConversation:self.conversationId
+                                                 onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
+                                                     completionHandler(nil, events);
+                                                 } onError:^(NSError * _Nullable error) {
+                                                     completionHandler(error, nil);
+                                                 }];
 }
 
 #pragma mark - Private Methods
-
-- (nonnull NXMConversationEventsController *)createEventsControllerWithTypes:(nonnull NSSet *)eventTypes andDelegate:(id   <NXMConversationEventsControllerDelegate>_Nullable)delegate{
-    return [[NXMConversationEventsController alloc] initWithSubscribedEventsType:eventTypes andConversationDetails:self.conversationDetails andStitchContext:self.stitchContext delegate:delegate];
-}
 
 - (void)finishHandleEventsSequence {
 //    [self.conversationMembersController finishHandleEventsSequence];

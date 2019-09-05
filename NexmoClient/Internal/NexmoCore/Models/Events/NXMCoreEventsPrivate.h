@@ -9,16 +9,7 @@
 #import "NXMMemberEventPrivate.h"
 #import "NXMLegStatusEventPrivate.h"
 #import "NXMCustomEventInternal.h"
-
-@interface NXMEvent (NXNEventPrivate)
-
-- (instancetype)initWithConversationId:(NSString *)conversationId
-                                     sequenceId:(NSInteger)sequenceId
-                                   fromMemberId:(NSString *)fromMemberId
-                                   creationDate:(NSDate *)creationDate
-                                           type:(NXMEventType)type;
-
-@end
+#import "NXMEventInternal.h"
 
 @interface NXMDTMFEvent (NXMDTMFEventPrivate)
 

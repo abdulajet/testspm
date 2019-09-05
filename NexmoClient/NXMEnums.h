@@ -54,7 +54,7 @@ typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeLegStatus
 };
 
-typedef NS_ENUM(NSInteger, NXMSipEventType){
+typedef NS_ENUM(NSInteger, NXMSipStatus){
     NXMSipEventRinging,
     NXMSipEventAnswered,
     NXMSipEventStatus,
@@ -100,6 +100,11 @@ typedef NS_ENUM(NSInteger, NXMLegStatus) {
     NXMLegStatusCalling,
     NXMLegStatusStarted,
     NXMLegStatusAnswered,
+    NXMLegStatusCanceled,
+    NXMLegStatusFailed,
+    NXMLegStatusBusy,
+    NXMLegStatusTimeout,
+    NXMLegStatusRejected,
     NXMLegStatusCompleted
 };
 

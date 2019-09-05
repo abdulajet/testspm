@@ -16,6 +16,9 @@
 @property (nonatomic, readwrite, nonnull) NXMUser *user;
 @property (nonatomic, readwrite, nullable) NXMChannel *channel;
 @property (nonatomic, readwrite, nullable) NXMMediaSettings *media;
+@property NSString *memberId;
+@property (nonatomic, readwrite) NXMMember *member;
+
 @end
 
 @implementation NXMMemberEvent
@@ -49,6 +52,10 @@
     }
 
     return self;
+}
+
+- (void)updateMember:(NXMMember *)member {
+    self.member = member;
 }
 
 - (NSString *)description {

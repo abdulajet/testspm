@@ -10,5 +10,5 @@
 @interface NXMSipEvent : NXMEvent
 @property (nonatomic, strong, nonnull) NSString *phoneNumber;
 @property (nonatomic, strong, nonnull) NSString *applicationId;
-@property (nonatomic) NXMSipEventType sipType;
+@property (nonatomic) NXMSipStatus status;
 @end

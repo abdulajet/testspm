@@ -461,7 +461,7 @@
     //Act
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation sendStartTypingWithCompletion:^(NSError * _Nullable error) {
+    [conversation sendStartTyping:^(NSError * _Nullable error) {
         XCTAssertNil(error);
         [expectation fulfill];
     }];
@@ -483,7 +483,7 @@
     //Act
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation sendStartTypingWithCompletion:^(NSError * _Nullable error) {
+    [conversation sendStartTyping:^(NSError * _Nullable error) {
         XCTAssertEqual(error.code, NXMErrorCodeNotAMemberOfTheConversation);
         [expectation fulfill];
     }];
@@ -508,7 +508,7 @@
     //Act
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation sendStopTypingWithCompletion:^(NSError * _Nullable error) {
+    [conversation sendStopTyping:^(NSError * _Nullable error) {
         XCTAssertNil(error);
         [expectation fulfill];
     }];
@@ -530,7 +530,7 @@
     //Act
     XCTestExpectation *expectation = [self expectationWithDescription:NSStringFromSelector(_cmd)];
     
-    [conversation sendStopTypingWithCompletion:^(NSError * _Nullable error) {
+    [conversation sendStopTyping:^(NSError * _Nullable error) {
         XCTAssertEqual(error.code, NXMErrorCodeNotAMemberOfTheConversation);
         [expectation fulfill];
     }];
