@@ -447,6 +447,7 @@ NSString *const NXMCallPrefix = @"CALL_";
             }
             
             if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){
+                LOG_DEBUG("processing knockingId");
                 NXMKnockingObj *obj = self.knockingIdsToCompletion[event.knockingId];
                 [conversation enableMedia];
                 [self.knockingIdsToCompletion removeObjectForKey:event.knockingId];
@@ -454,6 +455,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
                 obj.complition(nil, call);
             } else {
+                LOG_ERROR("got member event with knockingId that client doesn't have");
                 //TODO: check if this is a valid state for a call
                 //this could happened if we get the member events before cs return the knocking id
                 //to prevent drop calls we use the Incoming IP call
