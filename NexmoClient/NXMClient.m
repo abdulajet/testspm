@@ -218,19 +218,21 @@ NSString *const NXMCallPrefix = @"CALL_";
     self.knockingIdsToCompletion[knockingId] = knockingObj;
 }
 
-- (void)startIpCall:(nonnull NSString *)user
+- (void)startIpCall:(nonnull NSString *)callee
             delegate:(id<NXMCallDelegate>)delegate
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
-    LOG_DEBUG([user UTF8String]);
+    LOG_DEBUG([callee UTF8String]);
     __weak NXMClient *weakSelf = self;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore createConversationWithName:[NSString stringWithFormat:@"%@%@", NXMCallPrefix, [[NSUUID UUID] UUIDString]]
                                onSuccess:^(NSString * _Nullable convId) {
                                    [weakSelf getConversationWithUUid:convId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+                                       NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
+
                                        if (conversation){
                                            [conversation join:^(NSError * _Nullable error, NXMMember * _Nullable member) {
                                                if (member) {
-                                                   [conversation inviteMemberWithUsername:user withMedia:YES completion:^(NSError *error, NXMMember *member) {
+                                                   [conversation inviteMemberWithUsername:callee withMedia:YES completion:^(NSError *error, NXMMember *member) {
                                                        
                                                        if (error) {
                                                            [NXMBlocksHelper runWithError:error
@@ -239,7 +241,6 @@ NSString *const NXMCallPrefix = @"CALL_";
                                                            return;
                                                        }
                                                        
-                                                       NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
 
                                                        [NXMBlocksHelper runWithError:nil value:call completion:completion];
                                                    }];

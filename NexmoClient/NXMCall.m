@@ -63,11 +63,6 @@
 
 - (void)answer:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
-    if (self.myCallMember.status != NXMCallMemberStatusRinging) {
-        [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
-                           completion:completionHandler]; // TODO: error;
-        return;
-    }
     
     [self.conversation join:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (error || !member) {
