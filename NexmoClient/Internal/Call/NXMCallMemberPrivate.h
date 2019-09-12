@@ -16,5 +16,6 @@
 
 - (void)memberUpdated;
 - (void)callEnded;
+- (void)hangup;
 
 @end

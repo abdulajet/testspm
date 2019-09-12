@@ -367,7 +367,7 @@
 
 - (void)endCall {
     if (self.call.myCallMember.status != NXMLegStatusCompleted) {
-        [self.call.myCallMember hangup];
+        [self.call hangup];
     }
     
     if (self.isSpeaker) {

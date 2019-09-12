@@ -30,7 +30,6 @@ typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
 @property (nonatomic, readonly) NXMCallMemberStatus status;
 @property (nonatomic, copy, nonnull) NSString *statusDescription;
 
-- (void)hangup;
 - (void)hold:(BOOL)isHold;
 - (void)mute:(BOOL)isMute;
 - (void)earmuff:(BOOL) isEarmuff;
