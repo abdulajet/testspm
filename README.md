@@ -7,7 +7,7 @@ With a set of features including IP-IP calls, IP-PSTN/PSTN-IP calls, chat messag
 
 ## Setup
 
-To get started with the nexmo SDK for iOS, check out the [nexmo Mobile Developer Guide for iOS](https://developer.nexmo.com/)
+To get started with the nexmo SDK for iOS, check out the [nexmo Mobile Developer Guide for iOS](https://developer.nexmo.com/client-sdk/setup/add-sdk-to-your-app/ios)
 
 
 ## License
