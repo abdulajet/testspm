@@ -314,13 +314,14 @@
 - (void)userChanged:(NXMUser *)user withSessionId:(NSString *)sessionId {
     [self.router setSessionId:sessionId];
     
+    [self.delegate userUpdated:user];
     [self.router getUser:user.uuid completionBlock:^(NSError * _Nullable error, NXMUser * _Nullable data) {
         if (error) {
-            [self.delegate userChanged:user];
+            [self.delegate userUpdated:user];
             return;
         }
         
-        [self.delegate userChanged:data];
+        [self.delegate userUpdated:data];
     }];
 }
 

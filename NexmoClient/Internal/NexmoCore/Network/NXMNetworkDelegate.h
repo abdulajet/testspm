@@ -15,7 +15,7 @@
 - (NSString *)authToken;
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
-- (void)userChanged:(NXMUser *)user;
+- (void)userUpdated:(NXMUser *)user;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

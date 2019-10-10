@@ -399,9 +399,14 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate connectionStatusChanged:status reason:reason];
 }
 
-- (void)userChanged:(NXMUser *)user {
+- (void)userUpdated:(NXMUser *)user {
+    if ([self.user.uuid isEqualToString:user.uuid]) {
+        self.user.displayName = user.displayName;
+        return;
+    }
     self.user = user;
 }
+
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)member {
     [self.delegate memberJoined:member];
