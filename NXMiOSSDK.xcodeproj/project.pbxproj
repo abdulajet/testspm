@@ -203,6 +203,7 @@
 		F9024EEC21CAB54600D58AD0 /* StitchCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DCEA2198528A00D29065 /* StitchCoreTests.m */; };
 		F9024EEF21CBACCF00D58AD0 /* MainFlow.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024EEE21CBACCF00D58AD0 /* MainFlow.m */; };
 		F9024EF221CBB5BD00D58AD0 /* IncomingCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = F9024EF121CBB5BD00D58AD0 /* IncomingCallCreator.m */; };
+		F914697D23570BB4001C5F5B /* NXMCallTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F914697C23570BB4001C5F5B /* NXMCallTests.m */; };
 		F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F923DD9621985BF600D29065 /* StitchClientTests.m */; };
 		F923DD9921985BF600D29065 /* NexmoClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F923DD8B21985BF600D29065 /* NexmoClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F923DDA021985C8000D29065 /* NXMConversationMembersController.h in Headers */ = {isa = PBXBuildFile; fileRef = 92B7A40F216A639F00390258 /* NXMConversationMembersController.h */; };
@@ -578,6 +579,7 @@
 		F9024EEE21CBACCF00D58AD0 /* MainFlow.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainFlow.m; sourceTree = "<group>"; };
 		F9024EF021CBB5BD00D58AD0 /* IncomingCallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IncomingCallCreator.h; sourceTree = "<group>"; };
 		F9024EF121CBB5BD00D58AD0 /* IncomingCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IncomingCallCreator.m; sourceTree = "<group>"; };
+		F914697C23570BB4001C5F5B /* NXMCallTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCallTests.m; sourceTree = "<group>"; };
 		F923DCEA2198528A00D29065 /* StitchCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchCoreTests.m; sourceTree = "<group>"; };
 		F923DD8921985BF600D29065 /* NexmoClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NexmoClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DD8B21985BF600D29065 /* NexmoClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NexmoClient.h; sourceTree = "<group>"; };
@@ -733,6 +735,7 @@
 				92B5B57921FE2CD2004AD14C /* EventsQueueTests */,
 				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
 				F9C6AE7C22FB2A9D00B7F8E5 /* NXMClientTests.m */,
+				F914697C23570BB4001C5F5B /* NXMCallTests.m */,
 			);
 			path = ClientTests;
 			sourceTree = "<group>";
@@ -1932,6 +1935,7 @@
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,
+				F914697D23570BB4001C5F5B /* NXMCallTests.m in Sources */,
 				92B5B57C21FE2D04004AD14C /* NXMEventsQueueDelegateHelper.m in Sources */,
 				F9024EEC21CAB54600D58AD0 /* StitchCoreTests.m in Sources */,
 				F923DD9721985BF600D29065 /* StitchClientTests.m in Sources */,

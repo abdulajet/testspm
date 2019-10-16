@@ -6,8 +6,9 @@
 //
 
 #import "NXMCall.h"
+#import "NXMConversation.h"
 
-@interface NXMCall (NXMCallPrivate)
+@interface NXMCall (NXMCallPrivate) <NXMConversationDelegate>
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation;
 
