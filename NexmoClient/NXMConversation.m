@@ -109,9 +109,13 @@
             break;
         case NXMEventTypeMedia:
         case NXMEventTypeMediaAction:
-        case NXMEventTypeDTMF:
             if([self.delegate respondsToSelector:@selector(conversation:didReceiveMediaEvent:)]) {
                 [self.delegate conversation:self didReceiveMediaEvent:(NXMMediaEvent *)event];
+            }
+            break;
+        case NXMEventTypeDTMF:
+            if([self.delegate respondsToSelector:@selector(conversation:didReceiveDTMFEvent:)]) {
+                [self.delegate conversation:self didReceiveDTMFEvent:(NXMDTMFEvent *)event];
             }
             break;
         case NXMEventTypeMember:

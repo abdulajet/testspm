@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.0 - 2019-10-15
+### Fixed
+- Receiving a DTMF event in call and conversation
+
+### Added
+NXMConverastionDelegate did receive DTMF event method
+```
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nullable NXMDTMFEvent *)event;
+```
+
 ## 1.0.0 - 2019-09-05
 ### Fixed
 - NexmoClient when disconnected returns error callback for all function.

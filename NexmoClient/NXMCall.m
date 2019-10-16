@@ -228,6 +228,17 @@
     [callMember memberUpdated];
 }
 
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nonnull NXMDTMFEvent *)event {
+    LOG_DEBUG("%s %s", [conversation.uuid UTF8String], [event.digit UTF8String]);
+    if ([self.delegate respondsToSelector:@selector(call:didReceive:fromCallMember:)]) {
+        [self.delegate call:self
+                 didReceive:event.digit
+             fromCallMember:[self findCallMember:event.fromMember.memberUuid]];
+    }
+}
+
+
+
 
 - (void)conversationExpired {
     [self.myCallMember hangup];
