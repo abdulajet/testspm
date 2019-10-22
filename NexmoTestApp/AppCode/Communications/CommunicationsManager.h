@@ -24,7 +24,7 @@
 + (void)setLogger;
 
 - (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
-                                     isPushKit:(BOOL)isPushKit
+                                     pushKit:(nonnull NSData *)pushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion;
 

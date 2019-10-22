@@ -38,12 +38,11 @@
 
 #pragma mark - Push Notifications
 
-
-- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
-                                     isSandbox:(BOOL)isSandbox
-                                     isPushKit:(BOOL)isPushKit
-                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-                        onError:(NXMErrorCallback _Nullable)onError;
+- (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
+                          userNotificationToken:(nullable NSData *)userNotificationToken
+                                      isSandbox:(BOOL)isSandbox
+                                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                                        onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError;

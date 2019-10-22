@@ -299,18 +299,22 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 #pragma mark - push
 
-- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
-                                     isPushKit:(BOOL)isPushKit
-                                     isSandbox:(BOOL)isSandbox
-                                    completionHandler:(void (^ _Nullable)(NSError * _Nullable))completionHandler {
-    LOG_DEBUG("%s %d %d", [[NSString alloc] initWithData:deviceToken encoding:NSUTF8StringEncoding], isPushKit, isSandbox);
+- (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
+                          userNotificationToken:(nullable NSData *)userNotificationToken
+                                      isSandbox:(BOOL)isSandbox
+                              completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler {
+    LOG_DEBUG("%s %s %d", [[NSString alloc] initWithData:pushKitToken encoding:NSUTF8StringEncoding],  [[NSString alloc] initWithData:userNotificationToken encoding:NSUTF8StringEncoding], isSandbox);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
         NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
         completionHandler(resError);
         return;
     }
-    [self.stitchContext.coreClient enablePushNotificationsWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit onSuccess:^{
+    
+    [self.stitchContext.coreClient enablePushNotificationsWithPushKitToken:pushKitToken
+                                                     userNotificationToken:userNotificationToken
+                                                                 isSandbox:isSandbox
+                                                                 onSuccess:^{
         LOG_DEBUG("Nexmo push notifications enabled" );
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     } onError:^(NSError * _Nullable error) {
@@ -319,7 +323,8 @@ NSString *const NXMCallPrefix = @"CALL_";
     }];
 }
 
-- (void)disablePushNotifications:(void(^_Nullable)(NSError * _Nullable error))completionHandler {
+- (void)disablePushNotifications:(nullable NSData *)token
+               completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler {
     LOG_DEBUG("" );
 
     if (![self isConnected]){

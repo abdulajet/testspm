@@ -10,11 +10,13 @@
 
 @implementation NXMEnablePushRequest
 
-- (nullable instancetype)initWithDeviceToken:(nonnull NSData *)deviceToken isSandbox:(BOOL)isSandbox isPushKit:(BOOL)isPushKit{
+- (nullable instancetype)initWithPushKitToken:(nullable NSData *)pushKitToken
+                        userNotificationToken:(nullable NSData *)userNotificationToken
+                                    isSandbox:(BOOL)isSandbox {
     if (self = [super init]) {
-        self.deviceToken = deviceToken;
+        self.pushKitToken = pushKitToken;
         self.isSandbox = isSandbox;
-        self.isPushKit = isPushKit;
+        self.userNotificationToken = userNotificationToken;
     }
     
     return self;

@@ -32,7 +32,7 @@
 - (instancetype)initWithToken:(NSString *)authToken {
     if (self = [super init]) {
         self.token = authToken;
-        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/beta/"
+        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/"
                                                      andWsHost:@"https://ws.nexmo.com/"];
 
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
@@ -73,12 +73,13 @@
 
 #pragma mark - Push
 
-- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
-                                     isSandbox:(BOOL)isSandbox
-                                     isPushKit:(BOOL)isPushKit
-                                     onSuccess:(NXMSuccessCallback _Nullable)onSuccess
-                                       onError:(NXMErrorCallback _Nullable)onError {
-    NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithDeviceToken:deviceToken isSandbox:isSandbox isPushKit:isPushKit];
+- (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
+                          userNotificationToken:(nullable NSData *)userNotificationToken
+                                      isSandbox:(BOOL)isSandbox
+                                      onSuccess:(NXMSuccessCallback _Nullable)onSuccess
+                                        onError:(NXMErrorCallback _Nullable)onError {
+    NXMEnablePushRequest *request = [[NXMEnablePushRequest alloc] initWithPushKitToken:pushKitToken userNotificationToken:userNotificationToken isSandbox:isSandbox];
+    
     [self.network enablePushNotifications:request onSuccess:onSuccess onError:onError];
 }
 

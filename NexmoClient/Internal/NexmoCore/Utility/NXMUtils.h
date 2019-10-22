@@ -11,4 +11,6 @@
 
 @interface NXMUtils : NSObject
 + (NSDate *)dateFromISOString:(NSString *)isoString;
+
++ (NSString *)nexmoDeviceId;
 @end

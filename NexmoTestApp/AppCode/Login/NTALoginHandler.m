@@ -145,13 +145,17 @@ static BOOL _registeredForNexmoPushNotifications;
 }
 
 + (void)enableNexmoPushWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    NSData *deviceToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    NSData *deviceToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
+    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
     if(!deviceToken) {
         [NTALogger info:@"No pushkit device token. not registering for nexmo push"];
         return;
     }
     
-    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:deviceToken isPushKit:YES isSandbox:YES completion:^(NSError * _Nullable error) {
+    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:deviceToken
+                                                                         pushKit:pushKitToken
+                                                                       isSandbox:YES
+                                                                      completion:^(NSError * _Nullable error) {
         if(error) {
             NSString *errorString  = [NSString stringWithFormat:@"Failed enabling Nexmo push with error: %@", error];
             [NTALogger error:errorString];

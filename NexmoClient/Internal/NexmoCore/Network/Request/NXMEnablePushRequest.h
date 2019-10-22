@@ -12,11 +12,13 @@
 
 @interface NXMEnablePushRequest : NXMBaseRequest
 
-@property (nonatomic, strong, nonnull) NSData *deviceToken;
-@property (nonatomic) BOOL isSandbox;
-@property (nonatomic) BOOL isPushKit;
+@property (nonatomic, nullable) NSData *pushKitToken;
+@property (nonatomic, nullable) NSData *userNotificationToken;
+@property BOOL isSandbox;
 
-- (nullable instancetype)initWithDeviceToken:(nonnull NSData *)deviceToken isSandbox:(BOOL)isSandbox isPushKit:(BOOL)isPushKit;
+- (nullable instancetype)initWithPushKitToken:(nullable NSData *)pushKitToken
+                        userNotificationToken:(nullable NSData *)userNotificationToken
+                                    isSandbox:(BOOL)isSandbox;
 
 @end
 

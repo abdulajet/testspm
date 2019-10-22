@@ -158,17 +158,17 @@ completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullab
 
 /**
  @brief  Enable push notification for specific device
- @param deviceToken     the device token
- @param isPushKit       is the app using PushKit
+ @param pushKitToken     the pushKit token
+ @param userNotificationToken       user notifications token
  @param isSandbox       is apple sandbox enviroment
  @param completionHandler      completion block
  @code [myNXNClient enablePushNotificationsWithDeviceToken:deviceToken isPushKit:isPushKit isSandbox:isSandbox completion:(void(^_Nullable)(NSError * _Nullable error))completion{
  }];
  */
-- (void)enablePushNotificationsWithDeviceToken:(nonnull NSData *)deviceToken
-                                     isPushKit:(BOOL)isPushKit
-                                     isSandbox:(BOOL)isSandbox
-                             completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
+- (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
+                          userNotificationToken:(nullable NSData *)userNotificationToken
+                                      isSandbox:(BOOL)isSandbox
+                              completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
 
 /**
  @brief  Disable push notification for current device

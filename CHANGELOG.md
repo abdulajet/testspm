@@ -6,12 +6,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 1.1.0 - 2019-10-15
 ### Fixed
+- iOS 13 push notifications suppot
 - Receiving a DTMF event in call and conversation
 
 ### Added
 NXMConverastionDelegate did receive DTMF event method
 ```
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nullable NXMDTMFEvent *)event;
+```
+
+### Changed
+NXMClient client enable push notifications method changed
+param pushKitToken - only for voip push (incoming calls)
+param userNotificationToken - all push types
+```
+- (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
+                          userNotificationToken:(nullable NSData *)userNotificationToken
+                                      isSandbox:(BOOL)isSandbox
+                              completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
+
 ```
 
 ## 1.0.0 - 2019-09-05

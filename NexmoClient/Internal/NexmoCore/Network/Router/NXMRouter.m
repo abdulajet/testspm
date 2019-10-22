@@ -1,8 +1,7 @@
 //
 //  NXMRouter.m
-//  NexmoConversationObjC
+//  NexmoClient
 //
-//  Created by Chen Lev on 3/7/18.
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 #import <Foundation/Foundation.h>
@@ -28,7 +27,12 @@
 #import "NXMImageInfoInternal.h"
 
 
-static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
+static NSString * const EVENTS_URL_FORMAT = @"beta/%@conversations/%@/events";
+static NSString * const EVENTS_PAGE_URL_FORMAT = @"beta2/%@conversations/%@/events";
+static NSString * const ENABLE_PUSH_URL_FORMAT = @"beta2/%@devices/%@";
+static NSString * const DISABLE_PUSH_URL_FORMAT = @"beta/%@devices/%@";
+static NSString * const MEMBERS_URL_FORMAT = @"beta/%@conversations/%@/members";
+static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 
 @interface NXMRouter()
 
@@ -66,16 +70,21 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG("");
-    NSString *deviceToken = [self hexadecimalString:request.deviceToken];
-    NSMutableDictionary *dict = [NSMutableDictionary new];
-    dict[@"device_token"] = deviceToken;
-    dict[@"device_type"] = @"ios";
-    dict[@"bundle_id"] = [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: request.isPushKit ? @".voip" : @""];
-    dict[@"device_push_environment"] = request.isSandbox ? @"sandbox" : @"production";
+    NSString *pushKitToken = [self hexadecimalString:request.pushKitToken];
+    NSString *userNotificationToken = [self hexadecimalString:request.userNotificationToken];
     
-    NSString *deviceId = deviceToken; // This is not a bug!!!! we use device/push token as device id.
+    NSDictionary *dict = @{  @"device_type": @"ios",
+                                    @"tokens": @{
+                                            @"voip": @{
+                                                    @"token": [pushKitToken length] > 0 ? pushKitToken : @"",
+                                                    @"bundle_id": [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: @".voip"]
+                                            }, @"push": @{
+                                                    @"token": [userNotificationToken length] > 0 ? userNotificationToken : @"",
+                                                    @"bundle_id":  [NSBundle mainBundle].bundleIdentifier
+                                    }}, @"device_push_environment" : request.isSandbox ? @"sandbox" : @"production"
+                                    };
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@devices/%@", self.baseUrl, deviceId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:ENABLE_PUSH_URL_FORMAT, self.baseUrl, [NXMUtils nexmoDeviceId]]];
     
     [self requestToServer:dict url:url httpMethod:@"PUT" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
@@ -89,8 +98,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 
 - (void)disablePushNotificationsWithOnSuccess:(NXMSuccessCallback _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    NSString *deviceId = [self getDeviceId];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@devices/%@", self.baseUrl, deviceId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:DISABLE_PUSH_URL_FORMAT, self.baseUrl, [NXMUtils nexmoDeviceId]]];
     
     [self requestToServer:@{} url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
@@ -118,7 +126,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations", self.baseUrl]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [self addHeader:request];
@@ -169,7 +177,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
     if (order != nil){
         vars = [NSString stringWithFormat:@"%@&&order:%@",vars,order];
     }
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations?%@", self.baseUrl, vars]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta2/%@conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -220,7 +228,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
         vars = [NSString stringWithFormat:@"%@&&order:%@",vars,getConvetsationsRequest.order];
     }
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations?%@", self.baseUrl, vars]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta2/%@conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -253,7 +261,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getConversationsForUser:(NSString *)userId
                       onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@/conversations", self.baseUrl, userId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@users/%@/conversations", self.baseUrl, userId]];
     LOG_DEBUG([[url description] UTF8String]);
     
     NSString* requestType = @"GET";
@@ -290,7 +298,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG([conversationId UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@", self.baseUrl, conversationId]];
     
     NSString* requestType = @"GET";
     
@@ -335,7 +343,7 @@ static NSString * const EVENTS_URL_FORMAT = @"%@conversations/%@/events";
 - (void)getUser:(nonnull NSString*)userId
 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
     LOG_DEBUG([userId UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@users/%@", self.baseUrl, userId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@users/%@", self.baseUrl, userId]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -369,7 +377,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                    };
     };
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members", self.baseUrl, inviteUserRequest.conversationID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, inviteUserRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -394,7 +402,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                    @"type": @"app"
                                    }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members", self.baseUrl, addUserRequest.conversationID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, addUserRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -419,7 +427,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                    @"type": @"app"
                                    }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members", self.baseUrl, joinMembetRequest.conversationID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, joinMembetRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -435,7 +443,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                              onError:(NXMErrorCallback _Nullable)onError{
     LOG_DEBUG([removeMemberRequest.memberID UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members/%@", self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
     [self requestToServer:nil url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -463,7 +471,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                    }
                                 }
                            };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/members", self.baseUrl, invitePstnRequest.conversationID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, invitePstnRequest.conversationID]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -493,7 +501,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                       }
                               }
                       };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@knocking", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@knocking", self.baseUrl]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -521,7 +529,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                     },
                             @"originating_session": self.sessionId };
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/rtc", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/rtc", self.baseUrl, conversationId]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
@@ -541,7 +549,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
              onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG("convId %s : memberId %s : rtcId %s", [conversationId UTF8String] , [memberId UTF8String], [rtcId UTF8String]);
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/rtc/%@?from=%@&originating_session=%@", self.baseUrl, conversationId, rtcId, memberId, self.sessionId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/rtc/%@?from=%@&originating_session=%@", self.baseUrl, conversationId, rtcId, memberId, self.sessionId]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
     [self addHeader:request];
@@ -728,7 +736,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:@"https://api.nexmo.com/v1/image/"]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:IMAGE_URL]
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:10.0];
     [request setHTTPMethod:@"POST"];
@@ -768,7 +776,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                            onError:(NXMErrorCallback _Nullable)onError {
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@conversations/%@/events/%ld?from=%@", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID, deleteEventRequest.memberID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/events/%ld?from=%@", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID, deleteEventRequest.memberID]];
     
     NSString* requestType = @"DELETE";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
@@ -798,7 +806,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 - (void)getEvents:(NXMGetEventsRequest *)getEventsRequest onSuccess:(NXMSuccessCallbackWithEvents)onSuccess onError:(NXMErrorCallback)onError{
     LOG_DEBUG([getEventsRequest.conversationId UTF8String]);
 
-    NSURLComponents *urlComponents = [NSURLComponents  componentsWithString:[NSString stringWithFormat:EVENTS_URL_FORMAT, @"https://api.nexmo.com/beta2/", getEventsRequest.conversationId]];
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithString:[NSString stringWithFormat:EVENTS_PAGE_URL_FORMAT, self.baseUrl, getEventsRequest.conversationId]];
     
     NSMutableArray<NSURLQueryItem *> *queryParams = [NSMutableArray new];
     if(getEventsRequest.startId) {
