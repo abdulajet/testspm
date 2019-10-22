@@ -32,6 +32,7 @@ static NSString * const EVENTS_PAGE_URL_FORMAT = @"%@beta2/conversations/%@/even
 static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
 static NSString * const DISABLE_PUSH_URL_FORMAT = @"%@beta/devices/%@";
 static NSString * const MEMBERS_URL_FORMAT = @"%@beta/conversations/%@/members";
+static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/members/%@";
 static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 
 @interface NXMRouter()
@@ -443,7 +444,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                              onError:(NXMErrorCallback _Nullable)onError{
     LOG_DEBUG([removeMemberRequest.memberID UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_URL_FORMAT, self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:MEMBERS_REMOVE_URL_FORMAT, self.baseUrl, removeMemberRequest.conversationID, removeMemberRequest.memberID]];
     
     [self requestToServer:nil url:url httpMethod:@"DELETE" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
