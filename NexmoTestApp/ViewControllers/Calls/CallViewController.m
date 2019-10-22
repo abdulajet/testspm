@@ -145,6 +145,13 @@
 }
 
 - (void)didFailCreatingCallWithError:(NSError *)error {
+    if (![NSThread isMainThread]) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self didFailCreatingCallWithError:error];
+        });
+        return;
+    }
+    
     [self.InCallStatusLabel setText:@"Error"];
 
     [NTAAlertUtils displayAlertForController:self withTitle:@"Call Failed" andMessage:[NSString stringWithFormat:@"Call failed with error: %@", error] andActionBlock:^(UIAlertAction * _Nonnull action) {

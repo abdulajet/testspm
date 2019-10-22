@@ -27,11 +27,11 @@
 #import "NXMImageInfoInternal.h"
 
 
-static NSString * const EVENTS_URL_FORMAT = @"beta/%@conversations/%@/events";
-static NSString * const EVENTS_PAGE_URL_FORMAT = @"beta2/%@conversations/%@/events";
-static NSString * const ENABLE_PUSH_URL_FORMAT = @"beta2/%@devices/%@";
-static NSString * const DISABLE_PUSH_URL_FORMAT = @"beta/%@devices/%@";
-static NSString * const MEMBERS_URL_FORMAT = @"beta/%@conversations/%@/members";
+static NSString * const EVENTS_URL_FORMAT = @"%@beta/conversations/%@/events";
+static NSString * const EVENTS_PAGE_URL_FORMAT = @"%@beta2/conversations/%@/events";
+static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
+static NSString * const DISABLE_PUSH_URL_FORMAT = @"%@beta/devices/%@";
+static NSString * const MEMBERS_URL_FORMAT = @"%@beta/conversations/%@/members";
 static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 
 @interface NXMRouter()
@@ -126,7 +126,7 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations", self.baseUrl]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [self addHeader:request];
@@ -228,7 +228,7 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
         vars = [NSString stringWithFormat:@"%@&&order:%@",vars,getConvetsationsRequest.order];
     }
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta2/%@conversations?%@", self.baseUrl, vars]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta2/conversations?%@", self.baseUrl, vars]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -261,7 +261,7 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 - (void)getConversationsForUser:(NSString *)userId
                       onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@users/%@/conversations", self.baseUrl, userId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/users/%@/conversations", self.baseUrl, userId]];
     LOG_DEBUG([[url description] UTF8String]);
     
     NSString* requestType = @"GET";
@@ -298,7 +298,7 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG([conversationId UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations/%@", self.baseUrl, conversationId]];
     
     NSString* requestType = @"GET";
     
@@ -343,7 +343,7 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 - (void)getUser:(nonnull NSString*)userId
 completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock{
     LOG_DEBUG([userId UTF8String]);
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@users/%@", self.baseUrl, userId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/users/%@", self.baseUrl, userId]];
     
     NSString* requestType = @"GET";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
@@ -501,7 +501,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                       }
                               }
                       };
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@knocking", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/knocking", self.baseUrl]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error) {
@@ -529,7 +529,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                                     },
                             @"originating_session": self.sessionId };
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/rtc", self.baseUrl, conversationId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations/%@/rtc", self.baseUrl, conversationId]];
     
     [self requestToServer:dict url:url httpMethod:@"POST" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
         if (error){
@@ -549,7 +549,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
              onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG("convId %s : memberId %s : rtcId %s", [conversationId UTF8String] , [memberId UTF8String], [rtcId UTF8String]);
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/rtc/%@?from=%@&originating_session=%@", self.baseUrl, conversationId, rtcId, memberId, self.sessionId]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations/%@/rtc/%@?from=%@&originating_session=%@", self.baseUrl, conversationId, rtcId, memberId, self.sessionId]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0]; // TODO: timeout
     [self addHeader:request];
@@ -776,7 +776,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                            onError:(NXMErrorCallback _Nullable)onError {
 
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta/%@conversations/%@/events/%ld?from=%@", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID, deleteEventRequest.memberID]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations/%@/events/%ld?from=%@", self.baseUrl, deleteEventRequest.conversationID,(long)deleteEventRequest.eventID, deleteEventRequest.memberID]];
     
     NSString* requestType = @"DELETE";
     [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
