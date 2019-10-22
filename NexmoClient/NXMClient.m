@@ -323,8 +323,7 @@ NSString *const NXMCallPrefix = @"CALL_";
     }];
 }
 
-- (void)disablePushNotifications:(nullable NSData *)token
-               completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler {
+- (void)disablePushNotifications:(void(^_Nullable)(NSError * _Nullable error))completionHandler {
     LOG_DEBUG("" );
 
     if (![self isConnected]){
