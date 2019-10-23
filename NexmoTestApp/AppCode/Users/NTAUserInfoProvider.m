@@ -22,12 +22,12 @@ static NSDictionary<NSString *, NSString *> *csUserIdToCSUserName;
     if(self == [NTAUserInfoProvider self]) {
         testAppUsers = @{
                          @"testuser1":[[NTAUserInfo alloc] initWithName:@"testuser1" password:@"Vocal123!" displayName:@"Ayelet Levy" csUserName:@"testuser1" csUserId:testuser1UserId csUserToken:testuser1Token userGroup:@"testUser"],
-                         @"testuser2":[[NTAUserInfo alloc] initWithName:@"testuser2" password:@"11111111" displayName:@"Ilana Goldman" csUserName:@"testuser2" csUserId:testuser2UserId csUserToken:testuser2Token  userGroup:@"testUser"],
-                         @"testuser3":[[NTAUserInfo alloc] initWithName:@"testuser3" password:@"Aa123456" displayName:@"Tom Barkan" csUserName:@"testuser3" csUserId:testuser3UserId csUserToken:testuser3Token userGroup:@"testUser"],
-                         @"testuser4":[[NTAUserInfo alloc] initWithName:@"testuser4" password:@"@yeLet97" displayName:@"Chen Lev" csUserName:@"testuser4" csUserId:testuser4UserId csUserToken:testuser4Token userGroup:@"testUser"],
-                         @"testuser5":[[NTAUserInfo alloc] initWithName:@"testuser5" password:@"V0n@ge098" displayName:@"Guy Mini" csUserName:@"testuser5" csUserId:testuser5UserId csUserToken:testuser5Token userGroup:@"testUser"],
+                         @"testuser2":[[NTAUserInfo alloc] initWithName:@"testuser2" password:@"Vocal123!" displayName:@"Ilana Goldman" csUserName:@"testuser2" csUserId:testuser2UserId csUserToken:testuser2Token  userGroup:@"testUser"],
+                         @"testuser3":[[NTAUserInfo alloc] initWithName:@"testuser3" password:@"Vocal123!" displayName:@"Tom Barkan" csUserName:@"testuser3" csUserId:testuser3UserId csUserToken:testuser3Token userGroup:@"testUser"],
+                         @"testuser4":[[NTAUserInfo alloc] initWithName:@"testuser4" password:@"Vocal123!" displayName:@"Chen Lev" csUserName:@"testuser4" csUserId:testuser4UserId csUserToken:testuser4Token userGroup:@"testUser"],
+                         @"testuser5":[[NTAUserInfo alloc] initWithName:@"testuser5" password:@"Vocal123!" displayName:@"Guy Mini" csUserName:@"testuser5" csUserId:testuser5UserId csUserToken:testuser5Token userGroup:@"testUser"],
                          @"testuser6":[[NTAUserInfo alloc] initWithName:@"testuser6" password:@"Vocal123!" displayName:@"Yonatan Rosenberg" csUserName:@"testuser6" csUserId:testuser6UserId csUserToken:testuser6Token userGroup:@"testUser"],
-                         @"testuser7":[[NTAUserInfo alloc] initWithName:@"testuser7" password:@"12345678" displayName:@"Sagi Cohen" csUserName:@"testuser7" csUserId:testuser7UserId csUserToken:testuser7Token userGroup:@"testUser"],
+                         @"testuser7":[[NTAUserInfo alloc] initWithName:@"testuser7" password:@"Vocal123!" displayName:@"Sagi Cohen" csUserName:@"testuser7" csUserId:testuser7UserId csUserToken:testuser7Token userGroup:@"testUser"],
                          @"testuser8":[[NTAUserInfo alloc] initWithName:@"testuser8" password:@"Vocal123!" displayName:@"Daniel Levi" csUserName:@"testuser8" csUserId:testuser8UserId csUserToken:testuser8Token userGroup:@"testUser"],
                          
                          @"baby1":[[NTAUserInfo alloc] initWithName:@"baby1" password:@"Vocal123!" displayName:@"Ayelet Baby" csUserName:@"baby1" csUserId:baby1UserId csUserToken:baby1Token userGroup:@"baby"],
