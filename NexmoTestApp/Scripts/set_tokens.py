@@ -15,7 +15,7 @@ def main():
 	input_file = open(targetDir+"/Scripts/Tokens.h.template",'r')
 	output_file = open(targetDir+"/AppCode/users/NXMTokens.h","w")
 	for user_type in user_types:
-		for i in range(1,10):
+		for i in range(1,14):
 			content = urllib2.urlopen(base_request % (user_type , i)).read()
 			json_content = json.loads(content)
 			new_line = base_line % (user_type , i , json_content["token"])

@@ -203,7 +203,7 @@ static BOOL _registeredForNexmoPushNotifications;
         return;
     }
     
-    if(_currentUser && !_registeredForNexmoPushNotifications) {
+    if(_currentUser) {
         [self enableNexmoPushWithCompletion:nil];
     }
 }

@@ -18,6 +18,10 @@ static NSString * const testuser6UserId = @"USR-de6954dc-9a54-4a65-8cf4-8628d312
 static NSString * const testuser7UserId = @"USR-aecadd2c-8af1-44aa-8856-31c67d3f6e2b";
 static NSString * const testuser8UserId = @"USR-a7862767-e77a-4c0d-9bea-41754f1918c0";
 static NSString * const testuser9UserId = @"USR-0bff641c-9751-473b-84fc-350e8cf2d249";
+static NSString * const testuser10UserId = @"USR-0e804fd3-f33d-4131-80fa-9d12a6272475";
+static NSString * const testuser11UserId = @"USR-96829113-9a0c-4fb0-9fbf-664edfb10524";
+static NSString * const testuser12UserId = @"USR-0b014344-7893-4b0e-be5e-1098a6e5b743";
+static NSString * const testuser13UserId = @"USR-2f0f4af0-5152-429d-9655-094311d117f7";
 
 static NSString * const baby1UserId = @"USR-2cf49ab9-e936-4442-ba8a-9179e60d016c";
 static NSString * const baby2UserId = @"USR-d02c652d-cf54-4fd1-958b-6cf140c9b3c0";
@@ -56,6 +60,14 @@ testuser7Token =
 testuser8Token =
 
 testuser9Token =
+
+testuser10Token =
+
+testuser11Token =
+
+testuser12Token =
+
+testuser13Token =
 
 baby1Token =
 
