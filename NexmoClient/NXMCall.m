@@ -165,6 +165,11 @@
     }
     
     [self.conversation disableMedia];
+    [self.conversation kickMemberWithMemberId:callMember.memberId completion:^(NSError * _Nullable error) {
+        if (error) {
+            LOG_ERROR(@"hangup kick failed:%s",[error.description UTF8String]);
+        }
+    }];
 }
 
 - (void)hold:(NXMCallMember *)callMember isHold:(BOOL)isHold {
