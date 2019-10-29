@@ -225,7 +225,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NSDictionary * msg = @{@"tid": [[NSUUID UUID] UUIDString],
                            @"body" : @{
                                    @"token": self.token,
-                                   @"device_id": [[[UIDevice currentDevice] identifierForVendor] UUIDString],
+                                   @"device_id": [NXMUtils nexmoDeviceId],
                                    @"device_type": @"iphone",
                                    @"SDK_version": [[NSBundle bundleForClass:[self class]] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
                                    @"OS_family": @"iOS"
