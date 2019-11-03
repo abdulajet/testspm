@@ -17,6 +17,7 @@
 @property (nonatomic, readwrite, nullable) NXMChannel *channel;
 @property (nonatomic, readwrite, nullable) NXMMediaSettings *media;
 @property NSString *memberId;
+@property NSString *clientRef;
 @property (nonatomic, readwrite) NXMMember *member;
 
 @end
@@ -26,6 +27,7 @@
 - (instancetype)initWithConversationId:(NSString *)conversationId
                             sequenceId:(NSUInteger)sequenceId
                               andState:(NXMMemberState)state
+                       clientRef:(NSString *)clientRef
                                andData:(NSDictionary *)data
                           creationDate:(NSDate *)date
                               memberId:(NSString *)memberId {
@@ -42,6 +44,8 @@
         self.memberId = memberId;
         self.user =  [[NXMUser alloc] initWithData:data[@"user"]];
         self.state = state;
+        
+        self.clientRef = clientRef;
         
         BOOL isEnabled = [[[data[@"media"] objectForKey:@"audio_settings"] objectForKey:@"enabled"] boolValue];
         BOOL isMuted = [[[data[@"media"] objectForKey:@"audio_settings"] objectForKey:@"muted"] boolValue];

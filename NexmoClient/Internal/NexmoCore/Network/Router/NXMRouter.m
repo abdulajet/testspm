@@ -392,11 +392,15 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     }];
 }
 
-- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
+- (NSString *)joinUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
                     onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
                       onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG([addUserRequest.username UTF8String]);
+    
+    NSString *clientRef = [[NSUUID UUID] UUIDString];
+    
     NSDictionary *dict = @{
+                           @"client_ref": clientRef,
                            @"user_name": addUserRequest.username,
                            @"action": @"join",
                            @"channel": @{
@@ -415,13 +419,19 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
                              andMemberIdFieldName:@"id"
                                 andConversationId:addUserRequest.conversationID]);
     }];
+    
+    return clientRef;
 }
 
-- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
+- (NSString *)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
                        onSuccess:(NXMSuccessCallbackWithId)onSuccess
                          onError:(NXMErrorCallback _Nullable)onError {
     LOG_DEBUG([joinMembetRequest.memberID UTF8String]);
+    
+    NSString *clientRef = [[NSUUID UUID] UUIDString];
+    
     NSDictionary *dict = @{
+                           @"client_ref": clientRef,
                            @"member_id": joinMembetRequest.memberID,
                            @"action": @"join",
                            @"channel": @{
@@ -438,6 +448,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         
         onSuccess(nil); // TODO: eventId;
     }];
+    
+    return clientRef;
 }
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
@@ -485,11 +497,14 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 }
 
 
-- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
+- (NSString *)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
                                onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                                  onError:(NXMErrorCallback _Nullable)onError{
+    NSString *clientRef = [[NSUUID UUID] UUIDString];
     LOG_DEBUG("user %s phone %s", [invitePstnRequest.userName UTF8String], [invitePstnRequest.phoneNumber UTF8String]);
+    
     NSDictionary *dict = @{
+                     @"client_ref": clientRef,
                       @"channel": @{
                               @"type": @"app",
                               @"from":@{
@@ -512,6 +527,8 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         
         onSuccess(data[@"id"]); // TODO: eventId;
     }];
+    
+    return clientRef;
 }
 
 
@@ -1056,6 +1073,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:conversationId
                                                                       sequenceId:[[self getSequenceId:dict] integerValue]
                                                                         andState:state
+                                                                 clientRef:dict[@"client_ref"]
                                                                          andData:dict[@"body"]
                                                                     creationDate:[self getCreationDate:dict]
                                                                         memberId:memberId];

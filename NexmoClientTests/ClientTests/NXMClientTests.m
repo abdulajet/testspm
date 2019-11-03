@@ -69,27 +69,27 @@
 }
 
 - (void)testOnMemberJoinedEventWithoutAudio_IncomingConversation {
-    [self incomingConversationWithMemberState:@"joined"];
+    [self incomingConversationWithMemberState:@"joined" clientRef:@"test_client_ref"];
 }
 
 - (void)testOnMemberInvitedEventWithoutAudio_IncomingConversation {
-    [self incomingConversationWithMemberState:@"invited"];
+    [self incomingConversationWithMemberState:@"invited" clientRef:@"test_client_ref"];
 }
 
 - (void)testOnMemberLeftEventWithoutAudio_IncomingConversation {
-    [self noIncomingConversationWithMemberState:@"left" fromMe:NO];
+    [self noIncomingConversationWithMemberState:@"left" fromMe:NO clientRef:nil];
 }
 
 - (void)testOnMemberJoinedHimselfEventWithoutAudio_NoIncomingConversation {
-    [self noIncomingConversationWithMemberState:@"joined" fromMe:YES];
+    [self noIncomingConversationWithMemberState:@"joined" fromMe:YES clientRef:nil];
 }
 
 - (void)testOnMemberInvitedHimselfEventWithoutAudio_NoIncomingConversation {
-    [self noIncomingConversationWithMemberState:@"invited" fromMe:YES];
+    [self noIncomingConversationWithMemberState:@"invited" fromMe:YES clientRef:nil];
 }
 
 - (void)testOnMemberKickHimselfEventWithoutAudio_NoIncomingConversation {
-    [self noIncomingConversationWithMemberState:@"left" fromMe:YES];
+    [self noIncomingConversationWithMemberState:@"left" fromMe:YES clientRef:nil];
 }
 
 - (void)testOnMemberInvitedWithAudio_IncomingCall {
@@ -100,6 +100,7 @@
     NXMMemberEvent *event = [NXMTestingUtils memberEventWithConvId:convId
                                                               user:userId
                                                              state:@"invited"
+                                                   clientRef:nil
                                                           memberId:userId
                                                       fromMemberId:@"3"
                                                              media:YES];
@@ -141,6 +142,7 @@
     NXMMemberEvent *event = [NXMTestingUtils memberEventWithConvId:convId
                                                               user:userId
                                                              state:@"invited"
+                                                        clientRef:nil
                                                           memberId:userId
                                                       fromMemberId:@"3"
                                                              media:YES];
@@ -173,13 +175,14 @@
 
 
 
-- (void)incomingConversationWithMemberState:(NSString *)memberState {
+- (void)incomingConversationWithMemberState:(NSString *)memberState clientRef:(NSString *)clientRef {
     NSString *convId = @"1";
     NSString *userId = @"2";
     NXMConversationDetails *conversationDetailes = [[NXMConversationDetails alloc] init];
     NXMMemberEvent *event = [NXMTestingUtils memberEventWithConvId:convId
                                                               user:userId
                                                              state:memberState
+                                                        clientRef:clientRef
                                                           memberId:userId
                                                       fromMemberId:@"3"
                                                              media:NO];
@@ -214,13 +217,14 @@
     [clientDelegateMock stopMocking];
 }
 
-- (void)noIncomingConversationWithMemberState:(NSString *)memberState fromMe:(BOOL)fromMe {
+- (void)noIncomingConversationWithMemberState:(NSString *)memberState fromMe:(BOOL)fromMe clientRef:(NSString *)clientRef {
     NSString *convId = @"1";
     NSString *userId = @"2";
     NXMConversationDetails *conversationDetailes = [[NXMConversationDetails alloc] init];
     NXMMemberEvent *event = [NXMTestingUtils memberEventWithConvId:convId
                                                               user:userId
                                                              state:memberState
+                                                   clientRef:clientRef
                                                           memberId:userId
                                                       fromMemberId:fromMe ? userId : @"3"
                                                              media:NO];

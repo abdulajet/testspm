@@ -15,6 +15,7 @@
 #import "NXMConversationPrivate.h"
 #import "NXMBlocksHelper.h"
 #import "NXMLoggerInternal.h"
+#import "NXMMemberPrivate.h"
 
 
 @interface NXMCall() <NXMCallProxy,NXMConversationDelegate, NXMConversationUpdateDelegate>
@@ -29,6 +30,7 @@
 @property NSInteger lastEventId;
 @property NSObject *membersSyncToken;
 @property BOOL pendingToAnswer;
+@property NSString *clientRef;
 @end
 
 @implementation NXMCall
@@ -64,7 +66,7 @@
 - (void)answer:(NXMErrorCallback _Nullable)completionHandler {
     LOG_DEBUG("");
     
-    [self.conversation join:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+    self.clientRef = [self.conversation joinClientRef:^(NSError * _Nullable error, NXMMember * _Nullable member) {
         if (error || !member) {
             [NXMBlocksHelper runWithError:[NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown andUserInfo:nil]
                            completion:completionHandler]; // TODO: error;
@@ -73,6 +75,8 @@
         
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     }];
+    
+    LOG_DEBUG("answer with client ref %s", [self.clientRef UTF8String]);
 }
 
 - (void)reject:(NXMErrorCallback _Nullable)completionHandler {
@@ -226,7 +230,8 @@
     
     if (type == NXMMemberUpdateTypeState &&
         member.state == NXMMemberStateJoined &&
-        [callMember isEqual:self.myCallMember]) {
+        [callMember isEqual:self.myCallMember] &&
+        [self.clientRef isEqualToString:member.clientRef]) {
         [self.conversation enableMedia];
     }
 

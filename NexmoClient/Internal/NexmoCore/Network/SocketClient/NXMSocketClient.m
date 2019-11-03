@@ -533,6 +533,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
                                                                       sequenceId:[json[@"id"] integerValue]
                                                                         andState:NXMMemberStateJoined
+                                                                 clientRef:json[@"client_ref"]
                                                                          andData:json[@"body"]
                                                                     creationDate:[NXMUtils dateFromISOString:json[@"timestamp"]]
                                                                         memberId:json[@"from"]];
@@ -548,6 +549,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
                                                                       sequenceId:[json[@"id"] integerValue]
                                                                         andState:NXMMemberStateInvited
+                                                                 clientRef:json[@"client_ref"]
                                                                          andData:json[@"body"]
                                                                     creationDate:[NXMUtils dateFromISOString:json[@"timestamp"]]
                                                                         memberId:json[@"from"]];
@@ -562,6 +564,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:json[@"cid"]
                                                                       sequenceId:[json[@"id"] integerValue]
                                                                         andState:NXMMemberStateLeft
+                                                                clientRef:json[@"client_ref"]
                                                                          andData:json[@"body"]
                                                                     creationDate:[NXMUtils dateFromISOString:json[@"timestamp"]]
                                                                         memberId:json[@"from"]];

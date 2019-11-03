@@ -23,6 +23,7 @@
 @property (nonatomic, readwrite) NXMMemberState state;
 @property (nonatomic, readwrite) NXMChannel *channel;
 @property (nonatomic, readwrite) NSDictionary<NSValue *, NXMInitiator *> *initiators;
+@property NSString *clientRef;
 
 @end
 
@@ -32,6 +33,7 @@
                   conversationId:(NSString *)conversationId
                             user:(NXMUser *)user
                            state:(NXMMemberState)state
+                 clientRef:(NSString *)clientRef
                       initiators:(NSDictionary<NSValue *, NXMInitiator *> *)initiators
                            media:(NXMMediaSettings *)media
                            channel:(NXMChannel *)channel {
@@ -44,6 +46,7 @@
         self.initiators = initiators;
         self.media = media;
         self.channel = channel;
+        self.clientRef = clientRef;
     }
     
     return self;
@@ -55,6 +58,7 @@
                    conversationId:memberEvent.conversationUuid
                              user:memberEvent.user
                             state:memberEvent.state
+                  clientRef:memberEvent.clientRef
                        initiators:@{@(memberEvent.state): [[NXMInitiator alloc] initWithTime:memberEvent.creationDate
                                                                                  andMemberId:memberEvent.fromMemberId]}
                             media:memberEvent.media
@@ -77,6 +81,7 @@
                        conversationId:convertaionId
                                  user:[[NXMUser alloc] initWithData:data]
                                 state:[self parseMemberState:data[@"state"]]
+                      clientRef:nil
                            initiators:[self parseInitiators:data]
                                 media:[[NXMMediaSettings alloc]
                                        initWithEnabled:[data[@"media"][@"audio_settings"][@"enabled"] boolValue]
@@ -98,14 +103,17 @@
     [self.media updateWithEnabled:media.isEnabled suspend:media.isSuspended];
 }
 
-- (void)updateState:(NXMMemberState)state time:(NSDate *)time initiator:(NSString *)initiator {
-    self.state = state;
+- (void)updateState:(NXMMemberEvent *)memberEvent {
+    self.state = memberEvent.state;
+    self.clientRef = memberEvent.clientRef;
     
     NSMutableDictionary *updatedInitiators = [NSMutableDictionary new];
     for (NSValue *key in self.initiators.allKeys) {
         [updatedInitiators setObject:self.initiators[key] forKey:key];
     }
-    [updatedInitiators setObject:[[NXMInitiator alloc] initWithTime:time andMemberId:initiator] forKey:@(state)];
+    [updatedInitiators setObject:[[NXMInitiator alloc] initWithTime:memberEvent.creationDate
+                                                        andMemberId:memberEvent.fromMemberId]
+                          forKey:@(memberEvent.state)];
     
     self.initiators = updatedInitiators;
 }
@@ -163,13 +171,14 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ memberId=%@ user=%@ state=%ld media=%@ channel=%@ initiators=%@",
+    return [NSString stringWithFormat:@"<%@: %p> conversationId=%@ memberId=%@ user=%@ state=%ld clientRef=%@ media=%@ channel=%@ initiators=%@",
             NSStringFromClass([self class]),
             self,
             self.conversationUuid,
             self.memberUuid,
             self.user,
             (long)self.state,
+            self.clientRef,
             self.media,
             self.channel,
             self.initiators];

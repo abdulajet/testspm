@@ -43,6 +43,7 @@
     NXMMemberEvent *memberEvent = [[NXMMemberEvent alloc] initWithConversationId:stitchPushInfo[@"conversation_id"]
                                                                       sequenceId:[stitchPushInfo[@"id"] integerValue]
                                                                         andState:NXMMemberStateInvited
+                                                                 clientRef:stitchPushInfo[@"client_ref"]
                                                                          andData:stitchPushInfo[@"body"]
                                                                     creationDate:[NXMUtils dateFromISOString:stitchPushInfo[@"timestamp"]]
                                                                         memberId:stitchPushInfo[@"from"]];

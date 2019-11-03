@@ -9,6 +9,7 @@
 #import "NXMConversation.h"
 
 @interface NXMCall (NXMCallPrivate) <NXMConversationDelegate>
+@property NSString * _Nullable clientRef;
 
 - (nullable instancetype)initWithConversation:(nonnull NXMConversation *)conversation;
 

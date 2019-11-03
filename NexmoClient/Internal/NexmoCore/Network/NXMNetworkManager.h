@@ -56,9 +56,9 @@
                  onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                    onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
-                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
-                      onError:(NXMErrorCallback _Nullable)onError;
+- (nonnull NSString *)joinUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
+                                   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                                     onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
                        onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
@@ -68,13 +68,13 @@
                        onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                          onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
-                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
-                         onError:(NXMErrorCallback _Nullable)onError;
+- (nonnull NSString *)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
+                                             onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                               onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
-                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
-                         onError:(NXMErrorCallback _Nullable)onError;
+- (nonnull NSString *)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMembetRequest
+                                     onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                       onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
                            onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess

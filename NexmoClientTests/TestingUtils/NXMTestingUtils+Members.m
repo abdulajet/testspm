@@ -40,6 +40,7 @@
 + (NXMMemberEvent *)memberEventWithConvId:(NSString *)convId
                                      user:(NSString *)userId
                                     state:(NSString *)state
+                          clientRef:(NSString *)clientRef
                                  memberId:(NSString *)memberId
                              fromMemberId:(NSString *)fromMemberId
                                     media:(BOOL)media {
@@ -80,6 +81,7 @@
                                                                   andState:[state isEqualToString:@"invited"] ? NXMMemberStateInvited :
                              [state isEqualToString:@"joined"] ? NXMMemberStateJoined :
                              NXMMemberStateLeft
+                                                           clientRef:clientRef
                                                                    andData:data
                                                               creationDate:nil
                                                                   memberId:memberId];

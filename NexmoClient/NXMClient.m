@@ -20,17 +20,16 @@ typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullabl
 NSString *const NXMCallPrefix = @"CALL_";
 
 
-@interface NXMKnockingObj : NSObject
+@interface NXMClientRefCallObj : NSObject
 @property knockingComplition complition;
-@property id<NXMCallDelegate> delegate;
 @end
-@implementation NXMKnockingObj
+@implementation NXMClientRefCallObj
 @end
 
 @interface NXMClient() <NXMStitchContextDelegate>
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
-@property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMKnockingObj*> * knockingIdsToCompletion;
+@property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
 
 @end
 
@@ -52,7 +51,7 @@ NSString *const NXMCallPrefix = @"CALL_";
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
-        self.knockingIdsToCompletion = [[NSMutableDictionary alloc] init];
+        self.clientRefToCallCallback = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -207,15 +206,14 @@ NSString *const NXMCallPrefix = @"CALL_";
                                                     }];
 }
 
-- (void) addPendingKnockingId:(nonnull NSString*)knockingId
+- (void)addPendingClientReference:(nonnull NSString*)clientRef
                      delegate:(id<NXMCallDelegate>)delegate
                    completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion{
-    LOG_DEBUG([knockingId UTF8String]);
+    LOG_DEBUG([clientRef UTF8String]);
 
-    NXMKnockingObj *knockingObj = [NXMKnockingObj new];
-    knockingObj.complition = completion;
-    knockingObj.delegate = delegate;
-    self.knockingIdsToCompletion[knockingId] = knockingObj;
+    NXMClientRefCallObj *clientRefObj = [NXMClientRefCallObj new];
+    clientRefObj.complition = completion;
+    self.clientRefToCallCallback[clientRef] = clientRefObj;
 }
 
 - (void)startIpCall:(nonnull NSString *)callee
@@ -230,7 +228,7 @@ NSString *const NXMCallPrefix = @"CALL_";
                                        NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
 
                                        if (conversation){
-                                           [conversation join:^(NSError * _Nullable error, NXMMember * _Nullable member) {
+                                           call.clientRef = [conversation joinClientRef:^(NSError * _Nullable error, NXMMember * _Nullable member) {
                                                if (member) {
                                                    [conversation inviteMemberWithUsername:callee withMedia:YES completion:^(NSError *error, NXMMember *member) {
                                                        
@@ -265,14 +263,14 @@ NSString *const NXMCallPrefix = @"CALL_";
           completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completion {
     LOG_DEBUG([callee UTF8String]);
 
-    __weak NXMClient *weakSelf = self;
-    __weak NXMCore *weakCore = self.stitchContext.coreClient;
-    [weakCore inviteToConversation:weakSelf.user.name withPhoneNumber:callee onSuccess:^(NSString * _Nullable value) {
-        if (value)
-            [weakSelf addPendingKnockingId:value delegate:delegate completion:completion];
+    
+    NSString *clientRef = [self.stitchContext.coreClient inviteToConversation:self.user.name withPhoneNumber:callee onSuccess:^(NSString * _Nullable value) {
+            //if (value)
     } onError:^(NSError * _Nullable error) {
         LOG_ERROR("startServerCall falied %s", [error.description UTF8String]);
     }];
+    
+    [self addPendingClientReference:clientRef delegate:delegate completion:completion];
 }
 
 - (void)call:(nonnull NSString *)callees
@@ -438,8 +436,8 @@ NSString *const NXMCallPrefix = @"CALL_";
         }
     }
     //Out going server call
-    if (event.state == NXMMemberStateJoined && event.knockingId){
-        LOG_DEBUG("got member JOINED event with knockingId" );
+    if (event.state == NXMMemberStateJoined && event.clientRef){
+        LOG_DEBUG("got member JOINED event with clientRef" );
         
         [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if (error) {
@@ -451,16 +449,16 @@ NSString *const NXMCallPrefix = @"CALL_";
                 LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
             }
             
-            if (event.knockingId && self.knockingIdsToCompletion[event.knockingId]){
-                LOG_DEBUG("processing knockingId");
-                NXMKnockingObj *obj = self.knockingIdsToCompletion[event.knockingId];
+            if (event.clientRef && self.clientRefToCallCallback[event.clientRef]){
+                LOG_DEBUG("processing clientRef");
+                NXMClientRefCallObj *obj = self.clientRefToCallCallback[event.clientRef];
                 [conversation enableMedia];
-                [self.knockingIdsToCompletion removeObjectForKey:event.knockingId];
+                [self.clientRefToCallCallback removeObjectForKey:event.clientRef];
                 
                 NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
                 obj.complition(nil, call);
             } else {
-                LOG_ERROR("got member event with knockingId that client doesn't have");
+                LOG_ERROR("got member event with clientRef that client doesn't have");
                 //TODO: check if this is a valid state for a call
                 //this could happened if we get the member events before cs return the knocking id
                 //to prevent drop calls we use the Incoming IP call

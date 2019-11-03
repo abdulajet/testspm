@@ -13,6 +13,7 @@
 @interface NXMMember (PrivateParser)
 
 @property (nonatomic, readonly) NSDictionary<NSValue *, NXMInitiator *> *initiators;
+@property NSString *clientRef;
 
 - (instancetype)initWithData:(NSDictionary *)data
                  andMemberIdFieldName:(NSString *)memberIdFieldName;
@@ -25,7 +26,7 @@
 
 - (void)updateChannelWithLeg:(NXMLeg *)leg;
 - (void)updateMedia:(NXMMediaSettings *)media;
-- (void)updateState:(NXMMemberState)state time:(NSDate *)time initiator:(NSString *)initiator;
+- (void)updateState:(NXMMemberEvent *)memberEvent;
 - (void)updateExpired;
 
 - (void)setMember:(NXMMember *)member;

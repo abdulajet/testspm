@@ -57,15 +57,15 @@
              onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)joinToConversation:(nonnull NSString *)conversationId
-  withUsername:(nonnull NSString *)username
-   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
-     onError:(NXMErrorCallback _Nullable)onError;
+- (nonnull NSString *)joinToConversation:(nonnull NSString *)conversationId
+                            withUsername:(nonnull NSString *)username
+                               onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)joinToConversation:(nonnull NSString *)conversationId
-withMemberId:(nonnull NSString *)memberId
-   onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
-     onError:(NXMErrorCallback _Nullable)onError;
+- (nonnull NSString *)joinToConversation:(nonnull NSString *)conversationId
+                            withMemberId:(nonnull NSString *)memberId
+                               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
     withUsername:(nonnull NSString *)userId
@@ -84,7 +84,7 @@ withPhoneNumber:(nonnull NSString *)phoneNumber
      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
        onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)inviteToConversation:(nonnull NSString *)userName
+- (nonnull NSString *)inviteToConversation:(nonnull NSString *)userName
 withPhoneNumber:(nonnull NSString *)phoneNumber
      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
        onError:(NXMErrorCallback _Nullable)onError;

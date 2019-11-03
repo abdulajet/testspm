@@ -9,19 +9,21 @@
 #import "NXMStitchContext.h"
 
 @interface NXMConversation (Private)
--(instancetype)initWithConversationDetails:(NXMConversationDetails *)conversationDetails andStitchContext:(NXMStitchContext *)stitchContext;
-@property (readwrite, nonatomic) NXMConversationDetails *conversationDetails;
+-(nullable instancetype)initWithConversationDetails:(nonnull NXMConversationDetails *)conversationDetails andStitchContext:(nonnull NXMStitchContext *)stitchContext;
+@property (readwrite, nonatomic, nonnull) NXMConversationDetails * conversationDetails;
 
-- (void)inviteMemberWithUsername:(NSString *)userId withMedia:(bool)withMedia
-                    completion:(void (^)(NSError * error, NXMMember * member))completion;
+- (nonnull NSString *)joinClientRef:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completionHandler;
 
-- (void)inviteToConversationWithPhoneNumber:(NSString*)phoneNumber
-                    completion:(void (^)(NSError *  error, NSString *  knockingId))completion;
+- (void)inviteMemberWithUsername:(nonnull NSString *)userId withMedia:(bool)withMedia
+                      completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
+
+- (void)inviteToConversationWithPhoneNumber:(nullable NSString *)phoneNumber
+                                 completion:(void (^_Nullable)(NSError *  _Nullable error , NSString * _Nullable knockingId))completion;
 
 - (void)hold:(BOOL)isHold;
 - (void)mute:(BOOL)isMuted;
 - (void)earmuff:(BOOL)isEarmuff;
-- (void)sendDTMF:(NSString *)dtmf completion:(void (^_Nullable)(NSError * _Nullable error))completion;
+- (void)sendDTMF:(nonnull NSString *)dtmf completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
-- (NXMUser *)currentUser; //TODO: remove after some refactoring - exposed for now to fix bug CSI-1009
+- (nullable NXMUser *)currentUser; //TODO: remove after some refactoring - exposed for now to fix bug CSI-1009
 @end

@@ -169,7 +169,7 @@
     NXMMember *member = self.membersDictionary[memberEvent.memberId];
     if(member) {
         LOG_DEBUG("member before updates %s", [member.description UTF8String]);
-        [member updateState:memberEvent.state time:memberEvent.creationDate initiator:memberEvent.fromMemberId];
+        [member updateState:memberEvent];
         LOG_DEBUG("member after updates %s", [member.description UTF8String]);
 
         [self member:member changedWithType:NXMMemberUpdateTypeState];

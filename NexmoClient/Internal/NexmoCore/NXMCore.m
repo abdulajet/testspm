@@ -136,20 +136,20 @@
     [self.network createConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)joinToConversation:(nonnull NSString *)conversationId
-  withUsername:(nonnull NSString *)username
-   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
-     onError:(NXMErrorCallback _Nullable)onError {
+- (nonnull NSString *)joinToConversation:(nonnull NSString *)conversationId
+                            withUsername:(nonnull NSString *)username
+                               onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError {
     NXMAddUserRequest *request = [[NXMAddUserRequest alloc] initWithConversationId:conversationId andUsername:username];
-    [self.network addUserToConversation:request onSuccess:onSuccess onError:onError];
+    return [self.network joinUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)joinToConversation:(nonnull NSString *)conversationId
-withMemberId:(nonnull NSString *)memberId
-   onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
-     onError:(NXMErrorCallback _Nullable)onError {
+- (nonnull NSString *)joinToConversation:(nonnull NSString *)conversationId
+                            withMemberId:(nonnull NSString *)memberId
+                               onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                                 onError:(NXMErrorCallback _Nullable)onError {
     NXMJoinMemberRequest *request = [[NXMJoinMemberRequest alloc] initWithConversationId:conversationId andMemberId:memberId];
-    [self.network joinMemberToConversation:request onSuccess:onSuccess onError:onError];
+    return [self.network joinMemberToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId
@@ -169,12 +169,12 @@ withMemberId:(nonnull NSString *)memberId
     [self.network inviteUserToConversation:request onSuccess:onSuccess onError:onError];
 }
 
-- (void)inviteToConversation:(nonnull NSString*)userName
+- (NSString *)inviteToConversation:(nonnull NSString*)userName
     withPhoneNumber:(nonnull NSString*)phoneNumber
      onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
        onError:(NXMErrorCallback _Nullable)onError {
     NXMInvitePstnKnockingRequest *request = [[NXMInvitePstnKnockingRequest alloc] initWithUserName:userName andPhoneNumber:phoneNumber];
-    [self.network invitePstnKnockingToConversation:request onSuccess:onSuccess onError:onError];
+    return [self.network invitePstnKnockingToConversation:request onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteToConversation:(nonnull NSString *)conversationId

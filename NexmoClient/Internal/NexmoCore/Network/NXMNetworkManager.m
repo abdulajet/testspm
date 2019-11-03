@@ -76,10 +76,10 @@
     [self.router createConversation:createConversationRequest onSuccess:onSuccess onError:onError];
 }
 
-- (void)addUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
-                    onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
-                      onError:(NXMErrorCallback _Nullable)onError {
-    [self.router addUserToConversation:addUserRequest onSuccess:onSuccess onError:onError];
+- (nonnull NSString *)joinUserToConversation:(nonnull NXMAddUserRequest*)addUserRequest
+                                   onSuccess:(NXMSuccessCallbackWithObject _Nullable)onSuccess
+                                     onError:(NXMErrorCallback _Nullable)onError {
+    return [self.router joinUserToConversation:addUserRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)inviteUserToConversation:(nonnull NXMInviteUserRequest *)inviteUserRequest
@@ -95,16 +95,16 @@
 }
 
 
-- (void)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
+- (NSString *)invitePstnKnockingToConversation:(nonnull NXMInvitePstnKnockingRequest *)invitePstnRequest
                                onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
                                  onError:(NXMErrorCallback _Nullable)onError{
-    [self.router invitePstnKnockingToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
+    return [self.router invitePstnKnockingToConversation:invitePstnRequest onSuccess:onSuccess onError:onError];
 }
 
-- (void)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
-                       onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
-                         onError:(NXMErrorCallback _Nullable)onError {
-   [self.router joinMemberToConversation:joinMemberRequest onSuccess:onSuccess onError:onError];
+- (NSString *)joinMemberToConversation:(nonnull NXMJoinMemberRequest *)joinMemberRequest
+                             onSuccess:(NXMSuccessCallbackWithId _Nullable)onSuccess
+                               onError:(NXMErrorCallback _Nullable)onError {
+   return [self.router joinMemberToConversation:joinMemberRequest onSuccess:onSuccess onError:onError];
 }
 
 - (void)removeMemberFromConversation:(nonnull NXMRemoveMemberRequest *)removeMemberRequest
