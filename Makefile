@@ -169,7 +169,7 @@ test: deps
 	@echo "-------------"
 	$(XCODEBUILD) test $(TEST_FLAGS)
 
-release-internal: clean build
+release_internal: clean build
 	@echo
 	@echo "-----------------------------"
 	@echo "Building For Internal Release"
@@ -178,7 +178,7 @@ release-internal: clean build
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
 
-release-external: clean build
+release_external: clean build
     @echo
     @echo "--------------------"
     @echo "Building For Release"
