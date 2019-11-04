@@ -13,6 +13,7 @@ fi
 PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
 MAJOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f1)
 MINOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f2)
+PATCH_VERSION=$(echo $PLIST_VERSION | cut -d. -f3)
 
 #create a private pod specs repo localy (if not already created)
 REPO_NAME=PrivatePods
@@ -58,7 +59,7 @@ done
 
 echo_green "Creating a git tag"
 
-TAG_NAME="${MAJOR_VERSION}.${MINOR_VERSION}/v$PLIST_VERSION"
+TAG_NAME="${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}/v$PLIST_VERSION"
 
 echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME

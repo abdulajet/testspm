@@ -15,13 +15,15 @@ PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $I
 
 MAJOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f1)
 MINOR_VERSION=$(echo $PLIST_VERSION | cut -d. -f2)
+PATCH_VERSION=$(echo $PLIST_VERSION | cut -d. -f3)
 
 echo "Xcode bundle version: $PLIST_VERSION"
 echo "Major: $MAJOR_VERSION"
 echo "Minor: $MINOR_VERSION"
+echo "Patch: $PATCH_VERSION"
 echo "Build: $BUILD_NUMBER"
 
-FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$BUILD_NUMBER"
+FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$BUILD_NUMBER"
 
 echo "Version: $FINAL_VERSION"
 
