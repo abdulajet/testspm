@@ -176,11 +176,20 @@ deploy_deps:
 	@echo "---------------------------"
 	@cd utils; ./set_build_number.sh
 	
-deploy: clean deploy_deps build
+release-internal: clean deploy_deps build
 	@echo
 	@echo "---------"
 	@echo "Deploying"
 	@echo "---------"
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
+
+release-external: clean deploy_deps build
+@echo
+@echo "--------------------"
+@echo "Building For Release"
+@echo "--------------------"
+@cd utils ; ./set_release_number.sh
+@cd utils ; ./publish_to_artifactory.sh
+@cd utils ; ./release_version.sh
 
