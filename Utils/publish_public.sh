@@ -26,7 +26,7 @@ cat $CHANGELOG_FILE
 popd
 
 git add .
-git commit -m "no var - update changelog file version $SDK_VERSION"
+git commit -m "[NO-VAR] - update changelog file version $SDK_VERSION"
 git push
 
 let NEW_PATCH_VERSION = $PATCH_VERSION + 1
@@ -35,5 +35,5 @@ NEW_FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$NEW_PATCH_VERSION"
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $NEW_FINAL_VERSION" $INFO_PLIST_FILE
 
 git add .
-git commit -m "no var - update to next patch version: $NEW_PATCH_VERSION"
+git commit -m "[NO-VAR] - update to next patch version: $NEW_PATCH_VERSION"
 git push
