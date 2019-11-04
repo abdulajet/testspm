@@ -179,11 +179,11 @@ release_internal: clean build
 	@cd utils ; ./release_version.sh
 
 release_external: clean build
-    @echo
-    @echo "--------------------"
-    @echo "Building For Release"
-    @echo "--------------------"
-    @cd utils ; ./set_release_number.sh
-    @cd utils ; ./publish_to_artifactory.sh
-    @cd utils ; ./release_version.sh
+	@echo
+	@echo "--------------------"
+	@echo "Building For Release"
+	@echo "--------------------"
+	@cd utils ; ./set_release_number.sh
+	@cd utils ; ./publish_to_artifactory.sh
+	@cd utils ; ./release_version.sh
 
