@@ -11,15 +11,6 @@ MAJOR_VERSION=$(echo $SDK_VERSION | cut -d. -f1)
 MINOR_VERSION=$(echo $SDK_VERSION | cut -d. -f2)
 PATCH_VERSION=$(echo $SDK_VERSION | cut -d. -f3)
 
-FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION"
-
-echo "Version: $FINAL_VERSION"
-
-/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $FINAL_VERSION" $INFO_PLIST_FILE
-
-./publish_to_artifactory.sh
-
-
 TAG_NAME="public/${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}/v$SDK_VERSION"
 
 echo "Marking the repo with tag $TAG_NAME"

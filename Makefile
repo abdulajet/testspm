@@ -169,22 +169,16 @@ test: deps
 	@echo "-------------"
 	$(XCODEBUILD) test $(TEST_FLAGS)
 
-deploy_deps:
+release-internal: clean build
 	@echo
-	@echo "---------------------------"
-	@echo "Running Deploy Dependencies"
-	@echo "---------------------------"
-	@cd utils; ./set_build_number.sh
-	
-release-internal: clean deploy_deps build
-	@echo
-	@echo "---------"
-	@echo "Deploying"
-	@echo "---------"
+	@echo "-----------------------------"
+	@echo "Building For Internal Release"
+	@echo "-----------------------------"
+    @cd utils; ./set_build_number.sh
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
 
-release-external: clean deploy_deps build
+release-external: clean build
 @echo
 @echo "--------------------"
 @echo "Building For Release"
