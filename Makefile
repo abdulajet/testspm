@@ -174,16 +174,16 @@ release-internal: clean build
 	@echo "-----------------------------"
 	@echo "Building For Internal Release"
 	@echo "-----------------------------"
-    @cd utils; ./set_build_number.sh
+    @cd utils ; ./set_build_number.sh
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
 
 release-external: clean build
-@echo
-@echo "--------------------"
-@echo "Building For Release"
-@echo "--------------------"
-@cd utils ; ./set_release_number.sh
-@cd utils ; ./publish_to_artifactory.sh
-@cd utils ; ./release_version.sh
+    @echo
+    @echo "--------------------"
+    @echo "Building For Release"
+    @echo "--------------------"
+    @cd utils ; ./set_release_number.sh
+    @cd utils ; ./publish_to_artifactory.sh
+    @cd utils ; ./release_version.sh
 
