@@ -91,8 +91,8 @@
                                      pushKit:(nonnull NSData *)pushKit
                                      isSandbox:(BOOL)isSandbox
                                     completion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    [self.client enablePushNotificationsWithPushKitToken:deviceToken
-                                   userNotificationToken:pushKit
+    [self.client enablePushNotificationsWithPushKitToken:pushKit
+                                   userNotificationToken:deviceToken
                                                isSandbox:isSandbox
                                       completionHandler:completion];
 }
