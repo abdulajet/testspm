@@ -33,7 +33,7 @@ static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
 static NSString * const DISABLE_PUSH_URL_FORMAT = @"%@beta/devices/%@";
 static NSString * const MEMBERS_URL_FORMAT = @"%@beta/conversations/%@/members";
 static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/members/%@";
-static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
+static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/"; // TODO: part of config
 
 @interface NXMRouter()
 
