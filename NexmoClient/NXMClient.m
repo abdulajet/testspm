@@ -385,7 +385,7 @@ NSString *const NXMCallPrefix = @"CALL_";
         event.state != NXMMemberStateLeft  &&
         !event.knockingId &&
         !event.media.isEnabled) {
-        if ([self.delegate respondsToSelector:@selector(client:didReceiveCall:)]) {
+        if ([self.delegate respondsToSelector:@selector(client:didReceiveConversation:)]) {
             LOG_DEBUG("got newConversation event" );
             
             [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
