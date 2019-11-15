@@ -25,15 +25,13 @@
 
 @implementation NXMNetworkManager
 
-- (nullable instancetype)initWithHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost {
+- (instancetype)initWithConfiguration:(NXMConfig *)configuration {
     if (self = [super init]) {
-        
+        self.socketClient = [[NXMSocketClient alloc] initWithHost:configuration.websocketUrl];
+        [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
+        self.router = [[NXMRouter alloc] initWithHost:configuration.apiUrl
+                                               ipsURL:[NSURL URLWithString:configuration.ipsUrl]];
     }
-    
-    self.socketClient = [[NXMSocketClient alloc] initWithHost:wsHost];
-    [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
-    self.router = [[NXMRouter alloc] initWithHost:httpHost];
-    
     return self;
 }
 

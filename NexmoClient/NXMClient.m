@@ -27,7 +27,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 @end
 
 @interface NXMClient() <NXMStitchContextDelegate>
-@property Configuration *configuration; //set to default
+
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
 @property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
@@ -36,7 +36,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 @implementation NXMClient
 
-- (instancetype)init {
+- (nonnull instancetype)initWithConfiguration:(nonnull NXMConfig *)configuration {
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
     LOG_DEBUG("::::    :::  ::::::::::  :::    :::  ::::    ::::    ::::::::");
     LOG_DEBUG(":+:+:   :+:  :+:         :+:    :+:  +:+:+: :+:+:+  :+:    :+:");
@@ -48,7 +48,8 @@ NSString *const NXMCallPrefix = @"CALL_";
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
     
     if(self = [super init]) {
-        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:@""]]; // and config
+        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:@""
+                                                                                           configuration:configuration]];
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
@@ -63,17 +64,22 @@ NSString *const NXMCallPrefix = @"CALL_";
 }
 
 #pragma shared
-+ (void)setConfiguration:(Configuration *)configuration {
-    //self.co...
+
++ (void)setConfiguration:(NXMConfig *)configuration {
+    [NXMClient sharedWithConfiguration:configuration];
 }
 
 + (NXMClient *)shared {
+    return [NXMClient sharedWithConfiguration:[NXMConfig defaultConfiguration]];
+}
+
++ (nonnull NXMClient *)sharedWithConfiguration:(nonnull NXMConfig *)configuration {
     static NXMClient *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [NXMClient new];
+        sharedInstance = [[NXMClient alloc] initWithConfiguration:configuration];
     });
-    
+
     return sharedInstance;
 }
 

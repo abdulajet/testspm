@@ -29,11 +29,12 @@
 #import "NXMSuspendResumeMediaRequest.h"
 #import "NXMSendCustomEventRequest.h"
 #import "NXMSendDTMFRequest.h"
+#import "NXMConfig.h"
 
 
 @interface NXMNetworkManager : NSObject <NXMSocketClientDelegate>
 
-- (nullable instancetype)initWithHost:(nonnull NSString *)httpHost andWsHost:(nonnull NSString *)wsHost;
+- (nullable instancetype)initWithConfiguration:(nonnull NXMConfig *)configuration;
 
 - (NXMConnectionStatus)connectionStatus;
 
