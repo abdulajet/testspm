@@ -19,6 +19,8 @@
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 NSString *const NXMCallPrefix = @"CALL_";
 
+static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME = @"NXMClientConfigChangedAfterSharedException";
+static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = @"NXMClientConfig can't be changed after shared's been called.";
 
 @interface NXMClientRefCallObj : NSObject
 @property knockingComplition complition;
@@ -36,7 +38,10 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 @implementation NXMClient
 
-- (nonnull instancetype)initWithConfiguration:(nonnull NXMConfig *)configuration {
+static BOOL _wasSharedCalled = false;
+static NXMClientConfig *_configuration = nil;
+
+- (nonnull instancetype)initWithConfiguration:(nonnull NXMClientConfig *)configuration {
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
     LOG_DEBUG("::::    :::  ::::::::::  :::    :::  ::::    ::::    ::::::::");
     LOG_DEBUG(":+:+:   :+:  :+:         :+:    :+:  +:+:+: :+:+:+  :+:    :+:");
@@ -65,21 +70,24 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 #pragma shared
 
-+ (void)setConfiguration:(NXMConfig *)configuration {
-    [NXMClient sharedWithConfiguration:configuration];
++ (void)setConfiguration:(NXMClientConfig *)configuration {
+    if (_wasSharedCalled) {
+        @throw [NSException exceptionWithName:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME
+                                       reason:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON
+                                     userInfo:nil];
+    } else {
+        _configuration = configuration;
+    }
 }
 
 + (NXMClient *)shared {
-    return [NXMClient sharedWithConfiguration:[NXMConfig defaultConfiguration]];
-}
-
-+ (nonnull NXMClient *)sharedWithConfiguration:(nonnull NXMConfig *)configuration {
     static NXMClient *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
+        NXMClientConfig *configuration = _configuration ?: [NXMClientConfig new];
         sharedInstance = [[NXMClient alloc] initWithConfiguration:configuration];
+        _wasSharedCalled = true;
     });
-
     return sharedInstance;
 }
 

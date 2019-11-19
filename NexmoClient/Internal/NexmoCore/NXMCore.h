@@ -15,7 +15,7 @@
 #import "NXMErrors.h"
 #import "NXMSipEvent.h"
 #import "NXMRtcAnswerEvent.h"
-#import "NXMConfig.h"
+#import "NXMClientConfig.h"
 
 #import "NXMGetConversationsRequest.h" // remove
 
@@ -27,7 +27,7 @@
 @property (nonatomic, strong, readwrite, nullable) NSString *token;
 
 - (nullable instancetype)initWithToken:(nonnull NSString *)authToken
-                         configuration:(nonnull NXMConfig *)configuration;
+                         configuration:(nonnull NXMClientConfig *)configuration;
 
 - (void)login;
 

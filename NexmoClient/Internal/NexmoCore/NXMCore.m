@@ -29,7 +29,7 @@
 
 @implementation NXMCore
 
-- (instancetype)initWithToken:(NSString *)authToken configuration:(NXMConfig *)configuration {
+- (instancetype)initWithToken:(NSString *)authToken configuration:(NXMClientConfig *)configuration {
     if (self = [super init]) {
         self.token = authToken;
         self.network = [[NXMNetworkManager alloc] initWithConfiguration:configuration];

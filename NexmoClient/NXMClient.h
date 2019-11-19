@@ -10,7 +10,7 @@
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
-#import "NXMConfig.h"
+#import "NXMClientConfig.h"
 
 /*!
  * @brief You use a <i>NXMClient</i> instance to utilise the services provided by NexmoConversation API in your app.
@@ -86,7 +86,7 @@
  * @code [myNXNClient setConfiguration:myConfiguration];
  * @param configuration NXMClient configuration object.
  */
-+ (void)setConfiguration:(nonnull NXMConfig *)configuration;
++ (void)setConfiguration:(nonnull NXMClientConfig *)configuration;
 
 /*!
  * @brief Set NXMClient delegate

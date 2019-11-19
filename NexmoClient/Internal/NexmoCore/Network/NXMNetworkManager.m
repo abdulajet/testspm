@@ -25,7 +25,7 @@
 
 @implementation NXMNetworkManager
 
-- (instancetype)initWithConfiguration:(NXMConfig *)configuration {
+- (instancetype)initWithConfiguration:(NXMClientConfig *)configuration {
     if (self = [super init]) {
         self.socketClient = [[NXMSocketClient alloc] initWithHost:configuration.websocketUrl];
         [self.socketClient setDelegate:(id<NXMSocketClientDelegate>)self];
