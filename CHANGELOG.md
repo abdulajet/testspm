@@ -13,7 +13,7 @@ how to use:
 [NXMClient setConfiguration:NXMClientConfig.DC]
 ```
 this configuration is optional, when not using it the configuration will set to default.
-note: you most call setConfiguration method before using NXMClient.shared.
+Note: you most call `setConfiguration` method before using `NXMClient.shared`.
 
 ## 1.1.0 - 2019-11-14
 ### Fixed
