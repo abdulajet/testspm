@@ -29,6 +29,7 @@
 @interface NXMClient(NXMClientTest)
 - (void)onMemberEvent:(NSNotification* )notification;
 - (BOOL)isConnected;
+- (instancetype)initWithConfiguration:(NXMClientConfig *)configuration;
 @end
 
 @interface NXMClientTests : XCTestCase
@@ -118,7 +119,7 @@
                                               onSuccess:([OCMArg invokeBlockWithArgs:conversationDetailes, nil])
                                                 onError:[OCMArg any]]);
     
-    NXMClient *client = [[NXMClient alloc] init];
+    NXMClient *client = [[NXMClient alloc] initWithConfiguration:[NXMClientConfig new]];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"
@@ -160,7 +161,7 @@
         [expectation fulfill];
     });;
     
-    NXMClient *client = [[NXMClient alloc] init];
+    NXMClient *client = [[NXMClient alloc] initWithConfiguration:[NXMClientConfig new]];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"
@@ -201,7 +202,7 @@
                                                 onError:[OCMArg any]]);
     
     
-    NXMClient *client = [[NXMClient alloc] init];
+    NXMClient *client = [[NXMClient alloc] initWithConfiguration:[NXMClientConfig new]];
     [client setDelegate:clientDelegateMock];
     
     
@@ -239,7 +240,7 @@
                                                   onError:[OCMArg any]]);
     
     
-    NXMClient *client = [[NXMClient alloc] init];
+    NXMClient *client = [[NXMClient alloc] initWithConfiguration:[NXMClientConfig new]];
     [client setDelegate:clientDelegateMock];
     
     NSNotification *notification  = [[NSNotification alloc] initWithName:@"dd"
