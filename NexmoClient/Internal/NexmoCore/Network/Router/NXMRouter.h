@@ -29,7 +29,7 @@
 
 @interface NXMRouter : NSObject
 
-- (nullable instancetype)initWithHost:(nonnull NSString *)host;
+- (nullable instancetype)initWithHost:(nonnull NSString *)host ipsURL:(nonnull NSURL *)ipsURL;
 
 - (void)setToken:(NSString *)token;
 

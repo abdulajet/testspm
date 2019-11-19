@@ -33,11 +33,11 @@ static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
 static NSString * const DISABLE_PUSH_URL_FORMAT = @"%@beta/devices/%@";
 static NSString * const MEMBERS_URL_FORMAT = @"%@beta/conversations/%@/members";
 static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/members/%@";
-static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 
 @interface NXMRouter()
 
 @property NSString *baseUrl;
+@property (nonatomic, nonnull) NSURL *ipsURL;
 @property (nonatomic) NSString *token;
 @property (nonatomic) NSString *sessionId;
 @property (nonatomic) NSString *agentDescription;
@@ -46,9 +46,10 @@ static NSString * const IMAGE_URL = @"https://api.nexmo.com/v1/image/";
 @end
 @implementation NXMRouter
 
-- (nullable instancetype)initWithHost:(nonnull NSString *)host {
+- (instancetype)initWithHost:(NSString *)host ipsURL:(NSURL *)ipsURL {
     if (self = [super init]) {
         self.baseUrl = host;
+        self.ipsURL = ipsURL;
         self.agentDescription = [NSString stringWithFormat:@"iOS %@ %@",
                                  [UIDevice currentDevice].systemVersion,
                                  [UIDevice currentDevice].model];
@@ -754,7 +755,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     [httpBody appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:IMAGE_URL]
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:self.ipsURL
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:10.0];
     [request setHTTPMethod:@"POST"];

@@ -19,6 +19,8 @@
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 NSString *const NXMCallPrefix = @"CALL_";
 
+static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME = @"NXMClientConfigChangedAfterSharedException";
+static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = @"NXMClientConfig can't be changed after shared's been called.";
 
 @interface NXMClientRefCallObj : NSObject
 @property knockingComplition complition;
@@ -27,6 +29,7 @@ NSString *const NXMCallPrefix = @"CALL_";
 @end
 
 @interface NXMClient() <NXMStitchContextDelegate>
+
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
 @property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
@@ -35,7 +38,11 @@ NSString *const NXMCallPrefix = @"CALL_";
 
 @implementation NXMClient
 
-- (instancetype)init {
+static NXMClientConfig *_configuration = nil;
+static NXMClient * _sharedInstance = nil;
+static dispatch_once_t _onceToken = 0;
+
+- (nonnull instancetype)initWithConfiguration:(nonnull NXMClientConfig *)configuration {
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
     LOG_DEBUG("::::    :::  ::::::::::  :::    :::  ::::    ::::    ::::::::");
     LOG_DEBUG(":+:+:   :+:  :+:         :+:    :+:  +:+:+: :+:+:+  :+:    :+:");
@@ -47,7 +54,8 @@ NSString *const NXMCallPrefix = @"CALL_";
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
     
     if(self = [super init]) {
-        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:@""]];
+        self.stitchContext = [[NXMStitchContext alloc] initWithCoreClient:[[NXMCore alloc] initWithToken:@""
+                                                                                           configuration:configuration]];
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
@@ -64,14 +72,32 @@ NSString *const NXMCallPrefix = @"CALL_";
 #pragma shared
 
 + (NXMClient *)shared {
-    static NXMClient *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        sharedInstance = [NXMClient new];
+    dispatch_once(&_onceToken, ^{
+        _configuration = _configuration ?: [NXMClientConfig new];
+        _sharedInstance = [[NXMClient alloc] initWithConfiguration:_configuration];
     });
-    
-    return sharedInstance;
+    return _sharedInstance;
 }
+
+// DO NOT USE THIS METHOD!! ONLY FOR TESTING - RESET SINGLETON
++ (void)destory {
+    _sharedInstance = nil;
+    _onceToken = 0;
+    _configuration = nil;
+}
+
+#pragma configuration
+
++ (void)setConfiguration:(NXMClientConfig *)configuration {
+    if (_sharedInstance) {
+        @throw [NSException exceptionWithName:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME
+                                       reason:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON
+                                     userInfo:nil];
+    }
+    
+    _configuration = configuration;
+}
+
 
 #pragma mark - login and connectivity
 
@@ -91,6 +117,11 @@ NSString *const NXMCallPrefix = @"CALL_";
 // TODO: move to user defaults
 -(NSString *)getToken {
     return self.stitchContext.coreClient.token;
+}
+
+// TODO: move to user defaults
+-(NXMClientConfig *)getConfiguration {
+    return _configuration;
 }
 
 -(void)loginWithAuthToken:(NSString *)authToken {

@@ -29,11 +29,10 @@
 
 @implementation NXMCore
 
-- (instancetype)initWithToken:(NSString *)authToken {
+- (instancetype)initWithToken:(NSString *)authToken configuration:(NXMClientConfig *)configuration {
     if (self = [super init]) {
         self.token = authToken;
-        self.network = [[NXMNetworkManager alloc] initWithHost:@"https://api.nexmo.com/"
-                                                     andWsHost:@"https://ws.nexmo.com/"];
+        self.network = [[NXMNetworkManager alloc] initWithConfiguration:configuration];
 
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
@@ -42,7 +41,6 @@
         
         self.pushParser = [NXMPushParserManager sharedInstance];
     }
-    
     return self;
 }
 

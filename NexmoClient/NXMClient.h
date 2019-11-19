@@ -10,6 +10,7 @@
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
+#import "NXMClientConfig.h"
 
 /*!
  * @brief You use a <i>NXMClient</i> instance to utilise the services provided by NexmoConversation API in your app.
@@ -79,6 +80,19 @@
  */
 @property (nonatomic, readonly, nullable, getter=getToken) NSString *authToken;
 
+/*!
+ * @brief Get NXMClient.shared configuration
+ * @code NXMClientConfig config = NXMClient.shared.configuration;
+ */
+@property (nonatomic, readonly, nullable, getter=getConfiguration) NXMClientConfig *configuration;
+
+
+/*!
+ * @brief Set shared NXMClient configuration. Must be called before [NXMClient shared].
+ * @code [NXMClient setConfiguration:myConfiguration];
+ * @param configuration NXMClient configuration object.
+ */
++ (void)setConfiguration:(nonnull NXMClientConfig *)configuration;
 
 /*!
  * @brief Set NXMClient delegate
