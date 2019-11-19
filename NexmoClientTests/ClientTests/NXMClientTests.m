@@ -30,6 +30,7 @@
 - (void)onMemberEvent:(NSNotification* )notification;
 - (BOOL)isConnected;
 - (instancetype)initWithConfiguration:(NXMClientConfig *)configuration;
++ (void)destory;
 @end
 
 @interface NXMClientTests : XCTestCase
@@ -43,6 +44,8 @@
 - (void)setUp {
     [super setUp];
     
+    [NXMClient destory]; // reset singleton
+    
     self.stitchContextMock = OCMClassMock([NXMStitchContext class]);
     self.stitchCoreMock = OCMClassMock([NXMCore class]);
     
@@ -51,6 +54,8 @@
     
     OCMStub([self.stitchContextMock coreClient]).andReturn(self.stitchCoreMock);
 }
+
+
 
 - (void)tearDown {
     
@@ -68,6 +73,60 @@
     NXMUser *user = [[NXMUser alloc] initWithData:@{@"id":userId, @"name":userName}];
     OCMStub([self.stitchContextMock currentUser]).andReturn(user);
 }
+
+#pragma setConfig tests
+
+- (void)testSetDefaultConfiguration {
+    NXMClientConfig *expected = [NXMClientConfig new];
+    NXMClientConfig *sharedConfig = NXMClient.shared.configuration;
+    
+    XCTAssertEqual(expected.apiUrl, sharedConfig.apiUrl);
+    XCTAssertEqual(expected.websocketUrl, sharedConfig.websocketUrl);
+    XCTAssertEqual(expected.ipsUrl, sharedConfig.ipsUrl);
+}
+
+- (void)testSetLONConfiguration {
+    NXMClientConfig *expected = NXMClientConfig.LON;
+    [NXMClient setConfiguration:expected];
+    NXMClientConfig *sharedConfig = NXMClient.shared.configuration;
+    
+    XCTAssertEqual(expected, sharedConfig);
+}
+
+- (void)testSetCustomConfiguration {
+    NXMClientConfig *expected = [[NXMClientConfig alloc] initWithApiUrl:@"aa" websocketUrl:@"bb" ipsUrl:@"cc"];
+    [NXMClient setConfiguration:expected];
+    NXMClientConfig *sharedConfig = NXMClient.shared.configuration;
+    
+    XCTAssertEqual(expected, sharedConfig);
+}
+
+- (void)testSetLONConfigAndThanCustomConfiguration {
+    NXMClientConfig *expected = [[NXMClientConfig alloc] initWithApiUrl:@"aa" websocketUrl:@"bb" ipsUrl:@"cc"];
+    [NXMClient setConfiguration:NXMClientConfig.LON];
+    [NXMClient setConfiguration:expected];
+    NXMClientConfig *sharedConfig = NXMClient.shared.configuration;
+    
+    XCTAssertEqual(expected, sharedConfig);
+}
+
+- (void)testSetConfigAfterCallShared {
+    NXMClientConfig *expected = [NXMClientConfig new];
+    NXMClientConfig *sharedConfig = NXMClient.shared.configuration;
+    BOOL didCatch = false;
+    @try {
+        [NXMClient setConfiguration:NXMClientConfig.LON];
+    } @catch (NSException *exception) {
+        XCTAssertEqual(expected.apiUrl, sharedConfig.apiUrl);
+        XCTAssertEqual(expected.websocketUrl, sharedConfig.websocketUrl);
+        XCTAssertEqual(expected.ipsUrl, sharedConfig.ipsUrl);
+        didCatch = true;
+    }
+    
+    XCTAssertTrue(didCatch);
+}
+
+#pragma client delegate (onMemberEvent) tests
 
 - (void)testOnMemberJoinedEventWithoutAudio_IncomingConversation {
     [self incomingConversationWithMemberState:@"joined" clientRef:@"test_client_ref"];

@@ -80,10 +80,16 @@
  */
 @property (nonatomic, readonly, nullable, getter=getToken) NSString *authToken;
 
+/*!
+ * @brief Get NXMClient.shared configuration
+ * @code NXMClientConfig config = NXMClient.shared.configuration;
+ */
+@property (nonatomic, readonly, nullable, getter=getConfiguration) NXMClientConfig *configuration;
+
 
 /*!
  * @brief Set shared NXMClient configuration. Must be called before [NXMClient shared].
- * @code [myNXNClient setConfiguration:myConfiguration];
+ * @code [NXMClient setConfiguration:myConfiguration];
  * @param configuration NXMClient configuration object.
  */
 + (void)setConfiguration:(nonnull NXMClientConfig *)configuration;

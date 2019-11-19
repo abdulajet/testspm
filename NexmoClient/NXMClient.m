@@ -38,8 +38,9 @@ static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = 
 
 @implementation NXMClient
 
-static BOOL _wasSharedCalled = false;
 static NXMClientConfig *_configuration = nil;
+static NXMClient * _sharedInstance = nil;
+static dispatch_once_t _onceToken = 0;
 
 - (nonnull instancetype)initWithConfiguration:(nonnull NXMClientConfig *)configuration {
     LOG_DEBUG("--------------------- Nexmo Client-----------------------");
@@ -70,26 +71,33 @@ static NXMClientConfig *_configuration = nil;
 
 #pragma shared
 
++ (NXMClient *)shared {
+    dispatch_once(&_onceToken, ^{
+        _configuration = _configuration ?: [NXMClientConfig new];
+        _sharedInstance = [[NXMClient alloc] initWithConfiguration:_configuration];
+    });
+    return _sharedInstance;
+}
+
+// DO NOT USE THIS METHOD!! ONLY FOR TESTING - RESET SINGLETON
++ (void)destory {
+    _sharedInstance = nil;
+    _onceToken = 0;
+    _configuration = nil;
+}
+
+#pragma configuration
+
 + (void)setConfiguration:(NXMClientConfig *)configuration {
-    if (_wasSharedCalled) {
+    if (_sharedInstance) {
         @throw [NSException exceptionWithName:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME
                                        reason:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON
                                      userInfo:nil];
-    } else {
-        _configuration = configuration;
     }
+    
+    _configuration = configuration;
 }
 
-+ (NXMClient *)shared {
-    static NXMClient *sharedInstance = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NXMClientConfig *configuration = _configuration ?: [NXMClientConfig new];
-        sharedInstance = [[NXMClient alloc] initWithConfiguration:configuration];
-        _wasSharedCalled = true;
-    });
-    return sharedInstance;
-}
 
 #pragma mark - login and connectivity
 
@@ -109,6 +117,11 @@ static NXMClientConfig *_configuration = nil;
 // TODO: move to user defaults
 -(NSString *)getToken {
     return self.stitchContext.coreClient.token;
+}
+
+// TODO: move to user defaults
+-(NXMClientConfig *)getConfiguration {
+    return _configuration;
 }
 
 -(void)loginWithAuthToken:(NSString *)authToken {
