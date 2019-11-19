@@ -14,6 +14,10 @@
 #import "NXMCoreEventsPrivate.h"
 #import "NXMConversationDelegate.h"
 
+@interface NXMCall(NXMCallTests)
+- (void)hangup:(NXMCallMember *)callMember;
+@end
+
 @interface NXMCallTests : XCTestCase
 
 @end
@@ -26,6 +30,238 @@
 
 - (void)tearDown {
     // Put teardown code here. This method is called after the invocation of each test method in the class.
+}
+
+#pragma Answer tests
+
+- (void)testAnswer {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    OCMExpect([conversationMock joinClientRef:([OCMArg invokeBlockWithArgs:[NSNull null], [NXMMember new], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testAnswer"];
+
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    [call answer:^(NSError * _Nullable error) {
+        if (error) {
+            XCTFail(@"answer failed");
+        }
+        
+        [expectation fulfill];
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+}
+
+- (void)testAnswerFailedNoMember {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    OCMExpect([conversationMock joinClientRef:([OCMArg invokeBlockWithArgs:[NSNull null], [NSNull null], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testAnswerFailedNoMember"];
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    [call answer:^(NSError * _Nullable error) {
+        if (error) {
+            [expectation fulfill];
+            XCTAssertEqual(error.code, NXMErrorCodeUnknown);
+            return;
+        }
+        
+        XCTFail(@"answer should fail");
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+}
+
+- (void)testAnswerFailedError {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    OCMExpect([conversationMock joinClientRef:([OCMArg invokeBlockWithArgs:[[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil], [NSNull null], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testAnswerFailedError"];
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    [call answer:^(NSError * _Nullable error) {
+        if (error) {
+            [expectation fulfill];
+            XCTAssertEqual(error.code, NXMErrorCodeUnknown);
+            return;
+        }
+        
+        XCTFail(@"answer should failed");
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+    
+}
+
+#pragma Reject tests
+
+- (void)testReject {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusRinging);
+    OCMExpect([conversationMock leave:([OCMArg invokeBlockWithArgs:[NSNull null], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testReject"];
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call reject:^(NSError * _Nullable error) {
+        if (error) {
+            XCTFail(@"reject failed");
+            return;
+        }
+        
+        [expectation fulfill];
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callPartialMock stopMocking];
+}
+
+- (void)testRejectFailed_alreadyAnswered {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusAnswered);
+    OCMReject([conversationMock leave:([OCMArg invokeBlockWithArgs:[NSNull null], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testRejectFailed_alreadyAnswered"];
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call reject:^(NSError * _Nullable error) {
+        if (error) {
+            [expectation fulfill];
+            XCTAssertEqual(error.code, NXMErrorCodeUnknown);
+            return;
+        }
+        
+        XCTFail(@"reject should failed");
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callMemberMock stopMocking];
+    [callPartialMock stopMocking];
+}
+
+- (void)testRejectFailed {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusRinging);
+    OCMExpect([conversationMock leave:([OCMArg invokeBlockWithArgs:[[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil], nil])]);
+    
+    XCTestExpectation *expectation = [[XCTestExpectation alloc] initWithDescription:@"testRejectFailed"];
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call reject:^(NSError * _Nullable error) {
+        if (error) {
+            [expectation fulfill];
+            XCTAssertEqual(error.code, NXMErrorCodeUnknown);
+            return;
+        }
+        
+        XCTFail(@"reject should failed");
+    }];
+    
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callMemberMock stopMocking];
+    [callPartialMock stopMocking];
+}
+
+#pragma Hangup tests
+
+- (void)testHangup_CallMyMemberHangup {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusAnswered);
+    OCMExpect([callMemberMock hangup]);
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call hangup];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callMemberMock stopMocking];
+    [callPartialMock stopMocking];
+}
+
+- (void)testHangup_CallCompleted {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusCompleted);
+    OCMReject([callMemberMock hangup]);
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call hangup];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callMemberMock stopMocking];
+    [callPartialMock stopMocking];
+}
+
+- (void)testCallMemberHangup {
+    id conversationMock = OCMClassMock([NXMConversation class]);
+    id callMemberMock = OCMClassMock([NXMCallMember class]);
+    OCMStub([callMemberMock status]).andReturn(NXMCallMemberStatusAnswered);
+    
+    NSString *myMemberId = @"1";
+    OCMStub([callMemberMock memberId]).andReturn(myMemberId);
+    
+    OCMExpect([conversationMock disableMedia]);
+    OCMExpect([conversationMock kickMemberWithMemberId:myMemberId completion:([OCMArg invokeBlockWithArgs:[NSNull null], nil])]);
+    
+    NXMCall *call = [[NXMCall alloc] initWithConversation:conversationMock];
+    id callPartialMock = OCMPartialMock(call);
+    OCMStub([callPartialMock myCallMember]).andReturn(callMemberMock);
+    
+    [call hangup:call.myCallMember];
+    
+    [conversationMock verify];
+    [conversationMock stopMocking];
+    [callMemberMock stopMocking];
+    [callPartialMock stopMocking];
 }
 
 #pragma DTMF tests

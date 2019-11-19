@@ -227,10 +227,11 @@
                                                                   object:nil
                                                                 userInfo:@{@"NXMDispatchUserInfoEventKey" :event}];
     [client onMemberEvent:notification];
-    [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
 
     [clientDelegateMock verify];
     [clientDelegateMock stopMocking];
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
 }
 
 
@@ -271,7 +272,9 @@
                                                                 userInfo:@{@"NXMDispatchUserInfoEventKey" :event}];
     [client onMemberEvent:notification];
     
-    [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTWaiterResult result = [XCTWaiter waitForExpectations:@[expectation] timeout:1];
+    XCTAssertEqual(result, XCTWaiterResultCompleted);
+
     
     [clientDelegateMock verify];
     [clientDelegateMock stopMocking];
