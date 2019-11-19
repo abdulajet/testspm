@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.1 - 2019-11-19
+
+### Added
+NXMClientConfig object in order to change DC configuration
+how to use:
+```
+[NXMClient setConfiguration:NXMClientConfig.DC]
+```
+this configuration is optional, when not using it the configuration will set to default.
+note: you most call setConfiguration method before using NXMClient.shared.
+
 ## 1.1.0 - 2019-11-14
 ### Fixed
 - iOS 13 push notifications support
