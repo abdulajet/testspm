@@ -26,7 +26,7 @@
 #import "NXMRtcAnswerEvent.h"
 #import "NXMImageInfoInternal.h"
 
-
+static NSString * const CREATE_CONVERSATION_URL_FORMAT =@"%@beta/conversations";
 static NSString * const EVENTS_URL_FORMAT = @"%@beta/conversations/%@/events";
 static NSString * const EVENTS_PAGE_URL_FORMAT = @"%@beta2/conversations/%@/events";
 static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
@@ -128,7 +128,7 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
     NSError *jsonErr;
     NSData* jsonData = [NSJSONSerialization dataWithJSONObject:@{@"display_name": createConversationRequest.displayName} options:0 error: &jsonErr];
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta/conversations", self.baseUrl]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:CREATE_CONVERSATION_URL_FORMAT, self.baseUrl]];
     
     NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [self addHeader:request];

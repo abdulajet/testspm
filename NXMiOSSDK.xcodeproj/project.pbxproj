@@ -265,6 +265,7 @@
 		F955167F22BA6DF0002A7E87 /* NXMInitiator.h in Headers */ = {isa = PBXBuildFile; fileRef = F955167D22BA6DF0002A7E87 /* NXMInitiator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F955168022BA6DF0002A7E87 /* NXMInitiator.m in Sources */ = {isa = PBXBuildFile; fileRef = F955167E22BA6DF0002A7E87 /* NXMInitiator.m */; };
 		F955168222BA6E6C002A7E87 /* NXMInitiatorPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F955168122BA6E6C002A7E87 /* NXMInitiatorPrivate.h */; };
+		F95A64AB238455EF00AE1D37 /* NXMRouterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = F95A64AA238455EF00AE1D37 /* NXMRouterTests.m */; };
 		F9821D492320306100371FAC /* NXMEventInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F9821D482320306100371FAC /* NXMEventInternal.h */; };
 		F9AE68F321CFDD7500760F0B /* NXMMemberEventPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9AE68F121CFDD7500760F0B /* NXMMemberEventPrivate.h */; };
 		F9B1A30B223904C600D72286 /* NXMDTMFEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B1A309223904C600D72286 /* NXMDTMFEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -629,6 +630,7 @@
 		F955168122BA6E6C002A7E87 /* NXMInitiatorPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMInitiatorPrivate.h; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
+		F95A64AA238455EF00AE1D37 /* NXMRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRouterTests.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
 		F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketIOClientStub.m; sourceTree = "<group>"; };
 		F9821D482320306100371FAC /* NXMEventInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMEventInternal.h; sourceTree = "<group>"; };
@@ -1426,6 +1428,7 @@
 			isa = PBXGroup;
 			children = (
 				F9998AD02083A03200EAC286 /* SocketClient */,
+				F95A64AA238455EF00AE1D37 /* NXMRouterTests.m */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1938,6 +1941,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F95A64AB238455EF00AE1D37 /* NXMRouterTests.m in Sources */,
 				9227302021F602270077D77D /* NXMConversationEventsQueueTests.m in Sources */,
 				F9C6AE7D23003DF100B7F8E5 /* NXMClientTests.m in Sources */,
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
