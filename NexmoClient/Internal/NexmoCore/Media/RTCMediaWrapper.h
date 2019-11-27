@@ -19,6 +19,8 @@
 // TODO: network
 //- (void)setNetworkDelegate:(id<MRTCMediaNetwork>)networkDelegate;
 
+- (instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls;
+    
 - (void)setDelegate:(id<RTCMediaWrapperDelegate>)delegate;
 
 - (void)disableMedia:(NSString *)mediaId;

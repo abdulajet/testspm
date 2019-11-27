@@ -36,7 +36,7 @@
 
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
-        self.rtcMedia = [[RTCMediaWrapper alloc] init];
+        self.rtcMedia = [[RTCMediaWrapper alloc] initWithIceServerUrls:configuration.iceServerUrls];
         [self.rtcMedia setDelegate:self];
         
         self.pushParser = [NXMPushParserManager sharedInstance];

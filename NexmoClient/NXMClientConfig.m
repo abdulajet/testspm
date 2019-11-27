@@ -21,20 +21,33 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 - (instancetype)init {
     return [[NXMClientConfig alloc] initWithApiUrl:@"https://api.nexmo.com/"
                                       websocketUrl:@"https://ws.nexmo.com/"
-                                            ipsUrl:@"https://api.nexmo.com/v1/image/"];
+                                            ipsUrl:@"https://api.nexmo.com/v1/image/"
+                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
 }
 
 - (instancetype)initWithApiUrl:(NSString *)apiURL
                   websocketUrl:(NSString *)websocketUrl
-                        ipsUrl:(NSString *)ipsUrl {
+                        ipsUrl:(NSString *)ipsUrl{
+   return [[NXMClientConfig alloc] initWithApiUrl:apiURL
+                                     websocketUrl:websocketUrl
+                                           ipsUrl:ipsUrl
+                                    iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
+}
+
+- (instancetype)initWithApiUrl:(NSString *)apiURL
+                  websocketUrl:(NSString *)websocketUrl
+                        ipsUrl:(NSString *)ipsUrl
+                 iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls{
     self = [super init];
     if (self) {
         _apiUrl = apiURL;
         _websocketUrl = websocketUrl;
         _ipsUrl = ipsUrl;
+        _iceServerUrls = iceServerUrls;
     }
     return self;
 }
+
 
 + (NXMClientConfig *)LON {
     return [NXMClientConfig configFor:NXMRegionLON];
@@ -54,8 +67,9 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 
 + (nonnull NXMClientConfig *)configFor:(NXMRegion)region {
     return [[NXMClientConfig alloc] initWithApiUrl:[NXMClientConfig apiUrlFor:region]
-                                      websocketUrl:[NXMClientConfig websocketUrlFor:region]
-                                            ipsUrl:[NXMClientConfig ipsUrlFor:region]];
+                                       websocketUrl:[NXMClientConfig websocketUrlFor:region]
+                                             ipsUrl:[NXMClientConfig ipsUrlFor:region]
+                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
 }
 
 + (nonnull NSString *)apiUrlFor:(NXMRegion)region {
@@ -86,6 +100,10 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 
 + (nonnull NSString *)ipsUrlFor:(NXMRegion)region {
     return [[NXMClientConfig apiUrlFor:region] stringByAppendingString:@"/v1/image"];
+}
+
++ (nonnull NSArray<NSString*>*)defaultIceServerUrls{
+    return @[@"stun:stun.l.google.com:19302"];
 }
 
 @end
