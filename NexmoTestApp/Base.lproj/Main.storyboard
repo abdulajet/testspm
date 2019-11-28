@@ -35,24 +35,24 @@
                                 <rect key="frame" x="30" y="389" width="315" height="164"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bEu-ad-a4u" userLabel="username">
-                                        <rect key="frame" x="0.0" y="50.333333333333314" width="315" height="30"/>
+                                        <rect key="frame" x="0.0" y="50" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="username"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LLv-O4-1BA" userLabel="password">
-                                        <rect key="frame" x="0.0" y="100.33333333333331" width="315" height="30"/>
+                                        <rect key="frame" x="0.0" y="100" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGW-Y1-6uY" userLabel="loginButton">
-                                        <rect key="frame" x="0.0" y="150.33333333333337" width="315" height="18.666666666666657"/>
+                                        <rect key="frame" x="0.0" y="150" width="315" height="19"/>
                                         <state key="normal" backgroundImage="loginButtonBG">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Log In">
                                                     <attributes>
-                                                        <font key="NSFont" size="16" name=".SFNSText"/>
+                                                        <font key="NSFont" metaFont="system" size="16"/>
                                                         <paragraphStyle key="NSParagraphStyle" alignment="natural" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
                                                     </attributes>
                                                 </fragment>
@@ -1623,10 +1623,10 @@
             </objects>
             <point key="canvasLocation" x="2727.1999999999998" y="1823.6453201970444"/>
         </scene>
-        <!--Conversations Navigation Controller-->
+        <!--Navigation Controller-->
         <scene sceneID="FVe-YG-wkQ">
             <objects>
-                <navigationController storyboardIdentifier="conversationsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="okc-yW-2B3" customClass="ConversationsNavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="conversationsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="okc-yW-2B3" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="" image="icnNavConversations" id="VTr-Sx-HCm"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xYw-iB-eZp">

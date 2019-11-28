@@ -24,7 +24,6 @@
 		0BF892F122CCC0E000773026 /* NXMPageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF892F022CCC0E000773026 /* NXMPageResponse.m */; };
 		0BFBED74222D1C7E00131B95 /* ClientInfrastructures.framework in Headers */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
 		3C0AE578238D1D2600541F32 /* NXMConverationsPageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE577238D1D2600541F32 /* NXMConverationsPageTests.m */; };
-		3C0AE57B238FC80400541F32 /* ConversationsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */; };
 		3C1F0194237EB6FE00093F48 /* NXMClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C1F0195237EB6FE00093F48 /* NXMClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */; };
 		3C2B8D9B237B2BF700C1224D /* NXMConversationIdsPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */; };
@@ -370,8 +369,6 @@
 		0BF892EE22CCC09300773026 /* NXMPageResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPageResponse.h; sourceTree = "<group>"; };
 		0BF892F022CCC0E000773026 /* NXMPageResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPageResponse.m; sourceTree = "<group>"; };
 		3C0AE577238D1D2600541F32 /* NXMConverationsPageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMConverationsPageTests.m; sourceTree = "<group>"; };
-		3C0AE579238FC80400541F32 /* ConversationsNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationsNavigationController.h; sourceTree = "<group>"; };
-		3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationsNavigationController.m; sourceTree = "<group>"; };
 		3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMClientConfig.h; sourceTree = "<group>"; };
 		3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMClientConfig.m; sourceTree = "<group>"; };
 		3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationIdsPage.h; sourceTree = "<group>"; };
@@ -739,8 +736,6 @@
 		3C7D8F662371D32600E0FDEE /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
-				3C0AE579238FC80400541F32 /* ConversationsNavigationController.h */,
-				3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */,
 				3C7D8F632371CF9D00E0FDEE /* ConversationsTableViewController.h */,
 				3C7D8F642371CF9D00E0FDEE /* ConversationsTableViewController.m */,
 			);
@@ -2020,7 +2015,6 @@
 				92CF9A1321CA5FE6001C86F1 /* CallViewController.m in Sources */,
 				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
 				F9E5E33821D4FF3000FC7202 /* DailerTextField.m in Sources */,
-				3C0AE57B238FC80400541F32 /* ConversationsNavigationController.m in Sources */,
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F9E5E33B21D501A300FC7202 /* PSTNCallCreator.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,

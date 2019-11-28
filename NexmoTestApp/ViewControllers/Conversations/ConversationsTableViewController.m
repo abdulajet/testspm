@@ -84,10 +84,12 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
 
 - (void)showPage:(nullable NXMConversationsPage *)page {
     NSString *orderString = self.order == NXMPageOrderAsc ? @"ASC" : @"DESC";
-    self.navigationItem.title = [NSString stringWithFormat:CONVERSATIONS_TITLE_FORMAT, orderString];
     self.conversationsPage = page;
+    
     BOOL isThereAtLeastOneConversation = self.conversationsPage.conversations.count > 0;
     dispatch_async(dispatch_get_main_queue(), ^{
+        self.navigationItem.title = [NSString stringWithFormat:CONVERSATIONS_TITLE_FORMAT, orderString];
+        
         [self.tableView reloadData];
         if (isThereAtLeastOneConversation) {
             [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
