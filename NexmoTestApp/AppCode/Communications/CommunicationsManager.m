@@ -199,7 +199,19 @@
         return;
     }
     
+    NXMClientConfig* config = [[NXMClientConfig alloc] init];
+    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString* npeName = infoDict[@"NpeName"];
+    if ([npeName caseInsensitiveCompare:@"prod"] != NSOrderedSame){
+        NSString* restUrl = [NSString stringWithFormat:@"https://%@-api.npe.nexmo.io",npeName];
+        NSString* wsUrl = [NSString stringWithFormat:@"https://%@-ws.npe.nexmo.io",npeName];
+        NSString* ipsUrl = [restUrl stringByAppendingString:@"/v1/image"];
+        config = [[NXMClientConfig alloc] initWithApiUrl:restUrl websocketUrl:wsUrl ipsUrl:ipsUrl];
+    }
+    [NXMClient setConfiguration:config];
+    
     self.client = NXMClient.shared;
+
     [self.client setDelegate:self];
     [self.client loginWithAuthToken:userInfo.csUserToken];
 }

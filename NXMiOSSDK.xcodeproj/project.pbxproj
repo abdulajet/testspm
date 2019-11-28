@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0B24A81321CFD3A300FEE109 /* ServerCallCreator.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */; };
+		0B2E46B7238595600021DBDD /* users.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B2E46B6238595600021DBDD /* users.plist */; };
 		0BA6D9252267324F0076334A /* NXMLegStatusEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BA6D9242267324F0076334A /* NXMLegStatusEvent.m */; };
 		0BAE012521F8BBE500EA2E56 /* ClientInfrastructures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
 		0BBC27062268B05B00ABC62A /* NXMLegStatusEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BA6D923226732290076334A /* NXMLegStatusEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -355,6 +356,7 @@
 /* Begin PBXFileReference section */
 		0B24A81121CFD35E00FEE109 /* ServerCallCreator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ServerCallCreator.h; sourceTree = "<group>"; };
 		0B24A81221CFD3A300FEE109 /* ServerCallCreator.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ServerCallCreator.m; sourceTree = "<group>"; };
+		0B2E46B6238595600021DBDD /* users.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = users.plist; sourceTree = "<group>"; };
 		0BA6D923226732290076334A /* NXMLegStatusEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMLegStatusEvent.h; sourceTree = "<group>"; };
 		0BA6D9242267324F0076334A /* NXMLegStatusEvent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMLegStatusEvent.m; sourceTree = "<group>"; };
 		0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ClientInfrastructures.framework; path = Frameworks/ClientInfrastructures/ClientInfrastructures.framework; sourceTree = "<group>"; };
@@ -1436,6 +1438,7 @@
 				F942921121BD703200FA45A1 /* MainTabViewController.m */,
 				F9024EED21CBACCF00D58AD0 /* MainFlow.h */,
 				F9024EEE21CBACCF00D58AD0 /* MainFlow.m */,
+				0B2E46B6238595600021DBDD /* users.plist */,
 			);
 			path = NexmoTestApp;
 			sourceTree = "<group>";
@@ -1760,7 +1763,6 @@
 					};
 					F923DD8821985BF600D29065 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 					};
 					F923DD9021985BF600D29065 = {
@@ -1834,6 +1836,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92B5B597220208D2004AD14C /* Sentences.plist in Resources */,
+				0B2E46B7238595600021DBDD /* users.plist in Resources */,
 				F94291F121BD46FB00FA45A1 /* LaunchScreen.storyboard in Resources */,
 				F94291EE21BD46FB00FA45A1 /* Assets.xcassets in Resources */,
 				F94291EC21BD46F900FA45A1 /* Main.storyboard in Resources */,
@@ -1853,8 +1856,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "python ${PROJECT_DIR}/${TARGET_NAME}/Scripts/set_tokens.py ${TARGET_NAME}\n";
+			shellPath = "/bin/sh -l";
+			shellScript = "export NPE_NAME=prod\nexport NPE_APP_ID='f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e'\nexport NPE_PRIVATE_KEY=''\n/usr/libexec/Plistbuddy -c \"Set NpeName \\\"$NPE_NAME\\\"\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\npython ${PROJECT_DIR}/${TARGET_NAME}/helpers/npe_env_dev.py -a ${NPE_APP_ID} -e ${NPE_NAME} -m ${PROJECT_DIR}/${TARGET_NAME}/ -c 0 -o iOS -p ${NPE_PRIVATE_KEY}\n";
 		};
 		D32D425621CC062A0039A133 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2335,7 +2338,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

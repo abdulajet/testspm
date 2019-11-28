@@ -26,3 +26,8 @@ NexmoClient_Release.podspec
 NXMiOSSDK.xcodeproj/project.xcworkspace/xcuserdata
 build
 UserInterfaceState.xcuserstate
+NexmoTestApp/helpers/conversation.pyc
+NexmoTestApp/helpers/jwt_tokens.pyc
+NexmoTestApp/helpers/npe_env_dev.pyc
+NexmoTestApp/helpers/user.pyc
+NexmoTestApp/helpers/utils.pyc
