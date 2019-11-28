@@ -18,6 +18,8 @@
 #import "NXMSendTextEventRequest.h"
 #import "NXMDeleteEventRequest.h"
 #import "NXMGetConversationsRequest.h"
+#import "NXMConversationsPage.h"
+#import "NXMConversationIdsPage.h"
 #import "NXMCreateConversationRequest.h"
 #import "NXMSendImageRequest.h"
 #import "NXMGetEventsRequest.h"
@@ -90,9 +92,6 @@
                          onSuccess:(NXMSuccessCallback _Nullable)onSuccess
                            onError:(NXMErrorCallback _Nullable)onError;
 
-- (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMErrorCallback _Nullable)onError;
 
 - (void)getLatestEvent:(nonnull NXMGetEventsRequest*)getEventsRequest
              onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
@@ -109,6 +108,17 @@
 - (void)getConversationsForUser:(nonnull NSString *)userId
                    onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError;
+
+- (void)getConversationIdsPageWithSize:(NSUInteger)size
+                                cursor:(nullable NSString *)cursor
+                                userId:(nonnull NSString *)userId
+                                 order:(NXMPageOrder)order
+                             onSuccess:(void(^ _Nullable)(NXMConversationIdsPage * _Nullable page))onSuccess
+                               onError:(void(^ _Nullable)(NSError * _Nullable error))onError;
+
+- (void)getConversationIdsPageForURL:(nonnull NSURL *)url
+                           onSuccess:(void (^ _Nullable)(NXMConversationIdsPage * _Nullable conversationIds))onSuccess
+                             onError:(void (^ _Nullable)(NSError * _Nullable))onError;
 
 - (void)getUser:(nonnull NSString*)userId
         completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullable data))completionBlock;

@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
     NXMErrorCodeNone,
 
     NXMErrorCodeUnknown,
-    
+
     NXMErrorCodeSessionUnknown,
     NXMErrorCodeSessionInvalid,           // @"system:error:invalid-session"
     NXMErrorCodeSessionDisconnected,
@@ -39,6 +39,7 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
     NXMErrorCodeConversationNotFound,
     NXMErrorCodeConversationInvalidMember,
     NXMErrorCodeConversationExpired,
+    NXMErrorCodeConversationsPageNotFound,
     
     NXMErrorCodeMediaNotSupported,
     NXMErrorCodeMediaNotFound,

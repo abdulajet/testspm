@@ -10,6 +10,7 @@
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
+#import "NXMConversationsPage.h"
 #import "NXMClientConfig.h"
 
 /*!
@@ -130,13 +131,13 @@
  @brief getConversation With a specific Id
  @param uuid     conversation id
  @param completionHandler         completion block
- @code [myNXNClient getConversationWithUUid:conversationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion{
+ @code [myNXNClient getConversationWithUuid:conversationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion{
  if (!error){
         NXMConversation myConversation = conversation;
     }
  }];
  */
-- (void)getConversationWithUUid:(nonnull NSString *)uuid
+- (void)getConversationWithUuid:(nonnull NSString *)uuid
               completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completionHandler;
 
 
@@ -151,6 +152,21 @@
  */
 - (void)createConversationWithName:(nonnull NSString *)name
                  completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completionHandler;
+
+
+/**
+ @brief Get conversations page
+ @param size              page size
+ @param order             page order
+ @param completionHandler completion block
+ @code [myNXNClient getConversationsPageWithSize:size order:pageOrder completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
+ if (!error) { NXMConversationsPage *myPage = page; }
+ }];
+ */
+- (void)getConversationsPageWithSize:(NSInteger)size
+                               order:(NXMPageOrder)order
+                   completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversationsPage * _Nullable page))completionHandler;
+
 
 #pragma mark - Call
 

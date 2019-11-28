@@ -15,7 +15,7 @@
 #import "NXMNetworkDelegate.h"
 #import "NXMNetworkCallbacks.h"
 #import "NXMEventInternal.h"
-
+#import "NXMConversationIdsPage.h"
 
 @interface NXMCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
 
@@ -204,6 +204,27 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
 
+- (void)getConversationIdsPageWithSize:(NSUInteger)size
+                                cursor:(NSString *)cursor
+                                userId:(NSString *)userId
+                                 order:(NXMPageOrder)order
+                             onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                               onError:(void (^)(NSError * _Nullable))onError {
+    [self.network getConversationIdsPageWithSize:size
+                                          cursor:cursor
+                                          userId:userId
+                                           order:order
+                                       onSuccess:onSuccess
+                                         onError:onError];
+}
+
+- (void)getConversationIdsPageForURL:(NSURL *)url
+                           onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                             onError:(void (^)(NSError * _Nullable))onError {
+    [self.network getConversationIdsPageForURL:url onSuccess:onSuccess onError:onError];
+}
+
+
 - (void)getLatestEventInConversation:(nonnull NSString *)conversationId
                       onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError{
@@ -230,14 +251,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
     request.startId = startId;
     request.endId = endId;
     [self.network getEvents:request onSuccess:onSuccess onError:onError];
-}
-
-
-
-- (void)getConversations:(nonnull NXMGetConversationsRequest *)getConversationsRequest
-               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMErrorCallback _Nullable)onError {
-    [self.network getConversations:getConversationsRequest onSuccess:onSuccess onError:onError];
 }
 
 

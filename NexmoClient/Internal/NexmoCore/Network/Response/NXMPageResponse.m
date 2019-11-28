@@ -7,6 +7,7 @@
 //
 
 #import "NXMPageResponse.h"
+
 @implementation NXMPageLinks
 
 -(nullable instancetype)initWithFirst:(nonnull NSURL*)first andWithMe:(nonnull NSURL*)me andWithNext:(nullable NSURL*)next andWithPrev:(nullable NSURL*)prev{
@@ -20,10 +21,15 @@
 }
 
 -(nullable instancetype)initWithData:(nonnull NSDictionary*)data{
-    return [self initWithFirst:data[@"first"] andWithMe:data[@"self"] andWithNext:data[@"next"] andWithPrev:data[@"prev"]];
+    NSURL *first = [NSURL URLWithString:data[@"first"][@"href"]];
+    NSURL *me = [NSURL URLWithString:data[@"self"][@"href"]];
+    NSURL *next = [NSURL URLWithString:data[@"next"][@"href"]];
+    NSURL *prev = [NSURL URLWithString:data[@"prev"][@"href"]];
+    return [self initWithFirst:first andWithMe:me andWithNext:next andWithPrev:prev];
 }
 
 @end
+
 @implementation NXMPageResponse
 
 -(nullable instancetype)initWithPageSize:(unsigned int)pageSize

@@ -114,4 +114,9 @@ typedef NS_ENUM(NSInteger, NXMLegType) {
     NXMLegTypeUnknown
 };
 
+typedef NS_ENUM(NSInteger, NXMPageOrder) {
+    NXMPageOrderAsc,
+    NXMPageOrderDesc
+};
+
 

@@ -8,6 +8,8 @@
 #import "NXMClient.h"
 #import "NXMStitchContext.h"
 #import "NXMConversationPrivate.h"
+#import "NXMConversationIdsPage.h"
+#import "NXMConversationsPagePrivate.h"
 #import "NXMCallPrivate.h"
 #import "NXMCallMemberPrivate.h"
 #import "NXMBlocksHelper.h"
@@ -15,6 +17,7 @@
 #import "NXMErrorsPrivate.h"
 #import "NXMEventInternal.h"
 #import "NXMMemberEventPrivate.h"
+#import "NXMConversationsPagingHandler.h"
 
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 NSString *const NXMCallPrefix = @"CALL_";
@@ -33,7 +36,7 @@ static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = 
 @property (nonatomic, nonnull) NXMStitchContext *stitchContext;
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
 @property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
-
+@property (nonatomic, nonnull) id<NXMConversationsPageProxy> conversationsPagingHandler;
 @end
 
 @implementation NXMClient
@@ -59,7 +62,13 @@ static dispatch_once_t _onceToken = 0;
         [self.stitchContext setDelegate:self];
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
-        self.clientRefToCallCallback = [[NSMutableDictionary alloc] init];
+        self.clientRefToCallCallback = [NSMutableDictionary new];
+
+        __weak typeof(self) weakSelf = self;
+        self.conversationsPagingHandler = [[NXMConversationsPagingHandler alloc] initWithStitchContext:self.stitchContext
+                                                                               getConversationWithUuid:^(NSString * _Nonnull uuid, void (^ _Nullable completionHandler)(NSError * _Nullable, NXMConversation * _Nullable)) {
+                                                                                   [weakSelf getConversationWithUuid:uuid completionHandler:completionHandler];
+                                                                               }];
     }
     
     return self;
@@ -184,7 +193,7 @@ static dispatch_once_t _onceToken = 0;
 
 #pragma mark - conversation
 
--(void)getConversationWithUUid:(nonnull NSString *)converesationId
+-(void)getConversationWithUuid:(nonnull NSString *)converesationId
                   completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion {
     LOG_DEBUG([converesationId UTF8String]);
     if (![self isConnected]){
@@ -219,7 +228,7 @@ static dispatch_once_t _onceToken = 0;
     [self.stitchContext.coreClient createConversationWithName:name
                                                     onSuccess:^(NSString * _Nullable value) {
                                                         if(completion) {
-                                                            [weakSelf getConversationWithUUid:value completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation){
+                                                            [weakSelf getConversationWithUuid:value completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation){
                                                                 if(!conversation) {
                                                                     NSError *wrappingError = [NXMErrors nxmErrorWithErrorCode:NXMErrorCodeConversationRetrievalFailed andUserInfo:@{NSUnderlyingErrorKey: error}];
                                                                     
@@ -235,6 +244,17 @@ static dispatch_once_t _onceToken = 0;
                                                         [NXMBlocksHelper runWithError:error value:nil completion:completion];
 
                                                     }];
+}
+
+- (void)getConversationsPageWithSize:(NSInteger)size
+                               order:(NXMPageOrder)order
+                   completionHandler:(void (^)(NSError * _Nullable, NXMConversationsPage * _Nullable))completionHandler {
+    NSString *userId = self.user.uuid;
+    LOG_DEBUG([NSString stringWithFormat: @"UserID: %@; Page size: %@", userId, @(size).stringValue].UTF8String);
+    [self.conversationsPagingHandler getConversationsPageWithSize:size
+                                                            order:order
+                                                           userId:userId
+                                                completionHandler:completionHandler];
 }
 
 - (void)addPendingClientReference:(nonnull NSString*)clientRef
@@ -255,7 +275,7 @@ static dispatch_once_t _onceToken = 0;
     __weak NXMCore *weakCore = self.stitchContext.coreClient;
     [weakCore createConversationWithName:[NSString stringWithFormat:@"%@%@", NXMCallPrefix, [[NSUUID UUID] UUIDString]]
                                onSuccess:^(NSString * _Nullable convId) {
-                                   [weakSelf getConversationWithUUid:convId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+                                   [weakSelf getConversationWithUuid:convId completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                                        NXMCall * call = [[NXMCall alloc] initWithConversation:conversation];
 
                                        if (conversation){
@@ -419,7 +439,7 @@ static dispatch_once_t _onceToken = 0;
         if ([self.delegate respondsToSelector:@selector(client:didReceiveConversation:)]) {
             LOG_DEBUG("got newConversation event" );
             
-            [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            [self getConversationWithUuid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
                     LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
@@ -443,7 +463,7 @@ static dispatch_once_t _onceToken = 0;
             
             LOG_DEBUG("got member invited event with enable media" );
             
-            [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+            [self getConversationWithUuid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
                 if (error) {
                     LOG_ERROR("get conversation failed %s", [error.description UTF8String]);
                     return;
@@ -470,7 +490,7 @@ static dispatch_once_t _onceToken = 0;
     if (event.state == NXMMemberStateJoined && event.clientRef){
         LOG_DEBUG("got member JOINED event with clientRef" );
         
-        [self getConversationWithUUid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
+        [self getConversationWithUuid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {
             if (error) {
                  LOG_ERROR("got empty conversation without error conversation id %s:", [event.conversationUuid UTF8String]);
                 return;

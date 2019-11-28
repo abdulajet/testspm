@@ -10,6 +10,7 @@
 #import "UserSettingsViewController.h"
 #import "MainTabViewController.h"
 #import "DialerViewController.h"
+#import "ConversationsTableViewController.h"
 
 #import "NTAUserInfoProvider.h"
 #import "NTALoginHandler.h"
@@ -108,12 +109,18 @@
 - (void)showMainScreen {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    UINavigationController *contactsNavigationViewController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsListNavigation"];
+    UINavigationController *contactsNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsListNavigation"];
     UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"UserSettings"];
     
     DialerViewController *dialerVC = [storyboard instantiateViewControllerWithIdentifier:@"dialer"];
+
+    UINavigationController *conversationsNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"conversationsNavigationController"];
+
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[contactsNavigationViewController, dialerVC, userSettingsVC];
+    tabBarController.viewControllers = @[contactsNavigationController,
+                                         dialerVC,
+                                         conversationsNavigationController,
+                                         userSettingsVC];
     
     [self presentViewController:tabBarController animated:NO completion:nil];
 }
@@ -134,8 +141,7 @@
 
 #pragma mark - UITextFieldDelegate
 
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
 

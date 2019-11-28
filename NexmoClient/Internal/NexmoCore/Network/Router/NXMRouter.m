@@ -12,7 +12,8 @@
 #import "NXMErrorParser.h"
 #import "NXMLoggerInternal.h"
 #import "NXMClientDefine.h"
-
+#import "NXMConversationPrivate.h"
+#import "NXMConversationIdsPage.h"
 #import "NXMPageRequest.h"
 #import "NXMNetworkCallbacks.h"
 #import "NXMCoreEventsPrivate.h"
@@ -26,8 +27,16 @@
 #import "NXMRtcAnswerEvent.h"
 #import "NXMImageInfoInternal.h"
 
+static NSString * const PAGE_ORDER_ASC = @"ASC";
+static NSString * const PAGE_ORDER_DESC = @"DESC";
+
+static NSUInteger const CONVERSATIONS_PAGE_SIZE_MIN = 1;
+static NSUInteger const CONVERSATIONS_PAGE_SIZE_MAX = 100;
+static NSUInteger const CONVERSATIONS_PAGE_SIZE_DEFAULT = 10;
+
 static NSString * const CREATE_CONVERSATION_URL_FORMAT =@"%@beta/conversations";
 static NSString * const EVENTS_URL_FORMAT = @"%@beta/conversations/%@/events";
+static NSString * const CONVERSATIONS_PAGE_PER_USER_URL_FORMAT = @"%@beta2/users/%@/conversations";
 static NSString * const EVENTS_PAGE_URL_FORMAT = @"%@beta2/conversations/%@/events";
 static NSString * const ENABLE_PUSH_URL_FORMAT = @"%@beta2/devices/%@";
 static NSString * const DISABLE_PUSH_URL_FORMAT = @"%@beta/devices/%@";
@@ -42,8 +51,8 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
 @property (nonatomic) NSString *sessionId;
 @property (nonatomic) NSString *agentDescription;
 
-
 @end
+
 @implementation NXMRouter
 
 - (instancetype)initWithHost:(NSString *)host ipsURL:(NSURL *)ipsURL {
@@ -155,111 +164,6 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
     }];
 }
 
-- (BOOL)getConversationsPaging:( NSString* _Nullable )name dateStart:( NSString* _Nullable )dateStart  dateEnd:( NSString* _Nullable )dateEnd pageSize:(long)pageSize recordIndex:(long)recordIndex order:( NSString* _Nullable )order completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSArray<NXMConversationDetails*> * _Nullable data))completionBlock{
-    
-    LOG_DEBUG([name UTF8String]);
-    //TODO:for now we get the first 100 conversations
-    //we need to have support in the server to get all the conversations
-    NSString* vars = @"";
-    if (pageSize > 0){
-        vars = [NSString stringWithFormat:@"pageSize:%ld",MIN(100,pageSize)];
-    }
-    if (recordIndex > 0){
-        vars = [NSString stringWithFormat:@"%@&&recordIndex:%ld",vars,recordIndex];
-    }
-    if (name != nil){
-        vars = [NSString stringWithFormat:@"%@&&name:%@",vars,name];
-    }
-    if (dateStart != nil){
-        vars = [NSString stringWithFormat:@"%@&&dateStart:%@",vars,dateStart];
-    }
-    if (dateEnd != nil){
-        vars = [NSString stringWithFormat:@"%@&&dateEnd:%@",vars,dateEnd];
-    }
-    if (order != nil){
-        vars = [NSString stringWithFormat:@"%@&&order:%@",vars,order];
-    }
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"beta2/%@conversations?%@", self.baseUrl, vars]];
-    
-    NSString* requestType = @"GET";
-    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-        if (data != nil){
-            NSMutableArray *conversations = [[NSMutableArray alloc] init];
-            for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
-                NXMConversationDetails *details = [NXMConversationDetails alloc];
-                details.name = conversationJson[@"name"];
-                details.conversationId = conversationJson[@"uuid"];
-                [conversations addObject:details];
-            }
-            completionBlock(nil, conversations);
-        }
-        else{
-            completionBlock(error,nil);
-        }
-    }];
-    return YES;
-}
-
-- (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMErrorCallback _Nullable)onError {
-    //TODO:for now we get the first 100 conversations
-    //we need to have support in the server to get all the conversations
-    NSString* vars = @"";
-    if (getConvetsationsRequest.pageSize > 0){
-        vars = [NSString stringWithFormat:@"pageSize:%ld",MIN(100,getConvetsationsRequest.pageSize)];
-    }
-    
-    if (getConvetsationsRequest.recordIndex > 0){
-        vars = [NSString stringWithFormat:@"%@&&recordIndex:%ld",vars,getConvetsationsRequest.recordIndex];
-    }
-    
-    if ([getConvetsationsRequest.name length] > 0){
-        vars = [NSString stringWithFormat:@"%@&&name:%@",vars,getConvetsationsRequest.name];
-    }
-    
-    if ([getConvetsationsRequest.dateStart  length] > 0){
-        vars = [NSString stringWithFormat:@"%@&&dateStart:%@",vars,getConvetsationsRequest.dateStart];
-    }
-    
-    if ([getConvetsationsRequest.dateEnd  length] > 0){
-        vars = [NSString stringWithFormat:@"%@&&dateEnd:%@",vars,getConvetsationsRequest.dateEnd];
-    }
-    
-    if ([getConvetsationsRequest.order  length] > 0){
-        vars = [NSString stringWithFormat:@"%@&&order:%@",vars,getConvetsationsRequest.order];
-    }
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@beta2/conversations?%@", self.baseUrl, vars]];
-    
-    NSString* requestType = @"GET";
-    [self requestToServer:nil url:url httpMethod:requestType completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data){
-        if (error) {
-            onError(error);
-            return;
-        }
-        
-        if (!data){
-            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
-            return;
-        }
-        
-        NSMutableArray *conversations = [[NSMutableArray alloc] init];
-        for (NSDictionary* conversationJson in data[@"_embedded"][@"conversations"]){
-            NXMConversationDetails *details = [NXMConversationDetails alloc];
-            details.name = conversationJson[@"name"];
-            details.conversationId = conversationJson[@"uuid"];
-            [conversations addObject:details];
-        }
-        
-        NXMPageInfo *pageInfo = [[NXMPageInfo alloc] initWithCount:data[@"count"]
-                                                          pageSize:data[@"page_size"]
-                                                       recordIndex:data[@"record_index"]];
-        
-        onSuccess(conversations, pageInfo);
-    }];
-}
-
 - (void)getConversationsForUser:(NSString *)userId
                       onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                         onError:(NXMErrorCallback _Nullable)onError {
@@ -295,6 +199,54 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
     }];
 }
 
+- (void)getConversationIdsPageWithSize:(NSUInteger)size
+                                cursor:(NSString *)cursor
+                                userId:(NSString *)userId
+                                 order:(NXMPageOrder)order
+                             onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                               onError:(void (^)(NSError * _Nullable))onError {
+
+    NSUInteger cappedSize = MAX(CONVERSATIONS_PAGE_SIZE_MIN,
+                                MIN(size, CONVERSATIONS_PAGE_SIZE_MAX));
+
+    LOG_DEBUG([NSString stringWithFormat: @"UserID: %@; Page size: %@", userId, @(cappedSize)].UTF8String);
+
+    NSString *orderValue = order == NXMPageOrderAsc ? PAGE_ORDER_ASC : PAGE_ORDER_DESC;
+    NSString *urlString = [NSString stringWithFormat:CONVERSATIONS_PAGE_PER_USER_URL_FORMAT, self.baseUrl, userId];
+    NSURL *url = [NSURL URLWithString: urlString];
+
+    NXMPageRequest *pageRequest = [[NXMPageRequest alloc] initWithPageSize:@(cappedSize).unsignedIntValue
+                                                                   withUrl:url
+                                                                withCursor:cursor
+                                                                 withOrder:orderValue];
+    [self requestWithPageRequest:pageRequest
+                 completionBlock:^(NSError * _Nullable error, NXMPageResponse * _Nullable pageResponse) {
+                     if (error) {
+                         onError(error);
+                         return;
+                     }
+                     
+                     NXMConversationIdsPage *page = [[NXMConversationIdsPage alloc] initWithPageResponse:pageResponse order:order];
+                     onSuccess(page);
+                 }];
+}
+
+- (void)getConversationIdsPageForURL:(NSURL *)url
+                           onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                             onError:(void (^)(NSError * _Nullable))onError {
+    [self requestToServer:nil url:url
+               httpMethod:@"GET"
+          completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+              if (error) {
+                  onError(error);
+                  return;
+              }
+
+              NXMConversationIdsPage *page = [[NXMConversationIdsPage alloc] initWithPageResponse:[[NXMPageResponse alloc] initWithData:data]
+                                                                                    order:[NXMRouter parseOrderFromURL:url]];
+              onSuccess(page);
+          }];
+}
 
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
@@ -839,17 +791,12 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     NSURL *url = urlComponents.URL;
     
     NXMPageRequest * pageRequest = [[NXMPageRequest alloc] initWithPageSize:60 withUrl:url withCursor:nil withOrder:nil];
-    [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+    [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NXMPageResponse * _Nullable pageResponse) {
         if (error){
             onError(error);
             return;
         }
         
-        if (!data){
-            onError([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeUnknown userInfo:nil]);
-            return;
-        }
-        NXMPageResponse * pageResponse = [[NXMPageResponse alloc] initWithData:data];
         NSMutableArray *events = [[NSMutableArray alloc] init];
         for (NSDictionary* eventJson in pageResponse.data) {
             NSString* type = eventJson[@"type"];
@@ -964,22 +911,22 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
 
 #pragma mark - private
 
-- (void)requestWithPageRequest:(NXMPageRequest*)pageRequets completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
+- (void)requestWithPageRequest:(NXMPageRequest*)pageRequets
+               completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMPageResponse * _Nullable data))completionBlock {
     NSURLComponents *components = [[NSURLComponents alloc] initWithURL:pageRequets.url resolvingAgainstBaseURL:NO];
+    components.percentEncodedQuery = [NSString stringWithFormat:@"page_size=%u%@%@",
+                                      pageRequets.pageSize,
+                                      (pageRequets.cursor && [pageRequets.cursor length] > 0 ? [NSString stringWithFormat:@"&cursor=%@", pageRequets.cursor] : @""),
+                                      (pageRequets.order && [pageRequets.order length] > 0 ? [NSString stringWithFormat:@"&order=%@", pageRequets.order] : @"")];
 
-    NSMutableArray *newQueryItems = [[NSMutableArray alloc] init];
-    [newQueryItems addObjectsFromArray:components.queryItems];
-
-    [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"page_size" value:[[NSString alloc] initWithFormat:@"%d",pageRequets.pageSize]]];
-    if (pageRequets.cursor && [pageRequets.cursor length] > 0){
-        [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"cursor" value:pageRequets.cursor]];
-    }
-    if (pageRequets.order && [pageRequets.order length] > 0){
-        [newQueryItems addObject:[[NSURLQueryItem alloc] initWithName:@"order" value:pageRequets.order]];
-    }
-
-    [components setQueryItems:newQueryItems];
-    [self requestToServer:nil url:[components URL] httpMethod:@"GET" completionBlock:completionBlock];
+    [self requestToServer:nil url:components.URL httpMethod:@"GET" completionBlock:^(NSError * _Nullable error, NSDictionary * _Nullable data) {
+        if (error) {
+            completionBlock(error, nil);
+            return;
+        }
+        
+        completionBlock(nil, [[NXMPageResponse alloc] initWithData:data]);
+    }];
 }
 
 - (void)requestToServer:(nullable NSDictionary*)dict url:(nonnull NSURL*)url httpMethod:(nonnull NSString*)httpMethod completionBlock:(void (^_Nullable)(NSError * _Nullable error, NSDictionary * _Nullable data))completionBlock{
@@ -1247,6 +1194,20 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         [hexString appendString:[NSString stringWithFormat:@"%02lx", (unsigned long)dataBuffer[i]]];
     
     return [NSString stringWithString:hexString];
+}
+
++ (NXMPageOrder)parseOrderFromURL:(NSURL *)url {
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:url resolvingAgainstBaseURL:NO];
+    
+    NSUInteger orderIndex = [urlComponents.queryItems indexOfObjectPassingTest:^BOOL(NSURLQueryItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        return [obj.name isEqualToString:@"order"];
+    }];
+    
+    NSString *orderValue = orderIndex == NSNotFound ? nil : urlComponents.queryItems[orderIndex].value;
+    
+    return [orderValue caseInsensitiveCompare:PAGE_ORDER_ASC] != NSOrderedSame
+            ? NXMPageOrderDesc
+            : NXMPageOrderAsc;
 }
 
 @end

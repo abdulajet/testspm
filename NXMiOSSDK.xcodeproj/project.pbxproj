@@ -23,8 +23,16 @@
 		0BF892EF22CCC09300773026 /* NXMPageResponse.h in Headers */ = {isa = PBXBuildFile; fileRef = 0BF892EE22CCC09300773026 /* NXMPageResponse.h */; };
 		0BF892F122CCC0E000773026 /* NXMPageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF892F022CCC0E000773026 /* NXMPageResponse.m */; };
 		0BFBED74222D1C7E00131B95 /* ClientInfrastructures.framework in Headers */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
+		3C0AE578238D1D2600541F32 /* NXMConverationsPageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE577238D1D2600541F32 /* NXMConverationsPageTests.m */; };
+		3C0AE57B238FC80400541F32 /* ConversationsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */; };
 		3C1F0194237EB6FE00093F48 /* NXMClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C1F0195237EB6FE00093F48 /* NXMClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */; };
+		3C2B8D9B237B2BF700C1224D /* NXMConversationIdsPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */; };
+		3C2B8D9C237B2BF700C1224D /* NXMConversationIdsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C2B8D9A237B2BF700C1224D /* NXMConversationIdsPage.m */; };
+		3C543771238440FB006FA383 /* NXMConversationsPagingHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C543770238440FB006FA383 /* NXMConversationsPagingHandler.m */; };
+		3C580284238707A300BA3C31 /* NXMConversationsPagingHandlerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C580283238707A300BA3C31 /* NXMConversationsPagingHandlerTests.m */; };
+		3C7D8F652371CF9D00E0FDEE /* ConversationsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C7D8F642371CF9D00E0FDEE /* ConversationsTableViewController.m */; };
+		3C7F8CCF237AF3DB006295BD /* NXMConversationsPagePrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C7F8CCE237AF3DB006295BD /* NXMConversationsPagePrivate.h */; };
 		9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61121AEF8810021CD05 /* NXMTestingUtils.m */; };
 		9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61421AEF8A80021CD05 /* NXMTestingUtils+Members.m */; };
 		9214F61921AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 9214F61821AFCF1A0021CD05 /* NXMTestingUtils+ConversationDetails.m */; };
@@ -239,6 +247,8 @@
 		F923DDC221985CB600D29065 /* NXMCallPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = F9B9CB8C2193451E00C6C36D /* NXMCallPrivate.h */; };
 		F923DDC321985CB600D29065 /* NXMConversationEventsQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */; };
 		F923DDC421985CB600D29065 /* NXMConversationEventsQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */; };
+		F92773E4233269B4009EA80F /* NXMConversationsPage.h in Headers */ = {isa = PBXBuildFile; fileRef = F92773E2233269B4009EA80F /* NXMConversationsPage.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F92773E5233269B4009EA80F /* NXMConversationsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = F92773E3233269B4009EA80F /* NXMConversationsPage.m */; };
 		F939B31422E0667300AE881C /* NXMMediaSettingsInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */; };
 		F939B31722E47DD300AE881C /* NXMSendCustomEventRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = F939B31522E47DD300AE881C /* NXMSendCustomEventRequest.h */; };
 		F939B31822E47DD300AE881C /* NXMSendCustomEventRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F939B31622E47DD300AE881C /* NXMSendCustomEventRequest.m */; };
@@ -359,8 +369,18 @@
 		0BF892EC22CB874500773026 /* NXMPageRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPageRequest.m; sourceTree = "<group>"; };
 		0BF892EE22CCC09300773026 /* NXMPageResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPageResponse.h; sourceTree = "<group>"; };
 		0BF892F022CCC0E000773026 /* NXMPageResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPageResponse.m; sourceTree = "<group>"; };
+		3C0AE577238D1D2600541F32 /* NXMConverationsPageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMConverationsPageTests.m; sourceTree = "<group>"; };
+		3C0AE579238FC80400541F32 /* ConversationsNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationsNavigationController.h; sourceTree = "<group>"; };
+		3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationsNavigationController.m; sourceTree = "<group>"; };
 		3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMClientConfig.h; sourceTree = "<group>"; };
 		3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMClientConfig.m; sourceTree = "<group>"; };
+		3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationIdsPage.h; sourceTree = "<group>"; };
+		3C2B8D9A237B2BF700C1224D /* NXMConversationIdsPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationIdsPage.m; sourceTree = "<group>"; };
+		3C543770238440FB006FA383 /* NXMConversationsPagingHandler.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationsPagingHandler.m; sourceTree = "<group>"; };
+		3C580283238707A300BA3C31 /* NXMConversationsPagingHandlerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationsPagingHandlerTests.m; sourceTree = "<group>"; };
+		3C7D8F632371CF9D00E0FDEE /* ConversationsTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationsTableViewController.h; sourceTree = "<group>"; };
+		3C7D8F642371CF9D00E0FDEE /* ConversationsTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationsTableViewController.m; sourceTree = "<group>"; };
+		3C7F8CCE237AF3DB006295BD /* NXMConversationsPagePrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationsPagePrivate.h; sourceTree = "<group>"; };
 		435407BE2132FB9800C70CB2 /* NXMConversationEventsQueue.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationEventsQueue.h; sourceTree = "<group>"; };
 		435407BF2132FB9800C70CB2 /* NXMConversationEventsQueue.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationEventsQueue.m; sourceTree = "<group>"; };
 		85C4B90521D25AEA00ED596B /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
@@ -592,6 +612,8 @@
 		F923DD9121985BF600D29065 /* NexmoClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NexmoClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F923DD9621985BF600D29065 /* StitchClientTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StitchClientTests.m; sourceTree = "<group>"; };
 		F923DD9821985BF600D29065 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F92773E2233269B4009EA80F /* NXMConversationsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationsPage.h; sourceTree = "<group>"; };
+		F92773E3233269B4009EA80F /* NXMConversationsPage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMConversationsPage.m; sourceTree = "<group>"; };
 		F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMMediaSettingsInternal.h; sourceTree = "<group>"; };
 		F939B31522E47DD300AE881C /* NXMSendCustomEventRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMSendCustomEventRequest.h; sourceTree = "<group>"; };
 		F939B31622E47DD300AE881C /* NXMSendCustomEventRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMSendCustomEventRequest.m; sourceTree = "<group>"; };
@@ -630,6 +652,7 @@
 		F955168122BA6E6C002A7E87 /* NXMInitiatorPrivate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMInitiatorPrivate.h; sourceTree = "<group>"; };
 		F95830AC21342FB5002CA391 /* NXMCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMCall.h; sourceTree = "<group>"; };
 		F95830AD21342FB5002CA391 /* NXMCall.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMCall.m; sourceTree = "<group>"; };
+		F95A64A923840F5100AE1D37 /* NXMConversationsPagingHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationsPagingHandler.h; sourceTree = "<group>"; };
 		F95A64AA238455EF00AE1D37 /* NXMRouterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMRouterTests.m; sourceTree = "<group>"; };
 		F96ED16521ADA3D700137D96 /* VPSocketIOClientStub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPSocketIOClientStub.h; sourceTree = "<group>"; };
 		F96ED16621ADA3D700137D96 /* VPSocketIOClientStub.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPSocketIOClientStub.m; sourceTree = "<group>"; };
@@ -713,6 +736,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		3C7D8F662371D32600E0FDEE /* Conversations */ = {
+			isa = PBXGroup;
+			children = (
+				3C0AE579238FC80400541F32 /* ConversationsNavigationController.h */,
+				3C0AE57A238FC80400541F32 /* ConversationsNavigationController.m */,
+				3C7D8F632371CF9D00E0FDEE /* ConversationsTableViewController.h */,
+				3C7D8F642371CF9D00E0FDEE /* ConversationsTableViewController.m */,
+			);
+			path = Conversations;
+			sourceTree = "<group>";
+		};
 		9214F60F21AEF8450021CD05 /* TestingUtils */ = {
 			isa = PBXGroup;
 			children = (
@@ -742,6 +776,8 @@
 				92B65A1121AEDA6D006EBE76 /* NXMConversationTests.m */,
 				F9C6AE7C22FB2A9D00B7F8E5 /* NXMClientTests.m */,
 				F914697C23570BB4001C5F5B /* NXMCallTests.m */,
+				3C0AE577238D1D2600541F32 /* NXMConverationsPageTests.m */,
+				3C580283238707A300BA3C31 /* NXMConversationsPagingHandlerTests.m */,
 			);
 			path = ClientTests;
 			sourceTree = "<group>";
@@ -781,6 +817,7 @@
 		9242CDB021C17D5100ED2B51 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				3C7D8F662371D32600E0FDEE /* Conversations */,
 				F9E5E33221D4F3BD00FC7202 /* Dialer */,
 				92CF9A1021CA5F90001C86F1 /* Calls */,
 				92CF9A0B21C915E1001C86F1 /* Contacts */,
@@ -909,8 +946,13 @@
 				F9C61C0D22EF12D200AEC484 /* NXMLoggerInternal.h */,
 				F939B31322E0667300AE881C /* NXMMediaSettingsInternal.h */,
 				F9B1A3142248C74800D72286 /* NXMMemberPrivate.h */,
+				3C7F8CCE237AF3DB006295BD /* NXMConversationsPagePrivate.h */,
+				3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */,
+				3C2B8D9A237B2BF700C1224D /* NXMConversationIdsPage.m */,
 				92B7A3B4214FF7E000390258 /* StitchContext */,
 				F9821D482320306100371FAC /* NXMEventInternal.h */,
+				F95A64A923840F5100AE1D37 /* NXMConversationsPagingHandler.h */,
+				3C543770238440FB006FA383 /* NXMConversationsPagingHandler.m */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -1351,6 +1393,8 @@
 				92B7A3F82164E35D00390258 /* NXMConversation.h */,
 				92B7A3F72164E35D00390258 /* NXMConversation.m */,
 				92B7A3F92164E35D00390258 /* NXMConversationDelegate.h */,
+				F92773E2233269B4009EA80F /* NXMConversationsPage.h */,
+				F92773E3233269B4009EA80F /* NXMConversationsPage.m */,
 				F9024DB621CA9AF000D58AD0 /* NXMEnums.h */,
 				F9024E2721CA9AF000D58AD0 /* NXMErrors.h */,
 				F9024DB921CA9AF000D58AD0 /* NXMErrors.m */,
@@ -1529,6 +1573,7 @@
 				F9024E3821CA9AF000D58AD0 /* VPSocketOnAckCallback.h in Headers */,
 				F923DDB421985CA900D29065 /* NXMEventsDispatcherLoginStatusModel.h in Headers */,
 				F9024E8721CA9AF000D58AD0 /* NXMDeleteEventRequest.h in Headers */,
+				F92773E4233269B4009EA80F /* NXMConversationsPage.h in Headers */,
 				F9024E7421CA9AF000D58AD0 /* NXMAddUserRequest.h in Headers */,
 				F955168222BA6E6C002A7E87 /* NXMInitiatorPrivate.h in Headers */,
 				F9024E5821CA9AF000D58AD0 /* JFRSecurity.h in Headers */,
@@ -1545,6 +1590,7 @@
 				F939B31422E0667300AE881C /* NXMMediaSettingsInternal.h in Headers */,
 				F9024E4621CA9AF000D58AD0 /* VPStringReader.h in Headers */,
 				F9024E9521CA9AF000D58AD0 /* NXMMemberEvent.h in Headers */,
+				3C2B8D9B237B2BF700C1224D /* NXMConversationIdsPage.h in Headers */,
 				F9024E9B21CA9AF000D58AD0 /* NXMImageEvent.h in Headers */,
 				F9C61C0E22EF12D700AEC484 /* NXMLoggerInternal.h in Headers */,
 				F923DDA021985C8000D29065 /* NXMConversationMembersController.h in Headers */,
@@ -1602,6 +1648,7 @@
 				F9024E8921CA9AF000D58AD0 /* NXMRouter.h in Headers */,
 				F9024E7B21CA9AF000D58AD0 /* NXMRemoveMemberRequest.h in Headers */,
 				F950D12822686AE500021395 /* NXMChannel.h in Headers */,
+				3C7F8CCF237AF3DB006295BD /* NXMConversationsPagePrivate.h in Headers */,
 				F9B1A30B223904C600D72286 /* NXMDTMFEvent.h in Headers */,
 				F9024EC121CA9AF000D58AD0 /* NXMErrorParser.h in Headers */,
 				F923DDBC21985CAE00D29065 /* NXMStitchContext.h in Headers */,
@@ -1718,6 +1765,7 @@
 					};
 					F923DD8821985BF600D29065 = {
 						CreatedOnToolsVersion = 9.4.1;
+						LastSwiftMigration = 1030;
 						ProvisioningStyle = Automatic;
 					};
 					F923DD9021985BF600D29065 = {
@@ -1726,7 +1774,7 @@
 					};
 					F94291E121BD46F900FA45A1 = {
 						CreatedOnToolsVersion = 10.1;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1849,6 +1897,7 @@
 				F923DDBD21985CAE00D29065 /* NXMStitchContext.m in Sources */,
 				F923DDAD21985C9500D29065 /* NXMCallMember.m in Sources */,
 				F9024E7821CA9AF000D58AD0 /* NXMSendImageRequest.m in Sources */,
+				3C2B8D9C237B2BF700C1224D /* NXMConversationIdsPage.m in Sources */,
 				F923DDA121985C8000D29065 /* NXMConversationMembersController.m in Sources */,
 				F9024E7621CA9AF000D58AD0 /* NXMSuspendResumeMediaRequest.m in Sources */,
 				F9024E5521CA9AF000D58AD0 /* VPStringReader.m in Sources */,
@@ -1870,6 +1919,7 @@
 				F9024EC821CA9AF000D58AD0 /* RTCMediaWrapper.m in Sources */,
 				F9024E9621CA9AF000D58AD0 /* NXMMemberEvent.m in Sources */,
 				F923DDB721985CA900D29065 /* NXMEventsDispatcherNotificationHelper.m in Sources */,
+				F92773E5233269B4009EA80F /* NXMConversationsPage.m in Sources */,
 				F9024E9C21CA9AF000D58AD0 /* NXMImageInfo.m in Sources */,
 				F9024E9121CA9AF000D58AD0 /* NXMConversationDetails.m in Sources */,
 				F9024E9A21CA9AF000D58AD0 /* NXMImageEvent.m in Sources */,
@@ -1926,6 +1976,7 @@
 				F9024E7121CA9AF000D58AD0 /* NXMInvitePstnKnockingRequest.m in Sources */,
 				F9024E8B21CA9AF000D58AD0 /* NXMConversationClientConfig.m in Sources */,
 				F9024EC521CA9AF000D58AD0 /* NXMLogger.m in Sources */,
+				3C543771238440FB006FA383 /* NXMConversationsPagingHandler.m in Sources */,
 				F9024EA821CA9AF000D58AD0 /* NXMMediaActionEvent.m in Sources */,
 				0BF892ED22CB874500773026 /* NXMPageRequest.m in Sources */,
 				F9024EC021CA9AF000D58AD0 /* NXMUtils.m in Sources */,
@@ -1944,6 +1995,8 @@
 				F95A64AB238455EF00AE1D37 /* NXMRouterTests.m in Sources */,
 				9227302021F602270077D77D /* NXMConversationEventsQueueTests.m in Sources */,
 				F9C6AE7D23003DF100B7F8E5 /* NXMClientTests.m in Sources */,
+				3C580284238707A300BA3C31 /* NXMConversationsPagingHandlerTests.m in Sources */,
+				3C0AE578238D1D2600541F32 /* NXMConverationsPageTests.m in Sources */,
 				9214F61521AEF8A80021CD05 /* NXMTestingUtils+Members.m in Sources */,
 				92B65A1221AEDA6D006EBE76 /* NXMConversationTests.m in Sources */,
 				9214F61221AEF8810021CD05 /* NXMTestingUtils.m in Sources */,
@@ -1961,11 +2014,13 @@
 			files = (
 				9242CDA521BFEA1600ED2B51 /* NTAAlertUtils.m in Sources */,
 				92CF9A1A21CA6523001C86F1 /* InAppCallCreator.m in Sources */,
+				3C7D8F652371CF9D00E0FDEE /* ConversationsTableViewController.m in Sources */,
 				9242CDB421C2551100ED2B51 /* NTALoginHandler.m in Sources */,
 				F942920F21BD661400FA45A1 /* CommunicationsManager.m in Sources */,
 				92CF9A1321CA5FE6001C86F1 /* CallViewController.m in Sources */,
 				F942921821BD9B6C00FA45A1 /* UserSettingsViewController.m in Sources */,
 				F9E5E33821D4FF3000FC7202 /* DailerTextField.m in Sources */,
+				3C0AE57B238FC80400541F32 /* ConversationsNavigationController.m in Sources */,
 				9242CD9C21BFDB6700ED2B51 /* NTAErrors.m in Sources */,
 				F9E5E33B21D501A300FC7202 /* PSTNCallCreator.m in Sources */,
 				F942921221BD703200FA45A1 /* MainTabViewController.m in Sources */,
@@ -2088,6 +2143,7 @@
 		F923DD9B21985BF600D29065 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -2118,6 +2174,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e";
 			};
@@ -2126,6 +2184,7 @@
 		F923DD9C21985BF600D29065 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -2156,6 +2215,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.client;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 arm64e";
 			};
@@ -2231,7 +2291,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = NexmoTestApp/NexmoTestApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2250,7 +2311,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2261,7 +2322,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_WEAK = YES;
 				CODE_SIGN_ENTITLEMENTS = NexmoTestApp/NexmoTestApp.entitlements;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PR6C39UQ38;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2279,7 +2341,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vonage.stitch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "stitch sdk dev";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

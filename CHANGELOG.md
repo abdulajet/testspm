@@ -4,14 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.2.0 - 2019-11-28
+
+### Added
+`NXMClient`'s `getConversationsPageWithSize:order:completionHandler:` method to get conversations with paging.
+
+`NXMConversationsPage`, which represents the retrieved page, provides the following instance methods
+
+- `hasNextPage` / `hasPreviousPage` to check if forward/backward page retrieval is possible and
+- `nextPage:` / `previousPage:` to asynchronously retrieve the next/previous page.
+
+### Changed
+`NXMClient`'s `getConversationWithUUid:completionHandler:` method's name typo (now called `getConversationWithUuid:completionHandler:`).
+
 ## 1.1.1 - 2019-11-19
 
 ### Added
-NXMClientConfig object in order to change DC configuration
-how to use:
+NXMClientConfig object in order to change DC configuration. How to use:
 ```
 [NXMClient setConfiguration:NXMClientConfig.DC]
 ```
+
 this configuration is optional, when not using it the configuration will set to default.
 Note: you most call `setConfiguration` method before using `NXMClient.shared`.
 
@@ -22,7 +35,7 @@ Note: you most call `setConfiguration` method before using `NXMClient.shared`.
 - Receiving a DTMF event in call and conversation
 
 ### Added
-NXMConverastionDelegate did receive DTMF event method
+NXMConversationDelegate did receive DTMF event method
 ```
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nullable NXMDTMFEvent *)event;
 ```
@@ -46,7 +59,7 @@ param userNotificationToken - all push types
 - CallMember supports failed, busy, timeout and canceled statuses.
 - Supports member invited.
 - Conversation has media methods.
-- NexmoClient is now singelton.
+- NexmoClient is now singleton.
 - Call method changed to string instead of array.
 - NexmoClient delegate methods renamed.
 
@@ -252,7 +265,7 @@ NXMCallMember
 - Change log file.
 
 ### Changed
-- Memory managment improvments.
+- Memory management improvements.
 - Fetch missing and new events on network changes.
 - Returning User objects instead of Ids.
 - Bug fixes.

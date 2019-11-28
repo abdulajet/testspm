@@ -29,6 +29,8 @@
 #import "NXMSuspendResumeMediaRequest.h"
 #import "NXMSendCustomEventRequest.h"
 #import "NXMSendDTMFRequest.h"
+#import "NXMConversationsPage.h"
+#import "NXMConversationIdsPage.h"
 #import "NXMClientConfig.h"
 
 
@@ -116,9 +118,16 @@
 - (void)textTypingOff:(nonnull NSString *)conversationId
              memberId:(nonnull NSString *)memberId;
 
-- (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMErrorCallback _Nullable)onError;
+- (void)getConversationIdsPageWithSize:(NSUInteger)size
+                                cursor:(nullable NSString *)cursor
+                                userId:(nonnull NSString *)userId
+                                 order:(NXMPageOrder)order
+                             onSuccess:(void(^ _Nullable)(NXMConversationIdsPage * _Nullable page))onSuccess
+                               onError:(void(^ _Nullable)(NSError * _Nullable error))onError;
+
+- (void)getConversationIdsPageForURL:(nonnull NSURL *)url
+                           onSuccess:(void (^ _Nullable)(NXMConversationIdsPage * _Nullable page))onSuccess
+                             onError:(void (^ _Nullable)(NSError * _Nullable))onError;
 
 - (void)getLatestEvent:(nonnull NXMGetEventsRequest *)getEventsRequest
         onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess

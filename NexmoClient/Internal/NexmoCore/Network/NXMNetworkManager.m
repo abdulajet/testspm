@@ -163,17 +163,33 @@
     [self.socketClient textTypingOff:conversationId memberId:memberId];
 }
 
-- (void)getConversations:(nonnull NXMGetConversationsRequest*)getConvetsationsRequest
-               onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
-                 onError:(NXMErrorCallback _Nullable)onError {
-    [self.router getConversations:getConvetsationsRequest onSuccess:onSuccess onError:onError];
-}
 
 - (void)getConversationsForUser:(nonnull NSString *)userId
                    onSuccess:(NXMSuccessCallbackWithConversations _Nullable)onSuccess
                      onError:(NXMErrorCallback _Nullable)onError {
     [self.router getConversationsForUser:userId onSuccess:onSuccess onError:onError];
 }
+
+- (void)getConversationIdsPageWithSize:(NSUInteger)size
+                                cursor:(NSString *)cursor
+                                userId:(NSString *)userId
+                                 order:(NXMPageOrder)order
+                             onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                               onError:(void (^)(NSError * _Nullable))onError {
+    [self.router getConversationIdsPageWithSize:size
+                                         cursor:cursor
+                                         userId:userId
+                                          order:order
+                                      onSuccess:onSuccess
+                                        onError:onError];
+}
+
+- (void)getConversationIdsPageForURL:(NSURL *)url
+                           onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
+                             onError:(void (^)(NSError * _Nullable))onError {
+    [self.router getConversationIdsPageForURL:url onSuccess:onSuccess onError:onError];
+}
+
 
 - (void)getLatestEvent:(nonnull NXMGetEventsRequest*)getEventsRequest
         onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess

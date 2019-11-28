@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -35,19 +35,19 @@
                                 <rect key="frame" x="30" y="389" width="315" height="164"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bEu-ad-a4u" userLabel="username">
-                                        <rect key="frame" x="0.0" y="25" width="315" height="30"/>
+                                        <rect key="frame" x="0.0" y="50.333333333333314" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" textContentType="username"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LLv-O4-1BA" userLabel="password">
-                                        <rect key="frame" x="0.0" y="75" width="315" height="30"/>
+                                        <rect key="frame" x="0.0" y="100.33333333333331" width="315" height="30"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="password"/>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MGW-Y1-6uY" userLabel="loginButton">
-                                        <rect key="frame" x="0.0" y="125" width="315" height="44"/>
+                                        <rect key="frame" x="0.0" y="150.33333333333337" width="315" height="18.666666666666657"/>
                                         <state key="normal" backgroundImage="loginButtonBG">
                                             <attributedString key="attributedTitle">
                                                 <fragment content="Log In">
@@ -1472,6 +1472,7 @@
                         <segue destination="uPs-r8-PIO" kind="relationship" relationship="viewControllers" id="AKU-MD-azG"/>
                         <segue destination="ebo-pV-59y" kind="relationship" relationship="viewControllers" id="dvu-65-M38"/>
                         <segue destination="m5u-Fu-jFs" kind="relationship" relationship="viewControllers" id="wjE-T0-GAJ"/>
+                        <segue destination="okc-yW-2B3" kind="relationship" relationship="viewControllers" id="6iZ-wo-9Pk"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NyL-j7-ZcH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1529,7 +1530,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
-                                <rect key="frame" x="163.66666666666666" y="582" width="48" height="30"/>
+                                <rect key="frame" x="163.66666666666666" y="619" width="48" height="30"/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
                                     <action selector="LogoutPressed:" destination="uPs-r8-PIO" eventType="touchUpInside" id="jKs-L0-zmJ"/>
@@ -1552,7 +1553,7 @@
                             <constraint firstItem="waV-Um-pqy" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="FLJ-gH-jYQ"/>
                             <constraint firstItem="ygo-BO-n1W" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="N1k-SP-0zS"/>
                             <constraint firstItem="ygo-BO-n1W" firstAttribute="top" secondItem="rZZ-0Y-lAq" secondAttribute="bottom" constant="45" id="abr-a3-Ap5"/>
-                            <constraint firstItem="waV-Um-pqy" firstAttribute="top" secondItem="ygo-BO-n1W" secondAttribute="bottom" constant="153" id="kEH-NG-Xfy"/>
+                            <constraint firstItem="Qha-Fv-hFI" firstAttribute="bottom" secondItem="waV-Um-pqy" secondAttribute="bottom" constant="80" id="agt-yH-gIJ"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="top" secondItem="Qha-Fv-hFI" secondAttribute="top" constant="110" id="qFT-3b-Bz0"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="r4b-1d-Fee"/>
                         </constraints>
@@ -1570,13 +1571,84 @@
             </objects>
             <point key="canvasLocation" x="1785" y="1136"/>
         </scene>
+        <!--Conversations-->
+        <scene sceneID="pWc-ou-jSa">
+            <objects>
+                <tableViewController storyboardIdentifier="conversationsTableViewController" id="O97-3w-VjX" customClass="ConversationsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="MgS-aX-kL7">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationReuseId" id="K2x-nF-lQS">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K2x-nF-lQS" id="Ibi-Pc-ySs">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="O97-3w-VjX" id="ayN-kh-Ad2"/>
+                            <outlet property="delegate" destination="O97-3w-VjX" id="769-Mk-fni"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Conversations" id="vsj-ad-K9J">
+                        <rightBarButtonItems>
+                            <barButtonItem title="Next" id="sqD-41-8md">
+                                <connections>
+                                    <action selector="nextPageButtonPressed:" destination="O97-3w-VjX" id="C7G-zm-x3g"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Ord" id="ufs-yG-T1w">
+                                <connections>
+                                    <action selector="toggleOrderButtonPressed:" destination="O97-3w-VjX" id="iCH-sJ-1Ef"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Prev" id="fRh-0b-1I3">
+                                <connections>
+                                    <action selector="previousPageButtonPressed:" destination="O97-3w-VjX" id="Hmq-YM-D2Q"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="nextPageButton" destination="sqD-41-8md" id="YfZ-TS-j7f"/>
+                        <outlet property="previousPageButton" destination="fRh-0b-1I3" id="ku4-aI-HLd"/>
+                        <outlet property="toggleOrderButton" destination="ufs-yG-T1w" id="SNg-8p-bFA"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="g4q-F3-yKV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2727.1999999999998" y="1823.6453201970444"/>
+        </scene>
+        <!--Conversations Navigation Controller-->
+        <scene sceneID="FVe-YG-wkQ">
+            <objects>
+                <navigationController storyboardIdentifier="conversationsNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="okc-yW-2B3" customClass="ConversationsNavigationController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" image="icnNavConversations" id="VTr-Sx-HCm"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xYw-iB-eZp">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="O97-3w-VjX" kind="relationship" relationship="rootViewController" id="XYa-SO-YIZ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cDa-GB-KYo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1784.8" y="1823.6453201970444"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ContactAvatarBackground" width="50" height="50"/>
         <image name="ContactButtonBackground" width="50" height="50"/>
         <image name="ContactListAvatarbackground" width="50" height="50"/>
-        <image name="ContactsCallInApptButton" width="34" height="34"/>
-        <image name="ContactsCallServerButton" width="34" height="34"/>
+        <image name="ContactsCallInApptButton" width="34.333332061767578" height="34.333332061767578"/>
+        <image name="ContactsCallServerButton" width="34.333332061767578" height="34.333332061767578"/>
         <image name="ContactsListTab" width="24" height="24"/>
         <image name="ContactsMessageContactButton" width="36" height="36"/>
         <image name="Dialer" width="31" height="31"/>
@@ -1611,12 +1683,13 @@
         <image name="SettingsTab" width="25" height="25"/>
         <image name="addMember" width="24" height="24"/>
         <image name="btnAttachment" width="41" height="45"/>
-        <image name="callPhone" width="23" height="15"/>
+        <image name="callPhone" width="23.333333969116211" height="15.666666984558105"/>
         <image name="enableAudio" width="22" height="22"/>
+        <image name="icnNavConversations" width="31" height="31"/>
         <image name="loginButtonBG" width="325" height="44"/>
         <image name="ongoingCallsMemberAudioMuteOff" width="22" height="22"/>
         <image name="openOngoingCallsTrayIcon" width="30" height="22"/>
         <image name="sendMessege" width="25" height="24"/>
-        <image name="vonage_logo" width="215" height="79"/>
+        <image name="vonage_logo" width="219.66667175292969" height="73.666664123535156"/>
     </resources>
 </document>
