@@ -1857,7 +1857,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = "/bin/sh -l";
-			shellScript = "export NPE_NAME=prod\nexport NPE_APP_ID='f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e'\nexport NPE_PRIVATE_KEY=''\n/usr/libexec/Plistbuddy -c \"Set NpeName \\\"$NPE_NAME\\\"\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\npython ${PROJECT_DIR}/${TARGET_NAME}/helpers/npe_env_dev.py -a ${NPE_APP_ID} -e ${NPE_NAME} -m ${PROJECT_DIR}/${TARGET_NAME}/ -c 0 -o iOS -p ${NPE_PRIVATE_KEY}\n";
+			shellScript = "export NPE_NAME=prod\nexport NPE_APP_ID='f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e'\nexport NPE_PRIVATE_KEY='NOT_A_VALID_KEY'\necho \"python ${PROJECT_DIR}/${TARGET_NAME}/helpers/npe_env_dev.py -a ${NPE_APP_ID} -e ${NPE_NAME} -m ${PROJECT_DIR}/${TARGET_NAME}/ -c 0 -o iOS -p ${NPE_PRIVATE_KEY}\"\n/usr/libexec/Plistbuddy -c \"Set NpeName \\\"$NPE_NAME\\\"\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\npython ${PROJECT_DIR}/${TARGET_NAME}/helpers/npe_env_dev.py -a ${NPE_APP_ID} -e ${NPE_NAME} -m ${PROJECT_DIR}/${TARGET_NAME}/ -c 0 -o iOS -p ${NPE_PRIVATE_KEY}\n";
 		};
 		D32D425621CC062A0039A133 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
