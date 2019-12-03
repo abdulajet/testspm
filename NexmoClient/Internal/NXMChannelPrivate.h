@@ -8,14 +8,14 @@
 
 @interface NXMDirection (PrivateParser)
 
-- (nullable instancetype)initWithType:(NXMDirectionType)type
+- (instancetype)initWithType:(NXMDirectionType)type
                               andData:(NSString *)data;
 
 @end
 
 @interface NXMChannel (PrivateParser)
 
-- (nullable instancetype)initWithData:(NSDictionary *)data
+- (instancetype)initWithData:(NSDictionary *)data
                     andConversationId:(NSString *)conversationId
                           andMemberId:(NSString *)memberId;
 

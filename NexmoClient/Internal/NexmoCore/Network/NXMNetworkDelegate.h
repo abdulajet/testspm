@@ -12,10 +12,10 @@
 
 @protocol NXMNetworkDelegate
 
-- (NSString *)authToken;
+- (nullable NSString *)authToken;
 
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
-- (void)userUpdated:(NXMUser *)user;
+- (void)userUpdated:(nullable NXMUser *)user;
 
 - (void)sipRinging:(nonnull NXMSipEvent *)sipEvent;
 - (void)sipAnswered:(nonnull NXMSipEvent *)sipEvent;

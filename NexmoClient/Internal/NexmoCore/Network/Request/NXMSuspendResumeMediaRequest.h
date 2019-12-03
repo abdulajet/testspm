@@ -17,5 +17,5 @@
 @property (nonatomic, strong, nullable) NSString *rtcId;
 
 
-- (instancetype)initWithConversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId toMemberId:(nonnull NSString *)toMemberId rtcId:(nullable NSString *)rtcId mediaType:(NXMMediaType)mediaType;
+- (nullable instancetype)initWithConversationId:(nonnull NSString *)conversationId fromMemberId:(nonnull NSString *)fromMemberId toMemberId:(nonnull NSString *)toMemberId rtcId:(nullable NSString *)rtcId mediaType:(NXMMediaType)mediaType;
 @end

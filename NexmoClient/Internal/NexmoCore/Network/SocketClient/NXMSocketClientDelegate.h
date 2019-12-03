@@ -12,7 +12,7 @@
 
 @protocol NXMSocketClientDelegate
 
-- (void)userChanged:(NXMUser *)user withSessionId:(NSString *)sessionId;
+- (void)userChanged:(nullable NXMUser *)user withSessionId:(nullable NSString *)sessionId;
 - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
 
 - (void)memberJoined:(nonnull NXMMemberEvent *)memberEvent;

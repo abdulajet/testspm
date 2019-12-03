@@ -32,7 +32,6 @@ static NSString * const PAGE_ORDER_DESC = @"DESC";
 
 static NSUInteger const CONVERSATIONS_PAGE_SIZE_MIN = 1;
 static NSUInteger const CONVERSATIONS_PAGE_SIZE_MAX = 100;
-static NSUInteger const CONVERSATIONS_PAGE_SIZE_DEFAULT = 10;
 
 static NSString * const CREATE_CONVERSATION_URL_FORMAT =@"%@beta/conversations";
 static NSString * const EVENTS_URL_FORMAT = @"%@beta/conversations/%@/events";

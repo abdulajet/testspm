@@ -33,9 +33,9 @@
 
 - (nullable instancetype)initWithHost:(nonnull NSString *)host ipsURL:(nonnull NSURL *)ipsURL;
 
-- (void)setToken:(NSString *)token;
+- (void)setToken:(nonnull NSString *)token;
 
-- (void)setSessionId:(NSString *)sessionId;
+- (void)setSessionId:(nonnull NSString *)sessionId;
 
 - (void)enablePushNotifications:(nonnull NXMEnablePushRequest *)request
                       onSuccess:(NXMSuccessCallback _Nullable)onSuccess

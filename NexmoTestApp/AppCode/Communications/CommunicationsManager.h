@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) CommunicationsManagerConnectionStatus connectionStatus;
 + (nonnull CommunicationsManager *)sharedInstance;
 
-+ (NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status;
++ (nonnull NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status;
 
 - (void)logout;
 

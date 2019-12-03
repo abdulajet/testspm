@@ -14,12 +14,13 @@
 #import "RTCMediaWrapperDelegate.h"
 #import "NXMErrorsPrivate.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @interface RTCMediaWrapper : NSObject<MRTCMediaDelegate>
 
 // TODO: network
 //- (void)setNetworkDelegate:(id<MRTCMediaNetwork>)networkDelegate;
 
-- (instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls;
+- (nullable instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls;
     
 - (void)setDelegate:(id<RTCMediaWrapperDelegate>)delegate;
 
@@ -43,3 +44,5 @@
 //- (void)holdWithMediaId:(NSString *)mediaId;
 
 @end
+
+NS_ASSUME_NONNULL_END
