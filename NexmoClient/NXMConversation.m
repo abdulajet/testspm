@@ -77,6 +77,13 @@
 #pragma mark EventQueueDelegate
 
 - (void)handleEvent:(NXMEvent*_Nonnull)event {
+    if(![NSThread isMainThread]){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self handleEvent:event];
+        });
+        return;
+    }
+    
     [self.conversationMembersController handleEvent:event];
     
     switch (event.type) {

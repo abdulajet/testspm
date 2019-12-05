@@ -92,12 +92,6 @@
     }
     
     LOG_DEBUG("%s",[event.description UTF8String]);
-    if(![NSThread isMainThread]){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self handleEvent:event];
-        });
-        return;
-    }
    
     switch (event.type) {
         case NXMEventTypeMedia:
