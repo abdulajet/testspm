@@ -51,9 +51,6 @@
 
 @implementation CallViewController
 
-- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSString *)dtmf fromCallMember:(nullable NXMCallMember *)callMember {
-    
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
 }
@@ -218,7 +215,6 @@
         }
         //TODO: refactor when fixing the [endCall - should only be dismissed after hangup succeeds]
         [self dismiss];
-        [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
     }];
 }
 
@@ -330,6 +326,13 @@
         return;
     }
     
+    if (self.isControllerInIncomingCallState &&
+        (self.call.myCallMember.status != NXMCallMemberStatusRinging ||
+         self.call.otherCallMembers[0].status == NXMCallMemberStatusCompleted ||
+         self.call.otherCallMembers[0].status == NXMCallMemberStatusRinging)) {
+        [self dismiss];
+    }
+    
     if (self.call.myCallMember.status == NXMCallMemberStatusCompleted) {
         [self didDisconnectCall];
         return;
@@ -338,6 +341,9 @@
     [self updateInCallStatusLabels];
 }
 
+- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSString *)dtmf fromCallMember:(nullable NXMCallMember *)callMember {
+    
+}
 
 #pragma mark - Private
 - (void)didDisconnectCall {
@@ -387,7 +393,6 @@
     }
     
     [self dismiss];
-    [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
 }
 
 - (void)dismiss {
@@ -399,6 +404,7 @@
     }
     
     [self dismissViewControllerAnimated:YES completion:nil];
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTACallsDefineNotificationNameEndCall object:self];
 }
 
 - (NSString *)memberName:(NXMCallMember *)member {
