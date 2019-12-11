@@ -83,16 +83,28 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
     NSString *pushKitToken = [self hexadecimalString:request.pushKitToken];
     NSString *userNotificationToken = [self hexadecimalString:request.userNotificationToken];
     
+    NSMutableDictionary *tokens = [NSMutableDictionary dictionary];
+    
+    if ([pushKitToken length] > 0) {
+        [tokens setValue:@{
+                           @"token": pushKitToken ,
+                           @"bundle_id": [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: @".voip"]
+                           }
+                  forKey:@"voip"];
+    }
+    
+    if ([userNotificationToken length] > 0) {
+        [tokens setValue:@{
+                           @"token": userNotificationToken,
+                           @"bundle_id": [NSBundle mainBundle].bundleIdentifier
+                           }
+                  forKey:@"push"];
+    }
+
     NSDictionary *dict = @{  @"device_type": @"ios",
-                                    @"tokens": @{
-                                            @"voip": @{
-                                                    @"token": [pushKitToken length] > 0 ? pushKitToken : @"",
-                                                    @"bundle_id": [[NSBundle mainBundle].bundleIdentifier stringByAppendingString: @".voip"]
-                                            }, @"push": @{
-                                                    @"token": [userNotificationToken length] > 0 ? userNotificationToken : @"",
-                                                    @"bundle_id":  [NSBundle mainBundle].bundleIdentifier
-                                    }}, @"device_push_environment" : request.isSandbox ? @"sandbox" : @"production"
-                                    };
+                             @"tokens":tokens,
+                             @"device_push_environment" : request.isSandbox ? @"sandbox" : @"production"
+                          };
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:ENABLE_PUSH_URL_FORMAT, self.baseUrl, [NXMUtils nexmoDeviceId]]];
     
