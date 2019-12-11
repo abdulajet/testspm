@@ -37,6 +37,8 @@ static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = 
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
 @property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
 @property (nonatomic, nonnull) id<NXMConversationsPageProxy> conversationsPagingHandler;
+@property (nonatomic, nonnull) NSMutableDictionary<NSString*, NSNumber*> * conversationToLastEvent;
+@property (nonatomic, nonnull) NSObject * syncConversationToLastEvent;
 @end
 
 @implementation NXMClient
@@ -63,6 +65,8 @@ static dispatch_once_t _onceToken = 0;
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
         self.clientRefToCallCallback = [NSMutableDictionary new];
+        self.conversationToLastEvent = [NSMutableDictionary new];
+        self.syncConversationToLastEvent = [NSObject new];
 
         __weak typeof(self) weakSelf = self;
         self.conversationsPagingHandler = [[NXMConversationsPagingHandler alloc] initWithStitchContext:self.stitchContext
@@ -407,6 +411,12 @@ static dispatch_once_t _onceToken = 0;
         return;
     }
     
+    
+    NSNumber* sequenceId = [[NSNumber alloc] initWithLong:[userInfo[@"nexmo"][@"id"] longValue]];
+    NSString* conversationId = userInfo[@"nexmo"][@"conversation_id"];
+    
+    if ([self tryUpdateConversationSequenceId:sequenceId conversationId:conversationId]) { return;}
+    
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
     } onError:^(NSError * _Nullable error) {
@@ -415,8 +425,8 @@ static dispatch_once_t _onceToken = 0;
     }];
 }
 
-
 #pragma mark - notification center
+
 
 - (void)onMemberEvent:(NSNotification* )notification {
     LOG_DEBUG([notification.name UTF8String]);
@@ -425,6 +435,9 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([[event description] UTF8String]);
     
     if (![event.user.uuid isEqualToString:self.user.uuid]) { return; }
+    
+    if ([self tryUpdateConversationSequenceId:[NSNumber numberWithInteger:event.uuid] conversationId:event.conversationUuid]) { return;}
+                                
     /*
      Three types of events
      1. incoming conversation (Joined + Someone else invite you + no knocking id)
@@ -531,6 +544,16 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("" );
     //TODO: clean up, set error and return false if problematic
     return YES;
+}
+
+- (BOOL)tryUpdateConversationSequenceId:(NSNumber*) sequenceId conversationId:(NSString*)conversationId{
+    @synchronized (self.syncConversationToLastEvent) {
+        if ([sequenceId longValue]<= [self.conversationToLastEvent[conversationId] longValue])  {
+            return YES;
+        }
+        self.conversationToLastEvent[conversationId] = sequenceId;
+    }
+    return NO;
 }
 
 @end
