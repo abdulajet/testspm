@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 - (instancetype)initWithApiUrl:(NSString *)apiURL
                   websocketUrl:(NSString *)websocketUrl
                         ipsUrl:(NSString *)ipsUrl
-                 iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls{
+                 iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls {
     self = [super init];
     if (self) {
         _apiUrl = apiURL;
@@ -67,42 +67,42 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 
 + (nonnull NXMClientConfig *)configFor:(NXMRegion)region {
     return [[NXMClientConfig alloc] initWithApiUrl:[NXMClientConfig apiUrlFor:region]
-                                       websocketUrl:[NXMClientConfig websocketUrlFor:region]
-                                             ipsUrl:[NXMClientConfig ipsUrlFor:region]
+                                      websocketUrl:[NXMClientConfig websocketUrlFor:region]
+                                            ipsUrl:[NXMClientConfig ipsUrlFor:region]
                                      iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
 }
 
 + (nonnull NSString *)apiUrlFor:(NXMRegion)region {
     switch (region) {
         case NXMRegionLON:
-            return @"https://api-eu-1.nexmo.com";
+            return @"https://api-eu-1.nexmo.com/";
         case NXMRegionSNG:
-            return @"https://api-sg-1.nexmo.com";
+            return @"https://api-sg-1.nexmo.com/";
         case NXMRegionDAL:
-            return @"https://api-us-2.nexmo.com";
+            return @"https://api-us-2.nexmo.com/";
         case NXMRegionWDC:
-            return @"https://api-us-1.nexmo.com";
+            return @"https://api-us-1.nexmo.com/";
     }
 }
 
 + (nonnull NSString *)websocketUrlFor:(NXMRegion)region {
     switch (region) {
         case NXMRegionLON:
-            return @"https://ws-eu-1.nexmo.com";
+            return @"https://ws-eu-1.nexmo.com/";
         case NXMRegionSNG:
-            return @"https://ws-sg-1.nexmo.com";
+            return @"https://ws-sg-1.nexmo.com/";
         case NXMRegionDAL:
-            return @"https://ws-us-2.nexmo.com";
+            return @"https://ws-us-2.nexmo.com/";
         case NXMRegionWDC:
-            return @"https://ws-us-1.nexmo.com";
+            return @"https://ws-us-1.nexmo.com/";
     }
 }
 
 + (nonnull NSString *)ipsUrlFor:(NXMRegion)region {
-    return [[NXMClientConfig apiUrlFor:region] stringByAppendingString:@"/v1/image"];
+    return [[NXMClientConfig apiUrlFor:region] stringByAppendingString:@"/v1/image/"];
 }
 
-+ (nonnull NSArray<NSString*>*)defaultIceServerUrls{
++ (nonnull NSArray<NSString*>*)defaultIceServerUrls {
     return @[@"stun:stun.l.google.com:19302"];
 }
 
