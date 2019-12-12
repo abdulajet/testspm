@@ -1529,6 +1529,50 @@
                                     <action selector="sendLogsPressed:" destination="uPs-r8-PIO" eventType="touchUpInside" id="lJG-3n-1GF"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uK7-9S-LZV">
+                                <rect key="frame" x="10" y="449" width="355" height="180"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rDz-st-YpP">
+                                        <rect key="frame" x="119" y="10" width="117" height="30"/>
+                                        <state key="normal" title="Enable voip push"/>
+                                        <connections>
+                                            <action selector="enableVoipPush:" destination="uPs-r8-PIO" eventType="touchUpInside" id="bzl-m7-nCD"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmM-XX-Esj" userLabel="Enable notifications push">
+                                        <rect key="frame" x="91.666666666666686" y="45" width="172" height="30"/>
+                                        <state key="normal" title="Enable notifications push"/>
+                                        <connections>
+                                            <action selector="enableNotificationPush:" destination="uPs-r8-PIO" eventType="touchUpInside" id="MPh-ih-fsY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iGa-Qs-Fdy">
+                                        <rect key="frame" x="136.66666666666666" y="80" width="82" height="30"/>
+                                        <state key="normal" title="Enable both"/>
+                                        <connections>
+                                            <action selector="enableBoth:" destination="uPs-r8-PIO" eventType="touchUpInside" id="4bz-e2-pfX"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hzY-Nk-Rlu">
+                                        <rect key="frame" x="133" y="115" width="89" height="30"/>
+                                        <state key="normal" title="Disable push"/>
+                                        <connections>
+                                            <action selector="disablePush:" destination="uPs-r8-PIO" eventType="touchUpInside" id="H7U-ku-2JS"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="rDz-st-YpP" firstAttribute="centerX" secondItem="uK7-9S-LZV" secondAttribute="centerX" id="O6p-1N-Yw4"/>
+                                    <constraint firstItem="dmM-XX-Esj" firstAttribute="centerX" secondItem="rDz-st-YpP" secondAttribute="centerX" id="SOn-jI-Aiw"/>
+                                    <constraint firstItem="hzY-Nk-Rlu" firstAttribute="centerX" secondItem="iGa-Qs-Fdy" secondAttribute="centerX" id="Ubv-ca-cHX"/>
+                                    <constraint firstItem="iGa-Qs-Fdy" firstAttribute="top" secondItem="dmM-XX-Esj" secondAttribute="bottom" constant="5" id="c1j-wy-c1s"/>
+                                    <constraint firstItem="rDz-st-YpP" firstAttribute="top" secondItem="uK7-9S-LZV" secondAttribute="top" constant="10" id="d36-R8-eYW"/>
+                                    <constraint firstItem="hzY-Nk-Rlu" firstAttribute="top" secondItem="iGa-Qs-Fdy" secondAttribute="bottom" constant="5" id="oZc-U3-QyH"/>
+                                    <constraint firstItem="iGa-Qs-Fdy" firstAttribute="centerX" secondItem="dmM-XX-Esj" secondAttribute="centerX" id="rdi-FF-UJC"/>
+                                    <constraint firstItem="dmM-XX-Esj" firstAttribute="top" secondItem="rDz-st-YpP" secondAttribute="bottom" constant="5" id="tic-A3-PzN"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="waV-Um-pqy">
                                 <rect key="frame" x="163.66666666666666" y="619" width="48" height="30"/>
                                 <state key="normal" title="Logout"/>
@@ -1551,9 +1595,14 @@
                             <constraint firstItem="Jfb-Q4-XVf" firstAttribute="top" secondItem="rZZ-0Y-lAq" secondAttribute="bottom" constant="23" id="0wN-c2-HDd"/>
                             <constraint firstItem="Jfb-Q4-XVf" firstAttribute="centerX" secondItem="rZZ-0Y-lAq" secondAttribute="centerX" id="3lJ-rL-eAw"/>
                             <constraint firstItem="waV-Um-pqy" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="FLJ-gH-jYQ"/>
+                            <constraint firstItem="uK7-9S-LZV" firstAttribute="top" secondItem="ygo-BO-n1W" secondAttribute="bottom" constant="20" id="J6n-Jh-PFd"/>
+                            <constraint firstItem="uK7-9S-LZV" firstAttribute="centerX" secondItem="ygo-BO-n1W" secondAttribute="centerX" id="M0t-te-J6D"/>
                             <constraint firstItem="ygo-BO-n1W" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="N1k-SP-0zS"/>
+                            <constraint firstItem="Qha-Fv-hFI" firstAttribute="trailing" secondItem="uK7-9S-LZV" secondAttribute="trailing" constant="10" id="XAJ-U3-xcb"/>
                             <constraint firstItem="ygo-BO-n1W" firstAttribute="top" secondItem="rZZ-0Y-lAq" secondAttribute="bottom" constant="45" id="abr-a3-Ap5"/>
                             <constraint firstItem="Qha-Fv-hFI" firstAttribute="bottom" secondItem="waV-Um-pqy" secondAttribute="bottom" constant="80" id="agt-yH-gIJ"/>
+                            <constraint firstItem="uK7-9S-LZV" firstAttribute="bottom" secondItem="waV-Um-pqy" secondAttribute="top" constant="10" id="elb-Ze-15R"/>
+                            <constraint firstItem="uK7-9S-LZV" firstAttribute="leading" secondItem="Qha-Fv-hFI" secondAttribute="leading" constant="10" id="em6-kH-4EO"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="top" secondItem="Qha-Fv-hFI" secondAttribute="top" constant="110" id="qFT-3b-Bz0"/>
                             <constraint firstItem="P9D-Vs-PMA" firstAttribute="centerX" secondItem="Qha-Fv-hFI" secondAttribute="centerX" id="r4b-1d-Fee"/>
                         </constraints>

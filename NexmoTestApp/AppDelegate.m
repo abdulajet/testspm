@@ -152,6 +152,27 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     }];
 }
 
+- (void)fireProcessingNexmoPushWithUserInfo:(NSDictionary *)userInfo {
+    UNMutableNotificationContent *notificationContent = [[UNMutableNotificationContent alloc] init];
+    
+    notificationContent.title = @"Processing Nexmo Push";
+    //  notificationContent.body = message;
+    //  notificationContent.sound = [UNNotificationSound defaultSound];
+    notificationContent.userInfo = userInfo;
+    notificationContent.badge = @(1);
+    
+    UNNotificationTrigger *notificationTrigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+    
+    NSString *notificationIdentifier = [[NSUUID UUID] UUIDString];
+    UNNotificationRequest *notificationRequest = [UNNotificationRequest requestWithIdentifier:notificationIdentifier content:notificationContent trigger:notificationTrigger];
+    
+    [ [UNUserNotificationCenter currentNotificationCenter] addNotificationRequest:notificationRequest withCompletionHandler:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Failed firing local notification with error: %@", error];
+        }
+    }];
+}
+
 #pragma mark - Push Kit Notifications Delegate
 
 
@@ -168,6 +189,8 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(PKPushType)type withCompletionHandler:(void (^)(void))completion {
     [NTALogger infoWithFormat:@"PushKit push with payload: %@", payload.dictionaryPayload];
     if([CommunicationsManager.sharedInstance isClientPushWithUserInfo: payload.dictionaryPayload]) {
+        [self fireProcessingNexmoPushWithUserInfo:payload.dictionaryPayload];
+        
         [NTALogger info:@"Handeling nexmo voip push"];
         [CommunicationsManager.sharedInstance processClientPushWithUserInfo:payload.dictionaryPayload completion:^(NSError * _Nullable error) {
             if(error) {

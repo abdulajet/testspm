@@ -144,37 +144,6 @@ static BOOL _registeredForNexmoPushNotifications;
     }
 }
 
-+ (void)enableNexmoPushWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    NSData *deviceToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
-    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
-    if(!deviceToken) {
-        [NTALogger info:@"No pushkit device token. not registering for nexmo push"];
-        return;
-    }
-    
-    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:deviceToken
-                                                                         pushKit:pushKitToken
-                                                                       isSandbox:YES
-                                                                      completion:^(NSError * _Nullable error) {
-        if(error) {
-            NSString *errorString  = [NSString stringWithFormat:@"Failed enabling Nexmo push with error: %@", error];
-            [NTALogger error:errorString];
-            
-            if(completion) {
-                completion([NTAErrors errorWithErrorCode:NXMTestAppErrorCodeFailedEnablingPush andUserInfo:nil]);
-            }
-            
-            return;
-        }
-        
-        [self setNexmoPushRegistrationState:TRUE];
-        
-        if(completion) {
-            completion(nil);
-        }
-    }];
-}
-
 + (void)disableNexmoPushWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
     [CommunicationsManager.sharedInstance disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
         if(error) {
@@ -201,10 +170,6 @@ static BOOL _registeredForNexmoPushNotifications;
     
     if(connectionStatus != CommunicationsManagerConnectionStatusConnected) {
         return;
-    }
-    
-    if(_currentUser) {
-        [self enableNexmoPushWithCompletion:nil];
     }
 }
 

@@ -14,6 +14,7 @@
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
+#import "AppDelegate.h"
 
 static NSString * const kNTAAvatarImageNameConnected = @"SettingsAvatarConnected";
 static NSString * const kNTAAvatarImageNameNotConnected = @"SettingsAvatarNotConnected";
@@ -58,6 +59,49 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 */
 
 
+#pragma push
+
+- (IBAction)enableVoipPush:(UIButton *)sender {
+    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    [self enablePush:pushKitToken notificationsToken:nil];
+}
+
+- (IBAction)enableNotificationPush:(UIButton *)sender {
+    NSData *token = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
+    [self enablePush:nil notificationsToken:token];
+}
+
+- (IBAction)enableBoth:(UIButton *)sender {
+    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    NSData *token = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
+    [self enablePush:pushKitToken notificationsToken:token];
+}
+
+- (IBAction)disablePush:(UIButton *)sender {
+    [CommunicationsManager.sharedInstance disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+        if (error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed disabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Disabled Failed" andMessage:error.description];
+            return;
+        }
+        
+        [NTAAlertUtils displayAlertForController:self withTitle:@"Disabled" andMessage:@"push disabled"];
+    }];
+}
+    
+- (void)enablePush:(NSData *)pushKitToken notificationsToken:(NSData *)notificationsToken {
+    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:notificationsToken pushKit:pushKitToken isSandbox:YES completion:^(NSError * _Nullable error) {
+        if (error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed enabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Enable Failed" andMessage:error.description];
+            return;
+        }
+        
+        [NTAAlertUtils displayAlertForController:self withTitle:@"Enabled" andMessage:@"push enabled"];
+    }];
+}
 
 #pragma mark - Logout
 
