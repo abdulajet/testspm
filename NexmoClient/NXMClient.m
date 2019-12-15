@@ -22,7 +22,6 @@
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 NSString *const NXMCallPrefix = @"CALL_";
 
-static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME = @"NXMClientConfigChangedAfterSharedException";
 static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = @"NXMClientConfig can't be changed after shared's been called.";
 
 @interface NXMClientRefCallObj : NSObject
@@ -103,7 +102,7 @@ static dispatch_once_t _onceToken = 0;
 
 + (void)setConfiguration:(NXMClientConfig *)configuration {
     if (_sharedInstance) {
-        @throw [NSException exceptionWithName:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON
                                      userInfo:nil];
     }
@@ -202,8 +201,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([converesationId UTF8String]);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completion(resError, nil);
+        completion([NXMErrors disconnectedError], nil);
         return;
     }
     
@@ -224,8 +222,7 @@ static dispatch_once_t _onceToken = 0;
 
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completion(resError, nil);
+        completion([NXMErrors disconnectedError], nil);
         return;
     }
     __weak NXMClient *weakSelf = self;
@@ -334,8 +331,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([[callees description] UTF8String]);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError, nil);
+        completionHandler([NXMErrors disconnectedError], nil);
         return;
     }
     switch (callHandler) {
@@ -359,8 +355,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("%s %s %d", [[NSString alloc] initWithData:pushKitToken encoding:NSUTF8StringEncoding],  [[NSString alloc] initWithData:userNotificationToken encoding:NSUTF8StringEncoding], isSandbox);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError);
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
     
@@ -380,9 +375,8 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("" );
 
     if (![self isConnected]){
-        LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError);
+        LOG_DEBUG("SDK disconnected");
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
@@ -407,7 +401,7 @@ static dispatch_once_t _onceToken = 0;
     
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected");
-        completionHandler([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil]);
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
     

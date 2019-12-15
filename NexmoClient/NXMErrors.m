@@ -14,5 +14,11 @@ NSString *const NXMErrorDomain = @"com.nexmo.errorDomain";
 +(NSError *)nxmErrorWithErrorCode:(NXMErrorCode)errorCode andUserInfo:(nullable NSDictionary<NSErrorUserInfoKey,id> *)userInfo {
     return [NSError errorWithDomain:NXMErrorDomain code:errorCode userInfo:userInfo];
 }
+
++ (NSError *)disconnectedError {
+    NSDictionary *userInfo = @{ NSLocalizedDescriptionKey : @"NXMClient disconnected" };
+    
+    return [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:userInfo];
+}
 @end
 
