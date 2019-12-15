@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 'didReceiveCall' and 'didReceiveConversation' not being called twice for the same call or conversation.
 - Option to enable push notification with only one token pushKit or userNotification.
 - NXMClientConfig region URLs fix.
+- On login with invalid user, fixed to `NXMConnectionStatusReasonUserNotFound`.
 
 ## 1.2.1 - 2019-12-05
 ### Added

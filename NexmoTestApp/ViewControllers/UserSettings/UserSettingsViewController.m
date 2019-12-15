@@ -35,7 +35,7 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.statusReasonLabel.text = @"";
-    [self setAvatarImageForStatus:CommunicationsManager.sharedInstance.connectionStatus];
+    [self setAvatarImageForStatus:CommunicationsManager.sharedInstance.client.connectionStatus];
     [self setLabelsWithUserInfo:[NTALoginHandler currentUser]];
     
 }
@@ -187,28 +187,28 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 
 #pragma mark - CommunicationsManagerNotifications
 - (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {
-    CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
-    CommunicationsManagerConnectionStatusReason connectionStatusReason = (CommunicationsManagerConnectionStatusReason)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatusReason] integerValue]);
+    NXMConnectionStatus connectionStatus = (NXMConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
+    NXMConnectionStatusReason connectionStatusReason = (NXMConnectionStatusReason)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatusReason] integerValue]);
     [self connectionStatusChanged:connectionStatus withReason:connectionStatusReason];
 }
 
-- (void)connectionStatusChanged:(CommunicationsManagerConnectionStatus)connectionStatus withReason:(CommunicationsManagerConnectionStatusReason)reason {
+- (void)connectionStatusChanged:(NXMConnectionStatus)connectionStatus withReason:(NXMConnectionStatusReason)reason {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusReasonLabel.text = [CommunicationsManager CommunicationsManagerConnectionStatusReasonToString:reason];
+        self.statusReasonLabel.text = [CommunicationsManager statusReasonToString:reason];
         [self setAvatarImageForStatus:connectionStatus];
     });
 }
 
 #pragma mark - user ui
-- (void)setAvatarImageForStatus:(CommunicationsManagerConnectionStatus)status {
+- (void)setAvatarImageForStatus:(NXMConnectionStatus)status {
     switch (status) {
-        case CommunicationsManagerConnectionStatusNotConnected:
+        case NXMConnectionStatusDisconnected:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameNotConnected]];
             break;
-        case CommunicationsManagerConnectionStatusReconnecting:
+        case NXMConnectionStatusConnecting:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameReconnecting]];
             break;
-        case CommunicationsManagerConnectionStatusConnected:
+        case NXMConnectionStatusConnected:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameConnected]];
             break;
         default:

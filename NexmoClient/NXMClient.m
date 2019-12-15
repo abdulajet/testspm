@@ -191,7 +191,9 @@ static dispatch_once_t _onceToken = 0;
             break;
     }
     
-    [self.delegate client:self didChangeConnectionStatus:status reason:reason];
+    dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate client:self didChangeConnectionStatus:status reason:reason];
+    });
 }
 
 #pragma mark - conversation

@@ -166,11 +166,7 @@ static BOOL _registeredForNexmoPushNotifications;
 }
 
 + (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {
-    CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
-    
-    if(connectionStatus != CommunicationsManagerConnectionStatusConnected) {
-        return;
-    }
+    // TODO...
 }
 
 @end

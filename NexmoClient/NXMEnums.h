@@ -20,6 +20,7 @@ typedef NS_ENUM(NSInteger, NXMConnectionStatusReason) {
     NXMConnectionStatusReasonTokenRefreshed,
     NXMConnectionStatusReasonTokenInvalid,
     NXMConnectionStatusReasonTokenExpired,
+    NXMConnectionStatusReasonUserNotFound,
     NXMConnectionStatusReasonTerminated
 };
 

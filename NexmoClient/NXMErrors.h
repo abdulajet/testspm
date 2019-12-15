@@ -56,6 +56,7 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
     NXMErrorCodePayloadTooBig,
     
     NXMErrorCodeSDKDisconnected,
+    NXMErrorCodeUserNotFound,   // @"user:error:not-found"
     
     NXMErrorCodeDTMFIllegal
 };

@@ -14,10 +14,9 @@
 @interface CommunicationsManager : NSObject <NXMClientDelegate>
 
 @property (nonatomic, nonnull, readonly) NXMClient *client;
-@property (nonatomic, readonly) CommunicationsManagerConnectionStatus connectionStatus;
 + (nonnull CommunicationsManager *)sharedInstance;
 
-+ (nonnull NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status;
++ (nonnull NSString *)statusReasonToString:(NXMConnectionStatusReason)status;
 
 - (void)logout;
 

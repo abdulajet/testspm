@@ -47,39 +47,27 @@
     return self;
 }
 
-#pragma mark - properties
-- (CommunicationsManagerConnectionStatus)connectionStatus {
-    if(self.client.connectionStatus == NXMConnectionStatusDisconnected) {
-        return CommunicationsManagerConnectionStatusNotConnected;
-    }
-    
-    if(self.client.connectionStatus == NXMConnectionStatusConnecting) {
-        return CommunicationsManagerConnectionStatusReconnecting;
-    }
-        
-    return CommunicationsManagerConnectionStatusConnected;
-}
 
 #pragma public
 
-+ (NSString *)CommunicationsManagerConnectionStatusReasonToString:(CommunicationsManagerConnectionStatusReason)status {
++ (NSString *)statusReasonToString:(NXMConnectionStatusReason)status {
     switch (status) {
-        case CommunicationsManagerConnectionStatusReasonUnknown:
+        case NXMConnectionStatusReasonUnknown:
             return @"ReasonUnknown";
-        case CommunicationsManagerConnectionStatusReasonLogin:
+        case NXMConnectionStatusReasonLogin:
             return @"ReasonLogin";
-        case CommunicationsManagerConnectionStatusReasonLogout:
+        case NXMConnectionStatusReasonLogout:
             return @"ReasonLogout";
-        case CommunicationsManagerConnectionStatusReasonTokenInvalid:
+        case NXMConnectionStatusReasonTokenRefreshed:
+            return @"ReasonTokenRefreshed";
+        case NXMConnectionStatusReasonTokenInvalid:
             return @"ReasonTokenInvalid";
-        case CommunicationsManagerConnectionStatusReasonTokenExpired:
+        case NXMConnectionStatusReasonTokenExpired:
             return @"ReasonTokenExpired";
-        case CommunicationsManagerConnectionStatusReasonSessionInvalid:
-            return @"ReasonSessionInvalid";
-        case CommunicationsManagerConnectionStatusReasonMaxSessions:
-            return @"ReasonMaxSessions";
-        case CommunicationsManagerConnectionStatusReasonSessionTerminated:
+        case NXMConnectionStatusReasonTerminated:
             return @"ReasonSessionTerminated";
+        case NXMConnectionStatusReasonUserNotFound:
+            return @"ReasonUserNotFound";
         default:
             break;
     }
@@ -113,7 +101,7 @@
 
 #pragma mark - post notifications
 
-- (void)didChangeConnectionStatus:(CommunicationsManagerConnectionStatus)connectionStatus WithReason:(CommunicationsManagerConnectionStatusReason)reason {
+- (void)didChangeConnectionStatus:(NXMConnectionStatus)connectionStatus WithReason:(NXMConnectionStatusReason)reason {
     NSDictionary *userInfo = @{
                                kNTACommunicationsManagerNotificationKeyConnectionStatus:@(connectionStatus),
                                kNTACommunicationsManagerNotificationKeyConnectionStatusReason: @(reason)
@@ -131,30 +119,8 @@
 #pragma mark - stitchClientDelegate
 
 - (void)client:(nonnull NXMClient *)client didChangeConnectionStatus:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason {
-    [self didChangeConnectionStatus:self.connectionStatus WithReason:[self connectionStatusReasonWithLoginStatus:reason]];
+    [self didChangeConnectionStatus:status WithReason:reason];
 }
-
-- (CommunicationsManagerConnectionStatusReason)connectionStatusReasonWithLoginStatus:(NXMConnectionStatusReason)statusReason {
-    CommunicationsManagerConnectionStatusReason reason = CommunicationsManagerConnectionStatusReasonUnknown;
-    
-
-    switch (statusReason) {
-        case NXMConnectionStatusReasonTerminated:
-            reason = CommunicationsManagerConnectionStatusReasonSessionInvalid;
-            break;
-        case NXMConnectionStatusReasonTokenInvalid:
-            reason = CommunicationsManagerConnectionStatusReasonTokenInvalid;
-            break;
-            case NXMConnectionStatusReasonTokenExpired:
-            reason = CommunicationsManagerConnectionStatusReasonTokenExpired;
-            break;
-        default:
-            break;
-    }
-    
-    return reason;
-}
-
 
 - (void)tokenRefreshed {
     //TODO: add to observer
