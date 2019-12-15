@@ -35,8 +35,6 @@
 
 @implementation NXMSocketClient
 
-static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
-
 #pragma mark - Public
 - (instancetype)initWithHost:(NSString *)host {
     if (self = [super init]) {
