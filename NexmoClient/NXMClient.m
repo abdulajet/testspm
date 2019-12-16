@@ -22,7 +22,6 @@
 typedef void (^knockingComplition)(NSError * _Nullable error, NXMCall * _Nullable call);
 NSString *const NXMCallPrefix = @"CALL_";
 
-static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME = @"NXMClientConfigChangedAfterSharedException";
 static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = @"NXMClientConfig can't be changed after shared's been called.";
 
 @interface NXMClientRefCallObj : NSObject
@@ -37,6 +36,8 @@ static NSString *const NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON = 
 @property (nonatomic, nullable, weak) id <NXMClientDelegate> delegate;
 @property (nonatomic, nonnull) NSMutableDictionary<NSString*, NXMClientRefCallObj*> * clientRefToCallCallback;
 @property (nonatomic, nonnull) id<NXMConversationsPageProxy> conversationsPagingHandler;
+@property (nonatomic, nonnull) NSMutableDictionary<NSString*, NSNumber*> * conversationToLastEvent;
+@property (nonatomic, nonnull) NSObject * syncConversationToLastEvent;
 @end
 
 @implementation NXMClient
@@ -63,6 +64,8 @@ static dispatch_once_t _onceToken = 0;
          
         [self.stitchContext.eventsDispatcher.notificationCenter addObserver:self selector:@selector(onMemberEvent:) name:kNXMEventsDispatcherNotificationMember object:nil];
         self.clientRefToCallCallback = [NSMutableDictionary new];
+        self.conversationToLastEvent = [NSMutableDictionary new];
+        self.syncConversationToLastEvent = [NSObject new];
 
         __weak typeof(self) weakSelf = self;
         self.conversationsPagingHandler = [[NXMConversationsPagingHandler alloc] initWithStitchContext:self.stitchContext
@@ -99,7 +102,7 @@ static dispatch_once_t _onceToken = 0;
 
 + (void)setConfiguration:(NXMClientConfig *)configuration {
     if (_sharedInstance) {
-        @throw [NSException exceptionWithName:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_NAME
+        @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:NXMCLIENT_CONFIG_CHANGED_AFTER_SHARED_EXCEPTION_REASON
                                      userInfo:nil];
     }
@@ -188,7 +191,9 @@ static dispatch_once_t _onceToken = 0;
             break;
     }
     
-    [self.delegate client:self didChangeConnectionStatus:status reason:reason];
+    dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate client:self didChangeConnectionStatus:status reason:reason];
+    });
 }
 
 #pragma mark - conversation
@@ -198,8 +203,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([converesationId UTF8String]);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completion(resError, nil);
+        completion([NXMErrors disconnectedError], nil);
         return;
     }
     
@@ -220,8 +224,7 @@ static dispatch_once_t _onceToken = 0;
 
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completion(resError, nil);
+        completion([NXMErrors disconnectedError], nil);
         return;
     }
     __weak NXMClient *weakSelf = self;
@@ -330,8 +333,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([[callees description] UTF8String]);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError, nil);
+        completionHandler([NXMErrors disconnectedError], nil);
         return;
     }
     switch (callHandler) {
@@ -355,8 +357,7 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("%s %s %d", [[NSString alloc] initWithData:pushKitToken encoding:NSUTF8StringEncoding],  [[NSString alloc] initWithData:userNotificationToken encoding:NSUTF8StringEncoding], isSandbox);
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError);
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
     
@@ -376,9 +377,8 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("" );
 
     if (![self isConnected]){
-        LOG_DEBUG("SDK disconnected" );
-        NSError *resError = [[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil];
-        completionHandler(resError);
+        LOG_DEBUG("SDK disconnected");
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
     [self.stitchContext.coreClient disablePushNotificationsWithOnSuccess:^{
@@ -403,9 +403,15 @@ static dispatch_once_t _onceToken = 0;
     
     if (![self isConnected]){
         LOG_DEBUG("SDK disconnected");
-        completionHandler([[NSError alloc] initWithDomain:NXMErrorDomain code:NXMErrorCodeSDKDisconnected userInfo:nil]);
+        completionHandler([NXMErrors disconnectedError]);
         return;
     }
+    
+    
+    NSNumber* sequenceId = [[NSNumber alloc] initWithLong:[userInfo[@"nexmo"][@"id"] longValue]];
+    NSString* conversationId = userInfo[@"nexmo"][@"conversation_id"];
+    
+    if ([self tryUpdateConversationSequenceId:sequenceId conversationId:conversationId]) { return;}
     
     [self.stitchContext.coreClient processNexmoPushWithUserInfo:userInfo onSuccess:^(NXMEvent * _Nullable event) {
         [NXMBlocksHelper runWithError:nil completion:completionHandler];
@@ -415,8 +421,8 @@ static dispatch_once_t _onceToken = 0;
     }];
 }
 
-
 #pragma mark - notification center
+
 
 - (void)onMemberEvent:(NSNotification* )notification {
     LOG_DEBUG([notification.name UTF8String]);
@@ -425,6 +431,9 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG([[event description] UTF8String]);
     
     if (![event.user.uuid isEqualToString:self.user.uuid]) { return; }
+    
+    if ([self tryUpdateConversationSequenceId:[NSNumber numberWithInteger:event.uuid] conversationId:event.conversationUuid]) { return;}
+                                
     /*
      Three types of events
      1. incoming conversation (Joined + Someone else invite you + no knocking id)
@@ -531,6 +540,16 @@ static dispatch_once_t _onceToken = 0;
     LOG_DEBUG("" );
     //TODO: clean up, set error and return false if problematic
     return YES;
+}
+
+- (BOOL)tryUpdateConversationSequenceId:(NSNumber*) sequenceId conversationId:(NSString*)conversationId{
+    @synchronized (self.syncConversationToLastEvent) {
+        if ([sequenceId longValue]<= [self.conversationToLastEvent[conversationId] longValue])  {
+            return YES;
+        }
+        self.conversationToLastEvent[conversationId] = sequenceId;
+    }
+    return NO;
 }
 
 @end

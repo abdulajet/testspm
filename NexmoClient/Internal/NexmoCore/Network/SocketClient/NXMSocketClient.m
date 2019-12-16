@@ -35,8 +35,6 @@
 
 @implementation NXMSocketClient
 
-static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
-
 #pragma mark - Public
 - (instancetype)initWithHost:(NSString *)host {
     if (self = [super init]) {
@@ -242,7 +240,6 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 
 - (void)didFailLoginWithError:(NXMErrorCode)error {
     self.token = nil;
-    [self disconnectSocket];
     
     NXMConnectionStatusReason reason = NXMConnectionStatusReasonUnknown;
     
@@ -257,11 +254,16 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
         case NXMErrorCodeTokenExpired:
             reason = NXMConnectionStatusReasonTokenExpired;
             break;
+        case NXMErrorCodeUserNotFound:
+            reason = NXMConnectionStatusReasonUserNotFound;
+            break;
         default:
             break;
     }
     
     [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:reason];
+    
+    [self disconnectSocket];
 }
 
 - (void)didServerLoginWithData:(NSArray *)data {
@@ -317,6 +319,8 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
 }
 
 - (void)subscribeGeneralEvents {
+    __weak NXMSocketClient *weakSelf = self;
+    
     [self.socket on:kNXMSocketEventBadPermission callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         LOG_ERROR("socket BadPermission");
     }];
@@ -327,7 +331,7 @@ static NSString *const nxmURL = @"https://honey-api.npe.nexmo.io/beta";
     
     [self.socket on:kNXMSocketEventUserNotFound callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         LOG_ERROR("socket kNXMSocketEventUserNotFound"  );
-        //TODO: check if this means anything about login/logout and also regard the invaliduser sessioninternalerror
+        [weakSelf didFailLoginWithError:NXMErrorCodeUserNotFound];
     }];
 }
 

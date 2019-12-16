@@ -14,6 +14,7 @@
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
+#import "AppDelegate.h"
 
 static NSString * const kNTAAvatarImageNameConnected = @"SettingsAvatarConnected";
 static NSString * const kNTAAvatarImageNameNotConnected = @"SettingsAvatarNotConnected";
@@ -34,7 +35,7 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.statusReasonLabel.text = @"";
-    [self setAvatarImageForStatus:CommunicationsManager.sharedInstance.connectionStatus];
+    [self setAvatarImageForStatus:CommunicationsManager.sharedInstance.client.connectionStatus];
     [self setLabelsWithUserInfo:[NTALoginHandler currentUser]];
     
 }
@@ -58,6 +59,49 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 */
 
 
+#pragma push
+
+- (IBAction)enableVoipPush:(UIButton *)sender {
+    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    [self enablePush:pushKitToken notificationsToken:nil];
+}
+
+- (IBAction)enableNotificationPush:(UIButton *)sender {
+    NSData *token = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
+    [self enablePush:nil notificationsToken:token];
+}
+
+- (IBAction)enableBoth:(UIButton *)sender {
+    NSData *pushKitToken = ((AppDelegate *)UIApplication.sharedApplication.delegate).pushKitToken;
+    NSData *token = ((AppDelegate *)UIApplication.sharedApplication.delegate).deviceToken;
+    [self enablePush:pushKitToken notificationsToken:token];
+}
+
+- (IBAction)disablePush:(UIButton *)sender {
+    [CommunicationsManager.sharedInstance disablePushNotificationsWithCompletion:^(NSError * _Nullable error) {
+        if (error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed disabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Disabled Failed" andMessage:error.description];
+            return;
+        }
+        
+        [NTAAlertUtils displayAlertForController:self withTitle:@"Disabled" andMessage:@"push disabled"];
+    }];
+}
+    
+- (void)enablePush:(NSData *)pushKitToken notificationsToken:(NSData *)notificationsToken {
+    [CommunicationsManager.sharedInstance enablePushNotificationsWithDeviceToken:notificationsToken pushKit:pushKitToken isSandbox:YES completion:^(NSError * _Nullable error) {
+        if (error) {
+            NSString *errorString  = [NSString stringWithFormat:@"Failed enabling Nexmo push with error: %@", error];
+            [NTALogger error:errorString];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Enable Failed" andMessage:error.description];
+            return;
+        }
+        
+        [NTAAlertUtils displayAlertForController:self withTitle:@"Enabled" andMessage:@"push enabled"];
+    }];
+}
 
 #pragma mark - Logout
 
@@ -143,28 +187,28 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
 
 #pragma mark - CommunicationsManagerNotifications
 - (void)connectionStatusChangedWithNSNotification:(NSNotification *)note {
-    CommunicationsManagerConnectionStatus connectionStatus = (CommunicationsManagerConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
-    CommunicationsManagerConnectionStatusReason connectionStatusReason = (CommunicationsManagerConnectionStatusReason)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatusReason] integerValue]);
+    NXMConnectionStatus connectionStatus = (NXMConnectionStatus)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatus] integerValue]);
+    NXMConnectionStatusReason connectionStatusReason = (NXMConnectionStatusReason)([note.userInfo[kNTACommunicationsManagerNotificationKeyConnectionStatusReason] integerValue]);
     [self connectionStatusChanged:connectionStatus withReason:connectionStatusReason];
 }
 
-- (void)connectionStatusChanged:(CommunicationsManagerConnectionStatus)connectionStatus withReason:(CommunicationsManagerConnectionStatusReason)reason {
+- (void)connectionStatusChanged:(NXMConnectionStatus)connectionStatus withReason:(NXMConnectionStatusReason)reason {
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.statusReasonLabel.text = [CommunicationsManager CommunicationsManagerConnectionStatusReasonToString:reason];
+        self.statusReasonLabel.text = [CommunicationsManager statusReasonToString:reason];
         [self setAvatarImageForStatus:connectionStatus];
     });
 }
 
 #pragma mark - user ui
-- (void)setAvatarImageForStatus:(CommunicationsManagerConnectionStatus)status {
+- (void)setAvatarImageForStatus:(NXMConnectionStatus)status {
     switch (status) {
-        case CommunicationsManagerConnectionStatusNotConnected:
+        case NXMConnectionStatusDisconnected:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameNotConnected]];
             break;
-        case CommunicationsManagerConnectionStatusReconnecting:
+        case NXMConnectionStatusConnecting:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameReconnecting]];
             break;
-        case CommunicationsManagerConnectionStatusConnected:
+        case NXMConnectionStatusConnected:
             [self.AvatarImage setImage:[UIImage imageNamed:kNTAAvatarImageNameConnected]];
             break;
         default:

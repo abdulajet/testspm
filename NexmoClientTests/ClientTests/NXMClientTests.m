@@ -31,6 +31,7 @@
 - (BOOL)isConnected;
 - (instancetype)initWithConfiguration:(NXMClientConfig *)configuration;
 + (void)destory;
+- (BOOL)tryUpdateConversationSequenceId:(NSNumber*) sequenceId conversationId:(NSString*)conversationId;
 @end
 
 @interface NXMClientTests : XCTestCase
@@ -192,6 +193,26 @@
     [clientDelegateMock stopMocking];
     
     XCTAssertEqual(result, XCTWaiterResultCompleted);
+}
+- (void)testCheckAndUpdateSequenceId{
+    NSString* convId = @"conv1";
+    NXMClient *client = [[NXMClient alloc] initWithConfiguration:[NXMClientConfig new]];
+    
+    id clientDelegateMock = [OCMockObject mockForProtocol:@protocol(NXMClientDelegate)];
+    
+    [client setDelegate:clientDelegateMock];
+    
+    bool firstEventFirstTime = [client tryUpdateConversationSequenceId:[NSNumber numberWithInteger:1]
+                               conversationId:convId];
+    bool firstEventSecondTime = [client tryUpdateConversationSequenceId:[NSNumber numberWithInteger:1] conversationId:convId];
+    bool thirdEventFirstTime = [client tryUpdateConversationSequenceId:[NSNumber numberWithInteger:3]
+                                                 conversationId:convId];
+    bool secondEventFirstTime = [client tryUpdateConversationSequenceId:[NSNumber numberWithInteger:1] conversationId:convId];
+    
+    XCTAssertEqual(firstEventFirstTime, NO);
+    XCTAssertEqual(firstEventSecondTime, YES);
+    XCTAssertEqual(thirdEventFirstTime, NO);
+    XCTAssertEqual(secondEventFirstTime, YES);
 }
 
 - (void)testOnMemberInvitedWithAudioWithoutCallPrefix_NoIncomingCall {
