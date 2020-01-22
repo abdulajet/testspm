@@ -34,15 +34,12 @@
 
 #pragma mark - init
 - (instancetype)init {
-    if(self = [super init]) {        
+    if(self = [super init]) {
+        self.unprocessedPushPayloads = [NSMutableArray new];
+
         //notifications
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLoginWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogin object:nil];
         [NSNotificationCenter.defaultCenter addObserver:self selector:@selector(NTADidLogoutWithNSNotification:) name:kNTALoginHandlerNotificationNameUserDidLogout object:nil];
-        
-        if (NTALoginHandler.currentUser) {
-            [self setupClientWithUser:NTALoginHandler.currentUser];
-            [self login];
-        }
     }
     return self;
 }
@@ -102,11 +99,30 @@
 #pragma mark - post notifications
 
 - (void)didChangeConnectionStatus:(NXMConnectionStatus)connectionStatus WithReason:(NXMConnectionStatusReason)reason {
+    if (connectionStatus == NXMConnectionStatusConnected) {
+        [self handleUnprocessedPushNotifications];
+    }
     NSDictionary *userInfo = @{
                                kNTACommunicationsManagerNotificationKeyConnectionStatus:@(connectionStatus),
                                kNTACommunicationsManagerNotificationKeyConnectionStatusReason: @(reason)
                                };
     [NSNotificationCenter.defaultCenter postNotificationName:kNTACommunicationsManagerNotificationNameConnectionStatus object:nil userInfo:userInfo];
+}
+
+- (void)handleUnprocessedPushNotifications {
+    for (PKPushPayload *payload in self.unprocessedPushPayloads) {
+        [self handlePushNotificationWithUserInfo:payload.dictionaryPayload];
+    }
+    [self.unprocessedPushPayloads removeAllObjects];
+}
+
+- (void)handlePushNotificationWithUserInfo:(NSDictionary *)userInfo {
+    [NTALogger info:@"Handeling nexmo voip push"];
+    [CommunicationsManager.sharedInstance processClientPushWithUserInfo:userInfo completion:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Error processing nexmo push: %@", error];
+        }
+    }];
 }
 
 - (void)didgetIncomingCall:(NXMCall *)call {
@@ -136,7 +152,8 @@
 }
 
 - (void)client:(nonnull NXMClient *)client didReceiveError:(nonnull NSError *)error {
-    
+    [NTALogger info:[NSString stringWithFormat:@"Communications Manager - Nexmo Client Error %@", error.description]];
+
 }
 
 
@@ -145,23 +162,26 @@
 #pragma mark - LoginHandler notifications
 - (void)NTADidLoginWithNSNotification:(NSNotification *)note {
     NTAUserInfo *user = note.userInfo[kNTALoginHandlerNotificationKeyUser];
-    [self setupClientWithUser:user];
+    [self setupClientWithUserToken:user.csUserToken];
 }
 
 - (void)NTADidLogoutWithNSNotification:(NSNotification *)note {
     [self logout];
 }
 
-- (void)login {
-    //[self.client loginWithAuthToken:(NSString *)authToken];
+- (void)loginWithUserToken:(NSString *)userToken {
+    [self setupClientWithUserToken:userToken];
 }
 
 - (void)logout {
     [self.client logout];
 }
 
-- (void)setupClientWithUser:(NTAUserInfo *)userInfo {
+- (void)setupClientWithUserToken:(NSString *)userToken {
     if(self.client) { //TODO: this is because creating two clients without holding reference to both creates crashes in miniRTC. change after it is fixed
+        
+        [self.client loginWithAuthToken:userToken];
+        
         return;
     }
     
@@ -179,7 +199,7 @@
     self.client = NXMClient.shared;
 
     [self.client setDelegate:self];
-    [self.client loginWithAuthToken:userInfo.csUserToken];
+    [self.client loginWithAuthToken:userToken];
 }
 
 @end

@@ -202,6 +202,24 @@
           onError:(NXMErrorCallback _Nullable)onError{
     [self.router getEvents:getEventsRequest onSuccess:onSuccess onError:onError];
 }
+
+- (void)getEventsPageWithRequest:(NXMGetEventsPageRequest *)request
+               eventsPagingProxy:(id<NXMPageProxy>)pagingProxy
+                       onSuccess:(void (^)(NXMEventsPage * _Nullable))onSuccess
+                         onError:(void (^)(NSError * _Nullable))onError {
+    [self.router getEventsPageWithRequest:request
+                     eventsPagingProxy:pagingProxy
+                             onSuccess:onSuccess
+                               onError:onError];
+}
+
+- (void)getEventsPageForURL:(NSURL *)url
+          eventsPagingProxy:(id<NXMPageProxy>)proxy
+                  onSuccess:(void (^)(NXMEventsPage * _Nullable))onSuccess
+                    onError:(void (^)(NSError * _Nullable))onError {
+    [self.router getEventsPageForURL:url eventsPagingProxy:proxy onSuccess:onSuccess onError:onError];
+}
+
 - (void)getConversationDetails:(nonnull NSString*)conversationId
                      onSuccess:(NXMSuccessCallbackWithConversationDetails _Nullable)onSuccess
                        onError:(NXMErrorCallback _Nullable)onError {
@@ -232,8 +250,8 @@
             break;
         case NXMMediaTypeVideo:
         default:{
-            LOG_ERROR("mediaType %ld is not supported",(long)mediaRequest.mediaType);
-            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
+            NXM_LOG_ERROR("mediaType %ld is not supported",(long)mediaRequest.mediaType);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported]);
         }
     }
 }
@@ -247,8 +265,8 @@
             break;
         case NXMMediaTypeVideo:
         default:{
-            LOG_ERROR("mediaType %ld is not supported", (long)mediaRequest.mediaType);
-            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
+            NXM_LOG_ERROR("mediaType %ld is not supported", (long)mediaRequest.mediaType);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported]);
         }
     }
 }
@@ -363,7 +381,9 @@
     [self.delegate customEvent:customEvent];
 }
 
-
+- (void)onError:(NXMErrorCode)errorCode {
+    [self.delegate onError:errorCode];
+}
 
 
 @end

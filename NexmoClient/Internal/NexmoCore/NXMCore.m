@@ -16,6 +16,7 @@
 #import "NXMNetworkCallbacks.h"
 #import "NXMEventInternal.h"
 #import "NXMConversationIdsPage.h"
+#import "NXMPagePrivate.h"
 
 @interface NXMCore() <RTCMediaWrapperDelegate, NXMNetworkDelegate>
 
@@ -93,7 +94,7 @@
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError {
     if(![self isNexmoPushWithUserInfo:userInfo]) {
         if(onError) {
-            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushNotAStitchPush andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushNotANexmoPush]);
             return;
         }
     }
@@ -101,7 +102,7 @@
     NXMEvent *parsedEvent = [self.pushParser parseStitchPushEventWithUserInfo:userInfo];
     if(!parsedEvent) {
         if(onError) {
-            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushParsingFailed andUserInfo:nil]);
+            onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushParsingFailed]);
         }
         return;
     }
@@ -253,6 +254,47 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.network getEvents:request onSuccess:onSuccess onError:onError];
 }
 
+- (void)getEventsPageWithSize:(NSInteger)size
+                        order:(NXMPageOrder)order
+               conversationId:(NSString *)conversationId
+                    eventType:(NSString *)eventType
+            completionHandler:(void (^)(NSError * _Nullable, NXMEventsPage * _Nullable))completionHandler {
+    NXMGetEventsPageRequest *request = [[NXMGetEventsPageRequest alloc] initWithSize:size
+                                                                               order:order
+                                                                      conversationId:conversationId
+                                                                              cursor:nil
+                                                                           eventType:eventType];
+    [self.network getEventsPageWithRequest:request
+                         eventsPagingProxy:self
+                                 onSuccess:^(NXMEventsPage * _Nullable page) {
+                                     if (!page) {
+                                         completionHandler([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown], nil);
+                                         return;
+                                     }
+
+                                     completionHandler(nil, page);
+                                 }
+                                   onError:^(NSError * _Nullable error) {
+                                       completionHandler(error, nil);
+                                   }];
+}
+
+- (void)getPageForURL:(NSURL *)url completionHandler:(void (^)(NSError * _Nullable, NXMPage * _Nullable))completionHandler {
+    [self.network getEventsPageForURL:url
+                    eventsPagingProxy:self
+                            onSuccess:^(NXMEventsPage * _Nullable page) {
+                                if (!page) {
+                                    completionHandler([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown], nil);
+                                    return;
+                                }
+
+                                completionHandler(nil, page);
+                            }
+                              onError:^(NSError * _Nullable error) {
+                                  completionHandler(error, nil);
+                              }];
+}
+
 
 #pragma mark - Messages Methods
 
@@ -382,7 +424,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
            onSuccess:(NXMSuccessCallback _Nullable)onSuccess
              onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
-        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
+        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported]);
     }
     NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
     [self.network suspendMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
@@ -395,13 +437,17 @@ fromConversationWithId:(nonnull NSString *)conversationId
           onSuccess:(NXMSuccessCallback _Nullable)onSuccess
             onError:(NXMErrorCallback _Nullable)onError {
     if(![self isSupportedMediaType:mediaType]) {
-        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported andUserInfo:nil]);
+        onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeMediaNotSupported]);
     }
     NXMSuspendResumeMediaRequest *mediaRequest = [[NXMSuspendResumeMediaRequest alloc] initWithConversationId:conversationId fromMemberId:fromMemberId toMemberId:memberId rtcId:nil mediaType:mediaType];
     [self.network resumeMediaWithMediaRequest:mediaRequest onSuccess:onSuccess onError:onError];
 }
 
 #pragma mark - NXMNetworkDelegate
+
+- (void)onError:(NXMErrorCode)errorCode {
+    [self.delegate onError:errorCode];
+}
 
 - (NSString *)authToken {
     return self.token;

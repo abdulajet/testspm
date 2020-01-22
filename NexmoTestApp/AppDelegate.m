@@ -11,7 +11,7 @@
 #import "CommunicationsManager.h"
 #import "MainFlow.h"
 
-#import <AVFoundation/AVAudioSession.h>
+#import <AVFoundation/AVFoundation.h>
 #import <PushKit/PushKit.h>
 
 @interface AppDelegate () <PKPushRegistryDelegate>
@@ -20,7 +20,6 @@
 @end
 
 @implementation AppDelegate
-
 
 - (BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     return true;
@@ -190,14 +189,24 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     [NTALogger infoWithFormat:@"PushKit push with payload: %@", payload.dictionaryPayload];
     if([CommunicationsManager.sharedInstance isClientPushWithUserInfo: payload.dictionaryPayload]) {
         [self fireProcessingNexmoPushWithUserInfo:payload.dictionaryPayload];
-        
-        [NTALogger info:@"Handeling nexmo voip push"];
-        [CommunicationsManager.sharedInstance processClientPushWithUserInfo:payload.dictionaryPayload completion:^(NSError * _Nullable error) {
-            if(error) {
-                [NTALogger errorWithFormat:@"Error processing nexmo push: %@", error];
-            }
-        }];
+        if (CommunicationsManager.sharedInstance.client.connectionStatus != NXMConnectionStatusConnected) {
+            NSString *token = [CommunicationsManager.sharedInstance.client getToken];
+            [CommunicationsManager.sharedInstance.unprocessedPushPayloads addObject:payload];
+            [CommunicationsManager.sharedInstance.client loginWithAuthToken:token];
+            return;
+        }
+
+        [self handlePushNotificationWithUserInfo:payload.dictionaryPayload];
     }
+}
+
+- (void)handlePushNotificationWithUserInfo:(NSDictionary *)userInfo {
+    [NTALogger info:@"Handeling nexmo voip push"];
+    [CommunicationsManager.sharedInstance processClientPushWithUserInfo:userInfo completion:^(NSError * _Nullable error) {
+        if(error) {
+            [NTALogger errorWithFormat:@"Error processing nexmo push: %@", error];
+        }
+    }];
 }
 
 @end

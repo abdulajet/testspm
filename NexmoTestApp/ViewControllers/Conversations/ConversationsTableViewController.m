@@ -7,6 +7,7 @@
 
 #import "ConversationsTableViewController.h"
 #import "CommunicationsManager.h"
+#import "EventsTableViewController.h"
 
 static NSUInteger const CONVERSATIONS_PAGE_SIZE = 3;
 static NSString *const CONVERSATION_REUSE_ID = @"conversationReuseId";
@@ -20,6 +21,7 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *previousPageButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *toggleOrderButton;
 @property (nonatomic, weak) IBOutlet UIBarButtonItem *nextPageButton;
+@property UIActivityIndicatorView *activityIndicatorView;
 
 @end
 
@@ -29,10 +31,11 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
     [super viewDidLoad];
 
     self.view.backgroundColor = UIColor.whiteColor;
-    self.tableView.allowsSelection = NO;
     UIView *tableViewFooter = [UIView new];
     tableViewFooter.backgroundColor = UIColor.whiteColor;
     self.tableView.tableFooterView = tableViewFooter;
+
+    self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
     self.order = NXMPageOrderAsc;
 }
@@ -40,12 +43,13 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-    [self showPage:nil];
-    [self getConversationsPage];
+    [self cleanAndGetConversationsPage];
 }
 
 - (IBAction)previousPageButtonPressed:(UIBarButtonItem *)sender {
     if ([self.conversationsPage hasPreviousPage]) {
+        [self showActivityIndicatorView];
+
         __weak ConversationsTableViewController *weakSelf = self;
         [self.conversationsPage previousPage:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
             [weakSelf showPage:(error || !page) ? nil : page];
@@ -57,12 +61,13 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
 
 - (IBAction)toggleOrderButtonPressed:(UIBarButtonItem *)sender {
     [self toggleOrder];
-    [self showPage:nil];
-    [self getConversationsPage];
+    [self cleanAndGetConversationsPage];
 }
 
 - (IBAction)nextPageButtonPressed:(UIBarButtonItem *)sender {
     if ([self.conversationsPage hasNextPage]) {
+        [self showActivityIndicatorView];
+
         __weak typeof(self) weakSelf = self;
         [self.conversationsPage nextPage:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
             [weakSelf showPage:(error || !page) ? nil : page];
@@ -72,7 +77,27 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
     }
 }
 
+- (void)showActivityIndicatorView {
+    self.activityIndicatorView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.activityIndicatorView.hidden = NO;
+    self.activityIndicatorView.hidesWhenStopped = NO;
+    [self.view addSubview: self.activityIndicatorView];
+    [self.view bringSubviewToFront:self.activityIndicatorView];
+    [NSLayoutConstraint activateConstraints:@[
+        [self.activityIndicatorView.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor],
+        [self.activityIndicatorView.centerYAnchor constraintEqualToAnchor:self.view.centerYAnchor]
+    ]];
+    [self.activityIndicatorView startAnimating];
+}
+
+- (void)hideActivityIndicatorView {
+    [self.activityIndicatorView stopAnimating];
+    [self.activityIndicatorView removeFromSuperview];
+}
+
 - (void)getConversationsPage {
+    [self showActivityIndicatorView];
+
     NXMClient *client = CommunicationsManager.sharedInstance.client;
     __weak ConversationsTableViewController *weakSelf = self;
     [client getConversationsPageWithSize:CONVERSATIONS_PAGE_SIZE
@@ -82,19 +107,35 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
                        }];
 }
 
+- (void)cleanAndGetConversationsPage {
+    __weak ConversationsTableViewController *weakSelf = self;
+    [self showPage:nil completion:^{
+        [weakSelf getConversationsPage];
+    }];
+}
+
 - (void)showPage:(nullable NXMConversationsPage *)page {
+    [self showPage:page completion:nil];
+}
+
+- (void)showPage:(nullable NXMConversationsPage *)page completion:(void(^_Nullable)(void))completion {
     NSString *orderString = self.order == NXMPageOrderAsc ? @"ASC" : @"DESC";
     self.conversationsPage = page;
-    
     BOOL isThereAtLeastOneConversation = self.conversationsPage.conversations.count > 0;
+    __weak ConversationsTableViewController *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.navigationItem.title = [NSString stringWithFormat:CONVERSATIONS_TITLE_FORMAT, orderString];
-        
-        [self.tableView reloadData];
+        weakSelf.navigationItem.title = [NSString stringWithFormat:CONVERSATIONS_TITLE_FORMAT, orderString];
+        [weakSelf.tableView reloadData];
         if (isThereAtLeastOneConversation) {
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+            [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
                                   atScrollPosition:UITableViewScrollPositionTop
                                           animated:YES];
+        }
+
+        [weakSelf hideActivityIndicatorView];
+
+        if (completion) {
+            completion();
         }
     });
 }
@@ -126,6 +167,14 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
                            conversation.displayName ?: @"-",
                            conversation.uuid ?: @"-"];
     return cell;
+}
+
+#pragma mark - UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    EventsTableViewController *eventsTableViewController = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"EventsTableViewController"];
+    eventsTableViewController.conversation = [self.conversationsPage conversations][indexPath.row];
+    [self.navigationController pushViewController:eventsTableViewController animated:YES];
 }
 
 @end
