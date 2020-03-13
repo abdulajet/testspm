@@ -174,12 +174,14 @@
                                 cursor:(NSString *)cursor
                                 userId:(NSString *)userId
                                  order:(NXMPageOrder)order
+                                filter:(NSString*_Nullable)filter
                              onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
                                onError:(void (^)(NSError * _Nullable))onError {
     [self.router getConversationIdsPageWithSize:size
                                          cursor:cursor
                                          userId:userId
                                           order:order
+                                         filter:filter
                                       onSuccess:onSuccess
                                         onError:onError];
 }
@@ -359,10 +361,6 @@
 
 - (void)mediaEvent:(nonnull NXMMediaEvent *)mediaEvent{
     [self.delegate mediaEvent:mediaEvent];
-}
-
-- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaActionEvent{
-    [self.delegate mediaActionEvent:mediaActionEvent];
 }
 
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent {

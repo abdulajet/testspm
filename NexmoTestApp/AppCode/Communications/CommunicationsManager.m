@@ -7,7 +7,6 @@
 
 
 #import "CommunicationsManager.h"
-#import "NTAUserInfo.h"
 #import "NTALoginHandler.h"
 #import "NTALogger.h"
 
@@ -160,8 +159,8 @@
 
 #pragma mark - LoginHandler notifications
 - (void)NTADidLoginWithNSNotification:(NSNotification *)note {
-    NTAUserInfo *user = note.userInfo[kNTALoginHandlerNotificationKeyUser];
-    [self setupClientWithUserToken:user.csUserToken];
+    NSString *token = note.userInfo[kNTALoginHandlerCurrentUserTokenPreferencesKey];
+    [self setupClientWithUserToken:token];
 }
 
 - (void)NTADidLogoutWithNSNotification:(NSNotification *)note {

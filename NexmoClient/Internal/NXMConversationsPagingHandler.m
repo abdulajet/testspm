@@ -27,6 +27,7 @@ NSString * const EMPTY_CONVERSATION_UUID = @"emptyConversationUUID";
 
 - (void)getConversationsPageWithSize:(NSInteger)size
                                order:(NXMPageOrder)order
+                              filter:(NSString*)filter
                               userId:(NSString *)userId
                    completionHandler:(void (^)(NSError * _Nullable, NXMConversationsPage * _Nullable))completionHandler {
     NXMCore *coreClient = self.stitchContext.coreClient;
@@ -35,6 +36,7 @@ NSString * const EMPTY_CONVERSATION_UUID = @"emptyConversationUUID";
                                         cursor:nil
                                         userId:userId
                                          order:order
+                                        filter:filter
                                      onSuccess:^(NXMConversationIdsPage * _Nullable page) {
                                          if (!page) {
                                              completionHandler([NXMErrors nxmErrorWithErrorCode:NXMErrorCodeUnknown], nil);

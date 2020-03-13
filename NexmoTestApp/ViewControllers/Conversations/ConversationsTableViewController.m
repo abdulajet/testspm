@@ -102,6 +102,7 @@ static NSString *const CONVERSATIONS_TITLE_FORMAT = @"Conversations [%@]";
     __weak ConversationsTableViewController *weakSelf = self;
     [client getConversationsPageWithSize:CONVERSATIONS_PAGE_SIZE
                                    order:self.order
+                                  filter:@"JOINED"
                        completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
                            [weakSelf showPage:(error || !page) ? nil : page];
                        }];

@@ -10,7 +10,6 @@
 #import <NexmoClient/NexmoClient.h>
 #import <PushKit/PushKit.h>
 
-#import "NTAUserInfo.h"
 #import "CommunicationsManagerDefine.h"
 
 @interface CommunicationsManager : NSObject <NXMClientDelegate>

@@ -6,42 +6,30 @@
 //
 
 #import "NXMLoginViewController.h"
-#import "ContactsListViewController.h"
 #import "UserSettingsViewController.h"
 #import "MainTabViewController.h"
 #import "DialerViewController.h"
 #import "ConversationsTableViewController.h"
 #import "CommunicationsManager.h"
 
-#import "NTAUserInfoProvider.h"
 #import "NTALoginHandler.h"
 
 #import "NTAAlertUtils.h"
 #import "NTALogger.h"
+#import <Foundation/Foundation.h>
+#import <WebKit/WebKit.h>
+#import "TokenGenerator.h"
 
 @interface NXMLoginViewController ()
 
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 @property (weak, nonatomic) IBOutlet UITextField *username;
-@property (weak, nonatomic) IBOutlet UITextField *password;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIView *inprogressView;
-
+@property (nonatomic) TokenGenerator* tokenGenerator;
 @end
 
 @implementation NXMLoginViewController
-- (IBAction)loadDefaultTestUserToTextFields:(UIButton *)sender {
-    NTAUserInfo *randomUser = [NTAUserInfoProvider getRandomUserForTestGroup];
-    self.username.text = randomUser.name;
-    self.password.text = randomUser.password;
-}
-
-- (IBAction)loadDefaultBabyUserToTextFields:(UIButton *)sender {
-    NTAUserInfo *randomUser = [NTAUserInfoProvider getRandomUserForBabyGroup];
-    self.username.text = randomUser.name;
-    self.password.text = randomUser.password;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -59,9 +47,8 @@
 - (void)viewDidAppear:(BOOL)animated {
     //check if alreadyLoggedIn
     if([NTALoginHandler currentUser]) {
-        [NTALoginHandler loginCurrentUserWithCompletion:^(NSError * _Nullable error, NTAUserInfo * _Nonnull userInfo) {
-            [self didLogin];
-        }];
+        self.username.text = [NTALoginHandler currentUser];
+        [self onLoginPressed:nil];
     }
 }
 
@@ -74,32 +61,31 @@
 - (void)NTADidLogoutWithNotification:(NSNotification *)note {
     dispatch_async(dispatch_get_main_queue(), ^{
         self.username.text = @"";
-        self.password.text = @"";
         [self dismissViewControllerAnimated:YES completion:nil];
     });
 }
 
 - (IBAction)onLoginPressed:(UIButton *)sender {
     [self showInProgressView];
-    
-    __weak NXMLoginViewController *weakSelf = self;
-    
-    [NTALoginHandler loginWithUserName:self.username.text andPassword:self.password.text completion:^(NSError * _Nullable error, NTAUserInfo * _Nonnull userInfo) {
-        
+    self.tokenGenerator = [[TokenGenerator alloc] initWithUsername:self.username.text andCallback:^(NSError * _Nullable error, NSString * _Nullable token) {
         [self hideInProgressView];
-        
+
+        [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogin object:nil userInfo:@{@"username":self.username.text}];
+            
         if(error) {
             [self hideInProgressView];
-            [NTAAlertUtils displayAlertForController:weakSelf withTitle:@"Authentcation failed" andMessage:@"User name or password is incorrect"];
+            [NTAAlertUtils displayAlertForController:self withTitle:@"Authentcation failed" andMessage:@"User name is incorrect"];
             return;
         }
         
-        if (userInfo.csUserToken) {
-            [CommunicationsManager.sharedInstance loginWithUserToken:userInfo.csUserToken];
+        if (token) {
+            [CommunicationsManager.sharedInstance loginWithUserToken:token];
         }
         
         [self didLogin];
     }];
+    [self.tokenGenerator getToken:self];
+    
 }
 
 
@@ -114,7 +100,6 @@
 - (void)showMainScreen {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    UINavigationController *contactsNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"ContactsListNavigation"];
     UserSettingsViewController *userSettingsVC = [storyboard instantiateViewControllerWithIdentifier:@"UserSettings"];
     
     DialerViewController *dialerVC = [storyboard instantiateViewControllerWithIdentifier:@"dialer"];
@@ -122,8 +107,7 @@
     UINavigationController *conversationsNavigationController = [storyboard instantiateViewControllerWithIdentifier:@"conversationsNavigationController"];
 
     MainTabViewController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"mainTabBar"];
-    tabBarController.viewControllers = @[contactsNavigationController,
-                                         dialerVC,
+    tabBarController.viewControllers = @[dialerVC,
                                          conversationsNavigationController,
                                          userSettingsVC];
     

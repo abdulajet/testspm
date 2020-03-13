@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NPE_APP_ID</key>
+	<string>f1a5f6fa-7d74-4b97-bdf4-4ecaae8e851e</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>audio calls</string>
 	<key>NpeName</key>

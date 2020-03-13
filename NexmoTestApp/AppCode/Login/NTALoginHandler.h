@@ -7,17 +7,19 @@
 
 #import <Foundation/Foundation.h>
 #import "NTALoginHandlerDefine.h"
-#import "NTAUserInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface NTALoginHandler : NSObject
 
-+ (NTAUserInfo *)currentUser;
++ (NSString*) currentUser;
 
-+ (void)loginCurrentUserWithCompletion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion;
++ (NSString*) currentToken;
 
-+ (void)loginWithUserName:(NSString *)userName andPassword:(NSString *)password completion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion;
++ (void)loginCurrentUserWithCompletion:(void(^_Nullable)(NSError * _Nullable error, NSString *username))completion;
+
++ (void)loginWithUserName:(NSString *)userName completion:(void(^_Nullable)(NSError * _Nullable error, NSString *userInfo))completion;
 
 + (void)logoutWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion;
 

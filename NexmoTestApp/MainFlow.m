@@ -9,7 +9,6 @@
 #import "MainFlow.h"
 #import "CallViewController.h"
 #import "CommunicationsManagerDefine.h"
-#import "NTAUserInfoProvider.h"
 #import "InAppCallCreator.h"
 #import "IncomingCallCreator.h"
 #import "CallsDefine.h"
@@ -75,12 +74,7 @@ static MainFlow *sharedInstance;
         IncomingCallCreator *creator = [[IncomingCallCreator alloc] initWithCall:call];
         self.callWindow.callVC = [[UIStoryboard storyboardWithName:@"Main" bundle:nil] instantiateViewControllerWithIdentifier:@"Call"];
         
-        if (call.otherCallMembers[0].channel.from.type == NXMDirectionTypeApp) {
-            NTAUserInfo *userInfo  = [NTAUserInfoProvider getUserInfoForCSUserName:call.otherCallMembers[0].user.name];
-            [self.callWindow.callVC updateWithContactUserInfo:userInfo callCreator:creator andIsIncomingCall:YES];
-        } else {
-            [self.callWindow.callVC updateWithNumber:call.otherCallMembers[0].channel.from.data callCreator:creator andIsIncomingCall:YES];
-        }
+        [self.callWindow.callVC updateWithNumber:call.otherCallMembers[0].channel.from.data callCreator:creator andIsIncomingCall:YES];
 
         self.callWindow.rootViewController = self.callWindow.callVC;
         
@@ -98,7 +92,7 @@ static MainFlow *sharedInstance;
         notificationContent.title = @"Incoming Call";
         NSString *message = @"From: \n";
         for (NXMCallMember* member in call.otherCallMembers) {
-            NSString *displayName = member.user.name ? [NTAUserInfoProvider getUserInfoForCSUserName:member.user.name].displayName : nil;
+            NSString *displayName = member.user.name;
             displayName = [displayName stringByAppendingString:@"\n"];
             message = [message stringByAppendingString:displayName ? displayName : @""];
         }

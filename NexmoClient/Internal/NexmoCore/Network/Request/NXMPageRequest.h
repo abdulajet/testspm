@@ -16,8 +16,10 @@
 @property (nonatomic, strong, nonnull) NSURL *url;
 @property (nonatomic, strong, nonnull) NSString *cursor;
 @property (nonatomic, strong, nonnull) NSString *order;
+@property (nonatomic, strong, nullable) NSString *filter;
+@property (nonatomic, strong, nullable) NSString *filterName;
  
-- (nullable instancetype)initWithPageSize:(unsigned int) pageSize withUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order;
+- (nullable instancetype)initWithPageSize:(unsigned int) pageSize withUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order withFilter:(NSString* _Nullable)filter withFilterName:(NSString*_Nullable)filterName;
 - (nullable instancetype)initWithUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order;
 
 @end

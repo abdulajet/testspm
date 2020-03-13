@@ -9,7 +9,6 @@
 #import <AVFoundation/AVFoundation.h>
 
 #import "CallViewController.h"
-#import "NTAUserInfo.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
 #import "CallsDefine.h"
@@ -38,7 +37,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *IncomingCalluserNameLabel;
 
 
-@property (nonatomic) NTAUserInfo *contactUserInfo;
 @property (nonatomic) NSString *number;
 @property (nonatomic) id<CallCreator> callCreator;
 @property (nonatomic) NXMCall *call;
@@ -84,12 +82,6 @@
 
 }
 #pragma mark - init
-- (void)updateWithContactUserInfo:(NTAUserInfo *)contactUserInfo callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall {
-    self.contactUserInfo = contactUserInfo;
-    self.callCreator = callCreator;
-    self.isControllerInIncomingCallState = isIncomingCall;
-}
-
 - (void)updateWithNumber:(NSString *)number callCreator:(id<CallCreator>)callCreator andIsIncomingCall:(BOOL)isIncomingCall {
     self.number = number;
     self.callCreator = callCreator;
@@ -104,11 +96,10 @@
         return;
     }
 
-    BOOL isPSTN = [self.number length] > 0;
-    self.IncomingCallInitialsLabel.text =  isPSTN ? @"PSTN" : self.contactUserInfo.initials;
-    self.IncomingCalluserNameLabel.text = isPSTN > 0 ? self.number : self.contactUserInfo.displayName;
-    self.InCallAvatarInitialsLabel.text = isPSTN > 0 ? @"PSTN" : self.contactUserInfo.initials;
-    self.InCallUserNameLabel.text = isPSTN > 0 ? self.number : self.contactUserInfo.displayName;
+    self.IncomingCallInitialsLabel.text = @"PSTN";
+    self.IncomingCalluserNameLabel.text = self.number ;
+    self.InCallAvatarInitialsLabel.text = @"PSTN";
+    self.InCallUserNameLabel.text = self.number;
 }
 
 - (void)activateInCallView {

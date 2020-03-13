@@ -53,7 +53,7 @@
     [super tearDown];
 }
 
-#pragma mark - getConversationsPageWithSize:order:userId:completionHandler:
+#pragma mark - getConversationsPageWithSize:order:filter:userId:completionHandler:
 
 - (void)testGetConversationsPageWithSizeOrderUserId_happyPath {
     NSUInteger size = 4;
@@ -72,6 +72,7 @@
                                                          cursor:nil
                                                          userId:userId
                                                           order:order
+                                                         filter:nil
                                                       onSuccess:([OCMArg invokeBlockWithArgs:conversationIdsPage, nil])
                                                         onError:[OCMArg any]]);
     NXMConversationsPagingHandler *conversationsPagingHandler = [[NXMConversationsPagingHandler alloc] initWithStitchContext:self.stitchContextMock getConversationWithUuid:getConversationWithUuid];
@@ -82,6 +83,7 @@
                                                           completionHandler:([OCMArg invokeBlockWithArgs:[NSNull null], conversationsPage, nil])]);
     [handlerPartialMock getConversationsPageWithSize:size
                                                order:order
+                                               filter:nil
                                               userId:userId
                                    completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
                                        XCTAssertNil(error);
@@ -113,6 +115,7 @@
                                                          cursor:nil
                                                          userId:userId
                                                           order:order
+                                                         filter:nil
                                                       onSuccess:([OCMArg invokeBlockWithArgs:[NSNull null], nil])
                                                         onError:[OCMArg any]]);
 
@@ -127,6 +130,7 @@
 
     [handlerPartialMock getConversationsPageWithSize:size
                                                order:order
+                                              filter:nil
                                               userId:userId
                                  completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
                                      XCTAssertNotNil(error);

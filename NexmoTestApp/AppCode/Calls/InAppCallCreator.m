@@ -8,25 +8,20 @@
 
 #import "InAppCallCreator.h"
 #import "CommunicationsManager.h"
-#import "NTAUserInfo.h"
-
 @interface InAppCallCreator ()
-@property (nonatomic) NSArray<NTAUserInfo *> *users;
+@property (nonatomic) NSString* username;
 @end
 
 @implementation InAppCallCreator
-- (instancetype)initWithUsers:(NSArray<NTAUserInfo *> *)users {
+- (instancetype)initWithUsername:(NSString *)username {
     if(self = [super init]) {
-        self.users = users;
+        self.username = username;
     }
     return self;
 }
 - (void)callWithDelegate:(id<NXMCallDelegate>)delegate completion:(void (^ _Nullable)(NSError * _Nullable, NXMCall * _Nullable))completion { 
-    NSMutableArray <NSString *> *csUserNames = [NSMutableArray new];
-    for (NTAUserInfo *userInfo in self.users) {
-        [csUserNames addObject: [userInfo.csUserName copy]];
-    }
-    [CommunicationsManager.sharedInstance.client call:csUserNames[0] callHandler:NXMCallHandlerInApp completionHandler:completion];
+ 
+    [CommunicationsManager.sharedInstance.client call:self.username callHandler:NXMCallHandlerInApp completionHandler:completion];
 }
 
 @end

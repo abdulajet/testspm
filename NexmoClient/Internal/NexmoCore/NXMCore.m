@@ -24,7 +24,6 @@
 @property NXMNetworkManager *network;
 @property RTCMediaWrapper *rtcMedia;
 @property NXMUser* user;
-@property (readwrite, nonnull, nonatomic) NXMPushParserManager *pushParser;
 
 @end
 
@@ -39,8 +38,6 @@
         
         self.rtcMedia = [[RTCMediaWrapper alloc] initWithIceServerUrls:configuration.iceServerUrls];
         [self.rtcMedia setDelegate:self];
-        
-        self.pushParser = [NXMPushParserManager sharedInstance];
     }
     return self;
 }
@@ -88,7 +85,7 @@
 }
 
 - (BOOL)isNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo {
-    return [self.pushParser isStitchPushWithUserInfo:userInfo];
+    return [NXMPushParserManager isNexmoPushWithUserInfo:userInfo];
 }
 
 - (void)processNexmoPushWithUserInfo:(nonnull NSDictionary *)userInfo onSuccess:(NXMSuccessCallbackWithEvent _Nullable)onSuccess onError:(NXMErrorCallback _Nullable)onError {
@@ -99,7 +96,7 @@
         }
     }
     
-    NXMEvent *parsedEvent = [self.pushParser parseStitchPushEventWithUserInfo:userInfo];
+    NXMEvent *parsedEvent = [NXMPushParserManager parseEventWithUserInfo:userInfo];
     if(!parsedEvent) {
         if(onError) {
             onError([NXMErrors nxmErrorWithErrorCode:NXMErrorCodePushParsingFailed]);
@@ -210,12 +207,14 @@ fromConversationWithId:(nonnull NSString *)conversationId
                                 cursor:(NSString *)cursor
                                 userId:(NSString *)userId
                                  order:(NXMPageOrder)order
+                                filter:(NSString*_Nullable)filter
                              onSuccess:(void (^)(NXMConversationIdsPage * _Nullable))onSuccess
                                onError:(void (^)(NSError * _Nullable))onError {
     [self.network getConversationIdsPageWithSize:size
                                           cursor:cursor
                                           userId:userId
                                            order:order
+                                          filter:filter
                                        onSuccess:onSuccess
                                          onError:onError];
 }
@@ -521,10 +520,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
     [self.delegate informOnMedia:mediaEvent];
 }
 
-- (void)mediaActionEvent:(nonnull NXMMediaActionEvent *)mediaActionEvent {
-    [self.delegate actionOnMedia:mediaActionEvent];
-}
-
 - (void)rtcAnswerEvent:(nonnull NXMRtcAnswerEvent *)rtcEvent {
     [self.rtcMedia answerWithMediaId:rtcEvent.rtcId convId:rtcEvent.conversationId andSDP:rtcEvent.sdp];
 }
@@ -580,17 +575,6 @@ fromConversationWithId:(nonnull NSString *)conversationId
 }
 
 - (void)didMuteStateChangeWithMediaInfo:(NXMMediaInfo *)mediaInfo andIsMute:(bool)isMute andMediaType:(NXMMediaType)mediaType {
-    NXMMediaSuspendEvent *mediaEvent = [NXMMediaSuspendEvent new];
-    mediaEvent.fromMemberId = mediaInfo.memberId;
-    mediaEvent.toMemberUuid = mediaInfo.memberId;
-    mediaEvent.conversationUuid = mediaInfo.conversationId;
-    mediaEvent.type = NXMEventTypeMediaAction;
-    mediaEvent.creationDate = [NSDate date];
-    mediaEvent.actionType = NXMMediaActionTypeSuspend;
-    mediaEvent.mediaType = mediaType;
-    mediaEvent.isSuspended = isMute;
-
-    [self.delegate localActionOnMedia:mediaEvent];
 }
 
 

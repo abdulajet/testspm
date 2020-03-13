@@ -10,7 +10,6 @@
 #import <MessageUI/MessageUI.h>
 
 #import "NTALoginHandler.h"
-#import "NTAUserInfo.h"
 #import "CommunicationsManager.h"
 #import "NTALogger.h"
 #import "NTAAlertUtils.h"
@@ -217,9 +216,9 @@ static NSString * const kNTAAvatarImageNameConnectionOffline = @"SettingsAvatarC
     }
 }
 
-- (void)setLabelsWithUserInfo:(NTAUserInfo *)userInfo {
-    self.AvatarInitialsLabel.text = userInfo.initials;
-    self.csUserNamelabel.text = userInfo.csUserName;
+- (void)setLabelsWithUserInfo:(NSString *)userInfo {
+    self.AvatarInitialsLabel.text = userInfo;
+    self.csUserNamelabel.text = userInfo;
 }
 
     

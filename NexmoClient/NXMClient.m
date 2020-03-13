@@ -262,8 +262,21 @@ static dispatch_once_t _onceToken = 0;
                    completionHandler:(void (^)(NSError * _Nullable, NXMConversationsPage * _Nullable))completionHandler {
     NSString *userId = self.user.uuid;
     NXM_LOG_DEBUG([NSString stringWithFormat: @"UserID: %@; Page size: %@", userId, @(size).stringValue].UTF8String);
+    [self getConversationsPageWithSize:size
+                                 order:order
+                                filter:nil
+                     completionHandler:completionHandler];
+}
+
+- (void)getConversationsPageWithSize:(NSInteger)size
+                               order:(NXMPageOrder)order
+                              filter:(NSString*_Nullable)filter
+                   completionHandler:(void (^)(NSError * _Nullable, NXMConversationsPage * _Nullable))completionHandler {
+    NSString *userId = self.user.uuid;
+    NXM_LOG_DEBUG([NSString stringWithFormat: @"UserID: %@; Page size: %@", userId, @(size).stringValue].UTF8String);
     [self.conversationsPagingHandler getConversationsPageWithSize:size
                                                             order:order
+                                                           filter:filter
                                                            userId:userId
                                                 completionHandler:completionHandler];
 }
@@ -517,7 +530,7 @@ static dispatch_once_t _onceToken = 0;
         }
     }
     //Out going server call
-    if (event.state == NXMMemberStateJoined && event.clientRef){
+    if (event.state == NXMMemberStateJoined && event.clientRef.length > 0){
         NXM_LOG_DEBUG("got member JOINED event with clientRef" );
         
         [self getConversationWithUuid:event.conversationUuid completionHandler:^(NSError * _Nullable error, NXMConversation * _Nullable conversation) {

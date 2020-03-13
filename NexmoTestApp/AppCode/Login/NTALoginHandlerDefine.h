@@ -6,7 +6,6 @@
 //
 
 #define kNTALoginHandlerCurrentUserNamePreferencesKey @"NTACurrentUserName"
-#define kNTALoginHandlerCurrentUserPasswordPreferencesKey @"NTACurrentUserPassword"
 
 #define kNTALoginHandlerNotificationNameUserDidLogin @"NTADidUserLogin"
 #define kNTALoginHandlerNotificationNameUserDidLogout @"NTADidUserLogout"

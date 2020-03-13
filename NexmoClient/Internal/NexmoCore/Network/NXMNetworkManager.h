@@ -124,6 +124,7 @@
                                 cursor:(nullable NSString *)cursor
                                 userId:(nonnull NSString *)userId
                                  order:(NXMPageOrder)order
+                                filter:(NSString*_Nullable)filter
                              onSuccess:(void(^ _Nullable)(NXMConversationIdsPage * _Nullable page))onSuccess
                                onError:(void(^ _Nullable)(NSError * _Nullable error))onError;
 

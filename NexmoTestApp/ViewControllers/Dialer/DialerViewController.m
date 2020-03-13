@@ -9,6 +9,7 @@
 #import "DialerViewController.h"
 #import "DailerTextField.h"
 #import "PSTNCallCreator.h"
+#import "InAppCallCreator.h"
 #import "CallViewController.h"
 
 @interface DialerViewController ()
@@ -29,11 +30,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.textField.keyboardType=UIKeyboardTypePhonePad;
     // Do any additional setup after loading the view.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
 }
 
 - (IBAction)onButtonPressed:(id)sender {
@@ -41,13 +42,27 @@
 }
 
 - (IBAction)onDeletePressed:(id)sender {
-    [self.textField deleteDigit];
+    if ( self.textField.keyboardType == UIKeyboardTypeAlphabet){
+        [self.textField setKeyboardType:UIKeyboardTypePhonePad];
+    }else{
+        [self.textField setKeyboardType:UIKeyboardTypeASCIICapable];
+    }
+    
+    [self.textField reloadInputViews];
 }
 
 - (IBAction)onCallPressed:(id)sender {
+    [self.view endEditing:YES];
+    InAppCallCreator *callCreator = [[InAppCallCreator alloc] initWithUsername:self.textField.text];
+    [self showInCallViewControllerWithCallCreator:callCreator];
+}
+
+- (IBAction)onCallServerPressed:(id)sender {
+    [self.view endEditing:YES];
     PSTNCallCreator *callCreator = [[PSTNCallCreator alloc] initWithNumber:self.textField.text];
     [self showInCallViewControllerWithCallCreator:callCreator];
 }
+
 
 - (void)appendDigit:(NSInteger)digitToAppend
 {

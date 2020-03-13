@@ -12,18 +12,20 @@
 
 unsigned int kDefaultPageRequestSize = 20;
 
-- (nullable instancetype)initWithPageSize:(unsigned int) pageSize withUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order{
+- (nullable instancetype)initWithPageSize:(unsigned int) pageSize withUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order withFilter:(NSString * _Nullable)filter withFilterName:(NSString * _Nullable)filterName{
     if(self = [super init]) {
         self.pageSize = pageSize;
         self.url = url;
         self.cursor = cursor;
         self.order = order;
+        self.filter = filter;
+        self.filterName = filterName;
     }
     return self;
 }
 
 - (nullable instancetype)initWithUrl:(nonnull NSURL *)url withCursor:(nullable NSString*)cursor withOrder:(nullable NSString *)order{
-   return [self initWithPageSize:kDefaultPageRequestSize withUrl:url withCursor:cursor withOrder:order];
+    return [self initWithPageSize:kDefaultPageRequestSize withUrl:url withCursor:cursor withOrder:order withFilter:nil withFilterName:nil];
 }
 
 @end

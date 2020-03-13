@@ -166,6 +166,21 @@
  */
 - (void)getConversationsPageWithSize:(NSInteger)size
                                order:(NXMPageOrder)order
+                   completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversationsPage * _Nullable page))completionHandler OBJC_DEPRECATED("use getConversationsPageWithSize:(NSInteger) order:(NXMPageOrder) filter:(NSString*) completionHandler instead");
+
+/**
+ @brief Get conversations page
+ @param size              page size
+ @param order             page order
+ @param filter            @"LEFT", @"INVITED" or @"JOINED"
+ @param completionHandler completion block
+ @code [myNXNClient getConversationsPageWithSize:size order:pageOrder filter:filter completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
+ if (!error) { NXMConversationsPage *myPage = page; }
+ }];
+ */
+- (void)getConversationsPageWithSize:(NSInteger)size
+                               order:(NXMPageOrder)order
+                              filter:(NSString*_Nullable)filter
                    completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversationsPage * _Nullable page))completionHandler;
 
 

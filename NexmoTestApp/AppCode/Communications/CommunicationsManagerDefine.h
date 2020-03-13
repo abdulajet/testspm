@@ -12,5 +12,11 @@
 
 #define kNTACommunicationsManagerNotificationNameIncomingCall @"NTACommunicationsManagerIncomingCall"
 #define kNTACommunicationsManagerNotificationKeyIncomingCall @"call"
+#define kNTALoginHandlerCurrentUserNamePreferencesKey @"username"
+#define kNTALoginHandlerCurrentUserTokenPreferencesKey @"usertoken"
+#define kNTALoginHandlerDidRegisterForNexmoPushPreferencesKey @"pushpre"
+#define kNTALoginHandlerNotificationKeyUser @"user"
+#define kNTALoginHandlerNotificationNameUserDidLogin @"userdidlogin"
+#define kNTALoginHandlerNotificationNameUserDidLogout @"userdidlogout"
 
 

@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "NTACallCreator.h"
 
-@class NTAUserInfo;
 @interface InAppCallCreator : NSObject <CallCreator>
-- (instancetype)initWithUsers:(NSArray<NTAUserInfo *> *)users;
+- (instancetype)initWithUsername:(NSString *)username;
 @end
 

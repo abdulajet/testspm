@@ -6,15 +6,14 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NTALoginHandler.h"
-#import "NTAUserInfo.h"
-#import "NTAUserInfoProvider.h"
 #import "NTALogger.h"
 #import "NTAErrors.h"
 #import "CommunicationsManager.h"
 #import "AppDelegate.h"
+#import "NTALoginHandler.h"
 
-static NTAUserInfo *_currentUser;
+static NSString *_currentUser;
+static NSString *_currentToken;
 static BOOL _registeredForNexmoPushNotifications;
 
 @implementation NTALoginHandler
@@ -37,17 +36,10 @@ static BOOL _registeredForNexmoPushNotifications;
 }
 
 + (void)loadCurrentUserWithUserDefaults:(NSUserDefaults *)defaults {
-    if([defaults objectForKey:kNTALoginHandlerCurrentUserNamePreferencesKey] && [defaults objectForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey]) {
-        NSString *userName = [defaults stringForKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
-        NSString *password = [defaults stringForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
-        [NTAUserInfoProvider getUserInfoForUserName:userName password:password completion:^(NSError * _Nullable error, NTAUserInfo *userInfo) {
-            if(error) {
-                [NTALogger errorWithFormat:@"User %@ with password %@ saved in preferences is invalid", userName, password];
-                _currentUser = nil;
-            }
-            
-            _currentUser = userInfo;
-        }];
+    if([defaults objectForKey:kNTALoginHandlerCurrentUserNamePreferencesKey]) {
+        _currentUser = [defaults stringForKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
+        _currentToken = [defaults stringForKey:kNTALoginHandlerCurrentUserTokenPreferencesKey];
+        
     }
 }
 
@@ -56,12 +48,16 @@ static BOOL _registeredForNexmoPushNotifications;
 }
 
 
-+ (NTAUserInfo *)currentUser {
++ (NSString *)currentUser {
     return _currentUser;
 }
 
-+ (void)loginCurrentUserWithCompletion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion {
-    NTAUserInfo *user = [self currentUser];
++ (NSString *)currentToken {
+    return _currentToken;
+}
+
++ (void)loginCurrentUserWithCompletion:(void(^_Nullable)(NSError * _Nullable error, NSString *username))completion {
+    NSString *user = [self currentUser];
     if(!user) {
         [NTALogger error:@"NTALoginHandler failed login. loginCurrentUser called with no current user available"];
         NSError *error = [NTAErrors errorWithErrorCode:NXMTestAppErrorCodeTestAppCurrentUserNotFound andUserInfo:nil];
@@ -70,38 +66,26 @@ static BOOL _registeredForNexmoPushNotifications;
         }
     }
     
-    [self loginWithUserName:user.name andPassword:user.password completion:^(NSError * _Nullable error, NTAUserInfo *userInfo) {
-        completion(error, userInfo);
+    [self loginWithUserName:_currentUser completion:^(NSError * _Nullable error, NSString *username) {
+        completion(error, username);
     
-        if (!error && userInfo.csUserToken) {
-            [CommunicationsManager.sharedInstance loginWithUserToken:userInfo.csUserToken];
+        if (!error && _currentToken) {
+            [CommunicationsManager.sharedInstance loginWithUserToken:_currentToken];
         }
     }];
 }
 
-+ (void)loginWithUserName:(NSString *)userName andPassword:(NSString *)password completion:(void(^_Nullable)(NSError * _Nullable error, NTAUserInfo *userInfo))completion {
-    [NTAUserInfoProvider getUserInfoForUserName:userName password:password completion:^(NSError * _Nullable error, NTAUserInfo *userInfo) {
-        
-        if(error) {
-            [NTALogger errorWithFormat:@"NTALoginHandler failed login. User or password is incorrect. Error: %@", error];
-            if(completion) {
-                completion(error, nil);
-            }
-            return;
-        }
-        
-        [self setCurrentUserWithUserName:userName password:password andUserInfo:userInfo];
-        if(completion) {
-            completion(nil, _currentUser);
-        }
-        
-        NSDictionary *notificationUserInfo = @{kNTALoginHandlerNotificationKeyUser : [[self currentUser] copy]};
-        [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogin object:nil userInfo:notificationUserInfo];
-    }];
++ (void)loginWithUserName:(NSString *)userName completion:(void(^_Nullable)(NSError * _Nullable error, NSString *userInfo))completion {
+    [self setCurrentUserWithUserName:userName];
+
+    [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogin object:nil userInfo:@{@"username":self.currentUser}];
+
+    completion(nil, _currentUser);
+   
 }
 
 + (void)logoutWithCompletion:(void(^_Nullable)(NSError * _Nullable error))completion {
-    NTAUserInfo *currentUser = [[self currentUser] copy];
+    NSString *currentUser = [[self currentUser] copy];
     [self removeCurrentUser];
     [NSNotificationCenter.defaultCenter postNotificationName:kNTALoginHandlerNotificationNameUserDidLogout object:nil userInfo:@{kNTALoginHandlerNotificationKeyUser : currentUser}];
     
@@ -118,18 +102,16 @@ static BOOL _registeredForNexmoPushNotifications;
 + (void)removeCurrentUser {
     NSUserDefaults *preferences = [NSUserDefaults standardUserDefaults];
     [preferences removeObjectForKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
-    [preferences removeObjectForKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
     _currentUser = nil;
 }
 
-+ (void)setCurrentUserWithUserName:(NSString *)userName password:(NSString *)password andUserInfo:(NTAUserInfo *)userInfo {
-    _currentUser = userInfo;
++ (void)setCurrentUserWithUserName:(NSString *)userName  {
+    _currentUser = userName;
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults  setObject:userName forKey:kNTALoginHandlerCurrentUserNamePreferencesKey];
-    [userDefaults setObject:password forKey:kNTALoginHandlerCurrentUserPasswordPreferencesKey];
     const BOOL didSave = [userDefaults synchronize];
     if(!didSave) {
-        [NTALogger errorWithFormat:@"Failed saving User %@ with password %@ in userDefaults", userName, password];
+        [NTALogger errorWithFormat:@"Failed saving User %@  in userDefaults", userName];
     }
 }
 

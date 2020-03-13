@@ -184,11 +184,6 @@ NSString * const HASH_SIGN = @"11";
         [self.updateDialerDelegate menuDidHide];
     }
 }
-
-- (UIKeyboardType)keyboardType
-{
-    return UIKeyboardTypeASCIICapable;
-}
 #pragma mark - Private
 
 - (BOOL)canPerformCopy

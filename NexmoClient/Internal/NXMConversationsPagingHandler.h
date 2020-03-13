@@ -24,6 +24,7 @@ typedef void (^GetConversationWithUuidBlock)(NSString * _Nonnull uuid,
 
 - (void)getConversationsPageWithSize:(NSInteger)size
                                order:(NXMPageOrder)order
+                              filter:(NSString*_Nullable)filter
                               userId:(nonnull NSString *)userId
                    completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversationsPage * _Nullable page))completionHandler;
 - (void)getConversationsPageForURL:(nonnull NSURL *)url
