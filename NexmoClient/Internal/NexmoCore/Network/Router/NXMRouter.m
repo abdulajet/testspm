@@ -103,10 +103,12 @@ static NSString * const MEMBERS_REMOVE_URL_FORMAT = @"%@beta/conversations/%@/me
                   forKey:@"push"];
     }
 
-    NSDictionary *dict = @{  @"device_type": @"ios",
-                             @"tokens":tokens,
-                             @"device_push_environment" : request.isSandbox ? @"sandbox" : @"production"
-                          };
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [dict setValue:@"ios" forKey:@"device_type"];
+    [dict setValue:tokens forKey:@"tokens"];
+    if(request.isSandbox) {
+        [dict setValue:@"sandbox" forKey:@"device_push_environment"];
+    }
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:ENABLE_PUSH_URL_FORMAT, self.baseUrl, [NXMUtils nexmoDeviceId]]];
     
