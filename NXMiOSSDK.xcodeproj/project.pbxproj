@@ -25,6 +25,13 @@
 		0BF892F122CCC0E000773026 /* NXMPageResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 0BF892F022CCC0E000773026 /* NXMPageResponse.m */; };
 		0BFBED74222D1C7E00131B95 /* ClientInfrastructures.framework in Headers */ = {isa = PBXBuildFile; fileRef = 0BAE012421F8BBE500EA2E56 /* ClientInfrastructures.framework */; };
 		3C0AE578238D1D2600541F32 /* NXMPageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE577238D1D2600541F32 /* NXMPageTests.m */; };
+		3C0B36412423E57E00B87964 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B36402423E57E00B87964 /* AppDelegate.m */; };
+		3C0B36442423E57E00B87964 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B36432423E57E00B87964 /* SceneDelegate.m */; };
+		3C0B36472423E57E00B87964 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B36462423E57E00B87964 /* ViewController.m */; };
+		3C0B364A2423E57E00B87964 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C0B36482423E57E00B87964 /* Main.storyboard */; };
+		3C0B364C2423E57F00B87964 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C0B364B2423E57F00B87964 /* Assets.xcassets */; };
+		3C0B364F2423E57F00B87964 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C0B364D2423E57F00B87964 /* LaunchScreen.storyboard */; };
+		3C0B36522423E57F00B87964 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C0B36512423E57F00B87964 /* main.m */; };
 		3C1F0194237EB6FE00093F48 /* NXMClientConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		3C1F0195237EB6FE00093F48 /* NXMClientConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */; };
 		3C2B8D9B237B2BF700C1224D /* NXMConversationIdsPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */; };
@@ -374,6 +381,18 @@
 		0BF892EE22CCC09300773026 /* NXMPageResponse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMPageResponse.h; sourceTree = "<group>"; };
 		0BF892F022CCC0E000773026 /* NXMPageResponse.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMPageResponse.m; sourceTree = "<group>"; };
 		3C0AE577238D1D2600541F32 /* NXMPageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NXMPageTests.m; sourceTree = "<group>"; };
+		3C0B363D2423E57E00B87964 /* Dummy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dummy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3C0B363F2423E57E00B87964 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		3C0B36402423E57E00B87964 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		3C0B36422423E57E00B87964 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		3C0B36432423E57E00B87964 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		3C0B36452423E57E00B87964 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		3C0B36462423E57E00B87964 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		3C0B36492423E57E00B87964 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		3C0B364B2423E57F00B87964 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		3C0B364E2423E57F00B87964 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		3C0B36502423E57F00B87964 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3C0B36512423E57F00B87964 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3C1F0192237EB6FE00093F48 /* NXMClientConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMClientConfig.h; sourceTree = "<group>"; };
 		3C1F0193237EB6FE00093F48 /* NXMClientConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NXMClientConfig.m; sourceTree = "<group>"; };
 		3C2B8D99237B2BF700C1224D /* NXMConversationIdsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NXMConversationIdsPage.h; sourceTree = "<group>"; };
@@ -686,6 +705,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3C0B363A2423E57E00B87964 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9024ECC21CAA4F300D58AD0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -738,6 +764,24 @@
 				D32D425421CC05E00039A133 /* iOSFramework.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3C0B363E2423E57E00B87964 /* Dummy */ = {
+			isa = PBXGroup;
+			children = (
+				3C0B363F2423E57E00B87964 /* AppDelegate.h */,
+				3C0B36402423E57E00B87964 /* AppDelegate.m */,
+				3C0B36422423E57E00B87964 /* SceneDelegate.h */,
+				3C0B36432423E57E00B87964 /* SceneDelegate.m */,
+				3C0B36452423E57E00B87964 /* ViewController.h */,
+				3C0B36462423E57E00B87964 /* ViewController.m */,
+				3C0B36482423E57E00B87964 /* Main.storyboard */,
+				3C0B364B2423E57F00B87964 /* Assets.xcassets */,
+				3C0B364D2423E57F00B87964 /* LaunchScreen.storyboard */,
+				3C0B36502423E57F00B87964 /* Info.plist */,
+				3C0B36512423E57F00B87964 /* main.m */,
+			);
+			path = Dummy;
 			sourceTree = "<group>";
 		};
 		3C7D8F662371D32600E0FDEE /* Conversations */ = {
@@ -1497,6 +1541,7 @@
 				F923DD9521985BF600D29065 /* NexmoClientTests */,
 				F9024ED021CAA4F300D58AD0 /* NexmoSwiftApp */,
 				F94291E321BD46F900FA45A1 /* NexmoTestApp */,
+				3C0B363E2423E57E00B87964 /* Dummy */,
 				F9C35DCE203078BD009FAE4F /* Products */,
 				F9E5E2F821D3AABE00FC7202 /* README.md */,
 			);
@@ -1509,6 +1554,7 @@
 				F923DD9121985BF600D29065 /* NexmoClientTests.xctest */,
 				F94291E221BD46F900FA45A1 /* NexmoTestApp.app */,
 				F9024ECF21CAA4F300D58AD0 /* NexmoSwiftApp.app */,
+				3C0B363D2423E57E00B87964 /* Dummy.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1662,6 +1708,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3C0B363C2423E57E00B87964 /* Dummy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3C0B36552423E57F00B87964 /* Build configuration list for PBXNativeTarget "Dummy" */;
+			buildPhases = (
+				3C0B36392423E57E00B87964 /* Sources */,
+				3C0B363A2423E57E00B87964 /* Frameworks */,
+				3C0B363B2423E57E00B87964 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Dummy;
+			productName = Dummy;
+			productReference = 3C0B363D2423E57E00B87964 /* Dummy.app */;
+			productType = "com.apple.product-type.application";
+		};
 		F9024ECE21CAA4F300D58AD0 /* NexmoSwiftApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F9024EDE21CAA4F500D58AD0 /* Build configuration list for PBXNativeTarget "NexmoSwiftApp" */;
@@ -1748,6 +1811,10 @@
 				LastUpgradeCheck = 1030;
 				ORGANIZATIONNAME = Vonage;
 				TargetAttributes = {
+					3C0B363C2423E57E00B87964 = {
+						CreatedOnToolsVersion = 11.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					F9024ECE21CAA4F300D58AD0 = {
 						CreatedOnToolsVersion = 10.1;
 						ProvisioningStyle = Automatic;
@@ -1791,11 +1858,22 @@
 				F923DD9021985BF600D29065 /* NexmoClientTests */,
 				F94291E121BD46F900FA45A1 /* NexmoTestApp */,
 				F9024ECE21CAA4F300D58AD0 /* NexmoSwiftApp */,
+				3C0B363C2423E57E00B87964 /* Dummy */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3C0B363B2423E57E00B87964 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C0B364F2423E57F00B87964 /* LaunchScreen.storyboard in Resources */,
+				3C0B364C2423E57F00B87964 /* Assets.xcassets in Resources */,
+				3C0B364A2423E57E00B87964 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9024ECD21CAA4F300D58AD0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1856,6 +1934,17 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3C0B36392423E57E00B87964 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3C0B36472423E57E00B87964 /* ViewController.m in Sources */,
+				3C0B36412423E57E00B87964 /* AppDelegate.m in Sources */,
+				3C0B36522423E57F00B87964 /* main.m in Sources */,
+				3C0B36442423E57E00B87964 /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F9024ECB21CAA4F300D58AD0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2038,6 +2127,22 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		3C0B36482423E57E00B87964 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C0B36492423E57E00B87964 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		3C0B364D2423E57F00B87964 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				3C0B364E2423E57F00B87964 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		F9024ED521CAA4F300D58AD0 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -2073,6 +2178,43 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		3C0B36532423E57F00B87964 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = Dummy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.Dummy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3C0B36542423E57F00B87964 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = PR6C39UQ38;
+				INFOPLIST_FILE = Dummy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nexmo.Dummy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		F9024EDF21CAA4F500D58AD0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2447,6 +2589,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		3C0B36552423E57F00B87964 /* Build configuration list for PBXNativeTarget "Dummy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3C0B36532423E57F00B87964 /* Debug */,
+				3C0B36542423E57F00B87964 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F9024EDE21CAA4F500D58AD0 /* Build configuration list for PBXNativeTarget "NexmoSwiftApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

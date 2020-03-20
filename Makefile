@@ -187,3 +187,11 @@ release_external: clean build
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
 
+release_internal_nexmo: clean build
+	@echo
+	@echo "-----------------------------"
+	@echo "Building For Internal Release"
+	@echo "-----------------------------"
+	@cd UtilsNexmo ; ./set_build_number.sh
+	@cd UtilsNexmo ; ./publish_to_artifactory.sh
+	@cd UtilsNexmo ; ./release_version.sh
