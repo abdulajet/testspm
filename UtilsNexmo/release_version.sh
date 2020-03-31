@@ -10,11 +10,6 @@ if [ "$BUILD_NUMBER" == "" ]; then
 	exit 1
 fi
 
-if [ "$PRIVATE_COCOAPODS_GITHUB_USER" == "" ]; then
-	echo_red "PRIVATE_COCOAPODS_GITHUB_USER env variable is not set. Aborting."
-	exit 1
-fi
-
 if [ "$PRIVATE_COCOAPODS_GITHUB_TOKEN" == "" ]; then
 	echo_red "PRIVATE_COCOAPODS_GITHUB_TOKEN env variable is not set. Aborting."
 	exit 1
@@ -33,7 +28,7 @@ REPO_NAME=PrivatePods
 QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
 if [ "$REPO_NAME" != "$QUERY_RES" ]; then
     # pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
-	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_USER:$PRIVATE_COCOAPODS_GITHUB_TOKEN@github.com/Vonage/PrivateCocoapodsSpecs
+	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/Vonage/PrivateCocoapodsSpecs
 #    pod repo add PrivatePodsTest git@github.com:Vonage/CocoaPodsSpecsTest.git
 fi
 
@@ -41,7 +36,7 @@ REPO_NAME=VonageNexmo
 QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
 if [ "$REPO_NAME" != "$QUERY_RES" ]; then
     # pod repo add VonageNexmo git@github.com:Vonage/NexmoCocoaPodSpecs.git
-	pod repo add VonageNexmo https://$PRIVATE_COCOAPODS_GITHUB_USER:$PRIVATE_COCOAPODS_GITHUB_TOKEN@github.com/Vonage/NexmoCocoaPodSpecs
+	pod repo add VonageNexmo https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/Vonage/NexmoCocoaPodSpecs
 fi
 
 CONFIGURATIONS=(Debug Release)
