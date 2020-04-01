@@ -36,7 +36,7 @@
 
         [self.network setDelegate:(id<NXMNetworkDelegate>)self];
         
-        self.rtcMedia = [[RTCMediaWrapper alloc] initWithIceServerUrls:configuration.iceServerUrls];
+        self.rtcMedia = [[RTCMediaWrapper alloc] initWithIceServerUrls:configuration.iceServerUrls andUseFirstIceCandidate: configuration.useFirstIceCandidate];
         [self.rtcMedia setDelegate:self];
     }
     return self;

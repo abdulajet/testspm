@@ -22,9 +22,9 @@
 //    self.network = networkDelegate;
 //}
 
-- (instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls{
+- (instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls andUseFirstIceCandidate:(BOOL)useFirstIceCandidate{
     if (self = [super init]) {
-        self.mrtcMedia = [[MRTCMedia alloc] initWithIceServerUrls:iceServerUrls];
+        self.mrtcMedia = [[MRTCMedia alloc] initWithIceServerUrls:iceServerUrls andIceGatherOnlyOneCandidate:useFirstIceCandidate];
         [self.mrtcMedia setDelegate:self];
     }
     

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 // TODO: network
 //- (void)setNetworkDelegate:(id<MRTCMediaNetwork>)networkDelegate;
 
-- (nullable instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls;
+- (nullable instancetype)initWithIceServerUrls:(NSArray<NSString*>*) iceServerUrls andUseFirstIceCandidate:(BOOL)useFirstIceCandidate;
     
 - (void)setDelegate:(id<RTCMediaWrapperDelegate>)delegate;
 

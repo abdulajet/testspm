@@ -190,7 +190,7 @@
         NSString* restUrl = [NSString stringWithFormat:@"https://%@-api.npe.nexmo.io/",npeName];
         NSString* wsUrl = [NSString stringWithFormat:@"https://%@-ws.npe.nexmo.io/",npeName];
         NSString* ipsUrl = [restUrl stringByAppendingString:@"v1/image/"];
-        config = [[NXMClientConfig alloc] initWithApiUrl:restUrl websocketUrl:wsUrl ipsUrl:ipsUrl];
+        config = [[NXMClientConfig alloc] initWithApiUrl:restUrl websocketUrl:wsUrl ipsUrl:ipsUrl useFirstIceCandidate:NO];
     }
     [NXMClient setConfiguration:config];
     
