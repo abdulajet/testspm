@@ -35,4 +35,4 @@ jazzy --objc --author Nexmo \
 
 (cd ./docs; zip -rX docs.zip *)
 
-aws s3 cp ./docs/docs.zip s3://nexmo-sdk-ci/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
+aws s3 cp ./docs/docs.zip s3://nexmo-sdk-ci/iOS-SDK/SDK-release-external/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
