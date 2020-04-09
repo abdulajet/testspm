@@ -24,7 +24,7 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
 
 sudo gem install jazzy
 
-jazzy --objc --author Nexmo \
+jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
     --module-version $PUBLIC_VERSION \
     --umbrella-header NexmoClient/NexmoClient.h \

@@ -9,12 +9,10 @@ With a set of features including IP-IP calls, IP-PSTN/PSTN-IP calls, chat messag
 
 Nexmo Client SDK for iOS current version is ***###SDK_PUBLIC_VERSION###***.
 
-
 ## Setup
 
-To get started with the Nexmo Client SDK for iOS, check out the [Nexmo Mobile Developer Guide for iOS](https://developer.nexmo.com/client-sdk/setup/add-sdk-to-your-app/ios).
-
+To get started with the Nexmo Client SDK for iOS, check out the [documentation](https://developer.nexmo.com/client-sdk/overview).
 
 ## License
 
-Copyright (c) ###COPYRIGHT_YEAR### Vonage. All rights reserved. Licensed only under the Nexmo SDK License Agreement (the "License") located at License file.
+Copyright © ###COPYRIGHT_YEAR### Vonage. All rights reserved. Licensed only under the Nexmo SDK License Agreement (the "License").

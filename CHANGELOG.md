@@ -4,13 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 2.1.8 - 2020-03-31
+## 2.1.8 - 2020-04-02
 
 ### Added
 
 - Add `useFirstIceCandidate` parameters to `NXMClientConfig`
 
-```
+```objective_c
 NXMClientConfig *config = [[NXMClientConfig alloc] initWithApiUrl:restUrl
                                                      websocketUrl:wsUrl
                                                            ipsUrl:ipsUrl
@@ -20,233 +20,253 @@ NXMClientConfig *config = [[NXMClientConfig alloc] initWithApiUrl:restUrl
 ## 2.1.5 - 2020-03-18
 
 ### Internal
-- Updated Device Registration format for production environments.
 
+- Updated Device Registration format for production environments.
 
 ## 2.1.1 - 2020-03-05
 
 ### Added
+
 - `NXMClient`'s `getConversationsPageWithSize:order:filter:completionHandler:` method to get conversations with paging.
 
 ### Deprecated
+
 - `NXMClient`'s `getConversationsPageWithSize:order:completionHandler:` method to get conversations with paging.
 
 ### Internal
-- The SDK is now built with Xcode 11.
 
+- The Client SDK is now built with Xcode 11.
 
 ## 2.1.0 - 2020-01-31
 
 ### Added
 
 - `NXMPushPayload` for custom push notifications.
-```
- if (NXNClient.shared isNexmoPushWithUserInfo:pushInfo]){
- 	NXMPushPayload *pushPayload = [myNXNClient processNexmoPushPayload:pushInfo];
- 	if (!pushPayload){
-    	// "Not a Nexmo push!!"
-    	return;
- 	};
 
-	if (pushPayload.template == NXMPushTemplateCustom) {
-		// Got custom push
-		pushPayload.customData // your customData
-	} 	
- */
+```objective_c
+ if (NXNClient.shared isNexmoPushWithUserInfo:pushInfo]){
+    NXMPushPayload *pushPayload = [myNXNClient processNexmoPushPayload:pushInfo];
+    if (!pushPayload){
+        // "Not a Nexmo push!!"
+        return;
+    };
+
+    if (pushPayload.template == NXMPushTemplateCustom) {
+        // Got custom push
+        pushPayload.customData // your customData
+    }
+ }
 ```
 
 ## 2.0.0 - 2020-01-15
 
 ### Added
+
 - `NXMHelper` with `descriptionForEventType:` method.
-
-### Fixed
-- Calling `conversation.getEvents` returned an `NXMMemberEvent` with the field `member` set to `nil`
-
-### Changed
 - `NXMConversation`'s `getEvents:` method replaced by `getEventsPage:`, `getEventsPageWithSize:order:completionHandler:`, `getEventsPageWithSize:order:eventType:completionHandler:`.
+
+```objective_c
+[myNXMConversation getEventsPagePageWithSize:15
+                                       order:NXMPageOrderDesc
+                                   eventType:nil
+                           completionHandler:^(NSError * _Nullable error, NXMEventsPage * _Nullable page) {
+                               if (error || !page) {
+                                   // handle error...
+                                   return;
+                               }
+
+                               // use page...
+                           }];
+```
+
 - `NXMConversationsPage`'s `nextPage:` and `previousPage:` completion handlers are now non-null.
 
----
+### Fixed
+
+- Calling `conversation.getEvents` returned a `NXMMemberEvent` with the field `member` set to `nil`.
 
 ## 1.2.3 - 2019-12-17
 
-### Internal
-- Update user agent format: `NexmoClientSDK/[SDK_VER] [PLATFORM] ([ORIGINAL_SDK])`
-
 ### Fixed
-- Calling `conversation.getEvents` returned an `NXMEvent` with the field `fromMember` set to `nil`
-- Description in errors.
 
-___
+- `conversation.getEvents` returned some `NXMEvent`s containing a nil `fromMember`
+- Added descriptive `userInfo` for `NXMError`s.
 
 ## 1.2.2 - 2019-12-12
 
 ### Fixed
-- Calling `conversation.getEvents` returned an `NXMMemberEvent` with the field `member` set to `nil`
 
-### Changed
-- `NXMConversation`'s `getEvents:` method replaced by `getEventsPage:`, `getEventsPageWithSize:order:completionHandler:`, `getEventsPageWithSize:order:eventType:completionHandler:`.
-- `NXMConversationsPage`'s `nextPage:` and `previousPage:` completion handlers are now non-null.
-
----
-
-## 1.2.3 - 2019-12-17
-
-### Internal
-- Update user agent format: `NexmoClientSDK/[SDK_VER] [PLATFORM] ([ORIGINAL_SDK])`
-
-### Fixed
-- Calling `conversation.getEvents` returned an `NXMEvent` with the field `fromMember` set to `nil`
-- Description in errors.
-
-___
-
-## 1.2.2 - 2019-12-12
-### Fixed
-- Support for DTLS in WebRTC.
-- 'didReceiveCall' and 'didReceiveConversation' not being called twice for the same call or conversation.
-- Option to enable push notification with only one token `pushKit` or `userNotification`.
-- NXMClientConfig region URLs fix.
-- On login with invalid user, fixed to `NXMConnectionStatusReasonUserNotFound`.
+- Added support for DTLS in WebRTC.
+- `didReceiveCall` and `didReceiveConversation` being called only once for the same call or conversation.
+- Added option to enable push notification with only one `pushKit` or `userNotification` token.
+- Fix for `NXMClientConfig` region URLs.
+- On login with invalid user, return `NXMConnectionStatusReasonUserNotFound`.
 - Added build architectures: `armv7` and `armv7s`.
 
 ## 1.2.1 - 2019-12-05
+
 ### Added
+
 Configuration for ICE server:
-```
+
+```objective_c
 NXMClientConfig *config = [[NXMClientConfig alloc] initWithApiUrl:restUrl
                                                      websocketUrl:wsUrl
                                                            ipsUrl:ipsUrl
                                                     iceServerUrls:iceUrls];
-[NXMClient setConfiguration:config]
+[NXMClient setConfiguration:config];
 ```
+
 This configuration is optional and a default will be set if not specified.
 
-Note: setConfiguration should be used before accessing `NXMClient.shared`.
+> Note: `setConfiguration` should be used before accessing `NXMClient.shared`.
 
-Fixed nil fromMember for `NXMConversation` events.
+### Fixed
+
+Corrected `nil` values for `fromMember` for `NXMConversation` events.
 
 ## 1.2.0 - 2019-12-03
 
 ### Added
+
 `NXMClient`'s `getConversationsPageWithSize:order:completionHandler:` method to get conversations with paging.
 
-`NXMConversationsPage`, which represents the retrieved page, provides the following instance methods
+`NXMConversationsPage`, which represents the retrieved page, provides the following instance methods:
 
 - `hasNextPage` / `hasPreviousPage` to check if forward/backward page retrieval is possible and
 - `nextPage:` / `previousPage:` to asynchronously retrieve the next/previous page.
 
 ### Changed
+
 `NXMClient`'s `getConversationWithUUid:completionHandler:` method's name typo (now called `getConversationWithUuid:completionHandler:`).
 
-## 1.1.1 - 2019-11-19
+## 1.1.1 - 2019-11-21
 
 ### Added
-NXMClientConfig object in order to change DC configuration. How to use:
-```
-[NXMClient setConfiguration:NXMClientConfig.DC]
+
+`NXMClientConfig` object in order to change data center configuration. How to use:
+
+```objective_c
+[NXMClient setConfiguration:NXMClientConfig.DC];
 ```
 
-this configuration is optional, when not using it the configuration will set to default.
-Note: you most call `setConfiguration` method before using `NXMClient.shared`.
+`NXMClient setConfiguration` is optional, configuration will set to a default value.
+
+> Note: you must call `setConfiguration` method before using `NXMClient.shared`.
 
 ## 1.1.0 - 2019-11-14
+
 ### Fixed
-- iOS 13 push notifications support
-- Start server call fix stability
-- Receiving a DTMF event in call and conversation
+
+- iOS 13 push notifications support.
+- Start server call stability.
+- Receiving a DTMF event in call and conversation.
 
 ### Added
-NXMConversationDelegate did receive DTMF event method
-```
+
+`NXMConversationDelegate` did receive DTMF event method:
+
+```objective_c
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nullable NXMDTMFEvent *)event;
 ```
 
 ### Changed
-NXMClient client enable push notifications method changed
-param pushKitToken - only for voip push (incoming calls)
-param userNotificationToken - all push types
-```
+
+`NXMClient` - client enable push notifications method changed.
+`param pushKitToken` - only for VoIP push (incoming calls).
+`param userNotificationToken` - all push types:
+
+```objective_c
 - (void)enablePushNotificationsWithPushKitToken:(nullable NSData *)pushKitToken
                           userNotificationToken:(nullable NSData *)userNotificationToken
                                       isSandbox:(BOOL)isSandbox
                               completionHandler:(void(^_Nullable)(NSError * _Nullable error))completionHandler;
-
 ```
 
 ## 1.0.0 - 2019-09-05
+
 ### Fixed
-- NexmoClient when disconnected returns error callback for all function.
-- CallMember status calculated by the current leg status.
-- CallMember supports failed, busy, timeout and canceled statuses.
+
+- `NexmoClient` when disconnected returns error callback for all function.
+- `CallMember` status calculated by the current leg status.
+- `CallMember` supports failed, busy, timeout and canceled statuses.
 - Supports member invited.
-- Conversation has media methods.
-- NexmoClient is now singleton.
+- `Conversation` has media methods.
+- `NexmoClient` is now singleton.
 - Call method changed to string instead of array.
-- NexmoClient delegate methods renamed.
+- `NexmoClient` delegate methods renamed.
 
 ### Added
-Added conversation media
-```
+
+- Added conversation media:
+
+```objective_c
 NXMConversation myConversation;
 [myConversation enableMedia];   // my media will be enabled
 [myConversation disableMedia];  // my media will be disabled
 ```
 
-Added invite member
-```
+- Added invite member:
+
+```objective_c
 NXMConversation myConversation;
 [myConversation inviteMemberWithUsername:@"someUsername"
-                      completion:myCompletionBlock];
+                              completion:myCompletionBlock];
 ```
 
-Added the member state initiator.
-```
+- Added the member state initiator:
+
+```objective_c
 NXMMember *member = someMember;
-NSDictionary<NSValue *, NXMInitiator *> *initiators = member.initiators; 
+NSDictionary<NSValue *, NXMInitiator *> *initiators = member.initiators;
 
 NXMInitiator leftStateInitiator = initiators[NXMMemberStateLeft];
-leftStateInitiator.isSystem; 
-leftStateInitiator.userId; 
+leftStateInitiator.isSystem;
+leftStateInitiator.userId;
 leftStateInitiator.memberId;
 leftStateInitiator.time;
 ```
 
-Added NXMConversationUpdateDelegate to notify on member updates like media,leg,state.
-Added updatesDelegate property to NXMConversation.
-```
+- Added `NXMConversationUpdateDelegate` to notify on member updates like media,leg, and state.
+- Added `updatesDelegate` property to `NXMConversation`:
+
+```objective_c
 @property (nonatomic, weak, nullable) id <NXMConversationUpdateDelegate> updatesDelegate;
 ```
-Example
-```
+
+Example:
+
+```objective_c
 @interface MyClass() <NXMConversationUpdateDelegate>
 @implementation MyClass
 
 - (void)setConversation:(NXMConversation *conversation) {
-	conversation.updatesDelegate(self); // register to conversation updatesDelegate
+    conversation.updatesDelegate(self); // register to conversation updatesDelegate
 }
 
 - (void)conversation:(nonnull NXMConversation *)conversation didUpdateMember:(nonnull NXMMember *)member withType:(NXMMemberUpdateType)type {
-	if (type == NXMMemberUpdateTypeState) {
-		// the member state changed
-	}
+    if (type == NXMMemberUpdateTypeState) {
+        // the member state changed
+    }
 
-	if (type == NXMMemberUpdateTypeMedia) {
-		// the member media changed
-	}
+    if (type == NXMMemberUpdateTypeMedia) {
+        // the member media changed
+    }
 }
 @end
 ```
 
 ### Changed
 
-NXMClient is now singleton
-```
+- `NXMClient` is now a singleton:
+
+```objective_c
 NXMClient.shared // the shared instance of NXMClient
 ```
-Renamed:
-```
+
+- Renamed:
+
+```objective_c
 @property (nonatomic, readonly, nullable, getter=getToken) NSString *authToken; // was token
 
 // was - (void)login;
@@ -263,9 +283,9 @@ Renamed:
 completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
 ```
 
+- `NXMClientDelegate` renamed:
 
-NXMClientDelegate renamed:
-```
+```objective_c
 @protocol NXMClientDelegate <NSObject>
 
 // was - (void)connectionStatusChanged:(NXMConnectionStatus)status reason:(NXMConnectionStatusReason)reason;
@@ -279,16 +299,18 @@ NXMClientDelegate renamed:
 @end
 ```
 
-NXMConversation otherMembers property renamed to allMembers.
-```
+- `NXMConversation` `otherMembers` property renamed to `allMembers`:
+
+```objective_c
 NXMConversation myConversation = someConversation;
 NSArray<NXMMember *> * allMembers = myConversation.allMembers // return the all conversation members
 
 - (void)joinMemberWithUsername:(nonnull NSString *)username // username instead of userId
 ```
 
-NXMConversationDelegate renamed methods:
-```
+- `NXMConversationDelegate` renamed methods:
+
+```objective_c
 // was - (void)customEvent:(nonnull NXMCustomEvent *)customEvent;
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveCustomEvent:(nonnull NXMCustomEvent *)event;
 
@@ -314,9 +336,11 @@ NXMConversationDelegate renamed methods:
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveMediaEvent:(nonnull NXMMediaEvent *)event;
 ```
 
-Use username instead of userId
-NXMCallDelegate Renamed:
-```
+- Use `username` instead of `userId`.
+
+- `NXMCallDelegate` renamed:
+
+```objective_c
 // was - (void)statusChanged:(nonnull NXMCallMember *)callMember;
 - (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status; 
 - (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted;
@@ -325,82 +349,99 @@ NXMCallDelegate Renamed:
 - (void)didReceive:(nonnull NSString *)dtmf fromCallMember:(nonnull NXMCallMember *)callMember;
 ```
 
-NXMEvent and NXMMemberEvent add member object instead of memberId:
-```
+- `NXMEvent` and `NXMMemberEvent` add member object instead of `memberId`:
+
+```objective_c
 @property (nonatomic, readonly, nonnull) NXMMember *member;
 ```
 
-NXMImageInfo renamed properties
-```
+- `NXMImageInfo` renamed properties:
+
+```objective_c
 @property NSInteger sizeInBytes; // was size
 @property NXMImageSize size; // was type
 ```
 
-NXMMessageStatusEvent renamed property
-```
+- `NXMMessageStatusEvent` renamed property:
+
+```objective_c
 @property NSInteger referenceEventId; // was refEventId
 ```
 
-NexmoClient logger exposed - NXMLogger object
-```
+- `NexmoClient` logger exposed - `NXMLogger` object:
+
+```objective_c
 [NXMLogger setLogLevel:NXMLoggerLevelDebug];
 NSArray *logNames = [NXMLogger getLogFileNames];
 ```
-Removed NXMLoggerDelegate
-```
-NXMClient myClient
+
+### Removed
+
+- `NXMLoggerDelegate`
+
+```objective_c
+NXMClient myClient = ...;
 [myClient setLoggerDelegate:LoggerDelegate];
 ```
 
-## [0.3.0] - 2019-06-02
+## 0.3.0 - 2019-06-03
+
 ### Added
-- Calls JS and Native SDKs support.
+
+- Interoperability with the JS and Android SDKs - Calls can now be placed between apps using the iOS, JS or Android SDKs.
 
 ### Changed
-- Add member channel and direction data
-```
-NXMCallMember
+
+- `NXMCallMember` - added member channel with direction data:
+
+```objective_c
+@interface NXMCallMember : NSObject
+...
 @property (nonatomic, readonly, nullable) NXMChannel *channel;
-
-
-NXMChannel channel {
-	NXMDirection from {
-		NXMDirectionType type,
-		NSString Data
-	},
-	NXMDirection to {
-		NXMDirectionType type,
-		NSString Data
-	}
-}
+...
+@end
 ```
 
-Deprecated
-```
-NXMCallMember
-@property (nonatomic, copy, nullable) NSString *phoneNumber;
-@property (nonatomic, copy, nonnull) NSString *channelType;
+```objective_c
+@interface NXMChannel : NSObject
+
+@property (nonatomic, readonly, nonnull) NXMDirection *from;
+@property (nonatomic, readonly, nullable) NXMDirection *to;
+
+@end
 ```
 
+```objective_c
+@interface NXMDirection : NSObject
 
-## [0.2.56] - 2019-01-24
+@property (nonatomic, assign) NXMDirectionType type;
+@property (nonatomic, copy, nullable) NSString *data;
+
+@end
+```
+
+### Removed
+
+- `NXMCallMember`'s `phoneNumber` and `channelType` were removed.
+
+## 0.2.56 - 2019-01-24
+
 ### Added
+
 - Change log file.
 
 ### Changed
+
 - Memory management improvements.
 - Fetch missing and new events on network changes.
 - Returning User objects instead of Ids.
 - Bug fixes.
-- Add nonnull or nullable to properties
-- Rename call.decline to call.reject.
+- Add `non-null` or `nullable` to properties.
+- Rename `call.decline` to `call.reject`.
 
+## 0.1.52 - 2019-01-01
 
-## [0.1.52] - 2019-01-21
 - Initial beta release with basic call and chat features.
 
-	- Please refer to list of features and usage  
-	  https://developer.nexmo.com/
-
-	- **Cocoapods**  
-	  https://cocoapods.org/pods/nexmoclient
+- Please refer to list of features and usage: <https://developer.nexmo.com/>
+- **Cocoapods**: <https://cocoapods.org/pods/nexmoclient>
