@@ -22,28 +22,55 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
     return [[NXMClientConfig alloc] initWithApiUrl:@"https://api.nexmo.com/"
                                       websocketUrl:@"https://ws.nexmo.com/"
                                             ipsUrl:@"https://api.nexmo.com/v1/image/"
-                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
+                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]
+                              useFirstIceCandidate:NO];
 }
 
 - (instancetype)initWithApiUrl:(NSString *)apiURL
                   websocketUrl:(NSString *)websocketUrl
                         ipsUrl:(NSString *)ipsUrl{
-   return [[NXMClientConfig alloc] initWithApiUrl:apiURL
-                                     websocketUrl:websocketUrl
-                                           ipsUrl:ipsUrl
-                                    iceServerUrls:[NXMClientConfig defaultIceServerUrls]];
+    return [[NXMClientConfig alloc] initWithApiUrl:apiURL
+                                      websocketUrl:websocketUrl
+                                            ipsUrl:ipsUrl
+                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]
+                              useFirstIceCandidate:NO];
+}
+
+- (nonnull instancetype)initWithApiUrl:(nonnull NSString *)apiURL
+                          websocketUrl:(nonnull NSString *)websocketUrl
+                                ipsUrl:(nonnull NSString *)ipsUrl
+                         iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls {
+    return [[NXMClientConfig alloc] initWithApiUrl:apiURL
+                                      websocketUrl:websocketUrl
+                                            ipsUrl:ipsUrl
+                                     iceServerUrls:iceServerUrls
+                              useFirstIceCandidate:NO];
+}
+
+- (instancetype)initWithApiUrl:(nonnull NSString *)apiURL
+                  websocketUrl:(nonnull NSString *)websocketUrl
+                        ipsUrl:(nonnull NSString *)ipsUrl
+          useFirstIceCandidate:(BOOL) useFirstIceCandidate {
+    return [[NXMClientConfig alloc] initWithApiUrl:apiURL
+                                      websocketUrl:websocketUrl
+                                            ipsUrl:ipsUrl
+                                     iceServerUrls:[NXMClientConfig defaultIceServerUrls]
+                              useFirstIceCandidate:useFirstIceCandidate];
 }
 
 - (instancetype)initWithApiUrl:(NSString *)apiURL
                   websocketUrl:(NSString *)websocketUrl
                         ipsUrl:(NSString *)ipsUrl
-                 iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls {
+                 iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls
+          useFirstIceCandidate:(BOOL) useFirstIceCandidate {
+    
     self = [super init];
     if (self) {
         _apiUrl = apiURL;
         _websocketUrl = websocketUrl;
         _ipsUrl = ipsUrl;
         _iceServerUrls = iceServerUrls;
+        _useFirstIceCandidate = useFirstIceCandidate;
     }
     return self;
 }
