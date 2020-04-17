@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Internal
 
-- Improved gather single ice candidate implementation.
+- Improved single ICE candidate gathering implementation.
 
 ## 2.1.9 - 2020-04-14
 
