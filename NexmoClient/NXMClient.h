@@ -99,10 +99,16 @@
 /*!
  * @brief Set NXMClient delegate
  * @code [myNXNClient setDelegate:clientDelegate];
- *  @param delegate a `NXMClientDelegate` object.
+ * @param delegate a `NXMClientDelegate` object.
  */
 - (void)setDelegate:(nonnull id <NXMClientDelegate>)delegate;
 
+/*!
+* @brief Check if the login connection status is connected
+* @code [myNXNClient isConnected];
+* @return YES if is connected.
+*/
+- (BOOL)isConnected;
 
 /*!
  * @brief login with current authToken the response in NXMClientDelegate:didChangeConnectionStatus
