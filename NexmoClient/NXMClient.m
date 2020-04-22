@@ -114,7 +114,7 @@ static dispatch_once_t _onceToken = 0;
 
 #pragma mark - login and connectivity
 
--(bool) isConnected {
+-(BOOL)isConnected {
     return [self getConnectionStatus] == NXMConnectionStatusConnected;
 }
 
@@ -142,9 +142,13 @@ static dispatch_once_t _onceToken = 0;
     if(!self.delegate) {
         NXM_LOG_ERROR("login called without setting delegate");
     }
-    self.stitchContext.coreClient.token = authToken;
-    [self.stitchContext.coreClient login];
-
+    
+    if(!self.user && [self.stitchContext.coreClient.token length] == 0) {
+        self.stitchContext.coreClient.token = authToken;
+        [self.stitchContext.coreClient login];
+    } else {
+        NXM_LOG_ERROR("user already connected");
+    }
 }
 
 -(void)updateAuthToken:(nonnull NSString *)authToken {
@@ -184,6 +188,9 @@ static dispatch_once_t _onceToken = 0;
     NSError *setUpCleanUpError = nil;
     switch (self.connectionStatus) {
         case NXMConnectionStatusDisconnected:
+            self.stitchContext.coreClient.token = nil;
+            self.stitchContext.coreClient.user = nil;
+            
             if(![self cleanUpWithErrorPtr:&setUpCleanUpError]) {
                 //TODO: report/fail cleanup error
             }
