@@ -48,7 +48,7 @@
     [NXMClient destory]; // reset singleton
     
     self.stitchContextMock = OCMClassMock([NXMStitchContext class]);
-    self.stitchCoreMock = OCMClassMock([NXMCore class]);
+    self.stitchCoreMock = OCMPartialMock([[NXMCore alloc] init]);
     
     OCMStub([self.stitchContextMock alloc]).andReturn(self.stitchContextMock);
     OCMStub([self.stitchContextMock initWithCoreClient:OCMOCK_ANY]).andReturn(self.stitchContextMock);
@@ -125,6 +125,25 @@
     }
     
     XCTAssertTrue(didCatch);
+}
+
+#pragma login tests
+
+- (void)testLoginMultipleTimes {
+    NSString *dummyToken = @"unknown";
+    
+    __block int callCount = 0;
+    OCMStub([self.stitchCoreMock token]).andForwardToRealObject();
+    OCMStub([self.stitchCoreMock login]).andDo(^(NSInvocation *invocation) {
+        ++callCount;
+    });
+    
+    [[NXMClient shared] loginWithAuthToken:dummyToken];    
+    [[NXMClient shared] loginWithAuthToken:dummyToken];
+    [[NXMClient shared] loginWithAuthToken:dummyToken];
+
+    int expectedNumberOfCalls = 1;
+    XCTAssertEqual(callCount, expectedNumberOfCalls);
 }
 
 #pragma client delegate (onMemberEvent) tests
