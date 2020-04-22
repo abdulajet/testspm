@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Added `isConnected` method to NXMClient to show current connection state 
+- Added `isConnected` method to `NXMClient` to show current connection state.
 
 ```
 [NXNClient.shared isConnected]
