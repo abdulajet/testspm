@@ -106,7 +106,7 @@
 /*!
 * @brief Check if the login connection status is connected
 * @code [myNXNClient isConnected];
-* @return YES if is connected.
+* @return YES if connected.
 */
 - (BOOL)isConnected;
 
