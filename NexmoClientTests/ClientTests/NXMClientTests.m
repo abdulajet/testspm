@@ -48,7 +48,7 @@
     [NXMClient destory]; // reset singleton
     
     self.stitchContextMock = OCMClassMock([NXMStitchContext class]);
-    self.stitchCoreMock = OCMPartialMock([[NXMCore alloc] init]);
+    self.stitchCoreMock = OCMPartialMock([NXMCore new]);
     
     OCMStub([self.stitchContextMock alloc]).andReturn(self.stitchContextMock);
     OCMStub([self.stitchContextMock initWithCoreClient:OCMOCK_ANY]).andReturn(self.stitchContextMock);
@@ -355,4 +355,3 @@
 }
 
 @end
-
