@@ -138,9 +138,9 @@
         ++callCount;
     });
     
-    [[NXMClient shared] loginWithAuthToken:dummyToken];    
-    [[NXMClient shared] loginWithAuthToken:dummyToken];
-    [[NXMClient shared] loginWithAuthToken:dummyToken];
+    [NXMClient.shared loginWithAuthToken:dummyToken];    
+    [NXMClient.shared loginWithAuthToken:dummyToken];
+    [NXMClient.shared loginWithAuthToken:dummyToken];
 
     int expectedNumberOfCalls = 1;
     XCTAssertEqual(callCount, expectedNumberOfCalls);
