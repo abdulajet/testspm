@@ -26,7 +26,7 @@
 @interface NXMCore : NSObject <NXMPageProxy>
 
 @property (readonly) NXMConnectionStatus connectionStatus;
-@property (nonatomic, strong, readonly, nullable) NXMUser *user;
+@property (nonatomic, strong, readwrite, nullable) NXMUser *user;
 @property (nonatomic, strong, readwrite, nullable) NSString *token;
 
 - (nullable instancetype)initWithToken:(nonnull NSString *)authToken
