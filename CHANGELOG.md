@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ```objective_c
 [NXNClient.shared isConnected]
 ```
+- Fix API Event `client_ref` handling 
 
 ## 2.1.10 - 2020-04-16
 
