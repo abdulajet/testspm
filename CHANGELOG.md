@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [NXNClient.shared isConnected]
 ```
 
+### Fixed
+
+- API Event `client_ref` handling.
+
 ## 2.1.10 - 2020-04-16
 
 ### Internal
