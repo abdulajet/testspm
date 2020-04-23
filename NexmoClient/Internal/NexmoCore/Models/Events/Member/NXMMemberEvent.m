@@ -57,7 +57,9 @@
                                                        suspend:[[[body[@"media"] objectForKey:@"audio_settings"] objectForKey:@"muted"] boolValue]];
         self.state = state;
         self.memberId = memberId;
-        self.clientRef = data[@"client_ref"];
+        // TODO: Fix Inconsistency between events on socket and event from API
+        self.clientRef = body[@"client_ref"] ? body[@"client_ref"] : data[@"client_ref"];
+        
         self.knockingId = body[@"channel"][@"knocking_id"];
     }
 
