@@ -58,6 +58,12 @@
         self.state = state;
         self.memberId = memberId;
         self.clientRef = data[@"client_ref"];
+        
+        // TODO: Fix Inconsistency between events on socket and event from API
+        if (body[@"client_ref"]){
+            self.clientRef = body[@"client_ref"];
+        }
+        
         self.knockingId = body[@"channel"][@"knocking_id"];
     }
 
