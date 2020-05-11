@@ -1,6 +1,6 @@
 echo "Executing post build script"
 
-source ./config.env
+source ./vars.env
 
 
 # build iOS SDK
