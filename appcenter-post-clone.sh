@@ -3,7 +3,7 @@ echo "Executing post clone script"
 pip install awscli
 
 S3_BUCKET=nexmo-sdk-ci
-S3_VARS_ENV=iOS-SDK/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/vars.env
+S3_VARS_ENV=iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/vars.env
 
 poll_s3() {
     while true; do
