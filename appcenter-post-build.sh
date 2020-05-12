@@ -20,7 +20,7 @@ COPYRIGHT_YEAR=$(eval date +"%Y")
 
 sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
-    UtilsNexmo/README_md.template > UtilsNexmo/README.md
+    Utils/README_md.template > Utils/README.md
 
 sudo gem install jazzy
 
@@ -31,7 +31,7 @@ jazzy --objc --author Vonage \
     --framework-root . \
     --module NexmoClient \
     --output docs \
-    --readme UtilsNexmo/README.md
+    --readme Utils/README.md
 
 (cd ./docs; zip -rX docs.zip *)
 
