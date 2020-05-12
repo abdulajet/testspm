@@ -13,6 +13,8 @@ make release_internal_nexmo
 
 # generate docs
 
+cd ..
+
 INFO_PLIST_FILE="NexmoClient/Info.plist"
 PUBLIC_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
 PRIVATE_VERSION="${PUBLIC_VERSION}.${BUILD_NUMBER}"
