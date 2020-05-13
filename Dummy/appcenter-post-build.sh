@@ -3,6 +3,9 @@ echo "Executing post build script"
 source ./vars.env
 
 
+# cd into root folder
+cd ..
+
 # build iOS SDK
 
 export BUILD_NUMBER=$APPCENTER_BUILD_ID
@@ -13,8 +16,6 @@ make release_internal_nexmo
 
 # generate docs
 
-cd ..
-
 INFO_PLIST_FILE="NexmoClient/Info.plist"
 PUBLIC_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
 PRIVATE_VERSION="${PUBLIC_VERSION}.${BUILD_NUMBER}"
@@ -24,7 +25,7 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
     Utils/README_md.template > Utils/README.md
 
-sudo gem install jazzy
+sudo gem install jazzy 
 
 jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
