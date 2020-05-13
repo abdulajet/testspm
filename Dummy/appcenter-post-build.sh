@@ -4,10 +4,7 @@ source ./vars.env
 
 
 # cd into root folder
-echo $PWD
 cd ..
-echo $PWD
-ls
 
 # build iOS SDK
 
