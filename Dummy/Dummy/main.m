@@ -1,12 +1,4 @@
-//
-//  main.m
-//  Dummy
-//
-//  Created by Sergei Rastrigin on 12/05/2020.
-//  Copyright © 2020 Vonage. All rights reserved.
-//
-
-#import <UIKit/UIKit.h>
+@import UIKit;
 #import "AppDelegate.h"
 
 int main(int argc, char * argv[]) {
