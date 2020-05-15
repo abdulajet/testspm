@@ -13,7 +13,7 @@ With a set of features including IP-IP calls, IP-PSTN/PSTN-IP calls, chat messag
 - [License](#License)
 
 ### Contributing
-Please read our [contributing guidelines](https://github.com/Vonage/nexmo-sdk-ios/blob/develop/CONTRIBUTE.md) prior to submitting a Pull Request.
+Please read our [contributing guidelines](https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/master/CONTRIBUTE.md) prior to submitting a Pull Request.
 
 ### Setup
 Download repository, open project file **NXMiOSSDK.xcodeproj**
@@ -38,18 +38,18 @@ Here is a description of the main files and folders in the root of out repositor
 
 #### Dependencies
 NexmoClient uses a number of projects to work properly:
-* [MiniRTC](https://github.com/Vonage/nexmoclient-mini-rtc) - Nexmo WebRTC wrapper
-* [NexmoClientInfrastructures](https://github.com/Vonage/nexmoclient-infrastructures) - NexmoClient and MiniRTC infrastructure framework, currently we use this framework for logging.
-* [CocoaNXMLumebrjack](https://github.com/Vonage/nexmoclient-lumberjack-ios) - Nexmo LubmerJack wrapper
+* [MiniRTC](https://github.com/nexmoinc/nexmoclient-mini-rtc) - Nexmo WebRTC wrapper
+* [NexmoClientInfrastructures](https://github.com/nexmoinc/nexmoclient-infrastructures) - NexmoClient and MiniRTC infrastructure framework, currently we use this framework for logging.
+* [NexmoClientLumebrjack](https://github.com/nexmoinc/nexmoclient-lumberjack-ios) - Nexmo LubmerJack wrapper
 
 #### Architecture
 <p align="center">
-    <img src="https://github.com/vonage/nexmo-sdk-ios/blob/develop/Utils/SDKDiagram.png" title="Class diagram">
+    <img src="https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/develop/Utils/SDKDiagram.png" title="Class diagram">
 </p>
 
 #### SDK High level class diagram
 <p align="center">
-    <img src="https://github.com/vonage/nexmo-sdk-ios/blob/develop/Utils/SDKClassDiagram.png" title="Class diagram">
+    <img src="https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/master/Utils/SDKClassDiagram.png" title="Class diagram">
 </p>
 
 ## License
@@ -59,7 +59,7 @@ Copyright (c) 2018 Vonage. All rights reserved. Licensed only under the Nexmo SD
 [podspec-link]: https://cocoapods.org/pods/NexmoClient
 [platforms-svg]: https://img.shields.io/cocoapods/p/NexmoClient
 [license-svg]: https://img.shields.io/cocoapods/l/NexmoClient
-[license-link]: https://github.com/vonage/nexmo-sdk-ios/blob/master/LICENSE
+[license-link]: https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/master/LICENSE
 [xcode-svg]: https://img.shields.io/badge/xcode-10.3%20%7C%2011-orange
 [build-svg]: https://img.shields.io/badge/build-jenkins-green
 [build-link]: http://jenkins-mobile-client.dev.il.vocal-dev.com:8080/view/Nexmo/job/Stitch_iOS_Release/

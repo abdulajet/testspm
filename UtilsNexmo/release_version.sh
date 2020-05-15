@@ -28,7 +28,7 @@ REPO_NAME=PrivatePods
 QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
 if [ "$REPO_NAME" != "$QUERY_RES" ]; then
     # pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
-	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/Vonage/PrivateCocoapodsSpecs
+	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/nexmoinc/PrivateCocoapodsSpecs
 #    pod repo add PrivatePodsTest git@github.com:Vonage/CocoaPodsSpecsTest.git
 fi
 
