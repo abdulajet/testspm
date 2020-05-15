@@ -192,6 +192,6 @@ release_internal_nexmo: clean build
 	@echo "-----------------------------"
 	@echo "Building For Internal Release"
 	@echo "-----------------------------"
-	@cd UtilsNexmo ; ./set_build_number.sh
-	@cd UtilsNexmo ; ./publish_to_artifactory.sh
-	@cd UtilsNexmo ; ./release_version.sh
+	@cd Utils ; ./set_build_number.sh
+	@cd Utils ; ./publish_to_artifactory.sh
+	@cd Utils ; ./release_version.sh

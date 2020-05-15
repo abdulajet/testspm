@@ -12,19 +12,26 @@ if [ "$ARTIFACTORY_PASSWORD" == "" ]; then
 	exit 1
 fi
 
+if [ "$BUILD_NUMBER" == "" ]; then
+	echo_red "BUILD_NUMBER env variable is not set. Aborting. Please Run from Jenkins job."
+	exit 1
+fi
+
 INFO_PLIST_FILE="$PWD/../NexmoClient/Info.plist"
 
 PLIST_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
 
-ARTIFACTORY_PATH_DEBUG=$(get_artifactory_artifact_path "Debug" $PLIST_VERSION)
-ARTIFACTORY_PATH_RELEASE=$(get_artifactory_artifact_path "Release" $PLIST_VERSION)
+FINAL_VERSION="$PLIST_VERSION.$BUILD_NUMBER"
+
+ARTIFACTORY_PATH_DEBUG=$(get_artifactory_artifact_path "Debug" $FINAL_VERSION)
+ARTIFACTORY_PATH_RELEASE=$(get_artifactory_artifact_path "Release" $FINAL_VERSION)
 CHANGELOG_FILE=CHANGELOG.md
 
 if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-./create_docs.sh $PLIST_VERSION
+./create_docs.sh $FINAL_VERSION
 
 pushd $PWD/../Output/Debug
 cp -R ../../LICENSE ../../Utils/README.md ../../docs .
