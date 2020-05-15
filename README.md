@@ -44,7 +44,7 @@ NexmoClient uses a number of projects to work properly:
 
 #### Architecture
 <p align="center">
-    <img src="https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/develop/Utils/SDKDiagram.png" title="Class diagram">
+    <img src="https://github.com/nexmoinc/nexmoclient-sdk-ios/blob/master/Utils/SDKDiagram.png" title="Class diagram">
 </p>
 
 #### SDK High level class diagram
