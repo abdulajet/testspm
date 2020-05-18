@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3C0B363C2423E57E00B87964"
+               BlueprintIdentifier = "B153C551246AD65800B464C7"
                BuildableName = "Dummy.app"
                BlueprintName = "Dummy"
-               ReferencedContainer = "container:NXMiOSSDK.xcodeproj">
+               ReferencedContainer = "container:Dummy.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,10 +44,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3C0B363C2423E57E00B87964"
+            BlueprintIdentifier = "B153C551246AD65800B464C7"
             BuildableName = "Dummy.app"
             BlueprintName = "Dummy"
-            ReferencedContainer = "container:NXMiOSSDK.xcodeproj">
+            ReferencedContainer = "container:Dummy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3C0B363C2423E57E00B87964"
+            BlueprintIdentifier = "B153C551246AD65800B464C7"
             BuildableName = "Dummy.app"
             BlueprintName = "Dummy"
-            ReferencedContainer = "container:NXMiOSSDK.xcodeproj">
+            ReferencedContainer = "container:Dummy.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

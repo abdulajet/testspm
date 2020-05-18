@@ -27,4 +27,4 @@ FINAL_VERSION="$MAJOR_VERSION.$MINOR_VERSION.$PATCH_VERSION.$BUILD_NUMBER"
 
 echo "Version: $FINAL_VERSION"
 
-/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $FINAL_VERSION" $INFO_PLIST_FILE
+# /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $FINAL_VERSION" $INFO_PLIST_FILE

@@ -1,7 +1,10 @@
 echo "Executing post build script"
 
-source ./config.env
+source ./vars.env
 
+
+# cd into root folder
+cd ..
 
 # build iOS SDK
 
@@ -20,9 +23,9 @@ COPYRIGHT_YEAR=$(eval date +"%Y")
 
 sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
-    UtilsNexmo/README_md.template > UtilsNexmo/README.md
+    Utils/README_md.template > Utils/README.md
 
-sudo gem install jazzy
+sudo gem install jazzy 
 
 jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
@@ -31,8 +34,12 @@ jazzy --objc --author Vonage \
     --framework-root . \
     --module NexmoClient \
     --output docs \
-    --readme UtilsNexmo/README.md
+    --readme Utils/README.md
 
 (cd ./docs; zip -rX docs.zip *)
 
 aws s3 cp ./docs/docs.zip s3://nexmo-sdk-ci/iOS-SDK/SDK-release-external/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
+
+echo $PRIVATE_VERSION >> version.txt
+
+aws s3 cp ./version.txt s3://nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/version.txt
