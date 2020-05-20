@@ -25,7 +25,8 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
     Utils/README_md.template > Utils/README.md
 
-sudo gem install jazzy -v 0.13.2
+# IMPORTANT: jazzy v0.13.3 DOESN'T SUPPORT Xcode >11.4 (update AppCenter build settings accordingly)
+sudo gem install jazzy -v 0.13.3
 
 jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
