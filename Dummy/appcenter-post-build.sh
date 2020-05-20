@@ -39,7 +39,7 @@ jazzy --objc --author Vonage \
 (cd ./docs; zip -rX docs.zip *)
 
 sftp -i $S3_PRIVATE_KEY_FILE nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com << EOF
-put ./docs/docs.zip /nexmo-conversation/iOS-SDK/SDK-release-external/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
+put ./docs/docs.zip /nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-external/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
 
 echo $PRIVATE_VERSION >> version.txt
