@@ -25,7 +25,7 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
     Utils/README_md.template > Utils/README.md
 
-sudo gem install jazzy 
+sudo gem install jazzy -v 0.13.2
 
 jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
