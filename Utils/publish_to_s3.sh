@@ -40,7 +40,9 @@ rm -rf LICENSE README.md docs
 
 # curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_DEBUG" -T NexmoClient.zip
 CONFIGURATION="Debug"
-aws s3 cp NexmoClient.zip "s3://nexmo-sdk-ci/iOS-SDK/SDK-release-internal/$FINAL_VERSION/NexmoClient-$FINAL_VERSION-iOS-$CONFIGURATION.zip"
+sftp -i $S3_PRIVATE_KEY_FILE nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com << EOF
+put NexmoClient.zip /nexmo-conversation/iOS-SDK/SDK-release-internal/${FINAL_VERSION}/NexmoClient-${FINAL_VERSION}-iOS-${CONFIGURATION}.zip
+EOF
 
 if [ $? -ne 0 ]; then
 	echo_red "upload failed. Aborting"
@@ -57,7 +59,9 @@ rm -rf LICENSE README.md docs
 
 # curl -f -u "$ARTIFACTORY_USER:$ARTIFACTORY_PASSWORD" -X PUT "$ARTIFACTORY_PATH_RELEASE" -T NexmoClient.zip
 CONFIGURATION="Release"
-aws s3 cp NexmoClient.zip "s3://nexmo-sdk-ci/iOS-SDK/SDK-release-internal/$FINAL_VERSION/NexmoClient-$FINAL_VERSION-iOS-$CONFIGURATION.zip"
+sftp -i $S3_PRIVATE_KEY_FILE nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com << EOF
+put NexmoClient.zip /nexmo-conversation/iOS-SDK/SDK-release-internal/${FINAL_VERSION}/NexmoClient-${FINAL_VERSION}-iOS-${CONFIGURATION}.zip
+EOF
 
 if [ $? -ne 0 ]; then
 	echo_red "upload failed. Aborting"
