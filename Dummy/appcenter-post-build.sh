@@ -42,7 +42,7 @@ jazzy --objc --author Vonage \
     --output docs \
     --readme Utils/README.md
 sudo xcode-select --switch $XCODE_SELECT_PATH
-echo "Switching back to Xcode $XCODE_SELECT_PATH"
+echo "Switched back to the initial Xcode path: $XCODE_SELECT_PATH"
 
 (cd ./docs; zip -rX docs.zip *)
 
