@@ -6,6 +6,7 @@ source ./vars.env
 # cd into root folder
 cd ..
 
+
 # build iOS SDK
 
 export BUILD_NUMBER=$APPCENTER_BUILD_ID
@@ -25,13 +26,13 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
     Utils/README_md.template > Utils/README.md
 
-sudo gem install jazzy -v 0.13.3
-
 # IMPORTANT: jazzy v0.13.3 DOESN'T SUPPORT Xcode >11.3.1
-echo "1️⃣ Xcode path: $(xcode-select -p)"
+JAZZY_VERSION=0.13.3
+JAZZY_XCODE_VERSION=11.3.1
+sudo gem install jazzy -v $JAZZY_VERSION
 XCODE_SELECT_PATH=$(xcode-select -p)
-sudo xcode-select --switch /Applications/Xcode_11.3.1.app/Contents/Developer
-echo "2️⃣ Xcode path: $(xcode-select -p)"
+echo "Switching to Xcode $JAZZY_XCODE_VERSION to run Jazzy v$JAZZY_VERSION"
+sudo xcode-select --switch /Applications/Xcode_$JAZZY_XCODE_VERSION.app/Contents/Developer
 jazzy --objc --author Vonage \
     --author_url https://developer.nexmo.com \
     --module-version $PUBLIC_VERSION \
@@ -41,11 +42,12 @@ jazzy --objc --author Vonage \
     --output docs \
     --readme Utils/README.md
 sudo xcode-select --switch $XCODE_SELECT_PATH
-echo "3️⃣ Xcode path: $(xcode-select -p)"
+echo "Switching back to Xcode $XCODE_SELECT_PATH"
 
 (cd ./docs; zip -rX docs.zip *)
 
-echo "4️⃣ Docs zipped"
+
+# uploading docs.zip
 
 SFTP_URL="nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com"
 SFTP_BASE_PATH="/nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}"
@@ -53,6 +55,9 @@ SFTP_BASE_PATH="/nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-internal/br
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
 put ./docs.zip $SFTP_BASE_PATH/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
+
+
+# uploading version.txt
 
 echo $PRIVATE_VERSION >> version.txt
 
