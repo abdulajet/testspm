@@ -68,7 +68,7 @@ done
 
 echo_green "Creating a git tag"
 
-TAG_NAME="internal/${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}/v$FINAL_VERSION"
+TAG_NAME="internal/$FINAL_VERSION"
 
 echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME

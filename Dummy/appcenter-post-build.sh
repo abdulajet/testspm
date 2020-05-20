@@ -11,7 +11,7 @@ cd ..
 export BUILD_NUMBER=$APPCENTER_BUILD_ID
 echo "BUILD_NUMBER = $BUILD_NUMBER"
 
-make release_internal_nexmo
+make release_internal
 
 
 # generate docs
@@ -42,11 +42,11 @@ SFTP_URL="nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.c
 SFTP_BASE_PATH="/nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}"
 
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
-put ./docs/docs.zip $SFTP_BASE_PATH/conversation-docs/${PRIVATE_VERSION}.zip
+put ./docs.zip $SFTP_BASE_PATH/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
 
 echo $PRIVATE_VERSION >> version.txt
 
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
-put version.txt $SFTP_BASE_PATH/version.txt
+put ./version.txt $SFTP_BASE_PATH/version.txt
 EOF
