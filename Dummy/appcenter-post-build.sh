@@ -38,8 +38,15 @@ jazzy --objc --author Vonage \
 
 (cd ./docs; zip -rX docs.zip *)
 
-aws s3 cp ./docs/docs.zip s3://nexmo-sdk-ci/iOS-SDK/SDK-release-external/branches/${APPCENTER_BRANCH}/conversation-docs/${PRIVATE_VERSION}.zip
+SFTP_URL="nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com"
+SFTP_BASE_PATH="/nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}"
+
+sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
+put ./docs/docs.zip $SFTP_BASE_PATH/conversation-docs/${PRIVATE_VERSION}.zip
+EOF
 
 echo $PRIVATE_VERSION >> version.txt
 
-aws s3 cp ./version.txt s3://nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/version.txt
+sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
+put version.txt $SFTP_BASE_PATH/version.txt
+EOF

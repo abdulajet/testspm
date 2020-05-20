@@ -1,13 +1,15 @@
 echo "Executing post clone script"
 
-pip install awscli
+SFTP_ADDR=nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com
+S3_BUCKET=nexmo-conversation
+S3_VARS_ENV=nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/vars.env
+export S3_PRIVATE_KEY_FILE="$(mktemp)"
 
-S3_BUCKET=nexmo-sdk-ci
-S3_VARS_ENV=iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}/vars.env
+echo $S3_PRIVATE_KEY | base64 -d > ${S3_PRIVATE_KEY_FILE}
 
 poll_s3() {
     while true; do
-        exists=$(aws s3api head-object --bucket $1 --key $2 || true)
+	    exists=$(sftp -o StrictHostKeyChecking=no -i ${S3_PRIVATE_KEY_FILE} ${SFTP_ADDR}:/${S3_BUCKET}/${S3_VARS_ENV} || true) 
         if [ -z "$exists" ]; then
             echo "file not exist yet"
             sleep 5
@@ -18,9 +20,7 @@ poll_s3() {
     done
 }
 
-poll_s3 $S3_BUCKET $S3_VARS_ENV
-aws s3 cp s3://$S3_BUCKET/$S3_VARS_ENV ./vars.env
-
+poll_s3 
 cat ./vars.env
 
 source ./vars.env
