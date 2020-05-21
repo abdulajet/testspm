@@ -1,5 +1,28 @@
 echo "Executing post build script"
 
+SFTP_ADDR=nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com
+S3_BUCKET=nexmo-conversation
+S3_PRIVATE_KEY_FILE=$(mktemp)
+S3_BUILD_DIR=nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}
+
+echo $S3_PRIVATE_KEY | base64 -d > ${S3_PRIVATE_KEY_FILE}
+
+poll_s3() {
+    while true; do
+	    exists=$(sftp -o StrictHostKeyChecking=no -i ${S3_PRIVATE_KEY_FILE} ${SFTP_ADDR}:/${S3_BUCKET}/${S3_BUILD_DIR}/vars.env || true) 
+        if [ -z "$exists" ]; then
+            echo "file not exist yet"
+            sleep 5
+        else
+            echo "file exists"
+            break
+        fi
+    done
+}
+
+poll_s3 
+cat ./vars.env
+
 source ./vars.env
 
 
@@ -26,9 +49,7 @@ sed -e "s^###SDK_PUBLIC_VERSION###^$PUBLIC_VERSION^g" \
     -e "s^###COPYRIGHT_YEAR###^$COPYRIGHT_YEAR^g" \
     Utils/README_md.template > Utils/README.md
 
-# IMPORTANT: jazzy v0.13.3 DOESN'T SUPPORT Xcode >11.3.1
-JAZZY_VERSION=0.13.3
-JAZZY_XCODE_VERSION=11.3.1
+# IMPORTANT: jazzy docs generator doesn’t always support the latest Xcode versions
 sudo gem install jazzy -v $JAZZY_VERSION
 XCODE_SELECT_PATH=$(xcode-select -p)
 echo "Switching to Xcode $JAZZY_XCODE_VERSION to run Jazzy v$JAZZY_VERSION"
@@ -49,11 +70,8 @@ echo "Switched back to the initial Xcode path: $XCODE_SELECT_PATH"
 
 # uploading docs.zip
 
-SFTP_URL="nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com"
-SFTP_BASE_PATH="/nexmo-conversation/nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}"
-
-sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
-put ./docs.zip $SFTP_BASE_PATH/conversation-docs/${PRIVATE_VERSION}.zip
+sftp -i $S3_PRIVATE_KEY_FILE $SFTP_ADDR << EOF
+put ./docs.zip ${S3_BUCKET}/${S3_BUILD_DIR}/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
 
 
@@ -61,6 +79,6 @@ EOF
 
 echo $PRIVATE_VERSION >> version.txt
 
-sftp -i $S3_PRIVATE_KEY_FILE $SFTP_URL << EOF
-put ./version.txt $SFTP_BASE_PATH/version.txt
+sftp -i $S3_PRIVATE_KEY_FILE $SFTP_ADDR << EOF
+put ./version.txt ${S3_BUCKET}/${S3_BUILD_DIR}/version.txt
 EOF
