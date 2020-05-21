@@ -2,8 +2,8 @@ echo "Executing post build script"
 
 SFTP_ADDR=nexmo-sdk-ci@s-15a7bf753d804d299.server.transfer.eu-west-1.amazonaws.com
 S3_BUCKET=nexmo-conversation
-S3_PRIVATE_KEY_FILE=$(mktemp)
 S3_BUILD_DIR=nexmo-sdk-ci/iOS-SDK/SDK-release-internal/branches/${APPCENTER_BRANCH}/build-id/${APPCENTER_BUILD_ID}
+S3_PRIVATE_KEY_FILE=$(mktemp)
 
 echo $S3_PRIVATE_KEY | base64 -d > ${S3_PRIVATE_KEY_FILE}
 
@@ -71,7 +71,7 @@ echo "Switched back to the initial Xcode path: $XCODE_SELECT_PATH"
 # uploading docs.zip
 
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_ADDR << EOF
-put ./docs/docs.zip ${S3_BUCKET}/${S3_BUILD_DIR}/conversation-docs/${PRIVATE_VERSION}.zip
+put ./docs/docs.zip ${S3_BUILD_DIR}/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
 
 
@@ -80,5 +80,5 @@ EOF
 echo $PRIVATE_VERSION >> version.txt
 
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_ADDR << EOF
-put ./version.txt ${S3_BUCKET}/${S3_BUILD_DIR}/version.txt
+put ./version.txt ${S3_BUILD_DIR}/version.txt
 EOF
