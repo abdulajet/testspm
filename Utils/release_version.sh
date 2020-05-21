@@ -22,21 +22,11 @@ PATCH_VERSION=$(echo $PLIST_VERSION | cut -d. -f3)
 
 FINAL_VERSION="$PLIST_VERSION.$BUILD_NUMBER"
 
-#create a private pod specs repo localy (if not already created)
+# create a private pod specs repo localy (if not already created)
 REPO_NAME=PrivatePods
-#REPO_NAME=PrivatePodsTest
 QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
 if [ "$REPO_NAME" != "$QUERY_RES" ]; then
-    # pod repo add PrivatePods git@github.com:Vonage/PrivateCocoapodsSpecs.git
-	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/Vonage/PrivateCocoapodsSpecs
-#    pod repo add PrivatePodsTest git@github.com:Vonage/CocoaPodsSpecsTest.git
-fi
-
-REPO_NAME=VonageNexmo
-QUERY_RES=`pod repo list | grep $REPO_NAME | head -n 1`
-if [ "$REPO_NAME" != "$QUERY_RES" ]; then
-    # pod repo add VonageNexmo git@github.com:Vonage/NexmoCocoaPodSpecs.git
-	pod repo add VonageNexmo https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/Vonage/NexmoCocoaPodSpecs
+	pod repo add PrivatePods https://$PRIVATE_COCOAPODS_GITHUB_TOKEN:x-oauth-basic@github.com/nexmoinc/PrivateCocoapodsSpecs
 fi
 
 CONFIGURATIONS=(Debug Release)
@@ -57,7 +47,6 @@ for CONFIG in ${CONFIGURATIONS[@]}; do
 
     echo "Updating pods for $CONFIG"
 	pod repo push PrivatePods $NAME_WITH_CONFIGURATION.podspec --allow-warnings --verbose --use-libraries
-	#pod repo push PrivatePodsTest $NAME_WITH_CONFIGURATION.podspec --allow-warnings --verbose --use-libraries
 
 	if [ $? -ne 0 ]
 	then
@@ -68,7 +57,7 @@ done
 
 echo_green "Creating a git tag"
 
-TAG_NAME="internal/${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}/v$FINAL_VERSION"
+TAG_NAME="internal/$FINAL_VERSION"
 
 echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME

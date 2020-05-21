@@ -8,10 +8,10 @@ SCHEME ?= NexmoClient
 TEST_SCHEME ?= NexmoClientTests
 
 
-MINIRTC_VERSION ?= 0.01.18ac
+MINIRTC_VERSION ?= 0.2.0.21
+CLIENT_INFRASTRUCTURES_VERSION ?= 2.3.0.8
+COCOA_LUMBERJACK_VERSION ?= 3.5.0.40
 OCMOCK_VERSION ?= 3.4
-CLIENT_INFRASTRUCTURES_VERSION ?= 2.1.5
-COCOA_LUMBERJACK_VERSION ?= 3.5.0.6
 
 OCMOCK_FOLDER ?= Frameworks/OCMock
 OCMOCK_VERSION_FILE = $(OCMOCK_FOLDER)/version
@@ -169,15 +169,6 @@ test: deps
 	@echo "-------------"
 	$(XCODEBUILD) test $(TEST_FLAGS)
 
-release_internal: clean build
-	@echo
-	@echo "-----------------------------"
-	@echo "Building For Internal Release"
-	@echo "-----------------------------"
-	@cd utils ; ./set_build_number.sh
-	@cd utils ; ./publish_to_artifactory.sh
-	@cd utils ; ./release_version.sh
-
 release_external: clean build
 	@echo
 	@echo "--------------------"
@@ -187,7 +178,7 @@ release_external: clean build
 	@cd utils ; ./publish_to_artifactory.sh
 	@cd utils ; ./release_version.sh
 
-release_internal_nexmo: clean build
+release_internal: clean build
 	@echo
 	@echo "-----------------------------"
 	@echo "Building For Internal Release"
