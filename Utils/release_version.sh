@@ -57,7 +57,7 @@ done
 
 echo_green "Creating a git tag"
 
-TAG_NAME="internal/$FINAL_VERSION"
+TAG_NAME="private/$FINAL_VERSION"
 
 echo "Marking the repo with tag $TAG_NAME"
 git tag $TAG_NAME
