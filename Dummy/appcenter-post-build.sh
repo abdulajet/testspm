@@ -71,7 +71,7 @@ echo "Switched back to the initial Xcode path: $XCODE_SELECT_PATH"
 # uploading docs.zip
 
 sftp -i $S3_PRIVATE_KEY_FILE $SFTP_ADDR << EOF
-put ./docs.zip ${S3_BUCKET}/${S3_BUILD_DIR}/conversation-docs/${PRIVATE_VERSION}.zip
+put ./docs/docs.zip ${S3_BUCKET}/${S3_BUILD_DIR}/conversation-docs/${PRIVATE_VERSION}.zip
 EOF
 
 
