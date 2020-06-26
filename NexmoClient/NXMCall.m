@@ -260,8 +260,7 @@
 
 - (void)conversationExpired {
     NXM_LOG_DEBUG(self.conversation.uuid.UTF8String);
-
-    [self.myCallMember hangup];
+    [self.conversation disableMedia];
 }
 
 
