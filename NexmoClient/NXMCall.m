@@ -237,15 +237,26 @@
     NXM_LOG_DEBUG("%s member:%s", self.conversation.uuid.UTF8String, member.description.UTF8String);
 
     NXMCallMember *callMember = [self findOrAddCallMember:member];
-    
-    if (type == NXMMemberUpdateTypeState &&
-        member.state == NXMMemberStateJoined &&
-        [callMember isEqual:self.myCallMember] &&
-        [self.clientRef isEqualToString:member.clientRef]) {
-        [self.conversation enableMedia];
-    }
-
     [callMember memberUpdated];
+    
+    switch(type) {
+        case NXMMemberUpdateTypeState:
+            if (member.state == NXMMemberStateJoined &&
+                [callMember isEqual:self.myCallMember] &&
+                [self.clientRef isEqualToString:member.clientRef]) {
+                [self.conversation enableMedia];
+            }
+            [self didUpdate:callMember status:callMember.status];
+            break;
+            
+        case NXMMemberUpdateTypeMedia:
+            [self didUpdate:callMember muted:callMember.isMuted];
+            break;
+            
+        case NXMMemberUpdateTypeLeg:
+            [self didUpdate:callMember status:callMember.status];
+            break;
+    }
 }
 
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nonnull NXMDTMFEvent *)event {

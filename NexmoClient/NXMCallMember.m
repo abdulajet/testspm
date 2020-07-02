@@ -122,27 +122,12 @@
 - (void)memberUpdated {
     NXM_LOG_DEBUG([self.description UTF8String]);
     
-    BOOL isMuteChanged = false;
-    if (self.isMuted != self.member.media.isSuspended) {
-        self.isMuted = self.member.media.isSuspended;
-        isMuteChanged = true;
-    }
-    
     NXM_LOG_DEBUG("NXMCallMember member status prev %ld current %ld", (long)self.currentStatus, (long)self.status);
-
 
     if (self.currentStatus != self.status) {
         self.currentStatus = self.status;
     }
-    
-    if (isMuteChanged) {
-        [self.callProxy didUpdate:self muted:self.isMuted];
-        return;
-    }
-    
-    [self.callProxy didUpdate:self status:self.currentStatus];
 }
-
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"<%@: %p> memberId=%@ user=%@ channel=%@ isMuted=%i statusDescription=%@",
@@ -154,7 +139,5 @@
             self.isMuted,
             self.statusDescription];
 }
-
-
 
 @end
