@@ -214,10 +214,11 @@
     if (callMember == self.myCallMember &&
         callMember.status == NXMCallMemberStatusCompleted) {
         
-        __weak typeof(self) weakSelf = self;
+        //__weak typeof(self) weakSelf = self;
         [self.conversation leave:^(NSError * _Nullable error) {
             if (error) {
-                [weakSelf.delegate call:self didReceive:error];
+                // CSI-1227: error silenced to prevent its propagation through the NXMCallDelegate on server-calls
+                //[weakSelf.delegate call:self didReceive:error];
             }
         }];
     }

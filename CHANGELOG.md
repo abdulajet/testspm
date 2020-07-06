@@ -1,10 +1,15 @@
 # NexmoClient mobile SDK for iOS Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## X.Y.Z - YYYY-MM-DD
+## 2.2.1 - 2020-07-06
+
+### Fixed
+
+- Server-call error reported by `NXMCallDelegate` on call completion.
 
 ### Internal
 
@@ -375,7 +380,7 @@ NSArray<NXMMember *> * allMembers = myConversation.allMembers // return the all 
 
 ```objective_c
 // was - (void)statusChanged:(nonnull NXMCallMember *)callMember;
-- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status; 
+- (void)didUpdate:(nonnull NXMCallMember *)callMember status:(NXMCallMemberStatus)status;
 - (void)didUpdate:(nonnull NXMCallMember *)callMember muted:(BOOL)muted;
 
 // was - (void)DTMFReceived:(nonnull NSString *)dtmf callMember:(nonnull NXMCallMember *)callMember;
