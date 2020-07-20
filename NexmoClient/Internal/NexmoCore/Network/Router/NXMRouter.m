@@ -781,7 +781,7 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
     NXM_LOG_DEBUG([getEventsRequest.conversationId UTF8String]);
     [self getEvents:getEventsRequest onSuccess:^(NSMutableArray<NXMEvent *> * _Nullable events) {
         if (events && [events count] > 0){
-            onSuccess:[events firstObject];
+            onSuccess([events firstObject]);
         }
         else{
             NXM_LOG_DEBUG("getLatestEvent converationId:%@ no events",getEventsRequest.conversationId);
@@ -804,10 +804,9 @@ completionBlock:(void (^_Nullable)(NSError * _Nullable error, NXMUser * _Nullabl
         [queryParams addObject:[[NSURLQueryItem alloc] initWithName:@"end_id" value:[getEventsRequest.endId stringValue]]];
     }
     urlComponents.queryItems = queryParams;
-    
     NSURL *url = urlComponents.URL;
     
-    NXMPageRequest * pageRequest = [[NXMPageRequest alloc] initWithPageSize:60 withUrl:url withCursor:nil withOrder:nil withFilter:nil withFilterName:@"event_type"];
+    NXMPageRequest * pageRequest = [[NXMPageRequest alloc] initWithPageSize:60 withUrl:url withCursor:nil withOrder:getEventsRequest.order withFilter:nil withFilterName:@"event_type"];
     [self requestWithPageRequest:pageRequest completionBlock:^(NSError * _Nullable error, NXMPageResponse * _Nullable pageResponse) {
         if (error){
             onError(error);

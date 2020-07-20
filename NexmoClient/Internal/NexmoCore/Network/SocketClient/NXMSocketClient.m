@@ -47,6 +47,7 @@
                                                        @"path":@"/rtc/",
                                                        @"forceWebsockets":@YES,
                                                        @"selfSigned":@YES,
+                                                       @"reconnects":@NO,
                                                        @"reconnectWait":@2,
                                                        @"nsp":@"/",
                                                        @"connectParams":connectParams,
@@ -153,6 +154,13 @@
 - (void)connectSocket {
     switch (self.socket.status) {
         case VPSocketIOClientStatusNotConnected:
+            // SOCKET reconnect is NO only at first init
+            // Next time we're here, skip because the reconnect means no need for login
+            if (self.socket.reconnects == NO) {
+                self.socket.reconnects = YES;
+                [self.socket connect];
+            }
+            break;
         case VPSocketIOClientStatusDisconnected:
             self.socket.reconnects = YES;
             [self.socket connect];

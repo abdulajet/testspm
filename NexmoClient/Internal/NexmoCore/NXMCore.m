@@ -230,6 +230,7 @@ fromConversationWithId:(nonnull NSString *)conversationId
                         onError:(NXMErrorCallback _Nullable)onError{
     NXMGetEventsRequest *request = [NXMGetEventsRequest new];
     request.conversationId = conversationId;
+    request.order = @"DESC";
     [self.network getLatestEvent:request onSuccess:onSuccess onError:onError];
 }
 

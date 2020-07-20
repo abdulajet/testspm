@@ -16,6 +16,7 @@
 @property (nonatomic, strong, nullable) NSString *conversationId;
 @property (nonatomic, strong, nullable) NSNumber *startId;
 @property (nonatomic, strong, nullable) NSNumber *endId;
+@property (nonatomic, strong, nullable) NSString *order;
 
 @end
 

@@ -127,25 +127,6 @@
     XCTAssertTrue(didCatch);
 }
 
-#pragma login tests
-
-- (void)testLoginMultipleTimes {
-    NSString *dummyToken = @"unknown";
-    
-    __block int callCount = 0;
-    OCMStub([self.stitchCoreMock token]).andForwardToRealObject();
-    OCMStub([self.stitchCoreMock login]).andDo(^(NSInvocation *invocation) {
-        ++callCount;
-    });
-    
-    [NXMClient.shared loginWithAuthToken:dummyToken];    
-    [NXMClient.shared loginWithAuthToken:dummyToken];
-    [NXMClient.shared loginWithAuthToken:dummyToken];
-
-    int expectedNumberOfCalls = 1;
-    XCTAssertEqual(callCount, expectedNumberOfCalls);
-}
-
 #pragma client delegate (onMemberEvent) tests
 
 - (void)testOnMemberJoinedEventWithoutAudio_IncomingConversation {

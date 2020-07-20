@@ -143,12 +143,8 @@ static dispatch_once_t _onceToken = 0;
         NXM_LOG_ERROR("login called without setting delegate");
     }
     
-    if(!self.user && [self.stitchContext.coreClient.token length] == 0) {
-        self.stitchContext.coreClient.token = authToken;
-        [self.stitchContext.coreClient login];
-    } else {
-        NXM_LOG_ERROR("user already connected");
-    }
+    self.stitchContext.coreClient.token = authToken;
+    [self.stitchContext.coreClient login];
 }
 
 -(void)updateAuthToken:(nonnull NSString *)authToken {
@@ -188,8 +184,6 @@ static dispatch_once_t _onceToken = 0;
     NSError *setUpCleanUpError = nil;
     switch (self.connectionStatus) {
         case NXMConnectionStatusDisconnected:
-            self.stitchContext.coreClient.token = nil;
-            self.stitchContext.coreClient.user = nil;
             
             if(![self cleanUpWithErrorPtr:&setUpCleanUpError]) {
                 //TODO: report/fail cleanup error
