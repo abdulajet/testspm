@@ -35,9 +35,7 @@ cd ..
 export BUILD_NUMBER=$APPCENTER_BUILD_ID
 echo "BUILD_NUMBER = $BUILD_NUMBER"
 
-git config --global ***.email "appcenter@nexmo.com"
-git config --global ***.name "Appcenter"
-
+# git identity 
 git config --global user.email "appcenter@nexmo.com"
 git config --global user.name "Appcenter"
 
