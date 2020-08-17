@@ -6,7 +6,7 @@
 //  Copyright © 2020 Vonage. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 #import "NXMEventCreator.h"
 #import "NXMConversationPrivate.h"
 #import "NXMCoreEventsPrivate.h"
@@ -139,6 +139,110 @@
     XCTAssertNotNil(event.current.date);
     XCTAssertNotNil(event.creationDate);
     XCTAssertEqual(event.history.count, 2);
+}
+
+- (void)testCustomEventWithEmptyCustomType {
+    NSString *conversationId = @"CON-25b41186-51ab-442f-a846-248ba075889c";
+    NSString *memberId = @"MEM-7fb399f3-36fb-4805-9e35-30f6d5cbdadf";
+    NSDictionary *data = @{
+        @"id": @4,
+        @"type": @"custom:",
+        @"from": memberId,
+        @"body": @{ @"test": @"test" },
+        @"timestamp": @"2020-08-14T10:08:51.471Z",
+        @"_links": @{
+                @"self": @{
+                        @"href": @"https://api.nexmo.com/beta2/conversations/CON-25b41186-51ab-442f-a846-248ba075889c/events/4"
+                }
+        }
+    };
+    NXMCustomEvent *event = (NXMCustomEvent *)[NXMEventCreator createEvent:data[@"type"]
+                                                                      data:data
+                                                          conversationUuid:conversationId];
+    XCTAssertEqual(event.uuid, 4);
+    XCTAssertTrue([event isKindOfClass:[NXMCustomEvent class]]);
+    XCTAssertEqual(event.conversationUuid, conversationId);
+    XCTAssertEqual(event.fromMemberId, memberId);
+    XCTAssertNotNil(event.creationDate);
+    XCTAssertTrue([event.customType isEqualToString: @""]);
+}
+
+- (void)testCustomEventWithoutCustomType {
+    NSString *conversationId = @"CON-25b41186-51ab-442f-a846-248ba075889c";
+    NSString *memberId = @"MEM-7fb399f3-36fb-4805-9e35-30f6d5cbdadf";
+    NSDictionary *data = @{
+        @"id": @4,
+        @"type": @"custom",
+        @"from": memberId,
+        @"body": @{ @"test": @"test" },
+        @"timestamp": @"2020-08-14T10:08:51.471Z",
+        @"_links": @{
+                @"self": @{
+                        @"href": @"https://api.nexmo.com/beta2/conversations/CON-25b41186-51ab-442f-a846-248ba075889c/events/4"
+                }
+        }
+    };
+    NXMCustomEvent *event = (NXMCustomEvent *)[NXMEventCreator createEvent:data[@"type"]
+                                                                      data:data
+                                                          conversationUuid:conversationId];
+    XCTAssertEqual(event.uuid, 4);
+    XCTAssertTrue([event isKindOfClass:[NXMCustomEvent class]]);
+    XCTAssertEqual(event.conversationUuid, conversationId);
+    XCTAssertEqual(event.fromMemberId, memberId);
+    XCTAssertNotNil(event.creationDate);
+    XCTAssertTrue([event.customType isEqualToString: @""]);
+}
+
+- (void)testCustomEventWithOneLevelCustomType {
+    NSString *conversationId = @"CON-25b41186-51ab-442f-a846-248ba075889c";
+    NSString *memberId = @"MEM-7fb399f3-36fb-4805-9e35-30f6d5cbdadf";
+    NSDictionary *data = @{
+        @"id": @4,
+        @"type": @"custom:value",
+        @"from": memberId,
+        @"body": @{ @"test": @"test" },
+        @"timestamp": @"2020-08-14T10:08:51.471Z",
+        @"_links": @{
+                @"self": @{
+                        @"href": @"https://api.nexmo.com/beta2/conversations/CON-25b41186-51ab-442f-a846-248ba075889c/events/4"
+                }
+        }
+    };
+    NXMCustomEvent *event = (NXMCustomEvent *)[NXMEventCreator createEvent:data[@"type"]
+                                                                      data:data
+                                                          conversationUuid:conversationId];
+    XCTAssertEqual(event.uuid, 4);
+    XCTAssertTrue([event isKindOfClass:[NXMCustomEvent class]]);
+    XCTAssertEqual(event.conversationUuid, conversationId);
+    XCTAssertEqual(event.fromMemberId, memberId);
+    XCTAssertNotNil(event.creationDate);
+    XCTAssertTrue([event.customType isEqualToString: @"value"]);
+}
+
+- (void)testCustomEventWithMultipleLevelsCustomType {
+    NSString *conversationId = @"CON-25b41186-51ab-442f-a846-248ba075889c";
+    NSString *memberId = @"MEM-7fb399f3-36fb-4805-9e35-30f6d5cbdadf";
+    NSDictionary *data = @{
+        @"id": @4,
+        @"type": @"custom:value:subValue:subSubValue",
+        @"from": memberId,
+        @"body": @{ @"test": @"test" },
+        @"timestamp": @"2020-08-14T10:08:51.471Z",
+        @"_links": @{
+                @"self": @{
+                        @"href": @"https://api.nexmo.com/beta2/conversations/CON-25b41186-51ab-442f-a846-248ba075889c/events/4"
+                }
+        }
+    };
+    NXMCustomEvent *event = (NXMCustomEvent *)[NXMEventCreator createEvent:data[@"type"]
+                                                                      data:data
+                                                          conversationUuid:conversationId];
+    XCTAssertEqual(event.uuid, 4);
+    XCTAssertTrue([event isKindOfClass:[NXMCustomEvent class]]);
+    XCTAssertEqual(event.conversationUuid, conversationId);
+    XCTAssertEqual(event.fromMemberId, memberId);
+    XCTAssertNotNil(event.creationDate);
+    XCTAssertTrue([event.customType isEqualToString: @"value:subValue:subSubValue"]);
 }
 
 - (NSDictionary *)memberJoinedEventUser4 {

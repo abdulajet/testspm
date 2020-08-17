@@ -41,6 +41,7 @@
                          iceServerUrls:(nonnull NSArray<NSString *> *)iceServerUrls
                   useFirstIceCandidate:(BOOL) useFirstIceCandidate;
 
++ (nonnull NXMClientConfig *)AMS;
 + (nonnull NXMClientConfig *)LON;
 + (nonnull NXMClientConfig *)SNG;
 + (nonnull NXMClientConfig *)DAL;

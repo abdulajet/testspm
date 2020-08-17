@@ -9,6 +9,7 @@
 #import "NXMClientConfig.h"
 
 typedef NS_ENUM(NSInteger, NXMRegion) {
+    NXMRegionAMS,
     NXMRegionLON,
     NXMRegionSNG,
     NXMRegionDAL,
@@ -76,6 +77,10 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 }
 
 
++ (NXMClientConfig *)AMS {
+    return [NXMClientConfig configFor:NXMRegionAMS];
+}
+
 + (NXMClientConfig *)LON {
     return [NXMClientConfig configFor:NXMRegionLON];
 }
@@ -101,6 +106,8 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 
 + (nonnull NSString *)apiUrlFor:(NXMRegion)region {
     switch (region) {
+        case NXMRegionAMS:
+            return @"https://api-eu-2.nexmo.com/";
         case NXMRegionLON:
             return @"https://api-eu-1.nexmo.com/";
         case NXMRegionSNG:
@@ -114,6 +121,8 @@ typedef NS_ENUM(NSInteger, NXMRegion) {
 
 + (nonnull NSString *)websocketUrlFor:(NXMRegion)region {
     switch (region) {
+        case NXMRegionAMS:
+            return @"https://ws-eu-2.nexmo.com/";
         case NXMRegionLON:
             return @"https://ws-eu-1.nexmo.com/";
         case NXMRegionSNG:

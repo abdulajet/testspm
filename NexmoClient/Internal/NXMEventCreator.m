@@ -35,8 +35,11 @@
         return [NXMEventCreator parseMediaEvent:data conversationId:conversationUuid];
     }
          
-    if ([eventname isEqualToString: kNXMEventCustom]) {
-        NSString *customType = [eventname substringFromIndex:[kNXMEventCustom length] + 1];
+    if ([eventname hasPrefix: kNXMEventCustom]) {
+        NSString *separator = @":";
+        NSMutableArray<NSString *>* items = [[eventname componentsSeparatedByString:separator] mutableCopy];
+        [items removeObjectAtIndex: 0];
+        NSString *customType = [items componentsJoinedByString:separator];
         return [NXMEventCreator parseCustomEvent:customType
                                             dict:data
                                   conversationId:conversationUuid];
