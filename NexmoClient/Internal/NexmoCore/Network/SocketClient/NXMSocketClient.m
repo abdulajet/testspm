@@ -194,33 +194,9 @@
     [self serverLogin];
 }
 
-- (void)didSocketDisconnect {
-    [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:NXMConnectionStatusReasonTerminated];
-}
-
-- (void)socketDidChangeStatus {
-    switch (self.socket.status) {
-        case VPSocketIOClientStatusConnected:
-            
-             NXM_LOG_DEBUG("socket connected"  );
-            [self socketDidConnect];
-            break;
-        case VPSocketIOClientStatusNotConnected:
-             NXM_LOG_DEBUG("socket not connected"  );
-            [self didSocketDisconnect];
-            break;
-        case VPSocketIOClientStatusDisconnected:
-             NXM_LOG_DEBUG("socket disconnected"  );
-            [self didSocketDisconnect];
-            break;
-        case VPSocketIOClientStatusConnecting: //TODO: support reporting reconnect? or keep it boolean
-             NXM_LOG_DEBUG("socket connecting"  );
-            [self updateConnetionStatus:NXMConnectionStatusConnecting reason:NXMConnectionStatusReasonUnknown];
-            break;
-        case VPSocketIOClientStatusOpened:
-             NXM_LOG_DEBUG("socket opened"  );
-            break;
-    }
+- (void)didSocketDisconnect:(NSString *)error {
+    NXMConnectionStatusReason reason = [error isEqualToString:@"Got Disconnect"] ? NXMConnectionStatusReasonTokenExpired : NXMConnectionStatusReasonTerminated;
+    [self updateConnetionStatus:NXMConnectionStatusDisconnected reason:reason];
 }
 
 #pragma mark login
@@ -315,9 +291,43 @@
 - (void)subscribeVPSocketEvents {
     __weak NXMSocketClient *weakSelf = self;
     [self.socket on:kSocketEventStatusChange callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
-        [weakSelf socketDidChangeStatus];
+        switch (weakSelf.socket.status) {
+            case VPSocketIOClientStatusNotConnected:
+                 NXM_LOG_DEBUG("socket not connected"  );
+                [weakSelf didSocketDisconnect:nil];
+                break;
+            case VPSocketIOClientStatusConnecting: //TODO: support reporting reconnect? or keep it boolean
+                 NXM_LOG_DEBUG("socket connecting");
+                [weakSelf updateConnetionStatus:NXMConnectionStatusConnecting reason:NXMConnectionStatusReasonUnknown];
+                break;
+            case VPSocketIOClientStatusOpened:
+                 NXM_LOG_DEBUG("socket opened");
+                break;
+            case VPSocketIOClientStatusConnected:
+            case VPSocketIOClientStatusDisconnected:
+                // These are handled by specific event handlers registered below
+                break;
+        }
     }];
-
+    
+    [self.socket on:kSocketEventConnect callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
+        NXM_LOG_DEBUG("socket connected");
+        [weakSelf socketDidConnect];
+    }];
+    
+    [self.socket on:kSocketEventDisconnect callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
+         NXM_LOG_DEBUG("socket disconnected");
+        [weakSelf didSocketDisconnect:[data count] > 0 ? data[0] : nil];
+    }];
+    
+    [self.socket on:kSocketEventReconnectAttempt callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
+        NXM_LOG_DEBUG("socket reconnecting");
+    }];
+    
+    [self.socket on:kSocketEventReconnect callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
+        NXM_LOG_DEBUG("socket reconnection");
+    }];
+    
     [self.socket on:kSocketEventError callback:^(NSString *event, NSArray *data, VPSocketAckEmitter *emitter) {
         NXM_LOG_ERROR([kSocketEventError UTF8String]);
     }];
