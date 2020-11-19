@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
     NXMCallMemberStatusRinging,
     NXMCallMemberStatusStarted,
     NXMCallMemberStatusAnswered,
-    NXMCallMemberStatusCanceled,
+    NXMCallMemberStatusCancelled,
     NXMCallMemberStatusFailed,
     NXMCallMemberStatusBusy,
     NXMCallMemberStatusTimeout,
