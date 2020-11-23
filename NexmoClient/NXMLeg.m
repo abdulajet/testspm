@@ -75,7 +75,7 @@
     return [statusString isEqualToString:@"ringing"] ? NXMLegStatusRinging :
             [statusString isEqualToString:@"answered"] ? NXMLegStatusAnswered :
             [statusString isEqualToString:@"started"] ? NXMLegStatusStarted :
-            [statusString isEqualToString:@"canceled"] ? NXMLegStatusCanceled :
+            [statusString isEqualToString:@"cancelled"] ? NXMLegStatusCancelled :
             [statusString isEqualToString:@"failed"] ? NXMLegStatusFailed :
             [statusString isEqualToString:@"busy"] ? NXMLegStatusBusy :
             [statusString isEqualToString:@"timeout"] ? NXMLegStatusTimeout :

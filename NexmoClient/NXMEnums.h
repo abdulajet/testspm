@@ -104,7 +104,7 @@ typedef NS_ENUM(NSInteger, NXMLegStatus) {
     NXMLegStatusRinging,
     NXMLegStatusStarted,
     NXMLegStatusAnswered,
-    NXMLegStatusCanceled,
+    NXMLegStatusCancelled,
     NXMLegStatusFailed,
     NXMLegStatusBusy,
     NXMLegStatusTimeout,

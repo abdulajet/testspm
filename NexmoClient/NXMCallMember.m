@@ -51,29 +51,34 @@
 }
 
 - (NXMCallMemberStatus)status {
-    switch (self.channel.leg.status) {
-        case NXMLegStatusRinging:
-            return NXMCallMemberStatusRinging;
-        case NXMLegStatusStarted:
-            return NXMCallMemberStatusStarted;
-        case NXMLegStatusAnswered:
-            return NXMCallMemberStatusAnswered;
-        case NXMLegStatusCanceled:
-            return NXMCallMemberStatusCanceled;
-        case NXMLegStatusFailed:
-            return NXMCallMemberStatusFailed;
-        case NXMLegStatusBusy:
-            return NXMCallMemberStatusBusy;
-        case NXMLegStatusTimeout:
-            return NXMCallMemberStatusTimeout;
-        case NXMLegStatusRejected:
-            return NXMCallMemberStatusRejected;
-        case NXMLegStatusCompleted:
-            return NXMCallMemberStatusCompleted;
-        default:
-            break;
+    if (self.channel.leg) {
+        switch (self.channel.leg.status) {
+            case NXMLegStatusRinging:
+                return NXMCallMemberStatusRinging;
+            case NXMLegStatusStarted:
+                return NXMCallMemberStatusStarted;
+            case NXMLegStatusAnswered:
+                return NXMCallMemberStatusAnswered;
+            case NXMLegStatusCancelled:
+                return NXMCallMemberStatusCancelled;
+            case NXMLegStatusFailed:
+                return NXMCallMemberStatusFailed;
+            case NXMLegStatusBusy:
+                return NXMCallMemberStatusBusy;
+            case NXMLegStatusTimeout:
+                return NXMCallMemberStatusTimeout;
+            case NXMLegStatusRejected:
+                return NXMCallMemberStatusRejected;
+            case NXMLegStatusCompleted:
+                return NXMCallMemberStatusCompleted;
+            default:
+                break;
+        }
     }
     
+    if (self.member.state == NXMMemberStateLeft) {
+        return NXMCallMemberStatusCancelled;
+    }
     return NXMCallMemberStatusRinging;
 }
 
@@ -88,8 +93,8 @@
             return @"Answered";
         case NXMCallMemberStatusCompleted:
             return @"Completed";
-        case NXMCallMemberStatusCanceled:
-            return @"Canceled";
+        case NXMCallMemberStatusCancelled:
+            return @"Cancelled";
         case NXMCallMemberStatusBusy:
             return @"Busy";
         case NXMCallMemberStatusTimeout:
