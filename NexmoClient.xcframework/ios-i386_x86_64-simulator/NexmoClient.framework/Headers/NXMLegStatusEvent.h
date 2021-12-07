@@ -11,9 +11,15 @@
 #import "NXMEnums.h"
 #import "NXMLeg.h"
 
+/**
+ * Represents a leg status event that can be received on an `NXMConversation`.
+ */
 @interface NXMLegStatusEvent : NXMEvent
 
+/// A list of previous legs.
 @property (nonatomic, readonly, nonnull) NSMutableArray<NXMLeg *> *history;
+
+/// The current leg.
 @property (nonatomic, readonly, nonnull) NXMLeg *current;
 
 @end

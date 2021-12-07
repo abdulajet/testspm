@@ -13,13 +13,27 @@
 #import "NXMChannel.h"
 #import "NXMInitiator.h"
 
+/**
+ * The NXMMember class represents a Member of a Conversation (`NXMConversation`). In order for a User to communicate through a Conversation they must join the Conversation through a membership.
+ */
 @interface NXMMember : NSObject
 
+/// The Conversation ID
 @property (nonatomic, copy, nonnull) NSString *conversationUuid;
+
+/// The Member ID
 @property (nonatomic, copy, nonnull) NSString *memberUuid;
+
+/// The User object for this Member.
 @property (nonatomic, readonly, nonnull) NXMUser *user;
+
+/// The state of the Member.
 @property (nonatomic, readonly) NXMMemberState state;
+
+/// The media settings of the Member.
 @property (nonatomic, readonly, nullable) NXMMediaSettings *media;
+
+/// The channel details of the Member.
 @property (nonatomic, readonly, nullable) NXMChannel *channel;
 
 
