@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /**
  * A list of the `NXMClient` connection statuses.
@@ -38,7 +38,9 @@ typedef NS_ENUM(NSInteger, NXMConnectionStatusReason) {
     /// The client connection updated due to the user not being found.
     NXMConnectionStatusReasonUserNotFound,
     /// The client connection updated due to the connection being terminated.
-    NXMConnectionStatusReasonTerminated
+    NXMConnectionStatusReasonTerminated,
+    /// The client connection updated due to an SSL pinning error.
+    NXMConnectionStatusReasonSSLPinningError
 };
 
 /**
@@ -87,6 +89,8 @@ typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeText,
     /// `NXMImageEvent` type case.
     NXMEventTypeImage,
+    /// `NXMMessageEvent` type case.
+    NXMEventTypeMessage,
     /// `NXMMessageStatusEvent` type case.
     NXMEventTypeMessageStatus,
     /// `NXMTextTypingEvent` type case.
@@ -95,14 +99,44 @@ typedef NS_ENUM(NSInteger, NXMEventType) {
     NXMEventTypeMedia,
     /// `NXMMemberEvent` type case.
     NXMEventTypeMember,
+    /// `NXMEventTypeRTC` type case.
+    NXMEventTypeRTC,
     /// `NXMSipEvent` type case.
     NXMEventTypeSip,
     /// `NXMDTMFEvent` type case.
     NXMEventTypeDTMF,
     /// `NXMLegStatusEvent` type case.
     NXMEventTypeLegStatus,
+    /// `NXMMemberMessageStatusEvent` type case.
+    NXMEventTypeMemberMessageStatus,
     /// Unknown event type case.
     NXMEventTypeUnknown
+};
+
+/**
+ * A list of `NXMMessageEvent` types.
+ */
+typedef NS_ENUM(NSInteger, NXMMessageType) {
+    /// Text message.
+    NXMMessageTypeText,
+    /// Image message.
+    NXMMessageTypeImage,
+    /// Audio message.
+    NXMMessageTypeAudio,
+    /// Video message.
+    NXMMessageTypeVideo,
+    /// File message.
+    NXMMessageTypeFile,
+    /// Template message.
+    NXMMessageTypeTemplate,
+    /// Vcard message.
+    NXMMessageTypeVcard,
+    /// Location message.
+    NXMMessageTypeLocation,
+    /// Custom message.
+    NXMMessageTypeCustom,
+    /// Unknown message.
+    NXMMessageTypeUnknown
 };
 
 /**
@@ -152,25 +186,37 @@ typedef NS_ENUM(NSInteger, NXMMemberState) {
     /// Member state of joined a `NXMConversation`.
     NXMMemberStateJoined,
     /// Member state of left a `NXMConversation`.
-    NXMMemberStateLeft
+    NXMMemberStateLeft,
+    /// Member state unknown.
+    NXMMemberStateUnknown
 };
 
 /**
- * A list of `NXMDirection` types.
+ * A list of `NXMChannel` types.
  */
-typedef NS_ENUM(NSInteger, NXMDirectionType){
+typedef NS_ENUM(NSInteger, NXMChannelType){
     /// An app direction type.
-    NXMDirectionTypeApp,
+    NXMChannelTypeApp,
     /// A phone direction type.
-    NXMDirectionTypePhone,
+    NXMChannelTypePhone,
     /// A SIP direction type.
-    NXMDirectionTypeSIP,
+    NXMChannelTypeSIP,
     /// A WebSocket direction type.
-    NXMDirectionTypeWebsocket,
+    NXMChannelTypeWebsocket,
     /// A VBC direction type.
-    NXMDirectionTypeVBC,
+    NXMChannelTypeVBC,
+    /// A Sms direction type.
+    NXMChannelTypeSms,
+    /// A Mms direction type.
+    NXMChannelTypeMms,
+    /// A WhatsApp direction type.
+    NXMChannelTypeWhatsapp,
+    /// A Viber direction type.
+    NXMChannelTypeViber,
+    /// A Messenger direction type.
+    NXMChannelTypeMessenger,
     /// An unknown direction type.
-    NXMDirectionTypeUnknown
+    NXMChannelTypeUnknown
 };
 
 /**
@@ -231,4 +277,40 @@ typedef NS_ENUM(NSInteger, NXMPageOrder) {
     NXMPageOrderAsc,
     /// Descending page order.
     NXMPageOrderDesc
+};
+
+/**
+ * A list of the call member statuses.
+ */
+typedef NS_ENUM(NSInteger, NXMCallMemberStatus) {
+    /// The call is initialized.
+    NXMCallMemberStatusRinging,
+    /// The server started the call.
+    NXMCallMemberStatusStarted,
+    /// The call is answered.
+    NXMCallMemberStatusAnswered,
+    /// The call is cancelled.
+    NXMCallMemberStatusCancelled,
+    /// The call failed.
+    NXMCallMemberStatusFailed,
+    /// The member being called is busy.
+    NXMCallMemberStatusBusy,
+    /// The member is unreachable within the timeout.
+    NXMCallMemberStatusTimeout,
+    /// The member rejected the call.
+    NXMCallMemberStatusRejected,
+    /// The call is completed.
+    NXMCallMemberStatusCompleted
+};
+
+/**
+ * A list of the media connection statuses.
+ */
+typedef NS_ENUM(NSInteger, NXMMediaConnectionStatus) {
+    /// Media is now being exchanged.
+    NXMMediaConnectionStatusConnected,
+    /// Temporary network problem: no direct action needed, will try to reconnect.
+    NXMMediaConnectionStatusDisconnected,
+    /// Media Connection has been closed.
+    NXMMediaConnectionStatusClosed
 };

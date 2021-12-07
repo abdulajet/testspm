@@ -4,24 +4,11 @@
 //
 //  Copyright © 2018 Vonage. All rights reserved.
 //
-#import <Foundation/Foundation.h>
+
 #import "NXMCoreEvents.h"
 #import "NXMMember.h"
 
 @class NXMConversation;
-
-/**
- The NXMConversationUpdateDelegate protocol notifies on member updates.
- */
-@protocol NXMConversationUpdateDelegate <NSObject>
-
-/**
- * Member properties updated.
- * @param member A `NXMMember` object, the member that updates.
- * @param type A `NXMMemberUpdateType` enum.
- */
-- (void)conversation:(nonnull NXMConversation *)conversation didUpdateMember:(nonnull NXMMember *)member withType:(NXMMemberUpdateType)type;
-@end
 
 /**
  The NXMConversationDelegate protocol notifies on conversation events.
@@ -34,6 +21,7 @@
  * @param error An error.
  */
 - (void)conversation:(nonnull NXMConversation *)conversation didReceive:(nonnull NSError *)error;
+
 @optional
 #pragma events
 
@@ -57,6 +45,13 @@
  * @param event An `NXMImageEvent` object.
  */
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveImageEvent:(nonnull NXMImageEvent *)event;
+
+/**
+ * Received a message event.
+ * @param conversation A `NXMConversation` object, the conversation which received the message event.
+ * @param event An `NXMMessageEvent` object.
+ */
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveMessageEvent:(nonnull NXMMessageEvent *)event;
 
 /**
  * Received a message status event.
@@ -87,6 +82,13 @@
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveLegStatusEvent:(nonnull NXMLegStatusEvent *)event;
 
 /**
+ * Received a member message status event.
+ * @param conversation A `NXMConversation` object, the conversation which received the member message status event.
+ * @param event An `NXMMemberMessageStatusEvent` object.
+ */
+- (void)conversation:(nonnull NXMConversation *)conversation didReceiveMemberMessageStatusEvent:(nonnull NXMMemberMessageStatusEvent *)event;
+
+/**
  * Received a media event.
  * @param conversation A `NXMConversation` object, the conversation which received the media event.
  * @param event An `NXMMediaEvent` object.
@@ -99,4 +101,13 @@
  * @param event An `NXMDTMFEvent` object.
  */
 - (void)conversation:(nonnull NXMConversation *)conversation didReceiveDTMFEvent:(nonnull NXMDTMFEvent *)event;
+
+/**
+ * Received a media connection state changed notification.
+ * @param conversation A `NXMConversation` object, the conversation which received the media connection state changed notification.
+ * @param state The new Media state.
+ * @param legId The leg id associated with the new media connection state received.
+ */
+- (void)conversation:(nonnull NXMConversation *)conversation onMediaConnectionStateChange:(NXMMediaConnectionStatus)state legId:(nonnull NSString *)legId;
+
 @end

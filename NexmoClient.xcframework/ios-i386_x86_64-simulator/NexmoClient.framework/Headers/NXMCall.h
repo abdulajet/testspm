@@ -5,10 +5,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "NXMCallMember.h"
+@import Foundation;
+
+#import "NXMEnums.h"
 #import "NXMBlocks.h"
 
+@class NXMConversation;
+@class NXMMember;
 @class NXMCall;
 
 /**
@@ -19,7 +22,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
     NXMCallHandlerInApp,
     /// A webhook call, can use it for IP to IP and IP to PSTN.
     NXMCallHandlerServer
-};
+} OBJC_DEPRECATED("Used by the deprecated [NXMClient call:callHandler:completionHandler:] method");
 
 /**
  The NXMCallDelegate should be use as the `NXMCall` delegate.
@@ -30,18 +33,18 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 /**
  * Notify on call member updates
  * @param call A `NXMCall` object - the call that updated
- * @param callMember A `NXMCallMember` object - the call member that updated
+ * @param member A `NXMMember` object - the call member that updated
  * @param status A `NXMCallMemberStatus` status
  */
-- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember withStatus:(NXMCallMemberStatus)status;
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMMember *)member withStatus:(NXMCallMemberStatus)status;
 
 /**
  * Notify on call member updates
  * @param call A `NXMCall` object - the call that updated
- * @param callMember A `NXMCallMember` object - the call member that updated
- * @param muted A `NXMCallMember` object - the call member that updated
+ * @param member A `NXMMember` object - the call member that updated
+ * @param muted The muted state
  */
-- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMCallMember *)callMember isMuted:(BOOL)muted;
+- (void)call:(nonnull NXMCall *)call didUpdate:(nonnull NXMMember *)member isMuted:(BOOL)muted;
 
 /**
  * Notify on call error
@@ -55,10 +58,11 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 /**
  * Notify on DTMF received
  * @param call A `NXMCall` object - the call that updated
- * @param dtmf A NSString which represent the dtmf value.
- * @param callMember A `NXMCallMember` which the dtmf received from.
+ * @param dtmf A NSString which represent the dtmf value
+ * @param member A `NXMMember` which the dtmf received from
  */
-- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSString *)dtmf fromCallMember:(nullable NXMCallMember *)callMember;
+- (void)call:(nonnull NXMCall *)call didReceive:(nonnull NSString *)dtmf fromMember:(nullable NXMMember *)member;
+
 @end
 
 
@@ -68,11 +72,14 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
  */
 @interface NXMCall : NSObject
 
-/// Indicates all the call members except my call member.
-@property (nonatomic, readonly, nonnull) NSMutableArray<NXMCallMember *> *otherCallMembers;
+/// Conversation associated to the call.
+@property (nonatomic, readonly, nonnull) NXMConversation *conversation;
 
 /// Indicates my call member.
-@property (nonatomic, readonly, nonnull) NXMCallMember *myCallMember;
+@property (nonatomic, readonly, nullable) NXMMember *myMember;
+
+/// Indicates all the call members.
+@property (nonatomic, readonly, nonnull) NSArray<NXMMember *> *allMembers;
 
 /**
  * Set the delegate, `NXMCallDelegate`, for the call object.
@@ -91,7 +98,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
             NSLog(@"answer the call failed");
             return;
          }
- 
+
         NSLog(@"joined the call");
      }];
  */
@@ -107,7 +114,7 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
          NSLog(@"reject call failed");
          return;
          }
- 
+
         NSLog(@"call rejected");
  }];
  */
@@ -138,5 +145,19 @@ typedef NS_ENUM(NSInteger, NXMCallHandler) {
 /// Hangup an ongoing call.
 - (void)hangup;
 
-@end
+/**
+ * Get the current call status giving a NXMMember.
+ * @param member A `NXMMember` to get the current status from.
+ */
+- (NXMCallMemberStatus)callStatusForMember:(nonnull NXMMember *)member;
 
+/// Mute the current user member.
+- (void)mute;
+
+/// Unmute the current user member.
+- (void)unmute;
+
+/// Reconnect the current call.
+- (void)reconnect;
+
+@end

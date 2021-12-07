@@ -5,10 +5,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "NXMConversationDelegate.h"
 #import "NXMMember.h"
+#import "NXMMembersSummaryPage.h"
 #import "NXMEventsPage.h"
+#import "NXMMessage.h"
+
+@class NXMEvent;
 
 /**
  * A list of attachment types for an `NXMConversation`.
@@ -42,50 +45,44 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 /// The current user member.
 @property (readonly, nonatomic, nullable) NXMMember *myMember;
 
-/// Conversation all members.
-@property (readonly, nonatomic, nonnull) NSArray<NXMMember *> *allMembers;
-
 /// Conversation events delegate.
-@property (nonatomic, weak, nullable) id <NXMConversationDelegate> delegate;
-
-/// Conversation updates delegate.
-@property (nonatomic, weak, nullable) id <NXMConversationUpdateDelegate> updatesDelegate;
+@property (nonatomic, weak, nullable) id<NXMConversationDelegate> delegate;
 
 /**
  * Invite a user as a member of the conversation with a username.
  * @param username The username of the user to invite.
  * @param completion A block with param NSError if one occurred.
- * @code [conversation inviteMemberWithUsername:username completion:^(NSError error){
- if (!error) {
- NSLog(@"invited username to the conversation failed");
- return;
- }
- 
- NSLog(@"invited username the conversation");
- }];
+ * @code [conversation inviteMemberWithUsername:username completion:^(NSError *error) {
+         if (!error) {
+             NSLog(@"invited username to the conversation failed");
+             return;
+         }
+
+         NSLog(@"invited username the conversation");
+     }];
  */
 - (void)inviteMemberWithUsername:(nonnull NSString *)username
                       completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
 /**
  * Join the current user as a member of the conversation.
- * @param completionHandler A block with two params an NSError if one occurred and NXMMember.
- * @code [conversation joinWithCompletion:^(NSError error, NXMMember member){
- if (!error) {
- NSLog(@"join the conversation failed");
- return;
- }
+ * @param completion A block with two params an NSError if one occurred and NXMMember.
+ * @code [conversation joinWithCompletion:^(NSError *error, NXMMember *member) {
+     if (!error) {
+         NSLog(@"join the conversation failed");
+         return;
+     }
  
- NSLog(@"joined the conversation");
- }];
+     NSLog(@"joined the conversation");
+   }];
  */
-- (void)join:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completionHandler;
+- (void)join:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable memberId))completion;
 
 /**
  * Join a specific user as a member of the conversation.
  * @param username The username of the user to join the conversation.
  * @param completion A block with two params NSError if one occurred and NXMMember.
- * @code [conversation joinMemberWithUsername:theUsername :^(NSError error, NXMMember member){
+ * @code [conversation joinMemberWithUsername:username completion:^(NSError *error, NXMMember *member) {
      if (!error) {
      NSLog(@"join the conversation failed");
      return;
@@ -95,20 +92,45 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
      }];
 */
 - (void)joinMemberWithUsername:(nonnull NSString *)username
-                completion:(void (^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
+                    completion:(void (^_Nullable)(NSError * _Nullable error, NSString * _Nullable memberId))completion;
 
+/**
+ * Get a specific member of the conversation.
+ * @param memberId The id of the member to fetch.
+ * @param completion A block with two params NSError if one occurred and NXMMember.
+ * @code [conversation getMemberWithMemberUuid:memberId completion:^(NSError *error, NXMMember *member) {
+     if (!error) {
+         NSLog(@"Get member failed");
+         return;
+     }
+
+     // use the retrieved member
+     }];
+*/
+- (void)getMemberWithMemberUuid:(nonnull NSString *)memberId
+                     completion:(void(^_Nullable)(NSError * _Nullable error, NXMMember * _Nullable member))completion;
+
+/**
+ * Get conversation members page.
+ * @param size The page size.
+ * @param order The page order as an `NXMPageOrder`.
+ * @param completion A completion block with an error object if one occurred.
+*/
+- (void)getMembersPageWithPageSize:(NSUInteger)size
+                             order:(NXMPageOrder)order
+                        completion:(void(^_Nullable)(NSError * _Nullable error, NXMMembersSummaryPage * _Nullable page))completion;
 
 /**
  * Leaves the conversation.
  * @param completionHandler A completion block with an error object if one occurred.
- * @code [conversation leave:theUserId :^(NSError error, NXMMember member){
- if (!error) {
- NSLog(@"leave the conversation failed");
- return;
- }
- 
- NSLog(@"Current user's member left the conversation");
- }];
+ * @code [conversation leave:^(NSError *error, NXMMember *member) {
+     if (!error) {
+         NSLog(@"leave the conversation failed");
+         return;
+     }
+
+     NSLog(@"Current user's member left the conversation");
+     }];
  */
 - (void)leave:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
@@ -121,8 +143,17 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 - (void)kickMemberWithMemberId:(nonnull NSString *)memberId
                      completion:(void (^_Nullable)(NSError * _Nullable error))completion;
 
- /// Enable media for the current user member.
+/// Mute the current user member.
+- (void)mute;
+
+/// Unmute the current user member.
+- (void)unmute;
+
+/// Enable media for the current user member.
 - (void)enableMedia;
+
+/// Trigger a media reconnection.
+- (void)reconnectMedia;
 
 /// Disable media for the current user member.
 - (void)disableMedia;
@@ -143,7 +174,8 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
  @param completionHandler A completion block with an error object if one occurred.
  */
 - (void)sendText:(nonnull NSString *)text
-     completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
+     completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler
+     __attribute((deprecated("Use [NXMConversation sendMessage:completionHandler:] instead.")));
 
 
 /**
@@ -156,8 +188,17 @@ typedef NS_ENUM(NSInteger, NXMAttachmentType) {
 - (void)sendAttachmentWithType:(NXMAttachmentType)type
                           name:(nonnull NSString *)name
                           data:(nonnull NSData *)data
-             completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
+             completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler
+             __attribute((deprecated("Use [NXMClient uploadAttachmentWithType:name:data:completionHandler:] and [NXMConversation sendMessage:completionHandler:] instead.")));
 
+/**
+ Sends a message event to the members of the conversation.
+ @param message The message to send.
+ @param completionHandler A completion block with an error object if one occurred.
+ */
+- (void)sendMessage:(nonnull NXMMessage *)message
+     completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler
+    __attribute__((swift_name("sendMessage(_:completionHandler:)")));
 /**
  Sends an indication that the current user's member has seen a message.
  @param message The message identifier of the message that has been seen by the current user.

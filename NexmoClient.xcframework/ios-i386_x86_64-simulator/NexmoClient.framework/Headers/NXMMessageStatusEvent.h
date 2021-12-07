@@ -17,5 +17,5 @@
 
 /// The message status.
 @property (nonatomic, readonly) NXMMessageStatusType status;
-@end
 
+@end

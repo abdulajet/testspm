@@ -6,17 +6,17 @@
 //
 
 #import "NXMEvent.h"
-#import "NXMUser.h"
-#import "NXMMediaSettings.h"
-#import "NXMChannel.h"
+
+@class NXMMediaSettings;
+@class NXMChannel;
 
 /**
  * Represents a member event that is received on an `NXMConversation`.
  */
 @interface NXMMemberEvent : NXMEvent
 
-/// The member of the event.
-@property (nonatomic, readonly, nonnull) NXMMember *member;
+/// The member ID of the event.
+@property (nonatomic, readonly, nonnull) NSString *memberId;
 
 /// The state of the member.
 @property (nonatomic) NXMMemberState state;
@@ -29,5 +29,8 @@
 
 /// The knocking ID.
 @property (nonatomic, copy, nullable) NSString *knockingId;
+
+/// The member ID who invited the event's member.
+@property (nonatomic, readonly, nullable) NSString *invitedBy;
 
 @end

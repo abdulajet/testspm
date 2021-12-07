@@ -5,7 +5,6 @@
 //  Copyright © 2019 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "NXMEvent.h"
 
 /**

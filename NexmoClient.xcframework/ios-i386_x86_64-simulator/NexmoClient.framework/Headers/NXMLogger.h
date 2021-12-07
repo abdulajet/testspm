@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /**
  * A list of the log levels.
@@ -38,6 +38,6 @@ typedef NS_ENUM(NSInteger, NXMLoggerLevel) {
  @return NSMutableArray<NSString*>>
  @code NSMutableArray<NSString*>> filesPathes = [NXMLogger getLogFileNames];
  */
-+ (nonnull NSMutableArray *)getLogFileNames;
++ (nonnull NSMutableArray *)getLogFileNames OBJC_DEPRECATED("Logs persistence is not supported anymore");
 
 @end

@@ -5,13 +5,13 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import "NXMMessageEvent.h"
+#import "NXMEvent.h"
 #import "NXMImageInfo.h"
 
 /**
  * Represents an image event that can be sent and received on an `NXMConversation`.
  */
-@interface NXMImageEvent : NXMMessageEvent
+@interface NXMImageEvent : NXMEvent
 
 /// A unique identifier for the event.
 @property (nonatomic, readonly, nonnull) NSString *imageUuid;
@@ -24,4 +24,8 @@
 
 /// Image info at a thumbnail size.
 @property (nonatomic, readonly, nonnull) NXMImageInfo *thumbnailImage;
+
+/// The state of the event.
+@property (nonatomic, readonly, nonnull) NSDictionary<NSNumber *, NSDictionary<NSString *, NSDate *> *> *state;
+
 @end

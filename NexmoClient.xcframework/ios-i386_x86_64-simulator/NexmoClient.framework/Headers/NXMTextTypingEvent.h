@@ -15,5 +15,5 @@
 
 /// The status of the text event.
 @property (nonatomic, readonly) NXMTextTypingEventStatus status;
-@end
 
+@end

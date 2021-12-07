@@ -5,8 +5,6 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 #import "NXMClientDelegate.h"
 #import "NXMConversation.h"
 #import "NXMCall.h"
@@ -114,17 +112,16 @@
 
 /**
  Get a conversation object by id
- @param uuid Conversation id
- @param completionHandler A completion block with an error object if one occurred.
+ @param conversationId Conversation id
+ @param completion A completion block with an error object if one occurred.
  @code [myNXNClient getConversationWithUuid:conversationId completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion{
  if (!error){
         NXMConversation myConversation = conversation;
     }
  }];
  */
-- (void)getConversationWithUuid:(nonnull NSString *)uuid
-              completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completionHandler;
-
+- (void)getConversationWithUuid:(nonnull NSString *)conversationId
+                     completion:(void (^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation))completion;
 
 /**
  Create a new conversation with specific name: it is a unique per nexmo application
@@ -132,7 +129,7 @@
  @param completionHandler A completion block with an error object if one occurred.
  @code [myNXNClient createConversationWithName:uniqueName completion:(void(^_Nullable)(NSError * _Nullable error, NXMConversation * _Nullable conversation)){
  if (!error)
- NXMConvertion myNamedConversation = convetsation;
+ NXMConvertion myNamedConversation = conversation;
  }];
  */
 - (void)createConversationWithName:(nonnull NSString *)name
@@ -158,8 +155,6 @@
  @param order Page order
  @param filter "LEFT", "INVITED" or "JOINED"
  @param completionHandler A completion block with an error object if one occurred.
- @param error something
- @param page something
  @code [myNXNClient getConversationsPageWithSize:size order:pageOrder filter:filter completionHandler:^(NSError * _Nullable error, NXMConversationsPage * _Nullable page) {
  if (!error) { NXMConversationsPage *myPage = page; }
  }];
@@ -169,22 +164,74 @@
                               filter:(NSString*_Nullable)filter
                    completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMConversationsPage * _Nullable page))completionHandler;
 
+/**
+ Uploads an attachment message to Vonage Media Service.
+ @param type The type of the attachment following NXMAttachmentType enum.
+ @param name A name identifier of the attachment.
+ @param data The data of the attachment in a NSData representation.
+ @param completionHandler A completion block with an error object if one occurred.
+ */
+- (void)uploadAttachmentWithType:(NXMAttachmentType)type
+                            name:(nonnull NSString *)name
+                            data:(nonnull NSData *)data
+               completionHandler:(void (^_Nullable)(NSError * _Nullable error))completionHandler;
 
 #pragma mark - Call
 
 /**
- Create a new call to users
- @param callee The user ids/name or pstn numbers to call.
- @param callHandler The type of the call (InApp/SERVER).
- @param completionHandlerA completion block with an error object if one occurred.
- @code [myNXNClient call:usernames callHandler:NXMCallHandlerInApp delegate:callDelegate completion:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call)){
- if (!error){
- NXMCall myCall = call;
- }];
+ Create a new call to user
+ @param callee The user id, name or PSTN numbers to call
+ @param callHandler The type of the call (InApp/Server)
+ @param completionHandler A completion block with an error object if one occurred
+ @code [myNXNClient call:callee callHandler:NXMCallHandlerInApp completionHandler:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+     if (!error) {
+         NXMCall *myCall = call;
+     }];
  */
 - (void)call:(nonnull NSString *)callee
     callHandler:(NXMCallHandler)callHandler
-completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
+completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler
+  OBJC_DEPRECATED("Use inAppCallWithCallee:completionHandler: or serverCallWithCallee:customData:completionHandler: instead");
+
+/**
+ Create a new in-app call to user
+ @param callee User id or name to call
+ @param completionHandler A completion block with an error object if one occurred
+ @code [myNXNClient inAppCallWithCallee:callee completionHandler:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+     if (!error) {
+         NXMCall *myCall = call;
+     }];
+ */
+- (void)inAppCallWithCallee:(nonnull NSString *)callee
+          completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
+
+/**
+ Create a new server call to user
+ @param callee User id, name or PSTN number to call
+ @param customData Optional custom data
+ @param completionHandler A completion block with an error object if one occurred
+ @code [myNXNClient serverCallWithCallee:callee customData:customData completionHandler:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+     if (!error) {
+         NXMCall *myCall = call;
+     }];
+ */
+- (void)serverCallWithCallee:(nonnull NSString *)callee
+                  customData:(nullable NSDictionary *)customData
+           completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
+
+/**
+ Reconnect a call
+ @param conversationId The conversation id
+ @param legId The leg id
+ @param completionHandler A completion block with an error object if one occurred or a call if it successfully reconnected
+ @code [myNXNClient reconnectCallWithConversationId:conversationId andLegId:legId completionHandler:^(NSError * _Nullable error, NXMCall * _Nullable call) {
+     if (!error) {
+         NXMCall *myCall = call;
+     }];
+ */
+-(void)reconnectCallWithConversationId:(nonnull NSString *)conversationId
+                              andLegId:(nonnull NSString *)legId
+                     completionHandler:(void(^_Nullable)(NSError * _Nullable error, NXMCall * _Nullable call))completionHandler;
 
 #pragma mark - Push Notifications
 

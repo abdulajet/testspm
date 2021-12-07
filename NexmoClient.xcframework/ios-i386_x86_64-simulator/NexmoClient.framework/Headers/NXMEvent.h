@@ -5,8 +5,8 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "NXMEnums.h"
+#import "NXMEventEmbeddedInfo.h"
 #import "NXMMember.h"
 
 /**
@@ -17,8 +17,8 @@
 /// A unique identifier for the Conversation the event is on.
 @property (nonatomic, copy, nonnull) NSString *conversationUuid;
 
-/// The member who sent the event or the event originated from.
-@property (nonatomic, readonly, nullable) NXMMember *fromMember;
+/// The member identifier for the event sender.
+@property (nonatomic, readonly, nonnull) NSString *fromMemberId;
 
 /// The event's creation date.
 @property (nonatomic, copy, nonnull) NSDate *creationDate;
@@ -31,5 +31,8 @@
 
 /// A unique identifier for the event.
 @property (nonatomic, readonly) NSInteger uuid;
+
+/// The event's extra information about event producer like NXUser.
+@property (nonatomic, readonly, nullable) NXMEventEmbeddedInfo *embeddedInfo;
 
 @end

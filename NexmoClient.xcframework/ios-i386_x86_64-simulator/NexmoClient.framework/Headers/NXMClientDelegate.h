@@ -37,14 +37,14 @@
 /**
  * Did receive a call.
  * @param client A `NXMClient` object.
- * @param error A `NXMCall` object, the call received.
+ * @param call A `NXMCall` object, the call received.
  */
 - (void)client:(nonnull NXMClient *)client didReceiveCall:(nonnull NXMCall *)call;
 
 /**
  * Did receive a conversation.
  * @param client A `NXMClient` object.
- * @param error A `NXMConversation` object, the conversation received.
+ * @param conversation A `NXMConversation` object, the conversation received.
  */
 - (void)client:(nonnull NXMClient *)client didReceiveConversation:(nonnull NXMConversation *)conversation;
 

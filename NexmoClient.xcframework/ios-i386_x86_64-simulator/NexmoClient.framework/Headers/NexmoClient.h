@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 /// Project version number for NexmoClient.
 FOUNDATION_EXPORT double NexmoClientVersionNumber;
@@ -20,8 +20,9 @@ FOUNDATION_EXPORT const unsigned char NexmoClientVersionString[];
 #import <NexmoClient/NXMCoreEvents.h>
 #import <NexmoClient/NXMUser.h>
 #import <NexmoClient/NXMMember.h>
+#import <NexmoClient/NXMMemberSummary.h>
 #import <NexmoClient/NXMCall.h>
-#import <NexmoClient/NXMCallMember.h>
 #import <NexmoClient/NXMErrors.h>
 #import <NexmoClient/NXMLogger.h>
 #import <NexmoClient/NXMHelper.h>
+#import <NexmoClient/NXMPinningConfig.h>

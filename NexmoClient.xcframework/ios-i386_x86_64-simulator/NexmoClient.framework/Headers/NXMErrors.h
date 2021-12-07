@@ -5,7 +5,7 @@
 //  Copyright © 2018 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 /// The error domain
 FOUNDATION_EXPORT NSString * _Nonnull const NXMErrorDomain;
@@ -19,6 +19,9 @@ typedef NS_ENUM(NSInteger, NXMErrorCode) {
 
     /// Error code unknown.
     NXMErrorCodeUnknown,
+
+    /// HTTP Not found 404 error code.
+    NXMErrorCodeHttpNotFound,
 
     /// Unknown session error code.
     NXMErrorCodeSessionUnknown,

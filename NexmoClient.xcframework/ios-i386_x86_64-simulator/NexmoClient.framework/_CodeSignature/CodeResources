@@ -4,45 +4,37 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		wuguF+9rXQ22EGNGr2pwwQsKoJk=
-		</data>
 		<key>Headers/NXMBlocks.h</key>
 		<data>
-		C0lIo0viF9Hw5dJjvMW+ai+TXB8=
+		8QGAwXrD70nJr2MRyAKVQkVfrLw=
 		</data>
 		<key>Headers/NXMCall.h</key>
 		<data>
-		NLEUt58CAVVk6JJtu2hztIaDric=
-		</data>
-		<key>Headers/NXMCallMember.h</key>
-		<data>
-		mHNk8PYjHFshc3O+brq1HEB0DKM=
+		VFiyo/CFB/mtOpq2eCRrzMfrADg=
 		</data>
 		<key>Headers/NXMChannel.h</key>
 		<data>
-		Ygr2t9i1u++77WeNVADBeo3pGew=
+		3jCvKV/V5ztiWkW8/ZxuG0SMn3c=
 		</data>
 		<key>Headers/NXMClient.h</key>
 		<data>
-		A/y3LT8psWV4TrcV5zOEthqFImg=
+		szYtuP4ALVttqweIZUgCuBIuG7A=
 		</data>
 		<key>Headers/NXMClientConfig.h</key>
 		<data>
-		HL+8S1LVheEN5uSb+dVHDeVLORY=
+		4/eo+8wx5eLe5l1VJKt5+LgUb+8=
 		</data>
 		<key>Headers/NXMClientDelegate.h</key>
 		<data>
-		Y1sCSolzL4+j+ZncIPNAqz37qWM=
+		bUR/ZRMPquYdjdMpem53cCGb+2o=
 		</data>
 		<key>Headers/NXMConversation.h</key>
 		<data>
-		E9IVeELJeMUQ1xVx0ezheym7gos=
+		vXA+ItnUjfd0RzgaxBO//LpQl6g=
 		</data>
 		<key>Headers/NXMConversationDelegate.h</key>
 		<data>
-		PD0CIzVeEyCHg3oKR48igsXqwqk=
+		Ld0q1FPBDKR8Tb47yGPiMG50Fmo=
 		</data>
 		<key>Headers/NXMConversationsPage.h</key>
 		<data>
@@ -50,27 +42,31 @@
 		</data>
 		<key>Headers/NXMCoreEvents.h</key>
 		<data>
-		dWG/0fk76HABUBgHR9Vwuiio48E=
+		//bMJuGD3jzm8MeNpo0cLC/5WB4=
 		</data>
 		<key>Headers/NXMCustomEvent.h</key>
 		<data>
-		K20IKb0HfVjFS+vaaMUqdSRKLS4=
+		4SOYV54Ra4tI5E4DaZPvHh1gX5Q=
 		</data>
 		<key>Headers/NXMDTMFEvent.h</key>
 		<data>
-		2+zQplNwoXdhLtlDPXKBhLncLDQ=
+		WRfWquhzc/Gk4auXzYOK82pK6QE=
 		</data>
 		<key>Headers/NXMEnums.h</key>
 		<data>
-		1y2MhtA03SEYMb6rJOcvjHRkSVk=
+		mlLGtHN/2yVExuMRjKHQHDd2hjc=
 		</data>
 		<key>Headers/NXMErrors.h</key>
 		<data>
-		m8LVghtX77I82JdziGQS9UYkaQA=
+		PrtnIIPSEOWYG0PCnn2f6e6V5gs=
 		</data>
 		<key>Headers/NXMEvent.h</key>
 		<data>
-		8YWhBol5yCUDY5NaveqnegC66OE=
+		JY4bZgk1JgmFuSLVdBnCG5fUMxk=
+		</data>
+		<key>Headers/NXMEventEmbeddedInfo.h</key>
+		<data>
+		L0+Ij6zH8WwzMoHEj8u3o1ZGQvE=
 		</data>
 		<key>Headers/NXMEventsPage.h</key>
 		<data>
@@ -78,19 +74,15 @@
 		</data>
 		<key>Headers/NXMHelper.h</key>
 		<data>
-		YSbeF7PrGioOgr4+Ez1COJh/9r8=
+		UnOWKbg7j+ujJ0soYSTVXtTZSlY=
 		</data>
 		<key>Headers/NXMImageEvent.h</key>
 		<data>
-		7l1Bfp9Iis1GCFcDqnRigPbpRYg=
+		yo5QAiOJ5cPIePzr71wh1SF7gGQ=
 		</data>
 		<key>Headers/NXMImageInfo.h</key>
 		<data>
 		bWbigHpwoeTtT16BhDTH92QGML4=
-		</data>
-		<key>Headers/NXMInitiator.h</key>
-		<data>
-		xLQlfCxZ6k+0emzNOargys6R6B0=
 		</data>
 		<key>Headers/NXMLeg.h</key>
 		<data>
@@ -98,15 +90,15 @@
 		</data>
 		<key>Headers/NXMLegStatusEvent.h</key>
 		<data>
-		Um6ASX85yAe7s5Z1FTe/4NO5aIg=
+		XHNYMdnmHdw2gl2KYYqT49lYhog=
 		</data>
 		<key>Headers/NXMLogger.h</key>
 		<data>
-		YsZvrDshcJTxlAhH9tKoTHQnvZU=
+		e4CV2khTmomohxxbSLx57Cq4f0M=
 		</data>
 		<key>Headers/NXMMediaEvent.h</key>
 		<data>
-		Ll+o6lgxnQuY5LhogGvwK21d/Hs=
+		eKXQXrcQpfZaPPNgBrOLUb/p9HM=
 		</data>
 		<key>Headers/NXMMediaSettings.h</key>
 		<data>
@@ -114,23 +106,55 @@
 		</data>
 		<key>Headers/NXMMember.h</key>
 		<data>
-		TrrobNXC11PBk+cH70wYFpLAyXA=
+		3QEtOXAeBaJeB2k0kE/TSXrYq4I=
 		</data>
 		<key>Headers/NXMMemberEvent.h</key>
 		<data>
-		gq/sPtTWs8ssX+N0Nqi6jjIcLlY=
+		dMUMZ57ExudqCawP9ZwXKzZqCbo=
+		</data>
+		<key>Headers/NXMMemberMessageStatusEvent.h</key>
+		<data>
+		MaKtR1/+7t0XTkXjTAKEfV2MHB4=
+		</data>
+		<key>Headers/NXMMemberSummary.h</key>
+		<data>
+		YWeb8IRU3Ln3HmdZDLz6pGRt7yQ=
+		</data>
+		<key>Headers/NXMMembersSummaryPage.h</key>
+		<data>
+		+HkZGInOE6wLxAuPAFZ7rfiy/as=
+		</data>
+		<key>Headers/NXMMessage.h</key>
+		<data>
+		+Oq+adlv7b4w7VSNx4SHhNB07kI=
 		</data>
 		<key>Headers/NXMMessageEvent.h</key>
 		<data>
-		008r0VG1YrMoD1mVE8iZ6hUfcn8=
+		84Cyl3ZxA+BNzC2NrF9maq7VBxo=
+		</data>
+		<key>Headers/NXMMessageLocation.h</key>
+		<data>
+		vfpQ80P4Ug2RxEIMCzGRTO8Yd2U=
 		</data>
 		<key>Headers/NXMMessageStatusEvent.h</key>
 		<data>
-		/rj/ofthUD6PLmLsiDDzi9rcLeo=
+		DqwuM3JCpi5hv6OY95RHdfQoCLU=
+		</data>
+		<key>Headers/NXMMessageTemplateContent.h</key>
+		<data>
+		9Tnhv07HkAArTOQEgnKLz0nkcNo=
+		</data>
+		<key>Headers/NXMMessageTemplateWhatsapp.h</key>
+		<data>
+		VMqHIhPG6gf4qCPhR7PuvT74Gnw=
 		</data>
 		<key>Headers/NXMPage.h</key>
 		<data>
 		2cywp/lSkwT/OTGz/WZp1/Lp8jc=
+		</data>
+		<key>Headers/NXMPinningConfig.h</key>
+		<data>
+		CeJR75SzmKIqNrQBDD9PicedTVI=
 		</data>
 		<key>Headers/NXMPushPayload.h</key>
 		<data>
@@ -138,35 +162,39 @@
 		</data>
 		<key>Headers/NXMTextEvent.h</key>
 		<data>
-		c6oCbUcRpIRBfJOXdMna63qpXa0=
+		WtA75WCz3Ixxod5nMNRmggLrBY0=
 		</data>
 		<key>Headers/NXMTextTypingEvent.h</key>
 		<data>
-		OQiEe3g0ElAaub0gOVuy8HxIaYo=
+		4Hc+oIjCoCB+DjiGvJtz+/UF/k8=
 		</data>
 		<key>Headers/NXMUser.h</key>
 		<data>
-		o+NGs0qEg6dgc5D4QHLjjOTocI8=
+		tf2B3C4wbtR5FQNLk8Sw5K2d/EE=
 		</data>
 		<key>Headers/NexmoClient.h</key>
 		<data>
-		BkJewnmz+VPZ8Jsoz9ceIKZ7p9M=
+		5g8o4db8vCV066isGXro1Pc/jLI=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		rEK9BJzu0IP1PeGdkHU8vU00HxI=
+		jgory4qOgRvL9vdjiFOsRDRb7Vo=
 		</data>
 		<key>LICENSE</key>
 		<data>
-		3nK/UcbQd1OtkfYSLhppzDcsXsU=
+		EqjDAviGmGyAT47GUv2tjRKQD98=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
 		nQjtriNYS9LXPtZmx7zSKHcXPGg=
 		</data>
+		<key>PrivateHeaders/NXMEventEmbeddedInfoPrivate.h</key>
+		<data>
+		F0TEqF0Ol3eMyUvtFgyY1IPYgTM=
+		</data>
 		<key>README.md</key>
 		<data>
-		HK7px3RCwHt2pXG16iSBwTy1BC4=
+		dAsZZUD/xhjheDPoVLiawgDsicI=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -175,99 +203,88 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			C0lIo0viF9Hw5dJjvMW+ai+TXB8=
+			8QGAwXrD70nJr2MRyAKVQkVfrLw=
 			</data>
 			<key>hash2</key>
 			<data>
-			jOsjwdmOHFoknPCgmGue9zDnqC1we4iXXB8HkjJmN14=
+			Bn+oXuyOtK2Atqgh0tAT9QP2qMCRsPNuxEyJWVRjyno=
 			</data>
 		</dict>
 		<key>Headers/NXMCall.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			NLEUt58CAVVk6JJtu2hztIaDric=
+			VFiyo/CFB/mtOpq2eCRrzMfrADg=
 			</data>
 			<key>hash2</key>
 			<data>
-			CQDU0tMtB3K/8aQvhFe6TW7ATx3uTmK6a7M8643JvOU=
-			</data>
-		</dict>
-		<key>Headers/NXMCallMember.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			mHNk8PYjHFshc3O+brq1HEB0DKM=
-			</data>
-			<key>hash2</key>
-			<data>
-			ubs7S/PVBkOhLJ8osZmkYNi2iiR+VOUJs7z++rIvOSc=
+			BqUMR4enzHYOjCCXIbhyFjkTL4mVZLu6cYUn7SG218E=
 			</data>
 		</dict>
 		<key>Headers/NXMChannel.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ygr2t9i1u++77WeNVADBeo3pGew=
+			3jCvKV/V5ztiWkW8/ZxuG0SMn3c=
 			</data>
 			<key>hash2</key>
 			<data>
-			PsOmBW9X/o7HE/2blnQUWnzPaw/ny5vlgmhSCYISjes=
+			2N0jfLbMcQinnAnnaltOLuSiVUU/6s5WK7sr+QM39OY=
 			</data>
 		</dict>
 		<key>Headers/NXMClient.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			A/y3LT8psWV4TrcV5zOEthqFImg=
+			szYtuP4ALVttqweIZUgCuBIuG7A=
 			</data>
 			<key>hash2</key>
 			<data>
-			QJGzLFKs8BeGNOeLK+tGb7UfrsDjGIusxEntyhoVNYs=
+			/sTY+m+S0/Ut1uir2LOK1HNWUiibn7F5MHVWJOkMU5g=
 			</data>
 		</dict>
 		<key>Headers/NXMClientConfig.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HL+8S1LVheEN5uSb+dVHDeVLORY=
+			4/eo+8wx5eLe5l1VJKt5+LgUb+8=
 			</data>
 			<key>hash2</key>
 			<data>
-			Z9r1VdmJTwe/mhtvWGuJYRWLWxped86lOmrbYMXCIq4=
+			IGYShnSS3lkYnhDAFD2DjSUEA9D+fEfNGhc69KiFmPI=
 			</data>
 		</dict>
 		<key>Headers/NXMClientDelegate.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Y1sCSolzL4+j+ZncIPNAqz37qWM=
+			bUR/ZRMPquYdjdMpem53cCGb+2o=
 			</data>
 			<key>hash2</key>
 			<data>
-			xNgVCqLauNBQ0wJUwrzWeuZJQ4i/zBAj4gO3gghCjJk=
+			vqZFuHgvV/k3NYiWTpbH+4ca8VsRhVzuGrG0sJOwLjI=
 			</data>
 		</dict>
 		<key>Headers/NXMConversation.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			E9IVeELJeMUQ1xVx0ezheym7gos=
+			vXA+ItnUjfd0RzgaxBO//LpQl6g=
 			</data>
 			<key>hash2</key>
 			<data>
-			bX38GEoVXGMzmPciM8GeWGRgned6GZX+kmY5sTttNh8=
+			1KgTSEBJCPvHze8XWILL2xdTPLmNC06JtI/BVbrJTr0=
 			</data>
 		</dict>
 		<key>Headers/NXMConversationDelegate.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			PD0CIzVeEyCHg3oKR48igsXqwqk=
+			Ld0q1FPBDKR8Tb47yGPiMG50Fmo=
 			</data>
 			<key>hash2</key>
 			<data>
-			xBKHmBxWdVvtRxVGwD7Af9JFbELlaDk0Y1niY64mGB8=
+			QoHMZgXqw+og2t9rbYqezOdIeo+4pfUhN5UW/Q5GMSQ=
 			</data>
 		</dict>
 		<key>Headers/NXMConversationsPage.h</key>
@@ -285,66 +302,77 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			dWG/0fk76HABUBgHR9Vwuiio48E=
+			//bMJuGD3jzm8MeNpo0cLC/5WB4=
 			</data>
 			<key>hash2</key>
 			<data>
-			8sYZQUNPDVb1C1va8oOZD5iEnrsiy2BGZAog8+5ba1w=
+			RPgs5aFZeEEd3Gh3TeGPW0Eb6NdWu57kVg2SlhA2R00=
 			</data>
 		</dict>
 		<key>Headers/NXMCustomEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			K20IKb0HfVjFS+vaaMUqdSRKLS4=
+			4SOYV54Ra4tI5E4DaZPvHh1gX5Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			A2vKrPAZSh9N/zXV2q2/arcvN/CpdoKvOBVUq3Hj1lw=
+			Uo4Ska/TQGLMK7eVHaQhNtG/5ZxcQaQ4pxuQcvJBXKE=
 			</data>
 		</dict>
 		<key>Headers/NXMDTMFEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			2+zQplNwoXdhLtlDPXKBhLncLDQ=
+			WRfWquhzc/Gk4auXzYOK82pK6QE=
 			</data>
 			<key>hash2</key>
 			<data>
-			zbWnazsyCZxevbwVd5g861SU42vVDLVfrWcswWf7GuI=
+			O2jajxfGk8gSeaMvqwIXV0fIV/JJamBZvnb4ayggwjE=
 			</data>
 		</dict>
 		<key>Headers/NXMEnums.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			1y2MhtA03SEYMb6rJOcvjHRkSVk=
+			mlLGtHN/2yVExuMRjKHQHDd2hjc=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZSTvC9JfRFr4y7Xx39np+OFQG5l1R2e3i4VFxmuVzBg=
+			cpm7oOCILqQXna20eN/u7laQxcI3qzc9MD4LsnW2XnY=
 			</data>
 		</dict>
 		<key>Headers/NXMErrors.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			m8LVghtX77I82JdziGQS9UYkaQA=
+			PrtnIIPSEOWYG0PCnn2f6e6V5gs=
 			</data>
 			<key>hash2</key>
 			<data>
-			622LgCJerlSPft7d6U6akrI2kheqBTAtXeD0XACQfd4=
+			wRUw5eiX2U+omI4BUB5CZrf4cRnkrhsmgSPEmLqXAbQ=
 			</data>
 		</dict>
 		<key>Headers/NXMEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			8YWhBol5yCUDY5NaveqnegC66OE=
+			JY4bZgk1JgmFuSLVdBnCG5fUMxk=
 			</data>
 			<key>hash2</key>
 			<data>
-			McdW4qCm69J+dhnt4sJr3Ao6uhvRFu7HR6Xu/Zul0TU=
+			YUHDF86AGbkN1wkGbDzP8ARXoFjM4E54Qv/NtxQx0Kk=
+			</data>
+		</dict>
+		<key>Headers/NXMEventEmbeddedInfo.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			L0+Ij6zH8WwzMoHEj8u3o1ZGQvE=
+			</data>
+			<key>hash2</key>
+			<data>
+			GijHKoiessXiLAHdFTDvT8CiSj4n2gieLDJOoait6J0=
 			</data>
 		</dict>
 		<key>Headers/NXMEventsPage.h</key>
@@ -362,22 +390,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			YSbeF7PrGioOgr4+Ez1COJh/9r8=
+			UnOWKbg7j+ujJ0soYSTVXtTZSlY=
 			</data>
 			<key>hash2</key>
 			<data>
-			NKEJA1GM5illgn/TL2bbTFtmOnjNgSl8bOQEY5+jutM=
+			9mWEOYgt86/eH9e62RskFxI64oSAIvZQDBRgszyUuok=
 			</data>
 		</dict>
 		<key>Headers/NXMImageEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			7l1Bfp9Iis1GCFcDqnRigPbpRYg=
+			yo5QAiOJ5cPIePzr71wh1SF7gGQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			n5k5flCi+IqTnmnJvxfVatyRS7pUtwV7yv6afc74q04=
+			8e5QnMUEWCqKii82PIljV/sAYUnmWKoPOmAJ9gRKPdY=
 			</data>
 		</dict>
 		<key>Headers/NXMImageInfo.h</key>
@@ -389,17 +417,6 @@
 			<key>hash2</key>
 			<data>
 			i+QPHGmMOx39N73jbZoN8dDWObynKt6Tb5foLSI5kU8=
-			</data>
-		</dict>
-		<key>Headers/NXMInitiator.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			xLQlfCxZ6k+0emzNOargys6R6B0=
-			</data>
-			<key>hash2</key>
-			<data>
-			csUSRLTKH6FSR1DnIxBlrxaW17oKAs+G9yr958oJmEg=
 			</data>
 		</dict>
 		<key>Headers/NXMLeg.h</key>
@@ -417,33 +434,33 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Um6ASX85yAe7s5Z1FTe/4NO5aIg=
+			XHNYMdnmHdw2gl2KYYqT49lYhog=
 			</data>
 			<key>hash2</key>
 			<data>
-			TfvPOVEF+QSxELKa1q8atUZLWBt1Ojh2I3XJ3C6uv74=
+			gqmIsX0fCPnzsZqpSgFs4J4Mz3/fBf01z6qj2uoryJ0=
 			</data>
 		</dict>
 		<key>Headers/NXMLogger.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			YsZvrDshcJTxlAhH9tKoTHQnvZU=
+			e4CV2khTmomohxxbSLx57Cq4f0M=
 			</data>
 			<key>hash2</key>
 			<data>
-			5LAVSWrDLlbox3nvwbGYAEWR4x3febB8afObxskmRuE=
+			jhzbKwye/MwmYq6JKzjXlPDkX40GMuWKxGdWAQDpMwU=
 			</data>
 		</dict>
 		<key>Headers/NXMMediaEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			Ll+o6lgxnQuY5LhogGvwK21d/Hs=
+			eKXQXrcQpfZaPPNgBrOLUb/p9HM=
 			</data>
 			<key>hash2</key>
 			<data>
-			Hth+k/gBM39ePBvKZQUmhaA2WN6hHy+HZzImQqB5cHM=
+			Q/JFkkpt7PzGyXMPJjOoAaXSIZ+gWRPBJR++MA/i8jI=
 			</data>
 		</dict>
 		<key>Headers/NXMMediaSettings.h</key>
@@ -461,44 +478,121 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TrrobNXC11PBk+cH70wYFpLAyXA=
+			3QEtOXAeBaJeB2k0kE/TSXrYq4I=
 			</data>
 			<key>hash2</key>
 			<data>
-			GPyhdvsSvKRnwqqDlp8mr5lvndvMYB9IzS22KR5A4H8=
+			bAgahmR8JEI26UincQAmAGIEAe2wb8HTZFWdo+GRuXM=
 			</data>
 		</dict>
 		<key>Headers/NXMMemberEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			gq/sPtTWs8ssX+N0Nqi6jjIcLlY=
+			dMUMZ57ExudqCawP9ZwXKzZqCbo=
 			</data>
 			<key>hash2</key>
 			<data>
-			VyuDty6oLPCnoT8aS0TBTJPCO2rrDlpLT4PeOKJdOo0=
+			k5sq5Rdfw7RkgddZY5TXMx4HOyn1ZzqL2dn0sj7zIy0=
+			</data>
+		</dict>
+		<key>Headers/NXMMemberMessageStatusEvent.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			MaKtR1/+7t0XTkXjTAKEfV2MHB4=
+			</data>
+			<key>hash2</key>
+			<data>
+			w9Xq+hupoiGLcRIpKoyvUE3UQKb2ogDCSo1j1yd8c3k=
+			</data>
+		</dict>
+		<key>Headers/NXMMemberSummary.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			YWeb8IRU3Ln3HmdZDLz6pGRt7yQ=
+			</data>
+			<key>hash2</key>
+			<data>
+			gXR5IwRar1y3Rh0ZcGOXQ0gIafMEZh3MZ43JEo2NaAc=
+			</data>
+		</dict>
+		<key>Headers/NXMMembersSummaryPage.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+HkZGInOE6wLxAuPAFZ7rfiy/as=
+			</data>
+			<key>hash2</key>
+			<data>
+			mEEVZQ1S5tlafEdZ5guDTgy9TjPX8UmCAvxlEMS+yss=
+			</data>
+		</dict>
+		<key>Headers/NXMMessage.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			+Oq+adlv7b4w7VSNx4SHhNB07kI=
+			</data>
+			<key>hash2</key>
+			<data>
+			FFzwYjP+p2IxuAWQA3sxBIchR1NlIM8avQnulgfscCM=
 			</data>
 		</dict>
 		<key>Headers/NXMMessageEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			008r0VG1YrMoD1mVE8iZ6hUfcn8=
+			84Cyl3ZxA+BNzC2NrF9maq7VBxo=
 			</data>
 			<key>hash2</key>
 			<data>
-			nyl0amzyGOnkwkF4s0yXF/GMwVjsWoH3QBTUPTFdbds=
+			mDe5ITdusw9nwmv5kBrdbiq75GOnrjzSC0Ra3Rj0Gy4=
+			</data>
+		</dict>
+		<key>Headers/NXMMessageLocation.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			vfpQ80P4Ug2RxEIMCzGRTO8Yd2U=
+			</data>
+			<key>hash2</key>
+			<data>
+			zMpZPu8b82dhk7ydbyKv9Gd4bKGrQcYJ/+rS4AO9aDs=
 			</data>
 		</dict>
 		<key>Headers/NXMMessageStatusEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			/rj/ofthUD6PLmLsiDDzi9rcLeo=
+			DqwuM3JCpi5hv6OY95RHdfQoCLU=
 			</data>
 			<key>hash2</key>
 			<data>
-			8+ouOJmDbU4so2ZvbSUw3DxAjDjEQBASMQ0q9HNkftU=
+			yoNsw1Tcp4Ujg9BcdSYiDBgDhggqHDYaIbY07kiXApE=
+			</data>
+		</dict>
+		<key>Headers/NXMMessageTemplateContent.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9Tnhv07HkAArTOQEgnKLz0nkcNo=
+			</data>
+			<key>hash2</key>
+			<data>
+			EmKU5a2c4i7llCZITwXLeTmtuDk/pvINrFewEM+qHx4=
+			</data>
+		</dict>
+		<key>Headers/NXMMessageTemplateWhatsapp.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			VMqHIhPG6gf4qCPhR7PuvT74Gnw=
+			</data>
+			<key>hash2</key>
+			<data>
+			K647ImoGVaCTaqlrpwkZsUPzp1FLgydcyWTherEDIew=
 			</data>
 		</dict>
 		<key>Headers/NXMPage.h</key>
@@ -510,6 +604,17 @@
 			<key>hash2</key>
 			<data>
 			hT25PMlPuG+8mg805rVyOYhP8pPKwFy5lLi4kCrAiyQ=
+			</data>
+		</dict>
+		<key>Headers/NXMPinningConfig.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CeJR75SzmKIqNrQBDD9PicedTVI=
+			</data>
+			<key>hash2</key>
+			<data>
+			PxlpW4W6+GmFkDMN599qLFoIPKCwqgwpWmRpDfdXAUE=
 			</data>
 		</dict>
 		<key>Headers/NXMPushPayload.h</key>
@@ -527,55 +632,55 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			c6oCbUcRpIRBfJOXdMna63qpXa0=
+			WtA75WCz3Ixxod5nMNRmggLrBY0=
 			</data>
 			<key>hash2</key>
 			<data>
-			3oPY6GhiMUYpXxNg0iuNXD/TwKRVuW11zVx+LngdtY4=
+			l4jr0862lPP/jg/gIO0MrFc2irkNe+15VWxcW4uIuPA=
 			</data>
 		</dict>
 		<key>Headers/NXMTextTypingEvent.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			OQiEe3g0ElAaub0gOVuy8HxIaYo=
+			4Hc+oIjCoCB+DjiGvJtz+/UF/k8=
 			</data>
 			<key>hash2</key>
 			<data>
-			WRgMOqyxHXhDfJCHrgGHZ36tmp0TdHQr1ntvmWeOKbE=
+			bqwVv6ULouoqoF/Q+owwnVsmhpfxRXYHgMnqWg3aFXs=
 			</data>
 		</dict>
 		<key>Headers/NXMUser.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			o+NGs0qEg6dgc5D4QHLjjOTocI8=
+			tf2B3C4wbtR5FQNLk8Sw5K2d/EE=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZuelJ5OjDA+EdIJOMDhKRhLY8dXvx50OZ55b6Xh+oMY=
+			QL3K2RlTW3Zs65N0WMcRmImdKh8Dk+fQESrjBqekImQ=
 			</data>
 		</dict>
 		<key>Headers/NexmoClient.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			BkJewnmz+VPZ8Jsoz9ceIKZ7p9M=
+			5g8o4db8vCV066isGXro1Pc/jLI=
 			</data>
 			<key>hash2</key>
 			<data>
-			Xa9lRWGYMhknNRgh6zIBaZVNdbiDb32Bka1ujfBIxww=
+			PEE7SbMu0P1x2uQ52tuwGzz0lVZbIn3O9kfjGNYoks8=
 			</data>
 		</dict>
 		<key>LICENSE</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			3nK/UcbQd1OtkfYSLhppzDcsXsU=
+			EqjDAviGmGyAT47GUv2tjRKQD98=
 			</data>
 			<key>hash2</key>
 			<data>
-			JnskxL/NMBEaRGg19c+03eWWxZfeBqxNrwynM51eFhs=
+			mAbGGTHhx+JO7+b/ugCHVbCknTqN5Ax0wMDRL66uHrk=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>
@@ -589,15 +694,26 @@
 			OMwhPUO0yv1JYNL8nb0uRjo+ADRPVh0SdoGOI5Rlc3Q=
 			</data>
 		</dict>
+		<key>PrivateHeaders/NXMEventEmbeddedInfoPrivate.h</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			F0TEqF0Ol3eMyUvtFgyY1IPYgTM=
+			</data>
+			<key>hash2</key>
+			<data>
+			Xo2G/973JrlT9I9XYDykEgkMFs1G7gJPrj+K35jn7us=
+			</data>
+		</dict>
 		<key>README.md</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			HK7px3RCwHt2pXG16iSBwTy1BC4=
+			dAsZZUD/xhjheDPoVLiawgDsicI=
 			</data>
 			<key>hash2</key>
 			<data>
-			NzguQAhooiumWqrpEPMFSHLcpLfGg2N2flqC47d7J4k=
+			27R908YtuplAD9NbSy7Z7X9vlzntbqgGiQ76HpkC2to=
 			</data>
 		</dict>
 	</dict>

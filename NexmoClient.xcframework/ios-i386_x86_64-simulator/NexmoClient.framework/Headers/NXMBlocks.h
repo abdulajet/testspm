@@ -19,6 +19,9 @@ typedef void(^NXMSuccessCallbackWithObject)(NSObject * _Nullable object);
 /// Success callback with objects - Typealias for `([Any]?) -> Void`
 typedef void(^NXMSuccessCallbackWithObjects)(NSArray * _Nullable objects);
 
+/// Success callback with a dictionary - Typealias for `(NSDictionary?) -> Void`
+typedef void(^NXMSuccessCallbackWithDictionary)(NSDictionary * _Nullable dictionary);
+
 /// Error callback - Typealias for `(Error?) -> Void`
 typedef void(^NXMErrorCallback)(NSError * _Nullable error);
 

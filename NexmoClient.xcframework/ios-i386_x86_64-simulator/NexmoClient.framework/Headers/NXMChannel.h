@@ -14,7 +14,7 @@
 @interface NXMDirection : NSObject
 
 /// The type of direction.
-@property (nonatomic, assign) NXMDirectionType type;
+@property (nonatomic, assign) NXMChannelType type;
 
 /// The data of the direction.
 @property (nonatomic, copy, nullable) NSString *data;
@@ -24,6 +24,9 @@
  The NXMChannel is how the user connects to the `NXMConversation`.
  */
 @interface NXMChannel : NSObject
+
+/// The type of channel.
+@property (nonatomic, readonly) NXMChannelType type;
 
 /// The from direction data of the channel.
 @property (nonatomic, readonly, nonnull) NXMDirection *from;

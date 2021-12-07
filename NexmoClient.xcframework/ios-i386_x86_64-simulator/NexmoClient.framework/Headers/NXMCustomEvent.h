@@ -5,7 +5,6 @@
 //  Copyright © 2019 Vonage. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "NXMEvent.h"
 #import "NXMCustomEvent.h"
 
@@ -18,7 +17,6 @@
 @property (nonatomic, copy, nullable) NSString *customType;
 
 /// The data of the custom event.
-@property (nonatomic, readonly, nullable) NSString *data;
+@property (nonatomic, readonly, nullable) NSDictionary *data;
 
 @end
-
